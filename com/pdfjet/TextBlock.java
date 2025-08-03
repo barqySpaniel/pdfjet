@@ -251,7 +251,7 @@ public class TextBlock {
         float xText = 0.0f;
         float yText = 0.0f;
         switch (this.textDirection) {
-            case Direction.LEFT_TO_RIGHT:
+            case LEFT_TO_RIGHT:
                 yText = this.y + ascent + this.textPadding;
                 for (String line : lines) {
                     switch (this.textAlignment) {
@@ -278,7 +278,7 @@ public class TextBlock {
                     yText += leading;
                 }
                 break;
-            case Direction.BOTTOM_TO_TOP:
+            case BOTTOM_TO_TOP:
                 xText = this.x + this.textPadding + ascent;
                 yText = this.y + this.height - this.textPadding;
                 for (String line : lines) {
@@ -294,7 +294,7 @@ public class TextBlock {
                     xText += leading;
                 }
                 break;
-            case Direction.TOP_TO_BOTTOM:
+            case TOP_TO_BOTTOM:
                 break;
         }
 
