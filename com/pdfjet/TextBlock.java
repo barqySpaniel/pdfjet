@@ -161,6 +161,16 @@ public class TextBlock {
         this.textAlignment = textAlignment;
     }
 
+    public TextBlock setURIAction(String uri) {
+        this.uri = uri;
+        return this;
+    }
+
+    public void setTextDirection(Direction textDirection) {
+        this.textDirection = textDirection;
+    }
+
+
     private boolean textIsCJK(String str) {
         // CJK Unified Ideographs Range: 4E00–9FD5
         // Hiragana Range: 3040–309F
@@ -238,9 +248,9 @@ public class TextBlock {
         if (page != null) {
             // TODO: Deal with this now!!
         }
-        // page.setBrushColor(this.textColor);
-        page.setPenWidth(this.font.getUnderlineThickness());
+        page.setBrushColor(this.textColor);
         page.setPenColor(this.borderColor);
+        page.setPenWidth(this.font.getUnderlineThickness());
 
         page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float ascent = this.font.getAscent();
@@ -296,6 +306,7 @@ public class TextBlock {
             case TOP_TO_BOTTOM:
                 break;
         }
+        page.addEMC();
 
         xText -= leading;
         if ((xText + descent + this.textPadding) - this.x > this.width) {
@@ -305,7 +316,6 @@ public class TextBlock {
         if ((yText + descent + this.textPadding) - this.y > this.height) {
             this.height = (yText + descent + this.textPadding) - this.y;
         }
-        page.addEMC();
 
         // Rect rect = new Rect(this.x, this.y, this.width, this.height);
         // rect.setBorderColor(this.borderColor);
@@ -359,14 +369,5 @@ public class TextBlock {
                 page.addEMC();
             }
         }
-    }
-
-    public TextBlock setURIAction(String uri) {
-        this.uri = uri;
-        return this;
-    }
-
-    public void setTextDirection(Direction textDirection) {
-        this.textDirection = textDirection;
     }
 }

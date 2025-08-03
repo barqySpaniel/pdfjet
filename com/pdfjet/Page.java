@@ -457,18 +457,13 @@ final public class Page {
             append(" Tm\n");
         }
 
-        if (colors == null) {
-            append("[<");
-            if (font.isCoreFont) {
-                drawASCIIString(font, str);
-            } else {
-                drawUnicodeString(font, str);
-            }
-            append(">] TJ\n");
+        append("[<");
+        if (font.isCoreFont) {
+            drawASCIIString(font, str);
         } else {
-            // drawColoredString(font, str, brush, colors);
             drawUnicodeString(font, str);
         }
+        append(">] TJ\n");
         append("ET\n");
     }
 
