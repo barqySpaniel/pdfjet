@@ -206,8 +206,9 @@ public class Rect {
     public float[] drawOn(Page page) throws Exception {
         final float k = 0.5517f;
 
-        page.addBMC(this.structureType, this.language, this.actualText, this.altDescription);
         if (this.r == 0.0f) {
+            page.saveGraphicsState();
+            page.addArtifactBMC();
             page.moveTo(this.x, this.y);
             page.lineTo(this.x + this.w, this.y);
             page.lineTo(this.x + this.w, this.y + this.h);
@@ -221,7 +222,10 @@ public class Rect {
                 page.setLinePattern(this.pattern);
                 page.closePath();
             }
+            page.addEMC();
+            page.restoreGraphicsState();
         } else {
+            page.saveGraphicsState();
             page.setPenWidth(this.width);
             page.setPenColor(this.color);
             page.setLinePattern(this.pattern);
@@ -245,9 +249,11 @@ public class Rect {
             points.add(new Point((this.x + this.r) - this.r * k, this.y, true));
             points.add(new Point((this.x + this.r), this.y, false));
 
+            page.addArtifactBMC();
             page.drawPath(points, Operation.STROKE);
+            page.addEMC();
+            page.restoreGraphicsState();
         }
-        page.addEMC();
 
         if (this.uri != null || this.key != null) {
             page.addAnnotation(new Annotation(

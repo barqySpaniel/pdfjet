@@ -1442,6 +1442,14 @@ final public class Page {
     }
     // <<
 
+    protected void saveGraphicsState() {
+        append("q\n");
+    }
+
+    protected void restoreGraphicsState() {
+        append("Q\n");
+    }
+
     /**
      * Sets the page CropBox.
      * See page 77 of the PDF32000_2008.pdf specification.
