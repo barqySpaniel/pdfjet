@@ -32,21 +32,22 @@ public class Example_01 {
         rect.setBorderColor(Color.blue);
         rect.drawOn(page);
 
-        // textBlock = new TextBlock(font, new String(
-        //         Files.readAllBytes(Paths.get("data/languages/greek.txt"))));
-        // textBlock.setLocation(50f, xy[1] + 30f);
-        // textBlock.setWidth(430f);
-        // textBlock.setBorderColor(Color.none);
-        // xy = textBlock.drawOn(page);
+        textBlock = new TextBlock(font, new String(
+                Files.readAllBytes(Paths.get("data/languages/greek.txt"))));
+        textBlock.setLocation(50f, xy[1] + 30f);
+        textBlock.setWidth(430f);
+        textBlock.setTextPadding(10f);
+        textBlock.setBorderColor(Color.none);
+        xy = textBlock.drawOn(page);
 
-        // textBlock = new TextBlock(font, new String(
-        //         Files.readAllBytes(Paths.get("data/languages/bulgarian.txt"))));
-        // textBlock.setLocation(50f, xy[1] + 30f);
-        // textBlock.setWidth(430f);
-        // textBlock.setTextPadding(10f);
-        // textBlock.setBorderColor(Color.blue);
-        // textBlock.setBorderCornerRadius(10f);
-        // textBlock.drawOn(page);
+        textBlock = new TextBlock(font, new String(
+                Files.readAllBytes(Paths.get("data/languages/bulgarian.txt"))));
+        textBlock.setLocation(50f, xy[1] + 30f);
+        textBlock.setWidth(430f);
+        textBlock.setTextPadding(10f);
+        textBlock.setBorderColor(Color.blue);
+        textBlock.setBorderCornerRadius(10f);
+        textBlock.drawOn(page);
 
         pdf.complete();
     }
