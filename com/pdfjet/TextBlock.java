@@ -238,12 +238,11 @@ public class TextBlock {
         if (page != null) {
             // TODO: Deal with this now!!
         }
-        page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
-
         page.setBrushColor(this.textColor);
         page.setPenWidth(this.font.getUnderlineThickness());
         page.setPenColor(this.borderColor);
 
+        page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float ascent = this.font.getAscent();
         float descent = this.font.getDescent();
         float leading = (ascent + descent) * this.textLineHeight;
