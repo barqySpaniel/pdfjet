@@ -1169,12 +1169,9 @@ final public class PDF {
     }
 
     protected void append(String str) throws IOException {
-       int len = str.length();
-        for (int i = 0; i < len; i++) {
-            os.write(str.charAt(i));
-        }
-        // os.write(str.getBytes(StandardCharsets.UTF_8));
-        byteCount += len;
+        byte[] buf = str.getBytes(StandardCharsets.UTF_8);
+        os.write(buf);
+        byteCount += buf.length;
     }
 
     protected void append(char ch) throws IOException {

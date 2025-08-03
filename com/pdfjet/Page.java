@@ -24,7 +24,6 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
