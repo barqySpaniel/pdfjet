@@ -527,11 +527,14 @@ var hexDigits = [16]byte{
 	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 }
 
-func encodeToHex(text string) string {
+func encodeToHex(str string) string {
+    if str == "" {
+        return ""
+    }
 	var buf strings.Builder
-	buf.Grow(4 + len(text)*4) // Pre-allocate capacity
+	buf.Grow(4 + len(str)*4) // Pre-allocate capacity
 	buf.WriteString("FEFF")
-	for _, r := range text {
+	for _, r := range str {
 		buf.WriteByte(hexDigits[r>>12&0xF])
 		buf.WriteByte(hexDigits[r>>8&0xF])
 		buf.WriteByte(hexDigits[r>>4&0xF])

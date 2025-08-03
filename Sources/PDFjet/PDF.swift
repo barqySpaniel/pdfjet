@@ -1784,7 +1784,6 @@ public class PDF {
     private func toHex(_ str: String) -> String {
         var buf = [UInt8]()
         buf.reserveCapacity(str.count)
-
         var str = "FEFF"
         for scalar in str.unicodeScalars {
             buf.append(HEX[(Int(scalar.value) >> 12) & 0xF])
