@@ -1553,13 +1553,17 @@ final public class Page {
         }
     }
 
-    private static final char[] HEX = "0123456789ABCDEF".toCharArray();
+    private static final byte[] HEX = {
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+        'A', 'B', 'C', 'D', 'E', 'F'
+    };
     private void appendHex4(int num) {
-        buf.write(HEX[(num >> 12) & 0xF]);
+        buf.write(HEX[(num >> 12) & 0xF]);  // Directly writes the correct byte
         buf.write(HEX[(num >> 8)  & 0xF]);
         buf.write(HEX[(num >> 4)  & 0xF]);
-        buf.write(HEX[(num)       & 0xF]);
+        buf.write(HEX[num         & 0xF]);
     }
+
 
     // private void drawWord(
     //         Font font, StringBuilder buf, int color, Map<String, Integer> colors) {
