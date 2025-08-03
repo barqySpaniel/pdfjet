@@ -1551,9 +1551,6 @@ final public class Page {
             buf.write(buffer);
         } catch (IOException e) {
         }
-        // for (int i = 0; i < buffer.length; i++) {
-        //     buf.write(buffer[i]);
-        // }
     }
 
     private static final char[] HEX = "0123456789ABCDEF".toCharArray();
