@@ -24,6 +24,7 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -1519,9 +1520,9 @@ final public class Page {
     }
 
     protected void append(String str) {
-        int len = str.length();
-        for (int i = 0; i < len; i++) {
-            buf.write(str.charAt(i));
+        try {
+            buf.write(str.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
         }
     }
 
