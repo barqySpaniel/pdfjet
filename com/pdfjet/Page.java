@@ -24,6 +24,7 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -1515,8 +1516,9 @@ final public class Page {
     protected void append(String str) {
         int len = str.length();
         for (int i = 0; i < len; i++) {
-            buf.write((byte) str.charAt(i));
+            buf.write(str.charAt(i));
         }
+        // buf.write(str.getBytes(StandardCharsets.UTF_8));
     }
 
     protected void append(int num) {
@@ -1525,15 +1527,10 @@ final public class Page {
 
     private static final char[] HEX = "0123456789ABCDEF".toCharArray();
     protected void appendHex4(int num) {
-        char[] tmp = new char[4];
-        tmp[0] = HEX[(num >> 12) & 0xF];
-        tmp[1] = HEX[(num >> 8)  & 0xF];
-        tmp[2] = HEX[(num >> 4)  & 0xF];
-        tmp[3] = HEX[num         & 0xF];
-        buf.write((byte) tmp[0]);
-        buf.write((byte) tmp[1]);
-        buf.write((byte) tmp[2]);
-        buf.write((byte) tmp[3]);
+        buf.write(HEX[(num >> 12) & 0xF]);
+        buf.write(HEX[(num >> 8)  & 0xF]);
+        buf.write(HEX[(num >> 4)  & 0xF]);
+        buf.write(HEX[num         & 0xF]);
     }
 
     protected void append(float val) {
@@ -1541,7 +1538,7 @@ final public class Page {
     }
 
     protected void append(char ch) {
-        buf.write((byte) ch);
+        buf.write(ch);
     }
 
     protected void append(byte b) {
