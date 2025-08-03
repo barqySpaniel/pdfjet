@@ -208,7 +208,7 @@ public class Rect {
 
         if (this.r == 0.0f) {
             page.saveGraphicsState();
-            page.addArtifactBMC();
+            // page.addArtifactBMC();
             page.moveTo(this.x, this.y);
             page.lineTo(this.x + this.w, this.y);
             page.lineTo(this.x + this.w, this.y + this.h);
@@ -222,7 +222,7 @@ public class Rect {
                 page.setLinePattern(this.pattern);
                 page.closePath();
             }
-            page.addEMC();
+            // page.addEMC();
             page.restoreGraphicsState();
         } else {
             page.saveGraphicsState();
@@ -249,9 +249,9 @@ public class Rect {
             points.add(new Point((this.x + this.r) - this.r * k, this.y, true));
             points.add(new Point((this.x + this.r), this.y, false));
 
-            page.addArtifactBMC();
+            // page.addArtifactBMC();
             page.drawPath(points, Operation.STROKE);
-            page.addEMC();
+            // page.addEMC();
             page.restoreGraphicsState();
         }
 
