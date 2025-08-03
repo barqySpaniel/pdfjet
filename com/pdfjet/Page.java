@@ -1537,7 +1537,7 @@ final public class Page {
     }
 
     private static final char[] HEX = "0123456789ABCDEF".toCharArray();
-    protected void appendHex4(int num) {
+    private void appendHex4(int num) {
         buf.write(HEX[(num >> 12) & 0xF]);
         buf.write(HEX[(num >> 8)  & 0xF]);
         buf.write(HEX[(num >> 4)  & 0xF]);

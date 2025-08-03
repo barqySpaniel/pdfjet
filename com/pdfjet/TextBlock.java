@@ -278,7 +278,6 @@ public class TextBlock {
                     drawTextLine(
                             page,
                             this.font,
-                            this.fallbackFont,
                             line,
                             xText,
                             yText,
@@ -294,7 +293,6 @@ public class TextBlock {
                     drawTextLine(
                             page,
                             this.font,
-                            this.fallbackFont,
                             line,
                             xText,
                             yText,
@@ -342,7 +340,6 @@ public class TextBlock {
     private void drawTextLine(
             Page page,
             Font font,
-            Font fallbackFont,
             String text,
             float xText,
             float yText,
@@ -351,7 +348,7 @@ public class TextBlock {
         if (this.textDirection == Direction.BOTTOM_TO_TOP) {
             page.setTextDirection(90);
         }
-        page.drawString(font, fallbackFont, text, xText, yText, brush, null);
+        page.drawString(font, text, xText, yText, brush, null);
         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
             float lineLength = this.font.stringWidth(fallbackFont, text);
             if (this.underline) {
