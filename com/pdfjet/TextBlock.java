@@ -238,7 +238,7 @@ public class TextBlock {
         if (page != null) {
             // TODO: Deal with this now!!
         }
-        page.setBrushColor(this.textColor);
+        // page.setBrushColor(this.textColor);
         page.setPenWidth(this.font.getUnderlineThickness());
         page.setPenColor(this.borderColor);
 
