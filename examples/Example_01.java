@@ -21,7 +21,7 @@ public class Example_01 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        com.pdfjet.TextBlock textBlock = new TextBlock(font, new String(
+        TextBlock textBlock = new TextBlock(font, new String(
                 Files.readAllBytes(Paths.get("data/languages/english.txt"))));
         textBlock.setLocation(50f, 50f);
         textBlock.setWidth(430f);

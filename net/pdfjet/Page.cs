@@ -1454,14 +1454,6 @@ public class Page {
         Append(num.ToString());
     }
 
-    private static char[] HEX = "0123456789ABCDEF".ToCharArray();
-    protected void AppendHex4(int num) {
-        buf.WriteByte((byte) HEX[(num >> 12) & 0xF]);
-        buf.WriteByte((byte) HEX[(num >> 8)  & 0xF]);
-        buf.WriteByte((byte) HEX[(num >> 4)  & 0xF]);
-        buf.WriteByte((byte) HEX[num         & 0xF]);
-    }
-
     internal void Append(float val) {
         Append(val.ToString(pdf.floatFormat, PDF.culture_en_us));
     }
@@ -1474,9 +1466,17 @@ public class Page {
         buf.WriteByte(b);
     }
 
+    private static char[] HEX = "0123456789ABCDEF".ToCharArray();
+    private void AppendHex4(int num) {
+        buf.WriteByte((byte) HEX[(num >> 12) & 0xF]);
+        buf.WriteByte((byte) HEX[(num >> 8)  & 0xF]);
+        buf.WriteByte((byte) HEX[(num >> 4)  & 0xF]);
+        buf.WriteByte((byte) HEX[num         & 0xF]);
+    }
+
     /**
-     *  Appends the specified array of bytes to the page.
-     */
+    *  Appends the specified array of bytes to the page.
+    */
     public void Append(byte[] buffer) {
         buf.Write(buffer, 0, buffer.Length);
     }
