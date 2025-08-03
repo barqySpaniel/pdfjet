@@ -16,17 +16,17 @@ namespace PDFjet.NET {
         private float borderWidth;
         private float borderCornerRadius;
         private int borderColor;
-        private string language;
-        private string altDescription;
-        private string uri;
-        private string key;
-        private string uriLanguage;
-        private string uriActualText;
-        private string uriAltDescription;
+        private string language = "";
+        private string altDescription = "";
+        private string uri = "";
+        private string key = "";
+        private string uriLanguage = "";
+        private string uriActualText = "";
+        private string uriAltDescription = "";
         private Direction textDirection;
         private Alignment textAlignment;
-        private bool underline;
-        private bool strikeout;
+        private bool underline = false;
+        private bool strikeout = false;
 
         private Dictionary<string, int> colors;
 

@@ -36,7 +36,7 @@ public class Rect {
     private bool fillShape;
     private string uri;
     private string key;
-    private string language;
+    private string language = "";
     private string altDescription;
     private string actualText;
     private string structureType;
