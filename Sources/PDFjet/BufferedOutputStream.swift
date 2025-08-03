@@ -7,7 +7,7 @@ class BufferedOutputStream {
     private(set) var byteCount = 0
 
     /// Initializes with an existing OutputStream (file, socket, etc.)
-    init(_ outputStream: OutputStream, bufferSize: Int = 4096) {
+    init(_ outputStream: OutputStream, bufferSize: Int = 2*4096) {
         self.outputStream = outputStream
         self.bufferSize = bufferSize
         self.outputStream.open()

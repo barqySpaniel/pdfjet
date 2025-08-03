@@ -42,7 +42,7 @@ public class PDF {
     var extGState = ""
     let floatFormat = "%.3f"
 
-    private var os: OutputStream?
+    private var os: BufferedOutputStream?
     private var objOffset = [Int]()
     private var title: String = ""
     private var author: String = ""
@@ -115,7 +115,7 @@ public class PDF {
     ///
     public init(_ os: OutputStream, _ compliance: Int) {
         os.open()
-        self.os = os
+        self.os = BufferedOutputStream(os)
         self.compliance = compliance
         self.uuid = Salsa20().getID()
         self.creator = self.producer
@@ -1057,10 +1057,12 @@ public class PDF {
     }
 
     func append(_ number: UInt8) {
-        var buffer = number
-        if os!.write(&buffer, maxLength: 1) == 1 {
-            self.byteCount += 1
-        }
+        append([UInt8](arrayLiteral: number))
+
+        // var buffer = number
+        // if os!.write(&buffer, maxLength: 1) == 1 {
+        //     self.byteCount += 1
+        // }
     }
 
     func append(_ number: UInt16) {
@@ -1091,15 +1093,13 @@ public class PDF {
     }
 
     func append(_ buf: [UInt8], _ off: Int, _ len: Int) {
-        if os!.write(buf, maxLength: len) == len {
-            self.byteCount += len
-        }
+        os!.write(buf, off, len)
+        self.byteCount += len
     }
 
     func append(_ buf: [UInt8]) {
-        if os!.write(buf, maxLength: buf.count) == buf.count {
-            self.byteCount += buf.count
-        }
+        os!.write(buf)
+        self.byteCount += buf.count
     }
 
     func getSortedObjects(_ objects: [PDFobj]) -> [PDFobj] {

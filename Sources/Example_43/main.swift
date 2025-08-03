@@ -3,8 +3,7 @@ import PDFjet
 
 public class Example_43 {
     public init() throws {
-        let outputStream = OutputStream(toFileAtPath: "Example_43.pdf", append: false)!
-        let pdf = PDF(outputStream)
+        let pdf = PDF(OutputStream(toFileAtPath: "Example_43.pdf", append: false)!)
         pdf.setCompliance(Compliance.PDF_UA)
 
         // Used for performance testing. Results in 2000+ pages PDF.
