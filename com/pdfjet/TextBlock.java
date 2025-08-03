@@ -341,7 +341,7 @@ public class TextBlock {
         if (this.textDirection == Direction.BOTTOM_TO_TOP) {
             page.setTextDirection(90);
         }
-        page.drawString(font, fallbackFont, text, xText, yText, brush, colors);
+        page.drawString(font, fallbackFont, text, xText, yText, brush, null);
         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
             float lineLength = this.font.stringWidth(fallbackFont, text);
             if (this.underline) {

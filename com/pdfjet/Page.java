@@ -458,7 +458,6 @@ final public class Page {
         }
 
         if (colors == null) {
-            // setBrushColor(brush);
             append("[<");
             if (font.isCoreFont) {
                 drawASCIIString(font, str);
@@ -467,7 +466,8 @@ final public class Page {
             }
             append(">] TJ\n");
         } else {
-            drawColoredString(font, str, brush, colors);
+            // drawColoredString(font, str, brush, colors);
+            drawUnicodeString(font, str);
         }
         append("ET\n");
     }
