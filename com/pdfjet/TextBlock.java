@@ -255,14 +255,14 @@ public class TextBlock {
                 yText = this.y + ascent + this.textPadding;
                 for (String line : lines) {
                     switch (this.textAlignment) {
-                        case Alignment.LEFT:
+                        case LEFT:
                             xText = this.x + this.textPadding;
                             break;
-                        case Alignment.RIGHT:
+                        case RIGHT:
                             xText = (this.x + this.width) -
                                 (this.font.stringWidth(this.fallbackFont, line) + this.textPadding);
                             break;
-                        case Alignment.CENTER:
+                        case CENTER:
                             xText = this.x + (this.width - this.font.stringWidth(this.fallbackFont, line)) / 2;
                             break;
                     }
