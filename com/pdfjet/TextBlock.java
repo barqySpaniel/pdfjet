@@ -307,10 +307,10 @@ public class TextBlock {
         }
         page.addEMC();
 
-        Rect rect = new Rect(this.x, this.y, this.width, this.height);
-        rect.setBorderColor(this.borderColor);
-        rect.setCornerRadius(this.borderCornerRadius);
-        rect.drawOn(page);
+        // Rect rect = new Rect(this.x, this.y, this.width, this.height);
+        // rect.setBorderColor(this.borderColor);
+        // rect.setCornerRadius(this.borderCornerRadius);
+        // rect.drawOn(page);
 
         if (this.textDirection == Direction.LEFT_TO_RIGHT && (this.uri != null || this.key != null)) {
             page.addAnnotation(new Annotation(
