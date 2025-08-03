@@ -13,6 +13,8 @@ public class Example_01 {
     public Example_01() throws Exception {
         PDF pdf = new PDF(
                 new BufferedOutputStream(new FileOutputStream("Example_01.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA);
+        pdf.setTitle("Electric Vehicle Population Data");   // Required for PDF/UA !
 
         // Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
         Font font = new Font(pdf, IBMPlexSans.Regular);
