@@ -59,8 +59,6 @@ final public class Page {
     protected List<StructElem> structures = new ArrayList<StructElem>();
     private float[] pen = {0f, 0f, 0f};
     private float[] brush = {0f, 0f, 0f};
-    private float[] penCMYK = {0f, 0f, 0f, 1f};
-    private float[] brushCMYK = {0f, 0f, 0f, 1f};
     private float penWidth = -1.0f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
@@ -569,13 +567,14 @@ final public class Page {
      * @param b the blue component is float value from 0.0f to 1.0f.
      */
     public void setPenColor(float r, float g, float b) {
-        if (pen[0] != r || pen[1] != g || pen[2] != b) {
-            setColor(r, g, b);
-            append(" RG\n");
-            pen[0] = r;
-            pen[1] = g;
-            pen[2] = b;
-        }
+        append("q\n");
+        append(r);
+        append(' ');
+        append(g);
+        append(' ');
+        append(b);
+        append(" RG\n");
+        append("Q\n");
     }
 
     /**
@@ -588,14 +587,16 @@ final public class Page {
      * @param k the black component is float value from 0.0f to 1.0f.
      */
     public void setPenColorCMYK(float c, float m, float y, float k) {
-        if (penCMYK[0] != c || penCMYK[1] != m || penCMYK[2] != y || penCMYK[3] != k) {
-            setColorCMYK(c, m, y, k);
-            append(" K\n");
-            penCMYK[0] = c;
-            penCMYK[1] = m;
-            penCMYK[2] = y;
-            penCMYK[3] = k;
-        }
+        append("q\n");
+        append(c);
+        append(' ');
+        append(m);
+        append(' ');
+        append(y);
+        append(' ');
+        append(k);
+        append(" K\n");
+        append("Q\n");
     }
 
     /**
@@ -619,13 +620,14 @@ final public class Page {
      * @param b the blue component is float value from 0.0f to 1.0f.
      */
     public void setBrushColor(float r, float g, float b) {
-        if (brush[0] != r || brush[1] != g || brush[2] != b) {
-            setColor(r, g, b);
-            append(" rg\n");
-            brush[0] = r;
-            brush[1] = g;
-            brush[2] = b;
-        }
+        append("q\n");
+        append(r);
+        append(' ');
+        append(g);
+        append(' ');
+        append(b);
+        append(" rg\n");
+        append("Q\n");
     }
 
     /**
@@ -638,14 +640,16 @@ final public class Page {
      * @param k the black component is float value from 0.0f to 1.0f.
      */
     public void setBrushColorCMYK(float c, float m, float y, float k) {
-        if (brushCMYK[0] != c || brushCMYK[1] != m || brushCMYK[2] != y || brushCMYK[3] != k) {
-            setColorCMYK(c, m, y, k);
-            append(" k\n");
-            brushCMYK[0] = c;
-            brushCMYK[1] = m;
-            brushCMYK[2] = y;
-            brushCMYK[3] = k;
-        }
+        append("q\n");
+        append(c);
+        append(' ');
+        append(m);
+        append(' ');
+        append(y);
+        append(' ');
+        append(k);
+        append(" k\n");
+        append("Q\n");
     }
 
     /**
@@ -664,24 +668,6 @@ final public class Page {
      */
     public float[] getBrushColor() {
         return brush;
-    }
-
-    private void setColor(float r, float g, float b) {
-        append(r);
-        append(' ');
-        append(g);
-        append(' ');
-        append(b);
-    }
-
-    private void setColorCMYK(float c, float m, float y, float k) {
-        append(c);
-        append(' ');
-        append(m);
-        append(' ');
-        append(y);
-        append(' ');
-        append(k);
     }
 
     /**
