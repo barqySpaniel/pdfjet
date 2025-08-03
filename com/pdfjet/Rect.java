@@ -31,7 +31,7 @@ public class Rect {
     private float w;
     private float h;
     private float r;
-    private int color;
+    private int borderColor;
     private float width;
     private String pattern;
     private boolean fillShape;
@@ -46,7 +46,7 @@ public class Rect {
      * Creates new Rect object.
      */
     public Rect() {
-        this.color = Color.black;
+        this.borderColor = Color.black;
         this.width = 0.0f;
         this.pattern = "[] 0";
         this.altDescription = Single.space;
@@ -96,7 +96,7 @@ public class Rect {
      * @param color the color specified as an integer.
      */
     public void setBorderColor(int color) {
-        this.color = color;
+        this.borderColor = color;
     }
 
     /**
@@ -214,11 +214,11 @@ public class Rect {
             page.lineTo(this.x + this.w, this.y + this.h);
             page.lineTo(this.x, this.y + this.h);
             if (this.fillShape) {
-                page.setBrushColor(this.color);
+                page.setBrushColor(this.borderColor);
                 page.fillPath();
             } else {
                 page.setPenWidth(this.width);
-                page.setPenColor(this.color);
+                page.setPenColor(this.borderColor);
                 page.setLinePattern(this.pattern);
                 page.closePath();
             }
@@ -227,7 +227,7 @@ public class Rect {
         } else {
             page.saveGraphicsState();
             page.setPenWidth(this.width);
-            page.setPenColor(this.color);
+            page.setPenColor(this.borderColor);
             page.setLinePattern(this.pattern);
 
             List<Point> points = new ArrayList<>();
