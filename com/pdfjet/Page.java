@@ -1654,7 +1654,7 @@ final public class Page {
         if (pdf.compliance == Compliance.PDF_UA) {
             StructElem element = new StructElem();
             element.structure = structure;
-            element.mcid = mcid;
+            element.mcid = this.mcid;
             element.language = language;
             element.actualText = actualText;
             element.altDescription = altDescription;

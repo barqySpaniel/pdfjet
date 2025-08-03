@@ -238,6 +238,7 @@ public class TextBlock {
         if (page != null) {
             // TODO: Deal with this now!!
         }
+        page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
 
         page.setBrushColor(this.textColor);
         page.setPenWidth(this.font.getUnderlineThickness());
@@ -325,6 +326,8 @@ public class TextBlock {
         }
         page.setTextDirection(0);
 
+        page.addEMC();
+
         return new float[] { this.x + this.width, this.y + this.height };
     }
 
@@ -337,12 +340,10 @@ public class TextBlock {
             float yText,
             int brush,
             Map<String, Integer> colors) throws Exception {
-        page.addBMC("P", this.language, text, this.altDescription);
         if (this.textDirection == Direction.BOTTOM_TO_TOP) {
             page.setTextDirection(90);
         }
         page.drawString(font, fallbackFont, text, xText, yText, brush, colors);
-        page.addEMC();
         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
             float lineLength = this.font.stringWidth(fallbackFont, text);
             if (this.underline) {

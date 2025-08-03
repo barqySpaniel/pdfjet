@@ -23,14 +23,13 @@ SOFTWARE.
 */
 package com.pdfjet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *  Defines the StructElem types.
  */
 public class StructElem {
-    /** The default constructor */
-    public StructElem() {
-    }
-
     public static final String DOCUMENT = "Document";
     public static final String DOCUMENTFRAGMENT = "DocumentFragment";
     public static final String PART = "Part";
@@ -84,4 +83,14 @@ public class StructElem {
     protected String actualText = null;
     protected String altDescription = null;
     protected Annotation annotation = null;
+    protected List<StructElem> kids = null;
+
+    /** The default constructor */
+    public StructElem() {
+        this.kids = new ArrayList<StructElem>();
+    }
+
+    public void addKidStructElem(StructElem structElem) {
+        this.kids.add(structElem);
+    }
 }
