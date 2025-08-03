@@ -1518,19 +1518,10 @@ final public class Page {
         for (int i = 0; i < len; i++) {
             buf.write(str.charAt(i));
         }
-        // buf.write(str.getBytes(StandardCharsets.UTF_8));
     }
 
     protected void append(int num) {
         append(Integer.toString(num));
-    }
-
-    private static final char[] HEX = "0123456789ABCDEF".toCharArray();
-    protected void appendHex4(int num) {
-        buf.write(HEX[(num >> 12) & 0xF]);
-        buf.write(HEX[(num >> 8)  & 0xF]);
-        buf.write(HEX[(num >> 4)  & 0xF]);
-        buf.write(HEX[num         & 0xF]);
     }
 
     protected void append(float val) {
@@ -1543,6 +1534,14 @@ final public class Page {
 
     protected void append(byte b) {
         buf.write(b);
+    }
+
+    private static final char[] HEX = "0123456789ABCDEF".toCharArray();
+    protected void appendHex4(int num) {
+        buf.write(HEX[(num >> 12) & 0xF]);
+        buf.write(HEX[(num >> 8)  & 0xF]);
+        buf.write(HEX[(num >> 4)  & 0xF]);
+        buf.write(HEX[num         & 0xF]);
     }
 
     /**

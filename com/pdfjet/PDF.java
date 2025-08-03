@@ -527,15 +527,16 @@ final public class PDF {
     }
 
     private String toHex(String str) {
+        if (str == null) {
+            return "";
+        }
         StringBuilder buf = new StringBuilder();
-        if (str != null) {
-            buf.append("FEFF");
-            for (int i = 0; i < str.length(); i++) {
-                buf.append(String.format("%04X", str.codePointAt(i)));
-            }
+        buf.append("FEFF");
+        for (int i = 0; i < str.length(); i++) {
+            buf.append(String.format("%04X", str.codePointAt(i)));
         }
         return buf.toString();
-    }   
+    }
 
     // private static final char[] HEX = "0123456789ABCDEF".toCharArray();
     // private String toHex(String str) {
