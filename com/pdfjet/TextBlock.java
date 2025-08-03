@@ -53,8 +53,6 @@ public class TextBlock {
     private boolean underline;
     private boolean strikeout;
 
-    private Map<String, Integer> colors;
-
     /**
      * Creates a text block and sets the font.
      *
@@ -151,10 +149,6 @@ public class TextBlock {
 
     public void setTextColor(int textColor) {
         this.textColor = textColor;
-    }
-
-    public void setHighlightColors(Map<String, Integer> colors) {
-        this.colors = colors;
     }
 
     public void setTextAlignment(Alignment textAlignment) {
@@ -281,8 +275,7 @@ public class TextBlock {
                             line,
                             xText,
                             yText,
-                            this.textColor,
-                            this.colors);
+                            this.textColor);
                     yText += leading;
                 }
                 break;
@@ -296,8 +289,7 @@ public class TextBlock {
                             line,
                             xText,
                             yText,
-                            this.textColor,
-                            this.colors);
+                            this.textColor);
                     xText += leading;
                 }
                 break;
@@ -343,12 +335,11 @@ public class TextBlock {
             String text,
             float xText,
             float yText,
-            int brush,
-            Map<String, Integer> colors) throws Exception {
+            int textColor) throws Exception {
         if (this.textDirection == Direction.BOTTOM_TO_TOP) {
             page.setTextDirection(90);
         }
-        page.drawString(font, text, xText, yText, brush, null);
+        page.drawString(font, text, xText, yText, textColor, null);
         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
             float lineLength = this.font.stringWidth(fallbackFont, text);
             if (this.underline) {
