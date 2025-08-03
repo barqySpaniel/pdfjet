@@ -458,7 +458,7 @@ final public class Page {
         }
 
         if (colors == null) {
-            setBrushColor(brush);
+            // setBrushColor(brush);
             append("[<");
             if (font.isCoreFont) {
                 drawASCIIString(font, str);
@@ -498,7 +498,7 @@ final public class Page {
         }
     }
 
-    private void drawUnicodeString(Font font, String str) {
+    public void drawUnicodeString(Font font, String str) {
         if (font.isCJK) {
             for (int i = 0; i < str.length(); i++) {
                 int c1 = str.charAt(i);
