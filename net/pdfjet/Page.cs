@@ -1446,9 +1446,6 @@ public class Page {
     }
 
     internal void Append(String str) {
-        // for (int i = 0; i < str.Length; i++) {
-        //     buf.WriteByte((byte)str[i]);
-        // }
         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str);
         buf.Write(bytes, 0, bytes.Length);
     }
