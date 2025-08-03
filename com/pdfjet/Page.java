@@ -1542,22 +1542,26 @@ final public class Page {
         buf.write(b);
     }
 
+    /**
+     *  Appends the specified array of bytes to the page.
+     *  @param buffer the array of bytes that is appended.
+     */
+    public void append(byte[] buffer) {
+        try {
+            buf.write(buffer);
+        } catch (IOException e) {
+        }
+        // for (int i = 0; i < buffer.length; i++) {
+        //     buf.write(buffer[i]);
+        // }
+    }
+
     private static final char[] HEX = "0123456789ABCDEF".toCharArray();
     private void appendHex4(int num) {
         buf.write(HEX[(num >> 12) & 0xF]);
         buf.write(HEX[(num >> 8)  & 0xF]);
         buf.write(HEX[(num >> 4)  & 0xF]);
         buf.write(HEX[num         & 0xF]);
-    }
-
-    /**
-     *  Appends the specified array of bytes to the page.
-     *  @param buffer the array of bytes that is appended.
-     */
-    public void append(byte[] buffer) {
-        for (int i = 0; i < buffer.length; i++) {
-            buf.write(buffer[i]);
-        }
     }
 
     private void drawWord(
