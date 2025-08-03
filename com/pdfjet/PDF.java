@@ -526,28 +526,39 @@ final public class PDF {
         }
     }
 
-    private static final char[] HEX = "0123456789ABCDEF".toCharArray();
     private String toHex(String str) {
-        if (str == null) {
-            return "";
+        StringBuilder buf = new StringBuilder();
+        if (str != null) {
+            buf.append("FEFF");
+            for (int i = 0; i < str.length(); i++) {
+                buf.append(String.format("%04X", str.codePointAt(i)));
+            }
         }
-        // Get all code points (allocates temporary array)
-        int[] codePoints = str.codePoints().toArray();
-
-        // Pre-allocate StringBuilder (4 for "FEFF" + 4 per code point)
-        StringBuilder buf = new StringBuilder(4 + codePoints.length * 4);
-        buf.append("FEFF");
-
-        final char[] hexDigits = HEX; // Your existing HEX array
-        for (int codePoint : codePoints) {
-            buf.append(hexDigits[(codePoint >> 12) & 0xF]);
-            buf.append(hexDigits[(codePoint >> 8)  & 0xF]);
-            buf.append(hexDigits[(codePoint >> 4)  & 0xF]);
-            buf.append(hexDigits[(codePoint)       & 0xF]);
-        }
-
         return buf.toString();
-    }
+    }   
+
+    // private static final char[] HEX = "0123456789ABCDEF".toCharArray();
+    // private String toHex(String str) {
+    //     if (str == null) {
+    //         return "";
+    //     }
+    //     // Get all code points (allocates temporary array)
+    //     int[] codePoints = str.codePoints().toArray();
+
+    //     // Pre-allocate StringBuilder (4 for "FEFF" + 4 per code point)
+    //     StringBuilder buf = new StringBuilder(4 + codePoints.length * 4);
+    //     buf.append("FEFF");
+
+    //     final char[] hexDigits = HEX; // Your existing HEX array
+    //     for (int codePoint : codePoints) {
+    //         buf.append(hexDigits[(codePoint >> 12) & 0xF]);
+    //         buf.append(hexDigits[(codePoint >> 8)  & 0xF]);
+    //         buf.append(hexDigits[(codePoint >> 4)  & 0xF]);
+    //         buf.append(hexDigits[(codePoint)       & 0xF]);
+    //     }
+
+    //     return buf.toString();
+    // }
 
     private void addNumsParentTree() throws Exception {
         newobj();
@@ -1157,7 +1168,11 @@ final public class PDF {
     }
 
     protected void append(String str) throws IOException {
-        os.write(str.getBytes(StandardCharsets.UTF_8));
+       int len = str.length();
+        for (int i = 0; i < len; i++) {
+            os.write((byte) str.charAt(i));
+        }
+        // os.write(str.getBytes(StandardCharsets.UTF_8));
         byteCount += str.length();
     }
 
