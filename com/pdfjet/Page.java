@@ -508,17 +508,35 @@ final public class Page {
                 }
             }
         } else {
-            for (int i = 0; i < str.length(); i++) {
-                int c1 = str.charAt(i);
-                if (c1 == 0xFEFF) {     // BOM marker
+            // for (int i = 0; i < str.length(); i++) {
+            //     int c1 = str.charAt(i);
+            //     if (c1 == 0xFEFF) {     // BOM marker
+            //         continue;
+            //     }
+            //     if (c1 < font.firstChar || c1 > font.lastChar) {
+            //         append(String.format("%04X", font.unicodeToGID[0x0020]));
+            //         // appendHex4(font.unicodeToGID[0x0020]);
+            //     } else {
+            //         append(String.format("%04X", font.unicodeToGID[c1]));
+            //         // appendHex4(font.unicodeToGID[c1]);
+            //     }
+            // }
+
+            if (str == null || str.isEmpty()) {
+                return;
+            }
+            int[] codePoints = str.codePoints().toArray();
+            for (int i = 0; i < codePoints.length; i++) {
+                int cp = codePoints[i];
+                if (i == 0 && cp == 0xFEFF) {   // BOM marker
                     continue;
                 }
-                if (c1 < font.firstChar || c1 > font.lastChar) {
+                if (cp < font.firstChar || cp > font.lastChar) {
                     append(String.format("%04X", font.unicodeToGID[0x0020]));
                     // appendHex4(font.unicodeToGID[0x0020]);
                 } else {
-                    append(String.format("%04X", font.unicodeToGID[c1]));
-                    // appendHex4(font.unicodeToGID[c1]);
+                    append(String.format("%04X", font.unicodeToGID[cp]));
+                    // appendHex4(font.unicodeToGID[cp]);
                 }
             }
         }
