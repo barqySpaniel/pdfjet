@@ -18,9 +18,9 @@ public class Example_01 {
         textBlock.setTextPadding(10)
         var xy = textBlock.drawOn(page)
 
-        // let rect = Rect(xy[0], xy[1], 30, 30)
-        // rect.setBorderColor(Color.blue)
-        // try rect.drawOn(page)
+        let rect = Rect(xy[0], xy[1], 30, 30)
+        rect.setBorderColor(Color.blue)
+        rect.drawOn(page)
 
         let greekText = try String(contentsOfFile: "data/languages/greek.txt", encoding: .utf8)
         let textBlock2 = TextBlock(font, greekText)
