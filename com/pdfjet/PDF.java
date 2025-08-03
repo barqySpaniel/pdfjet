@@ -1170,10 +1170,10 @@ final public class PDF {
     protected void append(String str) throws IOException {
        int len = str.length();
         for (int i = 0; i < len; i++) {
-            os.write((byte) str.charAt(i));
+            os.write(str.charAt(i));
         }
         // os.write(str.getBytes(StandardCharsets.UTF_8));
-        byteCount += str.length();
+        byteCount += len;
     }
 
     protected void append(char ch) throws IOException {
