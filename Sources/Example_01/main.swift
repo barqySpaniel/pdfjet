@@ -1,41 +1,48 @@
 import Foundation
 import PDFjet
 
-/**
- *  Example_01.swift
- */
 public class Example_01 {
     public init() throws {
         let stream = OutputStream(toFileAtPath: "Example_01.pdf", append: false)
         let pdf = PDF(stream!)
 
-        // let font1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
-        let font1 = try Font(pdf, IBMPlexSans.Regular)
+        // Use embedded font reference or load from stream
+        let font = try Font(pdf, IBMPlexSans.Regular)
 
         let page = Page(pdf, Letter.PORTRAIT)
 
-        var text = try String(contentsOfFile: "data/languages/english.txt", encoding: .utf8)
-        var textBox = TextBox(font1, text)
-        textBox.setLocation(50.0, 50.0)
-        textBox.setWidth(430.0)
-        textBox.drawOn(page)
+        let englishText = try String(contentsOfFile: "data/languages/english.txt", encoding: .utf8)
+        let textBlock = TextBlock(font, englishText)
+        textBlock.setLocation(50, 50)
+        textBlock.setWidth(430)
+        textBlock.setTextPadding(10)
+        var xy = textBlock.drawOn(page)
 
-        text = try String(contentsOfFile: "data/languages/greek.txt", encoding: .utf8)
-        textBox = TextBox(font1, text)
-        textBox.setLocation(50.0, 250.0)
-        textBox.setWidth(430.0)
-        textBox.drawOn(page)
-        
-        text = try String(contentsOfFile: "data/languages/bulgarian.txt", encoding: .utf8)
-        textBox = TextBox(font1, text)
-        textBox.setLocation(50.0, 450.0)
-        textBox.setWidth(430.0)
-        textBox.drawOn(page)
+        // let rect = Rect(xy[0], xy[1], 30, 30)
+        // rect.setBorderColor(Color.blue)
+        // try rect.drawOn(page)
+
+        let greekText = try String(contentsOfFile: "data/languages/greek.txt", encoding: .utf8)
+        let textBlock2 = TextBlock(font, greekText)
+        textBlock2.setLocation(50, xy[1] + 30)
+        textBlock2.setWidth(430)
+        textBlock2.setBorderColor(Color.none)
+        xy = textBlock2.drawOn(page)
+
+        let bulgarianText = try String(contentsOfFile: "data/languages/bulgarian.txt", encoding: .utf8)
+        let textBlock3 = TextBlock(font, bulgarianText)
+        textBlock3.setLocation(50, xy[1] + 30)
+        textBlock3.setWidth(430)
+        textBlock3.setTextPadding(10)
+        textBlock3.setBorderColor(Color.blue)
+        textBlock3.setBorderCornerRadius(10)
+        textBlock3.drawOn(page)
 
         pdf.complete()
     }
-}   // End of Example_01.swift
+}
 
+// Entry point
 let time0 = Int64(Date().timeIntervalSince1970 * 1000)
 _ = try Example_01()
 let time1 = Int64(Date().timeIntervalSince1970 * 1000)

@@ -3,7 +3,7 @@ import Foundation
 /**
  * TextBlock.swift
  *
- * ©2025 PDFJet Software
+ * ©2025 PDFjet Software
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@ import Foundation
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class TextBlock {
+public class TextBlock : Drawable {
     private var x: Float = 0.0
     private var y: Float = 0.0
     private var width: Float = 500.0
@@ -85,6 +85,11 @@ public class TextBlock {
     }
 
     public func setLocation(_ x: Float, _ y: Float) {
+        self.x = x
+        self.y = y
+    }
+
+    public func setPosition(_ x: Float, _ y: Float) {
         self.x = x
         self.y = y
     }
@@ -195,10 +200,11 @@ public class TextBlock {
         return list
     }
 
-    public func drawOn(_ page: Page) throws -> [Float] {
-        page.setBrushColor(textColor)
-        page.setPenWidth(Float(font.getUnderlineThickness()))
-        page.setPenColor(borderColor)
+    @discardableResult
+    public func drawOn(_ page: Page?) -> [Float] {
+        page!.setBrushColor(textColor)
+        page!.setPenWidth(Float(font.getUnderlineThickness()))
+        page!.setPenColor(borderColor)
 
         let ascent = font.getAscent()
         let descent = font.getDescent()
@@ -219,22 +225,24 @@ public class TextBlock {
                 case Alignment.CENTER:
                     xText = x + (width - font.stringWidth(fallbackFont, line)) / 2
                 }
-                try drawTextLine(
-                    page,
-                    font,
-                    fallbackFont,
-                    line,
-                    xText,
-                    yText,
-                    textColor,
-                    colors)
+                if page != nil {
+                    drawTextLine(
+                        page!,
+                        font,
+                        fallbackFont,
+                        line,
+                        xText,
+                        yText,
+                        textColor,
+                        colors)
+                }
                 yText += leading
             }
         case Direction.BOTTOM_TO_TOP:
             xText = x + textPadding + ascent
             yText = y + height - textPadding
             for line in lines {
-                try drawTextLine(
+                drawTextLine(
                     page,
                     font,
                     fallbackFont,
@@ -261,10 +269,10 @@ public class TextBlock {
         let rect = Rect(x, y, width, height)
         rect.setBorderColor(borderColor)
         rect.setCornerRadius(borderCornerRadius)
-        try _ = rect.drawOn(page)
+        rect.drawOn(page!)
 
         if textDirection == Direction.LEFT_TO_RIGHT && (uri != nil || key != nil) {
-            page.addAnnotation(Annotation(
+            page!.addAnnotation(Annotation(
                 uri,
                 key,
                 x,
@@ -275,42 +283,42 @@ public class TextBlock {
                 uriActualText,
                 uriAltDescription))
         }
-        page.setTextDirection(0)
+        page!.setTextDirection(0)
 
         return [x + width, y + height]
     }
 
     private func drawTextLine(
-        _ page: Page,
+        _ page: Page?,
         _ font: Font,
         _ fallbackFont: Font?,
         _ text: String,
         _ xText: Float,
         _ yText: Float,
         _ brush: Int32,
-        _ colors: [String: Int32]?) throws {
+        _ colors: [String: Int32]?) {
 
-        page.addBMC("P", language, text, altDescription)
+        page!.addBMC("P", language, text, altDescription)
         if textDirection == Direction.BOTTOM_TO_TOP {
-            page.setTextDirection(90)
+            page!.setTextDirection(90)
         }
-        page.drawString(font, fallbackFont, text, xText, yText, brush, colors)
-        page.addEMC()
+        page!.drawString(font, fallbackFont, text, xText, yText, brush, colors)
+        page!.addEMC()
         if textDirection == Direction.LEFT_TO_RIGHT {
             let lineLength = font.stringWidth(fallbackFont, text)
             if underline {
-                page.addArtifactBMC()
-                page.moveTo(xText, yText + Float(font.getUnderlinePosition()))
-                page.lineTo(xText + lineLength, yText + Float(font.getUnderlinePosition()))
-                page.strokePath()
-                page.addEMC()
+                page!.addArtifactBMC()
+                page!.moveTo(xText, yText + Float(font.getUnderlinePosition()))
+                page!.lineTo(xText + lineLength, yText + Float(font.getUnderlinePosition()))
+                page!.strokePath()
+                page!.addEMC()
             }
             if strikeout {
-                page.addArtifactBMC()
-                page.moveTo(xText, yText - (font.getBodyHeight() / 4))
-                page.lineTo(xText + lineLength, yText - (font.getBodyHeight() / 4))
-                page.strokePath()
-                page.addEMC()
+                page!.addArtifactBMC()
+                page!.moveTo(xText, yText - (font.getBodyHeight() / 4))
+                page!.lineTo(xText + lineLength, yText - (font.getBodyHeight() / 4))
+                page!.strokePath()
+                page!.addEMC()
             }
         }
     }

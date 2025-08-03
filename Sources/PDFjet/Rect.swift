@@ -3,7 +3,7 @@ import Foundation
 /**
  * Rect.swift
  *
- * ©2025 PDFJet Software
+ * ©2025 PDFjet Software
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@ import Foundation
  * SOFTWARE.
  */
 
-public class Rect {
+public class Rect : Drawable {
     private var x: Float = 0.0
     private var y: Float = 0.0
     private var w: Float = 0.0
@@ -77,19 +77,30 @@ public class Rect {
      * - Returns: this Rect.
      */
     @discardableResult
-    public func setLocation(x: Float, y: Float) -> Rect {
+    public func setLocation(_ x: Float, _ y: Float) -> Rect {
         self.x = x
         self.y = y
         return self
     }
 
     /**
+     * Sets the position of this rect on the page. Required by the Drawable interface.
+     * - Parameters:
+     *   - x: the x coordinate of the top left corner of this rect when drawn on the page.
+     *   - y: the y coordinate of the top left corner of this rect when drawn on the page.
+     * - Returns: this Rect.
+     */
+    public func setPosition(_ x: Float, _ y: Float) {
+        setLocation(x, y)
+    }
+    
+    /**
      * Sets the size of this rect.
      * - Parameters:
      *   - w: the width of this rect.
      *   - h: the height of this rect.
      */
-    public func setSize(w: Float, h: Float) {
+    public func setSize(_ w: Float, _ h: Float) {
         self.w = w
         self.h = h
     }
@@ -211,33 +222,34 @@ public class Rect {
      * - Throws: an exception if drawing fails.
      * - Returns: x and y coordinates of the bottom right corner of this component.
      */
-    public func drawOn(_ page: Page) throws -> [Float] {
+    @discardableResult
+    public func drawOn(_ page: Page?) -> [Float] {
         let k: Float = 0.5517
 
-        page.addBMC(
+        page!.addBMC(
                 self.structureType,
-                self.language!,
+                self.language,
                 self.actualText,
                 self.altDescription)
 
         if self.r == 0.0 {
-            page.moveTo(self.x, self.y)
-            page.lineTo(self.x + self.w, self.y)
-            page.lineTo(self.x + self.w, self.y + self.h)
-            page.lineTo(self.x, self.y + self.h)
+            page!.moveTo(self.x, self.y)
+            page!.lineTo(self.x + self.w, self.y)
+            page!.lineTo(self.x + self.w, self.y + self.h)
+            page!.lineTo(self.x, self.y + self.h)
             if self.fillShape {
-                page.setBrushColor(self.color)
-                page.fillPath()
+                page!.setBrushColor(self.color)
+                page!.fillPath()
             } else {
-                page.setPenWidth(self.width)
-                page.setPenColor(self.color)
-                page.setLinePattern(self.pattern)
-                page.closePath()
+                page!.setPenWidth(self.width)
+                page!.setPenColor(self.color)
+                page!.setLinePattern(self.pattern)
+                page!.closePath()
             }
         } else {
-            page.setPenWidth(self.width)
-            page.setPenColor(self.color)
-            page.setLinePattern(self.pattern)
+            page!.setPenWidth(self.width)
+            page!.setPenColor(self.color)
+            page!.setLinePattern(self.pattern)
 
             var points: [Point] = []
             points.append(Point(self.x + self.r, self.y, false))
@@ -258,12 +270,12 @@ public class Rect {
             points.append(Point((self.x + self.r) - self.r * k, self.y, true))
             points.append(Point(self.x + self.r, self.y, false))
 
-            page.drawPath(points, Operation.STROKE)
+            page!.drawPath(points, Operation.STROKE)
         }
-        page.addEMC()
+        page!.addEMC()
 
         if self.uri != nil || self.key != nil {
-            page.addAnnotation(Annotation(
+            page!.addAnnotation(Annotation(
                 self.uri,
                 self.key,
                 self.x,
