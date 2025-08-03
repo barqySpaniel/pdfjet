@@ -305,6 +305,7 @@ public class TextBlock {
         if ((yText + descent + this.textPadding) - this.y > this.height) {
             this.height = (yText + descent + this.textPadding) - this.y;
         }
+        page.addEMC();
 
         Rect rect = new Rect(this.x, this.y, this.width, this.height);
         rect.setBorderColor(this.borderColor);
@@ -324,8 +325,6 @@ public class TextBlock {
                     this.uriAltDescription));
         }
         page.setTextDirection(0);
-
-        page.addEMC();
 
         return new float[] { this.x + this.width, this.y + this.height };
     }
