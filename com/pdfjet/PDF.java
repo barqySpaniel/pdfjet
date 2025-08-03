@@ -528,6 +528,9 @@ final public class PDF {
 
     private static final char[] HEX = "0123456789ABCDEF".toCharArray();
     private String toHex(String str) {
+        if (str == null) {
+            return "";
+        }
         // Get all code points (allocates temporary array)
         int[] codePoints = str.codePoints().toArray();
 
