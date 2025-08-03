@@ -14,6 +14,7 @@ DENSO WAVE INCORPORATED
 package com.pdfjet;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Used to create 2D QR Code barcodes. Please see Example_20.
@@ -40,7 +41,7 @@ final public class QRCode implements Drawable {
      * @throws UnsupportedEncodingException If an input or output exception occurred
      */
     public QRCode(String str, int errorCorrectLevel) throws UnsupportedEncodingException {
-        this.qrData = str.getBytes("UTF-8");
+        this.qrData = str.getBytes(StandardCharsets.UTF_8);
         this.errorCorrectLevel = errorCorrectLevel;
         this.make(false, getBestMaskPattern());
     }

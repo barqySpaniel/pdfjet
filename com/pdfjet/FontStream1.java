@@ -24,6 +24,7 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 class FontStream1 {
@@ -43,7 +44,7 @@ class FontStream1 {
         pdf.append("/Type /Font\n");
         pdf.append("/Subtype /Type0\n");
         pdf.append("/BaseFont /");
-        pdf.append(font.name.getBytes("UTF-8"));
+        pdf.append(font.name.getBytes(StandardCharsets.UTF_8));
         pdf.append(Token.newline);
         pdf.append("/Encoding /Identity-H\n");
         pdf.append("/DescendantFonts [");
@@ -294,12 +295,12 @@ class FontStream1 {
         int len = inputStream.read();
         byte[] fontName = new byte[len];
         inputStream.read(fontName, 0, len);
-        font.name = new String(fontName, "UTF-8");
+        font.name = new String(fontName, StandardCharsets.UTF_8);
 
         len = getInt24(inputStream);
         byte[] fontInfo = new byte[len];
         inputStream.read(fontInfo, 0, len);
-        font.info = new String(fontInfo, "UTF-8");
+        font.info = new String(fontInfo, StandardCharsets.UTF_8);
 
         byte[] buf = new byte[getInt32(inputStream)];
         inputStream.read(buf, 0, buf.length);

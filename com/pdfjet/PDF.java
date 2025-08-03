@@ -180,7 +180,7 @@ final public class PDF {
             sb.append("<xmpRights:UsageTerms>\n");
             sb.append("<rdf:Alt>\n");
             sb.append("<rdf:li xml:lang=\"x-default\">\n");
-            sb.append(notice.getBytes("UTF-8"));
+            sb.append(notice.getBytes(StandardCharsets.UTF_8));
             sb.append("</rdf:li>\n");
             sb.append("</rdf:Alt>\n");
             sb.append("</xmpRights:UsageTerms>\n");
@@ -274,7 +274,7 @@ final public class PDF {
         sb.append("</x:xmpmeta>\n");
         sb.append("<?xpacket end=\"r\"?>");
 
-        byte[] xml = sb.toString().getBytes("UTF-8");
+        byte[] xml = sb.toString().getBytes(StandardCharsets.UTF_8);
 
         // This is the metadata object
         newobj();

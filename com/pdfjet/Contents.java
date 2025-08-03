@@ -24,6 +24,7 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The Contents class.
@@ -46,7 +47,7 @@ public class Contents {
         Reader reader = null;
         try {
             stream = new BufferedInputStream(new FileInputStream(fileName));
-            reader = new InputStreamReader(stream, "UTF-8");
+            reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
             int ch = 0;
             while ((ch = reader.read()) != -1) {
                 if (ch == '\r') {

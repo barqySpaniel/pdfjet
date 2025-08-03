@@ -24,6 +24,7 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 class FontStream2 {
@@ -74,7 +75,7 @@ class FontStream2 {
         sb.append("<xmpRights:UsageTerms>\n");
         sb.append("<rdf:Alt>\n");
         sb.append("<rdf:li xml:lang=\"x-default\">\n");
-        sb.append(font.info.getBytes("UTF-8"));
+        sb.append(font.info.getBytes(StandardCharsets.UTF_8));
         sb.append("</rdf:li>\n");
         sb.append("</rdf:Alt>\n");
         sb.append("</xmpRights:UsageTerms>\n");
@@ -83,7 +84,7 @@ class FontStream2 {
         sb.append("</x:xmpmeta>\n");
         sb.append("<?xpacket end=\"r\"?>");
 
-        byte[] xml = sb.toString().getBytes("UTF-8");
+        byte[] xml = sb.toString().getBytes(StandardCharsets.UTF_8);
 
         // This is the metadata object
         PDFobj obj = new PDFobj();
@@ -219,7 +220,7 @@ class FontStream2 {
         obj.dict.add("/Length");
         obj.dict.add(String.valueOf(sb.length()));
         obj.dict.add(">>");
-        obj.setStream(sb.toString().getBytes("UTF-8"));
+        obj.setStream(sb.toString().getBytes(StandardCharsets.UTF_8));
         obj.number = objects.size() + 1;
         objects.add(obj);
         font.toUnicodeCMapObjNumber = obj.number;
