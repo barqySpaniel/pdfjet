@@ -421,6 +421,14 @@ public class Font {
     public func getBodyHeight() -> Float {
         return self.bodyHeight
     }
+    
+    public func getUnderlineThickness() -> Int16 {
+        return self.fontUnderlineThickness
+    }
+
+    public func getUnderlinePosition() -> Int16 {
+        return self.fontUnderlinePosition
+    }
 
     ///
     /// Returns the number of characters from the specified string that will fit within the specified width.

@@ -1,3 +1,4 @@
+import Foundation
 /**
  *  Alignment.swift
  *
@@ -25,7 +26,8 @@ SOFTWARE.
 /**
  *  Used to specify the text alignment in the BigTable.swift
  */
-public class Alignment {
-    public static let LEFT: Int     = 0
-    public static let RIGHT: Int    = 1
+public enum Alignment {
+    case LEFT
+    case RIGHT
+    case CENTER
 }

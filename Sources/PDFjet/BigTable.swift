@@ -11,7 +11,7 @@ public class BigTable {
     private var page: Page?
     private var widths: [Float] = []
     private var headerFields: [String] = []
-    private var alignment: [Int] = []
+    private var alignment: [Alignment] = []
     private var vertLines: [Float] = []
     private var bottomMargin: Float = 20.0
     private var padding: Float = 2.0
@@ -43,7 +43,7 @@ public class BigTable {
         self.numberOfColumns = numberOfColumns
     }
 
-    public func setTextAlignment(_ column: Int, _ alignment: Int) {
+    public func setTextAlignment(_ column: Int, _ alignment: Alignment) {
         self.alignment[column] = alignment
     }
 
@@ -165,7 +165,7 @@ public class BigTable {
         return buf
     }
 
-    private func getAlignment(str: String) -> Int {
+    private func getAlignment(_ str: String) -> Alignment {
         var buf = ""
         if str.hasPrefix("(") && str.hasSuffix(")") {
             buf = String(str.dropFirst().dropLast())
@@ -190,7 +190,7 @@ public class BigTable {
         self.vertLines = [Float](repeating: 0.0, count: numberOfColumns + 1)
         self.headerFields = [String](repeating: "", count: numberOfColumns)
         self.widths = [Float](repeating: 0.0, count: numberOfColumns)
-        self.alignment = [Int](repeating: 0, count: numberOfColumns)
+        self.alignment = [Alignment](repeating: Alignment.LEFT, count: numberOfColumns)
 
         var rowNumber = 0
         let reader = try String(contentsOfFile: fileName, encoding: String.Encoding.utf8)
@@ -207,7 +207,7 @@ public class BigTable {
             }
             if rowNumber == 1 {
                 for i in 0..<numberOfColumns {
-                    alignment[i] = getAlignment(str: fields[i])
+                    alignment[i] = getAlignment(fields[i])
                 }
             }
             for i in 0..<numberOfColumns {

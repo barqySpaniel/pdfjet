@@ -61,7 +61,7 @@ public class Rect {
      *   - w: the width of this rect.
      *   - h: the height of this rect.
      */
-    public convenience init(x: Float, y: Float, w: Float, h: Float) {
+    public convenience init(_ x: Float, _ y: Float, _ w: Float, _ h: Float) {
         self.init()
         self.x = x
         self.y = y
