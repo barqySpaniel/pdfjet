@@ -1446,9 +1446,11 @@ public class Page {
     }
 
     internal void Append(String str) {
-        for (int i = 0; i < str.Length; i++) {
-            buf.WriteByte((byte) str[i]);
-        }
+        // for (int i = 0; i < str.Length; i++) {
+        //     buf.WriteByte((byte)str[i]);
+        // }
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str);
+        buf.Write(bytes, 0, bytes.Length);
     }
 
     internal void Append(int num) {
@@ -1457,15 +1459,10 @@ public class Page {
 
     private static char[] HEX = "0123456789ABCDEF".ToCharArray();
     protected void AppendHex4(int num) {
-        char[] tmp = new char[4];
-        tmp[0] = HEX[(num >> 12) & 0xF];
-        tmp[1] = HEX[(num >> 8)  & 0xF];
-        tmp[2] = HEX[(num >> 4)  & 0xF];
-        tmp[3] = HEX[num         & 0xF];
-        buf.WriteByte((byte) tmp[0]);
-        buf.WriteByte((byte) tmp[1]);
-        buf.WriteByte((byte) tmp[2]);
-        buf.WriteByte((byte) tmp[3]);
+        buf.WriteByte((byte) HEX[(num >> 12) & 0xF]);
+        buf.WriteByte((byte) HEX[(num >> 8)  & 0xF]);
+        buf.WriteByte((byte) HEX[(num >> 4)  & 0xF]);
+        buf.WriteByte((byte) HEX[num         & 0xF]);
     }
 
     internal void Append(float val) {
