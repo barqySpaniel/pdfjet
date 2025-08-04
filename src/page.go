@@ -378,21 +378,22 @@ func (page *Page) drawUnicodeString(font *Font, text string) {
 	runes := []rune(text)
 	if font.isCJK {
 		for _, c1 := range runes {
-			if c1 == 0xFEFF { // BOM marker
-				continue
-			}
-			if c1 < font.firstChar || c1 > font.lastChar {
-				appendString(&page.buf, fmt.Sprintf("%04X", 0x0020))
-			} else {
-				appendString(&page.buf, fmt.Sprintf("%04X", c1))
+			if c1 != 0xFEFF { // BOM marker
+				if c1 < font.firstChar || c1 > font.lastChar {
+					appendString(&page.buf, fmt.Sprintf("%04X", 0x0020))
+				} else {
+					appendString(&page.buf, fmt.Sprintf("%04X", c1))
+				}
 			}
 		}
 	} else {
 		for _, c1 := range runes {
-			if c1 < font.firstChar || c1 > font.lastChar {
-				appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[0x0020]))
-			} else {
-				appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[c1]))
+			if c1 != 0xFEFF { // BOM marker
+				if c1 < font.firstChar || c1 > font.lastChar {
+					appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[0x0020]))
+				} else {
+					appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[c1]))
+				}
 			}
 		}
 	}
