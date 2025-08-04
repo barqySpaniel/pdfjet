@@ -404,24 +404,22 @@ func (page *Page) drawUnicodeString(font *Font, text string) {
 }
 
 func appendCodePointAsHex(buf *[]byte, codePoint int) {
-	if codePoint != 0xFEFF { // Skip BOM
-		if codePoint <= 0xFFFF {
-			*buf = append(*buf,
-				hexDigits[(codePoint>>12)&0xF],
-				hexDigits[(codePoint>>8)&0xF],
-				hexDigits[(codePoint>>4)&0xF],
-				hexDigits[codePoint&0xF],
-			)
-		} else {
-			*buf = append(*buf,
-				hexDigits[(codePoint>>20)&0xF],
-				hexDigits[(codePoint>>16)&0xF],
-				hexDigits[(codePoint>>12)&0xF],
-				hexDigits[(codePoint>>8)&0xF],
-				hexDigits[(codePoint>>4)&0xF],
-				hexDigits[codePoint&0xF],
-			)
-		}
+	if codePoint <= 0xFFFF {
+		*buf = append(*buf,
+			hexDigits[(codePoint>>12)&0xF],
+			hexDigits[(codePoint>>8)&0xF],
+			hexDigits[(codePoint>>4)&0xF],
+			hexDigits[codePoint&0xF],
+		)
+	} else {
+		*buf = append(*buf,
+			hexDigits[(codePoint>>20)&0xF],
+			hexDigits[(codePoint>>16)&0xF],
+			hexDigits[(codePoint>>12)&0xF],
+			hexDigits[(codePoint>>8)&0xF],
+			hexDigits[(codePoint>>4)&0xF],
+			hexDigits[codePoint&0xF],
+		)
 	}
 }
 
