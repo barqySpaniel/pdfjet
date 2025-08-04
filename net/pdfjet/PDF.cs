@@ -1142,7 +1142,7 @@ public class PDF {
     }
 
     public List<PDFobj> Read(Stream inputStream) {
-        byte[] buf = Contents.GetFromStream(inputStream);
+        byte[] buf = Content.GetFromStream(inputStream);
 
         List<PDFobj> objects1 = new List<PDFobj>();
         int xref = GetStartXRef(buf);

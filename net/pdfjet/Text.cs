@@ -231,7 +231,7 @@ public class Text : IDrawable {
 
     public static List<Paragraph> paragraphsFromFile(Font f1, String filePath) {
         List<Paragraph> paragraphs = new List<Paragraph>();
-        String contents = Contents.OfTextFile(filePath);
+        String contents = Content.OfTextFile(filePath);
         Paragraph paragraph = new Paragraph();
         TextLine textLine = new TextLine(f1);
         StringBuilder sb = new StringBuilder();

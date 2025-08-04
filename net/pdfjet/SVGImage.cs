@@ -71,7 +71,7 @@ public class SVGImage {
         bool token = false;
         String param = null;
         bool header = false;
-        byte[] buffer = Contents.GetFromStream(stream);
+        byte[] buffer = Content.GetFromStream(stream);
         foreach (byte ch in buffer) {
             String str = buf.ToString();
             if (StringEndsWith(str, "<svg")) {

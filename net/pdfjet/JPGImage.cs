@@ -65,7 +65,7 @@ class JPGImage {
     byte[] data;
 
     public JPGImage(Stream stream) {
-        data = Contents.GetFromStream(stream);
+        data = Content.GetFromStream(stream);
         ReadJPGImage(new MemoryStream(data));
     }
 

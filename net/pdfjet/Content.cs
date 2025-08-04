@@ -1,5 +1,5 @@
 /**
- *  Contents.cs
+ *  Content.cs
  *
 ©2025 PDFjet Software
 
@@ -26,7 +26,7 @@ using System.IO;
 using System.Text;
 
 namespace PDFjet.NET {
-public class Contents {
+public class Content {
     public static String OfTextFile(String fileName) {
         StringBuilder sb = new StringBuilder(4096);
         StreamReader reader = null;
@@ -77,5 +77,5 @@ public class Contents {
         }
         return ms.ToArray();
     }
-}   // End of Contents.cs
+}   // End of Content.cs
 }   // End of namespace PDFjet.NET
