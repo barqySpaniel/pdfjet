@@ -493,40 +493,29 @@ final public class Page {
     }
 
     public void drawUnicodeString(Font font, String str) {
+        if (str == null || str.isEmpty()) {
+            return;
+        }
         if (font.isCJK) {
-            if (str == null || str.isEmpty()) {
-                return;
-            }
-            for (int i = 0; i < str.length(); i++) {
-                int c1 = str.charAt(i);
-                if (i == 0 && c1 == 0xFEFF) {   // BOM marker
-                    continue;
+            str.codePoints().forEach(cp -> {
+                if (cp != 0xFEFF) {     // BOM
+                    if (cp < font.firstChar || cp > font.lastChar) {
+                        appendCodePointAsHex(0x0020);
+                    } else {
+                        appendCodePointAsHex(cp);
+                    }
                 }
-                if (c1 < font.firstChar || c1 > font.lastChar) {
-                    // append(String.format("%04X", 0x0020));
-                    appendCodePointAsHex(0x0020);
-                } else {
-                    // append(String.format("%04X", c1));
-                    appendCodePointAsHex(c1);
-                }
-            }
+            });
         } else {
-            if (str == null || str.isEmpty()) {
-                return;
-            }
-            for (int i = 0; i < str.length(); i++) {
-                int c1 = str.charAt(i);
-                if (i == 0 && c1 == 0xFEFF) {   // BOM marker
-                    continue;
+            str.codePoints().forEach(cp -> {
+                if (cp != 0xFEFF) {     //BOM
+                    if (cp < font.firstChar || cp > font.lastChar) {
+                        appendCodePointAsHex(font.unicodeToGID[0x0020]);
+                    } else {
+                        appendCodePointAsHex(font.unicodeToGID[cp]);
+                    }
                 }
-                if (c1 < font.firstChar || c1 > font.lastChar) {
-                    // append(String.format("%04X", font.unicodeToGID[0x0020]));
-                    appendCodePointAsHex(font.unicodeToGID[0x0020]);
-                } else {
-                    // append(String.format("%04X", font.unicodeToGID[c1]));
-                    appendCodePointAsHex(font.unicodeToGID[c1]);
-                }
-            }
+            });
         }
     }
 
