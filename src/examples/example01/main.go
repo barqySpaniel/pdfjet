@@ -23,21 +23,29 @@ func Example01() {
 	textBlock := pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/english.txt"))
 	textBlock.SetLocation(50.0, 50.0)
 	textBlock.SetWidth(430.0) // The height is adjusted automatically to fit the text.
-	textBlock.SetBorderColor(color.None)
-	textBlock.DrawOn(page)
+	textBlock.SetTextPadding(10.0)
+	xy := textBlock.DrawOn(page)
+
+	// Draw a blue rectangle at the bottom right corner of the English text block.
+	rect := pdfjet.NewRectAt(xy[0], xy[1], 30.0, 30.0)
+	rect.SetBorderColor(color.Blue)
+	rect.DrawOn(page)
 
 	// Greek text block
 	textBlock = pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/greek.txt"))
-	textBlock.SetLocation(50.0, 250.0)
+	textBlock.SetLocation(50.0, xy[1]+30.0)
 	textBlock.SetWidth(430.0) // The height is adjusted automatically to fit the text.
+	textBlock.SetTextPadding(10.0)
 	textBlock.SetBorderColor(color.None)
-	textBlock.DrawOn(page)
+	xy = textBlock.DrawOn(page)
 
 	// Bulgarian text block
 	textBlock = pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/bulgarian.txt"))
-	textBlock.SetLocation(50.0, 450.0)
+	textBlock.SetLocation(50.0, xy[1]+30.0)
 	textBlock.SetWidth(430.0) // The height is adjusted automatically to fit the text.
-	textBlock.SetBorderColor(color.None)
+	textBlock.SetTextPadding(10.0)
+	textBlock.SetBorderColor(color.Blue)
+	textBlock.SetBorderCornerRadius(10.0)
 	textBlock.DrawOn(page)
 
 	// Finalize the PDF
