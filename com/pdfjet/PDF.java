@@ -543,7 +543,7 @@ final public class PDF {
         'A', 'B', 'C', 'D', 'E', 'F'
     };
     private String toHex(String str) {
-        if (str == null) {
+        if (str == null || str.isEmpty()) {
             return "";
         }
 
