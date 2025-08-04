@@ -44,7 +44,7 @@ public class Example_01 {
         rect.drawOn(page);
 
         // Add Greek text from a file
-        textBlock = new TextBlock(font, new String(Files.readAllBytes(Paths.get("data/languages/greek.txt"))));
+        textBlock = new TextBlock(font, Content.ofTextFile("data/languages/greek.txt"));
         textBlock.setLocation(50f, xy[1] + 30f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
