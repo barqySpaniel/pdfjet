@@ -9,7 +9,7 @@ public class Example_18 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_18.pdf", append: false)!)
 
-        // let buf1 = try Contents.ofBinaryFile("images/svg-test/europe.svg")
+        // let buf1 = try Content.ofBinaryFile("images/svg-test/europe.svg")
         // print()
         // print("Original file size:")
         // print(buf1.count)

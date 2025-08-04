@@ -47,7 +47,7 @@ public class Example_19 {
         image2.drawOn(page)
 
         textBox = TextBox(f1)
-        textBox.setText(try Contents.ofTextFile("data/latin.txt"))
+        textBox.setText(try Content.ofTextFile("data/latin.txt"))
         textBox.setWidth(w2)
         textBox.setLocation(x2, xy[1] + 10.0)
         textBox.setBorders(true)
@@ -55,7 +55,7 @@ public class Example_19 {
 
         textBox = TextBox(f1)
         textBox.setFallbackFont(f2)
-        textBox.setText(try Contents.ofTextFile("data/chinese.txt"))
+        textBox.setText(try Content.ofTextFile("data/chinese.txt"))
         textBox.setLocation(x1, 530.0)
         textBox.setWidth(350.0)
         textBox.setBorders(true)
