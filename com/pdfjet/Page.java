@@ -504,10 +504,10 @@ final public class Page {
                 }
                 if (c1 < font.firstChar || c1 > font.lastChar) {
                     // append(String.format("%04X", 0x0020));
-                    appendHex4(0x0020);
+                    appendCodePointAsHex(0x0020);
                 } else {
                     // append(String.format("%04X", c1));
-                    appendHex4(c1);
+                    appendCodePointAsHex(c1);
                 }
             }
         } else {
@@ -521,10 +521,10 @@ final public class Page {
                 }
                 if (c1 < font.firstChar || c1 > font.lastChar) {
                     // append(String.format("%04X", font.unicodeToGID[0x0020]));
-                    appendHex4(font.unicodeToGID[0x0020]);
+                    appendCodePointAsHex(font.unicodeToGID[0x0020]);
                 } else {
                     // append(String.format("%04X", font.unicodeToGID[c1]));
-                    appendHex4(font.unicodeToGID[c1]);
+                    appendCodePointAsHex(font.unicodeToGID[c1]);
                 }
             }
         }
@@ -1553,17 +1553,35 @@ final public class Page {
         }
     }
 
+    // private void appendHex4(int num) {
+    //     buf.write(HEX[(num >> 12) & 0xF]);  // Directly writes the correct byte
+    //     buf.write(HEX[(num >> 8)  & 0xF]);
+    //     buf.write(HEX[(num >> 4)  & 0xF]);
+    //     buf.write(HEX[num         & 0xF]);
+    // }
+
     private static final byte[] HEX = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
         'A', 'B', 'C', 'D', 'E', 'F'
     };
-    private void appendHex4(int num) {
-        buf.write(HEX[(num >> 12) & 0xF]);  // Directly writes the correct byte
-        buf.write(HEX[(num >> 8)  & 0xF]);
-        buf.write(HEX[(num >> 4)  & 0xF]);
-        buf.write(HEX[num         & 0xF]);
+    private void appendCodePointAsHex(int codePoint) {
+        if (codePoint <= 0xFFFF) {
+            // Basic Multilingual Plane (BMP) character
+            buf.write(HEX[(codePoint >> 12) & 0xF]);
+            buf.write(HEX[(codePoint >> 8)  & 0xF]);
+            buf.write(HEX[(codePoint >> 4)  & 0xF]);
+            buf.write(HEX[(codePoint)       & 0xF]);
+        } else {
+            // Supplementary character (needs surrogate pair in UTF-16)
+            // Write as 6 hex digits (max Unicode code point is 0x10FFFF)
+            buf.write(HEX[(codePoint >> 20) & 0xF]);
+            buf.write(HEX[(codePoint >> 16) & 0xF]);
+            buf.write(HEX[(codePoint >> 12) & 0xF]);
+            buf.write(HEX[(codePoint >> 8)  & 0xF]);
+            buf.write(HEX[(codePoint >> 4)  & 0xF]);
+            buf.write(HEX[(codePoint)       & 0xF]);
+        }
     }
-
 
     // private void drawWord(
     //         Font font, StringBuilder buf, int color, Map<String, Integer> colors) {
