@@ -7,7 +7,7 @@ if "%1"=="" (
 )
 
 REM Single-command build: Compile library + example together
-mcs -debug -sdk:4 -warn:2 ^
+call mcs -debug -sdk:4 -warn:2 ^
     net/pdfjet/*.cs ^
     com/pdfjet/font/*.cs ^
     examples/Example_%1.cs ^
@@ -20,7 +20,7 @@ if not exist "Example_%1.exe" (
 )
 
 REM Run the example
-Example_%1.exe
+mono Example_%1.exe
 
 REM Open PDF if generated
 start Example_%1.pdf
