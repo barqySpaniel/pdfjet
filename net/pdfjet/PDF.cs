@@ -506,22 +506,40 @@ public class PDF {
         }
     }
 
-    private static readonly char[] HexDigits = {
-        '0', '1', '2', '3', '4', '5', '6', '7',
-        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    private static readonly char[] HEX = {
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+        'A', 'B', 'C', 'D', 'E', 'F'
     };
-    private static string ToHex(string str) {
-        if (str == null) {
+    private string ToHex(String str) {
+        if (string.IsNullOrEmpty(str)) {
             return "";
         }
-        var buf = new StringBuilder(4 + str.Length * 4); // Pre-allocate
-        for (int i = 0; i < str.Length; i++) {
-            int value = str[i];
-            buf.Append(HexDigits[(value >> 12) & 0xF]);
-            buf.Append(HexDigits[(value >> 8)  & 0xF]);
-            buf.Append(HexDigits[(value >> 4)  & 0xF]);
-            buf.Append(HexDigits[value         & 0xF]);
+
+        StringBuilder buf = new StringBuilder(str.Length * 6);
+        TextElementEnumerator enumerator = StringInfo.GetTextElementEnumerator(str);
+        while (enumerator.MoveNext()) {
+            string textElement = enumerator.GetTextElement();
+            int codePoint = char.ConvertToUtf32(textElement, 0);
+            
+            if (codePoint == 0xFEFF) continue; // Skip BOM
+
+            if (codePoint <= 0xFFFF) {
+                // BMP character (4 hex digits)
+                buf.Append(HEX[(codePoint >> 12) & 0xF]);
+                buf.Append(HEX[(codePoint >> 8)  & 0xF]);
+                buf.Append(HEX[(codePoint >> 4)  & 0xF]);
+                buf.Append(HEX[ codePoint        & 0xF]);
+            } else {
+                // Supplementary character (6 hex digits)
+                buf.Append(HEX[(codePoint >> 20) & 0xF]);
+                buf.Append(HEX[(codePoint >> 16) & 0xF]);
+                buf.Append(HEX[(codePoint >> 12) & 0xF]);
+                buf.Append(HEX[(codePoint >> 8)  & 0xF]);
+                buf.Append(HEX[(codePoint >> 4)  & 0xF]);
+                buf.Append(HEX[ codePoint        & 0xF]);
+            }
         }
+        
         return buf.ToString();
     }
 
