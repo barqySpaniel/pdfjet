@@ -380,9 +380,11 @@ func (page *Page) drawUnicodeString(font *Font, text string) {
 		for _, c1 := range runes {
 			if c1 != 0xFEFF { // BOM marker
 				if c1 < font.firstChar || c1 > font.lastChar {
-					appendString(&page.buf, fmt.Sprintf("%04X", 0x0020))
+					// appendString(&page.buf, fmt.Sprintf("%04X", 0x0020))
+					appendCodePointAsHex(&page.buf, 0x0020)
 				} else {
-					appendString(&page.buf, fmt.Sprintf("%04X", c1))
+					// appendString(&page.buf, fmt.Sprintf("%04X", c1))
+					appendCodePointAsHex(&page.buf, int(c1))
 				}
 			}
 		}
@@ -390,11 +392,35 @@ func (page *Page) drawUnicodeString(font *Font, text string) {
 		for _, c1 := range runes {
 			if c1 != 0xFEFF { // BOM marker
 				if c1 < font.firstChar || c1 > font.lastChar {
-					appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[0x0020]))
+					// appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[0x0020]))
+					appendCodePointAsHex(&page.buf, 0x0020)
 				} else {
-					appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[c1]))
+					// appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[c1]))
+					appendCodePointAsHex(&page.buf, font.unicodeToGID[c1])
 				}
 			}
+		}
+	}
+}
+
+func appendCodePointAsHex(buf *[]byte, codePoint int) {
+	if codePoint != 0xFEFF { // Skip BOM
+		if codePoint <= 0xFFFF {
+			*buf = append(*buf,
+				hexDigits[(codePoint>>12)&0xF],
+				hexDigits[(codePoint>>8)&0xF],
+				hexDigits[(codePoint>>4)&0xF],
+				hexDigits[codePoint&0xF],
+			)
+		} else {
+			*buf = append(*buf,
+				hexDigits[(codePoint>>20)&0xF],
+				hexDigits[(codePoint>>16)&0xF],
+				hexDigits[(codePoint>>12)&0xF],
+				hexDigits[(codePoint>>8)&0xF],
+				hexDigits[(codePoint>>4)&0xF],
+				hexDigits[codePoint&0xF],
+			)
 		}
 	}
 }
