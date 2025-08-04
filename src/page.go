@@ -353,7 +353,7 @@ func (page *Page) drawASCIIString(font *Font, text string) {
 	for i, c1 := range runes {
 		if c1 < font.firstChar || c1 > font.lastChar {
 			appendString(&page.buf, fmt.Sprintf("%02X", 0x20))
-			return
+			continue
 		}
 		appendString(&page.buf, fmt.Sprintf("%02X", c1))
 		if font.isCoreFont && font.kernPairs && i < (len(runes)-1) {

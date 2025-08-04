@@ -396,7 +396,7 @@ public class Page {
             if c1 < Unicode.Scalar(font.firstChar)! ||
                     c1 > Unicode.Scalar(font.lastChar)! {
                 appendTwoHexDigits(0x20, &self.buf)
-                return
+                continue
             }
             appendTwoHexDigits(Int(c1.value), &self.buf)
             if font.isCoreFont && font.kernPairs && i < (scalars.count - 1) {

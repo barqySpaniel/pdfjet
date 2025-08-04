@@ -471,7 +471,7 @@ final public class Page {
             int c1 = str.charAt(i);
             if (c1 < font.firstChar || c1 > font.lastChar) {
                 append(String.format("%02X", 0x20));
-                return;
+                continue;
             }
             append(String.format("%02X", c1));
             if (font.isCoreFont && font.kernPairs && i < (str.length() - 1)) {
