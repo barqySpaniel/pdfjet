@@ -8,40 +8,51 @@ import com.pdfjet.font.*;
 
 /**
  *  Example_01.java
+ *  
+ *  A simple example demonstrating how to create a PDF with multilingual text
+ *  (English, Greek, and Bulgarian) using PDFjet.
  */
 public class Example_01 {
-    public Example_01() throws Exception {
-        PDF pdf = new PDF(
-                new BufferedOutputStream(new FileOutputStream("Example_01.pdf")));
-        pdf.setCompliance(Compliance.PDF_UA);
-        pdf.setTitle("Electric Vehicle Population Data");   // Required for PDF/UA !
 
-        // Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+    // Constructor to generate the PDF document
+    public Example_01() throws Exception {
+        // Create a new PDF document and set output stream to a file
+        PDF pdf = new PDF(new BufferedOutputStream(new FileOutputStream("Example_01.pdf")));
+        
+        // Set PDF/UA compliance (required for accessibility)
+        pdf.setCompliance(Compliance.PDF_UA);
+
+        // Set the title of the document (required for PDF/UA compliance)
+        pdf.setTitle("Electric Vehicle Population Data");
+
+        // Load the font (using IBMPlexSans Regular)
         Font font = new Font(pdf, IBMPlexSans.Regular);
 
+        // Create a new page with Portrait orientation
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        TextBlock textBlock = new TextBlock(font,
-                Content.ofTextFile("data/languages/english.txt"));
+        // Add English text from a file
+        TextBlock textBlock = new TextBlock(font, Content.ofTextFile("data/languages/english.txt"));
         textBlock.setLocation(50f, 50f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
         float[] xy = textBlock.drawOn(page);
 
+        // Draw a blue rectangle around the English text block
         Rect rect = new Rect(xy[0], xy[1], 30f, 30f);
         rect.setBorderColor(Color.blue);
         rect.drawOn(page);
 
-        textBlock = new TextBlock(font, new String(
-                Files.readAllBytes(Paths.get("data/languages/greek.txt"))));
+        // Add Greek text from a file
+        textBlock = new TextBlock(font, new String(Files.readAllBytes(Paths.get("data/languages/greek.txt"))));
         textBlock.setLocation(50f, xy[1] + 30f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
-        textBlock.setBorderColor(Color.none);
+        textBlock.setBorderColor(Color.none); // No border for Greek text
         xy = textBlock.drawOn(page);
 
-        textBlock = new TextBlock(font,
-                Content.ofTextFile("data/languages/bulgarian.txt"));
+        // Add Bulgarian text from a file with a blue border and rounded corners
+        textBlock = new TextBlock(font, Content.ofTextFile("data/languages/bulgarian.txt"));
         textBlock.setLocation(50f, xy[1] + 30f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
@@ -49,13 +60,15 @@ public class Example_01 {
         textBlock.setBorderCornerRadius(10f);
         textBlock.drawOn(page);
 
+        // Complete the PDF document creation
         pdf.complete();
     }
 
+    // Main method to run the example and measure execution time
     public static void main(String[] args) throws Exception {
         long time0 = System.currentTimeMillis();
-        new Example_01();
+        new Example_01();  // Create the PDF
         long time1 = System.currentTimeMillis();
-        TextUtils.printDuration("Example_01", time0, time1);
+        TextUtils.printDuration("Example_01", time0, time1);  // Print the duration of the process
     }
 }   // End of Example_01.java
