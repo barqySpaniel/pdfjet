@@ -18,7 +18,7 @@ public class Example_19 {
         Font f2 = new Font(pdf, "fonts/NotoSansTC/NotoSansTC-Regular.ttf.stream");
         f2.SetSize(10f);
 
-        String contents = Contents.OfTextFile("data/calculus-short.txt");
+        String contents = Content.OfTextFile("data/calculus-short.txt");
 
         Page page = new Page(pdf, Letter.PORTRAIT);
         // Columns x coordinates
@@ -50,7 +50,7 @@ public class Example_19 {
         image2.DrawOn(page);
 
         textBox = new TextBox(f1);
-        textBox.SetText(Contents.OfTextFile("data/latin.txt"));
+        textBox.SetText(Content.OfTextFile("data/latin.txt"));
         textBox.SetLocation(x2, xy[1] + 10f);
         textBox.SetWidth(w2);
         textBox.SetBorders(true);
@@ -58,7 +58,7 @@ public class Example_19 {
 
         textBox = new TextBox(f1);
         textBox.SetFallbackFont(f2);
-        textBox.SetText(Contents.OfTextFile("data/chinese.txt"));
+        textBox.SetText(Content.OfTextFile("data/chinese.txt"));
         textBox.SetLocation(x1, 530f);
         textBox.SetWidth(350f);
         textBox.SetBorders(true);
