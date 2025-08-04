@@ -10,45 +10,50 @@ import (
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
-// Example01 demonstrates creating a PDF with text blocks containing multilingual content
+// Example01 demonstrates creating a PDF with multilingual text blocks
 func Example01() {
 	pdf := pdfjet.NewPDFFile("Example_01.pdf")
 
+	// Load font and set size
 	font1 := pdfjet.NewFontFromFile(pdf, font.IBMPlexSans.Regular)
 	font1.SetSize(12.0)
 
+	// Create a new page in portrait orientation
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
-	// English text block
-	textBlock := pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/english.txt"))
+	// English text block setup and drawing
+	textBlock := pdfjet.NewTextBlock(font1,
+		content.OfTextFile("data/languages/english.txt"))
 	textBlock.SetLocation(50.0, 50.0)
-	textBlock.SetWidth(430.0) // The height is adjusted automatically to fit the text.
+	textBlock.SetWidth(430.0)
 	textBlock.SetTextPadding(10.0)
 	xy := textBlock.DrawOn(page)
 
-	// Draw a blue rectangle at the bottom right corner of the English text block.
+	// Draw a blue rectangle near the English text block
 	rect := pdfjet.NewRectAt(xy[0], xy[1], 30.0, 30.0)
 	rect.SetBorderColor(color.Blue)
 	rect.DrawOn(page)
 
-	// Greek text block
-	textBlock = pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/greek.txt"))
+	// Greek text block, positioned below the English text
+	textBlock = pdfjet.NewTextBlock(font1,
+		content.OfTextFile("data/languages/greek.txt"))
 	textBlock.SetLocation(50.0, xy[1]+30.0)
-	textBlock.SetWidth(430.0) // The height is adjusted automatically to fit the text.
+	textBlock.SetWidth(430.0)
 	textBlock.SetTextPadding(10.0)
 	textBlock.SetBorderColor(color.None)
 	xy = textBlock.DrawOn(page)
 
-	// Bulgarian text block
-	textBlock = pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/bulgarian.txt"))
+	// Bulgarian text block with blue border and rounded corners
+	textBlock = pdfjet.NewTextBlock(font1,
+		content.OfTextFile("data/languages/bulgarian.txt"))
 	textBlock.SetLocation(50.0, xy[1]+30.0)
-	textBlock.SetWidth(430.0) // The height is adjusted automatically to fit the text.
+	textBlock.SetWidth(430.0)
 	textBlock.SetTextPadding(10.0)
 	textBlock.SetBorderColor(color.Blue)
 	textBlock.SetBorderCornerRadius(10.0)
 	textBlock.DrawOn(page)
 
-	// Finalize the PDF
+	// Complete the PDF file
 	pdf.Complete()
 }
 
