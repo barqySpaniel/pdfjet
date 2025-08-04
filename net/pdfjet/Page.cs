@@ -417,11 +417,13 @@ public class Page {
         for (int i = 0; i < len; i++) {
             int c1 = str[i];
             if (c1 < font.firstChar || c1 > font.lastChar) {
-                Append(0x20.ToString("X2"));
-                return;
+                // Append(0x20.ToString("X2"));
+                AppendCodePointAsHex(0x20);
+                continue;
             }
-            Append(c1.ToString("X2"));
-            if (font.isCoreFont && font.kernPairs && i < (str.Length -1)) {
+            // Append(c1.ToString("X2"));
+            AppendCodePointAsHex(c1);
+            if (font.isCoreFont && font.kernPairs && i < (str.Length - 1)) {
                 c1 -= 32;
                 int c2 = str[i + 1];
                 if (c2 < font.firstChar || c2 > font.lastChar) {
