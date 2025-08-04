@@ -538,7 +538,10 @@ final public class PDF {
     //     return buf.toString();
     // }
 
-    private static final char[] HEX = "0123456789ABCDEF".toCharArray();
+    private static final byte[] HEX = {
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+        'A', 'B', 'C', 'D', 'E', 'F'
+    };
     private String toHex(String str) {
         if (str == null) {
             return "";
