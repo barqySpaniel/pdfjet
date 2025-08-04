@@ -440,28 +440,30 @@ public class Page {
     }
 
     private void DrawUnicodeString(Font font, String str) {
-        int len = str.Length;
+        if (str == null || str == "") {
+            return;
+        }
         if (font.isCJK) {
-            for (int i = 0; i < len; i++) {
-                int c1 = str[i];
-                if (c1 < font.firstChar || c1 > font.lastChar) {
-                    // Append(0x0020.ToString("X4"));
-                    AppendHex4(0x0020);
+            int i = 0;
+            while (i < str.Length) {
+                int codePoint = char.ConvertToUtf32(str, i);
+                if (codePoint < font.firstChar || codePoint > font.lastChar) {
+                    AppendCodePointAsHex(0x0020);           // Space fallback
                 } else {
-                    // Append(c1.ToString("X4"));
-                    AppendHex4(c1);
+                    AppendCodePointAsHex(codePoint);
                 }
+                i += char.IsHighSurrogate(str[i]) ? 2 : 1;  // Proper surrogate handling
             }
         } else {
-            for (int i = 0; i < len; i++) {
-                int c1 = str[i];
-                if (c1 < font.firstChar || c1 > font.lastChar) {
-                    // Append(font.unicodeToGID[0x0020].ToString("X4"));
-                    AppendHex4(font.unicodeToGID[0x0020]);
+            int i = 0;
+            while (i < str.Length) {
+                int codePoint = char.ConvertToUtf32(str, i);
+                if (codePoint < font.firstChar || codePoint > font.lastChar) {
+                    AppendCodePointAsHex(font.unicodeToGID[0x0020]); // Space fallback
                 } else {
-                    // Append(font.unicodeToGID[c1].ToString("X4"));
-                    AppendHex4(font.unicodeToGID[c1]);
+                    AppendCodePointAsHex(font.unicodeToGID[codePoint]);
                 }
+                i += char.IsHighSurrogate(str[i]) ? 2 : 1;  // Proper surrogate handling
             }
         }
     }
@@ -1466,17 +1468,32 @@ public class Page {
         buf.WriteByte(b);
     }
 
-    private static char[] HEX = "0123456789ABCDEF".ToCharArray();
-    private void AppendHex4(int num) {
-        buf.WriteByte((byte) HEX[(num >> 12) & 0xF]);
-        buf.WriteByte((byte) HEX[(num >> 8)  & 0xF]);
-        buf.WriteByte((byte) HEX[(num >> 4)  & 0xF]);
-        buf.WriteByte((byte) HEX[num         & 0xF]);
+    private static readonly byte[] HEX = {
+        (byte)'0', (byte)'1', (byte)'2', (byte)'3', (byte)'4', (byte)'5', (byte)'6', (byte)'7', (byte)'8', (byte)'9', 
+        (byte)'A', (byte)'B', (byte)'C', (byte)'D', (byte)'E', (byte)'F'
+    };
+    private void AppendCodePointAsHex(int codePoint) {
+        if (codePoint <= 0xFFFF) {
+            // Basic Multilingual Plane (BMP) character
+            buf.WriteByte(HEX[(codePoint >> 12) & 0xF]);
+            buf.WriteByte(HEX[(codePoint >> 8)  & 0xF]);
+            buf.WriteByte(HEX[(codePoint >> 4)  & 0xF]);
+            buf.WriteByte(HEX[(codePoint)       & 0xF]);
+        } else {
+            // Supplementary character (needs surrogate pair in UTF-16)
+            // Write as 6 hex digits (max Unicode code point is 0x10FFFF)
+            buf.WriteByte(HEX[(codePoint >> 20) & 0xF]);
+            buf.WriteByte(HEX[(codePoint >> 16) & 0xF]);
+            buf.WriteByte(HEX[(codePoint >> 12) & 0xF]);
+            buf.WriteByte(HEX[(codePoint >> 8)  & 0xF]);
+            buf.WriteByte(HEX[(codePoint >> 4)  & 0xF]);
+            buf.WriteByte(HEX[(codePoint)       & 0xF]);
+        }
     }
 
     /**
-    *  Appends the specified array of bytes to the page.
-    */
+     *  Appends the specified array of bytes to the page.
+     */
     public void Append(byte[] buffer) {
         buf.Write(buffer, 0, buffer.Length);
     }
