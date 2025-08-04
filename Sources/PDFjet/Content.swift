@@ -1,5 +1,5 @@
 /**
- *  Contents.swift
+ *  Content.swift
  *
 ©2025 PDFjet Software
 
@@ -26,7 +26,7 @@ import Foundation
 ///
 /// Some really useful helper methods.
 ///
-public class Contents {
+public class Content {
     public static func ofTextFile( _ fileName: String) throws -> String {
         let contents = try String(contentsOfFile: fileName, encoding: String.Encoding.utf8)
         var buffer = String()
@@ -60,4 +60,4 @@ public class Contents {
     public static func getFromStream( _ stream: InputStream) throws -> [UInt8] {
         try self.getFromStream(stream, 4096)
     }
-}   // End of Contents.swift
+}   // End of Content.swift

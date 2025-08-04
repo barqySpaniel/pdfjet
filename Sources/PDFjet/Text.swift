@@ -232,7 +232,7 @@ public class Text : Drawable {
 
     public static func paragraphsFromFile(_ f1: Font, _ filePath: String) throws -> [Paragraph] {
         var paragraphs = [Paragraph]()
-        let contents = try Contents.ofTextFile(filePath)
+        let contents = try Content.ofTextFile(filePath)
         var paragraph = Paragraph()
         var textLine = TextLine(f1)
         var sb = String()

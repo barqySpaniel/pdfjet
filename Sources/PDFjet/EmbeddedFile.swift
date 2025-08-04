@@ -52,7 +52,7 @@ public class EmbeddedFile {
             _ stream: InputStream,
             _ compress: Bool) throws {
         self.fileName = fileName
-        var buf = try Contents.getFromStream(stream)
+        var buf = try Content.getFromStream(stream)
         if compress {
             var buf2 = [UInt8]()
             FlateEncode(&buf2, buf)
