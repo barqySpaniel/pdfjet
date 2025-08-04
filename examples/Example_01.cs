@@ -22,7 +22,8 @@ public class Example_01 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         // Add English text from a file
-        TextBlock textBlock = new TextBlock(font, File.ReadAllText("data/languages/english.txt", Encoding.UTF8));
+        TextBlock textBlock = new TextBlock(font,
+                Content.OfTextFile("data/languages/english.txt"));
         textBlock.SetLocation(50f, 50f);
         textBlock.SetWidth(430f);
         textBlock.SetTextPadding(10f);
@@ -34,14 +35,15 @@ public class Example_01 {
         rect.DrawOn(page);
 
         // Add Greek text from a file
-        textBlock = new TextBlock(font, File.ReadAllText("data/languages/greek.txt", Encoding.UTF8));
+        textBlock = new TextBlock(font,
+                Content.OfTextFile("data/languages/greek.txt"));
         textBlock.SetLocation(50f, xy[1] + 30f);
         textBlock.SetWidth(430f);
         textBlock.SetBorderColor(Color.none);  // No border for Greek text
         xy = textBlock.DrawOn(page);  // Draw the Greek text and update coordinates
 
         // Add Bulgarian text from a file with a blue border and rounded corners
-        textBlock = new TextBlock(font, File.ReadAllText("data/languages/bulgarian.txt", Encoding.UTF8));
+        textBlock = new TextBlock(font, Content.OfTextFile("data/languages/bulgarian.txt"));
         textBlock.SetLocation(50f, xy[1] + 30f);
         textBlock.SetWidth(430f);
         textBlock.SetTextPadding(10f);

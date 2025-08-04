@@ -11,7 +11,8 @@ public class Example_01 {
 
         let page = Page(pdf, Letter.PORTRAIT)
 
-        let englishText = try String(contentsOfFile: "data/languages/english.txt", encoding: .utf8)
+        let englishText = try String(
+                contentsOfFile: "data/languages/english.txt", encoding: .utf8)
         let textBlock = TextBlock(font, englishText)
         textBlock.setLocation(50, 50)
         textBlock.setWidth(430)
@@ -22,14 +23,16 @@ public class Example_01 {
         rect.setBorderColor(Color.blue)
         rect.drawOn(page)
 
-        let greekText = try String(contentsOfFile: "data/languages/greek.txt", encoding: .utf8)
+        let greekText = try String(
+                contentsOfFile: "data/languages/greek.txt", encoding: .utf8)
         let textBlock2 = TextBlock(font, greekText)
         textBlock2.setLocation(50, xy[1] + 30)
         textBlock2.setWidth(430)
         textBlock2.setBorderColor(Color.none)
         xy = textBlock2.drawOn(page)
 
-        let bulgarianText = try String(contentsOfFile: "data/languages/bulgarian.txt", encoding: .utf8)
+        let bulgarianText = try String(
+                contentsOfFile: "data/languages/bulgarian.txt", encoding: .utf8)
         let textBlock3 = TextBlock(font, bulgarianText)
         textBlock3.setLocation(50, xy[1] + 30)
         textBlock3.setWidth(430)
