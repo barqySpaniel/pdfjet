@@ -543,19 +543,15 @@ final public class PDF {
         if (str == null) {
             return "";
         }
-        // Get all code points (allocates temporary array)
-        int[] codePoints = str.codePoints().toArray();
 
-        // Pre-allocate StringBuilder (4 for "FEFF" + 4 per code point)
-        StringBuilder buf = new StringBuilder(4 + codePoints.length * 4);
+        StringBuilder buf = new StringBuilder(64);
         buf.append("FEFF");
-
-        final char[] hexDigits = HEX; // Your existing HEX array
-        for (int codePoint : codePoints) {
-            buf.append(hexDigits[(codePoint >> 12) & 0xF]);
-            buf.append(hexDigits[(codePoint >> 8)  & 0xF]);
-            buf.append(hexDigits[(codePoint >> 4)  & 0xF]);
-            buf.append(hexDigits[(codePoint)       & 0xF]);
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            buf.append(HEX[(ch >> 12) & 0xF]);
+            buf.append(HEX[(ch >> 8)  & 0xF]);
+            buf.append(HEX[(ch >> 4)  & 0xF]);
+            buf.append(HEX[(ch)       & 0xF]);
         }
 
         return buf.toString();
