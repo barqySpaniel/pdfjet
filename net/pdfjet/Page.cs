@@ -440,7 +440,7 @@ public class Page {
     }
 
     private void DrawUnicodeString(Font font, String str) {
-        if (str == null || str == "") {
+        if (str == null || str.Length == 0) {
             return;
         }
         if (font.isCJK) {
