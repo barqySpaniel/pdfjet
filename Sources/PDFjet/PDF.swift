@@ -1777,13 +1777,14 @@ public class PDF {
         }
     }
 
-    private let HEX: [Character] = Array("0123456789ABCDEF")
+    private let HEX: [UInt8] = Array("0123456789ABCDEF".utf8)
+
     private func toHex(_ str: String?) -> String {
         guard let str = str, !str.isEmpty else {
             return ""
         }
 
-        var result = ""
+        var result: [UInt8] = []
         for scalar in str.unicodeScalars {
             let codePoint = scalar.value
             if codePoint != 0xFEFF { // Skip BOM
@@ -1805,6 +1806,7 @@ public class PDF {
             }
         }
 
-        return result
+        // Convert the result to a String from UInt8 array
+        return String(decoding: result, as: UTF8.self)
     }
 }   // End of PDF.swift
