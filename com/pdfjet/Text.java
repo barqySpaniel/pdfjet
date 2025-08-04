@@ -229,7 +229,7 @@ public class Text implements Drawable {
 
     public static List<Paragraph> paragraphsFromFile(Font f1, String filePath) throws Exception {
         List<Paragraph> paragraphs = new ArrayList<Paragraph>();
-        String contents = Contents.ofTextFile(filePath);
+        String contents = Content.ofTextFile(filePath);
         Paragraph paragraph = new Paragraph();
         TextLine textLine = new TextLine(f1);
         StringBuilder sb = new StringBuilder();

@@ -34,8 +34,8 @@ public class Example_16 {
         gs.setAlphaNonStroking(0.5f);               // Nonstroking alpha
         page.setGraphicsState(gs);
 
-        // String latinText = Contents.ofTextFile("data/latin.txt");
-        String englishText = Contents.ofTextFile("data/languages/english.txt");
+        // String latinText = Content.ofTextFile("data/latin.txt");
+        String englishText = Content.ofTextFile("data/languages/english.txt");
         // f1.setSize(14f);
         TextBox textBox = new TextBox(f1, englishText);
         // textBox.setLocation(50f, 50f);

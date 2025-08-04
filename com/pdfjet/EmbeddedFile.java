@@ -62,7 +62,7 @@ public class EmbeddedFile {
      */
     public EmbeddedFile(PDF pdf, String fileName, InputStream stream, boolean compress) throws Exception {
         this.fileName = fileName;
-        byte[] buf = Contents.getFromStream(stream);
+        byte[] buf = Content.getFromStream(stream);
 
         if (compress) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -65,7 +65,7 @@ class JPGImage {
     byte[] data;
 
     public JPGImage(InputStream inputStream) throws Exception {
-        data = Contents.getFromStream(inputStream);
+        data = Content.getFromStream(inputStream);
         readJPGImage(new ByteArrayInputStream(data));
     }
 

@@ -17,7 +17,7 @@ public class Example_19 {
         Font f2 = new Font(pdf, "fonts/NotoSansTC/NotoSansTC-Regular.ttf.stream");
         f2.setSize(10f);
 
-        String contents = Contents.ofTextFile("data/calculus-short.txt");
+        String contents = Content.ofTextFile("data/calculus-short.txt");
 
         Page page = new Page(pdf, Letter.PORTRAIT);
         // Columns x coordinates
@@ -49,7 +49,7 @@ public class Example_19 {
         image2.drawOn(page);
 
         textBox = new TextBox(f1);
-        textBox.setText(Contents.ofTextFile("data/latin.txt"));
+        textBox.setText(Content.ofTextFile("data/latin.txt"));
         textBox.setLocation(x2, xy[1] + 10f);
         textBox.setWidth(w2);
         textBox.setBorders(true);
@@ -57,7 +57,7 @@ public class Example_19 {
 
         textBox = new TextBox(f1);
         textBox.setFallbackFont(f2);
-        textBox.setText(Contents.ofTextFile("data/chinese.txt"));
+        textBox.setText(Content.ofTextFile("data/chinese.txt"));
         textBox.setLocation(x1, 530f);
         textBox.setWidth(350f);
         textBox.setBorders(true);

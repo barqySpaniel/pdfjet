@@ -1,7 +1,6 @@
 package examples;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import com.pdfjet.*;
@@ -22,9 +21,8 @@ public class Example_01 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        TextBlock textBlock = new TextBlock(font, new String(
-                Files.readAllBytes(Paths.get("data/languages/english.txt")),
-                StandardCharsets.UTF_8));
+        TextBlock textBlock = new TextBlock(font,
+                Content.ofTextFile("data/languages/english.txt"));
         textBlock.setLocation(50f, 50f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
@@ -35,17 +33,15 @@ public class Example_01 {
         rect.drawOn(page);
 
         textBlock = new TextBlock(font, new String(
-                Files.readAllBytes(Paths.get("data/languages/greek.txt")),
-                StandardCharsets.UTF_8));
+                Files.readAllBytes(Paths.get("data/languages/greek.txt"))));
         textBlock.setLocation(50f, xy[1] + 30f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
         textBlock.setBorderColor(Color.none);
         xy = textBlock.drawOn(page);
 
-        textBlock = new TextBlock(font, new String(
-                Files.readAllBytes(Paths.get("data/languages/bulgarian.txt")),
-                StandardCharsets.UTF_8));
+        textBlock = new TextBlock(font,
+                Content.ofTextFile("data/languages/bulgarian.txt"));
         textBlock.setLocation(50f, xy[1] + 30f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);

@@ -14,9 +14,9 @@ public class Example_47 {
                         new FileOutputStream("Example_47.pdf")), Compliance.PDF_UA);
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
-                
         f1.setSize(12f);
+
+        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
         f2.setSize(12f);
 
         Image image1 = new Image(pdf, "images/AU-map.png");
@@ -36,7 +36,7 @@ public class Example_47 {
         image2.drawOn(page);
 
         List<TextLine> paragraphs = new ArrayList<TextLine>();
-        String contents = Contents.ofTextFile("data/austria_hungary.txt");
+        String contents = Content.ofTextFile("data/austria_hungary.txt");
         String[] textLines = contents.split("\\n\\n");
         for (String textLine : textLines) {
             paragraphs.add(new TextLine(f1, textLine));

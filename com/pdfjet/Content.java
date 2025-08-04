@@ -1,5 +1,5 @@
 /**
- *  Contents.java
+ *  Content.java
  *
 ©2025 PDFjet Software
 
@@ -27,13 +27,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 /**
- * The Contents class.
+ * The Content.java class.
  */
-public class Contents {
-    /** The default constructor */
-    public Contents() {
-    }
-
+public class Content {
     /**
      * Returns the file contents as string.
      *
