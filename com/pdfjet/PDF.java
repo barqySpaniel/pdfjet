@@ -526,19 +526,7 @@ final public class PDF {
         }
     }
 
-    // private String toHex(String str) {
-    //     if (str == null) {
-    //         return "";
-    //     }
-    //     StringBuilder buf = new StringBuilder();
-    //     buf.append("FEFF");
-    //     for (int i = 0; i < str.length(); i++) {
-    //         buf.append(String.format("%04X", str.codePointAt(i)));
-    //     }
-    //     return buf.toString();
-    // }
-
-    private static final byte[] HEX = {
+    private static final char[] HEX = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
         'A', 'B', 'C', 'D', 'E', 'F'
     };
@@ -547,15 +535,27 @@ final public class PDF {
             return "";
         }
 
-        StringBuilder buf = new StringBuilder(64);
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            buf.append(HEX[(ch >> 12) & 0xF]);
-            buf.append(HEX[(ch >> 8)  & 0xF]);
-            buf.append(HEX[(ch >> 4)  & 0xF]);
-            buf.append(HEX[(ch)       & 0xF]);
-        }
-
+        StringBuilder buf = new StringBuilder(str.length() * 6);
+        str.codePoints().forEach(codePoint -> {
+            if (codePoint != 0xFEFF) {  // Skip BOM
+                if (codePoint <= 0xFFFF) {
+                    // BMP character (4 hex digits)
+                    buf.append(HEX[(codePoint >> 12) & 0xF]);
+                    buf.append(HEX[(codePoint >> 8)  & 0xF]);
+                    buf.append(HEX[(codePoint >> 4)  & 0xF]);
+                    buf.append(HEX[(codePoint)       & 0xF]);
+                } else {
+                    // Supplementary character (6 hex digits)
+                    buf.append(HEX[(codePoint >> 20) & 0xF]);
+                    buf.append(HEX[(codePoint >> 16) & 0xF]);
+                    buf.append(HEX[(codePoint >> 12) & 0xF]);
+                    buf.append(HEX[(codePoint >> 8)  & 0xF]);
+                    buf.append(HEX[(codePoint >> 4)  & 0xF]);
+                    buf.append(HEX[(codePoint)       & 0xF]);
+                }
+            }
+        });
+        
         return buf.toString();
     }
 
