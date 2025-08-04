@@ -427,9 +427,11 @@ public class Page {
                 if scalar.value != 0xFEFF {     // BOM
                     if scalar < Unicode.Scalar(font.firstChar)! ||
                             scalar > Unicode.Scalar(font.lastChar)! {
-                        appendFourHexDigits(0x0020, &self.buf)
+                        // appendFourHexDigits(0x0020, &self.buf)
+                        Page.appendCodePointAsHex(0x0020, &self.buf)
                     } else {
-                        appendFourHexDigits(Int(scalar.value), &self.buf)
+                        // appendFourHexDigits(Int(scalar.value), &self.buf)
+                        Page.appendCodePointAsHex(Int(scalar.value), &self.buf)
                     }
                 }
             }
@@ -438,9 +440,11 @@ public class Page {
                 if scalar.value != 0xFEFF {     // BOM
                     if scalar < Unicode.Scalar(font.firstChar)! ||
                             scalar > Unicode.Scalar(font.lastChar)! {
-                        appendFourHexDigits(font.unicodeToGID![0x0020], &self.buf)
+                        // appendFourHexDigits(font.unicodeToGID![0x0020], &self.buf)
+                        Page.appendCodePointAsHex(font.unicodeToGID![0x0020], &self.buf)
                     } else {
-                        appendFourHexDigits(font.unicodeToGID![Int(scalar.value)], &self.buf)
+                        // appendFourHexDigits(font.unicodeToGID![Int(scalar.value)], &self.buf)
+                        Page.appendCodePointAsHex(font.unicodeToGID![Int(scalar.value)], &self.buf)
                     }
                 }
             }
@@ -1539,19 +1543,45 @@ public class Page {
         return false
     }
 
-    func appendTwoHexDigits(_ number: Int, _ buffer: inout [UInt8]) {
+    private func appendTwoHexDigits(_ number: Int, _ buffer: inout [UInt8]) {
         let index = (number & 0xFF) << 1
         buffer.append(Hexadecimal.instance.digits[index])
         buffer.append(Hexadecimal.instance.digits[index + 1])
     }
 
-    func appendFourHexDigits(_ number: Int, _ buffer: inout [UInt8]) {
+    private func appendFourHexDigits(_ number: Int, _ buffer: inout [UInt8]) {
         var index = ((number >> 8) & 0xFF) << 1
         buffer.append(Hexadecimal.instance.digits[index])
         buffer.append(Hexadecimal.instance.digits[index + 1])
         index = ((number) & 0xFF) << 1
         buffer.append(Hexadecimal.instance.digits[index])
         buffer.append(Hexadecimal.instance.digits[index + 1])
+    }
+
+    private static let HEX: [UInt8] = [
+        UInt8(ascii: "0"), UInt8(ascii: "1"), UInt8(ascii: "2"), UInt8(ascii: "3"),
+        UInt8(ascii: "4"), UInt8(ascii: "5"), UInt8(ascii: "6"), UInt8(ascii: "7"),
+        UInt8(ascii: "8"), UInt8(ascii: "9"), UInt8(ascii: "A"), UInt8(ascii: "B"),
+        UInt8(ascii: "C"), UInt8(ascii: "D"), UInt8(ascii: "E"), UInt8(ascii: "F")
+    ]
+
+    private static func appendCodePointAsHex(_ codePoint: Int, _ buf: inout [UInt8]) {
+        if codePoint <= 0xFFFF {
+            // Basic Multilingual Plane (BMP) character
+            buf.append(HEX[(codePoint >> 12) & 0xF])
+            buf.append(HEX[(codePoint >> 8)  & 0xF])
+            buf.append(HEX[(codePoint >> 4)  & 0xF])
+            buf.append(HEX[(codePoint)       & 0xF])
+        } else {
+            // Supplementary character (needs surrogate pair in UTF-16)
+            // Write as 6 hex digits (max Unicode code point is 0x10FFFF)
+            buf.append(HEX[(codePoint >> 20) & 0xF])
+            buf.append(HEX[(codePoint >> 16) & 0xF])
+            buf.append(HEX[(codePoint >> 12) & 0xF])
+            buf.append(HEX[(codePoint >> 8)  & 0xF])
+            buf.append(HEX[(codePoint >> 4)  & 0xF])
+            buf.append(HEX[(codePoint)       & 0xF])
+        }
     }
 
     public func addWatermark(
