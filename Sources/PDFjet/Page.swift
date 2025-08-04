@@ -424,20 +424,24 @@ public class Page {
         let scalars = Array(text.unicodeScalars)
         if font.isCJK {
             for scalar in scalars {
-                if scalar < Unicode.Scalar(font.firstChar)! ||
-                        scalar > Unicode.Scalar(font.lastChar)! {
-                    appendFourHexDigits(0x0020, &self.buf)
-                } else {
-                    appendFourHexDigits(Int(scalar.value), &self.buf)
+                if scalar.value != 0xFEFF {     // BOM
+                    if scalar < Unicode.Scalar(font.firstChar)! ||
+                            scalar > Unicode.Scalar(font.lastChar)! {
+                        appendFourHexDigits(0x0020, &self.buf)
+                    } else {
+                        appendFourHexDigits(Int(scalar.value), &self.buf)
+                    }
                 }
             }
         } else {
             for scalar in scalars {
-                if scalar < Unicode.Scalar(font.firstChar)! ||
-                        scalar > Unicode.Scalar(font.lastChar)! {
-                    appendFourHexDigits(font.unicodeToGID![0x0020], &self.buf)
-                } else {
-                    appendFourHexDigits(font.unicodeToGID![Int(scalar.value)], &self.buf)
+                if scalar.value != 0xFEFF {     // BOM
+                    if scalar < Unicode.Scalar(font.firstChar)! ||
+                            scalar > Unicode.Scalar(font.lastChar)! {
+                        appendFourHexDigits(font.unicodeToGID![0x0020], &self.buf)
+                    } else {
+                        appendFourHexDigits(font.unicodeToGID![Int(scalar.value)], &self.buf)
+                    }
                 }
             }
         }

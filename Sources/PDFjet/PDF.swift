@@ -1777,21 +1777,34 @@ public class PDF {
         }
     }
 
-    let HEX: [UInt8] = [
-        0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,  // '0' '1' '2' '3' '4' '5' '6' '7'
-        0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46   // '8' '9' 'A' 'B' 'C' 'D' 'E' 'F'
-    ]
-    private func toHex(_ str: String) -> String {
-        var buf = [UInt8]()
-        buf.reserveCapacity(str.count)
-        var str = "FEFF"
-        for scalar in str.unicodeScalars {
-            buf.append(HEX[(Int(scalar.value) >> 12) & 0xF])
-            buf.append(HEX[(Int(scalar.value) >> 8)  & 0xF])
-            buf.append(HEX[(Int(scalar.value) >> 4)  & 0xF])
-            buf.append(HEX[(Int(scalar.value))       & 0xF])
-            str.append(String(decoding: buf, as: Unicode.ASCII.self))
+    private let HEX: [Character] = Array("0123456789ABCDEF")
+    private func toHex(_ str: String?) -> String {
+        guard let str = str, !str.isEmpty else {
+            return ""
         }
-        return str
+
+        var result = ""
+        for scalar in str.unicodeScalars {
+            let codePoint = scalar.value
+            if codePoint != 0xFEFF { // Skip BOM
+                if codePoint <= 0xFFFF {
+                    // BMP character (4 hex digits)
+                    result.append(HEX[Int((codePoint >> 12) & 0xF)])
+                    result.append(HEX[Int((codePoint >> 8)  & 0xF)])
+                    result.append(HEX[Int((codePoint >> 4)  & 0xF)])
+                    result.append(HEX[Int(codePoint         & 0xF)])
+                } else {
+                    // Supplementary character (6 hex digits)
+                    result.append(HEX[Int((codePoint >> 20) & 0xF)])
+                    result.append(HEX[Int((codePoint >> 16) & 0xF)])
+                    result.append(HEX[Int((codePoint >> 12) & 0xF)])
+                    result.append(HEX[Int((codePoint >> 8)  & 0xF)])
+                    result.append(HEX[Int((codePoint >> 4)  & 0xF)])
+                    result.append(HEX[Int(codePoint         & 0xF)])
+                }
+            }
+        }
+
+        return result
     }
 }   // End of PDF.swift
