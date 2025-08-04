@@ -16,4 +16,4 @@ go build -o ../Example_%1.exe examples/example%1/main.go
 cd ..
 
 REM Open the resulting PDF using the default PDF viewer
-start Example_%1.exe
+start Example_%1.pdf
