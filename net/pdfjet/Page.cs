@@ -449,10 +449,12 @@ public class Page {
             int i = 0;
             while (i < str.Length) {
                 int codePoint = char.ConvertToUtf32(str, i);
-                if (codePoint < font.firstChar || codePoint > font.lastChar) {
-                    AppendCodePointAsHex(0x0020);           // Space fallback
-                } else {
-                    AppendCodePointAsHex(codePoint);
+                if (codePoint != 0xFEFF) {                  // BOM
+                    if (codePoint < font.firstChar || codePoint > font.lastChar) {
+                        AppendCodePointAsHex(0x0020);       // Space fallback
+                    } else {
+                        AppendCodePointAsHex(codePoint);
+                    }
                 }
                 i += char.IsHighSurrogate(str[i]) ? 2 : 1;  // Proper surrogate handling
             }
@@ -460,10 +462,12 @@ public class Page {
             int i = 0;
             while (i < str.Length) {
                 int codePoint = char.ConvertToUtf32(str, i);
-                if (codePoint < font.firstChar || codePoint > font.lastChar) {
-                    AppendCodePointAsHex(font.unicodeToGID[0x0020]); // Space fallback
-                } else {
-                    AppendCodePointAsHex(font.unicodeToGID[codePoint]);
+                if (codePoint != 0xFEFF) {                  // BOM
+                    if (codePoint < font.firstChar || codePoint > font.lastChar) {
+                        AppendCodePointAsHex(font.unicodeToGID[0x0020]); // Space fallback
+                    } else {
+                        AppendCodePointAsHex(font.unicodeToGID[codePoint]);
+                    }
                 }
                 i += char.IsHighSurrogate(str[i]) ? 2 : 1;  // Proper surrogate handling
             }
