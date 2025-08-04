@@ -24,6 +24,7 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.*;
@@ -47,11 +48,11 @@ public class GenerateStreamFontsFiles {
                 new BufferedOutputStream(new FileOutputStream(fileName + ".stream"));
 
         OTF otf = new OTF(new FileInputStream(fileName));
-        byte[] name = otf.fontName.getBytes("UTF8");
+        byte[] name = otf.fontName.getBytes(StandardCharsets.UTF_8);
         fos.write(name.length);
         fos.write(name);
 
-        byte[] info = otf.fontInfo.getBytes("UTF8");
+        byte[] info = otf.fontInfo.getBytes(StandardCharsets.UTF_8);
         writeInt24(info.length, fos);
         fos.write(info);
 

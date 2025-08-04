@@ -24,6 +24,7 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.zip.*;
 
 /**
@@ -177,7 +178,7 @@ public class OTF {
                 String str = new String(
                         buf, table.offset + stringOffset + offset, length, "UTF-16");
                 if (nameID == 6) {
-                    fontName = new String(str.getBytes("UTF-8"));
+                    fontName = new String(str.getBytes(StandardCharsets.UTF_8));
                 } else {
                     winFontInfo.append(str);
                     winFontInfo.append('\n');
