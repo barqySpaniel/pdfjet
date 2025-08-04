@@ -427,10 +427,8 @@ public class Page {
                 if scalar.value != 0xFEFF {     // BOM
                     if scalar < Unicode.Scalar(font.firstChar)! ||
                             scalar > Unicode.Scalar(font.lastChar)! {
-                        // appendFourHexDigits(0x0020, &self.buf)
                         Page.appendCodePointAsHex(0x0020, &self.buf)
                     } else {
-                        // appendFourHexDigits(Int(scalar.value), &self.buf)
                         Page.appendCodePointAsHex(Int(scalar.value), &self.buf)
                     }
                 }
@@ -440,10 +438,8 @@ public class Page {
                 if scalar.value != 0xFEFF {     // BOM
                     if scalar < Unicode.Scalar(font.firstChar)! ||
                             scalar > Unicode.Scalar(font.lastChar)! {
-                        // appendFourHexDigits(font.unicodeToGID![0x0020], &self.buf)
                         Page.appendCodePointAsHex(font.unicodeToGID![0x0020], &self.buf)
                     } else {
-                        // appendFourHexDigits(font.unicodeToGID![Int(scalar.value)], &self.buf)
                         Page.appendCodePointAsHex(font.unicodeToGID![Int(scalar.value)], &self.buf)
                     }
                 }
@@ -1545,15 +1541,6 @@ public class Page {
 
     private func appendTwoHexDigits(_ number: Int, _ buffer: inout [UInt8]) {
         let index = (number & 0xFF) << 1
-        buffer.append(Hexadecimal.instance.digits[index])
-        buffer.append(Hexadecimal.instance.digits[index + 1])
-    }
-
-    private func appendFourHexDigits(_ number: Int, _ buffer: inout [UInt8]) {
-        var index = ((number >> 8) & 0xFF) << 1
-        buffer.append(Hexadecimal.instance.digits[index])
-        buffer.append(Hexadecimal.instance.digits[index + 1])
-        index = ((number) & 0xFF) << 1
         buffer.append(Hexadecimal.instance.digits[index])
         buffer.append(Hexadecimal.instance.digits[index + 1])
     }
