@@ -515,7 +515,6 @@ public class PDF {
             return "";
         }
         var buf = new StringBuilder(4 + str.Length * 4); // Pre-allocate
-        buf.Append("FEFF");
         for (int i = 0; i < str.Length; i++) {
             int value = str[i];
             buf.Append(HexDigits[(value >> 12) & 0xF]);
