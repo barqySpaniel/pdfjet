@@ -20,7 +20,7 @@ if not exist "Example_%1.exe" (
 )
 
 REM Run the example
-mono --debug Example_%1.exe
+Example_%1.exe
 
 REM Open PDF if generated
-if exist "Example_%1.pdf" start "" "Example_%1.pdf"
+start Example_%1.pdf
