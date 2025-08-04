@@ -548,7 +548,6 @@ final public class PDF {
         }
 
         StringBuilder buf = new StringBuilder(64);
-        buf.append("FEFF");
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
             buf.append(HEX[(ch >> 12) & 0xF]);
