@@ -1,25 +1,26 @@
 @echo off
-REM Windows batch script for building and running PDFjet examples with Mono
-
-REM Check if argument is provided
+REM Build and run in one step
 if "%1"=="" (
     echo Please provide an example number:
     echo run-mono.bat 33
     exit /b 1
 )
 
-REM Very important!!
-REM call clean.bat
+REM Single-command build: Compile library + example together
+mcs -debug -sdk:4 -warn:2 ^
+    net/pdfjet/*.cs ^
+    com/pdfjet/font/*.cs ^
+    examples/Example_%1.cs ^
+    -reference:System.Drawing.dll ^
+    -out:Example_%1.exe
 
-REM Compile the PDFjet library
-mcs -debug -sdk:4 -warn:2 net/pdfjet/*.cs -reference:System.Drawing.dll -target:library -out:PDFjet.dll
+if not exist "Example_%1.exe" (
+    echo ERROR: Build failed - Example_%1.exe not created!
+    exit /b 1
+)
 
-REM Compile the specific example
-mcs -debug -sdk:4 examples/Example_%1.cs -reference:PDFjet.dll
-
-REM Move and run the example
-move examples\Example_%1.exe .
+REM Run the example
 mono --debug Example_%1.exe
 
-REM Open the resulting PDF using the default PDF viewer
-start Example_%1.pdf
+REM Open PDF if generated
+if exist "Example_%1.pdf" start "" "Example_%1.pdf"
