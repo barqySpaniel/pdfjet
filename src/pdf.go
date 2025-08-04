@@ -512,9 +512,9 @@ func (pdf *PDF) addStructElementObjects() {
 				pdf.appendString(pdf.language)
 			}
 			pdf.appendString(")\n/Alt <")
-			pdf.appendString(encodeToHex(element.altDescription))
+			pdf.appendString(toHex(element.altDescription))
 			pdf.appendString(">\n/ActualText <")
-			pdf.appendString(encodeToHex(element.actualText))
+			pdf.appendString(toHex(element.actualText))
 			pdf.appendString(">\n>>\n")
 			pdf.endobj()
 		}
@@ -523,24 +523,39 @@ func (pdf *PDF) addStructElementObjects() {
 
 // Pre-allocated hex digits
 var hexDigits = [16]byte{
-	'0', '1', '2', '3', '4', '5', '6', '7',
-	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+	'A', 'B', 'C', 'D', 'E', 'F',
 }
 
-func encodeToHex(str string) string {
-    if str == "" {
-        return ""
-    }
-	var buf strings.Builder
-	buf.Grow(4 + len(str)*4) // Pre-allocate capacity
-	buf.WriteString("FEFF")
-	for _, r := range str {
-		buf.WriteByte(hexDigits[r>>12&0xF])
-		buf.WriteByte(hexDigits[r>>8&0xF])
-		buf.WriteByte(hexDigits[r>>4&0xF])
-		buf.WriteByte(hexDigits[r&0xF])
+func toHex(s string) string {
+	if s == "" {
+		return ""
 	}
-	return buf.String()
+
+	var b strings.Builder
+	b.Grow(len(s) * 6) // preallocate maximum needed
+
+	for _, r := range s {
+		codePoint := rune(r)
+		if codePoint != 0xFEFF { // Skip BOM
+			cp := uint32(codePoint)
+			if codePoint <= 0xFFFF {
+				b.WriteByte(hexDigits[(cp>>12)&0xF])
+				b.WriteByte(hexDigits[(cp>>8)&0xF])
+				b.WriteByte(hexDigits[(cp>>4)&0xF])
+				b.WriteByte(hexDigits[(cp)&0xF])
+			} else {
+				b.WriteByte(hexDigits[(cp>>20)&0xF])
+				b.WriteByte(hexDigits[(cp>>16)&0xF])
+				b.WriteByte(hexDigits[(cp>>12)&0xF])
+				b.WriteByte(hexDigits[(cp>>8)&0xF])
+				b.WriteByte(hexDigits[(cp>>4)&0xF])
+				b.WriteByte(hexDigits[(cp)&0xF])
+			}
+		}
+	}
+
+	return b.String()
 }
 
 func (pdf *PDF) addNumsParentTree() {
@@ -1499,7 +1514,7 @@ func (pdf *PDF) addOutlineItem(parent, i int, bm1 *Bookmark) {
 	pdf.newobj()
 	pdf.appendString("<<\n")
 	pdf.appendString("/Title <")
-	pdf.appendString(encodeToHex(bm1.GetTitle()))
+	pdf.appendString(toHex(bm1.GetTitle()))
 	pdf.appendString(">\n")
 	pdf.appendString("/Parent ")
 	pdf.appendInteger(parent)
