@@ -492,8 +492,38 @@ final public class Page {
         }
     }
 
+    public float drawTextBlock(
+            Font font,
+            String[] lines,
+            float x,
+            float y,
+            float[] xOffset,
+            float leading) {
+        if (lines == null || lines.length == 0) {
+            return y;
+        }
+
+        append("BT\n");
+        setTextFont(font);
+        float yText = y;
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            float xText = x + xOffset[i];
+            setTextLocation(xText, yText);
+            if (!line.isEmpty()) {
+                append("<");
+                drawUnicodeString(font, line);
+                append("> Tj\n");
+            }
+            yText += leading;
+        }
+        append("ET\n");
+
+        return yText;   // TODO: Minus font.descent ?
+    }
+
     public void drawUnicodeString(Font font, String str) {
-        if (str == null || str.isEmpty()) {
+        if (str == null || str.isEmpty()) { // These 3 line may not be needed!?
             return;
         }
         if (font.isCJK) {
