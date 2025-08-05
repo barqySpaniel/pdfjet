@@ -494,25 +494,23 @@ final public class Page {
 
     public float drawTextBlock(
             Font font,
-            String[] lines,
+            TextOffset[] textLines,
             float x,
             float y,
-            float[] xOffset,
             float leading) {
-        if (lines == null || lines.length == 0) {
+        if (textLines == null || textLines.length == 0) {
             return y;
         }
 
         append("BT\n");
         setTextFont(font);
         float yText = y;
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-            float xText = x + xOffset[i];
+        for (TextOffset textOffset : textLines) {
+            float xText = x + textOffset.offset;
             setTextLocation(xText, yText);
-            if (!line.isEmpty()) {
+            if (textOffset.text.length() > 0) {
                 append("<");
-                drawUnicodeString(font, line);
+                drawUnicodeString(font, textOffset.text);
                 append("> Tj\n");
             }
             yText += leading;
