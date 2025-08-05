@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- *  Please see Example_46.java
+ * Please see Example_46.java
  */
 public class Text implements Drawable {
     private final List<Paragraph> paragraphs;
@@ -49,7 +49,7 @@ public class Text implements Drawable {
         this.font = paragraphs.get(0).lines.get(0).getFont();
         this.fallbackFont = paragraphs.get(0).lines.get(0).getFallbackFont();
         this.leading = font.getBodyHeight();
-        this.paragraphLeading = 2*leading;
+        this.paragraphLeading = 2 * leading;
         this.spaceBetweenTextLines = font.stringWidth(fallbackFont, Single.space);
     }
 
@@ -134,7 +134,7 @@ public class Text implements Drawable {
             box.drawOn(page);
         }
 
-        return new float[] {x1 + width, y1 + height};
+        return new float[] { x1 + width, y1 + height };
     }
 
     public float[] drawTextLine(Page page, float x, float y, TextLine textLine) throws Exception {
@@ -187,7 +187,7 @@ public class Text implements Drawable {
 
         return new float[] {
                 xText + textLine.font.stringWidth(textLine.fallbackFont, buf.toString()),
-                yText};
+                yText };
     }
 
     private boolean stringIsCJK(String str) {
@@ -278,4 +278,4 @@ public class Text implements Drawable {
         stream.close();
         return lines;
     }
-}   // End of Text.java
+} // End of Text.java
