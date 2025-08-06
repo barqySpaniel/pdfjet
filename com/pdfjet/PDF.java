@@ -503,13 +503,13 @@ final public class PDF {
                 append(element.pageObjNumber);
                 append(Token.objRef);
                 if (element.annotation != null) {
-                    append(Token.beginAnnotation);
+                    append("/K <</Type /OBJR /Obj ");
                     append(element.annotation.objNumber);
-                    append(Token.endAnnotation);
+                    append(" 0 R>>\n");
                 } else {
                     append("/K ");
                     append(element.mcid);
-                    append(Token.newline);
+                    append("\n");
                 }
 
                 append("/Lang (");

@@ -28,7 +28,6 @@ SOFTWARE.
 public class Token {
     public static let space = " "           // SPACE
     public static let newline: UInt8 = 10   // LF
-
     public static let beginDictionary = Array("<<\n".utf8);
     public static let endDictionary = Array(">>\n".utf8);
     public static let stream = Array("stream\n".utf8)
@@ -40,10 +39,6 @@ public class Token {
     public static let endText = Array("ET\n".utf8)
     public static let count = Array("/Count ".utf8);
     public static let length = Array("/Length ".utf8);
-
     public static let beginStructElem = Array("<<\n/Type /StructElem /S /".utf8)
     public static let endStructElem = Array(">>\n".utf8)
-
-    public static let beginAnnotation = Array("/K <</Type /OBJR /Obj ".utf8)
-    public static let endAnnotation = Array(" 0 R>>".utf8)
 }
