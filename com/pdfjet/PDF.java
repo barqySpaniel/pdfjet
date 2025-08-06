@@ -532,10 +532,10 @@ final public class PDF {
                 append(Token.newline);
 
                 append(Token.actualText);
-                // append("<");
+                append("<");
                 append(toHex(element.actualText));
-                // append(">\n");
-                append(Token.newline);
+                append(">\n");
+                // append(Token.newline);
 
                 append(Token.endStructElem);
                 endobj();
