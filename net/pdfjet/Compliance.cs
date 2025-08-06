@@ -28,12 +28,13 @@ SOFTWARE.
  */
 namespace PDFjet.NET {
     public enum Compliance {
-        PDF_UA_1 = 1,
-        PDF_A_1A = 2,
-        PDF_A_1B = 3,
-        PDF_A_2A = 4,
-        PDF_A_2B = 5,
-        PDF_A_3A = 6,
-        PDF_A_3B = 7
+        NONE,
+        PDF_UA_1,
+        PDF_A_1A,
+        PDF_A_1B,
+        PDF_A_2A,
+        PDF_A_2B,
+        PDF_A_3A,
+        PDF_A_3B
     }
 }   // End of namespace PDFjet.NET

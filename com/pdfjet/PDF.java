@@ -44,7 +44,7 @@ final public class PDF {
     protected List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
     protected Map<String, Integer> states = new HashMap<String, Integer>();
     protected static final DecimalFormat df = new DecimalFormat("0.###", new DecimalFormatSymbols(Locale.US));
-    protected int compliance = 0;
+    protected Compliance compliance;
 
     private OutputStream os = null;
     private final List<Integer> objOffset = new ArrayList<Integer>();
@@ -82,7 +82,7 @@ final public class PDF {
      *  @param os the associated output stream.
      *  @throws Exception if an input or output exception occurred
      */
-    public PDF(OutputStream os) throws Exception { this(os, 0); }
+    public PDF(OutputStream os) throws Exception { this(os, Compliance.NONE); }
 
     // Here is the layout of the PDF document:
     //
@@ -122,7 +122,7 @@ final public class PDF {
      *  @param compliance must be: Compliance.PDF_UA or Compliance.PDF_A_1A to Compliance.PDF_A_3B
      *  @throws Exception  If an input or output exception occurred
      */
-    public PDF(OutputStream os, int compliance) throws Exception {
+    public PDF(OutputStream os, Compliance compliance) throws Exception {
         this.os = os;
         this.compliance = compliance;
         this.uuid = (new Salsa20()).getID();
@@ -150,7 +150,7 @@ final public class PDF {
      *
      * @param compliance the complince.
      */
-    public void setCompliance(int compliance) {
+    public void setCompliance(Compliance compliance) {
         this.compliance = compliance;
     }
 
