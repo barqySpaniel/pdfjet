@@ -274,7 +274,7 @@ public class TextBlock {
             centerText(textLines);
         }
 
-        page.addBMC(StructElem.P, this.language, this.textContent, this.textContent);
+        page.addBMC(StructElem.P, this.language, this.textContent, null);
         float textBlockHeight = page.drawTextBlock(
             this.font,
             textLines,
