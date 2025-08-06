@@ -119,7 +119,7 @@ final public class PDF {
      *  Please note: PDF/A compliance requires all fonts to be embedded in the PDF.
      *
      *  @param os the associated output stream.
-     *  @param compliance must be: Compliance.PDF_UA or Compliance.PDF_A_1A to Compliance.PDF_A_3B
+     *  @param compliance must be: Compliance.PDF_UA_1 or Compliance.PDF_A_1A to Compliance.PDF_A_3B
      *  @throws Exception  If an input or output exception occurred
      */
     public PDF(OutputStream os, Compliance compliance) throws Exception {
@@ -401,13 +401,7 @@ final public class PDF {
         append("/Kids [\n");
         for (int i = 0; i < pages.size(); i++) {
             Page page = pages.get(i);
-            if (compliance == Compliance.PDF_UA_1 ||
-                    compliance == Compliance.PDF_A_1A ||
-                    compliance == Compliance.PDF_A_1B ||
-                    compliance == Compliance.PDF_A_2A ||
-                    compliance == Compliance.PDF_A_2B ||
-                    compliance == Compliance.PDF_A_3A ||
-                    compliance == Compliance.PDF_A_3B) {
+            if (compliance != Compliance.PDF_15) {
                 page.setStructElementsPageObjNumber(page.objNumber);
             }
             append(page.objNumber);
@@ -612,13 +606,7 @@ final public class PDF {
         append(Token.beginDictionary);
         append("/Type /Catalog\n");
 
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             append("/Lang (");
             append(language);
             append(")\n");
@@ -649,13 +637,7 @@ final public class PDF {
         append(pagesObjNumber);
         append(Token.objRef);
 
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             append("/Metadata ");
             append(metadataObjNumber);
             append(Token.objRef);
@@ -760,13 +742,7 @@ final public class PDF {
                 append("]\n");
             }
 
-            if (compliance == Compliance.PDF_UA_1 ||
-                    compliance == Compliance.PDF_A_1A ||
-                    compliance == Compliance.PDF_A_1B ||
-                    compliance == Compliance.PDF_A_2A ||
-                    compliance == Compliance.PDF_A_2B ||
-                    compliance == Compliance.PDF_A_3A ||
-                    compliance == Compliance.PDF_A_3B) {
+            if (compliance != Compliance.PDF_15) {
                 append("/Tabs /S\n");
                 append("/StructParents ");
                 append(i);
@@ -1014,13 +990,7 @@ final public class PDF {
         if (prevPage != null) {
             addPageContent(prevPage);
         }
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             metadataObjNumber = addMetadataObject("", false);
             outputIntentObjNumber = addOutputIntentObject();
         }
@@ -1031,13 +1001,7 @@ final public class PDF {
         }
 
         int structTreeRootObjNumber = 0;
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             addStructElementObjects();
             structTreeRootObjNumber = addStructTreeRootObject();
             addNumsParentTree();
