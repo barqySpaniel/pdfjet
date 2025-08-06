@@ -1433,20 +1433,20 @@ public class Page {
             append(" <</MCID ")
             append(mcid)
             append(Token.endDictionary)
-            append(Token.BDC)
+            append("BDC\n")
             mcid += 1
         }
     }
 
     public func addArtifactBMC() {
         if pdf.compliance == Compliance.PDF_UA {
-            append(Token.ArtifactBMC)
+            append("/Artifact BMC\n")
         }
     }
 
     public func addEMC() {
         if pdf.compliance == Compliance.PDF_UA {
-            append(Token.EMC)
+            append("EMC\n")
         }
     }
 

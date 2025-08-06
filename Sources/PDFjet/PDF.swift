@@ -501,19 +501,24 @@ public class PDF {
                     buffer.append("/K ")
                     buffer.append(String(element.mcid))
                 }
-                buffer.append("\n/Lang (")
+
+                buffer.append("/Lang (")
                 if element.language != nil {
                     buffer.append(element.language!)
                 } else {
                     buffer.append(language)
                 }
-                buffer.append(")\n/Alt <")
-                buffer.append(toHex(element.altDescription!))
-                buffer.append(">\n/ActualText <")
-                buffer.append(toHex(element.actualText!))
-                buffer.append(">\n>>\n")
+                buffer.append(")\n");
 
-                // endobj()
+                buffer.append("/Alt <")
+                buffer.append(toHex(element.altDescription!))
+                buffer.append(">\n")
+
+                buffer.append("/ActualText <")
+                buffer.append(toHex(element.actualText!))
+                buffer.append(">\n")
+
+                append(Token.endStructElem);
                 buffer.append("endobj\n")
             }
         }

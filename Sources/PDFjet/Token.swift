@@ -26,8 +26,7 @@ SOFTWARE.
 /// Please see PDF.swift
 ///
 public class Token {
-    // public static let space: UInt8 = 32      // SPACE
-    public static let space = " "               // SPACE
+    public static let space = " "           // SPACE
     public static let newline: UInt8 = 10   // LF
 
     public static let beginDictionary = Array("<<\n".utf8);
@@ -42,19 +41,11 @@ public class Token {
     public static let count = Array("/Count ".utf8);
     public static let length = Array("/Length ".utf8);
     public static let beginStructElem = Array("<<\n/Type /StructElem /S /".utf8)
-    public static let endStructElem = Array(">\n>>\n".utf8)
+    public static let endStructElem = Array(">>\n".utf8)
     public static let beginAnnotation = Array("/K <</Type /OBJR /Obj ".utf8)
     public static let endAnnotation = Array(" 0 R>>".utf8)
-    public static let actualText = Array(">\n/ActualText <".utf8)
-    public static let altDescription = Array(")\n/Alt <".utf8)
 
     public static let P = Array("\n/P ".utf8)
     public static let objRefPg = Array(" 0 R /Pg ".utf8)
     public static let K = Array("/K ".utf8)
-    public static let lang = Array("\n/Lang (".utf8)
-
-    public static let BDC = Array("BDC\n".utf8)
-    public static let BMC = Array("BMC\n".utf8)
-    public static let EMC = Array("EMC\n".utf8)
-    public static let ArtifactBMC = Array("/Artifact BMC\n".utf8)
 }
