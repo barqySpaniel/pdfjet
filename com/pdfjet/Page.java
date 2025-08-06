@@ -456,13 +456,18 @@ final public class Page {
             append(" Tm\n");
         }
 
-        append("[<");
-        if (font.isCoreFont) {
-            drawASCIIString(font, str);
+        if (colors == null) {
+            setBrushColor(brush);
+            append("[<");
+            if (font.isCoreFont) {
+                drawASCIIString(font, str);
+            } else {
+                drawUnicodeString(font, str);
+            }
+            append(">] TJ\n");
         } else {
-            drawUnicodeString(font, str);
+            drawColoredString(font, str, brush, colors);
         }
-        append(">] TJ\n");
         append("ET\n");
     }
 
