@@ -32,7 +32,8 @@ public class Example_01 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         // Add English text from a file
-        TextBlock textBlock = new TextBlock(font, Content.ofTextFile("data/languages/english.txt"));
+        TextBlock textBlock = new TextBlock(
+            font, Content.ofTextFile("data/languages/english.txt"));
         textBlock.setLocation(50f, 50f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
@@ -43,22 +44,22 @@ public class Example_01 {
         rect.setBorderColor(Color.blue);
         rect.drawOn(page);
 
-        // Add Greek text from a file
-        textBlock = new TextBlock(font, Content.ofTextFile("data/languages/greek.txt"));
-        textBlock.setLocation(50f, xy[1] + 30f);
-        textBlock.setWidth(430f);
-        textBlock.setTextPadding(10f);
-        textBlock.setBorderColor(Color.none); // No border for Greek text
-        xy = textBlock.drawOn(page);
+        // // Add Greek text from a file
+        // textBlock = new TextBlock(font, Content.ofTextFile("data/languages/greek.txt"));
+        // textBlock.setLocation(50f, xy[1] + 30f);
+        // textBlock.setWidth(430f);
+        // textBlock.setTextPadding(10f);
+        // textBlock.setBorderColor(Color.none); // No border for Greek text
+        // xy = textBlock.drawOn(page);
 
-        // Add Bulgarian text from a file with a blue border and rounded corners
-        textBlock = new TextBlock(font, Content.ofTextFile("data/languages/bulgarian.txt"));
-        textBlock.setLocation(50f, xy[1] + 30f);
-        textBlock.setWidth(430f);
-        textBlock.setTextPadding(10f);
-        textBlock.setBorderColor(Color.blue);
-        textBlock.setBorderCornerRadius(10f);
-        textBlock.drawOn(page);
+        // // Add Bulgarian text from a file with a blue border and rounded corners
+        // textBlock = new TextBlock(font, Content.ofTextFile("data/languages/bulgarian.txt"));
+        // textBlock.setLocation(50f, xy[1] + 30f);
+        // textBlock.setWidth(430f);
+        // textBlock.setTextPadding(10f);
+        // textBlock.setBorderColor(Color.blue);
+        // textBlock.setBorderCornerRadius(10f);
+        // textBlock.drawOn(page);
 
         // Complete the PDF document creation
         pdf.complete();

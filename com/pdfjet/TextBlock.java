@@ -360,8 +360,8 @@ public class TextBlock {
         }
     }
 
-    private TextLineWithOffset[] getTextOffsetList() {
-        List<TextLineWithOffset> list = new ArrayList<>();
+    private TextLineWithOffset[] getTextLinesWithOffsets() {
+        List<TextLineWithOffset> textLines = new ArrayList<>();
 
         float textAreaWidth;
         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
@@ -375,7 +375,7 @@ public class TextBlock {
         String[] lines = this.textContent.split("\n");
         for (String line : lines) {
             if (this.font.stringWidth(this.fallbackFont, line) <= textAreaWidth) {
-                list.add(new TextLineWithOffset(line, 0f));
+                textLines.add(new TextLineWithOffset(line, 0f));
             } else {
                 if (textIsCJK(line)) {
                     StringBuilder sb = new StringBuilder();
@@ -384,13 +384,13 @@ public class TextBlock {
                                 this.fallbackFont, sb.toString() + ch) <= textAreaWidth) {
                             sb.append(ch);
                         } else {
-                            list.add(new TextLineWithOffset(sb.toString(), 0f));
+                            textLines.add(new TextLineWithOffset(sb.toString(), 0f));
                             sb.setLength(0);
                             sb.append(ch);
                         }
                     }
                     if (sb.length() > 0) {
-                        list.add(new TextLineWithOffset(sb.toString(), 0f));
+                        textLines.add(new TextLineWithOffset(sb.toString(), 0f));
                     }
                 } else {
                     StringBuilder sb = new StringBuilder();
@@ -400,19 +400,19 @@ public class TextBlock {
                                 this.fallbackFont, sb.toString() + token) <= textAreaWidth) {
                             sb.append(token).append(" ");
                         } else {
-                            list.add(new TextLineWithOffset(sb.toString().trim(), 0f));
+                            textLines.add(new TextLineWithOffset(sb.toString().trim(), 0f));
                             sb.setLength(0);
                             sb.append(token).append(" ");
                         }
                     }
                     if (sb.toString().trim().length() > 0) {
-                        list.add(new TextLineWithOffset(sb.toString().trim(), 0f));
+                        textLines.add(new TextLineWithOffset(sb.toString().trim(), 0f));
                     }
                 }
             }
         }
 
-        return list.toArray(new TextLineWithOffset[] {});
+        return textLines.toArray(new TextLineWithOffset[] {});
     }
 
     private void rightAlignText(TextLineWithOffset[] list) {
@@ -440,27 +440,29 @@ public class TextBlock {
         float descent = this.font.getDescent();
         float leading = (ascent + descent) * this.lineSpacing;
 
-        TextLineWithOffset[] textLines = getTextOffsetList();
-        rightAlignText(textLines);
+        TextLineWithOffset[] textLines = getTextLinesWithOffsets();
+        // rightAlignText(textLines);
 
-        Map<String, Integer> highlightColorsMap = new HashMap<String, Integer>();
-        highlightColorsMap.put("Everyone", Color.red);
-        highlightColorsMap.put("pay", Color.green);
-        highlightColorsMap.put("freedom", Color.blue);
+        Map<String, Integer> wordHighlightColors = new HashMap<String, Integer>();
+        wordHighlightColors.put("Everyone", Color.red);
+        wordHighlightColors.put("pay", Color.green);
+        wordHighlightColors.put("freedom", Color.blue);
+
+        Direction textDirection = Direction.LEFT_TO_RIGHT;
 
         page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float textBlockHeight = page.drawTextBlock(
             this.font,
             textLines,
-            this.x,
-            this.y,
-            leading + this.textPadding,
-            Direction.LEFT_TO_RIGHT,
+            this.x + this.textPadding,
+            this.y + this.textPadding,
+            leading * this.lineSpacing,
+            textDirection,
             Color.black,
-            highlightColorsMap);
+            wordHighlightColors);
         page.addEMC();
 
-        Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight);
+        Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
         rect.setBorderColor(this.borderColor);
         rect.setCornerRadius(this.borderCornerRadius);
         rect.drawOn(page);
@@ -480,6 +482,6 @@ public class TextBlock {
         }
         page.setTextDirection(0);
 */
-        return new float[] { this.x + this.width, this.y + textBlockHeight };
+        return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
     }
 }
