@@ -47,7 +47,7 @@ public class PDF {
     internal List<OptionalContentGroup> groups = new List<OptionalContentGroup>();
     internal Dictionary<String, Int32> states = new Dictionary<String, Int32>();
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
-    internal int compliance = 0;
+    internal Compliance compliance;
 
     private Stream os = null;
     private readonly List<Int32> objOffset = new List<Int32>();
@@ -110,7 +110,7 @@ public class PDF {
     // Root
     // xref table
     // Trailer
-    public PDF(Stream os, int compliance) {
+    public PDF(Stream os, Compliance compliance) {
         this.os = os;
         this.compliance = compliance;
         this.uuid = (new Salsa20()).GetID();
@@ -134,7 +134,7 @@ public class PDF {
         Append(Token.newline);
     }
 
-    public void SetCompliance(int compliance) {
+    public void SetCompliance(Compliance compliance) {
         this.compliance = compliance;
     }
 
