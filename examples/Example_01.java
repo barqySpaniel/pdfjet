@@ -3,6 +3,9 @@ package examples;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.pdfjet.*;
 import com.pdfjet.font.*;
 
@@ -23,7 +26,7 @@ public class Example_01 {
         pdf.setCompliance(Compliance.PDF_UA);
 
         // Set the title of the document (required for PDF/UA compliance)
-        pdf.setTitle("Electric Vehicle Population Data");
+        pdf.setTitle("Document containing English, Greek and Bulgarian text blocks.");
 
         // Load the font (using IBMPlexSans Regular)
         Font font = new Font(pdf, IBMPlexSans.Regular);
@@ -31,12 +34,18 @@ public class Example_01 {
         // Create a new page with Portrait orientation
         Page page = new Page(pdf, Letter.PORTRAIT);
 
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("Everyone", Color.red);
+        map.put("pay", Color.green);
+        map.put("freedom", Color.blue);
+
         // Add English text from a file
         TextBlock textBlock = new TextBlock(
             font, Content.ofTextFile("data/languages/english.txt"));
         textBlock.setLocation(50f, 50f);
         textBlock.setWidth(430f);
         textBlock.setTextPadding(10f);
+        textBlock.setKeywordHighlightColors(map);
         float[] xy = textBlock.drawOn(page);
 
         // Draw a blue rectangle around the English text block
@@ -44,22 +53,22 @@ public class Example_01 {
         rect.setBorderColor(Color.blue);
         rect.drawOn(page);
 
-        // // Add Greek text from a file
-        // textBlock = new TextBlock(font, Content.ofTextFile("data/languages/greek.txt"));
-        // textBlock.setLocation(50f, xy[1] + 30f);
-        // textBlock.setWidth(430f);
-        // textBlock.setTextPadding(10f);
-        // textBlock.setBorderColor(Color.none); // No border for Greek text
-        // xy = textBlock.drawOn(page);
+        // Add Greek text from a file
+        textBlock = new TextBlock(font, Content.ofTextFile("data/languages/greek.txt"));
+        textBlock.setLocation(50f, xy[1] + 30f);
+        textBlock.setWidth(430f);
+        textBlock.setTextPadding(10f);
+        textBlock.setBorderColor(Color.none); // No border for Greek text
+        xy = textBlock.drawOn(page);
 
-        // // Add Bulgarian text from a file with a blue border and rounded corners
-        // textBlock = new TextBlock(font, Content.ofTextFile("data/languages/bulgarian.txt"));
-        // textBlock.setLocation(50f, xy[1] + 30f);
-        // textBlock.setWidth(430f);
-        // textBlock.setTextPadding(10f);
-        // textBlock.setBorderColor(Color.blue);
-        // textBlock.setBorderCornerRadius(10f);
-        // textBlock.drawOn(page);
+        // Add Bulgarian text from a file with a blue border and rounded corners
+        textBlock = new TextBlock(font, Content.ofTextFile("data/languages/bulgarian.txt"));
+        textBlock.setLocation(50f, xy[1] + 30f);
+        textBlock.setWidth(430f);
+        textBlock.setTextPadding(10f);
+        textBlock.setBorderColor(Color.blue);
+        textBlock.setBorderCornerRadius(10f);
+        textBlock.drawOn(page);
 
         // Complete the PDF document creation
         pdf.complete();

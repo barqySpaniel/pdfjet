@@ -37,7 +37,8 @@ public class TextBlock {
     private Font fallbackFont;
     private String textContent;
     private float lineSpacing;
-    private int textColor;
+    private Integer textColor;
+    private Map<String, Integer> keywordHighlightColors;
     private float textPadding;
     private float borderWidth;
     private float borderCornerRadius;
@@ -69,7 +70,7 @@ public class TextBlock {
         this.textContent = textContent;
         this.lineSpacing = 1.0f;
         this.textColor = Color.black;
-        this.textPadding = 0.0f;
+        this.textPadding = 10.0f;
         this.textDirection = Direction.LEFT_TO_RIGHT;
         this.textAlignment = Alignment.LEFT;
 
@@ -165,6 +166,10 @@ public class TextBlock {
         this.textDirection = textDirection;
     }
 
+    public void setKeywordHighlightColors(Map<String, Integer> wordHighlightMap) {
+        this.keywordHighlightColors = wordHighlightMap;
+    }
+
 
     private boolean textIsCJK(String str) {
         // CJK Unified Ideographs Range: 4E00–9FD5
@@ -182,152 +187,6 @@ public class TextBlock {
             }
         }
         return numOfCJK > (chars.length / 2);
-    }
-
-    private List<String> getTextLines() {
-        List<String> list = new ArrayList<String>();
-
-        float textAreaWidth;
-        if (this.textDirection == Direction.LEFT_TO_RIGHT) {
-            textAreaWidth = this.width - 2 * this.textPadding;
-        } else {
-            // When writing text vertically!
-            textAreaWidth = this.height - 2 * this.textPadding;
-        }
-
-        this.textContent = this.textContent.replace("\r\n", "\n").trim();
-        String[] lines = this.textContent.split("\n");
-        for (String line : lines) {
-            if (this.font.stringWidth(this.fallbackFont, line) <= textAreaWidth) {
-                list.add(line);
-            } else {
-                if (textIsCJK(line)) {
-                    StringBuilder sb = new StringBuilder();
-                    for (char ch : line.toCharArray()) {
-                        if (this.font.stringWidth(
-                                this.fallbackFont, sb.toString() + ch) <= textAreaWidth) {
-                            sb.append(ch);
-                        } else {
-                            list.add(sb.toString());
-                            sb.setLength(0);
-                            sb.append(ch);
-                        }
-                    }
-                    if (sb.length() > 0) {
-                        list.add(sb.toString());
-                    }
-                } else {
-                    StringBuilder sb = new StringBuilder();
-                    String[] tokens = line.split("\\s+");
-                    for (String token : tokens) {
-                        if (this.font.stringWidth(
-                                this.fallbackFont, sb.toString() + token) <= textAreaWidth) {
-                            sb.append(token).append(" ");
-                        } else {
-                            list.add(sb.toString().trim());
-                            sb.setLength(0);
-                            sb.append(token).append(" ");
-                        }
-                    }
-                    if (sb.toString().trim().length() > 0) {
-                        list.add(sb.toString().trim());
-                    }
-                }
-            }
-        }
-
-        return list;
-    }
-
-    public float[] drawOn3(Page page) throws Exception {
-        if (page != null) {
-            // TODO: Deal with this now!!
-        }
-        page.setBrushColor(this.textColor);
-        page.setPenColor(this.borderColor);
-        page.setPenWidth(this.font.getUnderlineThickness());
-
-        page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
-        float ascent = this.font.getAscent();
-        float descent = this.font.getDescent();
-        float leading = (ascent + descent) * this.lineSpacing;
-        List<String> lines = getTextLines();
-        float xText = 0.0f;
-        float yText = 0.0f;
-        switch (this.textDirection) {
-            case LEFT_TO_RIGHT:
-                yText = this.y + ascent + this.textPadding;
-                for (String line : lines) {
-                    switch (this.textAlignment) {
-                        case LEFT:
-                            xText = this.x + this.textPadding;
-                            break;
-                        case RIGHT:
-                            xText = (this.x + this.width) -
-                                (this.font.stringWidth(this.fallbackFont, line) + this.textPadding);
-                            break;
-                        case CENTER:
-                            xText = this.x + (this.width - this.font.stringWidth(this.fallbackFont, line)) / 2;
-                            break;
-                    }
-                    drawTextLine(
-                            page,
-                            this.font,
-                            line,
-                            xText,
-                            yText,
-                            this.textColor);
-                    yText += leading;
-                }
-                break;
-            case BOTTOM_TO_TOP:
-                xText = this.x + this.textPadding + ascent;
-                yText = this.y + this.height - this.textPadding;
-                for (String line : lines) {
-                    drawTextLine(
-                            page,
-                            this.font,
-                            line,
-                            xText,
-                            yText,
-                            this.textColor);
-                    xText += leading;
-                }
-                break;
-            case TOP_TO_BOTTOM:
-                break;
-        }
-        page.addEMC();
-
-        xText -= leading;
-        if ((xText + descent + this.textPadding) - this.x > this.width) {
-            this.width = (xText + descent + this.textPadding) - this.x;
-        }
-        yText -= leading;
-        if ((yText + descent + this.textPadding) - this.y > this.height) {
-            this.height = (yText + descent + this.textPadding) - this.y;
-        }
-
-        Rect rect = new Rect(this.x, this.y, this.width, this.height);
-        rect.setBorderColor(this.borderColor);
-        rect.setCornerRadius(this.borderCornerRadius);
-        rect.drawOn(page);
-
-        if (this.textDirection == Direction.LEFT_TO_RIGHT && (this.uri != null || this.key != null)) {
-            page.addAnnotation(new Annotation(
-                    this.uri,
-                    this.key, // The destination name
-                    this.x,
-                    this.y,
-                    this.x + this.width,
-                    this.y + this.height,
-                    this.uriLanguage,
-                    this.uriActualText,
-                    this.uriAltDescription));
-        }
-        page.setTextDirection(0);
-
-        return new float[] { this.x + this.width, this.y + this.height };
     }
 
     private void drawTextLine(
@@ -443,11 +302,6 @@ public class TextBlock {
         TextLineWithOffset[] textLines = getTextLinesWithOffsets();
         // rightAlignText(textLines);
 
-        Map<String, Integer> wordHighlightColors = new HashMap<String, Integer>();
-        wordHighlightColors.put("Everyone", Color.red);
-        wordHighlightColors.put("pay", Color.green);
-        wordHighlightColors.put("freedom", Color.blue);
-
         Direction textDirection = Direction.LEFT_TO_RIGHT;
 
         page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
@@ -459,7 +313,7 @@ public class TextBlock {
             leading * this.lineSpacing,
             textDirection,
             Color.black,
-            wordHighlightColors);
+            keywordHighlightColors);
         page.addEMC();
 
         Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
