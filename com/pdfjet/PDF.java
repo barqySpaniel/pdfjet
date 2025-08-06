@@ -197,8 +197,6 @@ final public class PDF {
             sb.append("    <dc:format>application/pdf</dc:format>\n");
             if (compliance == Compliance.PDF_UA_1) {
                 sb.append("  <pdfuaid:part>1</pdfuaid:part>\n");
-                sb.append("  <pdfuaid:identifier>PDF-UA-1</pdfuaid:identifier>\n");
-                sb.append("  <pdfuaid:docstructure>structured</pdfuaid:docstructure>\n");
             } else  if (compliance == Compliance.PDF_A_1A) {
                 sb.append("  <pdfaid:part>1</pdfaid:part>\n");
                 sb.append("  <pdfaid:conformance>A</pdfaid:conformance>\n");
