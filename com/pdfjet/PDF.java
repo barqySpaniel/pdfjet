@@ -516,8 +516,8 @@ final public class PDF {
                 } else {
                     append(language);
                 }
-                append(Token.altDescription);
-                append(toHex(element.altDescription));
+                // append(Token.altDescription);
+                // append(toHex(element.altDescription));
                 append(Token.actualText);
                 append(toHex(element.actualText));
                 append(Token.endStructElem);
