@@ -24,17 +24,15 @@ public class Example_16 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Map<String, Integer> colors = new HashMap<String, Integer>();
-        colors.put("Lorem", Color.blue);
-        colors.put("ipsum", Color.red);
-        colors.put("dolor", Color.green);
-        colors.put("ullamcorper", Color.gray);
+        colors.put("Everyone", Color.red);
+        colors.put("pay", Color.green);
+        colors.put("freedom", Color.blue);
 
         GraphicsState gs = new GraphicsState();
         gs.setAlphaStroking(0.5f);                  // Stroking alpha
         gs.setAlphaNonStroking(0.5f);               // Nonstroking alpha
         page.setGraphicsState(gs);
 
-        // String latinText = Content.ofTextFile("data/latin.txt");
         String englishText = Content.ofTextFile("data/languages/english.txt");
         // f1.setSize(14f);
         TextBox textBox = new TextBox(f1, englishText);
