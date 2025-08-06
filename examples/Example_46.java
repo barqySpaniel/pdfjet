@@ -10,16 +10,16 @@ import com.pdfjet.*;
 public class Example_46 {
     public Example_46() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_46.pdf")),
-                Compliance.PDF_UA);
+            new BufferedOutputStream(new FileOutputStream("Example_46.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        Font f3 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
-
         f1.setSize(14f);
+
+        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
         f2.setSize(14f);
+
+        Font f3 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
         f3.setSize(14f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);

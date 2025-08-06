@@ -10,9 +10,8 @@ import com.pdfjet.*;
 public class Example_49 {
     public Example_49() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_49.pdf")),
-                        Compliance.PDF_UA);
+            new BufferedOutputStream(new FileOutputStream("Example_49.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream");
         Font f2 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream");

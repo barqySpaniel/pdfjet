@@ -9,8 +9,9 @@ import com.pdfjet.*;
  */
 public class Example_15 {
     public Example_15() throws Exception {
-        PDF pdf = new PDF(new BufferedOutputStream(
-                new FileOutputStream("Example_15.pdf")), Compliance.PDF_UA);
+        PDF pdf = new PDF(
+            new BufferedOutputStream(new FileOutputStream("Example_15.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
         pdf.setTitle("PDF/UA compliant PDF");
 
         // We are trying to prove here that PDFjet will not embed the same font twice

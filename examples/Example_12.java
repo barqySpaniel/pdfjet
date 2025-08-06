@@ -9,7 +9,10 @@ import com.pdfjet.*;
  */
 public class Example_12 {
     public Example_12() throws Exception {
-        PDF pdf = new PDF(new FileOutputStream("Example_12.pdf"), Compliance.PDF_UA);
+        PDF pdf = new PDF(
+            new BufferedOutputStream(new FileOutputStream("Example_12.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
+
         // Font font = new Font(pdf, CoreFont.HELVETICA);
         Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
         Page page = new Page(pdf, Letter.PORTRAIT);

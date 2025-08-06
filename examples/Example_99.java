@@ -7,7 +7,7 @@ import com.pdfjet.*;
 public class Example_99 {
     public Example_99() throws Exception {
 		PDF pdf = new PDF(new BufferedOutputStream(new FileOutputStream("Example_99.pdf")));	  
-		pdf.setCompliance(Compliance.PDF_UA);	
+		pdf.setCompliance(Compliance.PDF_UA_1);	
 
 		Font f2 = new Font(pdf, CoreFont.HELVETICA);
 		f2.setSize(14f);

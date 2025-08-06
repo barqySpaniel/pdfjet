@@ -9,9 +9,8 @@ import com.pdfjet.*;
 public class Example_48 {
     public Example_48() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_48.pdf")),
-                        Compliance.PDF_UA);
+            new BufferedOutputStream(new FileOutputStream("Example_48.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
         f1.setSize(14f);

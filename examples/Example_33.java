@@ -9,8 +9,9 @@ import com.pdfjet.*;
 public class Example_33 {
     public Example_33() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_33.pdf")), Compliance.PDF_UA);
+            new BufferedOutputStream(new FileOutputStream("Example_33.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
+
         Page page = new Page(pdf, A4.PORTRAIT);
 
         SVGImage image = new SVGImage("images/svg-test/europe.svg");

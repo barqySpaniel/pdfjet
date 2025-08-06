@@ -82,7 +82,7 @@ final public class PDF {
      *  @param os the associated output stream.
      *  @throws Exception if an input or output exception occurred
      */
-    public PDF(OutputStream os) throws Exception { this(os, Compliance.NONE); }
+    public PDF(OutputStream os) throws Exception { this(os, Compliance.PDF_15); }
 
     // Here is the layout of the PDF document:
     //

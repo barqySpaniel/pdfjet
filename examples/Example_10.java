@@ -9,8 +9,9 @@ import com.pdfjet.*;
 public class Example_10 {
     public Example_10() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_10.pdf")), Compliance.PDF_UA);
+            new BufferedOutputStream(new FileOutputStream("Example_10.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
+
         pdf.setTitle("Using TextColumn and Paragraph classes");
         pdf.setSubject("Examples");
         pdf.setAuthor("PDFjet Software");

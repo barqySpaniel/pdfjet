@@ -11,9 +11,8 @@ import com.pdfjet.*;
 public class Example_16 {
     public Example_16() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_16.pdf")));
-        pdf.setCompliance(Compliance.PDF_UA);
+            new BufferedOutputStream(new FileOutputStream("Example_16.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
         // Font f1 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf");

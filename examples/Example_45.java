@@ -11,17 +11,17 @@ import com.pdfjet.*;
 public class Example_45 {
     public Example_45() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_45.pdf")),
-                        Compliance.PDF_UA);
+            new BufferedOutputStream(new FileOutputStream("Example_45.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
         pdf.setLanguage("en-US");
 
         Font f1 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream");
-        Font f3 = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream");
-
         f1.setSize(14f);
+
+        Font f2 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream");
         f2.setSize(14f);
+
+        Font f3 = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream");
         f3.setSize(10f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);

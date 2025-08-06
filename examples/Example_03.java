@@ -9,8 +9,9 @@ import com.pdfjet.*;
 public class Example_03 {
     public Example_03() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_03.pdf")), Compliance.PDF_UA);
+                new BufferedOutputStream(new FileOutputStream("Example_03.pdf")));
+        pdf.setCompliance(Compliance.PDF_UA_1);
+
         pdf.setKeywords("React Vue Java Python");
         // Font f1 = new Font(pdf, CoreFont.HELVETICA);
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
