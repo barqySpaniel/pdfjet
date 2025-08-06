@@ -10,8 +10,8 @@ using PDFjet.NET;
 public class Example_48 {
     public Example_48() {
         PDF pdf = new PDF(new BufferedStream(
-                new FileStream("Example_48.pdf", FileMode.Create)),
-                Compliance.PDF_UA);
+            new FileStream("Example_48.pdf", FileMode.Create)));
+        pdf.SetCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, new FileStream(
                 "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream",

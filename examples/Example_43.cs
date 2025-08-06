@@ -7,8 +7,8 @@ using PDFjet.NET;
 public class Example_43 {
     public Example_43() {
         PDF pdf = new PDF(
-                new BufferedStream(new FileStream("Example_43.pdf", FileMode.Create)));
-        pdf.SetCompliance(Compliance.PDF_UA);
+            new BufferedStream(new FileStream("Example_43.pdf", FileMode.Create)));
+        pdf.SetCompliance(Compliance.PDF_UA_1);
 
         // Used for performance testing. Results in 2000+ pages PDF.
         String fileName = "data/Electric_Vehicle_Population_Data.csv";

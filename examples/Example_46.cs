@@ -9,13 +9,15 @@ using PDFjet.NET;
 public class Example_46 {
     public Example_46() {
         PDF pdf = new PDF(new BufferedStream(
-                new FileStream("Example_46.pdf", FileMode.Create)),
-                Compliance.PDF_UA);
+            new FileStream("Example_46.pdf", FileMode.Create)));
+        pdf.SetCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream");
         f1.SetSize(14f);
+
         Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
         f2.SetSize(14f);
+
         Font f3 = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Bold.ttf.stream");
         f3.SetSize(14f);
 

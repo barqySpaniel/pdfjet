@@ -10,13 +10,13 @@ using PDFjet.NET;
 public class Example_49 {
     public Example_49() {
         PDF pdf = new PDF(new BufferedStream(
-                new FileStream("Example_49.pdf", FileMode.Create)),
-                Compliance.PDF_UA);
+            new FileStream("Example_49.pdf", FileMode.Create)));
+        pdf.SetCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
-
         f1.SetSize(14f);
+
+        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
         f2.SetSize(16f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
