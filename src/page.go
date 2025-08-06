@@ -1189,7 +1189,7 @@ func (page *Page) setStructElementsPageObjNumber(pageObjNumber int) {
 
 // AddBMC adds BMC to the page.
 func (page *Page) AddBMC(structure, language, actualText, altDescription string) {
-	if page.pdf.compliance == compliance.PDF_UA {
+	if page.pdf.compliance == compliance.PDF_UA_1 {
 		element := NewStructElem()
 		element.structure = structure
 		element.mcid = page.mcid
@@ -1209,14 +1209,14 @@ func (page *Page) AddBMC(structure, language, actualText, altDescription string)
 }
 
 func (page *Page) AddArtifactBMC() {
-	if page.pdf.compliance == compliance.PDF_UA {
+	if page.pdf.compliance == compliance.PDF_UA_1 {
 		appendString(&page.buf, "/Artifact BMC\n")
 	}
 }
 
 // AddEMC adds EMC to the page.
 func (page *Page) AddEMC() {
-	if page.pdf.compliance == compliance.PDF_UA {
+	if page.pdf.compliance == compliance.PDF_UA_1 {
 		appendString(&page.buf, "EMC\n")
 	}
 }
@@ -1226,7 +1226,7 @@ func (page *Page) AddAnnotation(annotation *Annotation) {
 	annotation.y1 = page.height - annotation.y1
 	annotation.y2 = page.height - annotation.y2
 	page.annots = append(page.annots, annotation)
-	if page.pdf.compliance == compliance.PDF_UA {
+	if page.pdf.compliance == compliance.PDF_UA_1 {
 		element := NewStructElem()
 		element.structure = "Link"
 		element.language = annotation.language

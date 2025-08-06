@@ -110,7 +110,7 @@ type PDF struct {
  *  Please note: PDF/A compliance requires all fonts to be embedded in the PDF.
  *
  *  @param os the associated output stream.
- *  @param compliance must be: compliance.PDF_UA or compliance.PDF_A_1A to compliance.PDF_A_3B
+ *  @param compliance must be: compliance.PDF_UA_1 or compliance.PDF_A_1A to compliance.PDF_A_3B
  */
 func NewPDF(w *bufio.Writer) *PDF {
 	pdf := new(PDF)
@@ -197,7 +197,7 @@ func (pdf *PDF) addMetadataObject(notice string, fontMetadataObject bool) int {
 		sb.WriteString("    xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\">\n")
 
 		sb.WriteString("  <dc:format>application/pdf</dc:format>\n")
-		if pdf.compliance == compliance.PDF_UA {
+		if pdf.compliance == compliance.PDF_UA_1 {
 			sb.WriteString("  <pdfuaid:part>1</pdfuaid:part>\n")
 		} else if pdf.compliance == compliance.PDF_A_1A {
 			sb.WriteString("  <pdfaid:part>1</pdfaid:part>\n")
@@ -396,7 +396,7 @@ func (pdf *PDF) addPagesObject() int {
 	pdf.appendString("/Type /Pages\n")
 	pdf.appendString("/Kids [\n")
 	for _, page := range pdf.pages {
-		if pdf.compliance == compliance.PDF_UA ||
+		if pdf.compliance == compliance.PDF_UA_1 ||
 			pdf.compliance == compliance.PDF_A_1A ||
 			pdf.compliance == compliance.PDF_A_1B ||
 			pdf.compliance == compliance.PDF_A_2A ||
@@ -606,7 +606,7 @@ func (pdf *PDF) addRootObject(structTreeRootObjNumber, outlineDictNumber int) in
 	pdf.appendString("<<\n")
 	pdf.appendString("/Type /Catalog\n")
 
-	if pdf.compliance == compliance.PDF_UA ||
+	if pdf.compliance == compliance.PDF_UA_1 ||
 		pdf.compliance == compliance.PDF_A_1A ||
 		pdf.compliance == compliance.PDF_A_1B ||
 		pdf.compliance == compliance.PDF_A_2A ||
@@ -643,7 +643,7 @@ func (pdf *PDF) addRootObject(structTreeRootObjNumber, outlineDictNumber int) in
 	pdf.appendInteger(pdf.pagesObjNumber)
 	pdf.appendString(" 0 R\n")
 
-	if pdf.compliance == compliance.PDF_UA ||
+	if pdf.compliance == compliance.PDF_UA_1 ||
 		pdf.compliance == compliance.PDF_A_1A ||
 		pdf.compliance == compliance.PDF_A_1B ||
 		pdf.compliance == compliance.PDF_A_2A ||
@@ -753,7 +753,7 @@ func (pdf *PDF) addAllPages(resObjNumber int) {
 			pdf.appendString("]\n")
 		}
 
-		if pdf.compliance == compliance.PDF_UA ||
+		if pdf.compliance == compliance.PDF_UA_1 ||
 			pdf.compliance == compliance.PDF_A_1A ||
 			pdf.compliance == compliance.PDF_A_1B ||
 			pdf.compliance == compliance.PDF_A_2A ||
@@ -961,7 +961,7 @@ func (pdf *PDF) Complete() {
 	if pdf.prevPage != nil {
 		pdf.addPageContent(pdf.prevPage)
 	}
-	if pdf.compliance == compliance.PDF_UA ||
+	if pdf.compliance == compliance.PDF_UA_1 ||
 		pdf.compliance == compliance.PDF_A_1A ||
 		pdf.compliance == compliance.PDF_A_1B ||
 		pdf.compliance == compliance.PDF_A_2A ||
@@ -978,7 +978,7 @@ func (pdf *PDF) Complete() {
 	}
 
 	structTreeRootObjNumber := 0
-	if pdf.compliance == compliance.PDF_UA ||
+	if pdf.compliance == compliance.PDF_UA_1 ||
 		pdf.compliance == compliance.PDF_A_1A ||
 		pdf.compliance == compliance.PDF_A_1B ||
 		pdf.compliance == compliance.PDF_A_2A ||
