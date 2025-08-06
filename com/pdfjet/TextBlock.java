@@ -358,15 +358,8 @@ public class TextBlock {
         }
     }
 
-
-
-
-
-
-
-
-    private TextOffset[] getTextOffsetList() {
-        List<TextOffset> list = new ArrayList<>();
+    private TextLineWithOffset[] getTextOffsetList() {
+        List<TextLineWithOffset> list = new ArrayList<>();
 
         float textAreaWidth;
         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
@@ -380,7 +373,7 @@ public class TextBlock {
         String[] lines = this.textContent.split("\n");
         for (String line : lines) {
             if (this.font.stringWidth(this.fallbackFont, line) <= textAreaWidth) {
-                list.add(new TextOffset(line, 0f));
+                list.add(new TextLineWithOffset(line, 0f));
             } else {
                 if (textIsCJK(line)) {
                     StringBuilder sb = new StringBuilder();
@@ -389,13 +382,13 @@ public class TextBlock {
                                 this.fallbackFont, sb.toString() + ch) <= textAreaWidth) {
                             sb.append(ch);
                         } else {
-                            list.add(new TextOffset(sb.toString(), 0f));
+                            list.add(new TextLineWithOffset(sb.toString(), 0f));
                             sb.setLength(0);
                             sb.append(ch);
                         }
                     }
                     if (sb.length() > 0) {
-                        list.add(new TextOffset(sb.toString(), 0f));
+                        list.add(new TextLineWithOffset(sb.toString(), 0f));
                     }
                 } else {
                     StringBuilder sb = new StringBuilder();
@@ -405,19 +398,31 @@ public class TextBlock {
                                 this.fallbackFont, sb.toString() + token) <= textAreaWidth) {
                             sb.append(token).append(" ");
                         } else {
-                            list.add(new TextOffset(sb.toString().trim(), 0f));
+                            list.add(new TextLineWithOffset(sb.toString().trim(), 0f));
                             sb.setLength(0);
                             sb.append(token).append(" ");
                         }
                     }
                     if (sb.toString().trim().length() > 0) {
-                        list.add(new TextOffset(sb.toString().trim(), 0f));
+                        list.add(new TextLineWithOffset(sb.toString().trim(), 0f));
                     }
                 }
             }
         }
 
-        return list.toArray(new TextOffset[] {});
+        return list.toArray(new TextLineWithOffset[] {});
+    }
+
+    private void rightAlignText(TextLineWithOffset[] list) {
+        for (TextLineWithOffset textLineWithOffset : list) {
+            textLineWithOffset.xOffset = this.width - font.stringWidth(textLineWithOffset.textLine);
+        }
+    }
+
+    private void centerText(TextLineWithOffset[] list) {
+        for (TextLineWithOffset textLineWithOffset : list) {
+            textLineWithOffset.xOffset = (this.width - font.stringWidth(textLineWithOffset.textLine)) / 2f;
+        }
     }
 
     public float[] drawOn(Page page) throws Exception {
@@ -433,9 +438,11 @@ public class TextBlock {
         float descent = this.font.getDescent();
         float leading = (ascent + descent) * this.textLineHeight;
 
-        TextOffset[] list = getTextOffsetList();
+        TextLineWithOffset[] textLines = getTextOffsetList();
+        rightAlignText(textLines);
+
         float textBlockHeight = page.drawTextBlock(
-            this.font, list, this.x, this.y, leading + this.textPadding, Direction.LEFT_TO_RIGHT);
+            this.font, textLines, this.x, this.y, leading + this.textPadding, Direction.LEFT_TO_RIGHT);
 
         Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight);
         rect.setBorderColor(this.borderColor);
