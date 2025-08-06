@@ -434,7 +434,8 @@ public class TextBlock {
         float leading = (ascent + descent) * this.textLineHeight;
 
         TextOffset[] list = getTextOffsetList();
-        this.height += page.drawTextBlock(this.font, list, this.x, this.y, leading + this.textPadding);
+        this.height += page.drawTextBlock(
+            this.font, list, this.x, this.y, leading + this.textPadding, Direction.LEFT_TO_RIGHT);
 
 /*
         float xText = 0.0f;

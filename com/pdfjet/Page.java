@@ -497,7 +497,8 @@ final public class Page {
             TextOffset[] textLines,
             float x,
             float y,
-            float leading) {
+            float leading,
+            Direction direction) {
         if (textLines == null || textLines.length == 0) {
             return y;
         }
@@ -505,17 +506,16 @@ final public class Page {
         append("BT\n");
         setTextFont(font);
 
-        boolean leftToRigth = true;
         float xText = x;
         float yText = y;
         for (TextOffset textOffset : textLines) {
-            if (leftToRigth) {
+            if (direction == Direction.LEFT_TO_RIGHT) {
                 append("1 0 0 1 ");
                 append(xText);
                 append(' ');
                 append(height - (yText + font.ascent));
                 append(" Tm\n");
-            } else {    // bottomToTop
+            } else {                // BOTTOM_TO_TOP
                 append("0 1 -1 0 ");
                 append(xText + font.ascent);
                 append(' ');
@@ -527,7 +527,7 @@ final public class Page {
             drawUnicodeString(font, textOffset.text);
             append("> Tj\n");
 
-            if (leftToRigth) {
+            if (direction == Direction.LEFT_TO_RIGHT) {
                 yText += leading;
             } else {
                 xText += leading;
