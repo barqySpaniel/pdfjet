@@ -36,7 +36,7 @@ public class PDF {
     var destinations = [String : Destination]()
     var groups = [OptionalContentGroup]()
     var states = [String : Int]()
-    var compliance = 0
+    var compliance = Compliance.NONE
     var toc: Bookmark?
     var importedFonts = [String]()
     var extGState = ""
@@ -73,7 +73,7 @@ public class PDF {
     /// - Parameter os the associated output stream.
     ///
     public convenience init(_ os: OutputStream) {
-        self.init(os, 0)
+        self.init(os, Compliance.NONE)
     }
 
     /// Here is the layout of the PDF document:
@@ -111,9 +111,9 @@ public class PDF {
     /// Please note: PDF/A compliance requires all fonts to be embedded in the PDF.
     ///
     /// - Parameter os the associated output stream.
-    /// - Parameter compliance must be: Compliance.PDF_UA or Compliance.PDF_A_1A to Compliance.PDF_A_3B
+    /// - Parameter compliance must be: Compliance.PDF_UA_1 or Compliance.PDF_A_1A to Compliance.PDF_A_3B
     ///
-    public init(_ os: OutputStream, _ compliance: Int) {
+    public init(_ os: OutputStream, _ compliance: Compliance) {
         os.open()
         self.os = BufferedOutputStream(os)
         self.compliance = compliance
@@ -139,7 +139,7 @@ public class PDF {
         append(Token.newline)
     }
 
-    public func setCompliance(_ compliance: Int) {
+    public func setCompliance(_ compliance: Compliance) {
         self.compliance = compliance
     }
 
@@ -184,7 +184,7 @@ public class PDF {
             sb.append("    xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\">\n");
 
             sb.append("  <dc:format>application/pdf</dc:format>\n");
-            if compliance == Compliance.PDF_UA {
+            if compliance == Compliance.PDF_UA_1 {
                 sb.append("  <pdfuaid:part>1</pdfuaid:part>\n");
             } else if compliance == Compliance.PDF_A_1A {
                 sb.append("  <pdfaid:part>1</pdfaid:part>\n");
@@ -386,7 +386,7 @@ public class PDF {
         append("/Type /Pages\n")
         append("/Kids [\n")
         for page in pages {
-            if compliance == Compliance.PDF_UA ||
+            if compliance == Compliance.PDF_UA_1 ||
                     compliance == Compliance.PDF_A_1A ||
                     compliance == Compliance.PDF_A_1B ||
                     compliance == Compliance.PDF_A_2A ||
@@ -576,7 +576,7 @@ public class PDF {
         newobj()
         append(Token.beginDictionary)
         append("/Type /Catalog\n")
-        if compliance == Compliance.PDF_UA ||
+        if compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -615,7 +615,7 @@ public class PDF {
         append(pagesObjNumber)
         append(Token.objRef)
 
-        if compliance == Compliance.PDF_UA ||
+        if compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -726,7 +726,7 @@ public class PDF {
                 }
                 buffer.append("]\n")
             }
-            if compliance == Compliance.PDF_UA ||
+            if compliance == Compliance.PDF_UA_1 ||
                     compliance == Compliance.PDF_A_1A ||
                     compliance == Compliance.PDF_A_1B ||
                     compliance == Compliance.PDF_A_2A ||
@@ -917,7 +917,7 @@ public class PDF {
         if prevPage != nil {
             addPageContent(prevPage!)
         }
-        if compliance == Compliance.PDF_UA ||
+        if compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -934,7 +934,7 @@ public class PDF {
         }
 
         var structTreeRootObjNumber = 0
-        if compliance == Compliance.PDF_UA ||
+        if compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||

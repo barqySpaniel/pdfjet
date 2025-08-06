@@ -1420,7 +1420,7 @@ public class Page {
             _ language: String?,
             _ actualText: String,
             _ altDescription: String) {
-        if pdf.compliance == Compliance.PDF_UA {
+        if pdf.compliance == Compliance.PDF_UA_1 {
             let element = StructElem()
             element.structure = structure
             element.mcid = mcid
@@ -1439,13 +1439,13 @@ public class Page {
     }
 
     public func addArtifactBMC() {
-        if pdf.compliance == Compliance.PDF_UA {
+        if pdf.compliance == Compliance.PDF_UA_1 {
             append("/Artifact BMC\n")
         }
     }
 
     public func addEMC() {
-        if pdf.compliance == Compliance.PDF_UA {
+        if pdf.compliance == Compliance.PDF_UA_1 {
             append("EMC\n")
         }
     }
@@ -1454,7 +1454,7 @@ public class Page {
         annotation.y1 = self.height - annotation.y1
         annotation.y2 = self.height - annotation.y2
         self.annots!.append(annotation)
-        if pdf.compliance == Compliance.PDF_UA {
+        if pdf.compliance == Compliance.PDF_UA_1 {
             let element = StructElem()
             element.structure = StructElem.LINK
             element.language = annotation.language
