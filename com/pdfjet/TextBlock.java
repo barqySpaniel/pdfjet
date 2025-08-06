@@ -433,16 +433,17 @@ public class TextBlock {
         page.setPenColor(this.borderColor);
         page.setPenWidth(this.font.getUnderlineThickness());
 
-        // page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float ascent = this.font.getAscent();
         float descent = this.font.getDescent();
         float leading = (ascent + descent) * this.lineSpacing;
 
         TextLineWithOffset[] textLines = getTextOffsetList();
         rightAlignText(textLines);
-
+        
+        page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float textBlockHeight = page.drawTextBlock(
             this.font, textLines, this.x, this.y, leading + this.textPadding, Direction.LEFT_TO_RIGHT);
+        page.addEMC();
 
         Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight);
         rect.setBorderColor(this.borderColor);
