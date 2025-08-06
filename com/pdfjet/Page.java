@@ -1612,46 +1612,46 @@ final public class Page {
         }
     }
 
-    // private void drawWord(
-    //         Font font, StringBuilder buf, int color, Map<String, Integer> colors) {
-    //     if (buf.length() > 0) {
-    //         String str = buf.toString();
-    //         if (colors.containsKey(str)) {
-    //             setBrushColor(colors.get(str));
-    //         } else {
-    //             setBrushColor(color);
-    //         }
-    //         append("[<");
-    //         if (font.isCoreFont) {
-    //             drawASCIIString(font, str);
-    //         } else {
-    //             drawUnicodeString(font, str);
-    //         }
-    //         append(">] TJ\n");
-    //         buf.setLength(0);
-    //     }
-    // }
+    private void drawWord(
+            Font font, StringBuilder buf, int color, Map<String, Integer> colors) {
+        if (buf.length() > 0) {
+            String str = buf.toString();
+            if (colors.containsKey(str)) {
+                setBrushColor(colors.get(str));
+            } else {
+                setBrushColor(color);
+            }
+            append("[<");
+            if (font.isCoreFont) {
+                drawASCIIString(font, str);
+            } else {
+                drawUnicodeString(font, str);
+            }
+            append(">] TJ\n");
+            buf.setLength(0);
+        }
+    }
 
-    // protected void drawColoredString(
-    //         Font font,
-    //         String str,
-    //         int brush,
-    //         Map<String, Integer> colors) {
-    //     StringBuilder buf1 = new StringBuilder();
-    //     StringBuilder buf2 = new StringBuilder();
-    //     for (int i = 0; i < str.length(); i++) {
-    //         char ch = str.charAt(i);
-    //         if (Character.isLetterOrDigit(ch)) {
-    //             drawWord(font, buf2, brush, colors);
-    //             buf1.append(ch);
-    //         } else {
-    //             drawWord(font, buf1, brush, colors);
-    //             buf2.append(ch);
-    //         }
-    //     }
-    //     drawWord(font, buf1, brush, colors);
-    //     drawWord(font, buf2, brush, colors);
-    // }
+    protected void drawColoredString(
+            Font font,
+            String str,
+            int brush,
+            Map<String, Integer> colors) {
+        StringBuilder buf1 = new StringBuilder();
+        StringBuilder buf2 = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (Character.isLetterOrDigit(ch)) {
+                drawWord(font, buf2, brush, colors);
+                buf1.append(ch);
+            } else {
+                drawWord(font, buf1, brush, colors);
+                buf2.append(ch);
+            }
+        }
+        drawWord(font, buf1, brush, colors);
+        drawWord(font, buf2, brush, colors);
+    }
 
     protected void setStructElementsPageObjNumber(int pageObjNumber) {
         for (StructElem element : structures) {
