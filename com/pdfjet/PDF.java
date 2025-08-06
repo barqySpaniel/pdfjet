@@ -510,26 +510,32 @@ final public class PDF {
                     append(Token.K);
                     append(element.mcid);
                 }
+                append(Token.newline);
+
                 append(Token.lang);
                 if (element.language != null) {
                     append(element.language);
                 } else {
                     append(language);
                 }
+                append(Token.newline);
+
                 // append(Token.altDescription);
                 // append(toHex(element.altDescription));
                 // append(Token.actualText);
                 // append(toHex(element.actualText));
 
-                    append(Token.altDescription);
-                    // append("<");
-                    append(toHex(element.altDescription));
-                    // append(">\n");
+                append(Token.altDescription);
+                // append("<");
+                append(toHex(element.altDescription));
+                // append(">\n");
+                append(Token.newline);
 
-                    append(Token.actualText);
-                    // append("<");
-                    append(toHex(element.actualText));
-                    // append(">\n");
+                append(Token.actualText);
+                // append("<");
+                append(toHex(element.actualText));
+                // append(">\n");
+                append(Token.newline);
 
                 append(Token.endStructElem);
                 endobj();
