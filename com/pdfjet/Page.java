@@ -505,29 +505,29 @@ final public class Page {
         append("BT\n");
         setTextFont(font);
 
-        float xText;
+        float xText = x;
         float yText = y;
         for (TextOffset textOffset : textLines) {
-            xText = x + textOffset.offset;
+            // xText = x + textOffset.offset;
 
-            append(this.tm0);
-            append(' ');
-            append(this.tm1);
-            append(' ');
-            append(this.tm2);
-            append(' ');
-            append(this.tm3);
-            append(' ');
+            append("0 1 -1 0 ");
             append(xText);
             append(' ');
-            append(height - yText);
+            append(yText);
             append(" Tm\n");
+
+            // append("1 0 0 1 ");
+            // append(xText);
+            // append(' ');
+            // append(height - yText);
+            // append(" Tm\n");
 
             append("<");
             drawUnicodeString(font, textOffset.text);
             append("> Tj\n");
 
-            yText += leading;
+            // yText += leading;
+            xText += leading;
         }
 
         append("ET\n");
