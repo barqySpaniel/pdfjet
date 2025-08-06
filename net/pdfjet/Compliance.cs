@@ -28,7 +28,7 @@ SOFTWARE.
  */
 namespace PDFjet.NET {
     public enum Compliance {
-        NONE,
+        PDF_15,
         PDF_UA_1,
         PDF_A_1A,
         PDF_A_1B,
