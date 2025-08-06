@@ -1677,12 +1677,12 @@ public class Page {
      *  @param str the string.
      */
     func drawText(_ str: String) {
-        append(Token.beginHexString)
+        append("<")
         if (font!.isCoreFont) {
             drawASCIIString(font!, str)
         } else {
             drawUnicodeString(font!, str)
         }
-        append(Token.endHexString)
+        append("> Tj\n")
     }
 }   // End of Page.swift

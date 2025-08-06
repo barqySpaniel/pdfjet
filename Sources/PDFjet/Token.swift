@@ -26,6 +26,10 @@ SOFTWARE.
 /// Please see PDF.swift
 ///
 public class Token {
+    // public static let space: UInt8 = 32      // SPACE
+    public static let space = " "               // SPACE
+    public static let newline: UInt8 = 10   // LF
+
     public static let beginDictionary = Array("<<\n".utf8);
     public static let endDictionary = Array(">>\n".utf8);
     public static let stream = Array("stream\n".utf8)
@@ -37,9 +41,6 @@ public class Token {
     public static let endText = Array("ET\n".utf8)
     public static let count = Array("/Count ".utf8);
     public static let length = Array("/Length ".utf8);
-    // public static let space: UInt8 = 32      // SPACE
-    public static let space = " "               // SPACE
-    public static let newline: UInt8 = 10   // LF
     public static let beginStructElem = Array("<<\n/Type /StructElem /S /".utf8)
     public static let endStructElem = Array(">\n>>\n".utf8)
     public static let beginAnnotation = Array("/K <</Type /OBJR /Obj ".utf8)
@@ -56,7 +57,4 @@ public class Token {
     public static let BMC = Array("BMC\n".utf8)
     public static let EMC = Array("EMC\n".utf8)
     public static let ArtifactBMC = Array("/Artifact BMC\n".utf8)
-
-    public static let beginHexString = Array("[<".utf8)
-    public static let endHexString = Array(">] TJ\n".utf8)
 }
