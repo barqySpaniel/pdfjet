@@ -30,6 +30,7 @@ public class Example_01 {
 
         // Load the font (using IBMPlexSans Regular)
         Font font = new Font(pdf, IBMPlexSans.Regular);
+        font.setSize(12f);
 
         // Create a new page with Portrait orientation
         Page page = new Page(pdf, Letter.PORTRAIT);
@@ -43,7 +44,7 @@ public class Example_01 {
         TextBlock textBlock = new TextBlock(
             font, Content.ofTextFile("data/languages/english.txt"));
         textBlock.setLocation(50f, 50f);
-        textBlock.setWidth(473f);
+        textBlock.setWidth(473f);   // Why 473f? To match the Google Fonts samples.
         textBlock.setTextPadding(10f);
         textBlock.setKeywordHighlightColors(map);
         float[] xy = textBlock.drawOn(page);
