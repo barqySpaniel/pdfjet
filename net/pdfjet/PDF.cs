@@ -482,25 +482,34 @@ public class PDF {
                 Append(" 0 R\n/Pg ");
                 Append(element.pageObjNumber);
                 Append(Token.objRef);
+
                 if (element.annotation != null) {
                     Append("/K <</Type /OBJR /Obj ");
                     Append(element.annotation.objNumber);
-                    Append(" 0 R>>");
+                    Append(" 0 R>>\n");
                 } else {
                     Append("/K ");
                     Append(element.mcid);
+                    Append("\n");
                 }
-                Append("\n/Lang (");
+
+                Append("/Lang (");
                 if (element.language != null) {
                     Append(element.language);
                 } else {
                     Append(language);
                 }
-                Append(")\n/ActualText <");
+                Append(")\n");
+
+                Append("/ActualText <");
                 Append(ToHex(element.actualText));
-                Append(">\n/Alt <");
+                Append(">\n");
+
+                Append("/Alt <");
                 Append(ToHex(element.altDescription));
-                Append(">\n>>\n");
+                Append(">\n");
+
+                 Append(">>\n");
                 Endobj();
             }
         }

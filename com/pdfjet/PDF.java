@@ -495,13 +495,14 @@ final public class PDF {
             for (StructElem element : page.structures) {
                 newobj();
                 element.objNumber = getObjNumber();
-                append(Token.beginStructElem);
+                append("<<\n/Type /StructElem /S /");
                 append(element.structure);
-                append("/P ");
+                append("\n/P ");
                 append(structTreeRootObjNumber + 2);    // Use the document struct as parent!
                 append(" 0 R /Pg ");
                 append(element.pageObjNumber);
                 append(Token.objRef);
+
                 if (element.annotation != null) {
                     append("/K <</Type /OBJR /Obj ");
                     append(element.annotation.objNumber);
@@ -528,7 +529,7 @@ final public class PDF {
                 append(toHex(element.actualText));
                 append(">\n");
 
-                append(Token.endStructElem);
+                append(">>\n");
                 endobj();
             }
         }

@@ -493,13 +493,15 @@ public class PDF {
                 buffer.append(" 0 R /Pg ")
                 buffer.append(String(element.pageObjNumber!))
                 buffer.append(" 0 R\n")
+
                 if element.annotation != nil {
                     buffer.append("/K <</Type /OBJR /Obj ")
                     buffer.append(String(element.annotation!.objNumber))
-                    buffer.append(" 0 R>>")
+                    buffer.append(" 0 R>>\n")
                 } else {
                     buffer.append("/K ")
                     buffer.append(String(element.mcid))
+                    buffer.append("\n")
                 }
 
                 buffer.append("/Lang (")
@@ -518,7 +520,7 @@ public class PDF {
                 buffer.append(toHex(element.actualText!))
                 buffer.append(">\n")
 
-                append(Token.endStructElem);
+                append(">>\n");
                 buffer.append("endobj\n")
             }
         }

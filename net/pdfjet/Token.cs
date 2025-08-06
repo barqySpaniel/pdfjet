@@ -5,7 +5,6 @@ namespace PDFjet.NET {
 public class Token {
     public static byte space = Convert.ToByte(' ');
     public static byte newline = Convert.ToByte('\n');
-
     public static byte[] beginDictionary = Encoding.ASCII.GetBytes("<<\n");
     public static byte[] endDictionary = Encoding.ASCII.GetBytes(">>\n");
     public static byte[] stream = Encoding.ASCII.GetBytes("stream\n");

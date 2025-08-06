@@ -497,25 +497,34 @@ func (pdf *PDF) addStructElementObjects() {
 			pdf.appendString(" 0 R\n/Pg ")
 			pdf.appendInteger(element.pageObjNumber)
 			pdf.appendString(" 0 R\n")
+
 			if element.annotation != nil {
 				pdf.appendString("/K <</Type /OBJR /Obj ")
 				pdf.appendInteger(element.annotation.objNumber)
-				pdf.appendString(" 0 R>>")
+				pdf.appendString(" 0 R>>\n")
 			} else {
 				pdf.appendString("/K ")
 				pdf.appendInteger(element.mcid)
+				pdf.appendString("\n")
 			}
-			pdf.appendString("\n/Lang (")
+
+			pdf.appendString("/Lang (")
 			if element.language != "" {
 				pdf.appendString(element.language)
 			} else {
 				pdf.appendString(pdf.language)
 			}
-			pdf.appendString(")\n/Alt <")
+			pdf.appendString(")\n")
+
+			pdf.appendString("/Alt <")
 			pdf.appendString(toHex(element.altDescription))
-			pdf.appendString(">\n/ActualText <")
+			pdf.appendString(">\n")
+
+			pdf.appendString("/ActualText <")
 			pdf.appendString(toHex(element.actualText))
-			pdf.appendString(">\n>>\n")
+			pdf.appendString(">\n")
+
+			pdf.appendString(">>\n")
 			pdf.endobj()
 		}
 	}

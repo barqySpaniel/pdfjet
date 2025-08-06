@@ -39,6 +39,4 @@ public class Token {
     public static let endText = Array("ET\n".utf8)
     public static let count = Array("/Count ".utf8);
     public static let length = Array("/Length ".utf8);
-    public static let beginStructElem = Array("<<\n/Type /StructElem /S /".utf8)
-    public static let endStructElem = Array(">>\n".utf8)
 }

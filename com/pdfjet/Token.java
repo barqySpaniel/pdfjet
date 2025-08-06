@@ -14,6 +14,4 @@ public class Token {
     public static final byte[] endText = "ET\n".getBytes();
     public static final byte[] count = "/Count ".getBytes();
     public static final byte[] length = "/Length ".getBytes();
-    public static final byte[] beginStructElem = "<<\n/Type /StructElem /S /".getBytes();
-    public static final byte[] endStructElem = ">>\n".getBytes();
 }
