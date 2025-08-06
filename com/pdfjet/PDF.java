@@ -526,16 +526,14 @@ final public class PDF {
                 // append(toHex(element.actualText));
 
                 append(Token.altDescription);
-                // append("<");
+                append("<");
                 append(toHex(element.altDescription));
-                // append(">\n");
-                append(Token.newline);
+                append(">\n");
 
                 append(Token.actualText);
                 append("<");
                 append(toHex(element.actualText));
                 append(">\n");
-                // append(Token.newline);
 
                 append(Token.endStructElem);
                 endobj();
