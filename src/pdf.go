@@ -396,13 +396,7 @@ func (pdf *PDF) addPagesObject() int {
 	pdf.appendString("/Type /Pages\n")
 	pdf.appendString("/Kids [\n")
 	for _, page := range pdf.pages {
-		if pdf.compliance == compliance.PDF_UA_1 ||
-			pdf.compliance == compliance.PDF_A_1A ||
-			pdf.compliance == compliance.PDF_A_1B ||
-			pdf.compliance == compliance.PDF_A_2A ||
-			pdf.compliance == compliance.PDF_A_2B ||
-			pdf.compliance == compliance.PDF_A_3A ||
-			pdf.compliance == compliance.PDF_A_3B {
+		if pdf.compliance != compliance.PDF_15 {
 			page.setStructElementsPageObjNumber(page.objNumber)
 		}
 		pdf.appendInteger(page.objNumber)
@@ -606,13 +600,7 @@ func (pdf *PDF) addRootObject(structTreeRootObjNumber, outlineDictNumber int) in
 	pdf.appendString("<<\n")
 	pdf.appendString("/Type /Catalog\n")
 
-	if pdf.compliance == compliance.PDF_UA_1 ||
-		pdf.compliance == compliance.PDF_A_1A ||
-		pdf.compliance == compliance.PDF_A_1B ||
-		pdf.compliance == compliance.PDF_A_2A ||
-		pdf.compliance == compliance.PDF_A_2B ||
-		pdf.compliance == compliance.PDF_A_3A ||
-		pdf.compliance == compliance.PDF_A_3B {
+	if pdf.compliance != compliance.PDF_15 {
 		pdf.appendString("/Lang (")
 		pdf.appendString(pdf.language)
 		pdf.appendString(")\n")
@@ -643,13 +631,7 @@ func (pdf *PDF) addRootObject(structTreeRootObjNumber, outlineDictNumber int) in
 	pdf.appendInteger(pdf.pagesObjNumber)
 	pdf.appendString(" 0 R\n")
 
-	if pdf.compliance == compliance.PDF_UA_1 ||
-		pdf.compliance == compliance.PDF_A_1A ||
-		pdf.compliance == compliance.PDF_A_1B ||
-		pdf.compliance == compliance.PDF_A_2A ||
-		pdf.compliance == compliance.PDF_A_2B ||
-		pdf.compliance == compliance.PDF_A_3A ||
-		pdf.compliance == compliance.PDF_A_3B {
+	if pdf.compliance != compliance.PDF_15 {
 		pdf.appendString("/Metadata ")
 		pdf.appendInteger(pdf.metadataObjNumber)
 		pdf.appendString(" 0 R\n")
@@ -753,13 +735,7 @@ func (pdf *PDF) addAllPages(resObjNumber int) {
 			pdf.appendString("]\n")
 		}
 
-		if pdf.compliance == compliance.PDF_UA_1 ||
-			pdf.compliance == compliance.PDF_A_1A ||
-			pdf.compliance == compliance.PDF_A_1B ||
-			pdf.compliance == compliance.PDF_A_2A ||
-			pdf.compliance == compliance.PDF_A_2B ||
-			pdf.compliance == compliance.PDF_A_3A ||
-			pdf.compliance == compliance.PDF_A_3B {
+		if pdf.compliance != compliance.PDF_15 {
 			pdf.appendString("/Tabs /S\n")
 			pdf.appendString("/StructParents ")
 			pdf.appendInteger(i)
@@ -961,13 +937,7 @@ func (pdf *PDF) Complete() {
 	if pdf.prevPage != nil {
 		pdf.addPageContent(pdf.prevPage)
 	}
-	if pdf.compliance == compliance.PDF_UA_1 ||
-		pdf.compliance == compliance.PDF_A_1A ||
-		pdf.compliance == compliance.PDF_A_1B ||
-		pdf.compliance == compliance.PDF_A_2A ||
-		pdf.compliance == compliance.PDF_A_2B ||
-		pdf.compliance == compliance.PDF_A_3A ||
-		pdf.compliance == compliance.PDF_A_3B {
+	if pdf.compliance != compliance.PDF_15 {
 		pdf.metadataObjNumber = pdf.addMetadataObject("", false)
 		pdf.outputIntentObjNumber = pdf.addOutputIntentObject()
 	}
@@ -978,13 +948,7 @@ func (pdf *PDF) Complete() {
 	}
 
 	structTreeRootObjNumber := 0
-	if pdf.compliance == compliance.PDF_UA_1 ||
-		pdf.compliance == compliance.PDF_A_1A ||
-		pdf.compliance == compliance.PDF_A_1B ||
-		pdf.compliance == compliance.PDF_A_2A ||
-		pdf.compliance == compliance.PDF_A_2B ||
-		pdf.compliance == compliance.PDF_A_3A ||
-		pdf.compliance == compliance.PDF_A_3B {
+	if pdf.compliance != compliance.PDF_15 {
 		pdf.addStructElementObjects()
 		structTreeRootObjNumber = pdf.addStructTreeRootObject()
 		pdf.addNumsParentTree()
