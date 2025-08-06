@@ -40,12 +40,10 @@ public class Token {
     public static let endText = Array("ET\n".utf8)
     public static let count = Array("/Count ".utf8);
     public static let length = Array("/Length ".utf8);
+
     public static let beginStructElem = Array("<<\n/Type /StructElem /S /".utf8)
     public static let endStructElem = Array(">>\n".utf8)
+
     public static let beginAnnotation = Array("/K <</Type /OBJR /Obj ".utf8)
     public static let endAnnotation = Array(" 0 R>>".utf8)
-
-    public static let P = Array("\n/P ".utf8)
-    public static let objRefPg = Array(" 0 R /Pg ".utf8)
-    public static let K = Array("/K ".utf8)
 }
