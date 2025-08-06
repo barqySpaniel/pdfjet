@@ -48,7 +48,7 @@ public class Example_01 {
         textBlock.setKeywordHighlightColors(map);
         float[] xy = textBlock.drawOn(page);
 
-        // Draw a blue rectangle around the English text block
+        // Draw a small blue rectangle for testing ...
         Rect rect = new Rect(xy[0], xy[1], 30f, 30f);
         rect.setBorderColor(Color.blue);
         rect.drawOn(page);
