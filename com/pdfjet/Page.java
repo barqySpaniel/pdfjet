@@ -505,21 +505,19 @@ final public class Page {
         append("BT\n");
         setTextFont(font);
 
-        boolean leftToRigth = false;
+        boolean leftToRigth = true;
         float xText = x;
         float yText = y;
         for (TextOffset textOffset : textLines) {
-            // xText = x + textOffset.offset;
-
             if (leftToRigth) {
                 append("1 0 0 1 ");
                 append(xText);
                 append(' ');
-                append(height - yText);
+                append(height - (yText + font.ascent));
                 append(" Tm\n");
-            } else {
+            } else {    // bottomToTop
                 append("0 1 -1 0 ");
-                append(xText);
+                append(xText + font.ascent);
                 append(' ');
                 append(yText);
                 append(" Tm\n");
