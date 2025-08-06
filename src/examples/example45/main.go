@@ -12,16 +12,17 @@ import (
 // Example45 -- TODO:
 func Example45() {
 	pdf := pdfjet.NewPDFFile("Example_45.pdf")
-	pdf.SetCompliance(compliance.PDF_UA)
+	pdf.SetCompliance(compliance.PDF_UA_1)
 	pdf.SetLanguage("en-US")
 	pdf.SetTitle("Hello, World!")
 
 	f1 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream")
-	f2 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream")
-	f3 := pdfjet.NewFontFromFile(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream")
-
 	f1.SetSize(14.0)
+
+	f2 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream")
 	f2.SetSize(14.0)
+
+	f3 := pdfjet.NewFontFromFile(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream")
 	f3.SetSize(10.0)
 
 	page := pdfjet.NewPage(pdf, a4.Portrait)
