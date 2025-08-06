@@ -521,13 +521,17 @@ final public class PDF {
                 }
                 append(")\n");
 
-                append("/Alt <");
-                append(toHex(element.altDescription));
-                append(">\n");
+                if (element.altDescription != null) {
+                    append("/Alt <");
+                    append(toHex(element.altDescription));
+                    append(">\n");
+                }
 
-                append("/ActualText <");
-                append(toHex(element.actualText));
-                append(">\n");
+                if (element.actualText != null) {
+                    append("/ActualText <");
+                    append(toHex(element.actualText));
+                    append(">\n");
+                }
 
                 append(">>\n");
                 endobj();
