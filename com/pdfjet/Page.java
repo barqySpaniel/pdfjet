@@ -504,24 +504,39 @@ final public class Page {
 
         append("BT\n");
         setTextFont(font);
+
+        float xText;
         float yText = y;
         for (TextOffset textOffset : textLines) {
-            float xText = x + textOffset.offset;
-            setTextLocation(xText, yText);
-            if (textOffset.text.length() > 0) {
-                append("<");
-                drawUnicodeString(font, textOffset.text);
-                append("> Tj\n");
-            }
+            xText = x + textOffset.offset;
+
+            append(this.tm0);
+            append(' ');
+            append(this.tm1);
+            append(' ');
+            append(this.tm2);
+            append(' ');
+            append(this.tm3);
+            append(' ');
+            append(xText);
+            append(' ');
+            append(height - yText);
+            append(" Tm\n");
+
+            append("<");
+            drawUnicodeString(font, textOffset.text);
+            append("> Tj\n");
+
             yText += leading;
         }
+
         append("ET\n");
 
         return yText;   // TODO: Minus font.descent ?
     }
 
     public void drawUnicodeString(Font font, String str) {
-        if (str == null || str.isEmpty()) { // These 3 line may not be needed!?
+        if (str == null || str.isEmpty()) {
             return;
         }
         if (font.isCJK) {
