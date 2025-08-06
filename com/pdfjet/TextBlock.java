@@ -434,8 +434,18 @@ public class TextBlock {
         float leading = (ascent + descent) * this.textLineHeight;
 
         TextOffset[] list = getTextOffsetList();
-        this.height += page.drawTextBlock(
+        float textBlockHeight = page.drawTextBlock(
             this.font, list, this.x, this.y, leading + this.textPadding, Direction.LEFT_TO_RIGHT);
+
+        Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight);
+        rect.setBorderColor(this.borderColor);
+        rect.setCornerRadius(this.borderCornerRadius);
+        rect.drawOn(page);
+
+        Rect rect2 = new Rect(this.x + this.width, this.y + textBlockHeight, 30f, 30f);
+        rect2.setBorderColor(Color.blue);
+        rect2.setCornerRadius(this.borderCornerRadius);
+        rect2.drawOn(page);
 
 /*
         float xText = 0.0f;

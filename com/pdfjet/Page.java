@@ -500,7 +500,7 @@ final public class Page {
             float leading,
             Direction direction) {
         if (textLines == null || textLines.length == 0) {
-            return y;
+            return textLines.length * leading;
         }
 
         append("BT\n");
@@ -536,7 +536,7 @@ final public class Page {
 
         append("ET\n");
 
-        return yText;   // TODO: Minus font.descent ?
+        return textLines.length * leading;
     }
 
     public void drawUnicodeString(Font font, String str) {
