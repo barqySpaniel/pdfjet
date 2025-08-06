@@ -34,7 +34,7 @@ public class TextBlock {
     private Font font;
     private Font fallbackFont;
     private String textContent;
-    private float textLineHeight;
+    private float lineSpacing;
     private int textColor;
     private float textPadding;
     private float borderWidth;
@@ -65,7 +65,7 @@ public class TextBlock {
         this.height = 500.0f;
         this.font = font;
         this.textContent = textContent;
-        this.textLineHeight = 1.0f;
+        this.lineSpacing = 1.0f;
         this.textColor = Color.black;
         this.textPadding = 0.0f;
         this.textDirection = Direction.LEFT_TO_RIGHT;
@@ -142,8 +142,8 @@ public class TextBlock {
         this.borderColor = borderColor;
     }
 
-    public void setTextLineHeight(float textLineHeight) {
-        this.textLineHeight = textLineHeight;
+    public void setLineSpacing(float textLineHeight) {
+        this.lineSpacing = textLineHeight;
     }
 
     public void setTextColor(int textColor) {
@@ -248,7 +248,7 @@ public class TextBlock {
         page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float ascent = this.font.getAscent();
         float descent = this.font.getDescent();
-        float leading = (ascent + descent) * this.textLineHeight;
+        float leading = (ascent + descent) * this.lineSpacing;
         List<String> lines = getTextLines();
         float xText = 0.0f;
         float yText = 0.0f;
@@ -436,7 +436,7 @@ public class TextBlock {
         // page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float ascent = this.font.getAscent();
         float descent = this.font.getDescent();
-        float leading = (ascent + descent) * this.textLineHeight;
+        float leading = (ascent + descent) * this.lineSpacing;
 
         TextLineWithOffset[] textLines = getTextOffsetList();
         rightAlignText(textLines);

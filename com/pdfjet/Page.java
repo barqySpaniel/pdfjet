@@ -508,10 +508,10 @@ final public class Page {
 
         float xText = x;
         float yText = y;
-        for (TextLineWithOffset textLineWithOffset : textLines) {
+        for (TextLineWithOffset textLine : textLines) {
             if (direction == Direction.LEFT_TO_RIGHT) {
                 append("1 0 0 1 ");
-                append(xText + textLineWithOffset.xOffset);
+                append(xText + textLine.xOffset);
                 append(' ');
                 append(height - (yText + font.ascent));
                 append(" Tm\n");
@@ -524,7 +524,7 @@ final public class Page {
             }
 
             append("<");
-            drawUnicodeString(font, textLineWithOffset.textLine);
+            drawUnicodeString(font, textLine.textLine);
             append("> Tj\n");
 
             if (direction == Direction.LEFT_TO_RIGHT) {
