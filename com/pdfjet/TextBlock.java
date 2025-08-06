@@ -449,10 +449,10 @@ public class TextBlock {
         rect.setCornerRadius(this.borderCornerRadius);
         rect.drawOn(page);
 
-        Rect rect2 = new Rect(this.x + this.width, this.y + textBlockHeight, 30f, 30f);
-        rect2.setBorderColor(Color.blue);
-        rect2.setCornerRadius(this.borderCornerRadius);
-        rect2.drawOn(page);
+        // Rect rect2 = new Rect(this.x + this.width, this.y + textBlockHeight, 30f, 30f);
+        // rect2.setBorderColor(Color.blue);
+        // rect2.setCornerRadius(this.borderCornerRadius);
+        // rect2.drawOn(page);
 
 /*
         float xText = 0.0f;
@@ -530,6 +530,6 @@ public class TextBlock {
         }
         page.setTextDirection(0);
 */
-        return new float[] { this.x + this.width, this.y + this.height };
+        return new float[] { this.x + this.width, this.y + textBlockHeight };
     }
 }
