@@ -36,7 +36,7 @@ public class PDF {
     var destinations = [String : Destination]()
     var groups = [OptionalContentGroup]()
     var states = [String : Int]()
-    var compliance = Compliance.NONE
+    var compliance = Compliance.PDF_15
     var toc: Bookmark?
     var importedFonts = [String]()
     var extGState = ""
@@ -73,7 +73,7 @@ public class PDF {
     /// - Parameter os the associated output stream.
     ///
     public convenience init(_ os: OutputStream) {
-        self.init(os, Compliance.NONE)
+        self.init(os, Compliance.PDF_15)
     }
 
     /// Here is the layout of the PDF document:

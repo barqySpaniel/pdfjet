@@ -4,7 +4,7 @@ import PDFjet
 public class Example_43 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_43.pdf", append: false)!)
-        pdf.setCompliance(Compliance.PDF_UA)
+        pdf.setCompliance(Compliance.PDF_UA_1)
 
         // Used for performance testing. Results in 2000+ pages PDF.
         let fileName = "data/Electric_Vehicle_Population_Data.csv"

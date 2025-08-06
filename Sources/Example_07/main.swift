@@ -9,7 +9,7 @@ public class Example_07 {
         // let pdf = PDF(OutputStream(toFileAtPath: "Example_07.pdf", append: false)!, Compliance.PDF_A_1B)
         // pdf.setTitle("PDF/A-1B compliant PDF")
 
-        let pdf = PDF(OutputStream(toFileAtPath: "Example_07.pdf", append: false)!, Compliance.PDF_UA)
+        let pdf = PDF(OutputStream(toFileAtPath: "Example_07.pdf", append: false)!, Compliance.PDF_UA_1)
         pdf.setTitle("PDF/UA compliant PDF")
 
         let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")

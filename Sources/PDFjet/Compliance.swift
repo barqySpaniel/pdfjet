@@ -4,7 +4,7 @@
  *
  */
 public enum Compliance: Int {
-    case NONE
+    case PDF_15
     case PDF_UA_1
     case PDF_A_1A
     case PDF_A_1B
