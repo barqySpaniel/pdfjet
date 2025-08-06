@@ -23,7 +23,12 @@ public class Example_01 {
         PDF pdf = new PDF(new BufferedOutputStream(new FileOutputStream("Example_01.pdf")));
         
         // Set PDF/UA compliance (required for accessibility)
-        pdf.setCompliance(Compliance.PDF_UA);
+        pdf.setCompliance(Compliance.PDF_UA_1);
+        // pdf.setCompliance(Compliance.PDF_A_1B);
+        // pdf.setCompliance(Compliance.PDF_A_2A);
+        // pdf.setCompliance(Compliance.PDF_A_2B);
+        // pdf.setCompliance(Compliance.PDF_A_3A);
+        // pdf.setCompliance(Compliance.PDF_A_3B);
 
         // Set the title of the document (required for PDF/UA compliance)
         pdf.setTitle("Document containing English, Greek and Bulgarian text blocks.");
