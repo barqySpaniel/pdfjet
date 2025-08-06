@@ -1698,7 +1698,7 @@ final public class Page {
             String language,
             String actualText,
             String altDescription) {
-        if (pdf.compliance == Compliance.PDF_UA) {
+        if (pdf.compliance == Compliance.PDF_UA_1) {
             StructElem element = new StructElem();
             element.structure = structure;
             element.mcid = this.mcid;
@@ -1717,13 +1717,13 @@ final public class Page {
     }
 
     public void addArtifactBMC() {
-        if (pdf.compliance == Compliance.PDF_UA) {
+        if (pdf.compliance == Compliance.PDF_UA_1) {
             append("/Artifact BMC\n");
         }
     }
 
     public void addEMC() {
-        if (pdf.compliance == Compliance.PDF_UA) {
+        if (pdf.compliance == Compliance.PDF_UA_1) {
             append("EMC\n");
         }
     }
@@ -1732,7 +1732,7 @@ final public class Page {
         annotation.y1 = this.height - annotation.y1;
         annotation.y2 = this.height - annotation.y2;
         annots.add(annotation);
-        if (pdf.compliance == Compliance.PDF_UA) {
+        if (pdf.compliance == Compliance.PDF_UA_1) {
             StructElem element = new StructElem();
             element.structure = StructElem.LINK;
             element.language = annotation.language;

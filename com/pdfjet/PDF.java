@@ -188,15 +188,17 @@ final public class PDF {
         } else {
             sb.append("<rdf:Description rdf:about=\"\"\n");
             sb.append("    xmlns:pdf=\"http://ns.adobe.com/pdf/1.3/\"\n");
-            sb.append("    xmlns:pdfaid=\"http://www.aiim.org/pdfa/ns/id/\"\n");
             sb.append("    xmlns:dc=\"http://purl.org/dc/elements/1.1/\"\n");
             sb.append("    xmlns:xmp=\"http://ns.adobe.com/xap/1.0/\"\n");
             sb.append("    xmlns:xapMM=\"http://ns.adobe.com/xap/1.0/mm/\"\n");
+            sb.append("    xmlns:pdfaid=\"http://www.aiim.org/pdfa/ns/id/\"\n");
             sb.append("    xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\">\n");
 
-            sb.append("  <dc:format>application/pdf</dc:format>\n");
-            if (compliance == Compliance.PDF_UA) {
+            sb.append("    <dc:format>application/pdf</dc:format>\n");
+            if (compliance == Compliance.PDF_UA_1) {
                 sb.append("  <pdfuaid:part>1</pdfuaid:part>\n");
+                sb.append("  <pdfuaid:identifier>PDF-UA-1</pdfuaid:identifier>\n");
+                sb.append("  <pdfuaid:docstructure>structured</pdfuaid:docstructure>\n");
             } else  if (compliance == Compliance.PDF_A_1A) {
                 sb.append("  <pdfaid:part>1</pdfaid:part>\n");
                 sb.append("  <pdfaid:conformance>A</pdfaid:conformance>\n");
@@ -401,7 +403,7 @@ final public class PDF {
         append("/Kids [\n");
         for (int i = 0; i < pages.size(); i++) {
             Page page = pages.get(i);
-            if (compliance == Compliance.PDF_UA ||
+            if (compliance == Compliance.PDF_UA_1 ||
                     compliance == Compliance.PDF_A_1A ||
                     compliance == Compliance.PDF_A_1B ||
                     compliance == Compliance.PDF_A_2A ||
@@ -612,7 +614,7 @@ final public class PDF {
         append(Token.beginDictionary);
         append("/Type /Catalog\n");
 
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -649,7 +651,7 @@ final public class PDF {
         append(pagesObjNumber);
         append(Token.objRef);
 
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -760,7 +762,7 @@ final public class PDF {
                 append("]\n");
             }
 
-            if (compliance == Compliance.PDF_UA ||
+            if (compliance == Compliance.PDF_UA_1 ||
                     compliance == Compliance.PDF_A_1A ||
                     compliance == Compliance.PDF_A_1B ||
                     compliance == Compliance.PDF_A_2A ||
@@ -1014,7 +1016,7 @@ final public class PDF {
         if (prevPage != null) {
             addPageContent(prevPage);
         }
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -1031,7 +1033,7 @@ final public class PDF {
         }
 
         int structTreeRootObjNumber = 0;
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
