@@ -15,14 +15,12 @@ public class Token {
     public static final byte space = ' ';
     public static final byte newline = '\n';
     public static final byte[] beginStructElem = "<<\n/Type /StructElem /S /".getBytes();
-    public static final byte[] endStructElem = ">\n>>\n".getBytes();
+    public static final byte[] endStructElem = ">>\n".getBytes();
     public static final byte[] beginAnnotation = "/K <</Type /OBJR /Obj ".getBytes();
     public static final byte[] endAnnotation = " 0 R>>".getBytes();
-    public static final byte[] actualText = ">\n/ActualText ".getBytes();
-    public static final byte[] altDescription = ")\n/Alt ".getBytes();
 
-    public static final byte[] P = "\n/P ".getBytes();
+    public static final byte[] P = "/P ".getBytes();
     public static final byte[] objRefPg = " 0 R /Pg ".getBytes();
     public static final byte[] K = "/K ".getBytes();
-    public static final byte[] lang = "\n/Lang (".getBytes();
+    public static final byte[] lang = "/Lang (".getBytes();
 }

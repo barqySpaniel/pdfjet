@@ -520,18 +520,11 @@ final public class PDF {
                 }
                 append(Token.newline);
 
-                // append(Token.altDescription);
-                // append(toHex(element.altDescription));
-                // append(Token.actualText);
-                // append(toHex(element.actualText));
-
-                append(Token.altDescription);
-                append("<");
+                append("/Alt <");
                 append(toHex(element.altDescription));
                 append(">\n");
 
-                append(Token.actualText);
-                append("<");
+                append("/ActualText <");
                 append(toHex(element.actualText));
                 append(">\n");
 
