@@ -507,18 +507,18 @@ final public class PDF {
                     append(element.annotation.objNumber);
                     append(Token.endAnnotation);
                 } else {
-                    append(Token.K);
+                    append("/K ");
                     append(element.mcid);
+                    append(Token.newline);
                 }
-                append(Token.newline);
 
-                append(Token.lang);
+                append("/Lang (");
                 if (element.language != null) {
                     append(element.language);
                 } else {
                     append(language);
                 }
-                append(Token.newline);
+                append(")\n");
 
                 append("/Alt <");
                 append(toHex(element.altDescription));
