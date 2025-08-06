@@ -497,9 +497,9 @@ final public class PDF {
                 element.objNumber = getObjNumber();
                 append(Token.beginStructElem);
                 append(element.structure);
-                append(Token.P);
+                append("/P ");
                 append(structTreeRootObjNumber + 2);    // Use the document struct as parent!
-                append(Token.objRefPg);
+                append(" 0 R /Pg ");
                 append(element.pageObjNumber);
                 append(Token.objRef);
                 if (element.annotation != null) {

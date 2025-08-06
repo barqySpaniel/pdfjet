@@ -19,7 +19,4 @@ public class Token {
     public static final byte[] endStructElem = ">>\n".getBytes();
     public static final byte[] beginAnnotation = "/K <</Type /OBJR /Obj ".getBytes();
     public static final byte[] endAnnotation = " 0 R>>\n".getBytes();
-    public static final byte[] P = "/P ".getBytes();
-    public static final byte[] objRefPg = " 0 R /Pg ".getBytes();
-    public static final byte[] K = "/K ".getBytes();
 }
