@@ -516,27 +516,22 @@ final public class PDF {
                 } else {
                     append(language);
                 }
-                append(Token.altDescription);
-                append(toHex(element.altDescription));
-                append(Token.actualText);
-                append(toHex(element.actualText));
+                // append(Token.altDescription);
+                // append(toHex(element.altDescription));
+                // append(Token.actualText);
+                // append(toHex(element.actualText));
+
+                    append(Token.altDescription);
+                    append("<");
+                    append(toHex(element.altDescription));
+                    append(">\n");
+
+                    append(Token.actualText);
+                    append("<");
+                    append(toHex(element.actualText));
+                    append(">\n");
+
                 append(Token.endStructElem);
-
-
-                // if (element.altDescription != null) {
-                //     append(Token.altDescription);
-                //     append('<');
-                //     append(toHex(element.altDescription));
-                //     append('>');
-                // }
-                // if (element.actualText != null) {
-                //     append(Token.actualText);
-                //     append('<');
-                //     append(toHex(element.actualText));
-                //     append('>');
-                // }
-                // append(Token.endStructElem);
-
                 endobj();
             }
         }
