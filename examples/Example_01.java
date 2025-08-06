@@ -36,8 +36,8 @@ public class Example_01 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Map<String, Integer> map = new HashMap<String, Integer>();
-        map.put("Everyone", Color.red);
-        map.put("pay", Color.green);
+        map.put("Everyone", Color.darkred);
+        map.put("pay", Color.darkgreen);
         map.put("freedom", Color.blue);
 
         // Add English text from a file
