@@ -43,7 +43,7 @@ public class Example_01 {
         TextBlock textBlock = new TextBlock(
             font, Content.ofTextFile("data/languages/english.txt"));
         textBlock.setLocation(50f, 50f);
-        textBlock.setWidth(450f);
+        textBlock.setWidth(473f);
         textBlock.setTextPadding(10f);
         textBlock.setKeywordHighlightColors(map);
         float[] xy = textBlock.drawOn(page);
@@ -56,7 +56,7 @@ public class Example_01 {
         // Add Greek text from a file
         textBlock = new TextBlock(font, Content.ofTextFile("data/languages/greek.txt"));
         textBlock.setLocation(50f, xy[1] + 30f);
-        textBlock.setWidth(450f);
+        textBlock.setWidth(473f);
         textBlock.setTextPadding(10f);
         textBlock.setBorderColor(Color.none); // No border for Greek text
         xy = textBlock.drawOn(page);
@@ -64,7 +64,7 @@ public class Example_01 {
         // Add Bulgarian text from a file with a blue border and rounded corners
         textBlock = new TextBlock(font, Content.ofTextFile("data/languages/bulgarian.txt"));
         textBlock.setLocation(50f, xy[1] + 30f);
-        textBlock.setWidth(450f);
+        textBlock.setWidth(473f);
         textBlock.setTextPadding(10f);
         textBlock.setBorderColor(Color.blue);
         textBlock.setBorderCornerRadius(10f);
