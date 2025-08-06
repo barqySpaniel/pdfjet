@@ -70,7 +70,7 @@ public class TextBlock {
         this.textContent = textContent;
         this.lineSpacing = 1.0f;
         this.textColor = Color.black;
-        this.textPadding = 10.0f;
+        this.textPadding = 0.0f;
         this.textDirection = Direction.LEFT_TO_RIGHT;
         this.textAlignment = Alignment.LEFT;
 
@@ -189,36 +189,6 @@ public class TextBlock {
         return numOfCJK > (chars.length / 2);
     }
 
-    private void drawTextLine(
-            Page page,
-            Font font,
-            String text,
-            float xText,
-            float yText,
-            int textColor) throws Exception {
-        if (this.textDirection == Direction.BOTTOM_TO_TOP) {
-            page.setTextDirection(90);
-        }
-        page.drawString(font, text, xText, yText, textColor, null);
-        if (this.textDirection == Direction.LEFT_TO_RIGHT) {
-            float lineLength = this.font.stringWidth(fallbackFont, text);
-            if (this.underline) {
-                page.addArtifactBMC();
-                page.moveTo(xText, yText + font.getUnderlinePosition());
-                page.lineTo(xText + lineLength, yText + font.getUnderlinePosition());
-                page.strokePath();
-                page.addEMC();
-            }
-            if (this.strikeout) {
-                page.addArtifactBMC();
-                page.moveTo(xText, yText - (font.getBodyHeight() / 4));
-                page.lineTo(xText + lineLength, yText - (font.getBodyHeight() / 4));
-                page.strokePath();
-                page.addEMC();
-            }
-        }
-    }
-
     private TextLineWithOffset[] getTextLinesWithOffsets() {
         List<TextLineWithOffset> textLines = new ArrayList<>();
 
@@ -300,9 +270,11 @@ public class TextBlock {
         float leading = (ascent + descent) * this.lineSpacing;
 
         TextLineWithOffset[] textLines = getTextLinesWithOffsets();
-        // rightAlignText(textLines);
-
-        Direction textDirection = Direction.LEFT_TO_RIGHT;
+        if (textAlignment == Alignment.RIGHT) {
+            rightAlignText(textLines);
+        } else if (textAlignment == Alignment.CENTER) {
+            centerText(textLines);
+        }
 
         page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float textBlockHeight = page.drawTextBlock(
@@ -311,8 +283,8 @@ public class TextBlock {
             this.x + this.textPadding,
             this.y + this.textPadding,
             leading * this.lineSpacing,
-            textDirection,
-            Color.black,
+            this.textDirection,
+            this.textColor,
             keywordHighlightColors);
         page.addEMC();
 
@@ -322,19 +294,19 @@ public class TextBlock {
         rect.drawOn(page);
 
 /*
-        if (this.textDirection == Direction.LEFT_TO_RIGHT && (this.uri != null || this.key != null)) {
+        if (this.textDirection == Direction.LEFT_TO_RIGHT &&
+                (this.uri != null || this.key != null)) {
             page.addAnnotation(new Annotation(
-                    this.uri,
-                    this.key, // The destination name
-                    this.x,
-                    this.y,
-                    this.x + this.width,
-                    this.y + this.height,
-                    this.uriLanguage,
-                    this.uriActualText,
-                    this.uriAltDescription));
+                this.uri,
+                this.key, // The destination name
+                this.x,
+                this.y,
+                this.x + this.width,
+                this.y + this.height,
+                this.uriLanguage,
+                this.uriActualText,
+                this.uriAltDescription));
         }
-        page.setTextDirection(0);
 */
         return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
     }
