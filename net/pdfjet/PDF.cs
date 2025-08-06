@@ -381,13 +381,7 @@ public class PDF {
         Append("/Kids [\n");
         for (int i = 0; i < pages.Count; i++) {
             Page page = pages[i];
-            if (compliance == Compliance.PDF_UA_1 ||
-                    compliance == Compliance.PDF_A_1A ||
-                    compliance == Compliance.PDF_A_1B ||
-                    compliance == Compliance.PDF_A_2A ||
-                    compliance == Compliance.PDF_A_2B ||
-                    compliance == Compliance.PDF_A_3A ||
-                    compliance == Compliance.PDF_A_3B) {
+            if (compliance != Compliance.PDF_15) {
                 page.SetStructElementsPageObjNumber(page.objNumber);
             }
             Append(page.objNumber);
@@ -591,13 +585,7 @@ public class PDF {
         Append(Token.beginDictionary);
         Append("/Type /Catalog\n");
 
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             Append("/Lang (");
             Append(language);
             Append(")\n");
@@ -628,13 +616,7 @@ public class PDF {
         Append(pagesObjNumber);
         Append(" 0 R\n");
 
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             Append("/Metadata ");
             Append(metadataObjNumber);
             Append(" 0 R\n");
@@ -738,13 +720,7 @@ public class PDF {
                 Append("]\n");
             }
 
-            if (compliance == Compliance.PDF_UA_1 ||
-                    compliance == Compliance.PDF_A_1A ||
-                    compliance == Compliance.PDF_A_1B ||
-                    compliance == Compliance.PDF_A_2A ||
-                    compliance == Compliance.PDF_A_2B ||
-                    compliance == Compliance.PDF_A_3A ||
-                    compliance == Compliance.PDF_A_3B) {
+            if (compliance != Compliance.PDF_15) {
                 Append("/Tabs /S\n");
                 Append("/StructParents ");
                 Append(i);
@@ -959,13 +935,7 @@ public class PDF {
         if (prevPage != null) {
             AddPageContent(prevPage);
         }
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             metadataObjNumber = AddMetadataObject("", false);
             outputIntentObjNumber = AddOutputIntentObject();
         }
@@ -976,13 +946,7 @@ public class PDF {
         }
 
         int structTreeRootObjNumber = 0;
-        if (compliance == Compliance.PDF_UA_1 ||
-                compliance == Compliance.PDF_A_1A ||
-                compliance == Compliance.PDF_A_1B ||
-                compliance == Compliance.PDF_A_2A ||
-                compliance == Compliance.PDF_A_2B ||
-                compliance == Compliance.PDF_A_3A ||
-                compliance == Compliance.PDF_A_3B) {
+        if (compliance != Compliance.PDF_15) {
             AddStructElementObjects();
             structTreeRootObjNumber = AddStructTreeRootObject();
             AddNumsParentTree();
