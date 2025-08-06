@@ -179,7 +179,7 @@ public class PDF {
             sb.Append("    xmlns:pdfuaid=\"http://www.aiim.org/pdfua/ns/id/\">\n");
 
             sb.Append("  <dc:format>application/pdf</dc:format>\n");
-            if (compliance == Compliance.PDF_UA) {
+            if (compliance == Compliance.PDF_UA_1) {
                 sb.Append("  <pdfuaid:part>1</pdfuaid:part>\n");
             } else if (compliance == Compliance.PDF_A_1A) {
                 sb.Append("  <pdfaid:part>1</pdfaid:part>\n");
@@ -381,7 +381,7 @@ public class PDF {
         Append("/Kids [\n");
         for (int i = 0; i < pages.Count; i++) {
             Page page = pages[i];
-            if (compliance == Compliance.PDF_UA ||
+            if (compliance == Compliance.PDF_UA_1 ||
                     compliance == Compliance.PDF_A_1A ||
                     compliance == Compliance.PDF_A_1B ||
                     compliance == Compliance.PDF_A_2A ||
@@ -591,7 +591,7 @@ public class PDF {
         Append(Token.beginDictionary);
         Append("/Type /Catalog\n");
 
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -628,7 +628,7 @@ public class PDF {
         Append(pagesObjNumber);
         Append(" 0 R\n");
 
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -738,7 +738,7 @@ public class PDF {
                 Append("]\n");
             }
 
-            if (compliance == Compliance.PDF_UA ||
+            if (compliance == Compliance.PDF_UA_1 ||
                     compliance == Compliance.PDF_A_1A ||
                     compliance == Compliance.PDF_A_1B ||
                     compliance == Compliance.PDF_A_2A ||
@@ -959,7 +959,7 @@ public class PDF {
         if (prevPage != null) {
             AddPageContent(prevPage);
         }
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
@@ -976,7 +976,7 @@ public class PDF {
         }
 
         int structTreeRootObjNumber = 0;
-        if (compliance == Compliance.PDF_UA ||
+        if (compliance == Compliance.PDF_UA_1 ||
                 compliance == Compliance.PDF_A_1A ||
                 compliance == Compliance.PDF_A_1B ||
                 compliance == Compliance.PDF_A_2A ||
