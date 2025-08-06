@@ -288,10 +288,12 @@ public class TextBlock {
             keywordHighlightColors);
         page.addEMC();
 
+        page.addArtifactBMC();
         Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
         rect.setBorderColor(this.borderColor);
         rect.setCornerRadius(this.borderCornerRadius);
         rect.drawOn(page);
+        page.addEMC();
 
 /*
         if (this.textDirection == Direction.LEFT_TO_RIGHT &&
