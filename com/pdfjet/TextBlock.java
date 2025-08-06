@@ -74,7 +74,7 @@ public class TextBlock {
         this.textDirection = Direction.LEFT_TO_RIGHT;
         this.textAlignment = Alignment.LEFT;
 
-        this.borderWidth = 0.5f;
+        this.borderWidth = 0.0f;
         this.borderCornerRadius = 0.0f;
         this.borderColor = Color.black;
 
@@ -261,8 +261,6 @@ public class TextBlock {
             throw new IllegalArgumentException("A valid Page object is required.");
         }
 
-        page.setBrushColor(this.textColor);
-        page.setPenColor(this.borderColor);
         page.setPenWidth(this.borderWidth);
 
         float ascent = this.font.getAscent();

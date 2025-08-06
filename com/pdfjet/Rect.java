@@ -95,8 +95,8 @@ public class Rect {
      * Sets the color for this rect.
      * @param color the color specified as an integer.
      */
-    public void setBorderColor(int color) {
-        this.borderColor = color;
+    public void setBorderColor(int borderColor) {
+        this.borderColor = borderColor;
     }
 
     /**
@@ -206,30 +206,23 @@ public class Rect {
     public float[] drawOn(Page page) throws Exception {
         final float k = 0.5517f;
 
+        page.addArtifactBMC();
+        page.saveGraphicsState();
+        page.setBrushColor(this.borderColor);
+        page.setPenColor(this.borderColor);
+        page.setPenWidth(this.width);
+        page.setLinePattern(this.pattern);
         if (this.r == 0.0f) {
-            page.saveGraphicsState();
-            // page.addArtifactBMC();
             page.moveTo(this.x, this.y);
             page.lineTo(this.x + this.w, this.y);
             page.lineTo(this.x + this.w, this.y + this.h);
             page.lineTo(this.x, this.y + this.h);
             if (this.fillShape) {
-                page.setBrushColor(this.borderColor);
                 page.fillPath();
             } else {
-                page.setPenWidth(this.width);
-                page.setPenColor(this.borderColor);
-                page.setLinePattern(this.pattern);
                 page.closePath();
             }
-            // page.addEMC();
-            page.restoreGraphicsState();
         } else {
-            page.saveGraphicsState();
-            page.setPenWidth(this.width);
-            page.setPenColor(this.borderColor);
-            page.setLinePattern(this.pattern);
-
             List<Point> points = new ArrayList<>();
             points.add(new Point((this.x + this.r), this.y, false));
             points.add(new Point((this.x + this.w) - this.r, this.y, false));
@@ -248,24 +241,22 @@ public class Rect {
             points.add(new Point(this.x, (this.y + this.r) - this.r * k, true));
             points.add(new Point((this.x + this.r) - this.r * k, this.y, true));
             points.add(new Point((this.x + this.r), this.y, false));
-
-            // page.addArtifactBMC();
             page.drawPath(points, Operation.STROKE);
-            // page.addEMC();
-            page.restoreGraphicsState();
         }
+        page.restoreGraphicsState();
+        page.addEMC();
 
         if (this.uri != null || this.key != null) {
             page.addAnnotation(new Annotation(
-                    this.uri,
-                    this.key, // The destination name
-                    this.x,
-                    this.y,
-                    this.x + this.w,
-                    this.y + this.h,
-                    this.language,
-                    this.actualText,
-                    this.altDescription));
+                this.uri,
+                this.key, // The destination name
+                this.x,
+                this.y,
+                this.x + this.w,
+                this.y + this.h,
+                this.language,
+                this.actualText,
+                this.altDescription));
         }
 
         return new float[] { this.x + this.w, this.y + this.h };
