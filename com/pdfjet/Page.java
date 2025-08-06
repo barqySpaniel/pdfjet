@@ -503,7 +503,9 @@ final public class Page {
             float x,
             float y,
             float leading,
-            Direction direction) {
+            Direction direction,
+            Integer textColor,
+            Map<String, Integer> highlightColors) {
         if (textLines == null || textLines.length == 0) {
             return textLines.length * leading;
         }
@@ -528,9 +530,14 @@ final public class Page {
                 append(" Tm\n");
             }
 
-            append("<");
-            drawUnicodeString(font, textLine.textLine);
-            append("> Tj\n");
+            if (highlightColors == null) {
+                setBrushColor(textColor);
+                append("<");
+                drawUnicodeString(font, textLine.textLine);
+                append("> Tj\n");
+            } else {
+                drawColoredString(font, textLine.textLine, textColor, highlightColors);
+            }
 
             if (direction == Direction.LEFT_TO_RIGHT) {
                 yText += leading;

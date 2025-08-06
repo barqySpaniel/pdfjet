@@ -1,7 +1,9 @@
 package com.pdfjet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * TextBlock.java
@@ -426,12 +428,13 @@ public class TextBlock {
     }
 
     public float[] drawOn(Page page) throws Exception {
-        if (page != null) {
-            // TODO: Deal with this now!!
+        if (page == null) {
+            throw new IllegalArgumentException("A valid Page object is required.");
         }
+
         page.setBrushColor(this.textColor);
         page.setPenColor(this.borderColor);
-        page.setPenWidth(this.font.getUnderlineThickness());
+        page.setPenWidth(this.borderWidth);
 
         float ascent = this.font.getAscent();
         float descent = this.font.getDescent();
@@ -439,10 +442,22 @@ public class TextBlock {
 
         TextLineWithOffset[] textLines = getTextOffsetList();
         rightAlignText(textLines);
-        
+
+        Map<String, Integer> highlightColorsMap = new HashMap<String, Integer>();
+        highlightColorsMap.put("Everyone", Color.red);
+        highlightColorsMap.put("pay", Color.green);
+        highlightColorsMap.put("freedom", Color.blue);
+
         page.addBMC(StructElem.P, this.language, this.textContent, this.altDescription);
         float textBlockHeight = page.drawTextBlock(
-            this.font, textLines, this.x, this.y, leading + this.textPadding, Direction.LEFT_TO_RIGHT);
+            this.font,
+            textLines,
+            this.x,
+            this.y,
+            leading + this.textPadding,
+            Direction.LEFT_TO_RIGHT,
+            Color.black,
+            highlightColorsMap);
         page.addEMC();
 
         Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight);
@@ -450,73 +465,7 @@ public class TextBlock {
         rect.setCornerRadius(this.borderCornerRadius);
         rect.drawOn(page);
 
-        // Rect rect2 = new Rect(this.x + this.width, this.y + textBlockHeight, 30f, 30f);
-        // rect2.setBorderColor(Color.blue);
-        // rect2.setCornerRadius(this.borderCornerRadius);
-        // rect2.drawOn(page);
-
 /*
-        float xText = 0.0f;
-        float yText = 0.0f;
-        switch (this.textDirection) {
-            case LEFT_TO_RIGHT:
-                yText = this.y + ascent + this.textPadding;
-                for (String line : lines) {
-                    switch (this.textAlignment) {
-                        case LEFT:
-                            xText = this.x + this.textPadding;
-                            break;
-                        case RIGHT:
-                            xText = (this.x + this.width) -
-                                (this.font.stringWidth(this.fallbackFont, line) + this.textPadding);
-                            break;
-                        case CENTER:
-                            xText = this.x + (this.width - this.font.stringWidth(this.fallbackFont, line)) / 2;
-                            break;
-                    }
-                    drawTextLine(
-                            page,
-                            this.font,
-                            line,
-                            xText,
-                            yText,
-                            this.textColor);
-                    yText += leading;
-                }
-                break;
-            case BOTTOM_TO_TOP:
-                xText = this.x + this.textPadding + ascent;
-                yText = this.y + this.height - this.textPadding;
-                for (String line : lines) {
-                    drawTextLine(
-                            page,
-                            this.font,
-                            line,
-                            xText,
-                            yText,
-                            this.textColor);
-                    xText += leading;
-                }
-                break;
-            case TOP_TO_BOTTOM:
-                break;
-        }
-        page.addEMC();
-
-        xText -= leading;
-        if ((xText + descent + this.textPadding) - this.x > this.width) {
-            this.width = (xText + descent + this.textPadding) - this.x;
-        }
-        yText -= leading;
-        if ((yText + descent + this.textPadding) - this.y > this.height) {
-            this.height = (yText + descent + this.textPadding) - this.y;
-        }
-
-        Rect rect = new Rect(this.x, this.y, this.width, this.height);
-        rect.setBorderColor(this.borderColor);
-        rect.setCornerRadius(this.borderCornerRadius);
-        rect.drawOn(page);
-
         if (this.textDirection == Direction.LEFT_TO_RIGHT && (this.uri != null || this.key != null)) {
             page.addAnnotation(new Annotation(
                     this.uri,
