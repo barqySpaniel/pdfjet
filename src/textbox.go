@@ -84,7 +84,7 @@ type TextBox struct {
 	uriLanguage       string
 	uriActualText     string
 	uriAltDescription string
-	textDirection     int
+	textDirection     direction.Direction
 }
 
 // NewTextBox creates a text box and sets the font.
@@ -711,6 +711,6 @@ func (textBlock *TextBox) SetURIAction(uri string) *TextBox {
 	return textBlock
 }
 
-func (textBox *TextBox) SetTextDirection(textDirection int) {
+func (textBox *TextBox) SetTextDirection(textDirection direction.Direction) {
 	textBox.textDirection = textDirection
 }

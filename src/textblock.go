@@ -38,7 +38,8 @@ type TextBlock struct {
 	y                  float32
 	width              float32
 	height             float32
-	font, fallbackFont *Font
+	font               *Font
+	fallbackFont       *Font
 	textContent        string
 	textLineHeight     float32
 	textColor          int32
@@ -53,7 +54,7 @@ type TextBlock struct {
 	uriLanguage        string
 	uriActualText      string
 	uriAltDescription  string
-	textDirection      int
+	textDirection      direction.Direction
 	textAlignment      int
 	underline          bool
 	strikeout          bool
@@ -353,7 +354,8 @@ func (textBlock *TextBlock) DrawOn(page *Page) [2]float32 {
 	rect.SetCornerRadius(textBlock.borderCornerRadius)
 	rect.DrawOn(page)
 
-	if textBlock.textDirection == direction.LeftToRight && (textBlock.uri != nil || textBlock.key != nil) {
+	if textBlock.textDirection == direction.LeftToRight &&
+		(textBlock.uri != nil || textBlock.key != nil) {
 		page.AddAnnotation(NewAnnotation(
 			textBlock.uri,
 			textBlock.key, // The destination name
@@ -410,6 +412,6 @@ func (textBlock *TextBlock) SetURIAction(uri string) *TextBlock {
 	return textBlock
 }
 
-func (textBlock *TextBlock) SetTextDirection(textDirection int) {
+func (textBlock *TextBlock) SetTextDirection(textDirection direction.Direction) {
 	textBlock.textDirection = textDirection
 }

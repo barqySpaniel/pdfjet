@@ -24,9 +24,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+type Direction int // Custom type
+
 // Used to specify the text writing direction in textblock.go
 const (
-	LeftToRight = iota
+	LeftToRight Direction = iota
 	BottomToTop
 	TopToBottom
 )
