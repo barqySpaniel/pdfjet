@@ -374,6 +374,60 @@ func (page *Page) drawASCIIString(font *Font, text string) {
 	}
 }
 
+func (page *Page) drawTextBlock(
+	font Font,
+	textLines []TextLineWithOffset,
+	x float32,
+	y float32,
+	leading float32,
+	direction int,
+	textColor int32,
+	highlightColors map[string]int32) float32 {
+	if len(textLines) == 0 {
+		return float32(len(textLines)) * leading
+	}
+
+	appendString(&page.buf, "BT\n")
+	page.SetTextFont(page.font)
+
+	xText := x
+	yText := y
+	for _, textLine := range textLines {
+		if direction == LeftToRight {
+			appendString(&page.buf, "1 0 0 1 ")
+			appendFloat32(&page.buf, xText+textLine.xOffset)
+			appendString(&page.buf, " ")
+			appendFloat32(&page.buf, page.height-(yText+font.ascent))
+			appendString(&page.buf, " Tm\n")
+		} else { // BOTTOM_TO_TOP
+			appendString(&page.buf, "0 1 -1 0 ")
+			appendFloat32(&page.buf, xText+font.ascent)
+			appendString(&page.buf, " ")
+			appendFloat32(&page.buf, yText)
+			appendString(&page.buf, " Tm\n")
+		}
+
+		if highlightColors == nil {
+			page.SetBrushColor(textColor)
+			appendString(&page.buf, "<")
+			page.drawUnicodeString(page.font, textLine.textLine)
+			appendString(&page.buf, "> Tj\n")
+		} else {
+			page.drawColoredString(page.font, textLine.textLine, textColor, highlightColors)
+		}
+
+		if direction == LeftToRight {
+			yText += leading
+		} else {
+			xText += leading
+		}
+	}
+
+	appendString(&page.buf, "ET\n")
+
+	return float32(len(textLines)) * leading
+}
+
 func (page *Page) drawUnicodeString(font *Font, text string) {
 	runes := []rune(text)
 	if font.isCJK {
