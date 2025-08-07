@@ -875,13 +875,14 @@ func (page *Page) drawEllipse(x, y, r1, r2 float32, operation string) {
 func (page *Page) DrawPoint(p *Point) {
 	if p.shape != shape.Invisible {
 		list := []*Point{}
-		if p.shape == shape.Circle {
+		switch p.shape {
+		case shape.Circle:
 			if p.fillShape {
 				page.FillCircle(p.x, p.y, p.r)
 			} else {
 				page.DrawCircle(p.x, p.y, p.r)
 			}
-		} else if p.shape == shape.Diamond {
+		case shape.Diamond:
 			list = append(list, NewPoint(p.x, p.y-p.r))
 			list = append(list, NewPoint(p.x+p.r, p.y))
 			list = append(list, NewPoint(p.x, p.y+p.r))
@@ -891,7 +892,7 @@ func (page *Page) DrawPoint(p *Point) {
 			} else {
 				page.DrawPath(list, operation.Close)
 			}
-		} else if p.shape == shape.Box {
+		case shape.Box:
 			list = append(list, NewPoint(p.x-p.r, p.y-p.r))
 			list = append(list, NewPoint(p.x+p.r, p.y-p.r))
 			list = append(list, NewPoint(p.x+p.r, p.y+p.r))
@@ -901,10 +902,10 @@ func (page *Page) DrawPoint(p *Point) {
 			} else {
 				page.DrawPath(list, operation.Close)
 			}
-		} else if p.shape == shape.Plus {
+		case shape.Plus:
 			page.DrawLine(p.x-p.r, p.y, p.x+p.r, p.y)
 			page.DrawLine(p.x, p.y-p.r, p.x, p.y+p.r)
-		} else if p.shape == shape.UpArrow {
+		case shape.UpArrow:
 			list = append(list, NewPoint(p.x, p.y-p.r))
 			list = append(list, NewPoint(p.x+p.r, p.y+p.r))
 			list = append(list, NewPoint(p.x-p.r, p.y+p.r))
@@ -913,7 +914,7 @@ func (page *Page) DrawPoint(p *Point) {
 			} else {
 				page.DrawPath(list, operation.Close)
 			}
-		} else if p.shape == shape.DownArrow {
+		case shape.DownArrow:
 			list = append(list, NewPoint(p.x-p.r, p.y-p.r))
 			list = append(list, NewPoint(p.x+p.r, p.y-p.r))
 			list = append(list, NewPoint(p.x, p.y+p.r))
@@ -922,7 +923,7 @@ func (page *Page) DrawPoint(p *Point) {
 			} else {
 				page.DrawPath(list, operation.Close)
 			}
-		} else if p.shape == shape.LeftArrow {
+		case shape.LeftArrow:
 			list = append(list, NewPoint(p.x+p.r, p.y+p.r))
 			list = append(list, NewPoint(p.x-p.r, p.y))
 			list = append(list, NewPoint(p.x+p.r, p.y-p.r))
@@ -931,7 +932,7 @@ func (page *Page) DrawPoint(p *Point) {
 			} else {
 				page.DrawPath(list, operation.Close)
 			}
-		} else if p.shape == shape.RightArrow {
+		case shape.RightArrow:
 			list = append(list, NewPoint(p.x-p.r, p.y-p.r))
 			list = append(list, NewPoint(p.x+p.r, p.y))
 			list = append(list, NewPoint(p.x-p.r, p.y+p.r))
@@ -940,19 +941,19 @@ func (page *Page) DrawPoint(p *Point) {
 			} else {
 				page.DrawPath(list, operation.Close)
 			}
-		} else if p.shape == shape.HDash {
+		case shape.HDash:
 			page.DrawLine(p.x-p.r, p.y, p.x+p.r, p.y)
-		} else if p.shape == shape.VDash {
+		case shape.VDash:
 			page.DrawLine(p.x, p.y-p.r, p.x, p.y+p.r)
-		} else if p.shape == shape.XMark {
+		case shape.XMark:
 			page.DrawLine(p.x-p.r, p.y-p.r, p.x+p.r, p.y+p.r)
 			page.DrawLine(p.x-p.r, p.y+p.r, p.x+p.r, p.y-p.r)
-		} else if p.shape == shape.Multiply {
+		case shape.Multiply:
 			page.DrawLine(p.x-p.r, p.y-p.r, p.x+p.r, p.y+p.r)
 			page.DrawLine(p.x-p.r, p.y+p.r, p.x+p.r, p.y-p.r)
 			page.DrawLine(p.x-p.r, p.y, p.x+p.r, p.y)
 			page.DrawLine(p.x, p.y-p.r, p.x, p.y+p.r)
-		} else if p.shape == shape.Star {
+		case shape.Star:
 			angle := math.Pi / 10
 			sin18 := float32(math.Sin(angle))
 			cos18 := float32(math.Cos(angle))

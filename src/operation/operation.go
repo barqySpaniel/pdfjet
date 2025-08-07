@@ -24,6 +24,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+type Operation string
+
 // Constants used to specify the 'stroke', 'close' and 'fill' operations.
 const (
 	Stroke = "S"
