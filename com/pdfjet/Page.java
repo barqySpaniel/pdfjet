@@ -458,13 +458,16 @@ final public class Page {
 
         if (colors == null) {
             setBrushColor(brush);
-            append("[<");
             if (font.isCoreFont) {
+                append("[<");
                 drawASCIIString(font, str);
+                append(">] TJ\n");  // Need TJ for kerning
             } else {
+                append("<");
                 drawUnicodeString(font, str);
+                append("> Tj\n");
             }
-            append(">] TJ\n");
+
         } else {
             drawColoredString(font, str, brush, colors);
         }
@@ -1633,13 +1636,17 @@ final public class Page {
             } else {
                 setBrushColor(color);
             }
-            append("[<");
+
             if (font.isCoreFont) {
+                append("[<");
                 drawASCIIString(font, str);
+                append(">] TJ\n");
             } else {
+                append("<");
                 drawUnicodeString(font, str);
+                append("> Tj\n");
             }
-            append(">] TJ\n");
+
             buf.setLength(0);
         }
     }
@@ -1926,12 +1933,14 @@ final public class Page {
      *  @param str the string.
      */
     protected void drawText(String str) {
-        append("[<");
         if (font.isCoreFont) {
+            append("[<");
             drawASCIIString(font, str);
+            append(">] TJ\n");
         } else {
+            append("<");
             drawUnicodeString(font, str);
+            append("> Tj\n");
         }
-        append(">] TJ\n");
     }
 }   // End of Page.java
