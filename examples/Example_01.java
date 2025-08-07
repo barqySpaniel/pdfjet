@@ -22,6 +22,7 @@ public class Example_01 {
         
         // Set PDF/UA compliance (required for accessibility)
         pdf.setCompliance(Compliance.PDF_UA_1);
+        // pdf.setCompliance(Compliance.PDF_A_1A);
         // pdf.setCompliance(Compliance.PDF_A_1B);
         // pdf.setCompliance(Compliance.PDF_A_2A);
         // pdf.setCompliance(Compliance.PDF_A_2B);
