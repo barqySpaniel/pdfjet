@@ -441,7 +441,7 @@ public class Page {
         }
     }
 
-    public float DrawTextBlock(
+    internal float DrawTextBlock(
             Font font,
             TextLineWithOffset[] textLines,
             float x,
