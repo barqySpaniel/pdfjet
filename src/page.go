@@ -336,13 +336,15 @@ func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, 
 
 	if colors == nil {
 		page.SetBrushColor(brush)
-		appendString(&page.buf, "[<")
 		if font.isCoreFont {
+			appendString(&page.buf, "[<")
 			page.drawASCIIString(font, str)
+			appendString(&page.buf, ">] TJ\n")
 		} else {
+			appendString(&page.buf, "<")
 			page.drawUnicodeString(font, str)
+			appendString(&page.buf, "> Tj\n")
 		}
-		appendString(&page.buf, ">] TJ\n")
 	} else {
 		page.drawColoredString(font, str, brush, colors)
 	}
@@ -1212,13 +1214,17 @@ func (page *Page) drawWord(font *Font, buf *strings.Builder, brush int32, colors
 		} else {
 			page.SetBrushColor(brush)
 		}
-		appendString(&page.buf, "[<")
+
 		if font.isCoreFont {
+			appendString(&page.buf, "[<")
 			page.drawASCIIString(font, buf.String())
+			appendString(&page.buf, ">] TJ\n")
 		} else {
+			appendString(&page.buf, "<")
 			page.drawUnicodeString(font, buf.String())
+			appendString(&page.buf, "> Tj\n")
 		}
-		appendString(&page.buf, ">] TJ\n")
+
 		buf.Reset()
 	}
 }
@@ -1458,11 +1464,13 @@ func (page *Page) SetTextRise(rise float32) {
 }
 
 func (page *Page) DrawText(str string) {
-	appendString(&page.buf, "[<")
 	if page.font.isCoreFont {
+		appendString(&page.buf, "[<")
 		page.drawASCIIString(page.font, str)
+		appendString(&page.buf, ">] TJ\n")
 	} else {
+		appendString(&page.buf, "<")
 		page.drawUnicodeString(page.font, str)
+		appendString(&page.buf, "> Tj\n")
 	}
-	appendString(&page.buf, ">] TJ\n")
 }

@@ -376,13 +376,15 @@ public class Page {
 
         if (colors == nil) {
             setBrushColor(brush)
-            append("[<")
             if font.isCoreFont {
+                append("[<")
                 drawASCIIString(font, text!)
+                append(">] TJ\n")
             } else {
+                append("<")
                 drawUnicodeString(font, text!)
+                append("> Tj\n")
             }
-            append(">] TJ\n")
         } else {
             drawColoredString(font, text!, brush, colors!)
         }
@@ -1425,13 +1427,16 @@ public class Page {
             } else {
                 setBrushColor(brush)
             }
-            append("[<")
+
             if font.isCoreFont {
+                append("[<")
                 drawASCIIString(font, str)
+                append(">] TJ\n")
             } else {
+                append("<")
                 drawUnicodeString(font, str)
+                append("> Tj\n")
             }
-            append(">] TJ\n")
             str = ""
         }
     }
@@ -1732,12 +1737,14 @@ public class Page {
      *  @param str the string.
      */
     func drawText(_ str: String) {
-        append("<")
         if (font!.isCoreFont) {
+            append("[<")
             drawASCIIString(font!, str)
+            append(">] TJ\n")
         } else {
+            append("<")
             drawUnicodeString(font!, str)
+            append("> Tj\n")
         }
-        append("> Tj\n")
     }
 }   // End of Page.swift
