@@ -399,13 +399,15 @@ public class Page {
 
         if (colors == null) {
             SetBrushColor(brush);
-            Append("[<");
             if (font.isCoreFont) {
+                Append("[<");
                 DrawASCIIString(font, str);
+                Append(">] TJ\n");
             } else {
+                Append("<");
                 DrawUnicodeString(font, str);
+                Append("> Tj\n");
             }
-            Append(">] TJ\n");
         } else {
             DrawColoredString(font, str, brush, colors);
         }
@@ -1570,13 +1572,15 @@ public class Page {
             } else {
                 SetBrushColor(brush);
             }
-            Append("[<");
             if (font.isCoreFont) {
+                Append("[<");
                 DrawASCIIString(font, str);
+                Append(">] TJ\n");
             } else {
+                Append("<");
                 DrawUnicodeString(font, str);
+                Append("> Tj\n");
             }
-            Append(">] TJ\n");
             buf.Length = 0;
         }
     }
@@ -1852,13 +1856,15 @@ public class Page {
      *  @param str the string.
      */
     internal void DrawText(String str) {
-        Append("[<");
         if (font.isCoreFont) {
+            Append("[<");
             DrawASCIIString(font, str);
+            Append(">] TJ\n");
         } else {
+            Append("<");
             DrawUnicodeString(font, str);
+            Append("> Tj\n");
         }
-        Append(">] TJ\n");
     }
 }   // End of Page.cs
 }   // End of namespace PDFjet.NET
