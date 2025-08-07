@@ -34,6 +34,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/corefont"
+	"github.com/edragoev1/pdfjet/src/direction"
 	"github.com/edragoev1/pdfjet/src/operation"
 	"github.com/edragoev1/pdfjet/src/shape"
 	"github.com/edragoev1/pdfjet/src/token"
@@ -380,9 +381,10 @@ func (page *Page) drawTextBlock(
 	x float32,
 	y float32,
 	leading float32,
-	direction int,
+	direction direction.Direction,
 	textColor int32,
 	highlightColors map[string]int32) float32 {
+
 	if len(textLines) == 0 {
 		return float32(len(textLines)) * leading
 	}
@@ -991,17 +993,18 @@ func (page *Page) SetTextDirection(degrees int) {
 	if degrees > 360 {
 		degrees %= 360
 	}
-	if degrees == 0 {
+	switch degrees {
+	case 0:
 		page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
-	} else if degrees == 90 {
+	case 90:
 		page.tm = [4]float32{0.0, 1.0, -1.0, 0.0}
-	} else if degrees == 180 {
+	case 180:
 		page.tm = [4]float32{-1.0, 0.0, 0.0, -1.0}
-	} else if degrees == 270 {
+	case 270:
 		page.tm = [4]float32{0.0, -1.0, 1.0, 0.0}
-	} else if degrees == 360 {
+	case 360:
 		page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
-	} else {
+	default:
 		sinOfAngle := float32(math.Sin(float64(degrees) * (math.Pi / 180)))
 		cosOfAngle := float32(math.Cos(float64(degrees) * (math.Pi / 180)))
 		page.tm = [4]float32{cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle}

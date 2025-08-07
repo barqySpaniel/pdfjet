@@ -1,5 +1,7 @@
 package compliance
 
+type Comliance int
+
 // Used to set PDF/UA and PDF/A compliance.
 // See the constructors in the PDF class.
 const (
