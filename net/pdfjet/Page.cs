@@ -441,6 +441,60 @@ public class Page {
         }
     }
 
+    public float DrawTextBlock(
+            Font font,
+            TextLineWithOffset[] textLines,
+            float x,
+            float y,
+            float leading,
+            Direction direction,
+            Int32 textColor,
+            Dictionary<String, Int32> highlightColors) {
+        if (textLines == null || textLines.Length == 0) {
+            return textLines.Length * leading;
+        }
+
+        Append("BT\n");
+        SetTextFont(font);
+
+        float xText = x;
+        float yText = y;
+        foreach (TextLineWithOffset textLine in textLines) {
+            if (direction == Direction.LEFT_TO_RIGHT) {
+                Append("1 0 0 1 ");
+                Append(xText + textLine.xOffset);
+                Append(' ');
+                Append(height - (yText + font.ascent));
+                Append(" Tm\n");
+            } else {                // BOTTOM_TO_TOP
+                Append("0 1 -1 0 ");
+                Append(xText + font.ascent);
+                Append(' ');
+                Append(yText);
+                Append(" Tm\n");
+            }
+
+            if (highlightColors == null) {
+                SetBrushColor(textColor);
+                Append("<");
+                DrawUnicodeString(font, textLine.textLine);
+                Append("> Tj\n");
+            } else {
+                DrawColoredString(font, textLine.textLine, textColor, highlightColors);
+            }
+
+            if (direction == Direction.LEFT_TO_RIGHT) {
+                yText += leading;
+            } else {
+                xText += leading;
+            }
+        }
+
+        Append("ET\n");
+
+        return textLines.Length * leading;
+    }
+
     private void DrawUnicodeString(Font font, String str) {
         if (str == null || str.Length == 0) {
             return;
