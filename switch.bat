@@ -40,7 +40,8 @@ if "%choice%"=="1" (
 REM Update the PATH to include the chosen Java version
 set PATH=%JAVA_HOME%\bin;%PATH%
 
-echo ""
+echo.
+
 REM Print the new Java version to confirm
 echo Java version switched to:
 "%JAVA_HOME%\bin\java" -version
