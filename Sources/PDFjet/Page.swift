@@ -1405,7 +1405,8 @@ public class Page {
     }
 
     func append(_ val: Float) {
-        append(String(format: pdf.floatFormat, val))
+        // append(String(format: pdf.floatFormat, val))
+        append(PDF.floatToString(val))
     }
 
     func append(_ byte: UInt8) {

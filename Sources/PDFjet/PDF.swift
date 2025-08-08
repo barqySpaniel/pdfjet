@@ -40,7 +40,7 @@ public class PDF {
     var toc: Bookmark?
     var importedFonts = [String]()
     var extGState = ""
-    let floatFormat = "%.3f"
+    let floatFormat = "%.2f"
 
     private var os: BufferedOutputStream?
     private var objOffset = [Int]()
@@ -1053,7 +1053,8 @@ public class PDF {
     }
 
     func append(_ val: Float) {
-        append(String(format: floatFormat, val))
+        // append(String(format: floatFormat, val))
+        append(PDF.floatToString(val))
     }
 
     func append(_ str: String) {
@@ -1779,5 +1780,18 @@ public class PDF {
 
         // Convert the result to a String from UInt8 array
         return String(decoding: result, as: UTF8.self)
+    }
+
+    // Reuse a formatter to avoid allocations
+    private static let formatter: NumberFormatter = {
+        let fmt = NumberFormatter()
+        fmt.locale = Locale(identifier: "en_US_POSIX")
+        fmt.minimumFractionDigits = 0
+        fmt.maximumFractionDigits = 2
+        return fmt
+    }()
+
+    static func floatToString(_ f: Float) -> String {
+        formatter.string(from: NSNumber(value: f)) ?? "\(f)"
     }
 }   // End of PDF.swift
