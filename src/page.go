@@ -1336,7 +1336,7 @@ func (page *Page) DrawContents(
 	xScale float32,
 	yScale float32) {
 	page.beginTransform(x, (page.height-yScale*h)-y, xScale, yScale)
-	appendByteArray(&page.buf, content)
+	page.appendByteArray(content)
 	page.endTransform()
 }
 

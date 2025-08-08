@@ -48,30 +48,6 @@ func insertArrayAt(a1, a2 []string, index int) []string {
 	return a3
 }
 
-// func appendInteger(a1 *[]byte, value int) {
-// 	*a1 = append(*a1, []byte(strconv.Itoa(value))...)
-// }
-
-// func appendFloat32(a1 *[]byte, value float32) {
-// 	*a1 = append(*a1, []byte(strconv.FormatFloat(float64(value), 'f', 3, 32))...)
-// }
-
-// func appendString(a1 *[]byte, s1 string) {
-// 	*a1 = append(*a1, []byte(s1)...)
-// }
-
-// func appendByte(a1 *[]byte, b1 byte) {
-// 	*a1 = append(*a1, b1)
-// }
-
-func appendByteArray(a1 *[]byte, a2 []byte) {
-	*a1 = append(*a1, a2...)
-}
-
-func appendByteArraySlice(a1 *[]byte, a2 []byte, offset, length int) {
-	*a1 = append(*a1, a2[offset:offset+length]...)
-}
-
 func getUint8(r io.Reader) uint8 {
 	buf := make([]byte, 1)
 	io.ReadFull(r, buf)
