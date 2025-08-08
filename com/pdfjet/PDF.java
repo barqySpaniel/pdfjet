@@ -1880,10 +1880,10 @@ final public class PDF {
         if (isWholeNumber(f)) {
             return Integer.toString((int) f);
         }
-        return BigDecimal.valueOf(f).setScale(2, RoundingMode.HALF_UP).toString();
+        return BigDecimal.valueOf(f).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
     }
 
-    public static boolean isWholeNumber(float f) {
+    static boolean isWholeNumber(float f) {
         return (Float.floatToRawIntBits(f) & 0x7FFFFF) == 0;
     }
 }   // End of PDF.java
