@@ -1582,7 +1582,8 @@ final public class Page {
     }
 
     protected void append(float val) {
-        append(PDF.df.format(val));
+        // append(PDF.df.format(val));
+        append(PDF.floatToString(val));
     }
 
     protected void append(char ch) {

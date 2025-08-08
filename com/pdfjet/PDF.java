@@ -24,6 +24,8 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.text.*;
 import java.util.*;
@@ -1873,5 +1875,16 @@ final public class PDF {
                 }
             }
         }
+    }
+
+    static String floatToString(float f) {
+        if (isWholeNumber(f)) {
+            return Integer.toString((int) f);
+        }
+        return BigDecimal.valueOf(f).setScale(2, RoundingMode.HALF_UP).toString();
+    }
+
+    public static boolean isWholeNumber(float f) {
+        return (Float.floatToRawIntBits(f) & 0x7FFFFF) == 0;
     }
 }   // End of PDF.java
