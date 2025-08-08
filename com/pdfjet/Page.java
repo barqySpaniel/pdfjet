@@ -124,10 +124,10 @@ final public class Page {
         width = pageSize[0];
         height = pageSize[1];
         buf = new ByteArrayOutputStream(8192);
-        tm0 = PDF.df.format(tm[0]).getBytes();
-        tm1 = PDF.df.format(tm[1]).getBytes();
-        tm2 = PDF.df.format(tm[2]).getBytes();
-        tm3 = PDF.df.format(tm[3]).getBytes();
+        tm0 = PDF.floatToString(tm[0]).getBytes();
+        tm1 = PDF.floatToString(tm[1]).getBytes();
+        tm2 = PDF.floatToString(tm[2]).getBytes();
+        tm3 = PDF.floatToString(tm[3]).getBytes();
         if (addPageToPDF) {
             pdf.addPage(this);
         }
@@ -139,10 +139,10 @@ final public class Page {
         width = pageObj.getPageSize()[0];
         height = pageObj.getPageSize()[1];
         buf = new ByteArrayOutputStream(8192);
-        tm0 = PDF.df.format(tm[0]).getBytes();
-        tm1 = PDF.df.format(tm[1]).getBytes();
-        tm2 = PDF.df.format(tm[2]).getBytes();
-        tm3 = PDF.df.format(tm[3]).getBytes();
+        tm0 = PDF.floatToString(tm[0]).getBytes();
+        tm1 = PDF.floatToString(tm[1]).getBytes();
+        tm2 = PDF.floatToString(tm[2]).getBytes();
+        tm3 = PDF.floatToString(tm[3]).getBytes();
         this.append("q\n");
         if (pageObj.gsNumber != -1) {
             append("/GS");
@@ -1352,10 +1352,10 @@ final public class Page {
             float cosOfAngle = (float) Math.cos(degrees * (Math.PI / 180));
             tm = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
         }
-        tm0 = PDF.df.format(tm[0]).getBytes();
-        tm1 = PDF.df.format(tm[1]).getBytes();
-        tm2 = PDF.df.format(tm[2]).getBytes();
-        tm3 = PDF.df.format(tm[3]).getBytes();
+        tm0 = PDF.floatToString(tm[0]).getBytes();
+        tm1 = PDF.floatToString(tm[1]).getBytes();
+        tm2 = PDF.floatToString(tm[2]).getBytes();
+        tm3 = PDF.floatToString(tm[3]).getBytes();
     }
 
     /**
@@ -1577,13 +1577,12 @@ final public class Page {
         }
     }
 
-    protected void append(int num) {
-        append(Integer.toString(num));
+    protected void append(int n) {
+        append(Integer.toString(n));
     }
 
-    protected void append(float val) {
-        // append(PDF.df.format(val));
-        append(PDF.floatToString(val));
+    protected void append(float f) {
+        append(PDF.floatToString(f));
     }
 
     protected void append(char ch) {

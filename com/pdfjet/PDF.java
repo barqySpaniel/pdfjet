@@ -45,7 +45,6 @@ final public class PDF {
     protected Map<String, Destination> destinations = new HashMap<String, Destination>();
     protected List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
     protected Map<String, Integer> states = new HashMap<String, Integer>();
-    protected static final DecimalFormat df = new DecimalFormat("0.###", new DecimalFormatSymbols(Locale.US));
     protected Compliance compliance;
 
     private OutputStream os = null;
@@ -1141,8 +1140,8 @@ final public class PDF {
         append(Integer.toString(num));
     }
 
-    protected void append(float val) throws IOException {
-        append(PDF.df.format(val));
+    protected void append(float f) throws IOException {
+        append(PDF.floatToString(f));
     }
 
     protected void append(String str) throws IOException {
