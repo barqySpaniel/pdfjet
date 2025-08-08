@@ -25,16 +25,12 @@ set /p choice=Enter your choice (1, 2, 3 or 4):
 
 REM Set the JAVA_HOME and update the PATH based on the choice
 if "%choice%"=="1" (
-    echo Switching to Java 8...
     set JAVA_HOME=%JAVA_8%
 ) else if "%choice%"=="2" (
-    echo Switching to Java 11...
     set JAVA_HOME=%JAVA_11%
 ) else if "%choice%"=="3" (
-    echo Switching to Java 17...
     set JAVA_HOME=%JAVA_17%
 ) else if "%choice%"=="4" (
-    echo Switching to Java 21...
     set JAVA_HOME=%JAVA_21%
 ) else (
     echo Invalid choice. Exiting.
@@ -44,6 +40,7 @@ if "%choice%"=="1" (
 REM Update the PATH to include the chosen Java version
 set PATH=%JAVA_HOME%\bin;%PATH%
 
+echo ""
 REM Print the new Java version to confirm
 echo Java version switched to:
 "%JAVA_HOME%\bin\java" -version
