@@ -1728,9 +1728,9 @@ public class PDF {
         }
     }
 
+    private static readonly IFormatProvider _invariant = CultureInfo.InvariantCulture;
     internal static string FloatToString(float f) {
-        return Math.Round(f, 2, MidpointRounding.AwayFromZero)
-                .ToString("0.##", CultureInfo.InvariantCulture);
+        return Math.Round(f, 2, MidpointRounding.AwayFromZero).ToString("0.##", _invariant);
     }
 }   // End of PDF.cs
 }   // End of namespace PDFjet.NET
