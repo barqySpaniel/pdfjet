@@ -28,6 +28,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"sort"
 	"strconv"
@@ -1791,13 +1792,13 @@ func (pdf *PDF) appendInteger(value int) {
 }
 
 func (pdf *PDF) appendFloat32(f float32) {
-	p := formatFloat32(f)
-	pdf.writer.Write(p)
-	pdf.byteCount += len(p)
+	s := floatToString(f)
+	pdf.writer.WriteString(s)
+	pdf.byteCount += len(s)
 }
 
-func (pdf *PDF) appendString(text string) {
-	buf := []byte(text)
+func (pdf *PDF) appendString(s string) {
+	buf := []byte(s)
 	pdf.writer.Write(buf)
 	pdf.byteCount += len(buf)
 }
@@ -1807,12 +1808,24 @@ func (pdf *PDF) appendByte(b byte) {
 	pdf.byteCount++
 }
 
-func (pdf *PDF) appendByteArraySlice(buf []byte, off, length int) {
-	pdf.writer.Write(buf[off : off+length])
-	pdf.byteCount += length
-}
-
 func (pdf *PDF) appendByteArray(buf []byte) {
 	pdf.writer.Write(buf)
 	pdf.byteCount += len(buf)
+}
+
+func floatToString(f float32) string {
+	if isWholeNumber(f) {
+		return strconv.Itoa(int(f)) // Whole numbers: "3"
+	}
+	// Round to 2 decimals, then trim trailing zeros
+	rounded := float32(math.Round(float64(f)*100) / 100)
+	s := strconv.FormatFloat(float64(rounded), 'f', -1, 32)
+	s = strings.TrimRight(s, "0") // Trim trailing zeros
+	s = strings.TrimRight(s, ".") // Trim trailing dot if needed
+	return s
+}
+
+func isWholeNumber(f float32) bool {
+	return math.Mod(float64(math.Abs(float64(f))), 1.0) == 0 &&
+		!math.IsNaN(float64(f)) && !math.IsInf(float64(f), 0)
 }

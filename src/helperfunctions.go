@@ -27,7 +27,6 @@ SOFTWARE.
 import (
 	"fmt"
 	"io"
-	"strconv"
 )
 
 // insertStringAt inserts the string s1 into a1 at the specified index
@@ -72,12 +71,6 @@ func getUint32(r io.Reader) uint32 {
 	return uint32(buf[0])<<24 | uint32(buf[1])<<16 | uint32(buf[2])<<8 | uint32(buf[3])
 }
 
-func getInt16(r io.Reader) int16 {
-	buf := make([]byte, 2)
-	io.ReadFull(r, buf)
-	return int16(buf[0])<<8 | int16(buf[1])
-}
-
 func getInt32(r io.Reader) int32 {
 	buf := make([]byte, 4)
 	io.ReadFull(r, buf)
@@ -96,8 +89,4 @@ func getNBytes(r io.Reader, n int) []byte {
 	buf := make([]byte, n)
 	io.ReadFull(r, buf)
 	return buf
-}
-
-func formatFloat32(value float32) []byte {
-	return []byte(strconv.FormatFloat(float64(value), 'f', 3, 32))
 }
