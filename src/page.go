@@ -165,11 +165,11 @@ func NewPageFromObject(pdf *PDF, pageObj *PDFobj) *Page {
 	page.tm1 = formatFloat32(page.tm[1])
 	page.tm2 = formatFloat32(page.tm[2])
 	page.tm3 = formatFloat32(page.tm[3])
-	appendString(&page.buf, "q\n")
+	page.appendString("q\n")
 	if pageObj.gsNumber != 0 {
-		appendString(&page.buf, "/GS")
-		appendInteger(&page.buf, pageObj.gsNumber+1)
-		appendString(&page.buf, " gs\n")
+		page.appendString("/GS")
+		page.appendInteger(pageObj.gsNumber + 1)
+		page.appendString(" gs\n")
 	}
 	return page
 }
@@ -213,7 +213,7 @@ func (page *Page) AddFontResource(font *Font, objects *[]*PDFobj) {
 
 // Complete completes adding content to the existing PDF.
 func (page *Page) Complete(objects *[]*PDFobj) {
-	appendString(&page.buf, "Q\n")
+	page.appendString("Q\n")
 	page.pageObj.addContent(page.getContent(), objects)
 }
 
@@ -294,12 +294,12 @@ func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, 
 	if str == "" {
 		return
 	}
-	appendString(&page.buf, "BT\n")
+	page.appendString("BT\n")
 	page.SetTextFont(font)
 
 	if page.renderingMode != 0 {
-		appendInteger(&page.buf, page.renderingMode)
-		appendString(&page.buf, " Tr\n")
+		page.appendInteger(page.renderingMode)
+		page.appendString(" Tr\n")
 	}
 
 	if font.skew15 &&
@@ -308,58 +308,58 @@ func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, 
 		page.tm[2] == 0.0 &&
 		page.tm[3] == 1.0 {
 		var skew float32 = 0.26
-		appendFloat32(&page.buf, page.tm[0])
-		appendString(&page.buf, " ")
-		appendFloat32(&page.buf, page.tm[1])
-		appendString(&page.buf, " ")
-		appendFloat32(&page.buf, page.tm[2]+skew)
-		appendString(&page.buf, " ")
-		appendFloat32(&page.buf, page.tm[3])
-		appendString(&page.buf, " ")
-		appendFloat32(&page.buf, x)
-		appendString(&page.buf, " ")
-		appendFloat32(&page.buf, page.height-y)
-		appendString(&page.buf, " Tm\n")
+		page.appendFloat32(page.tm[0])
+		page.appendString(" ")
+		page.appendFloat32(page.tm[1])
+		page.appendString(" ")
+		page.appendFloat32(page.tm[2] + skew)
+		page.appendString(" ")
+		page.appendFloat32(page.tm[3])
+		page.appendString(" ")
+		page.appendFloat32(x)
+		page.appendString(" ")
+		page.appendFloat32(page.height - y)
+		page.appendString(" Tm\n")
 	} else {
-		appendByteArray(&page.buf, page.tm0)
-		appendString(&page.buf, " ")
-		appendByteArray(&page.buf, page.tm1)
-		appendString(&page.buf, " ")
-		appendByteArray(&page.buf, page.tm2)
-		appendString(&page.buf, " ")
-		appendByteArray(&page.buf, page.tm3)
-		appendString(&page.buf, " ")
-		appendFloat32(&page.buf, x)
-		appendString(&page.buf, " ")
-		appendFloat32(&page.buf, page.height-y)
-		appendString(&page.buf, " Tm\n")
+		page.appendByteArray(page.tm0)
+		page.appendString(" ")
+		page.appendByteArray(page.tm1)
+		page.appendString(" ")
+		page.appendByteArray(page.tm2)
+		page.appendString(" ")
+		page.appendByteArray(page.tm3)
+		page.appendString(" ")
+		page.appendFloat32(x)
+		page.appendString(" ")
+		page.appendFloat32(page.height - y)
+		page.appendString(" Tm\n")
 	}
 
 	if colors == nil {
 		page.SetBrushColor(brush)
 		if font.isCoreFont {
-			appendString(&page.buf, "[<")
+			page.appendString("[<")
 			page.drawASCIIString(font, str)
-			appendString(&page.buf, ">] TJ\n")
+			page.appendString(">] TJ\n")
 		} else {
-			appendString(&page.buf, "<")
+			page.appendString("<")
 			page.drawUnicodeString(font, str)
-			appendString(&page.buf, "> Tj\n")
+			page.appendString("> Tj\n")
 		}
 	} else {
 		page.drawColoredString(font, str, brush, colors)
 	}
-	appendString(&page.buf, "ET\n")
+	page.appendString("ET\n")
 }
 
 func (page *Page) drawASCIIString(font *Font, text string) {
 	runes := []rune(text)
 	for i, c1 := range runes {
 		if c1 < font.firstChar || c1 > font.lastChar {
-			appendString(&page.buf, fmt.Sprintf("%02X", 0x20))
+			page.appendString(fmt.Sprintf("%02X", 0x20))
 			continue
 		}
-		appendString(&page.buf, fmt.Sprintf("%02X", c1))
+		page.appendString(fmt.Sprintf("%02X", c1))
 		if font.isCoreFont && font.kernPairs && i < (len(runes)-1) {
 			c1 -= 32
 			c2 := runes[i+1]
@@ -368,9 +368,9 @@ func (page *Page) drawASCIIString(font *Font, text string) {
 			}
 			for i := 2; i < len(font.metrics[c1]); i += 2 {
 				if font.metrics[c1][i] == int(c2) {
-					appendString(&page.buf, ">")
-					appendInteger(&page.buf, -page.font.metrics[c1][i+1])
-					appendString(&page.buf, "<")
+					page.appendString(">")
+					page.appendInteger(-page.font.metrics[c1][i+1])
+					page.appendString("<")
 					break
 				}
 			}
@@ -392,31 +392,31 @@ func (page *Page) drawTextBlock(
 		return float32(len(textLines)) * leading
 	}
 
-	appendString(&page.buf, "BT\n")
+	page.appendString("BT\n")
 	page.SetTextFont(page.font)
 
 	xText := x
 	yText := y
 	for _, textLine := range textLines {
 		if direction == LeftToRight {
-			appendString(&page.buf, "1 0 0 1 ")
-			appendFloat32(&page.buf, xText+textLine.xOffset)
-			appendString(&page.buf, " ")
-			appendFloat32(&page.buf, page.height-(yText+font.ascent))
-			appendString(&page.buf, " Tm\n")
+			page.appendString("1 0 0 1 ")
+			page.appendFloat32(xText + textLine.xOffset)
+			page.appendString(" ")
+			page.appendFloat32(page.height - (yText + font.ascent))
+			page.appendString(" Tm\n")
 		} else { // BOTTOM_TO_TOP
-			appendString(&page.buf, "0 1 -1 0 ")
-			appendFloat32(&page.buf, xText+font.ascent)
-			appendString(&page.buf, " ")
-			appendFloat32(&page.buf, yText)
-			appendString(&page.buf, " Tm\n")
+			page.appendString("0 1 -1 0 ")
+			page.appendFloat32(xText + font.ascent)
+			page.appendString(" ")
+			page.appendFloat32(yText)
+			page.appendString(" Tm\n")
 		}
 
 		if highlightColors == nil {
 			page.SetBrushColor(textColor)
-			appendString(&page.buf, "<")
+			page.appendString("<")
 			page.drawUnicodeString(page.font, textLine.textLine)
-			appendString(&page.buf, "> Tj\n")
+			page.appendString("> Tj\n")
 		} else {
 			page.drawColoredString(page.font, textLine.textLine, textColor, highlightColors)
 		}
@@ -428,7 +428,7 @@ func (page *Page) drawTextBlock(
 		}
 	}
 
-	appendString(&page.buf, "ET\n")
+	page.appendString("ET\n")
 
 	return float32(len(textLines)) * leading
 }
@@ -439,11 +439,11 @@ func (page *Page) drawUnicodeString(font *Font, text string) {
 		for _, c1 := range runes {
 			if c1 != 0xFEFF { // BOM marker
 				if c1 < font.firstChar || c1 > font.lastChar {
-					// appendString(&page.buf, fmt.Sprintf("%04X", 0x0020))
-					appendCodePointAsHex(&page.buf, 0x0020)
+					// page.appendString(fmt.Sprintf("%04X", 0x0020))
+					page.appendCodePointAsHex(0x0020)
 				} else {
-					// appendString(&page.buf, fmt.Sprintf("%04X", c1))
-					appendCodePointAsHex(&page.buf, int(c1))
+					// page.appendString(fmt.Sprintf("%04X", c1))
+					page.appendCodePointAsHex(int(c1))
 				}
 			}
 		}
@@ -451,27 +451,27 @@ func (page *Page) drawUnicodeString(font *Font, text string) {
 		for _, c1 := range runes {
 			if c1 != 0xFEFF { // BOM marker
 				if c1 < font.firstChar || c1 > font.lastChar {
-					// appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[0x0020]))
-					appendCodePointAsHex(&page.buf, 0x0020)
+					// page.appendString(fmt.Sprintf("%04X", font.unicodeToGID[0x0020]))
+					page.appendCodePointAsHex(0x0020)
 				} else {
-					// appendString(&page.buf, fmt.Sprintf("%04X", font.unicodeToGID[c1]))
-					appendCodePointAsHex(&page.buf, font.unicodeToGID[c1])
+					// page.appendString(fmt.Sprintf("%04X", font.unicodeToGID[c1]))
+					page.appendCodePointAsHex(font.unicodeToGID[c1])
 				}
 			}
 		}
 	}
 }
 
-func appendCodePointAsHex(buf *[]byte, codePoint int) {
+func (page *Page) appendCodePointAsHex(codePoint int) {
 	if codePoint <= 0xFFFF {
-		*buf = append(*buf,
+		page.buf = append(page.buf,
 			hexDigits[(codePoint>>12)&0xF],
 			hexDigits[(codePoint>>8)&0xF],
 			hexDigits[(codePoint>>4)&0xF],
 			hexDigits[codePoint&0xF],
 		)
 	} else {
-		*buf = append(*buf,
+		page.buf = append(page.buf,
 			hexDigits[(codePoint>>20)&0xF],
 			hexDigits[(codePoint>>16)&0xF],
 			hexDigits[(codePoint>>12)&0xF],
@@ -497,9 +497,9 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 		n = len(page.pdf.states) + 1
 		page.pdf.states[state] = n
 	}
-	appendString(&page.buf, "/GS")
-	appendInteger(&page.buf, n)
-	appendString(&page.buf, " gs\n")
+	page.appendString("/GS")
+	page.appendInteger(n)
+	page.appendString(" gs\n")
 }
 
 // SetPenColorRGB sets the color for stroking operations.
@@ -511,7 +511,7 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 func (page *Page) SetPenColorRGB(r, g, b float32) {
 	if page.pen[0] != r || page.pen[1] != g || page.pen[2] != b {
 		page.SetColorRGB(r, g, b)
-		appendString(&page.buf, " RG\n")
+		page.appendString(" RG\n")
 		page.pen[0] = r
 		page.pen[1] = g
 		page.pen[2] = b
@@ -532,7 +532,7 @@ func (page *Page) SetPenColorWithFloat32Array(rgb [3]float32) {
 func (page *Page) SetPenColorCMYK(c, m, y, k float32) {
 	if page.penCMYK[0] != c || page.penCMYK[1] != m || page.penCMYK[2] != y || page.penCMYK[3] != k {
 		page.SetColorCMYK(c, m, y, k)
-		appendString(&page.buf, " K\n")
+		page.appendString(" K\n")
 		page.penCMYK[0] = c
 		page.penCMYK[1] = m
 		page.penCMYK[2] = y
@@ -584,22 +584,22 @@ func (page *Page) SetBrushColorWithFloat32Array(rgb [3]float32) {
 
 // SetColorRGB sets the RGB color.
 func (page *Page) SetColorRGB(r, g, b float32) {
-	appendFloat32(&page.buf, r)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, g)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, b)
+	page.appendFloat32(r)
+	page.appendString(" ")
+	page.appendFloat32(g)
+	page.appendString(" ")
+	page.appendFloat32(b)
 }
 
 // SetColorCMYK sets the CMYK color.
 func (page *Page) SetColorCMYK(c, m, y, k float32) {
-	appendFloat32(&page.buf, c)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, m)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, y)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, k)
+	page.appendFloat32(c)
+	page.appendString(" ")
+	page.appendFloat32(m)
+	page.appendString(" ")
+	page.appendFloat32(y)
+	page.appendString(" ")
+	page.appendFloat32(k)
 }
 
 // SetPenColor sets the pen color.
@@ -629,8 +629,8 @@ func (page *Page) SetBrushColor(color int32) {
 func (page *Page) SetDefaultLineWidth() {
 	if page.penWidth != 0.0 {
 		page.penWidth = 0.0
-		appendFloat32(&page.buf, page.penWidth)
-		appendString(&page.buf, " w\n")
+		page.appendFloat32(page.penWidth)
+		page.appendString(" w\n")
 	}
 }
 
@@ -659,24 +659,24 @@ func (page *Page) SetDefaultLineWidth() {
 func (page *Page) SetLinePattern(pattern string) {
 	if page.linePattern != pattern {
 		page.linePattern = pattern
-		appendString(&page.buf, page.linePattern)
-		appendString(&page.buf, " d\n")
+		page.appendString(page.linePattern)
+		page.appendString(" d\n")
 	}
 }
 
 // SetDefaultLinePattern sets the default line dash pattern - solid line.
 func (page *Page) SetDefaultLinePattern() {
 	page.linePattern = "[] 0"
-	appendString(&page.buf, page.linePattern)
-	appendString(&page.buf, " d\n")
+	page.appendString(page.linePattern)
+	page.appendString(" d\n")
 }
 
 // SetPenWidth sets the pen width that will be used to draw lines and splines on this page.
 func (page *Page) SetPenWidth(width float32) {
 	if page.penWidth != width {
 		page.penWidth = width
-		appendFloat32(&page.buf, page.penWidth)
-		appendString(&page.buf, " w\n")
+		page.appendFloat32(page.penWidth)
+		page.appendString(" w\n")
 	}
 }
 
@@ -685,8 +685,8 @@ func (page *Page) SetPenWidth(width float32) {
 func (page *Page) SetLineCapStyle(style int) {
 	if page.lineCapStyle != style {
 		page.lineCapStyle = style
-		appendInteger(&page.buf, page.lineCapStyle)
-		appendString(&page.buf, " J\n")
+		page.appendInteger(page.lineCapStyle)
+		page.appendString(" J\n")
 	}
 }
 
@@ -695,8 +695,8 @@ func (page *Page) SetLineCapStyle(style int) {
 func (page *Page) SetLineJoinStyle(style int) {
 	if page.lineJoinStyle != style {
 		page.lineJoinStyle = style
-		appendInteger(&page.buf, page.lineJoinStyle)
-		appendString(&page.buf, " j\n")
+		page.appendInteger(page.lineJoinStyle)
+		page.appendString(" j\n")
 	}
 }
 
@@ -705,35 +705,35 @@ func (page *Page) SetLineJoinStyle(style int) {
 // @param x the x coordinate of new pen position.
 // @param y the y coordinate of new pen position.
 func (page *Page) MoveTo(x, y float32) {
-	appendFloat32(&page.buf, x)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, page.height-y)
-	appendString(&page.buf, " m\n")
+	page.appendFloat32(x)
+	page.appendString(" ")
+	page.appendFloat32(page.height - y)
+	page.appendString(" m\n")
 }
 
 // LineTo draws a line from the current pen position to the point with coordinates (x, y),
 // using the current pen width and stroke color.
 // Make sure you call strokePath(), closePath() or fillPath() after the last call to this method.
 func (page *Page) LineTo(x, y float32) {
-	appendFloat32(&page.buf, x)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, page.height-y)
-	appendString(&page.buf, " l\n")
+	page.appendFloat32(x)
+	page.appendString(" ")
+	page.appendFloat32(page.height - y)
+	page.appendString(" l\n")
 }
 
 // StrokePath draws the path using the current pen color.
 func (page *Page) StrokePath() {
-	appendString(&page.buf, "S\n")
+	page.appendString("S\n")
 }
 
 // ClosePath closes the path and draws it using the current pen color.
 func (page *Page) ClosePath() {
-	appendString(&page.buf, "s\n")
+	page.appendString("s\n")
 }
 
 // FillPath closes and fills the path with the current brush color.
 func (page *Page) FillPath() {
-	appendString(&page.buf, "f\n")
+	page.appendString("f\n")
 }
 
 // DrawRect draws the outline of the specified rectangle on the page.
@@ -787,14 +787,14 @@ func (page *Page) DrawPath(path []*Point, operation string) {
 			if curve {
 				curve = false
 				page.appendPoint(point)
-				appendString(&page.buf, "c\n")
+				page.appendString("c\n")
 			} else {
 				page.LineTo(point.x, point.y)
 			}
 		}
 	}
-	appendString(&page.buf, operation)
-	appendString(&page.buf, "\n")
+	page.appendString(operation)
+	page.appendString("\n")
 }
 
 // DrawCircle sdraws a circle on the page.
@@ -1030,19 +1030,18 @@ func (page *Page) SetTextDirection(degrees int) {
  *  @param y3 end point y
  */
 func (page *Page) CurveTo(x1, y1, x2, y2, x3, y3 float32) {
-	appendFloat32(&page.buf, x1)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, page.height-y1)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, x2)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, page.height-y2)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, x3)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, page.height-y3)
-	appendString(&page.buf, " ")
-	appendString(&page.buf, "c\n")
+	page.appendFloat32(x1)
+	page.appendString(" ")
+	page.appendFloat32(page.height - y1)
+	page.appendString(" ")
+	page.appendFloat32(x2)
+	page.appendString(" ")
+	page.appendFloat32(page.height - y2)
+	page.appendString(" ")
+	page.appendFloat32(x3)
+	page.appendString(" ")
+	page.appendFloat32(page.height - y3)
+	page.appendString(" c\n")
 }
 
 /**
@@ -1065,15 +1064,15 @@ func (page *Page) BezierCurveTo(p1, p2, p3 *Point) {
 func (page *Page) SetTextFont(font *Font) {
 	page.font = font
 	if font.fontID != "" {
-		appendByte(&page.buf, '/')
-		appendString(&page.buf, font.fontID)
+		page.appendByte('/')
+		page.appendString(font.fontID)
 	} else {
-		appendString(&page.buf, "/F")
-		appendInteger(&page.buf, font.objNumber)
+		page.appendString("/F")
+		page.appendInteger(font.objNumber)
 	}
-	appendByteArray(&page.buf, token.Space)
-	appendFloat32(&page.buf, font.size)
-	appendString(&page.buf, " Tf\n")
+	page.appendByteArray(token.Space)
+	page.appendFloat32(font.size)
+	page.appendString(" Tf\n")
 }
 
 // DrawRectRoundCorners draws rectangle with rounded corners.
@@ -1112,8 +1111,8 @@ func (page *Page) DrawRectRoundCorners(x, y, w, h, r1, r2 float32, operation str
 
 // clipPath clips the path.
 func (page *Page) ClipPath() {
-	appendString(&page.buf, "W\n")
-	appendString(&page.buf, "n\n") // Close the path without painting it.
+	page.appendString("W\n")
+	page.appendString("n\n") // Close the path without painting it.
 }
 
 func (page *Page) ClipRect(x, y, w, h float32) {
@@ -1195,17 +1194,17 @@ func (page *Page) SetArtBox(upperLeftX, upperLeftY, lowerRightX, lowerRightY flo
 }
 
 func (page *Page) appendPointXY(x, y float32) {
-	appendFloat32(&page.buf, x)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, page.height-y)
-	appendString(&page.buf, " ")
+	page.appendFloat32(x)
+	page.appendString(" ")
+	page.appendFloat32(page.height - y)
+	page.appendString(" ")
 }
 
 func (page *Page) appendPoint(point *Point) {
-	appendFloat32(&page.buf, point.x)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, page.height-point.y)
-	appendString(&page.buf, " ")
+	page.appendFloat32(point.x)
+	page.appendString(" ")
+	page.appendFloat32(page.height - point.y)
+	page.appendString(" ")
 }
 
 func (page *Page) drawWord(font *Font, buf *strings.Builder, brush int32, colors map[string]int32) {
@@ -1217,13 +1216,13 @@ func (page *Page) drawWord(font *Font, buf *strings.Builder, brush int32, colors
 		}
 
 		if font.isCoreFont {
-			appendString(&page.buf, "[<")
+			page.appendString("[<")
 			page.drawASCIIString(font, buf.String())
-			appendString(&page.buf, ">] TJ\n")
+			page.appendString(">] TJ\n")
 		} else {
-			appendString(&page.buf, "<")
+			page.appendString("<")
 			page.drawUnicodeString(font, buf.String())
-			appendString(&page.buf, "> Tj\n")
+			page.appendString("> Tj\n")
 		}
 
 		buf.Reset()
@@ -1263,26 +1262,26 @@ func (page *Page) AddBMC(structure, language, actualText, altDescription string)
 		element.altDescription = altDescription
 		page.structures = append(page.structures, element)
 
-		appendString(&page.buf, "/")
-		appendString(&page.buf, structure)
-		appendString(&page.buf, " <</MCID ")
-		appendInteger(&page.buf, page.mcid)
+		page.appendString("/")
+		page.appendString(structure)
+		page.appendString(" <</MCID ")
+		page.appendInteger(page.mcid)
 		page.mcid++
-		appendString(&page.buf, ">>\n")
-		appendString(&page.buf, "BDC\n")
+		page.appendString(">>\n")
+		page.appendString("BDC\n")
 	}
 }
 
 func (page *Page) AddArtifactBMC() {
 	if page.pdf.compliance == compliance.PDF_UA_1 {
-		appendString(&page.buf, "/Artifact BMC\n")
+		page.appendString("/Artifact BMC\n")
 	}
 }
 
 // AddEMC adds EMC to the page.
 func (page *Page) AddEMC() {
 	if page.pdf.compliance == compliance.PDF_UA_1 {
-		appendString(&page.buf, "EMC\n")
+		page.appendString("EMC\n")
 	}
 }
 
