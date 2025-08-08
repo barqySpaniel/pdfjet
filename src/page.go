@@ -548,7 +548,7 @@ func (page *Page) SetPenColorCMYK(c, m, y, k float32) {
 func (page *Page) SetBrushColorRGB(r, g, b float32) {
 	if page.brush[0] != r || page.brush[1] != g || page.brush[2] != b {
 		page.SetColorRGB(r, g, b)
-		appendString(&page.buf, " rg\n")
+		page.appendString(" rg\n")
 		page.brush[0] = r
 		page.brush[1] = g
 		page.brush[2] = b
@@ -564,7 +564,7 @@ func (page *Page) SetBrushColorRGB(r, g, b float32) {
 func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
 	if page.brushCMYK[0] != c || page.brushCMYK[1] != m || page.brushCMYK[2] != y || page.brushCMYK[3] != k {
 		page.SetColorCMYK(c, m, y, k)
-		appendString(&page.buf, " k\n")
+		page.appendString(" k\n")
 		page.brushCMYK[0] = c
 		page.brushCMYK[1] = m
 		page.brushCMYK[2] = y
@@ -852,25 +852,25 @@ func (page *Page) drawEllipse(x, y, r1, r2 float32, operation string) {
 	page.appendPointXY(x+m4*r1, y-r2)
 	page.appendPointXY(x+r1, y-m4*r2)
 	page.appendPointXY(x+r1, y)
-	appendString(&page.buf, "c\n")
+	page.appendString("c\n")
 
 	page.appendPointXY(x+r1, y+m4*r2)
 	page.appendPointXY(x+m4*r1, y+r2)
 	page.appendPointXY(x, y+r2)
-	appendString(&page.buf, "c\n")
+	page.appendString("c\n")
 
 	page.appendPointXY(x-m4*r1, y+r2)
 	page.appendPointXY(x-r1, y+m4*r2)
 	page.appendPointXY(x-r1, y)
-	appendString(&page.buf, "c\n")
+	page.appendString("c\n")
 
 	page.appendPointXY(x-r1, y-m4*r2)
 	page.appendPointXY(x-m4*r1, y-r2)
 	page.appendPointXY(x, y-r2)
-	appendString(&page.buf, "c\n")
+	page.appendString("c\n")
 
-	appendString(&page.buf, operation)
-	appendString(&page.buf, "\n")
+	page.appendString(operation)
+	page.appendString("\n")
 }
 
 // DrawPoint draws a point on the page using the current pen color.
@@ -1057,7 +1057,7 @@ func (page *Page) BezierCurveTo(p1, p2, p3 *Point) {
 	page.appendPoint(p1)
 	page.appendPoint(p2)
 	page.appendPoint(p3)
-	appendString(&page.buf, "c\n")
+	page.appendString("c\n")
 }
 
 // SetTextFont sets the text fonts.
@@ -1124,7 +1124,7 @@ func (page *Page) ClipRect(x, y, w, h float32) {
 }
 
 func (page *Page) Save() {
-	appendString(&page.buf, "q\n")
+	page.appendString("q\n")
 	page.savedStates = append(page.savedStates, NewState(
 		page.pen,
 		page.brush,
@@ -1136,7 +1136,7 @@ func (page *Page) Save() {
 }
 
 func (page *Page) Restore() {
-	appendString(&page.buf, "Q\n")
+	page.appendString("Q\n")
 	if len(page.savedStates) > 0 {
 		savedState := page.savedStates[len(page.savedStates)-1]
 		page.pen = savedState.GetPen()

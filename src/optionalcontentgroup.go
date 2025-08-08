@@ -28,7 +28,6 @@ SOFTWARE.
 // Please see the PDF specification and Example_30 for more details.
 //
 // @author Mark Paxton
-//
 type OptionalContentGroup struct {
 	name       string
 	objNumber  int
@@ -99,12 +98,12 @@ func (ocg *OptionalContentGroup) DrawOn(page *Page) {
 
 		ocg.objNumber = page.pdf.getObjNumber()
 
-		appendString(&page.buf, "/OC /OC")
-		appendInteger(&page.buf, ocg.ocgNumber)
-		appendString(&page.buf, " BDC\n")
+		page.appendString("/OC /OC")
+		page.appendInteger(ocg.ocgNumber)
+		page.appendString(" BDC\n")
 		for _, component := range ocg.components {
 			component.DrawOn(page)
 		}
-		appendString(&page.buf, "\nEMC\n")
+		page.appendString("\nEMC\n")
 	}
 }
