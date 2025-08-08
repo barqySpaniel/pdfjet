@@ -123,10 +123,10 @@ public class Page {
         width = pageSize[0];
         height = pageSize[1];
         buf = new MemoryStream(8192);
-        tm0 = toByteArray(tm[0]);
-        tm1 = toByteArray(tm[1]);
-        tm2 = toByteArray(tm[2]);
-        tm3 = toByteArray(tm[3]);
+        tm0 = ToByteArray(tm[0]);
+        tm1 = ToByteArray(tm[1]);
+        tm2 = ToByteArray(tm[2]);
+        tm3 = ToByteArray(tm[3]);
         if (addPageToPDF) {
             pdf.AddPage(this);
         }
@@ -138,10 +138,10 @@ public class Page {
         width = pageObj.GetPageSize()[0];
         height = pageObj.GetPageSize()[1];
         buf = new MemoryStream(8192);
-        tm0 = toByteArray(tm[0]);
-        tm1 = toByteArray(tm[1]);
-        tm2 = toByteArray(tm[2]);
-        tm3 = toByteArray(tm[3]);
+        tm0 = ToByteArray(tm[0]);
+        tm1 = ToByteArray(tm[1]);
+        tm2 = ToByteArray(tm[2]);
+        tm3 = ToByteArray(tm[3]);
         Append("q\n");
         if (pageObj.gsNumber != -1) {
             Append("/GS");
@@ -1305,10 +1305,10 @@ public class Page {
             float cosOfAngle = (float) Math.Cos(degrees * (Math.PI / 180));
             tm = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
         }
-        tm0 = toByteArray(tm[0]);
-        tm1 = toByteArray(tm[1]);
-        tm2 = toByteArray(tm[2]);
-        tm3 = toByteArray(tm[3]);
+        tm0 = ToByteArray(tm[0]);
+        tm1 = ToByteArray(tm[1]);
+        tm2 = ToByteArray(tm[2]);
+        tm3 = ToByteArray(tm[3]);
     }
 
     /**
@@ -1789,7 +1789,7 @@ public class Page {
         return textLine.DrawOn(this);
     }
 
-    private byte[] toByteArray(float value) {
+    private static byte[] ToByteArray(float value) {
         MemoryStream buf = new MemoryStream();
         string str = PDF.FloatToString(value);
         for (int i = 0; i < str.Length; i++) {
