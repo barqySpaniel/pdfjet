@@ -28,6 +28,7 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"strconv"
 	"strings"
 	"unicode"
 
@@ -1473,4 +1474,24 @@ func (page *Page) DrawText(str string) {
 		page.drawUnicodeString(page.font, str)
 		appendString(&page.buf, "> Tj\n")
 	}
+}
+
+func (page *Page) appendInteger(value int) {
+	page.buf = append(page.buf, []byte(strconv.Itoa(value))...)
+}
+
+func (page *Page) appendFloat32(value float32) {
+	page.buf = append(page.buf, []byte(strconv.FormatFloat(float64(value), 'f', 3, 32))...)
+}
+
+func (page *Page) appendString(s1 string) {
+	page.buf = append(page.buf, []byte(s1)...)
+}
+
+func (page *Page) appendByte(b byte) {
+	page.buf = append(page.buf, b)
+}
+
+func (page *Page) appendByteArray(a []byte) {
+	page.buf = append(page.buf, a...)
 }
