@@ -1729,14 +1729,8 @@ public class PDF {
     }
 
     internal static string FloatToString(float f) {
-        if (IsWholeNumber(f)) {
-            return ((int)f).ToString(CultureInfo.InvariantCulture);
-        }
-        return Math.Round(f, 2, MidpointRounding.AwayFromZero).ToString("0.##", CultureInfo.InvariantCulture);
-    }
-
-    internal static bool IsWholeNumber(float f) {
-        return f == (int)f && !float.IsNaN(f) && !float.IsInfinity(f);
+        return Math.Round(f, 2, MidpointRounding.AwayFromZero)
+                .ToString("0.##", CultureInfo.InvariantCulture);
     }
 }   // End of PDF.cs
 }   // End of namespace PDFjet.NET

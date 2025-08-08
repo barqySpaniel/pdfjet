@@ -1877,13 +1877,9 @@ final public class PDF {
     }
 
     static String floatToString(float f) {
-        if (isWholeNumber(f)) {
-            return Integer.toString((int) f);
-        }
-        return BigDecimal.valueOf(f).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().toPlainString();
-    }
-
-    static boolean isWholeNumber(float f) {
-        return (Float.floatToRawIntBits(f) & 0x7FFFFF) == 0;
+        return BigDecimal.valueOf(f)
+                .setScale(2, RoundingMode.HALF_UP)
+                .stripTrailingZeros()
+                .toPlainString();
     }
 }   // End of PDF.java

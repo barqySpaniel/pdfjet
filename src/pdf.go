@@ -1814,18 +1814,8 @@ func (pdf *PDF) appendByteArray(buf []byte) {
 }
 
 func floatToString(f float32) string {
-	if isWholeNumber(f) {
-		return strconv.Itoa(int(f)) // Whole numbers: "3"
-	}
-	// Round to 2 decimals, then trim trailing zeros
-	rounded := float32(math.Round(float64(f)*100) / 100)
-	s := strconv.FormatFloat(float64(rounded), 'f', -1, 32)
-	s = strings.TrimRight(s, "0") // Trim trailing zeros
-	s = strings.TrimRight(s, ".") // Trim trailing dot if needed
+	rounded := math.Round(float64(f)*100) / 100
+	s := strconv.FormatFloat(rounded, 'f', -1, 64) // No trailing zeros
+	s = strings.TrimRight(s, ".")
 	return s
-}
-
-func isWholeNumber(f float32) bool {
-	return math.Mod(float64(math.Abs(float64(f))), 1.0) == 0 &&
-		!math.IsNaN(float64(f)) && !math.IsInf(float64(f), 0)
 }
