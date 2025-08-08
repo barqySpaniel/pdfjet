@@ -1518,8 +1518,8 @@ public class Page {
         Append(num.ToString());
     }
 
-    internal void Append(float val) {
-        Append(val.ToString(pdf.floatFormat, PDF.culture_en_us));
+    internal void Append(float f) {
+        Append(PDF.FloatToString(f));
     }
 
     internal void Append(char ch) {
@@ -1791,7 +1791,7 @@ public class Page {
 
     private byte[] toByteArray(float value) {
         MemoryStream buf = new MemoryStream();
-        String str = value.ToString(pdf.floatFormat, PDF.culture_en_us);
+        string str = PDF.FloatToString(value);
         for (int i = 0; i < str.Length; i++) {
             buf.WriteByte((byte) str[i]);
         }

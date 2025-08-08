@@ -70,7 +70,6 @@ public class PDF {
     internal List<String> importedFonts = new List<String>();
     internal String extGState = "";
     internal Page prevPage = null;
-    internal String floatFormat = "0.###";
 
     /**
      * The default constructor - use when reading PDF files.
@@ -1057,8 +1056,8 @@ public class PDF {
         Append(num.ToString());
     }
 
-    internal void Append(float val) {
-        Append(val.ToString(floatFormat, PDF.culture_en_us));
+    internal void Append(float f) {
+        Append(FloatToString(f));
     }
 
     internal void Append(String str) {
@@ -1727,6 +1726,10 @@ public class PDF {
                 }
             }
         }
+    }
+
+    internal static String FloatToString(float f) {
+        return f.ToString("0.##", CultureInfo.InvariantCulture);
     }
 }   // End of PDF.cs
 }   // End of namespace PDFjet.NET
