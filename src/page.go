@@ -1303,29 +1303,29 @@ func (page *Page) AddAnnotation(annotation *Annotation) {
 }
 
 func (page *Page) beginTransform(x, y, xScale, yScale float32) {
-	appendString(&page.buf, "q\n")
+	page.appendString("q\n")
 
-	appendFloat32(&page.buf, xScale)
-	appendString(&page.buf, " 0 0 ")
-	appendFloat32(&page.buf, yScale)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, x)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, y)
-	appendString(&page.buf, " cm\n")
+	page.appendFloat32(xScale)
+	page.appendString(" 0 0 ")
+	page.appendFloat32(yScale)
+	page.appendString(" ")
+	page.appendFloat32(x)
+	page.appendString(" ")
+	page.appendFloat32(y)
+	page.appendString(" cm\n")
 
-	appendFloat32(&page.buf, xScale)
-	appendString(&page.buf, " 0 0 ")
-	appendFloat32(&page.buf, yScale)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, x)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, y)
-	appendString(&page.buf, " Tm\n")
+	page.appendFloat32(xScale)
+	page.appendString(" 0 0 ")
+	page.appendFloat32(yScale)
+	page.appendString(" ")
+	page.appendFloat32(x)
+	page.appendString(" ")
+	page.appendFloat32(y)
+	page.appendString(" Tm\n")
 }
 
 func (page *Page) endTransform() {
-	appendString(&page.buf, "Q\n")
+	page.appendString("Q\n")
 }
 
 // DrawContents draws the contents on the page.
@@ -1369,9 +1369,9 @@ func (page *Page) AddWatermark(font *Font, text string) {
 
 // InvertYAxis inverts the Y axis.
 func (page *Page) InvertYAxis() {
-	appendString(&page.buf, "1 0 0 -1 0 ")
-	appendFloat32(&page.buf, page.height)
-	appendString(&page.buf, " cm\n")
+	page.appendString("1 0 0 -1 0 ")
+	page.appendFloat32(page.height)
+	page.appendString(" cm\n")
 }
 
 // Transformation matrix.
@@ -1383,23 +1383,23 @@ func (page *Page) Transform(values []float32) {
 	transx := values[mTransX]
 	transy := values[mTransY]
 
-	appendFloat32(&page.buf, scalex)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, values[mSkewX])
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, values[mSkewY])
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, scaley)
-	appendString(&page.buf, " ")
+	page.appendFloat32(scalex)
+	page.appendString(" ")
+	page.appendFloat32(values[mSkewX])
+	page.appendString(" ")
+	page.appendFloat32(values[mSkewY])
+	page.appendString(" ")
+	page.appendFloat32(scaley)
+	page.appendString(" ")
 
 	if math.Asin(float64(values[mSkewY])) != 0.0 {
 		transx -= values[mSkewY] * page.height / scaley
 	}
 
-	appendFloat32(&page.buf, transx)
-	appendString(&page.buf, " ")
-	appendFloat32(&page.buf, -transy)
-	appendString(&page.buf, " cm\n")
+	page.appendFloat32(transx)
+	page.appendString(" ")
+	page.appendFloat32(-transy)
+	page.appendString(" cm\n")
 
 	page.height = page.height / scaley
 }
@@ -1430,49 +1430,49 @@ func (page *Page) AddFooterOffsetBy(textLine *TextLine, offset float32) []float3
 
 // BeginText begins text block.
 func (page *Page) BeginText() {
-	appendString(&page.buf, "BT\n")
+	page.appendString("BT\n")
 }
 
 // EndText ends text block.
 func (page *Page) EndText() {
-	appendString(&page.buf, "ET\n")
+	page.appendString("ET\n")
 }
 
 func (page *Page) SetTextLocation(x, y float32) {
-	appendFloat32(&page.buf, x)
-	appendByteArray(&page.buf, token.Space)
-	appendFloat32(&page.buf, page.height-y)
-	appendString(&page.buf, " Td\n")
+	page.appendFloat32(x)
+	page.appendByteArray(token.Space)
+	page.appendFloat32(page.height - y)
+	page.appendString(" Td\n")
 }
 
 func (page *Page) SetTextLeading(leading float32) {
-	appendFloat32(&page.buf, leading)
-	appendString(&page.buf, " TL\n")
+	page.appendFloat32(leading)
+	page.appendString(" TL\n")
 }
 
 func (page *Page) NextLine() {
-	appendString(&page.buf, "T*\n")
+	page.appendString("T*\n")
 }
 
 func (page *Page) SetTextScaling(scaling float32) {
-	appendFloat32(&page.buf, scaling)
-	appendString(&page.buf, " Tz\n")
+	page.appendFloat32(scaling)
+	page.appendString(" Tz\n")
 }
 
 func (page *Page) SetTextRise(rise float32) {
-	appendFloat32(&page.buf, rise)
-	appendString(&page.buf, " Ts\n")
+	page.appendFloat32(rise)
+	page.appendString(" Ts\n")
 }
 
 func (page *Page) DrawText(str string) {
 	if page.font.isCoreFont {
-		appendString(&page.buf, "[<")
+		page.appendString("[<")
 		page.drawASCIIString(page.font, str)
-		appendString(&page.buf, ">] TJ\n")
+		page.appendString(">] TJ\n")
 	} else {
-		appendString(&page.buf, "<")
+		page.appendString("<")
 		page.drawUnicodeString(page.font, str)
-		appendString(&page.buf, "> Tj\n")
+		page.appendString("> Tj\n")
 	}
 }
 
