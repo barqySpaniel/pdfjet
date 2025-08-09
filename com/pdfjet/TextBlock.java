@@ -170,7 +170,6 @@ public class TextBlock {
         this.keywordHighlightColors = wordHighlightMap;
     }
 
-
     private boolean textIsCJK(String str) {
         // CJK Unified Ideographs Range: 4E00–9FD5
         // Hiragana Range: 3040–309F
