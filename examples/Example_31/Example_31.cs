@@ -15,6 +15,7 @@ public class Example_31 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         // Font f1 = new Font(pdf, "fonts/Noto/NotoSansDevanagari-Regular.ttf.stream");
+        // TODO:
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
         Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
 

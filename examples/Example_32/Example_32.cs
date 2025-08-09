@@ -30,7 +30,7 @@ public class Example_32 {
         float x = 50f;
         float y = 50f;
         float leading = font.GetBodyHeight();
-        List<String> lines = Text.ReadLines("examples/Example_02.cs");
+        List<String> lines = Text.ReadLines("examples/Example_02/Example_02.cs");
         foreach (String line in lines) {
             page.DrawString(font, null, line, x, y, Color.black, colors);
             y += leading;
