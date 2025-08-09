@@ -1877,9 +1877,17 @@ final public class PDF {
     }
 
     static String floatToString(float f) {
-        return BigDecimal.valueOf(f)
-                .setScale(2, RoundingMode.HALF_UP)
-                .stripTrailingZeros()
-                .toPlainString();
+        // Step 1: Round the float to 2 decimal places with HALF_UP rounding mode
+        BigDecimal rounded = new BigDecimal(f).setScale(2, RoundingMode.HALF_UP);
+
+        // Step 2: Strip trailing zeros
+        rounded = rounded.stripTrailingZeros();
+
+        // Step 3: Use DecimalFormat with Locale.US to ensure a period (.) as decimal separator
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat decimalFormat = new DecimalFormat("0.##", symbols);
+
+        // Step 4: Return the formatted result
+        return decimalFormat.format(rounded);
     }
 }   // End of PDF.java
