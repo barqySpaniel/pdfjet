@@ -3,7 +3,7 @@
     <OutputType>Exe</OutputType>               <!-- Specifies that it's a console app -->
     <TargetFramework>net8.0</TargetFramework>  <!-- Targets .NET 8 -->
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <StartupObject>Example_01</StartupObject>
+    <StartupObject>Example_42</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PDFjet">
