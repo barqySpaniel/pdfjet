@@ -118,7 +118,7 @@ func (bt *BigTable) drawTextAndLine(fields []string, font *Font) error {
 		bt.yText = bt.y + bt.f1.ascent
 		bt.highlight = true
 		bt.drawFieldsAndLine(bt.headerFields, bt.f1)
-		bt.yText += (-bt.f1.descent) + bt.f2.ascent
+		bt.yText += bt.f1.descent + bt.f2.ascent
 		bt.startNewPage = false
 		return nil
 	}
@@ -130,13 +130,13 @@ func (bt *BigTable) drawTextAndLine(fields []string, font *Font) error {
 		bt.yText = bt.y + bt.f1.ascent
 		bt.highlight = true
 		bt.drawFieldsAndLine(bt.headerFields, bt.f1)
-		bt.yText += (-bt.f1.descent) + bt.f2.ascent
+		bt.yText += bt.f1.descent + bt.f2.ascent
 		bt.startNewPage = false
 	}
 
 	bt.drawFieldsAndLine(fields, font)
-	bt.yText += font.ascent - font.descent
-	if bt.yText > (bt.page.GetHeight() - bt.bottomMargin) {
+	bt.yText += font.descent + font.ascent
+	if bt.yText > (bt.page.height - bt.bottomMargin) {
 		bt.drawTheVerticalLines()
 		bt.startNewPage = true
 	}
@@ -188,8 +188,8 @@ func (bt *BigTable) highlightRow(page *Page, font *Font, color int32) {
 	page.SetBrushColor(color)
 	page.MoveTo(bt.vertLines[0], bt.yText-font.ascent)
 	page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-font.ascent)
-	page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-font.descent)
-	page.LineTo(bt.vertLines[0], bt.yText-font.descent)
+	page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText+font.descent)
+	page.LineTo(bt.vertLines[0], bt.yText+font.descent)
 	page.FillPath()
 	page.SetBrushColorWithFloat32Array(original)
 }
