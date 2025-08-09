@@ -10,11 +10,12 @@ jar cf PDFjet.jar -C out/production .
 for i in $(seq 1 50);
 do
     if [ $i -lt 10 ]; then
-        javac -O -encoding utf-8 -Xlint -cp PDFjet.jar examples/Example_0$i.java -d out/production
+        javac -O -encoding utf-8 -Xlint -cp PDFjet.jar examples/Example_0$i.java -d out/production &
     else
-        javac -O -encoding utf-8 -Xlint -cp PDFjet.jar examples/Example_$i.java -d out/production
+        javac -O -encoding utf-8 -Xlint -cp PDFjet.jar examples/Example_$i.java -d out/production &
     fi
 done
+wait
 
 for i in $(seq 1 50);
 do
