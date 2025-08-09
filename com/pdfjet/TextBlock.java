@@ -244,14 +244,14 @@ public class TextBlock {
         return textLines.toArray(new TextLineWithOffset[] {});
     }
 
-    private void rightAlignText(TextLineWithOffset[] list) {
-        for (TextLineWithOffset textLineWithOffset : list) {
+    private void rightAlignText(TextLineWithOffset[] textLines) {
+        for (TextLineWithOffset textLineWithOffset : textLines) {
             textLineWithOffset.xOffset = this.width - font.stringWidth(textLineWithOffset.textLine);
         }
     }
 
-    private void centerText(TextLineWithOffset[] list) {
-        for (TextLineWithOffset textLineWithOffset : list) {
+    private void centerText(TextLineWithOffset[] textLines) {
+        for (TextLineWithOffset textLineWithOffset : textLines) {
             textLineWithOffset.xOffset = (this.width - font.stringWidth(textLineWithOffset.textLine)) / 2f;
         }
     }
