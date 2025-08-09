@@ -1,19 +1,20 @@
 @echo off
-REM Windows batch script for building and running PDFjet examples
-
-REM Check if argument is provided
+REM Check if an argument is provided (example number)
 if "%1"=="" (
-    echo Please provide an example number:
-    echo run-dotnet.bat 33
+    echo Usage: %0 ^<example_number^>
     exit /b 1
 )
 
 REM Very important!!
-REM call clean.bat
+rmdir /s /q bin
+rmdir /s /q obj
 
-REM Build and run the specified example
-dotnet build PDFjet.csproj /p:StartupObject=Example_%1
-dotnet run
+REM Build the PDFjet library
+dotnet build PDFjet.csproj -c release
 
-REM Open the resulting PDF using the default PDF viewer
+REM Build and run the specified Example project
+dotnet build examples\Example_%1\Example_%1.csproj -c release
+dotnet examples\Example_%1\bin\release\net8.0\Example_%1.dll
+
+REM Open the generated PDF for the specified Example
 start Example_%1.pdf
