@@ -10,20 +10,19 @@ REM Build Example_01 to Example_50 in parallel
 for /L %%i in (1,1,50) do (
     REM Check if the example number is less than 10
     if %%i lss 10 (
-        set example_num=Example_0%%i
+        dotnet build examples\Example_0%%i\Example_0%%i.csproj -c release
     ) else (
-        set example_num=Example_%%i
+        dotnet build examples\Example_%%i\Example_%%i.csproj -c release
     )
-    dotnet build examples\%example_num%\%example_num%.csproj -c release
 )
 
 REM Run Example_01 to Example_50
 for /L %%i in (1,1,50) do (
     REM Check if the example number is less than 10
     if %%i lss 10 (
-        set example_num=Example_0%%i
+        dotnet examples\Example_0%%i\bin\release\net8.0\Example_0%%i.dll
     ) else (
-        set example_num=Example_%%i
+        dotnet examples\Example_%%i\bin\release\net8.0\Example_%%i.dll
     )
-    dotnet examples\%example_num%\bin\release\net8.0\%example_num%.dll
+
 )
