@@ -14,11 +14,8 @@ for /L %%i in (1,1,50) do (
     ) else (
         set example_num=Example_%%i
     )
-    start /B dotnet build examples\%example_num%\%example_num%.csproj -c release
+    dotnet build examples\%example_num%\%example_num%.csproj -c release
 )
-
-REM Wait for all build processes to finish
-timeout /t 5 >nul
 
 REM Run Example_01 to Example_50
 for /L %%i in (1,1,50) do (
