@@ -282,132 +282,6 @@ func (textBlock *TextBlock) getTextLines() []string {
 	return list
 }
 
-// DrawOn draws text block on the specified page at specified location.
-// @param page the Page where the TextBlock is to be drawn.
-// @param draw flag specifying if text block component should actually be drawn on the page.
-// @return x and y coordinates of the bottom right corner of text block component.
-func (textBlock *TextBlock) DrawOnOld(page *Page) [2]float32 {
-	if page != nil {
-		// TODO: Deal with this now!!
-	}
-
-	page.SetBrushColor(textBlock.textColor)
-	page.SetPenWidth(textBlock.font.underlineThickness)
-	page.SetPenColor(textBlock.borderColor)
-
-	ascent := textBlock.font.ascent
-	descent := textBlock.font.descent
-	leading := (ascent - descent) * textBlock.lineSpacing
-	lines := textBlock.getTextLines()
-	var xText float32 = 0.0
-	var yText float32 = 0.0
-	switch textBlock.textDirection {
-	case direction.LeftToRight:
-		yText = textBlock.y + ascent + textBlock.textPadding
-		for _, line := range lines {
-			switch textBlock.textAlignment {
-			case alignment.Left:
-				xText = textBlock.x + textBlock.textPadding
-			case alignment.Right:
-				xText = (textBlock.x + textBlock.width) -
-					(textBlock.font.StringWidth(textBlock.fallbackFont, line) + textBlock.textPadding)
-			case alignment.Center:
-				xText = textBlock.x + (textBlock.width-textBlock.font.StringWidth(textBlock.fallbackFont, line))/2
-			}
-			textBlock.drawTextLine(
-				page,
-				textBlock.font,
-				textBlock.fallbackFont,
-				line,
-				xText,
-				yText,
-				textBlock.textColor,
-				textBlock.keywordHighlightColors)
-			yText += leading
-		}
-	case direction.BottomToTop:
-		xText = textBlock.x + textBlock.textPadding + ascent
-		yText = textBlock.y + textBlock.height - textBlock.textPadding
-		for _, line := range lines {
-			textBlock.drawTextLine(
-				page,
-				textBlock.font,
-				textBlock.fallbackFont,
-				line,
-				xText,
-				yText,
-				textBlock.textColor,
-				textBlock.keywordHighlightColors)
-			xText += leading
-		}
-	}
-
-	xText -= leading
-	if (xText-descent+textBlock.textPadding)-textBlock.x > textBlock.width {
-		textBlock.width = (xText - descent + textBlock.textPadding) - textBlock.x
-	}
-	yText -= leading
-	if (yText-descent+textBlock.textPadding)-textBlock.y > textBlock.height {
-		textBlock.height = (yText - descent + textBlock.textPadding) - textBlock.y
-	}
-	rect := NewRectAt(textBlock.x, textBlock.y, textBlock.width, textBlock.height)
-	rect.SetBorderColor(textBlock.borderColor)
-	rect.SetCornerRadius(textBlock.borderCornerRadius)
-	rect.DrawOn(page)
-
-	if textBlock.textDirection == direction.LeftToRight &&
-		(textBlock.uri != nil || textBlock.key != nil) {
-		page.AddAnnotation(NewAnnotation(
-			textBlock.uri,
-			textBlock.key, // The destination name
-			textBlock.x,
-			textBlock.y,
-			textBlock.x+textBlock.width,
-			textBlock.y+textBlock.height,
-			textBlock.uriLanguage,
-			textBlock.uriActualText,
-			textBlock.uriAltDescription))
-	}
-	page.SetTextDirection(0)
-
-	return [2]float32{textBlock.x + textBlock.width, textBlock.y + textBlock.height}
-}
-
-// DrawTextLine draws text line on the page.
-func (textBlock *TextBlock) drawTextLine(
-	page *Page,
-	font *Font,
-	fallbackFont *Font,
-	text string,
-	xText float32,
-	yText float32,
-	brush int32,
-	colors map[string]int32) {
-	page.AddBMC("P", textBlock.language, text, textBlock.altDescription)
-	if textBlock.textDirection == direction.BottomToTop {
-		page.SetTextDirection(90)
-	}
-	page.DrawStringUsingColorMap(font, fallbackFont, text, xText, yText, brush, colors)
-	page.AddEMC()
-	if textBlock.textDirection == direction.LeftToRight {
-		lineLength := textBlock.font.StringWidth(fallbackFont, text)
-		if textBlock.underline {
-			page.AddArtifactBMC()
-			page.MoveTo(xText, yText+font.underlinePosition)
-			page.LineTo(xText+lineLength, yText+font.underlinePosition)
-			page.StrokePath()
-			page.AddEMC()
-		}
-		if textBlock.strikeout {
-			page.AddArtifactBMC()
-			page.MoveTo(xText, yText-(font.bodyHeight/4))
-			page.LineTo(xText+lineLength, yText-(font.bodyHeight/4))
-			page.StrokePath()
-			page.AddEMC()
-		}
-	}
-}
-
 func (textBlock *TextBlock) SetURIAction(uri string) *TextBlock {
 	textBlock.uri = &uri
 	return textBlock
@@ -498,6 +372,10 @@ func (t *TextBlock) centerText(textLines []TextLineWithOffset) {
 	}
 }
 
+// DrawOn draws text block on the specified page at specified location.
+// @param page the Page where the TextBlock is to be drawn.
+// @param draw flag specifying if text block component should actually be drawn on the page.
+// @return x and y coordinates of the bottom right corner of text block component.
 func (t *TextBlock) DrawOn(page *Page) ([]float32, error) {
 	if page == nil {
 		return nil, errors.New("a valid Page object is required")
