@@ -87,7 +87,7 @@ func (text *Text) SetSpaceBetweenTextLines(spaceBetweenTextLines float32) *Text 
 
 // GetSize returns the size of the text block.
 func (text *Text) GetSize() [2]float32 {
-	return [2]float32{text.width, (text.yText - text.font.descent) - (text.y1 + text.paragraphLeading)}
+	return [2]float32{text.width, (text.yText + text.font.descent) - (text.y1 + text.paragraphLeading)}
 }
 
 func (text *Text) SetBorder(border bool) {
@@ -118,12 +118,12 @@ func (text *Text) DrawOn(page *Page) [2]float32 {
 			text.yText = xy[1]
 		}
 		paragraph.x2 = text.xText
-		paragraph.y2 = text.yText - text.font.descent
+		paragraph.y2 = text.yText + text.font.descent
 		text.xText = text.x1
 		text.yText += text.paragraphLeading
 	}
 
-	height := ((text.yText - text.paragraphLeading) - text.y1) - text.font.descent
+	height := ((text.yText - text.paragraphLeading) - text.y1) + text.font.descent
 	if page != nil && text.border {
 		box := NewBox()
 		// box.SetCornerRadius(12.0) // TODO:

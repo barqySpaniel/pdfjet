@@ -29,9 +29,9 @@ type TextLineWithOffset struct {
 	xOffset  float32
 }
 
-func NewTextLineWithOffset(textLine string, xOffset float32) *TextLineWithOffset {
-	t := new(TextLineWithOffset)
-	t.textLine = textLine
-	t.xOffset = xOffset
-	return t
-}
+// func NewTextLineWithOffset(textLine string, xOffset float32) *TextLineWithOffset {
+// 	t := new(TextLineWithOffset)
+// 	t.textLine = textLine
+// 	t.xOffset = xOffset
+// 	return t
+// }

@@ -624,7 +624,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 			xText,
 			yText-cell.font.ascent,
 			xText+w,
-			yText+cell.font.descent,
+			yText-cell.font.descent,
 			"",
 			"",
 			""))
@@ -635,8 +635,8 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 func (cell *Cell) UnderlineText(page *Page, font *Font, text string, x, y float32) {
 	page.AddBMC("Span", "", "underline", "underline")
 	page.SetPenWidth(font.underlineThickness)
-	page.MoveTo(x, y+font.descent)
-	page.LineTo(x+font.stringWidth(text), y+font.descent)
+	page.MoveTo(x, y-font.descent)
+	page.LineTo(x+font.stringWidth(text), y-font.descent)
 	page.StrokePath()
 	page.AddEMC()
 }

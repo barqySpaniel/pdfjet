@@ -721,11 +721,12 @@ func getDelimiterRegex(str string) string {
 	pipe := 0
 	tab := 0
 	for _, ch := range str {
-		if ch == ',' {
+		switch ch {
+		case ',':
 			comma++
-		} else if ch == '|' {
+		case '|':
 			pipe++
-		} else if ch == '\t' {
+		case '\t':
 			tab++
 		}
 	}
