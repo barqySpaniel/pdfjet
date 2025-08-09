@@ -124,10 +124,10 @@ final public class Page {
         width = pageSize[0];
         height = pageSize[1];
         buf = new ByteArrayOutputStream(8192);
-        tm0 = PDF.floatToString(tm[0]).getBytes();
-        tm1 = PDF.floatToString(tm[1]).getBytes();
-        tm2 = PDF.floatToString(tm[2]).getBytes();
-        tm3 = PDF.floatToString(tm[3]).getBytes();
+        tm0 = FastFloat.toByteArray(tm[0]);
+        tm1 = FastFloat.toByteArray(tm[1]);
+        tm2 = FastFloat.toByteArray(tm[2]);
+        tm3 = FastFloat.toByteArray(tm[3]);
         if (addPageToPDF) {
             pdf.addPage(this);
         }
@@ -139,10 +139,10 @@ final public class Page {
         width = pageObj.getPageSize()[0];
         height = pageObj.getPageSize()[1];
         buf = new ByteArrayOutputStream(8192);
-        tm0 = PDF.floatToString(tm[0]).getBytes();
-        tm1 = PDF.floatToString(tm[1]).getBytes();
-        tm2 = PDF.floatToString(tm[2]).getBytes();
-        tm3 = PDF.floatToString(tm[3]).getBytes();
+        tm0 = FastFloat.toByteArray(tm[0]);
+        tm1 = FastFloat.toByteArray(tm[1]);
+        tm2 = FastFloat.toByteArray(tm[2]);
+        tm3 = FastFloat.toByteArray(tm[3]);
         this.append("q\n");
         if (pageObj.gsNumber != -1) {
             append("/GS");
@@ -1352,10 +1352,10 @@ final public class Page {
             float cosOfAngle = (float) Math.cos(degrees * (Math.PI / 180));
             tm = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
         }
-        tm0 = PDF.floatToString(tm[0]).getBytes();
-        tm1 = PDF.floatToString(tm[1]).getBytes();
-        tm2 = PDF.floatToString(tm[2]).getBytes();
-        tm3 = PDF.floatToString(tm[3]).getBytes();
+        tm0 = FastFloat.toByteArray(tm[0]);
+        tm1 = FastFloat.toByteArray(tm[1]);
+        tm2 = FastFloat.toByteArray(tm[2]);
+        tm3 = FastFloat.toByteArray(tm[3]);
     }
 
     /**
@@ -1582,7 +1582,6 @@ final public class Page {
     }
 
     protected void append(float f) {
-        // append(PDF.floatToString(f));
         append(FastFloat.toByteArray(f));
     }
 
