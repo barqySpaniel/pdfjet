@@ -24,5 +24,4 @@ for /L %%i in (1,1,50) do (
     ) else (
         dotnet examples\Example_%%i\bin\release\net8.0\Example_%%i.dll
     )
-
 )
