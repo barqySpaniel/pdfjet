@@ -18,7 +18,7 @@ public class Example_06 {
         pdf.SetCreator("Application Name");
 
         EmbeddedFile file1 = new EmbeddedFile(pdf, "images/linux-logo.png", Compress.NO);
-        EmbeddedFile file2 = new EmbeddedFile(pdf, "examples/Example_02.cs", Compress.YES);
+        EmbeddedFile file2 = new EmbeddedFile(pdf, "examples/Example_02/Example_02.cs", Compress.YES);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
