@@ -28,11 +28,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Reflection;
 
-[assembly:AssemblyVersionAttribute("8.0.0.0")]
-
 /**
  *  Used to create PDF objects that represent PDF documents.
- *
  */
 namespace PDFjet.NET {
 public class PDF {
