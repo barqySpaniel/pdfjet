@@ -9,11 +9,6 @@ To build the Java version and compile and run all examples:
 ./build-java.sh
 
 
-To build the C# version using Mono and compile and run all examples:
-
-./build-mono.sh
-
-
 To build the C# version using .NET and compile and run all examples:
 
 ./build-dotnet.sh
@@ -40,8 +35,6 @@ To compile and run specific Java example use the following command:
 
 To compile and run specific C# example use one of the following:
 
-./run-mono.sh 23
-or
 ./run-dotnet.sh 23
 
 
@@ -51,7 +44,9 @@ To compile and run specific Go example:
 
 
 To compile and run specific Swift example:
-sudo apt install libc6-dev
-sudo apt install gcc
 
 ./run-swift.sh 15
+
+Make sure you install these first:
+sudo apt install libc6-dev
+sudo apt install gcc
