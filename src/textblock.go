@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/edragoev1/pdfjet/src/alignment"
@@ -34,32 +35,31 @@ import (
 
 // TextBlock creates block of line-wrapped text.
 type TextBlock struct {
-	x                  float32
-	y                  float32
-	width              float32
-	height             float32
-	font               *Font
-	fallbackFont       *Font
-	textContent        string
-	textLineHeight     float32
-	textColor          int32
-	textPadding        float32
-	borderWidth        float32
-	borderCornerRadius float32
-	borderColor        int32
-	language           string
-	altDescription     string
-	uri                *string
-	key                *string
-	uriLanguage        string
-	uriActualText      string
-	uriAltDescription  string
-	textDirection      direction.Direction
-	textAlignment      int
-	underline          bool
-	strikeout          bool
-
-	colors map[string]int32
+	x                      float32
+	y                      float32
+	width                  float32
+	height                 float32
+	font                   *Font
+	fallbackFont           *Font
+	textContent            string
+	lineSpacing            float32
+	textColor              int32
+	textPadding            float32
+	borderWidth            float32
+	borderCornerRadius     float32
+	borderColor            int32
+	language               string
+	altDescription         string
+	uri                    *string
+	key                    *string
+	uriLanguage            string
+	uriActualText          string
+	uriAltDescription      string
+	textDirection          direction.Direction
+	textAlignment          int
+	underline              bool
+	strikeout              bool
+	keywordHighlightColors map[string]int32
 }
 
 // NewTextBlock creates a text block and sets the font.
@@ -74,11 +74,12 @@ func NewTextBlock(font *Font, textContent string) *TextBlock {
 	textBlock.font = font
 
 	textBlock.textContent = textContent
-	textBlock.textLineHeight = 1.0
+	textBlock.lineSpacing = 1.0
 	textBlock.textColor = color.Black
 	textBlock.textPadding = 0.0
 	textBlock.textDirection = direction.LeftToRight
 	textBlock.textAlignment = alignment.Left
+	textBlock.keywordHighlightColors = make(map[string]int32)
 
 	textBlock.borderWidth = 0.5
 	textBlock.borderCornerRadius = 0.0
@@ -94,7 +95,7 @@ func NewTextBlock(font *Font, textContent string) *TextBlock {
 
 // SetFont sets the font for textBlock text block.
 //
-//	@param font the font.
+// @param font the font.
 func (textBlock *TextBlock) SetFont(font *Font) {
 	textBlock.font = font
 }
@@ -187,8 +188,8 @@ func (textBlock *TextBlock) SetBorderColor(borderColor int32) {
 
 // SetLineHeight sets the extra leading between lines of text.
 // @param lineHeight
-func (textBlock *TextBlock) SetTextLineHeight(textLineHeight float32) {
-	textBlock.textLineHeight = textLineHeight
+func (textBlock *TextBlock) SetTextLineHeight(lineSpacing float32) {
+	textBlock.lineSpacing = lineSpacing
 }
 
 // Sets the brush color.
@@ -198,8 +199,8 @@ func (textBlock *TextBlock) SetTextColor(textColor int32) {
 }
 
 // SetTextColors sets the text colors map.
-func (textBlock *TextBlock) SetHighlightColors(colors map[string]int32) {
-	textBlock.colors = colors
+func (textBlock *TextBlock) SetHighlightColors(keywordHighlightColors map[string]int32) {
+	textBlock.keywordHighlightColors = keywordHighlightColors
 }
 
 // Sets the brush color.
@@ -285,7 +286,7 @@ func (textBlock *TextBlock) getTextLines() []string {
 // @param page the Page where the TextBlock is to be drawn.
 // @param draw flag specifying if text block component should actually be drawn on the page.
 // @return x and y coordinates of the bottom right corner of text block component.
-func (textBlock *TextBlock) DrawOn(page *Page) [2]float32 {
+func (textBlock *TextBlock) DrawOnOld(page *Page) [2]float32 {
 	if page != nil {
 		// TODO: Deal with this now!!
 	}
@@ -296,7 +297,7 @@ func (textBlock *TextBlock) DrawOn(page *Page) [2]float32 {
 
 	ascent := textBlock.font.ascent
 	descent := textBlock.font.descent
-	leading := (ascent - descent) * textBlock.textLineHeight
+	leading := (ascent - descent) * textBlock.lineSpacing
 	lines := textBlock.getTextLines()
 	var xText float32 = 0.0
 	var yText float32 = 0.0
@@ -321,7 +322,7 @@ func (textBlock *TextBlock) DrawOn(page *Page) [2]float32 {
 				xText,
 				yText,
 				textBlock.textColor,
-				textBlock.colors)
+				textBlock.keywordHighlightColors)
 			yText += leading
 		}
 	case direction.BottomToTop:
@@ -336,7 +337,7 @@ func (textBlock *TextBlock) DrawOn(page *Page) [2]float32 {
 				xText,
 				yText,
 				textBlock.textColor,
-				textBlock.colors)
+				textBlock.keywordHighlightColors)
 			xText += leading
 		}
 	}
@@ -414,4 +415,145 @@ func (textBlock *TextBlock) SetURIAction(uri string) *TextBlock {
 
 func (textBlock *TextBlock) SetTextDirection(textDirection direction.Direction) {
 	textBlock.textDirection = textDirection
+}
+
+func (textBlock *TextBlock) SetKeywordHighlightColors(keywordHighlightColors map[string]int32) {
+	textBlock.keywordHighlightColors = keywordHighlightColors
+}
+
+func (t *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
+	var textLines []TextLineWithOffset
+
+	var textAreaWidth float32
+	if t.textDirection == direction.LeftToRight {
+		textAreaWidth = t.width - 2*t.textPadding
+	} else {
+		// When writing text vertically!
+		textAreaWidth = t.height - 2*t.textPadding
+	}
+
+	t.textContent = strings.ReplaceAll(t.textContent, "\r\n", "\n")
+	t.textContent = strings.TrimSpace(t.textContent)
+	lines := strings.Split(t.textContent, "\n")
+
+	for _, line := range lines {
+		if t.font.StringWidth(t.fallbackFont, line) <= textAreaWidth {
+			textLines = append(
+				textLines,
+				TextLineWithOffset{textLine: line, xOffset: 0})
+		} else {
+			if t.textIsCJK(line) {
+				var sb strings.Builder
+				for _, ch := range line {
+					if t.font.StringWidth(t.fallbackFont, sb.String()+string(ch)) <= textAreaWidth {
+						sb.WriteRune(ch)
+					} else {
+						textLines = append(
+							textLines,
+							TextLineWithOffset{textLine: sb.String(), xOffset: 0})
+						sb.Reset()
+						sb.WriteRune(ch)
+					}
+				}
+				if sb.Len() > 0 {
+					textLines = append(
+						textLines,
+						TextLineWithOffset{textLine: sb.String(), xOffset: 0})
+				}
+			} else {
+				var sb strings.Builder
+				tokens := strings.Fields(line) // Split by whitespace
+				for _, token := range tokens {
+					if t.font.StringWidth(t.fallbackFont, sb.String()+token) <= textAreaWidth {
+						sb.WriteString(token + " ")
+					} else {
+						textLines = append(
+							textLines,
+							TextLineWithOffset{textLine: strings.TrimSpace(sb.String()), xOffset: 0})
+						sb.Reset()
+						sb.WriteString(token + " ")
+					}
+				}
+				if sb.Len() > 0 {
+					textLines = append(
+						textLines,
+						TextLineWithOffset{textLine: strings.TrimSpace(sb.String()), xOffset: 0})
+				}
+			}
+		}
+	}
+
+	return textLines
+}
+
+func (t *TextBlock) rightAlignText(textLines []TextLineWithOffset) {
+	for _, textLineWithOffset := range textLines {
+		textLineWithOffset.xOffset = t.width - t.font.stringWidth(textLineWithOffset.textLine)
+	}
+}
+
+func (t *TextBlock) centerText(textLines []TextLineWithOffset) {
+	for _, textLineWithOffset := range textLines {
+		textLineWithOffset.xOffset = (t.width - t.font.stringWidth(textLineWithOffset.textLine)) / 2.0
+	}
+}
+
+func (t *TextBlock) DrawOn(page *Page) ([]float32, error) {
+	if page == nil {
+		return nil, errors.New("a valid Page object is required")
+	}
+
+	page.SetPenWidth(t.borderWidth)
+
+	ascent := t.font.ascent
+	descent := t.font.descent
+	leading := (ascent + descent) * t.lineSpacing
+
+	textLines := t.getTextLinesWithOffsets()
+
+	switch t.textAlignment {
+	case alignment.Right:
+		t.rightAlignText(textLines)
+	case alignment.Center:
+		t.centerText(textLines)
+	}
+
+	page.AddBMC("P", t.uriLanguage, t.textContent, "")
+	textBlockHeight := page.drawTextBlock(
+		t.font,
+		textLines,
+		t.x+t.textPadding,
+		t.y+t.textPadding,
+		leading*t.lineSpacing,
+		t.textDirection,
+		t.textColor,
+		t.keywordHighlightColors)
+	page.AddEMC()
+
+	page.AddArtifactBMC()
+	rect := NewRectAt(t.x, t.y, t.width, textBlockHeight+2*t.textPadding)
+	rect.SetBorderColor(t.borderColor)
+	rect.SetCornerRadius(t.borderCornerRadius)
+	rect.DrawOn(page)
+	page.AddEMC()
+
+	// You can uncomment and adapt if required.
+	/*
+		if t.TextDirection == LEFT_TO_RIGHT &&
+			(t.Uri != "" || t.Key != "") {
+			page.AddAnnotation(Annotation{
+				Uri:                 t.Uri,
+				Key:                 t.Key,
+				X:                   t.X,
+				Y:                   t.Y,
+				Width:               t.X + t.Width,
+				Height:              t.Y + t.Height,
+				UriLanguage:         t.UriLanguage,
+				UriActualText:       t.UriActualText,
+				UriAltDescription:   t.UriAltDescription,
+			})
+		}
+	*/
+
+	return []float32{t.x + t.width, t.y + textBlockHeight + 2*t.textPadding}, nil
 }

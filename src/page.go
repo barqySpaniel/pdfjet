@@ -378,7 +378,7 @@ func (page *Page) drawASCIIString(font *Font, text string) {
 }
 
 func (page *Page) drawTextBlock(
-	font Font,
+	font *Font,
 	textLines []TextLineWithOffset,
 	x float32,
 	y float32,
@@ -392,7 +392,7 @@ func (page *Page) drawTextBlock(
 	}
 
 	page.appendString("BT\n")
-	page.SetTextFont(page.font)
+	page.SetTextFont(font)
 
 	xText := x
 	yText := y
