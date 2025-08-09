@@ -1814,8 +1814,20 @@ func (pdf *PDF) appendByteArray(buf []byte) {
 }
 
 func floatToString(f float32) string {
+	// Round to two decimal places
 	rounded := math.Round(float64(f)*100) / 100
-	s := strconv.FormatFloat(rounded, 'f', -1, 64) // No trailing zeros
+
+	// Convert to string with no trailing zeros
+	s := strconv.FormatFloat(rounded, 'f', -1, 64)
+
+	// Ensure a period (.) is used as the decimal separator
+	// If the decimal separator is a comma (`,`), replace it with a period (.)
+	if strings.Contains(s, ",") {
+		s = strings.ReplaceAll(s, ",", ".")
+	}
+
+	// Remove trailing period if the number is an integer
 	s = strings.TrimRight(s, ".")
+
 	return s
 }
