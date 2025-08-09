@@ -1,6 +1,6 @@
 namespace PDFjet.NET {
-public static class FastFloat {
-    static byte[] ToByteArray(float value) {
+internal static class FastFloat {
+    internal static byte[] ToByteArray(float value) {
         // Handle special cases
         if (float.IsNaN(value)) {
             return new byte[] { (byte)'N', (byte)'a', (byte)'N' };

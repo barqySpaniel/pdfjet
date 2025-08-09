@@ -1057,7 +1057,8 @@ public class PDF {
     }
 
     internal void Append(float f) {
-        Append(FloatToString(f));
+        // Append(FloatToString(f));
+        Append(FastFloat.ToByteArray(f));
     }
 
     internal void Append(String str) {

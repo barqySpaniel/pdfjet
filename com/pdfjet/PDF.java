@@ -1142,9 +1142,7 @@ final public class PDF {
 
     protected void append(float f) throws IOException {
         // append(PDF.floatToString(f));
-        byte[] buf = FastFloat.toByteArray(f);
-        os.write(buf, 0, buf.length);
-        byteCount += buf.length;
+        append(FastFloat.toByteArray(f));
     }
 
     protected void append(String str) throws IOException {

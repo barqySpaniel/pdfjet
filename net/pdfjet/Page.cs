@@ -1519,8 +1519,8 @@ public class Page {
     }
 
     internal void Append(float f) {
-        Append(PDF.FloatToString(f));
-        // Append(FastFloat.ToByteArray(f));
+        // Append(PDF.FloatToString(f));
+        Append(FastFloat.ToByteArray(f));
     }
 
     internal void Append(char ch) {
