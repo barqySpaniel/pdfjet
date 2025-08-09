@@ -227,61 +227,6 @@ func (text *TextBlock) textIsCJK(str string) bool {
 	return numOfCJK > (len(runes) / 2)
 }
 
-func (textBlock *TextBlock) getTextLines() []string {
-	list := make([]string, 0)
-
-	var textAreaWidth float32
-	if textBlock.textDirection == direction.LeftToRight {
-		textAreaWidth = textBlock.width - 2*textBlock.textPadding
-	} else {
-		// When writting text vertically!
-		textAreaWidth = textBlock.height - 2*textBlock.textPadding
-	}
-	textBlock.textContent = strings.ReplaceAll(textBlock.textContent, "\r\n", "\n")
-	textBlock.textContent = strings.TrimRight(textBlock.textContent, "\n")
-	lines := strings.Split(textBlock.textContent, "\n")
-	for _, line := range lines {
-		if textBlock.font.StringWidth(textBlock.fallbackFont, line) <= textAreaWidth {
-			list = append(list, line)
-		} else {
-			if textBlock.textIsCJK(line) {
-				var sb strings.Builder
-				for _, ch := range line {
-					if textBlock.font.StringWidth(
-						textBlock.fallbackFont, sb.String()+string(ch)) <= textAreaWidth {
-						sb.WriteRune(ch)
-					} else {
-						list = append(list, sb.String())
-						sb.Reset()
-						sb.WriteRune(ch)
-					}
-				}
-				if sb.Len() > 0 {
-					list = append(list, sb.String())
-				}
-			} else {
-				var sb strings.Builder
-				var tokens = strings.Fields(line)
-				for _, token := range tokens {
-					if textBlock.font.StringWidth(
-						textBlock.fallbackFont, sb.String()+token) <= textAreaWidth {
-						sb.WriteString(token + " ")
-					} else {
-						list = append(list, strings.TrimSpace(sb.String()))
-						sb.Reset()
-						sb.WriteString(token + " ")
-					}
-				}
-				if len(strings.TrimSpace(sb.String())) > 0 {
-					list = append(list, strings.TrimSpace(sb.String()))
-				}
-			}
-		}
-	}
-
-	return list
-}
-
 func (textBlock *TextBlock) SetURIAction(uri string) *TextBlock {
 	textBlock.uri = &uri
 	return textBlock
