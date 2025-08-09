@@ -1582,8 +1582,8 @@ final public class Page {
     }
 
     protected void append(float f) {
-        append(PDF.floatToString(f));
-        // append(FastFloat.toByteArray(f));
+        // append(PDF.floatToString(f));
+        append(FastFloat.toByteArray(f));
     }
 
     protected void append(char ch) {
