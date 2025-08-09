@@ -36,6 +36,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/direction"
+	"github.com/edragoev1/pdfjet/src/fastfloat"
 	"github.com/edragoev1/pdfjet/src/operation"
 	"github.com/edragoev1/pdfjet/src/shape"
 	"github.com/edragoev1/pdfjet/src/token"
@@ -140,12 +141,11 @@ func newPage(pdf *PDF, pageSize [2]float32, addToPDF bool) *Page {
 	page.linePattern = "[] 0"
 	page.savedHeight = math.MaxFloat32
 	page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
-	page.buf = []byte{}
 	page.penWidth = -1.0
-	page.tm0 = []byte(floatToString(page.tm[0]))
-	page.tm1 = []byte(floatToString(page.tm[1]))
-	page.tm2 = []byte(floatToString(page.tm[2]))
-	page.tm3 = []byte(floatToString(page.tm[3]))
+	page.tm0 = fastfloat.ToByteArray(page.tm[0])
+	page.tm1 = fastfloat.ToByteArray(page.tm[1])
+	page.tm2 = fastfloat.ToByteArray(page.tm[2])
+	page.tm3 = fastfloat.ToByteArray(page.tm[3])
 	if addToPDF {
 		pdf.AddPage(page)
 	}
@@ -160,11 +160,10 @@ func NewPageFromObject(pdf *PDF, pageObj *PDFobj) *Page {
 	page.width = pageObj.GetPageSize()[0]
 	page.height = pageObj.GetPageSize()[1]
 	page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
-	page.buf = []byte{}
-	page.tm0 = []byte(floatToString(page.tm[0]))
-	page.tm1 = []byte(floatToString(page.tm[1]))
-	page.tm2 = []byte(floatToString(page.tm[2]))
-	page.tm3 = []byte(floatToString(page.tm[3]))
+	page.tm0 = fastfloat.ToByteArray(page.tm[0])
+	page.tm1 = fastfloat.ToByteArray(page.tm[1])
+	page.tm2 = fastfloat.ToByteArray(page.tm[2])
+	page.tm3 = fastfloat.ToByteArray(page.tm[3])
 	page.appendString("q\n")
 	if pageObj.gsNumber != 0 {
 		page.appendString("/GS")
@@ -1013,10 +1012,10 @@ func (page *Page) SetTextDirection(degrees int) {
 		cosOfAngle := float32(math.Cos(float64(degrees) * (math.Pi / 180)))
 		page.tm = [4]float32{cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle}
 	}
-	page.tm0 = []byte(floatToString(page.tm[0]))
-	page.tm1 = []byte(floatToString(page.tm[1]))
-	page.tm2 = []byte(floatToString(page.tm[2]))
-	page.tm3 = []byte(floatToString(page.tm[3]))
+	page.tm0 = fastfloat.ToByteArray(page.tm[0])
+	page.tm1 = fastfloat.ToByteArray(page.tm[1])
+	page.tm2 = fastfloat.ToByteArray(page.tm[2])
+	page.tm3 = fastfloat.ToByteArray(page.tm[3])
 }
 
 /**
@@ -1480,8 +1479,7 @@ func (page *Page) appendInteger(value int) {
 }
 
 func (page *Page) appendFloat32(value float32) {
-	// page.buf = append(page.buf, []byte(strconv.FormatFloat(float64(value), 'f', 3, 32))...)
-	page.buf = append(page.buf, []byte(floatToString(value))...)
+	page.buf = append(page.buf, fastfloat.ToByteArray(value)...)
 }
 
 func (page *Page) appendString(s1 string) {

@@ -28,7 +28,6 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math"
 	"os"
 	"sort"
 	"strconv"
@@ -39,6 +38,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/compressor"
 	"github.com/edragoev1/pdfjet/src/djb"
+	"github.com/edragoev1/pdfjet/src/fastfloat"
 	"github.com/edragoev1/pdfjet/src/token"
 )
 
@@ -1792,9 +1792,7 @@ func (pdf *PDF) appendInteger(value int) {
 }
 
 func (pdf *PDF) appendFloat32(f float32) {
-	s := floatToString(f)
-	pdf.writer.WriteString(s)
-	pdf.byteCount += len(s)
+	pdf.appendByteArray(fastfloat.ToByteArray(f))
 }
 
 func (pdf *PDF) appendString(s string) {
@@ -1811,23 +1809,4 @@ func (pdf *PDF) appendByte(b byte) {
 func (pdf *PDF) appendByteArray(buf []byte) {
 	pdf.writer.Write(buf)
 	pdf.byteCount += len(buf)
-}
-
-func floatToString(f float32) string {
-	// Round to two decimal places
-	rounded := math.Round(float64(f)*100) / 100
-
-	// Convert to string with no trailing zeros
-	s := strconv.FormatFloat(rounded, 'f', -1, 64)
-
-	// Ensure a period (.) is used as the decimal separator
-	// If the decimal separator is a comma (`,`), replace it with a period (.)
-	if strings.Contains(s, ",") {
-		s = strings.ReplaceAll(s, ",", ".")
-	}
-
-	// Remove trailing period if the number is an integer
-	s = strings.TrimRight(s, ".")
-
-	return s
 }
