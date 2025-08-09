@@ -1520,6 +1520,7 @@ public class Page {
 
     internal void Append(float f) {
         Append(PDF.FloatToString(f));
+        // Append(FastFloat.ToByteArray(f));
     }
 
     internal void Append(char ch) {
@@ -1530,8 +1531,15 @@ public class Page {
         buf.WriteByte(b);
     }
 
+    /**
+     * Appends the specified array of bytes to the page.
+     */
+    public void Append(byte[] buffer) {
+        buf.Write(buffer, 0, buffer.Length);
+    }
+
     private static readonly byte[] HEX = {
-        (byte)'0', (byte)'1', (byte)'2', (byte)'3', (byte)'4', (byte)'5', (byte)'6', (byte)'7', (byte)'8', (byte)'9', 
+        (byte)'0', (byte)'1', (byte)'2', (byte)'3', (byte)'4', (byte)'5', (byte)'6', (byte)'7', (byte)'8', (byte)'9',
         (byte)'A', (byte)'B', (byte)'C', (byte)'D', (byte)'E', (byte)'F'
     };
     private void AppendCodePointAsHex(int codePoint) {
@@ -1551,13 +1559,6 @@ public class Page {
             buf.WriteByte(HEX[(codePoint >> 4)  & 0xF]);
             buf.WriteByte(HEX[(codePoint)       & 0xF]);
         }
-    }
-
-    /**
-     *  Appends the specified array of bytes to the page.
-     */
-    public void Append(byte[] buffer) {
-        buf.Write(buffer, 0, buffer.Length);
     }
 
     private void DrawWord(
