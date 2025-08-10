@@ -73,6 +73,7 @@ type PDF struct {
 	extGState             string
 	uuid                  string
 	prevPage              *Page
+	structElements        []*StructElem
 }
 
 // NewPDF the constructor.
@@ -464,11 +465,9 @@ func (pdf *PDF) addStructDocumentObject(parent int) int {
 	pdf.appendInteger(parent)
 	pdf.appendByteArray(token.ObjRef)
 	pdf.appendString("/K [\n")
-	for _, page := range pdf.pages {
-		for _, structElement := range page.structures {
-			pdf.appendInteger(structElement.objNumber)
-			pdf.appendByteArray(token.ObjRef)
-		}
+	for _, structElement := range pdf.structElements {
+		pdf.appendInteger(structElement.objNumber)
+		pdf.appendByteArray(token.ObjRef)
 	}
 	pdf.appendString("]\n")
 	pdf.appendByteArray(token.EndDictionary)
@@ -478,50 +477,46 @@ func (pdf *PDF) addStructDocumentObject(parent int) int {
 
 func (pdf *PDF) addStructElementObjects() {
 	structTreeRootObjNumber := pdf.getObjNumber() + 1
-	for _, page := range pdf.pages {
-		structTreeRootObjNumber += len(page.structures)
-	}
-	for _, page := range pdf.pages {
-		for _, element := range page.structures {
-			pdf.newobj()
-			element.objNumber = pdf.getObjNumber()
-			pdf.appendString("<<\n/Type /StructElem /S /")
-			pdf.appendString(element.structure)
-			pdf.appendString("\n/P ")
-			pdf.appendInteger(structTreeRootObjNumber + 2) // Use the document struct as parent!
-			pdf.appendString(" 0 R\n/Pg ")
-			pdf.appendInteger(element.pageObjNumber)
-			pdf.appendString(" 0 R\n")
+	structTreeRootObjNumber += len(pdf.structElements)
+	for _, element := range pdf.structElements {
+		pdf.newobj()
+		element.objNumber = pdf.getObjNumber()
+		pdf.appendString("<<\n/Type /StructElem /S /")
+		pdf.appendString(element.structure)
+		pdf.appendString("\n/P ")
+		pdf.appendInteger(structTreeRootObjNumber + 2) // Use the document struct as parent!
+		pdf.appendString(" 0 R\n/Pg ")
+		pdf.appendInteger(element.pageObjNumber)
+		pdf.appendString(" 0 R\n")
 
-			if element.annotation != nil {
-				pdf.appendString("/K <</Type /OBJR /Obj ")
-				pdf.appendInteger(element.annotation.objNumber)
-				pdf.appendString(" 0 R>>\n")
-			} else {
-				pdf.appendString("/K ")
-				pdf.appendInteger(element.mcid)
-				pdf.appendString("\n")
-			}
-
-			pdf.appendString("/Lang (")
-			if element.language != "" {
-				pdf.appendString(element.language)
-			} else {
-				pdf.appendString(pdf.language)
-			}
-			pdf.appendString(")\n")
-
-			pdf.appendString("/Alt <")
-			pdf.appendString(toHex(element.altDescription))
-			pdf.appendString(">\n")
-
-			pdf.appendString("/ActualText <")
-			pdf.appendString(toHex(element.actualText))
-			pdf.appendString(">\n")
-
-			pdf.appendString(">>\n")
-			pdf.endobj()
+		if element.annotation != nil {
+			pdf.appendString("/K <</Type /OBJR /Obj ")
+			pdf.appendInteger(element.annotation.objNumber)
+			pdf.appendString(" 0 R>>\n")
+		} else {
+			pdf.appendString("/K ")
+			pdf.appendInteger(element.mcid)
+			pdf.appendString("\n")
 		}
+
+		pdf.appendString("/Lang (")
+		if element.language != "" {
+			pdf.appendString(element.language)
+		} else {
+			pdf.appendString(pdf.language)
+		}
+		pdf.appendString(")\n")
+
+		pdf.appendString("/Alt <")
+		pdf.appendString(toHex(element.altDescription))
+		pdf.appendString(">\n")
+
+		pdf.appendString("/ActualText <")
+		pdf.appendString(toHex(element.actualText))
+		pdf.appendString(">\n")
+
+		pdf.appendString(">>\n")
+		pdf.endobj()
 	}
 }
 
@@ -566,10 +561,10 @@ func (pdf *PDF) addNumsParentTree() {
 	pdf.newobj()
 	pdf.appendString("<<\n")
 	pdf.appendString("/Nums [\n")
-	for i, page := range pdf.pages {
+	for i := range pdf.pages {
 		pdf.appendInteger(i)
 		pdf.appendString(" [\n")
-		for _, element := range page.structures {
+		for _, element := range pdf.structElements {
 			if element.annotation == nil {
 				pdf.appendInteger(element.objNumber)
 				pdf.appendString(" 0 R\n")
@@ -579,15 +574,13 @@ func (pdf *PDF) addNumsParentTree() {
 	}
 
 	index := len(pdf.pages)
-	for _, page := range pdf.pages {
-		for _, element := range page.structures {
-			if element.annotation != nil {
-				pdf.appendInteger(index)
-				pdf.appendString(" ")
-				pdf.appendInteger(element.objNumber)
-				pdf.appendString(" 0 R\n")
-				index++
-			}
+	for _, element := range pdf.structElements {
+		if element.annotation != nil {
+			pdf.appendInteger(index)
+			pdf.appendString(" ")
+			pdf.appendInteger(element.objNumber)
+			pdf.appendString(" 0 R\n")
+			index++
 		}
 	}
 	pdf.appendString("]\n")
@@ -870,14 +863,14 @@ func (pdf *PDF) addAnnotationObject(annot *Annotation, index int) int {
 
 func (pdf *PDF) addAnnotDictionaries() {
 	index := len(pdf.pages)
+	for _, element := range pdf.structElements {
+		if element.annotation != nil {
+			index = pdf.addAnnotationObject(element.annotation, index)
+		}
+	}
+
 	for _, page := range pdf.pages {
-		if len(page.structures) > 0 {
-			for _, element := range page.structures {
-				if element.annotation != nil {
-					index = pdf.addAnnotationObject(element.annotation, index)
-				}
-			}
-		} else if len(page.annots) > 0 {
+		if len(page.annots) > 0 {
 			for _, annotation := range page.annots {
 				if annotation != nil {
 					pdf.addAnnotationObject(annotation, 0)
