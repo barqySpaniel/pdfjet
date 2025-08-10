@@ -237,7 +237,9 @@ func (textBlock *TextBlock) SetTextDirection(textDirection direction.Direction) 
 }
 
 func (textBlock *TextBlock) SetKeywordHighlightColors(keywordHighlightColors map[string]int32) {
-	textBlock.keywordHighlightColors = keywordHighlightColors
+	for key, value := range keywordHighlightColors {
+		textBlock.keywordHighlightColors[strings.ToLower(key)] = value
+	}
 }
 
 func (t *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {

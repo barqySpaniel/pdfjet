@@ -545,13 +545,17 @@ func (page *Page) SetPenColorCMYK(c, m, y, k float32) {
 // @param g the green component is float value from 0.0 to 1.0.
 // @param b the blue component is float value from 0.0 to 1.0.
 func (page *Page) SetBrushColorRGB(r, g, b float32) {
-	if page.brush[0] != r || page.brush[1] != g || page.brush[2] != b {
-		page.SetColorRGB(r, g, b)
-		page.appendString(" rg\n")
-		page.brush[0] = r
-		page.brush[1] = g
-		page.brush[2] = b
-	}
+	// if page.brush[0] != r || page.brush[1] != g || page.brush[2] != b {
+	// 	page.SetColorRGB(r, g, b)
+	// 	page.appendString(" rg\n")
+	// 	page.brush[0] = r
+	// 	page.brush[1] = g
+	// 	page.brush[2] = b
+	// }
+
+	page.SetColorRGB(r, g, b)
+	page.appendString(" rg\n")
+
 }
 
 // SetBrushColorCMYK sets the color for brush operations using CMYK.
@@ -1208,7 +1212,7 @@ func (page *Page) appendPoint(point *Point) {
 
 func (page *Page) drawWord(font *Font, buf *strings.Builder, brush int32, colors map[string]int32) {
 	if buf.Len() > 0 {
-		if brushColor, ok := colors[buf.String()]; ok {
+		if brushColor, ok := colors[strings.ToLower(buf.String())]; ok {
 			page.SetBrushColor(brushColor)
 		} else {
 			page.SetBrushColor(brush)
