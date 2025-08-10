@@ -35,6 +35,7 @@ public class StructElem {
     public static final String PART = "Part";
     public static final String DIV = "Div";
     public static final String ASIDE = "Aside";
+    public static final String Sect = "Sect";
     public static final String P = "P";
     public static final String H1 = "H1";
     public static final String H2 = "H2";
