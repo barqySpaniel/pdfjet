@@ -566,7 +566,6 @@ final public class PDF {
         append(Token.beginDictionary);
         append("/Nums [\n");
         for (int i = 0; i < pages.size(); i++) {
-            // Page page = pages.get(i);
             append(i);
             append(" [\n");
             for (StructElem element : this.structElements) {
