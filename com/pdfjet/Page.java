@@ -57,7 +57,7 @@ final public class Page {
     protected float[] bleedBox = null;
     protected float[] trimBox = null;
     protected float[] artBox = null;
-    protected List<StructElem> structures = new ArrayList<StructElem>();
+    protected List<StructElem> structures = new ArrayList<>();
     private float[] pen = {0f, 0f, 0f};
     private float[] brush = {0f, 0f, 0f};
     private float penWidth = -1.0f;
