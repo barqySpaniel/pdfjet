@@ -460,9 +460,10 @@ func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 
 	cell.drawBorders(page, x, y, w, h)
 	if cell.point != nil {
-		if cell.point.align == align.Left {
+		switch cell.point.align {
+		case align.Left:
 			cell.point.x = x + 2*cell.point.r
-		} else if cell.point.align == align.Right {
+		case align.Right:
 			cell.point.x = (x + w) - cell.rightPadding/2
 		}
 		cell.point.y = y + h/2
@@ -538,13 +539,14 @@ func (cell *Cell) drawBorders(page *Page, x, y, cellW, cellH float32) {
 func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 	var xText float32
 	var yText float32
-	if cell.valign == align.Top {
+	switch cell.valign {
+	case align.Top:
 		yText = y + cell.font.ascent + cell.topPadding
-	} else if cell.valign == align.Center {
-		yText = y + hCell/2 + cell.font.ascent/2
-	} else if cell.valign == align.Bottom {
+	case align.Center:
+		yText = y + hCell/2.0 + cell.font.ascent/2.0
+	case align.Bottom:
 		yText = (y + hCell) - cell.bottomPadding
-	} else {
+	default:
 		log.Fatal("Invalid vertical text alignment option.")
 	}
 
@@ -624,7 +626,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 			xText,
 			yText-cell.font.ascent,
 			xText+w,
-			yText-cell.font.descent,
+			yText+cell.font.descent,
 			"",
 			"",
 			""))
@@ -635,8 +637,8 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 func (cell *Cell) UnderlineText(page *Page, font *Font, text string, x, y float32) {
 	page.AddBMC("Span", "", "underline", "underline")
 	page.SetPenWidth(font.underlineThickness)
-	page.MoveTo(x, y-font.descent)
-	page.LineTo(x+font.stringWidth(text), y-font.descent)
+	page.MoveTo(x, y+font.descent)
+	page.LineTo(x+font.stringWidth(text), y+font.descent)
 	page.StrokePath()
 	page.AddEMC()
 }
@@ -645,8 +647,8 @@ func (cell *Cell) UnderlineText(page *Page, font *Font, text string, x, y float3
 func (cell *Cell) StrikeoutText(page *Page, font *Font, text string, x, y float32) {
 	page.AddBMC("Span", "", "strike out", "strike out")
 	page.SetPenWidth(font.underlineThickness)
-	page.MoveTo(x, y-font.GetAscent()/3.0)
-	page.LineTo(x+font.stringWidth(text), y-font.GetAscent()/3.0)
+	page.MoveTo(x, y-font.ascent/3.0)
+	page.LineTo(x+font.stringWidth(text), y-font.ascent/3.0)
 	page.StrokePath()
 	page.AddEMC()
 }
