@@ -32,13 +32,15 @@ import (
 )
 
 // Text structure
-// Please see Example_45
+// Please see Example_41
 type Text struct {
-	paragraphs                                       []*Paragraph
-	font, fallbackFont                               *Font
-	x1, y1, xText, yText, width                      float32
-	leading, paragraphLeading, spaceBetweenTextLines float32
-	border                                           bool
+	paragraphs                  []*Paragraph
+	font, fallbackFont          *Font
+	x1, y1, xText, yText, width float32
+	leading                     float32
+	paragraphLeading            float32
+	lineSpacing                 float32
+	border                      bool
 }
 
 // NewText is the constructor.
@@ -47,9 +49,9 @@ func NewText(paragraphs []*Paragraph) *Text {
 	text.paragraphs = paragraphs
 	text.font = paragraphs[0].lines[0].GetFont()
 	text.fallbackFont = paragraphs[0].lines[0].GetFallbackFont()
-	text.leading = text.font.GetBodyHeight()
+	text.leading = text.font.ascent + text.font.descent
 	text.paragraphLeading = 2 * text.leading
-	text.spaceBetweenTextLines = text.font.StringWidth(text.fallbackFont, single.Space)
+	text.lineSpacing = 1.0
 	text.border = false
 	return text
 }
@@ -80,14 +82,14 @@ func (text *Text) SetParagraphLeading(paragraphLeading float32) *Text {
 }
 
 // SetSpaceBetweenTextLines sets the space between text lines.
-func (text *Text) SetSpaceBetweenTextLines(spaceBetweenTextLines float32) *Text {
-	text.spaceBetweenTextLines = spaceBetweenTextLines
+func (text *Text) SetSpaceBetweenTextLines(lineSpacing float32) *Text {
+	text.lineSpacing = lineSpacing
 	return text
 }
 
 // GetSize returns the size of the text block.
 func (text *Text) GetSize() [2]float32 {
-	return [2]float32{text.width, (text.yText + text.font.descent) - (text.y1 + text.paragraphLeading)}
+	return [2]float32{text.width, (text.yText - text.font.descent) - (text.y1 + text.paragraphLeading)}
 }
 
 func (text *Text) SetBorder(border bool) {
@@ -113,17 +115,17 @@ func (text *Text) DrawOn(page *Page) [2]float32 {
 			xy := text.drawTextLine(page, text.xText, text.yText, textLine)
 			text.xText = xy[0]
 			if textLine.GetTrailingSpace() {
-				text.xText += text.spaceBetweenTextLines
+				text.xText *= text.lineSpacing
 			}
 			text.yText = xy[1]
 		}
 		paragraph.x2 = text.xText
-		paragraph.y2 = text.yText + text.font.descent
+		paragraph.y2 = text.yText - text.font.descent
 		text.xText = text.x1
 		text.yText += text.paragraphLeading
 	}
 
-	height := ((text.yText - text.paragraphLeading) - text.y1) + text.font.descent
+	height := ((text.yText - text.paragraphLeading) - text.y1) - text.font.descent
 	if page != nil && text.border {
 		box := NewBox()
 		// box.SetCornerRadius(12.0) // TODO:

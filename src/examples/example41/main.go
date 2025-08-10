@@ -15,11 +15,12 @@ func Example41() {
 	pdf := pdfjet.NewPDFFile("Example_41.pdf")
 
 	f1 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	f2 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBold())
-	f3 := pdfjet.NewCoreFont(pdf, corefont.HelveticaOblique())
-
 	f1.SetSize(10.0)
+
+	f2 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBold())
 	f2.SetSize(10.0)
+
+	f3 := pdfjet.NewCoreFont(pdf, corefont.HelveticaOblique())
 	f3.SetSize(10.0)
 
 	page := pdfjet.NewPage(pdf, a4.Portrait)
