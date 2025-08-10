@@ -17,11 +17,12 @@ public class Example_08 {
         // Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE);
 
         Font f1 = new Font(pdf, "fonts/NotoSans/NotoSans-SemiBold.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream");
-        Font f3 = new Font(pdf, "fonts/NotoSans/NotoSans-SemiBoldItalic.ttf.stream");
-
         f1.setSize(7f);
+
+        Font f2 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream");
         f2.setSize(7f);
+
+        Font f3 = new Font(pdf, "fonts/NotoSans/NotoSans-SemiBoldItalic.ttf.stream");
         f3.setSize(7f);
 
         Image image = new Image(pdf, "images/TeslaX.png");

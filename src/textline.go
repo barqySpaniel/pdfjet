@@ -203,7 +203,7 @@ func (textLine *TextLine) GetStringWidth(text string) float32 {
 func (textLine *TextLine) GetHeight() float32 {
 	ascent := math.Max(float64(textLine.font.ascent), float64(textLine.fallbackFont.ascent))
 	descent := -(math.Max(float64(textLine.font.descent), float64(textLine.fallbackFont.descent)))
-	return float32(ascent - descent)
+	return float32(ascent + descent)
 }
 
 // SetURIAction sets the URI for the "click text line" action.
@@ -462,7 +462,7 @@ func (textLine *TextLine) DrawOn(page *Page) []float32 {
 			textLine.x,
 			textLine.y-textLine.font.ascent,
 			textLine.x+textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
-			textLine.y-textLine.font.descent,
+			textLine.y+textLine.font.descent,
 			textLine.uriLanguage,
 			textLine.uriActualText,
 			textLine.uriAltDescription))

@@ -18,11 +18,12 @@ func Example08() {
 	// f3 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBoldOblique())
 
 	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
-	f2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
-	f3 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-BoldItalic.ttf.stream")
-
 	f1.SetSize(7.0)
+
+	f2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
 	f2.SetSize(7.0)
+
+	f3 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-BoldItalic.ttf.stream")
 	f3.SetSize(7.0)
 
 	image := pdfjet.NewImageFromFile(pdf, "images/TeslaX.png")
