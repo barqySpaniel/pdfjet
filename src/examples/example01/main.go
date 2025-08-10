@@ -6,6 +6,7 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/color"
+	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/content"
 	"github.com/edragoev1/pdfjet/src/font"
 	"github.com/edragoev1/pdfjet/src/letter"
@@ -14,6 +15,7 @@ import (
 // Example01 demonstrates creating a PDF with multilingual text blocks
 func Example01() {
 	pdf := pdfjet.NewPDFFile("Example_01.pdf")
+	pdf.SetCompliance(compliance.PDF_UA_1)
 
 	// Load font and set size
 	font1 := pdfjet.NewFontFromFile(pdf, font.IBMPlexSans.Regular)
