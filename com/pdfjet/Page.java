@@ -1631,8 +1631,8 @@ final public class Page {
             Font font, StringBuilder buf, int color, Map<String, Integer> colors) {
         if (buf.length() > 0) {
             String str = buf.toString();
-            if (colors.containsKey(str)) {
-                setBrushColor(colors.get(str));
+            if (colors.containsKey(str.toLowerCase())) {
+                setBrushColor(colors.get(str.toLowerCase()));
             } else {
                 setBrushColor(color);
             }

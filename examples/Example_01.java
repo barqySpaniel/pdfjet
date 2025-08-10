@@ -41,8 +41,8 @@ public class Example_01 {
 
         Map<String, Integer> map = new HashMap<String, Integer>();
         map.put("Everyone", Color.darkred);
-        map.put("pay", Color.darkgreen);
-        map.put("freedom", Color.blue);
+        map.put("Pay", Color.darkgreen);
+        map.put("Freedom", Color.blue);
 
         // Add English text from a file
         TextBlock textBlock = new TextBlock(

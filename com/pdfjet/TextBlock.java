@@ -166,8 +166,11 @@ public class TextBlock {
         this.textDirection = textDirection;
     }
 
-    public void setKeywordHighlightColors(Map<String, Integer> wordHighlightMap) {
-        this.keywordHighlightColors = wordHighlightMap;
+    public void setKeywordHighlightColors(Map<String, Integer> map) {
+        this.keywordHighlightColors = new HashMap<>();
+        for (String key : map.keySet()) {
+            this.keywordHighlightColors.put(key.toLowerCase(), map.get(key));
+        }
     }
 
     private boolean textIsCJK(String str) {
