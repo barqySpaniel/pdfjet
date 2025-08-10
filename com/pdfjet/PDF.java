@@ -24,8 +24,6 @@ SOFTWARE.
 package com.pdfjet;
 
 import java.io.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.text.*;
 import java.util.*;
@@ -68,6 +66,8 @@ final public class PDF {
     protected List<String> importedFonts = new ArrayList<String>();
     protected String extGState = "";
     protected Page prevPage = null;
+
+    protected List<StructElem> structElements = new ArrayList<StructElem>();
 
     /**
      * The default constructor - use when reading PDF files.
@@ -486,8 +486,9 @@ final public class PDF {
         for (Page page : pages) {
             structTreeRootObjNumber += page.structures.size();
         }
-        for (Page page : pages) {
-            for (StructElem element : page.structures) {
+        // for (Page page : pages) {
+            // for (StructElem element : page.structures) {
+            for (StructElem element : this.structElements) {
                 newobj();
                 element.objNumber = getObjNumber();
                 append("<<\n/Type /StructElem /S /");
@@ -531,7 +532,7 @@ final public class PDF {
                 append(">>\n");
                 endobj();
             }
-        }
+        // }
     }
 
     private static final char[] HEX = {
