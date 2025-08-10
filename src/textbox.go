@@ -643,8 +643,7 @@ func (textBox *TextBox) DrawOn(page *Page) [2]float32 {
 				yText -= leading
 			}
 		}
-		// TODO!!! Check the leading!!
-		textBox.height = ((yText - textBox.y) - (textBox.font.ascent * leading)) + textBox.margin
+		textBox.height = (yText - textBox.y) - textBox.font.ascent
 	}
 	if page != nil {
 		textBox.drawBorders(page)

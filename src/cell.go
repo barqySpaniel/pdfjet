@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/edragoev1/pdfjet/src/align"
@@ -245,6 +246,27 @@ func (cell *Cell) GetHeight(width float32) float32 {
 	if cell.textBox != nil {
 		cell.textBox.SetWidth(width)
 		cellHeight = (cell.textBox.DrawOn(nil)[1] - cell.textBox.y) + cell.topPadding + cell.bottomPadding
+	} else if cell.image != nil {
+		cellHeight = cell.image.GetHeight() + cell.topPadding + cell.bottomPadding
+	} else if cell.barcode != nil {
+		cellHeight = cell.barcode.GetHeight() + cell.topPadding + cell.bottomPadding
+	} else if cell.text != nil {
+		// fmt.Println("are we here???")
+		fontHeight := cell.font.GetHeight()
+		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
+			fontHeight = cell.fallbackFont.GetHeight()
+		}
+		cellHeight = fontHeight + cell.topPadding + cell.bottomPadding
+	}
+	return cellHeight
+}
+
+func (cell *Cell) GetHeightHeader(width float32) float32 {
+	cellHeight := float32(0.0)
+	if cell.textBox != nil {
+		cell.textBox.SetWidth(width)
+		cellHeight = (cell.textBox.DrawOn(nil)[1] - cell.textBox.y) + cell.topPadding + cell.bottomPadding
+		fmt.Println("--> ", cellHeight)
 	} else if cell.image != nil {
 		cellHeight = cell.image.GetHeight() + cell.topPadding + cell.bottomPadding
 	} else if cell.barcode != nil {
