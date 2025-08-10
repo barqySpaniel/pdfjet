@@ -5,6 +5,7 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/content"
 	"github.com/edragoev1/pdfjet/src/font"
 	"github.com/edragoev1/pdfjet/src/letter"
@@ -22,9 +23,9 @@ func Example01() {
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
 	colorMap := make(map[string]int32)
-	colorMap["Everyone"] = 0x8B0000 // DarkRed
-	colorMap["Pay"] = 0x006400      // DarkGreen
-	colorMap["Freedom"] = 0x0000FF  // Blue
+	colorMap["Everyone"] = color.DarkRed
+	colorMap["Pay"] = color.DarkGreen
+	colorMap["Freedom"] = color.Blue
 
 	// English text block setup and drawing
 	textBlock := pdfjet.NewTextBlock(font1,
@@ -33,37 +34,37 @@ func Example01() {
 	textBlock.SetWidth(473) // Why 473f? To match the Google Fonts samples.
 	textBlock.SetTextPadding(10)
 	textBlock.SetKeywordHighlightColors(colorMap)
-	_, err := textBlock.DrawOn(page)
+	xy, err := textBlock.DrawOn(page)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// // Draw a blue rectangle near the English text block
-	// rect := pdfjet.NewRectAt(xy[0], xy[1], 30.0, 30.0)
-	// rect.SetBorderColor(color.Blue)
-	// rect.DrawOn(page)
+	// Draw a blue rectangle near the English text block
+	rect := pdfjet.NewRectAt(xy[0], xy[1], 30.0, 30.0)
+	rect.SetBorderColor(color.Blue)
+	rect.DrawOn(page)
 
-	// // Greek text block, positioned below the English text
-	// textBlock = pdfjet.NewTextBlock(font1,
-	// 	content.OfTextFile("data/languages/greek.txt"))
-	// textBlock.SetLocation(50.0, xy[1]+30.0)
-	// textBlock.SetWidth(430.0)
-	// textBlock.SetTextPadding(10.0)
-	// textBlock.SetBorderColor(color.None)
-	// xy, err = textBlock.DrawOn(page)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	// Greek text block, positioned below the English text
+	textBlock = pdfjet.NewTextBlock(font1,
+		content.OfTextFile("data/languages/greek.txt"))
+	textBlock.SetLocation(50.0, xy[1]+30.0)
+	textBlock.SetWidth(430.0)
+	textBlock.SetTextPadding(10.0)
+	textBlock.SetBorderColor(color.None)
+	xy, err = textBlock.DrawOn(page)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// // Bulgarian text block with blue border and rounded corners
-	// textBlock = pdfjet.NewTextBlock(font1,
-	// 	content.OfTextFile("data/languages/bulgarian.txt"))
-	// textBlock.SetLocation(50.0, xy[1]+30.0)
-	// textBlock.SetWidth(430.0)
-	// textBlock.SetTextPadding(10.0)
-	// textBlock.SetBorderColor(color.Blue)
-	// textBlock.SetBorderCornerRadius(10.0)
-	// textBlock.DrawOn(page)
+	// Bulgarian text block with blue border and rounded corners
+	textBlock = pdfjet.NewTextBlock(font1,
+		content.OfTextFile("data/languages/bulgarian.txt"))
+	textBlock.SetLocation(50.0, xy[1]+30.0)
+	textBlock.SetWidth(430.0)
+	textBlock.SetTextPadding(10.0)
+	textBlock.SetBorderColor(color.Blue)
+	textBlock.SetBorderCornerRadius(10.0)
+	textBlock.DrawOn(page)
 
 	// Complete the PDF file
 	pdf.Complete()
