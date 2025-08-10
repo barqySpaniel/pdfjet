@@ -57,7 +57,6 @@ final public class Page {
     protected float[] bleedBox = null;
     protected float[] trimBox = null;
     protected float[] artBox = null;
-    protected List<StructElem> structures = new ArrayList<StructElem>();
     private float[] pen = {0f, 0f, 0f};
     private float[] brush = {0f, 0f, 0f};
     private float penWidth = -1.0f;
@@ -1673,7 +1672,7 @@ final public class Page {
     }
 
     protected void setStructElementsPageObjNumber(int pageObjNumber) {
-        for (StructElem element : structures) {
+        for (StructElem element : pdf.structElements) {
             element.pageObjNumber = pageObjNumber;
         }
     }
@@ -1712,7 +1711,6 @@ final public class Page {
             element.language = language;
             element.actualText = actualText;
             element.altDescription = altDescription;
-            structures.add(element);    // TODO:
             pdf.structElements.add(element);
 
             append("/");
@@ -1747,7 +1745,7 @@ final public class Page {
             element.actualText = annotation.actualText;
             element.altDescription = annotation.altDescription;
             element.annotation = annotation;
-            structures.add(element);
+            pdf.structElements.add(element);
         }
     }
 

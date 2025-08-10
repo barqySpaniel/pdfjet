@@ -469,11 +469,9 @@ final public class PDF {
         append(parent);
         append(" 0 R\n");
         append("/K [\n");
-        for (Page page : pages) {
-            for (StructElem structElement : page.structures) {
-                append(structElement.objNumber);
-                append(Token.objRef);
-            }
+        for (StructElem structElement : this.structElements) {
+            append(structElement.objNumber);
+            append(Token.objRef);
         }
         append("]\n");
         append(Token.endDictionary);
@@ -483,56 +481,51 @@ final public class PDF {
 
     private void addStructElementObjects() throws Exception {
         int structTreeRootObjNumber = getObjNumber() + 1;
-        for (Page page : pages) {
-            structTreeRootObjNumber += page.structures.size();
-        }
-        // for (Page page : pages) {
-            // for (StructElem element : page.structures) {
-            for (StructElem element : this.structElements) {
-                newobj();
-                element.objNumber = getObjNumber();
-                append("<<\n/Type /StructElem /S /");
-                append(element.structure);
-                append("\n/P ");
-                append(structTreeRootObjNumber + 2);    // Use the document struct as parent!
-                append(" 0 R /Pg ");
-                append(element.pageObjNumber);
-                append(Token.objRef);
+        structTreeRootObjNumber += this.structElements.size();
+        for (StructElem element : this.structElements) {
+            newobj();
+            element.objNumber = getObjNumber();
+            append("<<\n/Type /StructElem /S /");
+            append(element.structure);
+            append("\n/P ");
+            append(structTreeRootObjNumber + 2);    // Use the document struct as parent!
+            append(" 0 R /Pg ");
+            append(element.pageObjNumber);
+            append(Token.objRef);
 
-                if (element.annotation != null) {
-                    append("/K <</Type /OBJR /Obj ");
-                    append(element.annotation.objNumber);
-                    append(" 0 R>>\n");
-                } else {
-                    append("/K ");
-                    append(element.mcid);
-                    append("\n");
-                }
-
-                append("/Lang (");
-                if (element.language != null) {
-                    append(element.language);
-                } else {
-                    append(language);
-                }
-                append(")\n");
-
-                if (element.altDescription != null) {
-                    append("/Alt <");
-                    append(toHex(element.altDescription));
-                    append(">\n");
-                }
-
-                if (element.actualText != null) {
-                    append("/ActualText <");
-                    append(toHex(element.actualText));
-                    append(">\n");
-                }
-
-                append(">>\n");
-                endobj();
+            if (element.annotation != null) {
+                append("/K <</Type /OBJR /Obj ");
+                append(element.annotation.objNumber);
+                append(" 0 R>>\n");
+            } else {
+                append("/K ");
+                append(element.mcid);
+                append("\n");
             }
-        // }
+
+            append("/Lang (");
+            if (element.language != null) {
+                append(element.language);
+            } else {
+                append(language);
+            }
+            append(")\n");
+
+            if (element.altDescription != null) {
+                append("/Alt <");
+                append(toHex(element.altDescription));
+                append(">\n");
+            }
+
+            if (element.actualText != null) {
+                append("/ActualText <");
+                append(toHex(element.actualText));
+                append(">\n");
+            }
+
+            append(">>\n");
+            endobj();
+        }
     }
 
     private static final char[] HEX = {
@@ -573,10 +566,10 @@ final public class PDF {
         append(Token.beginDictionary);
         append("/Nums [\n");
         for (int i = 0; i < pages.size(); i++) {
-            Page page = pages.get(i);
+            // Page page = pages.get(i);
             append(i);
             append(" [\n");
-            for (StructElem element : page.structures) {
+            for (StructElem element : this.structElements) {
                 if (element.annotation == null) {
                     append(element.objNumber);
                     append(Token.objRef);
@@ -585,15 +578,13 @@ final public class PDF {
             append("]\n");
         }
         int index = pages.size();
-        for (Page page : pages) {
-            for (StructElem element : page.structures) {
-                if (element.annotation != null) {
-                    append(index);
-                    append(Token.space);
-                    append(element.objNumber);
-                    append(Token.objRef);
-                    index++;
-                }
+        for (StructElem element : this.structElements) {
+            if (element.annotation != null) {
+                append(index);
+                append(Token.space);
+                append(element.objNumber);
+                append(Token.objRef);
+                index++;
             }
         }
         append("]\n");
@@ -914,14 +905,14 @@ final public class PDF {
 
     private void addAnnotDictionaries() throws Exception {
         int index = pages.size();
+        for (StructElem element : this.structElements) {
+            if (element.annotation != null) {
+                index = addAnnotationObject(element.annotation, index);
+            }
+        }
+
         for (Page page : pages) {
-            if (page.structures.size() > 0) {
-                for (StructElem element : page.structures) {
-                    if (element.annotation != null) {
-                        index = addAnnotationObject(element.annotation, index);
-                    }
-                }
-            } else if (page.annots.size() > 0) {
+            if (page.annots.size() > 0) {
                 for (Annotation annotation : page.annots) {
                     if (annotation != null) {
                         addAnnotationObject(annotation, -1);
