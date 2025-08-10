@@ -1568,8 +1568,8 @@ public class Page {
             Dictionary<String, Int32> colors) {
         if (buf.Length > 0) {
             String str = buf.ToString();
-            if (colors.ContainsKey(str)) {
-                SetBrushColor(colors[str]);
+            if (colors.ContainsKey(str.ToLower())) {
+                SetBrushColor(colors[str.ToLower()]);
             } else {
                 SetBrushColor(brush);
             }

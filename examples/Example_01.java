@@ -39,7 +39,7 @@ public class Example_01 {
         // Create a new page with Portrait orientation
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Map<String, Integer> map = new HashMap<String, Integer>();
+        Map<String, Integer> map = new HashMap<>();
         map.put("Everyone", Color.darkred);
         map.put("Pay", Color.darkgreen);
         map.put("Freedom", Color.blue);

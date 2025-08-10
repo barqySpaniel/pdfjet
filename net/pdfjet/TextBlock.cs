@@ -10,8 +10,9 @@ namespace PDFjet.NET {
         private Font font;
         private Font fallbackFont;
         private string textContent;
-        private float textLineHeight;
+        private float lineSpacing;
         private int textColor;
+        private Dictionary<string, int> keywordHighlightColors;
         private float textPadding;
         private float borderWidth;
         private float borderCornerRadius;
@@ -37,7 +38,7 @@ namespace PDFjet.NET {
             this.height = 500.0f;
             this.font = font;
             this.textContent = textContent;
-            this.textLineHeight = 1.0f;
+            this.lineSpacing = 1.0f;
             this.textColor = Color.black;
             this.textPadding = 0.0f;
             this.textDirection = Direction.LEFT_TO_RIGHT;
@@ -113,7 +114,7 @@ namespace PDFjet.NET {
         }
 
         public void SetTextLineHeight(float textLineHeight) {
-            this.textLineHeight = textLineHeight;
+            this.lineSpacing = textLineHeight;
         }
 
         public void SetTextColor(int textColor) {
@@ -126,6 +127,13 @@ namespace PDFjet.NET {
 
         public void SetTextAlignment(Alignment textAlignment) {
             this.textAlignment = textAlignment;
+        }
+
+        public void SetKeywordHighlightColors(Dictionary<string, int> dictionary) {
+            this.keywordHighlightColors = new Dictionary<string, int>();
+            foreach (KeyValuePair<string, int> kvp in dictionary) {
+                this.keywordHighlightColors[kvp.Key.ToLower()] = kvp.Value;
+            }
         }
 
         private bool TextIsCJK(string str) {
@@ -205,7 +213,7 @@ namespace PDFjet.NET {
 
             float ascent = this.font.GetAscent();
             float descent = this.font.GetDescent();
-            float leading = (ascent + descent) * this.textLineHeight;
+            float leading = (ascent + descent) * this.lineSpacing;
             List<string> lines = GetTextLines();
             float xText = 0.0f;
             float yText = 0.0f;

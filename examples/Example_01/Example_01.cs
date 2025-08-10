@@ -2,14 +2,14 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using PDFjet.NET;
+using System.Collections.Generic;
 
 public class Example_01 {
-
     // Constructor to generate the PDF document
     public Example_01() {
         // Create a file stream to save the PDF
         FileStream fs = new FileStream("Example_01.pdf", FileMode.Create);
-        
+
         // Initialize PDF object with the file stream
         PDF pdf = new PDF(new BufferedStream(fs));
 
@@ -20,12 +20,18 @@ public class Example_01 {
         // Create a new page with Portrait orientation
         Page page = new Page(pdf, Letter.PORTRAIT);
 
+        Dictionary<string, int> map = new Dictionary<string, int>();
+        map["Everyone"] = Color.darkred;
+        map["Pay"] = Color.darkgreen;
+        map["Freedom"] = Color.blue;
+
         // Add English text from a file
         TextBlock textBlock = new TextBlock(font,
                 Content.OfTextFile("data/languages/english.txt"));
         textBlock.SetLocation(50f, 50f);
         textBlock.SetWidth(430f);
         textBlock.SetTextPadding(10f);
+        textBlock.SetKeywordHighlightColors(map);
         float[] xy = textBlock.DrawOn(page);  // Draw the text and get coordinates
 
         // Draw a blue rectangle around the English text block
