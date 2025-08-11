@@ -154,7 +154,7 @@ public class BigTable {
         page.strokePath();
         page.setPenColor(original);
         page.addEMC();
-
+        
         page.addBMC(StructElem.TR, language, "", "");
         page.setTextFont(font);
         page.setBrushColor(Color.black);
