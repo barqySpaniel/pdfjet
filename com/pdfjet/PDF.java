@@ -1625,14 +1625,13 @@ final public class PDF {
     }
 
     private boolean isPageObject(PDFobj obj) {
-        boolean isPage = false;
         for (int i = 0; i < obj.dict.size(); i++) {
             if (obj.dict.get(i).equals("/Type") &&
                     obj.dict.get(i + 1).equals("/Page")) {
-                isPage = true;
+                return true;
             }
         }
-        return isPage;
+        return false;
     }
 
     private String getExtGState(PDFobj resources) {
