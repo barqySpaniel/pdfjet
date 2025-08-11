@@ -28,7 +28,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/operation"
 	"github.com/edragoev1/pdfjet/src/single"
-	"github.com/edragoev1/pdfjet/src/structuretype"
+	"github.com/edragoev1/pdfjet/src/structtype"
 )
 
 // Box is used to create rectangular boxes on a page.
@@ -56,7 +56,7 @@ func NewBox() *Box {
 	box.pattern = "[] 0"
 	box.altDescription = single.Space
 	box.actualText = single.Space
-	box.structureType = structuretype.P
+	box.structureType = structtype.P
 	return box
 }
 

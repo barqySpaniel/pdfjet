@@ -32,7 +32,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/border"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/single"
-	"github.com/edragoev1/pdfjet/src/structuretype"
+	"github.com/edragoev1/pdfjet/src/structtype"
 )
 
 // Cell is used to create table cell objects.
@@ -521,34 +521,34 @@ func (cell *Cell) drawBorders(page *Page, x, y, cellW, cellH float32) {
 		cell.GetBorder(border.Bottom) &&
 		cell.GetBorder(border.Left) &&
 		cell.GetBorder(border.Right) {
-		page.AddBMC(structuretype.P, single.Space, single.Space, single.Space)
+		page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 		page.DrawRect(x, y, cellW, cellH)
 		page.AddEMC()
 	} else {
 		qWidth := cell.lineWidth / 4.0
 		if cell.GetBorder(border.Top) {
-			page.AddBMC(structuretype.P, single.Space, single.Space, single.Space)
+			page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 			page.MoveTo(x-qWidth, y)
 			page.LineTo(x+cellW, y)
 			page.StrokePath()
 			page.AddEMC()
 		}
 		if cell.GetBorder(border.Bottom) {
-			page.AddBMC(structuretype.P, single.Space, single.Space, single.Space)
+			page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 			page.MoveTo(x-qWidth, y+cellH)
 			page.LineTo(x+cellW, y+cellH)
 			page.StrokePath()
 			page.AddEMC()
 		}
 		if cell.GetBorder(border.Left) {
-			page.AddBMC(structuretype.P, single.Space, single.Space, single.Space)
+			page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 			page.MoveTo(x, y-qWidth)
 			page.LineTo(x, y+cellH+qWidth)
 			page.StrokePath()
 			page.AddEMC()
 		}
 		if cell.GetBorder(border.Right) {
-			page.AddBMC(structuretype.P, single.Space, single.Space, single.Space)
+			page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 			page.MoveTo(x+cellW, y-qWidth)
 			page.LineTo(x+cellW, y+cellH+qWidth)
 			page.StrokePath()

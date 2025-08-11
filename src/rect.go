@@ -28,7 +28,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/operation"
 	"github.com/edragoev1/pdfjet/src/single"
-	"github.com/edragoev1/pdfjet/src/structuretype"
+	"github.com/edragoev1/pdfjet/src/structtype"
 )
 
 // Rect is used to create rectangular shapes on a page.
@@ -56,7 +56,7 @@ func NewRect() *Rect {
 	rect.pattern = "[] 0"
 	rect.altDescription = single.Space
 	rect.actualText = single.Space
-	rect.structureType = structuretype.P
+	rect.structureType = structtype.P
 	return rect
 }
 

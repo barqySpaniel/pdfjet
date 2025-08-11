@@ -29,7 +29,7 @@ import (
 
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/effect"
-	"github.com/edragoev1/pdfjet/src/structuretype"
+	"github.com/edragoev1/pdfjet/src/structtype"
 )
 
 // TextLine is used to create text line objects.
@@ -73,7 +73,7 @@ func NewTextLine(font *Font, text string) *TextLine {
 	textLine.verticalOffset = 0.0
 	textLine.altDescription = text
 	textLine.actualText = text
-	textLine.structureType = structuretype.P
+	textLine.structureType = structtype.P
 	return textLine
 }
 
