@@ -30,7 +30,6 @@ namespace PDFjet.NET {
     public class StructElem {
         // Document structure
         public const string DOCUMENT = "Document";
-        public const string DOCUMENTFRAGMENT = "DocumentFragment";
         public const string PART = "Part";
         public const string DIV = "Div";
         public const string SECT = "Sect";

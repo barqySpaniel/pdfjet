@@ -32,7 +32,6 @@ import java.util.List;
 public class StructElem {
     // Document structure
     public static final String DOCUMENT = "Document";
-    public static final String DOCUMENTFRAGMENT = "DocumentFragment";
     public static final String PART = "Part";
     public static final String DIV = "Div";
     public static final String SECT = "Sect";
@@ -76,6 +75,7 @@ public class StructElem {
     // Figures
     public static final String FIGURE = "Figure";
     public static final String ARTIFACT = "Artifact";
+
     protected int objNumber;
     protected String structure = null;
     protected int pageObjNumber;
