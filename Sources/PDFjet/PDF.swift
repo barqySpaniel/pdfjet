@@ -738,7 +738,6 @@ public class PDF {
     private func addPageContent(_ page: Page) {
         var buffer = [UInt8]()
         // let time0 = Int64(Date().timeIntervalSince1970 * 1000)
-        // LZWEncode(&buffer, page.buf)
         FlateEncode(&buffer, page.buf)
         // let time1 = Int64(Date().timeIntervalSince1970 * 1000)
         // Swift.print(time1 - time0)
@@ -746,7 +745,6 @@ public class PDF {
 
         newobj()
         append(Token.beginDictionary)
-        // append("/Filter /LZWDecode\n")
         append("/Filter /FlateDecode\n")
         append(Token.length)
         append(buffer.count)
@@ -758,7 +756,29 @@ public class PDF {
         endobj()
         page.contents.append(getObjNumber())
     }
+/* This method uses LZW compression
+    private func addPageContent_ page: Page) {
+        var buffer = [UInt8]()
+        // let time0 = Int64(Date().timeIntervalSince1970 * 1000)
+        LZWEncode(&buffer, page.buf)
+        // let time1 = Int64(Date().timeIntervalSince1970 * 1000)
+        // Swift.print(time1 - time0)
+        page.buf.removeAll()   // Release the page content memory!
 
+        newobj()
+        append(Token.beginDictionary)
+        append("/Filter /LZWDecode\n")
+        append(Token.length)
+        append(buffer.count)
+        append(Token.newline)
+        append(Token.endDictionary)
+        append(Token.stream)
+        append(buffer)
+        append(Token.endstream)
+        endobj()
+        page.contents.append(getObjNumber())
+    }
+*/
     @discardableResult
     private func addAnnotationObject(
             _ annot: Annotation,
