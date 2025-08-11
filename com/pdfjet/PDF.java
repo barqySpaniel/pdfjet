@@ -33,18 +33,19 @@ import java.util.zip.*;
  *  Used to create PDF objects that represent PDF documents.
  */
 final public class PDF {
-    private boolean eval = false;
-
-    private int metadataObjNumber = 0;
-    private int outputIntentObjNumber = 0;
+    Compliance compliance;
+    Bookmark toc = null;
     List<Font> fonts = new ArrayList<Font>();
     List<Image> images = new ArrayList<Image>();
-    private final List<Page> pages = new ArrayList<Page>();
-    private final Map<String, Destination> destinations = new HashMap<String, Destination>();
     List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
     Map<String, Integer> states = new HashMap<String, Integer>();
-    Compliance compliance;
+    List<StructElem> structElements = new ArrayList<StructElem>();
 
+    private boolean eval = false;
+    private int metadataObjNumber = 0;
+    private int outputIntentObjNumber = 0;
+    private final List<Page> pages = new ArrayList<Page>();
+    private final Map<String, Destination> destinations = new HashMap<String, Destination>();
     private OutputStream os = null;
     private final List<Integer> objOffset = new ArrayList<Integer>();
     private String title = "";
@@ -61,17 +62,12 @@ final public class PDF {
     private String pageMode = null;
     private String language = "en-US";
     private String uuid = null;
-
-    Bookmark toc = null;
     private List<String> importedFonts = new ArrayList<String>();
     private String extGState = "";
     private Page prevPage = null;
 
-    List<StructElem> structElements = new ArrayList<StructElem>();
-
     /**
      * The default constructor - use when reading PDF files.
-     *
      */
     public PDF() {
         this.uuid = (new Salsa20()).getID();
@@ -155,21 +151,21 @@ final public class PDF {
         this.compliance = compliance;
     }
 
-    protected void newobj() throws IOException {
+    void newobj() throws IOException {
         objOffset.add(byteCount);
         append(objOffset.size());
         append(Token.newobj);
     }
 
-    protected void endobj() throws IOException {
+    void endobj() throws IOException {
         append(Token.endobj);
     }
 
-    protected int getObjNumber() {
+    int getObjNumber() {
         return objOffset.size();
     }
 
-    protected int addMetadataObject(String notice, boolean fontMetadataObject) throws Exception {
+    int addMetadataObject(String notice, boolean fontMetadataObject) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xpacket id=\"W5M0MpCehiHzreSzNTczkc9d\"?>\n");
         sb.append("<x:xmpmeta xmlns:x=\"adobe:ns:meta/\"\n");
@@ -294,7 +290,7 @@ final public class PDF {
         return getObjNumber();
     }
 
-    protected int addOutputIntentObject() throws Exception {
+    private int addOutputIntentObject() throws Exception {
         newobj();
         append(Token.beginDictionary);
         append("/N 3\n");
@@ -400,8 +396,7 @@ final public class PDF {
         append(Token.beginDictionary);
         append("/Type /Pages\n");
         append("/Kids [\n");
-        for (int i = 0; i < pages.size(); i++) {
-            Page page = pages.get(i);
+        for (Page page : pages) {
             if (compliance != Compliance.PDF_15) {
                 page.setStructElementsPageObjNumber(page.objNumber);
             }
@@ -1097,46 +1092,46 @@ final public class PDF {
         this.pageMode = pageMode;
     }
 
-    protected void append(int num) throws IOException {
+    void append(int num) throws IOException {
         append(Integer.toString(num));
     }
 
-    protected void append(float f) throws IOException {
+    void append(float f) throws IOException {
         append(FastFloat.toByteArray(f));
     }
 
-    protected void append(String str) throws IOException {
+    void append(String str) throws IOException {
         byte[] buf = str.getBytes(StandardCharsets.UTF_8);
         os.write(buf);
         byteCount += buf.length;
     }
 
-    protected void append(char ch) throws IOException {
+    void append(char ch) throws IOException {
         os.write((byte) ch);
         byteCount += 1;
     }
 
-    protected void append(byte b) throws IOException {
+    void append(byte b) throws IOException {
         os.write(b);
         byteCount += 1;
     }
 
-    protected void append(byte[] buf) throws IOException {
+    void append(byte[] buf) throws IOException {
         os.write(buf, 0, buf.length);
         byteCount += buf.length;
     }
 
-    protected void append(byte[] buf, int off, int len) throws IOException {
+    void append(byte[] buf, int off, int len) throws IOException {
         os.write(buf, off, len);
         byteCount += len;
     }
 
-    protected void append(ByteArrayOutputStream baos) throws IOException {
+    void append(ByteArrayOutputStream baos) throws IOException {
         baos.writeTo(os);
         byteCount += baos.size();
     }
 
-    protected List<PDFobj> getSortedObjects(List<PDFobj> objects) {
+    private List<PDFobj> getSortedObjects(List<PDFobj> objects) {
         List<PDFobj> sorted = new ArrayList<PDFobj>();
 
         int maxObjNumber = 0;
