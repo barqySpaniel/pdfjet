@@ -259,12 +259,10 @@ namespace PDFjet.NET {
                 keywordHighlightColors);
             page.AddEMC();
 
-            page.AddArtifactBMC();
             Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
             rect.SetBorderColor(this.borderColor);
             rect.SetCornerRadius(this.borderCornerRadius);
             rect.DrawOn(page);
-            page.AddEMC();
 
             return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
         }
