@@ -38,25 +38,25 @@ import java.util.*;
  *  </pre>
  */
 final public class Page {
-    protected PDF pdf;
-    protected PDFobj pageObj;
-    protected int objNumber;
-    protected ByteArrayOutputStream buf;
-    protected float[] tm = new float[] {1f, 0f, 0f, 1f};
-    protected byte[] tm0;   // Used for caching tm values
-    protected byte[] tm1;
-    protected byte[] tm2;
-    protected byte[] tm3;
-    protected int renderingMode = 0;
-    protected float width;
-    protected float height;
-    protected List<Integer> contents;
-    protected List<Annotation> annots;
-    protected List<Destination> destinations;
-    protected float[] cropBox = null;
-    protected float[] bleedBox = null;
-    protected float[] trimBox = null;
-    protected float[] artBox = null;
+    PDF pdf;
+    PDFobj pageObj;
+    int objNumber;
+    ByteArrayOutputStream buf;
+    float[] tm = new float[] {1f, 0f, 0f, 1f};
+    byte[] tm0;   // Used for caching tm values
+    byte[] tm1;
+    byte[] tm2;
+    byte[] tm3;
+    int renderingMode = 0;
+    float width;
+    float height;
+    List<Integer> contents;
+    List<Annotation> annots;
+    List<Destination> destinations;
+    float[] cropBox = null;
+    float[] bleedBox = null;
+    float[] trimBox = null;
+    float[] artBox = null;
     private float[] pen = {0f, 0f, 0f};
     private float[] brush = {0f, 0f, 0f};
     private float penWidth = -1.0f;
@@ -477,10 +477,10 @@ final public class Page {
         for (int i = 0; i < str.length(); i++) {
             int c1 = str.charAt(i);
             if (c1 < font.firstChar || c1 > font.lastChar) {
-                append(String.format("%02X", 0x20));
+                append(String.format("%02X", Integer.valueOf(0x20)));
                 continue;
             }
-            append(String.format("%02X", c1));
+            append(String.format("%02X", Integer.valueOf(c1)));
             if (font.isCoreFont && font.kernPairs && i < (str.length() - 1)) {
                 c1 -= 32;
                 int c2 = str.charAt(i + 1);
@@ -595,7 +595,7 @@ final public class Page {
         String state = buf.toString();
         Integer n = pdf.states.get(state);
         if (n == null) {
-            n = pdf.states.size() + 1;
+            n = (Integer) (pdf.states.size() + 1);
             pdf.states.put(state, n);
         }
         append("/GS");

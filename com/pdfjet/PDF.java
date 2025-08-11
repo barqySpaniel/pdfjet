@@ -35,7 +35,7 @@ import java.util.zip.*;
 final public class PDF {
     private boolean eval = false;
 
-    protected int metadataObjNumber = 0;
+    private int metadataObjNumber = 0;
     protected int outputIntentObjNumber = 0;
     protected List<Font> fonts = new ArrayList<Font>();
     protected List<Image> images = new ArrayList<Image>();
@@ -55,7 +55,7 @@ final public class PDF {
     private String creator = producer;
     private String createDate;      // XMP metadata
     private String creationDate;    // PDF Info Object
-    private int byteCount = 0;
+    private Integer byteCount = (Integer) 0;
     private int pagesObjNumber = 0;
     private String pageLayout = null;
     private String pageMode = null;
@@ -783,7 +783,7 @@ final public class PDF {
         append(Token.endstream);
         endobj();
         page.buf = null;    // Release the page content memory!
-        page.contents.add(getObjNumber());
+        page.contents.add(Integer.valueOf(getObjNumber()));
     }
 /*
     private void addPageContent(Page page) throws Exception {
@@ -1765,7 +1765,7 @@ final public class PDF {
         }
         Collections.sort(resources, new Comparator<PDFobj>() {
             public int compare(PDFobj o1, PDFobj o2) {
-                return Integer.valueOf(o1.number).compareTo(o2.number);
+                return Integer.valueOf(o1.number).compareTo(Integer.valueOf(o2.number));
             }
         });
 
