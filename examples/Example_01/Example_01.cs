@@ -12,6 +12,7 @@ public class Example_01 {
 
         // Initialize PDF object with the file stream
         PDF pdf = new PDF(new BufferedStream(fs));
+        pdf.SetCompliance(Compliance.PDF_UA_1);
 
         // Load font for the PDF (IBMPlexSans Regular)
         // Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
