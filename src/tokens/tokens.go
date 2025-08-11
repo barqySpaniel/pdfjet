@@ -1,7 +1,7 @@
-package token
+package tokens
 
 /**
- * token.go
+ * tokens.go
  *
 ©2025 PDFjet Software
 
