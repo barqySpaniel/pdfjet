@@ -16,3 +16,4 @@ out
 *.pdf
 .vscode/
 .vscode/launch.json
+.idea/dictionaries/
