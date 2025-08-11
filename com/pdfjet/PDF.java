@@ -1757,12 +1757,12 @@ final public class PDF {
             }
             extGState = getExtGState(resObj);
         }
-        Collections.sort(resources, new Comparator<PDFobj>() {
-            public int compare(PDFobj o1, PDFobj o2) {
-                return Integer.valueOf(o1.number).compareTo(Integer.valueOf(o2.number));
-            }
-        });
-
+//        Collections.sort(resources, new Comparator<PDFobj>() {
+//            public int compare(PDFobj o1, PDFobj o2) {
+//                return Integer.valueOf(o1.number).compareTo(Integer.valueOf(o2.number));
+//            }
+//        });
+        resources.sort((o1, o2) -> Integer.compare(o1.number, o2.number));
         addObjectsToPDF(resources);
     }
 
@@ -1786,7 +1786,7 @@ final public class PDF {
                     }
                 }
                 if (obj.stream != null) {
-                    if (obj.dict.size() == 0) {
+                    if (obj.dict.isEmpty()) {
                         append("<< /Length ");
                         append(obj.stream.length);
                         append(" >>");
