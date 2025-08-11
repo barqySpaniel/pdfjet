@@ -161,8 +161,7 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 	bt.page.SetPenColorWithFloat32Array(original)
 	bt.page.AddEMC()
 
-	rowText := bt.getRowText(fields)
-	bt.page.AddBMC("P", bt.language, rowText, rowText)
+	// bt.page.AddBMC("P", bt.language, rowText, rowText)
 	bt.page.SetPenWidth(0.0)
 	bt.page.SetTextFont(font)
 	bt.page.SetBrushColor(color.Black)
@@ -180,7 +179,7 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 		bt.page.DrawText(text)
 		bt.page.EndText()
 	}
-	bt.page.AddEMC()
+	// bt.page.AddEMC()
 }
 
 func (bt *BigTable) highlightRow(page *Page, font *Font, color int32) {
@@ -210,15 +209,6 @@ func (bt *BigTable) drawTheVerticalLines() {
 	bt.page.StrokePath()
 	bt.page.SetPenColorWithFloat32Array(original)
 	bt.page.AddEMC()
-}
-
-func (bt *BigTable) getRowText(row []string) string {
-	var buf strings.Builder
-	for _, field := range row {
-		buf.WriteString(field)
-		buf.WriteString(" ")
-	}
-	return buf.String()
 }
 
 func (bt *BigTable) getAlignment(str string) int {

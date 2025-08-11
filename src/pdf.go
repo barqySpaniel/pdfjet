@@ -465,7 +465,6 @@ func (pdf *PDF) addStructDocumentObject(parent int) int {
 	pdf.appendInteger(parent)
 	pdf.appendByteArray(token.ObjRef)
 	pdf.appendString("/K [\n")
-	fmt.Println(len(pdf.structElements))
 	for _, structElement := range pdf.structElements {
 		pdf.appendInteger(structElement.objNumber)
 		pdf.appendByteArray(token.ObjRef)

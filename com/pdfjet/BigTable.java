@@ -211,15 +211,6 @@ public class BigTable {
         page.addEMC();
     }
 
-    private String getRowText(String[] row) {
-        StringBuilder buf = new StringBuilder();
-        for (String field : row) {
-            buf.append(field);
-            buf.append(" ");
-        }
-        return buf.toString();
-    }
-
     private int getAlignment(String str) {
         StringBuilder buf = new StringBuilder();
         if (str.startsWith("(") && str.endsWith(")")) {
