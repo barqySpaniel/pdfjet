@@ -1789,16 +1789,25 @@ func (pdf *PDF) appendFloat32(f float32) {
 
 func (pdf *PDF) appendString(s string) {
 	buf := []byte(s)
-	pdf.writer.Write(buf)
+	_, err := pdf.writer.Write(buf)
+	if err != nil {
+		return
+	}
 	pdf.byteCount += len(buf)
 }
 
 func (pdf *PDF) appendByte(b byte) {
-	pdf.writer.WriteByte(b)
+	err := pdf.writer.WriteByte(b)
+	if err != nil {
+		return
+	}
 	pdf.byteCount++
 }
 
 func (pdf *PDF) appendByteArray(buf []byte) {
-	pdf.writer.Write(buf)
+	_, err := pdf.writer.Write(buf)
+	if err != nil {
+		return
+	}
 	pdf.byteCount += len(buf)
 }

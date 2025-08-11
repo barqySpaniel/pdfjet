@@ -141,7 +141,7 @@ func NewOTF(reader io.Reader) *OTF {
 			log.Fatal(err)
 		}
 	}
-	writer.Close()
+	_ = writer.Close()
 
 	return otf
 }
@@ -365,10 +365,10 @@ func readUint32(otf *OTF) uint32 {
 }
 
 func readNBytes(otf *OTF, n int) []byte {
-	bytes := make([]byte, 0)
+	buf := make([]byte, 0)
 	for i := 0; i < n; i++ {
-		bytes = append(bytes, otf.buf[otf.index])
+		buf = append(buf, otf.buf[otf.index])
 		otf.index++
 	}
-	return bytes
+	return buf
 }

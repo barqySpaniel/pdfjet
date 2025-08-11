@@ -605,7 +605,7 @@ func (obj *PDFobj) SetGraphicsState(gs *GraphicsState, objects *[]*PDFobj) {
 			break
 		}
 	}
-	if obj == nil || index == -1 {
+	if index == -1 {
 		return
 	}
 	gsNumber := getMaxGSNumber(obj)
