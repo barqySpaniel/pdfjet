@@ -977,6 +977,8 @@ func (page *Page) DrawPoint(p *Point) {
 			} else {
 				page.DrawPath(list, operation.Close)
 			}
+		default:
+			panic("unhandled default case")
 		}
 	}
 }

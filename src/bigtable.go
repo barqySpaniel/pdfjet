@@ -242,7 +242,12 @@ func (bt *BigTable) SetTableData(fileName, delimiter string) error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			panic("failed to close file: " + err.Error())
+		}
+	}(file)
 
 	scanner := bufio.NewScanner(file)
 	rowNumber := 0
@@ -292,7 +297,12 @@ func (bt *BigTable) Complete() error {
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			panic("failed to close file: " + err.Error())
+		}
+	}(file)
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
