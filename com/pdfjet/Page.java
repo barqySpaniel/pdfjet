@@ -435,11 +435,6 @@ final public class Page {
             append(tm[2] + skew);
             append(' ');
             append(tm[3]);
-            append(' ');
-            append(x);
-            append(' ');
-            append(height - y);
-            append(" Tm\n");
         } else {
             append(tm0);
             append(' ');
@@ -448,12 +443,12 @@ final public class Page {
             append(tm2);
             append(' ');
             append(tm3);
-            append(' ');
-            append(x);
-            append(' ');
-            append(height - y);
-            append(" Tm\n");
         }
+        append(' ');
+        append(x);
+        append(' ');
+        append(height - y);
+        append(" Tm\n");
 
         if (colors == null) {
             setBrushColor(brush);
@@ -1383,7 +1378,7 @@ final public class Page {
     }
 
     /**
-     *  Draws a bezier curve starting from the current point.
+     *  Draws a Bézier curve starting from the current point.
      *  <strong>Please note:</strong> You must call the fillPath,
      *  closePath or strokePath method after the last bezierCurveTo call.
      *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
