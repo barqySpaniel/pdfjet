@@ -487,7 +487,7 @@ public class PDF {
                 if (element.language != null) {
                     Append(element.language);
                 } else {
-                    Append(language);
+                    Append(this.language);
                 }
                 Append(")\n");
 
@@ -583,7 +583,7 @@ public class PDF {
 
         if (compliance != Compliance.PDF_15) {
             Append("/Lang (");
-            Append(language);
+            Append(this.language);
             Append(")\n");
 
             Append("/StructTreeRoot ");

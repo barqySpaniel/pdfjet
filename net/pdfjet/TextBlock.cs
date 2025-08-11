@@ -45,7 +45,7 @@ namespace PDFjet.NET {
         private string altDescription = "";
         private string uri;
         private string key;
-        private string uriLanguage;
+        private string uriLanguage = "en-US";
         private string uriActualText;
         private string uriAltDescription;
         private Direction textDirection = Direction.LEFT_TO_RIGHT;
