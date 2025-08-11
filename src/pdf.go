@@ -465,6 +465,7 @@ func (pdf *PDF) addStructDocumentObject(parent int) int {
 	pdf.appendInteger(parent)
 	pdf.appendByteArray(token.ObjRef)
 	pdf.appendString("/K [\n")
+	fmt.Println(len(pdf.structElements))
 	for _, structElement := range pdf.structElements {
 		pdf.appendInteger(structElement.objNumber)
 		pdf.appendByteArray(token.ObjRef)
@@ -561,7 +562,7 @@ func (pdf *PDF) addNumsParentTree() {
 	pdf.newobj()
 	pdf.appendString("<<\n")
 	pdf.appendString("/Nums [\n")
-	for i := range pdf.pages {
+	for i := 0; i < len(pdf.pages); i++ {
 		pdf.appendInteger(i)
 		pdf.appendString(" [\n")
 		for _, element := range pdf.structElements {
@@ -572,7 +573,6 @@ func (pdf *PDF) addNumsParentTree() {
 		}
 		pdf.appendString("]\n")
 	}
-
 	index := len(pdf.pages)
 	for _, element := range pdf.structElements {
 		if element.annotation != nil {
