@@ -1,5 +1,29 @@
+/**
+ * TextBlock.cs
+ *
+ * ©2025 PDFjet Software
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace PDFjet.NET {
     public class TextBlock {
@@ -10,26 +34,24 @@ namespace PDFjet.NET {
         private Font font;
         private Font fallbackFont;
         private string textContent;
-        private float lineSpacing;
-        private int textColor;
+        private float lineSpacing = 1.0f;
+        private int? textColor;
         private Dictionary<string, int> keywordHighlightColors;
-        private float textPadding;
-        private float borderWidth;
-        private float borderCornerRadius;
+        private float textPadding = 0.0f;
+        private float borderWidth = 0.0f;
+        private float borderCornerRadius = 0.0f;
         private int borderColor;
-        private string language = "";
+        private string language = "en-US";
         private string altDescription = "";
-        private string uri = "";
-        private string key = "";
-        private string uriLanguage = "";
-        private string uriActualText = "";
-        private string uriAltDescription = "";
-        private Direction textDirection;
-        private Alignment textAlignment;
+        private string uri;
+        private string key;
+        private string uriLanguage;
+        private string uriActualText;
+        private string uriAltDescription;
+        private Direction textDirection = Direction.LEFT_TO_RIGHT;
+        private Alignment textAlignment = Alignment.LEFT;
         private bool underline = false;
         private bool strikeout = false;
-
-        private Dictionary<string, int> colors;
 
         public TextBlock(Font font, string textContent) {
             this.x = 0.0f;
@@ -38,20 +60,8 @@ namespace PDFjet.NET {
             this.height = 500.0f;
             this.font = font;
             this.textContent = textContent;
-            this.lineSpacing = 1.0f;
             this.textColor = Color.black;
-            this.textPadding = 0.0f;
-            this.textDirection = Direction.LEFT_TO_RIGHT;
-            this.textAlignment = Alignment.LEFT;
-
-            this.borderWidth = 0.5f;
-            this.borderCornerRadius = 0.0f;
             this.borderColor = Color.black;
-
-            this.language = "en-US";
-            this.altDescription = "";
-            this.underline = false;
-            this.strikeout = false;
         }
 
         public void SetFont(Font font) {
@@ -67,7 +77,9 @@ namespace PDFjet.NET {
         }
 
         public void SetFallbackFontSize(float size) {
-            this.fallbackFont?.SetSize(size);
+            if (this.fallbackFont != null) {
+                this.fallbackFont.SetSize(size);
+            }
         }
 
         public void SetText(string text) {
@@ -113,7 +125,7 @@ namespace PDFjet.NET {
             this.borderColor = borderColor;
         }
 
-        public void SetTextLineHeight(float textLineHeight) {
+        public void SetLineSpacing(float textLineHeight) {
             this.lineSpacing = textLineHeight;
         }
 
@@ -121,18 +133,23 @@ namespace PDFjet.NET {
             this.textColor = textColor;
         }
 
-        public void SetHighlightColors(Dictionary<string, int> colors) {
-            this.colors = colors;
-        }
-
         public void SetTextAlignment(Alignment textAlignment) {
             this.textAlignment = textAlignment;
         }
 
-        public void SetKeywordHighlightColors(Dictionary<string, int> dictionary) {
+        public TextBlock SetURIAction(string uri) {
+            this.uri = uri;
+            return this;
+        }
+
+        public void SetTextDirection(Direction textDirection) {
+            this.textDirection = textDirection;
+        }
+
+        public void SetKeywordHighlightColors(Dictionary<string, int> map) {
             this.keywordHighlightColors = new Dictionary<string, int>();
-            foreach (KeyValuePair<string, int> kvp in dictionary) {
-                this.keywordHighlightColors[kvp.Key.ToLower()] = kvp.Value;
+            foreach (var key in map.Keys) {
+                this.keywordHighlightColors[key.ToLower()] = map[key];
             }
         }
 
@@ -150,178 +167,106 @@ namespace PDFjet.NET {
             return numOfCJK > (chars.Length / 2);
         }
 
-        private List<string> GetTextLines() {
-            List<string> list = new List<string>();
+        private TextLineWithOffset[] GetTextLinesWithOffsets() {
+            List<TextLineWithOffset> textLines = new List<TextLineWithOffset>();
 
-            float textAreaWidth;
-            if (this.textDirection == Direction.LEFT_TO_RIGHT) {
-                textAreaWidth = this.width - 2 * this.textPadding;
-            } else {
-                textAreaWidth = this.height - 2 * this.textPadding;
-            }
+            float textAreaWidth = this.textDirection == Direction.LEFT_TO_RIGHT
+                ? this.width - 2 * this.textPadding
+                : this.height - 2 * this.textPadding;
 
             this.textContent = this.textContent.Replace("\r\n", "\n").Trim();
             string[] lines = this.textContent.Split('\n');
+
             foreach (string line in lines) {
                 if (this.font.StringWidth(this.fallbackFont, line) <= textAreaWidth) {
-                    list.Add(line);
+                    textLines.Add(new TextLineWithOffset(line, 0f));
                 } else {
                     if (TextIsCJK(line)) {
-                        var sb = new System.Text.StringBuilder();
+                        StringBuilder sb = new StringBuilder();
                         foreach (char ch in line.ToCharArray()) {
                             if (this.font.StringWidth(this.fallbackFont, sb.ToString() + ch) <= textAreaWidth) {
                                 sb.Append(ch);
                             } else {
-                                list.Add(sb.ToString());
+                                textLines.Add(new TextLineWithOffset(sb.ToString(), 0f));
                                 sb.Clear();
                                 sb.Append(ch);
                             }
                         }
                         if (sb.Length > 0) {
-                            list.Add(sb.ToString());
+                            textLines.Add(new TextLineWithOffset(sb.ToString(), 0f));
                         }
                     } else {
-                        var sb = new System.Text.StringBuilder();
-                        string[] tokens = line.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+                        StringBuilder sb = new StringBuilder();
+                        string[] tokens = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string token in tokens) {
                             if (this.font.StringWidth(this.fallbackFont, sb.ToString() + token) <= textAreaWidth) {
                                 sb.Append(token).Append(" ");
                             } else {
-                                list.Add(sb.ToString().Trim());
+                                textLines.Add(new TextLineWithOffset(sb.ToString().Trim(), 0f));
                                 sb.Clear();
                                 sb.Append(token).Append(" ");
                             }
                         }
                         if (sb.ToString().Trim().Length > 0) {
-                            list.Add(sb.ToString().Trim());
+                            textLines.Add(new TextLineWithOffset(sb.ToString().Trim(), 0f));
                         }
                     }
                 }
             }
 
-            return list;
+            return textLines.ToArray();
+        }
+
+        private void RightAlignText(TextLineWithOffset[] textLines) {
+            foreach (TextLineWithOffset textLineWithOffset in textLines) {
+                textLineWithOffset.xOffset = this.width - font.StringWidth(textLineWithOffset.textLine);
+            }
+        }
+
+        private void CenterText(TextLineWithOffset[] textLines) {
+            foreach (TextLineWithOffset textLineWithOffset in textLines) {
+                textLineWithOffset.xOffset = (this.width - font.StringWidth(textLineWithOffset.textLine)) / 2f;
+            }
         }
 
         public float[] DrawOn(Page page) {
-            if (page != null) {
-                // TODO: Deal with this now!!
+            if (page == null) {
+                throw new ArgumentException("A valid Page object is required.");
             }
 
-            page.SetBrushColor(this.textColor);
-            page.SetPenWidth(this.font.GetUnderlineThickness());
-            page.SetPenColor(this.borderColor);
+            page.SetPenWidth(this.borderWidth);
 
             float ascent = this.font.GetAscent();
             float descent = this.font.GetDescent();
             float leading = (ascent + descent) * this.lineSpacing;
-            List<string> lines = GetTextLines();
-            float xText = 0.0f;
-            float yText = 0.0f;
-            switch (this.textDirection) {
-                case Direction.LEFT_TO_RIGHT:
-                    yText = this.y + ascent + this.textPadding;
-                    foreach (string line in lines) {
-                        switch (this.textAlignment) {
-                            case Alignment.LEFT:
-                                xText = this.x + this.textPadding;
-                                break;
-                            case Alignment.RIGHT:
-                                xText = (this.x + this.width) -
-                                    (this.font.StringWidth(this.fallbackFont, line) + this.textPadding);
-                                break;
-                            case Alignment.CENTER:
-                                xText = this.x + (this.width - this.font.StringWidth(this.fallbackFont, line)) / 2;
-                                break;
-                        }
-                        DrawTextLine(page, this.font, this.fallbackFont, line, xText, yText, this.textColor, this.colors);
-                        yText += leading;
-                    }
-                    break;
-                case Direction.BOTTOM_TO_TOP:
-                    xText = this.x + this.textPadding + ascent;
-                    yText = this.y + this.height - this.textPadding;
-                    foreach (string line in lines) {
-                        DrawTextLine(page, this.font, this.fallbackFont, line, xText, yText, this.textColor, this.colors);
-                        xText += leading;
-                    }
-                    break;
-                case Direction.TOP_TO_BOTTOM:
-                    break;
+
+            TextLineWithOffset[] textLines = GetTextLinesWithOffsets();
+            if (textAlignment == Alignment.RIGHT) {
+                RightAlignText(textLines);
+            } else if (textAlignment == Alignment.CENTER) {
+                CenterText(textLines);
             }
 
-            xText -= leading;
-            if ((xText + descent + this.textPadding) - this.x > this.width) {
-                this.width = (xText + descent + this.textPadding) - this.x;
-            }
-            yText -= leading;
-            if ((yText + descent + this.textPadding) - this.y > this.height) {
-                this.height = (yText + descent + this.textPadding) - this.y;
-            }
+            page.AddBMC(StructElem.P, this.language, this.textContent, null);
+            float textBlockHeight = page.DrawTextBlock(
+                this.font,
+                textLines,
+                this.x + this.textPadding,
+                this.y + this.textPadding,
+                leading * this.lineSpacing,
+                this.textDirection,
+                this.textColor.Value,
+                keywordHighlightColors);
+            page.AddEMC();
 
-            Rect rect = new Rect(this.x, this.y, this.width, this.height);
+            page.AddArtifactBMC();
+            Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
             rect.SetBorderColor(this.borderColor);
             rect.SetCornerRadius(this.borderCornerRadius);
             rect.DrawOn(page);
-
-            if (this.textDirection == Direction.LEFT_TO_RIGHT && (this.uri != null || this.key != null)) {
-                page.AddAnnotation(new Annotation(
-                    this.uri,
-                    this.key,
-                    this.x,
-                    this.y,
-                    this.x + this.width,
-                    this.y + this.height,
-                    this.uriLanguage,
-                    this.uriActualText,
-                    this.uriAltDescription));
-            }
-            page.SetTextDirection(0);
-
-            return new float[] { this.x + this.width, this.y + this.height };
-        }
-
-        private void DrawTextLine(
-                Page page,
-                Font font,
-                Font fallbackFont,
-                string text,
-                float xText,
-                float yText,
-                int brush,
-                Dictionary<string, int> colors) {
-            page.AddBMC("P", this.language, text, this.altDescription);
-            if (this.textDirection == Direction.BOTTOM_TO_TOP) {
-                page.SetTextDirection(90);
-            }
-            page.DrawString(font, fallbackFont, text, xText, yText, brush, colors);
             page.AddEMC();
 
-            if (this.textDirection == Direction.LEFT_TO_RIGHT) {
-                float lineLength = this.font.StringWidth(fallbackFont, text);
-                if (this.underline) {
-                    page.AddArtifactBMC();
-                    page.MoveTo(xText, yText + font.GetUnderlinePosition());
-                    page.LineTo(xText + lineLength, yText + font.GetUnderlinePosition());
-                    page.StrokePath();
-                    page.AddEMC();
-                }
-                if (this.strikeout) {
-                    page.AddArtifactBMC();
-                    page.MoveTo(xText, yText - (font.GetBodyHeight() / 4));
-                    page.LineTo(xText + lineLength, yText - (font.GetBodyHeight() / 4));
-                    page.StrokePath();
-                    page.AddEMC();
-                }
-            }
-        }
-
-        public TextBlock SetURIAction(string uri) {
-            this.uri = uri;
-            return this;
-        }
-
-        public void SetTextDirection(Direction textDirection) {
-            this.textDirection = textDirection;
+            return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
         }
     }
 }
