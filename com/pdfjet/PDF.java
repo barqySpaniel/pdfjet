@@ -747,36 +747,6 @@ final public class PDF {
     }
 /*
     private void addPageContent(Page page) throws Exception {
-        if (eval && fonts.size() > 0) {
-            Font f1 = fonts.get(0);
-            float fontSize = f1.getSize();
-            f1.setSize(8.0f);
-            float[] tm = page.tm;
-            float[] brushColor = page.getBrushColor();
-
-            page.setTextDirection(0);
-            page.setBrushColor(Color.blue);
-            String message1 =
-                    "This document was created with the evaluation version of PDFjet";
-            String message2 =
-                    "To acquire a license please visit http://pdfjet.com";
-            page.drawString(
-                    f1,
-                    message1,
-                    (page.width - f1.stringWidth(message1))/2,
-                    10.0f);
-            page.drawString(
-                    f1,
-                    message2,
-                    (page.width - f1.stringWidth(message2))/2,
-                    20.0f);
-
-            // Revert back to the original values:
-            f1.setSize(fontSize);
-            page.tm = tm;
-            page.setBrushColor(brushColor);
-        }
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Deflater deflater = new Deflater();
         DeflaterOutputStream dos = new DeflaterOutputStream(baos, deflater);
