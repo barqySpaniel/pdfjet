@@ -67,7 +67,7 @@ final public class Page {
     private final List<State> savedStates = new ArrayList<State>();
     private int mcid = 0;
 
-    protected float savedHeight = Float.MAX_VALUE;
+    private float savedHeight = Float.MAX_VALUE;
 
     /*
      * From Android's Matrix object:
@@ -411,7 +411,7 @@ final public class Page {
             float y,
             int brush,
             Map<String, Integer> colors) {
-        if (str == null || str.equals("")) {
+        if (str == null || str.isEmpty()) {
             return;
         }
         append("BT\n");
@@ -586,13 +586,11 @@ final public class Page {
      *  @param gs the graphics state to use.
      */
     public void setGraphicsState(GraphicsState gs) {
-        StringBuilder buf = new StringBuilder();
-        buf.append("/CA ");
-        buf.append(gs.getAlphaStroking());
-        buf.append(" ");
-        buf.append("/ca ");
-        buf.append(gs.getAlphaNonStroking());
-        String state = buf.toString();
+        String state = "/CA " +
+                gs.getAlphaStroking() +
+                " " +
+                "/ca " +
+                gs.getAlphaNonStroking();
         Integer n = pdf.states.get(state);
         if (n == null) {
             n = (Integer) (pdf.states.size() + 1);
@@ -1358,7 +1356,7 @@ final public class Page {
     }
 
     /**
-     *  Draws a cubic bezier curve starting from the current point to the end point p3
+     *  Draws a cubic Bézier curve starting from the current point to the end point p3
      *
      *  @param x1 first control point x
      *  @param y1 first control point y
@@ -1491,11 +1489,11 @@ final public class Page {
     }
     // <<
 
-    protected void saveGraphicsState() {
+    void saveGraphicsState() {
         append("q\n");
     }
 
-    protected void restoreGraphicsState() {
+    void restoreGraphicsState() {
         append("Q\n");
     }
 
@@ -1569,26 +1567,26 @@ final public class Page {
         append(' ');
     }
 
-    protected void append(String str) {
+    void append(String str) {
         try {
             buf.write(str.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
         }
     }
 
-    protected void append(int n) {
+    void append(int n) {
         append(Integer.toString(n));
     }
 
-    protected void append(float f) {
+    void append(float f) {
         append(FastFloat.toByteArray(f));
     }
 
-    protected void append(char ch) {
+    void append(char ch) {
         buf.write(ch);
     }
 
-    protected void append(byte b) {
+    private void append(byte b) {
         buf.write(b);
     }
 
@@ -1650,7 +1648,7 @@ final public class Page {
         }
     }
 
-    protected void drawColoredString(
+    private void drawColoredString(
             Font font,
             String str,
             int brush,
@@ -1671,7 +1669,7 @@ final public class Page {
         drawWord(font, buf2, brush, colors);
     }
 
-    protected void setStructElementsPageObjNumber(int pageObjNumber) {
+    void setStructElementsPageObjNumber(int pageObjNumber) {
         for (StructElem element : pdf.structElements) {
             element.pageObjNumber = pageObjNumber;
         }
@@ -1734,7 +1732,7 @@ final public class Page {
         }
     }
 
-    protected void addAnnotation(Annotation annotation) {
+    void addAnnotation(Annotation annotation) {
         annotation.y1 = this.height - annotation.y1;
         annotation.y2 = this.height - annotation.y2;
         annots.add(annotation);
@@ -1749,7 +1747,7 @@ final public class Page {
         }
     }
 
-    protected void beginTransform(
+    private void beginTransform(
             float x, float y, float xScale, float yScale) {
         append("q\n");
 
@@ -1772,7 +1770,7 @@ final public class Page {
         append(" Tm\n");
     }
 
-    protected void endTransform() {
+    private void endTransform() {
         append("Q\n");
     }
 
@@ -1894,7 +1892,7 @@ final public class Page {
      *  @param x the x coordinate of new text location.
      *  @param y the y coordinate of new text location.
      */
-    protected void setTextLocation(float x, float y) {
+    private void setTextLocation(float x, float y) {
         append(x);
         append(Token.space);
         append(height - y);
@@ -1905,7 +1903,7 @@ final public class Page {
      *  Sets the text leading.
      *  @param leading the leading.
      */
-    protected void setTextLeading(float leading) {
+    private void setTextLeading(float leading) {
         append(leading);
         append(" TL\n");
     }
@@ -1913,16 +1911,16 @@ final public class Page {
     /**
      *  Advance to the next line.
      */
-    protected void nextLine() {
+    private void nextLine() {
         append("T*\n");
     }
 
-    protected void setTextScaling(float scaling) {
+    private void setTextScaling(float scaling) {
         append(scaling);
         append(" Tz\n");
     }
 
-    protected void setTextRise(float rise) {
+    private void setTextRise(float rise) {
         append(rise);
         append(" Ts\n");
     }
@@ -1931,7 +1929,7 @@ final public class Page {
      *  Draws a string at the currect location.
      *  @param str the string.
      */
-    protected void drawText(String str, float x, float y) {
+    void drawText(String str, float x, float y) {
         BT();
         append(x);
         append(Token.space);
