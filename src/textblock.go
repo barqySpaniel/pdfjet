@@ -341,6 +341,8 @@ func (t *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		t.rightAlignText(textLines)
 	case alignment.Center:
 		t.centerText(textLines)
+	default:
+		panic("unhandled default case")
 	}
 
 	page.AddBMC("P", t.uriLanguage, t.textContent, "")

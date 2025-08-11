@@ -297,7 +297,12 @@ func NewFontFromFile(pdf *PDF, filePath string) *Font {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer f.Close()
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+			panic("Error closing file: " + err.Error())
+		}
+	}(f)
 	reader := bufio.NewReader(f)
 	if strings.HasSuffix(filePath, ".stream") {
 		font = NewFontStream1(pdf, reader)

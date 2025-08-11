@@ -69,8 +69,14 @@ func NewEmbeddedFile(pdf *PDF, fileName string, reader io.Reader, compress bool)
 	if compress {
 		var compressed bytes.Buffer
 		writer := zlib.NewWriter(&compressed)
-		writer.Write(buf)
-		writer.Close()
+		_, err := writer.Write(buf)
+		if err != nil {
+			return nil
+		}
+		err = writer.Close()
+		if err != nil {
+			return nil
+		}
 		file.content = compressed.Bytes()
 	} else {
 		file.content = buf

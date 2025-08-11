@@ -1,6 +1,6 @@
 // Package element defines standard PDF structure element tags
 // as defined in ISO 32000-1 (PDF 1.7) and PDF/UA specifications
-package element
+package structtype
 
 // Structure Elements for Tagged PDF
 const (
