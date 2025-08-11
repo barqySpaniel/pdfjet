@@ -19,7 +19,7 @@ public class BigTable {
     private Page page;
     private float[] widths;
     private String[] headerFields;
-    private Integer[] alignment;
+    private Alignment[] alignment;
     private float[] vertLines;
     private float bottomMargin = 20.0f;
     private float padding = 2.0f;
@@ -72,7 +72,7 @@ public class BigTable {
      * @param column the column.
      * @param align the alignment.
      */
-    public void setTextAlignment(int column, int alignment) {
+    public void setTextAlignment(int column, Alignment alignment) {
         this.alignment[column] = alignment;
     }
 
@@ -155,27 +155,20 @@ public class BigTable {
         page.setPenColor(original);
         page.addEMC();
 
-        // String rowText = getRowText(fields);
-        // page.addBMC(StructElem.TR, language, rowText, rowText);
-        page.setPenWidth(0f);
+        page.addBMC(StructElem.TR, language, "", "");
         page.setTextFont(font);
         page.setBrushColor(Color.black);
         for (int i = 0; i < this.numberOfColumns; i++) {
             String text = fields[i];
-            float xText1 = vertLines[i] + this.padding;
-            float xText2 = vertLines[i + 1] - this.padding;
-            page.beginText();
-            // page.addBMC(StructElem.TD, language, rowText, rowText);
-            if (alignment[i] == Align.LEFT) {           // Align Left
-                page.setTextLocation(xText1, this.yText);
-            } else if (alignment[i] == Align.RIGHT) {   // Align Right
-                page.setTextLocation(xText2 - font.stringWidth(text), this.yText);
+            float xText = vertLines[i] + this.padding;
+            if (alignment[i] == Alignment.RIGHT) {
+                xText = (vertLines[i + 1] - this.padding) - font.stringWidth(text);
             }
-            page.drawText(text);
-            page.endText();
-            // page.addEMC();  // Close TD
+            page.addBMC(StructElem.TD, language, "", "");
+            page.drawText(text, xText, this.yText);
+            page.addEMC();
         }
-        // page.addEMC(); // Close TH
+        page.addEMC();
     }
 
     /**
@@ -211,7 +204,7 @@ public class BigTable {
         page.addEMC();
     }
 
-    private int getAlignment(String str) {
+    private Alignment getAlignment(String str) {
         StringBuilder buf = new StringBuilder();
         if (str.startsWith("(") && str.endsWith(")")) {
             str = str.substring(1, str.length() - 1);
@@ -224,10 +217,10 @@ public class BigTable {
         }
         try {
             Double.parseDouble(buf.toString());
-            return Align.RIGHT; // Align Right
+            return Alignment.RIGHT; // Align Right
         } catch (NumberFormatException nfe) {
         }
-        return Align.LEFT;      // Align Left
+        return Alignment.LEFT;      // Align Left
     }
 
     /**
@@ -242,7 +235,7 @@ public class BigTable {
         this.vertLines = new float[this.numberOfColumns + 1];
         this.headerFields = new String[this.numberOfColumns];
         this.widths = new float[this.numberOfColumns];
-        this.alignment = new Integer[this.numberOfColumns];
+        this.alignment = new Alignment[this.numberOfColumns];
 
         int rowNumber = 0;
         BufferedReader reader = new BufferedReader(new FileReader(fileName));

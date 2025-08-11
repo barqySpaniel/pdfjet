@@ -3,6 +3,7 @@ package examples;
 import java.io.*;
 import java.util.*;
 import com.pdfjet.*;
+import com.pdfjet.font.*;
 
 /**
  * Example_43.java
@@ -15,13 +16,18 @@ public class Example_43 {
         pdf.setTitle("Electric Vehicle Population Data");   // Required for PDF/UA !
 
 	    // Used for performance testing. Results in 2000+ pages PDF.
-        String fileName = "data/Electric_Vehicle_Population_Data.csv";
+        // String fileName = "data/Electric_Vehicle_Population_Data.csv";
         // String fileName = "data/Electric_Vehicle_Population_10_Pages.csv";
+        String fileName = "data/Electric_Vehicle_Population_5_Lines.csv";
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
+        // Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.SemiBold);
+        // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f1.setSize(10f);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        // Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
+        // Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.setSize(9f);
 
         BigTable table = new BigTable(pdf, f1, f2, Letter.LANDSCAPE);

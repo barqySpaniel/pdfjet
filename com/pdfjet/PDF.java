@@ -745,7 +745,7 @@ final public class PDF {
             endobj();
         }
     }
-
+/*
     private void addPageContent(Page page) throws Exception {
         if (eval && fonts.size() > 0) {
             Font f1 = fonts.get(0);
@@ -799,7 +799,7 @@ final public class PDF {
         endobj();
         page.contents.add(getObjNumber());
     }
-/*
+*/
     // Use this method on systems that don't have Deflater stream or when troubleshooting.
     private void addPageContent(Page page) throws Exception {
         newobj();
@@ -815,7 +815,7 @@ final public class PDF {
         page.buf = null;    // Release the page content memory!
         page.contents.add(getObjNumber());
     }
-
+/*
     private void addPageContent(Page page) throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         new LZWEncode(page.buf.toByteArray(), baos);

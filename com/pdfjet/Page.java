@@ -1877,14 +1877,14 @@ final public class Page {
     /**
      *  Begin text block.
      */
-    protected void beginText() {
+    void BT() {
         append("BT\n");
     }
 
     /**
      *  End the text block.
      */
-    protected void endText() {
+    void ET() {
         append("ET\n");
     }
 
@@ -1931,7 +1931,12 @@ final public class Page {
      *  Draws a string at the currect location.
      *  @param str the string.
      */
-    protected void drawText(String str) {
+    protected void drawText(String str, float x, float y) {
+        BT();
+        append(x);
+        append(Token.space);
+        append(height - y);
+        append(" Td\n");
         if (font.isCoreFont) {
             append("[<");
             drawASCIIString(font, str);
@@ -1941,5 +1946,6 @@ final public class Page {
             drawUnicodeString(font, str);
             append("> Tj\n");
         }
+        ET();
     }
 }   // End of Page.java
