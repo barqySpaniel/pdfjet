@@ -36,14 +36,14 @@ final public class PDF {
     private boolean eval = false;
 
     private int metadataObjNumber = 0;
-    protected int outputIntentObjNumber = 0;
-    protected List<Font> fonts = new ArrayList<Font>();
-    protected List<Image> images = new ArrayList<Image>();
-    protected List<Page> pages = new ArrayList<Page>();
-    protected Map<String, Destination> destinations = new HashMap<String, Destination>();
-    protected List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
-    protected Map<String, Integer> states = new HashMap<String, Integer>();
-    protected Compliance compliance;
+    private int outputIntentObjNumber = 0;
+    List<Font> fonts = new ArrayList<Font>();
+    List<Image> images = new ArrayList<Image>();
+    private final List<Page> pages = new ArrayList<Page>();
+    private final Map<String, Destination> destinations = new HashMap<String, Destination>();
+    List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
+    Map<String, Integer> states = new HashMap<String, Integer>();
+    Compliance compliance;
 
     private OutputStream os = null;
     private final List<Integer> objOffset = new ArrayList<Integer>();
@@ -51,7 +51,7 @@ final public class PDF {
     private String author = "";
     private String subject = "";
     private String keywords = "";
-    private String producer = "PDFjet v8.0.4";
+    private final String producer = "PDFjet v8.0.4";
     private String creator = producer;
     private String createDate;      // XMP metadata
     private String creationDate;    // PDF Info Object
@@ -62,12 +62,12 @@ final public class PDF {
     private String language = "en-US";
     private String uuid = null;
 
-    protected Bookmark toc = null;
-    protected List<String> importedFonts = new ArrayList<String>();
-    protected String extGState = "";
-    protected Page prevPage = null;
+    Bookmark toc = null;
+    private List<String> importedFonts = new ArrayList<String>();
+    private String extGState = "";
+    private Page prevPage = null;
 
-    protected List<StructElem> structElements = new ArrayList<StructElem>();
+    List<StructElem> structElements = new ArrayList<StructElem>();
 
     /**
      * The default constructor - use when reading PDF files.
