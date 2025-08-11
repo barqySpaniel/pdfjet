@@ -1517,7 +1517,7 @@ public class Page {
         self.annots!.append(annotation)
         if pdf.compliance == Compliance.PDF_UA_1 {
             let element = StructElem()
-            element.structure = StructElem.LINK
+            element.structure = StructElem.Link
             element.language = annotation.language
             element.actualText = annotation.actualText
             element.altDescription = annotation.altDescription
