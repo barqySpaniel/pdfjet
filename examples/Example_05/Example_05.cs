@@ -15,7 +15,7 @@ public class Example_05 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        page.DrawCircularArc(50f, 50f, 50f, 0f, 95f);
+        page.DrawCircularArc(500f, 100f, 50f, 0f, 45f);
 
         TextLine text = new TextLine(f1);
         text.SetLocation(300f, 300f);
