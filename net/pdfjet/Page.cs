@@ -1411,8 +1411,7 @@ public class Page {
         }
         StrokePath();
 
-        float[] xy = points2[0]; // points2.Count - 1];
-        return new float[] { xy[0], xy[1] };
+        return new float[] { points2[0][0], points2[0][1] };
     }
 
     /**
