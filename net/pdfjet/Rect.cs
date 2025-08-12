@@ -30,7 +30,7 @@ public class Rect {
     private float w;
     private float h;
     private float r;
-    private int color;
+    private float[] color = new float[] {0f, 0f, 0f};  // Black color
     private float width;
     private string pattern;
     private bool fillShape;
@@ -42,7 +42,6 @@ public class Rect {
     private string structureType;
 
     public Rect() {
-        this.color = Color.black;
         this.width = 0.0f;
         this.pattern = "[] 0";
         this.altDescription = "";   // TODO:
@@ -69,7 +68,14 @@ public class Rect {
     }
 
     public void SetBorderColor(int color) {
-        this.color = color;
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetBorderColor(r, g, b);
+    }
+
+    public void SetBorderColor(float r, float g, float b) {
+        this.color = new float[] {r, g, b};
     }
 
     public void SetLineWidth(float width) {

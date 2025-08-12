@@ -36,7 +36,7 @@ public class Line : IDrawable {
     private float y2;
     private float xBox;
     private float yBox;
-    private int color = Color.black;
+    private float[] color = new float[] {0f, 0f, 0f};   // Black color
     private float width = 0.3f;
     private String pattern = "[] 0";
     private CapStyle capStyle = CapStyle.BUTT;
@@ -235,7 +235,15 @@ public class Line : IDrawable {
      *  @return this Line object.
      */
     public Line SetColor(int color) {
-        this.color = color;
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetColor(r, g, b);
+        return this;
+    }
+
+    public Line SetColor(float r, float g, float b) {
+        this.color = new float[] {r, g, b};
         return this;
     }
 

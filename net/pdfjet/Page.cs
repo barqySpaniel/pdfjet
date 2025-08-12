@@ -571,8 +571,7 @@ public class Page {
      * @param g the green component is float value from 0.0f to 1.0f.
      * @param b the blue component is float value from 0.0f to 1.0f.
      */
-    public void SetPenColor(
-            float r, float g, float b) {
+    public void SetPenColor(float r, float g, float b) {
         if (pen[0] != r || pen[1] != g || pen[2] != b) {
             SetColor(r, g, b);
             Append(" RG\n");

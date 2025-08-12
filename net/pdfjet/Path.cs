@@ -32,7 +32,7 @@ using System.Collections.Generic;
  */
 namespace PDFjet.NET {
 public class Path : IDrawable {
-    private int color = Color.black;
+    private float[] color = new float[] {0f, 0f, 0f};   // Black color
     private float width = 0.3f;
     private String pattern = "[] 0";
     private bool fillShape = false;
@@ -114,7 +114,14 @@ public class Path : IDrawable {
      *  @param color the color is specified as an integer.
      */
     public void SetColor(int color) {
-        this.color = color;
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetColor(r, g, b);
+    }
+
+    public void SetColor(float r, float g, float b) {
+        this.color = new float[] {r, g, b};
     }
 
     /**
