@@ -30,10 +30,10 @@ public class Rect {
     private float w;
     private float h;
     private float r;
-    private float[] color = new float[] {0f, 0f, 0f};  // Black color
+    private float[] borderColor = new float[] {0f, 0f, 0f}; // Black color
+    private float[] fillColor;
     private float width;
     private string pattern;
-    private bool fillShape;
     private string uri;
     private string key;
     private string language = "en-US";
@@ -75,7 +75,26 @@ public class Rect {
     }
 
     public void SetBorderColor(float r, float g, float b) {
-        this.color = new float[] {r, g, b};
+        this.borderColor = new float[] {r, g, b};
+    }
+
+    public void SetBorderColor(float[] rgbColor) {
+        this.borderColor = rgbColor;
+    }
+
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetFillColor(r, g, b);
+    }
+
+    public void SetFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void SetFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
     }
 
     public void SetLineWidth(float width) {
@@ -113,10 +132,6 @@ public class Rect {
         this.pattern = pattern;
     }
 
-    public void SetFillShape(bool fillShape) {
-        this.fillShape = fillShape;
-    }
-
     public void PlaceIn(Rect rect, float xOffset, float yOffset) {
         this.x = rect.x + xOffset;
         this.y = rect.y + yOffset;
@@ -136,20 +151,15 @@ public class Rect {
             page.LineTo(this.x + this.w, this.y);
             page.LineTo(this.x + this.w, this.y + this.h);
             page.LineTo(this.x, this.y + this.h);
-            if (this.fillShape) {
-                page.SetBrushColor(this.color);
+            if (this.fillColor != null) {
+                page.SetBrushColor(this.fillColor);
                 page.FillPath();
-            } else {
-                page.SetPenWidth(this.width);
-                page.SetPenColor(this.color);
-                page.SetLinePattern(this.pattern);
-                page.ClosePath();
             }
-        } else {
             page.SetPenWidth(this.width);
-            page.SetPenColor(this.color);
+            page.SetPenColor(this.borderColor);
             page.SetLinePattern(this.pattern);
-
+            page.ClosePath();
+        } else {
             List<Point> points = new List<Point> {
                 new Point((this.x + this.r), this.y, false),
                 new Point((this.x + this.w) - this.r, this.y, false),
@@ -169,7 +179,13 @@ public class Rect {
                 new Point((this.x + this.r) - this.r * k, this.y, true),
                 new Point((this.x + this.r), this.y, false)
             };
-
+            if (this.fillColor != null) {
+                page.SetBrushColor(this.fillColor);
+                page.DrawPath(points, Operation.FILL);
+            }
+            page.SetPenWidth(this.width);
+            page.SetPenColor(this.borderColor);
+            page.SetLinePattern(this.pattern);
             page.DrawPath(points, Operation.STROKE);
         }
         page.AddEMC();

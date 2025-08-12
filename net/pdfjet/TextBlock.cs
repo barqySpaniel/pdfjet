@@ -38,9 +38,10 @@ namespace PDFjet.NET {
         private int? textColor;
         private Dictionary<string, int> keywordHighlightColors;
         private float textPadding = 0.0f;
+        private float[] fillColor;
         private float borderWidth = 0.0f;
         private float borderCornerRadius = 0.0f;
-        private int borderColor;
+        private float[] borderColor;
         private string language = "en-US";
         private string altDescription = "";
         private string uri;
@@ -61,7 +62,7 @@ namespace PDFjet.NET {
             this.font = font;
             this.textContent = textContent;
             this.textColor = Color.black;
-            this.borderColor = Color.black;
+            this.borderColor = new float[] {0f, 0f, 0f};    // Black color
         }
 
         public void SetFont(Font font) {
@@ -121,8 +122,26 @@ namespace PDFjet.NET {
             this.borderWidth = borderWidth;
         }
 
-        public void SetBorderColor(int borderColor) {
-            this.borderColor = borderColor;
+        public void SetFillColor(int color) {
+            float r = ((color >> 16) & 0xff)/255f;
+            float g = ((color >>  8) & 0xff)/255f;
+            float b = ((color)       & 0xff)/255f;
+            SetFillColor(r, g, b);
+        }
+
+        public void SetFillColor(float r, float g, float b) {
+            this.fillColor = new float[] {r, g, b};
+        }
+
+        public void SetBorderColor(int color) {
+            float r = ((color >> 16) & 0xff)/255f;
+            float g = ((color >>  8) & 0xff)/255f;
+            float b = ((color)       & 0xff)/255f;
+            SetBorderColor(r, g, b);
+        }
+
+        public void SetBorderColor(float r, float g, float b) {
+            this.borderColor = new float[] {r, g, b};
         }
 
         public void SetLineSpacing(float textLineHeight) {
@@ -260,6 +279,7 @@ namespace PDFjet.NET {
             page.AddEMC();
 
             Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
+            rect.SetFillColor(this.fillColor);
             rect.SetBorderColor(this.borderColor);
             rect.SetCornerRadius(this.borderCornerRadius);
             rect.DrawOn(page);
