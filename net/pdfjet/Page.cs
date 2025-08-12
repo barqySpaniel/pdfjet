@@ -1336,6 +1336,34 @@ public class Page {
         Append("c\n");
     }
 
+    private List<float[]> GetControlPoints(
+            float xc, float yc,
+            float x0, float y0,
+            float x3, float y3) {
+        List<float[]> points = new List<float[]>();
+
+        float ax = x0 - xc;
+        float ay = y0 - yc;
+        float bx = x3 - xc;
+        float by = y3 - yc;
+        float q1 = ax*ax + ay*ay;
+        float q2 = q1 + ax*bx + ay*by;
+        float k2 = 4f/3f * (((float) Math.Sqrt(2f*q1*q2)) - q2) / (ax*by - ay*bx);
+
+        // Control points coordinates
+        float x1 = xc + ax - k2*ay;
+        float y1 = yc + ay + k2*ax;
+        float x2 = xc + bx + k2*by;
+        float y2 = yc + by - k2*bx;
+
+        points.Add(new float[] {x0, y0});
+        points.Add(new float[] {x1, y1});
+        points.Add(new float[] {x2, y2});
+        points.Add(new float[] {x3, y3});
+
+        return points;
+    }
+
     public void DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
         // The best 4-spline magic number
         float m4 = 0.551784f;
