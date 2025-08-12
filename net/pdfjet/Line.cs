@@ -247,6 +247,11 @@ public class Line : IDrawable {
         return this;
     }
 
+    public Line SetColor(float[] rgbColor) {
+        this.color = rgbColor;
+        return this;
+    }
+
     /**
      *  Sets the line cap style.
      *

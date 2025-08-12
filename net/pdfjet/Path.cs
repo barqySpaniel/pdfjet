@@ -124,6 +124,10 @@ public class Path : IDrawable {
         this.color = new float[] {r, g, b};
     }
 
+    public void SetColor(float[] rgbColor) {
+        this.color = rgbColor;
+    }
+
     /**
      *  Sets the closePath variable.
      *
