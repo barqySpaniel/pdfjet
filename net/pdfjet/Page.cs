@@ -1370,7 +1370,7 @@ public class Page {
         return new float[] {x, y};
     }
 
-    public void DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
+    public float[] DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
         float angle1 = alpha1 - 90f;
         float angle2 = alpha2 - 90f;
 
@@ -1411,7 +1411,8 @@ public class Page {
         }
         StrokePath();
 
-        // return a2;
+        float[] xy = points2[points2.Count - 1];
+        return new float[] { xy[0], xy[1] };
     }
 
     /**
