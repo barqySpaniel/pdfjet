@@ -17,3 +17,4 @@ out
 .vscode/
 .vscode/launch.json
 .idea/dictionaries/
+.idea/compiler.xml
