@@ -1396,7 +1396,7 @@ public class Page {
             }
         }
         points2.Reverse();
-
+        MoveTo(points1[0][0], points1[0][1]);
         for (int i = 0; i <= (points1.Count - 4); i += 4) {
             CurveTo(
                     points1[i + 1][0], points1[i + 1][1],
