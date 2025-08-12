@@ -1212,7 +1212,7 @@ final public class PDF {
     private boolean process(
             PDFobj obj, StringBuilder sb1, byte[] buf, int off) {
         String str = sb1.toString().trim();
-        if (!str.equals("")) {
+        if (!str.isEmpty()) {
             obj.dict.add(str);
         }
         sb1.setLength(0);
@@ -1343,7 +1343,7 @@ final public class PDF {
             List<PDFobj> objects) {
 
         String xref = obj.getValue("/Prev");
-        if (!xref.equals("")) {
+        if (!xref.isEmpty()) {
             getObjects1(
                     buf,
                     getObject(buf, Integer.parseInt(xref)),
@@ -1378,7 +1378,7 @@ final public class PDF {
             List<PDFobj> objects) throws Exception {
 
         String prev = obj.getValue("/Prev");
-        if (!prev.equals("")) {
+        if (!prev.isEmpty()) {
             getObjects2(
                     buf,
                     getObject(buf, Integer.parseInt(prev)),
@@ -1756,11 +1756,6 @@ final public class PDF {
             }
             extGState = getExtGState(resObj);
         }
-//        Collections.sort(resources, new Comparator<PDFobj>() {
-//            public int compare(PDFobj o1, PDFobj o2) {
-//                return Integer.valueOf(o1.number).compareTo(Integer.valueOf(o2.number));
-//            }
-//        });
         resources.sort((o1, o2) -> Integer.compare(o1.number, o2.number));
         addObjectsToPDF(resources);
     }
