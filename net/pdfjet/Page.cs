@@ -784,6 +784,10 @@ public class Page {
         SetPenWidth((float) width);
     }
 
+    public float GetPenWidth() {
+        return penWidth;
+    }
+
     /**
      *  Sets the pen width that will be used to draw lines and splines on this page.
      *
