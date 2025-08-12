@@ -1336,6 +1336,36 @@ public class Page {
         Append("c\n");
     }
 
+    public void DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
+        // The best 4-spline magic number
+        float m4 = 0.551784f;
+        // Starting point
+        MoveTo(x, y - r);
+
+        AppendPointXY(x + m4*r, y - r);
+        AppendPointXY(x + r, y - m4*r);
+        AppendPointXY(x + r, y);
+        Append("c\n");
+
+        AppendPointXY(x + r, y + m4*r);
+        AppendPointXY(x + m4*r, y + r);
+        AppendPointXY(x, y + r);
+        Append("c\n");
+
+        AppendPointXY(x - m4*r, y + r);
+        AppendPointXY(x - r, y + m4*r);
+        AppendPointXY(x - r, y);
+        Append("c\n");
+
+        AppendPointXY(x - r, y - m4*r);
+        AppendPointXY(x - m4*r, y - r);
+        AppendPointXY(x, y - r);
+        Append("c\n");
+
+        Append(Operation.STROKE);
+        Append('\n');
+    }
+
     /**
      *  Draws a bezier curve starting from the current point.
      *  <strong>Please note:</strong> You must call the StrokePath, ClosePath or FillPath methods after the last BezierCurveTo call.
