@@ -49,28 +49,22 @@ type Rect struct {
 }
 
 // NewRect creates new Rect object.
-func NewRect() *Rect {
+// @param x the x coordinate of the top left corner of this rect when drawn on the page.
+// @param y the y coordinate of the top left corner of this rect when drawn on the page.
+// @param w the width of this rect.
+// @param h the height of this rect.
+func NewRect(x, y, w, h float32) *Rect {
 	rect := new(Rect)
+	rect.x = x
+	rect.y = y
+	rect.w = w
+	rect.h = h
 	rect.color = color.Black
 	rect.width = 0.0
 	rect.pattern = "[] 0"
 	rect.altDescription = single.Space
 	rect.actualText = single.Space
 	rect.structureType = structtype.P
-	return rect
-}
-
-// NewRectAt creates a rect object.
-// @param x the x coordinate of the top left corner of this rect when drawn on the page.
-// @param y the y coordinate of the top left corner of this rect when drawn on the page.
-// @param w the width of this rect.
-// @param h the height of this rect.
-func NewRectAt(x, y, w, h float32) *Rect {
-	rect := NewRect()
-	rect.x = x
-	rect.y = y
-	rect.w = w
-	rect.h = h
 	return rect
 }
 
@@ -91,7 +85,7 @@ func (rect *Rect) SetSize(w, h float32) {
 	rect.h = h
 }
 
-// SetColor sets the color for this rect.
+// SetBorderColor sets the color for this rectangle.
 // @param color the color specified as an integer.
 func (rect *Rect) SetBorderColor(color int32) {
 	rect.color = color
@@ -227,9 +221,9 @@ func (rect *Rect) DrawOn(page *Page) []float32 {
 		points = append(points, NewPathPoint((rect.x+rect.w), (rect.y+rect.h)-rect.r, false))
 		points = append(points, NewPathPoint((rect.x+rect.w), ((rect.y+rect.h)-rect.r)+rect.r*k, true))
 		points = append(points, NewPathPoint(((rect.x+rect.w)-rect.r)+rect.r*k, (rect.y+rect.h), true))
-		points = append(points, NewPathPoint(((rect.x+rect.w)-rect.r), (rect.y+rect.h), false))
+		points = append(points, NewPathPoint((rect.x+rect.w)-rect.r, (rect.y+rect.h), false))
 		points = append(points, NewPathPoint((rect.x+rect.r), (rect.y+rect.h), false))
-		points = append(points, NewPathPoint(((rect.x+rect.r)-rect.r*k), (rect.y+rect.h), true))
+		points = append(points, NewPathPoint((rect.x+rect.r)-rect.r*k, (rect.y+rect.h), true))
 		points = append(points, NewPathPoint(rect.x, ((rect.y+rect.h)-rect.r)+rect.r*k, true))
 		points = append(points, NewPathPoint(rect.x, (rect.y+rect.h)-rect.r, false))
 		points = append(points, NewPathPoint(rect.x, (rect.y+rect.r), false))

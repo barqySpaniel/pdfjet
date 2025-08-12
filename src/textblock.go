@@ -356,7 +356,7 @@ func (t *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		t.keywordHighlightColors)
 	page.AddEMC()
 
-	rect := NewRectAt(t.x, t.y, t.width, textBlockHeight+2*t.textPadding)
+	rect := NewRect(t.x, t.y, t.width, textBlockHeight+2*t.textPadding)
 	rect.SetBorderColor(t.borderColor)
 	rect.SetCornerRadius(t.borderCornerRadius)
 	rect.DrawOn(page)

@@ -42,7 +42,7 @@ func Example01() {
 	}
 
 	// Draw a blue rectangle near the English text block
-	rect := pdfjet.NewRectAt(xy[0], xy[1], 30.0, 30.0)
+	rect := pdfjet.NewRect(xy[0], xy[1], 30.0, 30.0)
 	rect.SetBorderColor(color.Blue)
 	rect.DrawOn(page)
 
