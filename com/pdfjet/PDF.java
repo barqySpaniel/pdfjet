@@ -777,7 +777,7 @@ final public class PDF {
         append(Token.endstream);
         endobj();
         page.buf = null;    // Release the page content memory!
-        page.contents.add(getObjNumber());
+        page.contents.add(Integer.valueOf(getObjNumber()));
     }
 /*
     private void addPageContent(Page page) throws Exception {
