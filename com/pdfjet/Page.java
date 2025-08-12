@@ -472,10 +472,10 @@ final public class Page {
         for (int i = 0; i < str.length(); i++) {
             int c1 = str.charAt(i);
             if (c1 < font.firstChar || c1 > font.lastChar) {
-                append(String.format("%02X", Integer.valueOf(0x20)));
+                append(String.format("%02X", 0x20));
                 continue;
             }
-            append(String.format("%02X", Integer.valueOf(c1)));
+            append(String.format("%02X", c1));
             if (font.isCoreFont && font.kernPairs && i < (str.length() - 1)) {
                 c1 -= 32;
                 int c2 = str.charAt(i + 1);
@@ -588,7 +588,7 @@ final public class Page {
                 gs.getAlphaNonStroking();
         Integer n = pdf.states.get(state);
         if (n == null) {
-            n = (Integer) (pdf.states.size() + 1);
+            n = pdf.states.size() + 1;
             pdf.states.put(state, n);
         }
         append("/GS");

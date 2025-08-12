@@ -543,10 +543,8 @@ public class Page {
         buf.Append("/ca ");
         buf.Append(gs.GetAlphaNonStroking());
         String state = buf.ToString();
-        Int32 n;
-        if (pdf.states.ContainsKey(state)) {
-            n = pdf.states[state];
-        } else {
+        Int32 n = pdf.states[state];
+        if (n == null) {
             n = pdf.states.Count + 1;
             pdf.states[state] = n;
         }
