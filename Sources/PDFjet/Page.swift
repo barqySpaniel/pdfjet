@@ -354,11 +354,6 @@ public class Page {
             append(self.tm[2] + skew)
             append(Token.space)
             append(self.tm[3])
-            append(Token.space)
-            append(x)
-            append(Token.space)
-            append(self.height - y)
-            append(" Tm\n")
         } else {
             append(self.tm0)
             append(Token.space)
@@ -367,12 +362,12 @@ public class Page {
             append(self.tm2)
             append(Token.space)
             append(self.tm3)
-            append(Token.space)
-            append(x)
-            append(Token.space)
-            append(self.height - y)
-            append(" Tm\n")
         }
+        append(Token.space)
+        append(x)
+        append(Token.space)
+        append(self.height - y)
+        append(" Tm\n")
 
         if (colors == nil) {
             setBrushColor(brush)

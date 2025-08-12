@@ -314,11 +314,6 @@ func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, 
 		page.appendFloat32(page.tm[2] + skew)
 		page.appendString(" ")
 		page.appendFloat32(page.tm[3])
-		page.appendString(" ")
-		page.appendFloat32(x)
-		page.appendString(" ")
-		page.appendFloat32(page.height - y)
-		page.appendString(" Tm\n")
 	} else {
 		page.appendByteArray(page.tm0)
 		page.appendString(" ")
@@ -327,12 +322,12 @@ func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, 
 		page.appendByteArray(page.tm2)
 		page.appendString(" ")
 		page.appendByteArray(page.tm3)
-		page.appendString(" ")
-		page.appendFloat32(x)
-		page.appendString(" ")
-		page.appendFloat32(page.height - y)
-		page.appendString(" Tm\n")
 	}
+    page.appendString(" ")
+    page.appendFloat32(x)
+    page.appendString(" ")
+    page.appendFloat32(page.height - y)
+    page.appendString(" Tm\n")
 
 	if colors == nil {
 		page.SetBrushColor(brush)

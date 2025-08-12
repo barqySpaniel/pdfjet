@@ -377,11 +377,6 @@ public class Page {
             Append(tm[2] + skew);
             Append(' ');
             Append(tm[3]);
-            Append(' ');
-            Append(x);
-            Append(' ');
-            Append(height - y);
-            Append(" Tm\n");
         } else {
             Append(tm0);
             Append(' ');
@@ -390,12 +385,12 @@ public class Page {
             Append(tm2);
             Append(' ');
             Append(tm3);
-            Append(' ');
-            Append(x);
-            Append(' ');
-            Append(height - y);
-            Append(" Tm\n");
         }
+        Append(' ');
+        Append(x);
+        Append(' ');
+        Append(height - y);
+        Append(" Tm\n");
 
         if (colors == null) {
             SetBrushColor(brush);
@@ -543,8 +538,10 @@ public class Page {
         buf.Append("/ca ");
         buf.Append(gs.GetAlphaNonStroking());
         String state = buf.ToString();
-        Int32 n = pdf.states[state];
-        if (n == null) {
+        Int32 n;
+        if (pdf.states.ContainsKey(state)) {
+            n = pdf.states[state];
+        } else {
             n = pdf.states.Count + 1;
             pdf.states[state] = n;
         }
