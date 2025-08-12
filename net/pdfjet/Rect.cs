@@ -24,42 +24,37 @@ SOFTWARE.
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-public class Rect {
+public class Rect  : IDrawable {
     private float x;
     private float y;
     private float w;
     private float h;
     private float r;
-    private float[] borderColor = new float[] {0f, 0f, 0f}; // Black color
     private float[] fillColor;
-    private float width;
-    private string pattern;
+    private float[] borderColor = new float[] {0f, 0f, 0f}; // Black color
+    private float width = 0f;
+    private string pattern = "[] 0";
     private string uri;
     private string key;
     private string language = "en-US";
-    private string altDescription;
-    private string actualText;
-    private string structureType;
+    private string altDescription = "";
+    private string actualText = "";
+    private string structureType = StructElem.P;
 
-    public Rect() {
-        this.width = 0.0f;
-        this.pattern = "[] 0";
-        this.altDescription = "";   // TODO:
-        this.actualText = "";
-        this.structureType = "P"; // StructureType.P; TODO
-    }
-
-    public Rect(float x, float y, float w, float h) : this() {
+    public Rect(float x, float y, float w, float h) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
     }
 
-    public Rect SetLocation(float x, float y) {
+    public void SetPosition(float x, float y) {
+        SetLocation(x, y);
+    }
+
+    public void SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
-        return this;
     }
 
     public void SetSize(float w, float h) {
