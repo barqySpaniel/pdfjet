@@ -41,7 +41,6 @@ final public class PDF {
     Map<String, Integer> states = new HashMap<String, Integer>();
     List<StructElem> structElements = new ArrayList<StructElem>();
 
-    private boolean eval = false;
     private int metadataObjNumber = 0;
     private int outputIntentObjNumber = 0;
     private final List<Page> pages = new ArrayList<Page>();
@@ -62,7 +61,7 @@ final public class PDF {
     private String pageMode = null;
     private String language = "en-US";
     private String uuid = null;
-    private List<String> importedFonts = new ArrayList<String>();
+    private final List<String> importedFonts = new ArrayList<String>();
     private String extGState = "";
     private Page prevPage = null;
 

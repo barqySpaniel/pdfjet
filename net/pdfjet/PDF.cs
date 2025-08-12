@@ -33,8 +33,6 @@ using System.Reflection;
  */
 namespace PDFjet.NET {
 public class PDF {
-    private bool eval = false;
-
     internal int metadataObjNumber = 0;
     internal int outputIntentObjNumber = 0;
     internal List<Font> fonts = new List<Font>();
