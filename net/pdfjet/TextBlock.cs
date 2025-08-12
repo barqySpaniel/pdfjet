@@ -43,16 +43,16 @@ namespace PDFjet.NET {
         private float borderCornerRadius = 0.0f;
         private float[] borderColor;
         private string language = "en-US";
-        private string altDescription = "";
+//        private string altDescription = "";
         private string uri;
-        private string key;
-        private string uriLanguage = "en-US";
-        private string uriActualText;
-        private string uriAltDescription;
+//        private string key;
+//        private string uriLanguage = "en-US";
+//        private string uriActualText;
+//        private string uriAltDescription;
         private Direction textDirection = Direction.LEFT_TO_RIGHT;
         private Alignment textAlignment = Alignment.LEFT;
-        private bool underline = false;
-        private bool strikeout = false;
+//        private bool underline = false;
+//        private bool strikeout = false;
 
         public TextBlock(Font font, string textContent) {
             this.x = 0.0f;
