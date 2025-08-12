@@ -1394,7 +1394,7 @@ final public class PDF {
         for (int i = 0; i < obj.dict.size(); i++) {
             String token = obj.dict.get(i);
             if (token.equals("/Predictor")) {
-                predictor = Integer.valueOf(obj.dict.get(i + 1));
+                predictor = Integer.parseInt(obj.dict.get(i + 1));
             } else if (token.equals("/Length")) {
                 length = Integer.parseInt(obj.dict.get(i + 1));
             } else if (token.equals("/W")) {
