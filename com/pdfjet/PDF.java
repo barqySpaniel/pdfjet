@@ -144,7 +144,7 @@ final public class PDF {
     /**
      * Sets the PDF document compliance.
      *
-     * @param compliance the complince.
+     * @param compliance the compliance level.
      */
     public void setCompliance(Compliance compliance) {
         this.compliance = compliance;
