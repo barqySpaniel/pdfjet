@@ -1039,7 +1039,6 @@ final public class Page {
 
     /**
      *  Draws a circle on the page.
-     *
      *  The outline of the circle is drawn using the current pen color.
      *
      *  @param x the x coordinate of the center of the circle to be drawn.
