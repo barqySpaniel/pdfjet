@@ -1371,33 +1371,47 @@ public class Page {
     }
 
     public void DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
-        // The best 4-spline magic number
-        float m4 = 0.551784f;
-        // Starting point
-        MoveTo(x, y - r);
+        float angle1 = alpha1 - 90f;
+        float angle2 = alpha2 - 90f;
 
-        AppendPointXY(x + m4*r, y - r);
-        AppendPointXY(x + r, y - m4*r);
-        AppendPointXY(x + r, y);
-        Append("c\n");
+        List<float[]> points1 = new List<float[]>();
+        List<float[]> points2 = new List<float[]>();
+        while (true) {
+            if ((angle2 - angle1) <= 90f) {
+                float[] p0 = GetPoint(x, y, r, angle1);          // Start point
+                float[] p3 = GetPoint(x, y, r, angle2);          // End point
+                points1.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
+                p0 = GetPoint(x, y, r, angle1);                  // Start point
+                p3 = GetPoint(x, y, r, angle2);                  // End point
+                points2.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
+                break;
+            } else {
+                float[] p0 = GetPoint(x, y, r, angle1);
+                float[] p3 = GetPoint(x, y, r, angle1 + 90f);
+                points1.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
+                p0 = GetPoint(x, y, r, angle1);
+                p3 = GetPoint(x, y, r, angle1 + 90f);
+                points2.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
+                angle1 += 90f;
+            }
+        }
+        points2.Reverse();
 
-        AppendPointXY(x + r, y + m4*r);
-        AppendPointXY(x + m4*r, y + r);
-        AppendPointXY(x, y + r);
-        Append("c\n");
+        for (int i = 0; i <= (points1.Count - 4); i += 4) {
+            CurveTo(
+                    points1[i + 1][0], points1[i + 1][1],
+                    points1[i + 2][0], points1[i + 2][1],
+                    points1[i + 3][0], points1[i + 3][1]);
+        }
+        for (int i = 0; i <= (points2.Count - 4); i += 4) {
+            CurveTo(
+                    points2[i + 1][0], points2[i + 1][1],
+                    points2[i + 2][0], points2[i + 2][1],
+                    points2[i + 3][0], points2[i + 3][1]);
+        }
+        StrokePath();
 
-        AppendPointXY(x - m4*r, y + r);
-        AppendPointXY(x - r, y + m4*r);
-        AppendPointXY(x - r, y);
-        Append("c\n");
-
-        AppendPointXY(x - r, y - m4*r);
-        AppendPointXY(x - m4*r, y - r);
-        AppendPointXY(x, y - r);
-        Append("c\n");
-
-        Append(Operation.STROKE);
-        Append('\n');
+        // return a2;
     }
 
     /**
