@@ -83,7 +83,7 @@ public class StructElem {
     protected String language = null;
     protected String actualText = null;
     protected String altDescription = null;
-    protected Annotation annotation = null;
+    Annotation annotation = null;
     protected List<StructElem> kids = null;
 
     /** The default constructor */
