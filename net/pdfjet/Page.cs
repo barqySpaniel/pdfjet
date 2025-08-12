@@ -1364,6 +1364,12 @@ public class Page {
         return points;
     }
 
+    private float[] GetPoint(float xc, float yc, float radius, float angle) {
+        float x = xc + radius*((float) Math.Cos(angle*Math.PI/180.0));
+        float y = yc + radius*((float) Math.Sin(angle*Math.PI/180.0));
+        return new float[] {x, y};
+    }
+
     public void DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
         // The best 4-spline magic number
         float m4 = 0.551784f;
