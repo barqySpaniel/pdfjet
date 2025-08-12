@@ -985,10 +985,9 @@ final public class PDF {
         append(rootObjNumber + 1);
         append('\n');
         append("0000000000 65535 f \n");
-        for (int i = 0; i < objOffset.size(); i++) {
-            int offset = objOffset.get(i);
+        for (int offset : objOffset) {
             String str = Integer.toString(offset);
-            for (int j = 0; j < 10 - str.length(); j++) {
+            for (int i = 0; i < 10 - str.length(); i++) {
                 append('0');
             }
             append(str);

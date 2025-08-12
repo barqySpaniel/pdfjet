@@ -939,10 +939,9 @@ public class PDF {
         Append('\n');
 
         Append("0000000000 65535 f \n");
-        for (int i = 0; i < objOffset.Count; i++) {
-            int offset = objOffset[i];
+        foreach (int offset in objOffset) {
             String str = offset.ToString();
-            for (int j = 0; j < 10 - str.Length; j++) {
+            for (int i = 0; i < 10 - str.Length; i++) {
                 Append('0');
             }
             Append(str);
