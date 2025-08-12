@@ -53,6 +53,7 @@ public class Example_01 {
         textBlock.SetLocation(50f, xy[1] + 30f);
         textBlock.SetWidth(430f);
         textBlock.SetTextPadding(10f);
+        textBlock.SetFillColor(Color.gray);
         textBlock.SetBorderColor(Color.blue);
         textBlock.SetBorderCornerRadius(10f);
         textBlock.DrawOn(page);  // Draw the Bulgarian text
