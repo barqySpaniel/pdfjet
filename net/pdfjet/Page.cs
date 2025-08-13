@@ -1320,7 +1320,7 @@ public class Page {
      *  @param y3 end point y
      */
     public void CurveTo(
-        float x1, float y1, float x2, float y2, float x3, float y3) {
+            float x1, float y1, float x2, float y2, float x3, float y3) {
         Append(x1);
         Append(' ');
         Append(height - y1);
@@ -1332,86 +1332,47 @@ public class Page {
         Append(x3);
         Append(' ');
         Append(height - y3);
-        Append(' ');
-        Append("c\n");
-    }
-
-    private List<float[]> GetControlPoints(
-            float xc, float yc,
-            float x0, float y0,
-            float x3, float y3) {
-        List<float[]> points = new List<float[]>();
-
-        float ax = x0 - xc;
-        float ay = y0 - yc;
-        float bx = x3 - xc;
-        float by = y3 - yc;
-        float q1 = ax*ax + ay*ay;
-        float q2 = q1 + ax*bx + ay*by;
-        float k2 = 4f/3f * (((float) Math.Sqrt(2f*q1*q2)) - q2) / (ax*by - ay*bx);
-
-        // Control points coordinates
-        float x1 = xc + ax - k2*ay;
-        float y1 = yc + ay + k2*ax;
-        float x2 = xc + bx + k2*by;
-        float y2 = yc + by - k2*bx;
-
-        points.Add(new float[] {x0, y0});
-        points.Add(new float[] {x1, y1});
-        points.Add(new float[] {x2, y2});
-        points.Add(new float[] {x3, y3});
-
-        return points;
-    }
-
-    private float[] GetPoint(float x, float y, float radius, float angle) {
-        float x2 = x + radius*((float) Math.Cos(angle*Math.PI/180.0));
-        float y2 = y + radius*((float) Math.Sin(angle*Math.PI/180.0));
-        return new float[] { x2, y2 };
+        Append(" c\n");
     }
 
     public float[] DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
-        float angle1 = alpha1 - 90f;
-        float angle2 = alpha2 - 90f;
+        return DrawEllipticalArc(x, y, r, r, alpha1, alpha2);
+    }
 
-        List<float[]> points1 = new List<float[]>();
-        List<float[]> points2 = new List<float[]>();
-        while (true) {
-            if ((angle2 - angle1) <= 90f) {
-                float[] p0 = GetPoint(x, y, r, angle1);          // Start point
-                float[] p3 = GetPoint(x, y, r, angle2);          // End point
-                points1.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
-                p0 = GetPoint(x, y, r, angle1);                  // Start point
-                p3 = GetPoint(x, y, r, angle2);                  // End point
-                points2.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
-                break;
-            } else {
-                float[] p0 = GetPoint(x, y, r, angle1);
-                float[] p3 = GetPoint(x, y, r, angle1 + 90f);
-                points1.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
-                p0 = GetPoint(x, y, r, angle1);
-                p3 = GetPoint(x, y, r, angle1 + 90f);
-                points2.AddRange(GetControlPoints(x, y, p0[0], p0[1], p3[0], p3[1]));
-                angle1 += 90f;
-            }
+    public float[] DrawEllipticalArc(float x, float y, float r1, float r2, float alpha1, float alpha2) {
+        // Normalize angles to [0, 2π)
+        double theta1 = (alpha1 * Math.PI / 180.0) % (2 * Math.PI);
+        double theta2 = (alpha2 * Math.PI / 180.0) % (2 * Math.PI);
+        if (theta2 < theta1) {
+            theta2 += 2 * Math.PI;
         }
-        points2.Reverse();
-        MoveTo(points1[0][0], points1[0][1]);
-        for (int i = 0; i <= (points1.Count - 4); i += 4) {
-            CurveTo(
-                    points1[i + 1][0], points1[i + 1][1],
-                    points1[i + 2][0], points1[i + 2][1],
-                    points1[i + 3][0], points1[i + 3][1]);
-        }
-        for (int i = 0; i <= (points2.Count - 4); i += 4) {
-            CurveTo(
-                    points2[i + 1][0], points2[i + 1][1],
-                    points2[i + 2][0], points2[i + 2][1],
-                    points2[i + 3][0], points2[i + 3][1]);
-        }
-        StrokePath();
+        double delta = theta2 - theta1;
 
-        return new float[] { points2[0][0], points2[0][1] };
+        // Handle full circles
+        if (delta >= Math.PI) {
+            DrawEllipse(x, y, r1, r2);
+            return new float[] { x, y };  // Return starting point
+        }
+
+        // Compute start (P0) and end (P3) points
+        double x0 = x + r1 * Math.Cos(theta1);
+        double y0 = y + r2 * Math.Sin(theta1);
+        double x3 = x + r1 * Math.Cos(theta2);
+        double y3 = y + r2 * Math.Sin(theta2);
+
+        // Compute control points (P1, P2)
+        double alpha = (4.0 / 3.0) * Math.Tan(delta / 4.0);
+        double x1 = x0 - alpha * r1 * Math.Sin(theta1);
+        double y1 = y0 + alpha * r2 * Math.Cos(theta1);
+        double x2 = x3 + alpha * r1 * Math.Sin(theta2);
+        double y2 = y3 - alpha * r2 * Math.Cos(theta2);
+
+        // Append the path commands
+        MoveTo((float)x0, (float)y0);
+        CurveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3);
+
+        // Return endpoint
+        return new float[] { (float)x3, (float)y3 };
     }
 
     /**
