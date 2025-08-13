@@ -22,6 +22,7 @@ func Example05() {
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
 	// page.SetPenColor(color.Aqua)
+    page.SetPenWidth(0.0);
 	_ = page.DrawEllipticalArc(500, 100, 100, 50, 90, 270)
 	// (new Line(xy[0], xy[1], xy[0], xy[1] + 50)).DrawOn(page);
 
@@ -29,7 +30,7 @@ func Example05() {
 	text.SetLocation(300.0, 300.0)
 	for i := 0; i < 360; i += 15 {
 		text.SetTextDirection(i)
-		// text.SetUnderline(true)
+		text.SetUnderline(true)
 		// text.setStrikeLine(true);
 		text.SetText("             Hello, World -- " + strconv.Itoa(i) + " degrees.")
 		text.DrawOn(page)
