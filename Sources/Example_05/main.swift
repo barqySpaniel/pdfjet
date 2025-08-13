@@ -12,7 +12,7 @@ public class Example_05 {
         f1.setItalic(true)
 
         let page = Page(pdf, Letter.PORTRAIT)
-       	// float[] xy = page.DrawCircularArc(500f, 100f, 50f, 0f, 30f);
+
       	_ = page.drawEllipticalArc(500, 100, 100, 50, 90, 270)
        	// (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
 

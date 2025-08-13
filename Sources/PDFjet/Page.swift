@@ -1183,8 +1183,7 @@ public class Page {
         append(x3)
         append(Token.space)
         append(height - y3)
-        append(Token.space)
-        append("c\n")
+        append(" c\n")
     }
 
     public func drawCircularArc(x: Float, y: Float, r: Float, alpha1: Float, alpha2: Float) -> [Float] {

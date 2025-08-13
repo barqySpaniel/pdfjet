@@ -1372,8 +1372,7 @@ final public class Page {
         append(x3);
         append(' ');
         append(height - y3);
-        append(' ');
-        append("c\n");
+        append(" c\n");
     }
 
     public float[] drawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
