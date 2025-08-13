@@ -59,7 +59,7 @@ final public class Page {
     float[] artBox = null;
     private float[] pen = {0f, 0f, 0f};
     private float[] brush = {0f, 0f, 0f};
-    private float penWidth = -1.0f;
+    private float penWidth = 0f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String linePattern = "[] 0";
@@ -749,11 +749,8 @@ final public class Page {
      *  The default is the finest line width.
      */
     public void setDefaultLineWidth() {
-        if (penWidth != 0f) {
-            penWidth = 0f;
-            append(penWidth);
-            append(" w\n");
-        }
+        append(0f);
+        append(" w\n");
     }
 
     /**
@@ -780,11 +777,8 @@ final public class Page {
      *  @param pattern the line dash pattern.
      */
     public void setLinePattern(String pattern) {
-        if (!pattern.equals(linePattern)) {
-            linePattern = pattern;
-            append(linePattern);
-            append(" d\n");
-        }
+        append(linePattern);
+        append(" d\n");
     }
 
     /**
@@ -811,11 +805,8 @@ final public class Page {
      *  @param width the pen width.
      */
     public void setPenWidth(float width) {
-        if (penWidth != width) {
-            penWidth = width;
-            append(penWidth);
-            append(" w\n");
-        }
+        append(penWidth);
+        append(" w\n");
     }
 
     public float getPenWidth() {
@@ -829,11 +820,8 @@ final public class Page {
      *  Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
      */
     public void setLineCapStyle(CapStyle style) {
-        if (lineCapStyle != style) {
-            lineCapStyle = style;
-            append(lineCapStyle.ordinal());
-            append(" J\n");
-        }
+        append(lineCapStyle.ordinal());
+        append(" J\n");
     }
 
     /**
@@ -842,11 +830,8 @@ final public class Page {
      *  @param style the line join style code. Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
      */
     public void setLineJoinStyle(JoinStyle style) {
-        if (lineJoinStyle != style) {
-            lineJoinStyle = style;
-            append(lineJoinStyle.ordinal());
-            append(" j\n");
-        }
+        append(lineJoinStyle.ordinal());
+        append(" j\n");
     }
 
     /**
@@ -1164,7 +1149,7 @@ final public class Page {
             float r2,
             char operation) {
         // The best 4-spline magic number
-        float m4 = 0.551784f;
+        float m4 = 0.55228f;
         // Starting point
         moveTo(x, y - r2);
 
@@ -1456,7 +1441,7 @@ final public class Page {
             float x, float y, float w, float h, float r1, float r2, char operation)
         throws Exception {
         // The best 4-spline magic number
-        float m4 = 0.551784f;
+        float m4 = 0.55228f;
         List<Point> list = new ArrayList<Point>();
 
         // Starting point

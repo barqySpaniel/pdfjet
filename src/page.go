@@ -141,7 +141,7 @@ func newPage(pdf *PDF, pageSize [2]float32, addToPDF bool) *Page {
 	page.linePattern = "[] 0"
 	page.savedHeight = math.MaxFloat32
 	page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
-	page.penWidth = -1.0
+	page.penWidth = 0
 	page.tm0 = fastfloat.ToByteArray(page.tm[0])
 	page.tm1 = fastfloat.ToByteArray(page.tm[1])
 	page.tm2 = fastfloat.ToByteArray(page.tm[2])
@@ -816,7 +816,7 @@ func (page *Page) FillEllipse(x, y, r1, r2 float32) {
 // @param operation the operation.
 func (page *Page) drawEllipse(x, y, r1, r2 float32, operation string) {
 	// The best 4-spline magic number
-	var m4 float32 = 0.551784
+	var m4 float32 = 0.55228
 
 	// Starting point
 	page.MoveTo(x, y-r2)

@@ -63,7 +63,7 @@ public class Page {
     private float[] brush = {0f, 0f, 0f};
     private float[] penCMYK = {0f, 0f, 0f, 1f};
     private float[] brushCMYK = {0f, 0f, 0f, 1f};
-    private float penWidth = -1.0f;
+    private float penWidth = 0f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String linePattern = "[] 0";
@@ -1126,7 +1126,7 @@ public class Page {
             float r2,
             char operation) {
         // The best 4-spline magic number
-        float m4 = 0.551784f;
+        float m4 = 0.55228f;
         // Starting point
         MoveTo(x, y - r2);
 
@@ -1414,7 +1414,7 @@ public class Page {
     public void DrawRectRoundCorners(
             float x, float y, float w, float h, float r1, float r2, char operation) {
         // The best 4-spline magic number
-        float m4 = 0.551784f;
+        float m4 = 0.55228f;
         List<Point> list = new List<Point>();
 
         // Starting point

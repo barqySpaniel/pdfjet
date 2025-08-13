@@ -204,7 +204,7 @@ public class Rect {
      * @return x and y coordinates of the bottom right corner of this component.
      */
     public float[] drawOn(Page page) throws Exception {
-        final float k = 0.5517f;
+        final float k = 0.55228f;
 
         page.addArtifactBMC();
         page.saveGraphicsState();

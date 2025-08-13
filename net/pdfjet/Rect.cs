@@ -138,7 +138,7 @@ public class Rect  : IDrawable {
     }
 
     public float[] DrawOn(Page page) {
-        const float k = 0.5517f;
+        const float k = 0.55228f;
 
         page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
         if (this.r == 0.0f) {
