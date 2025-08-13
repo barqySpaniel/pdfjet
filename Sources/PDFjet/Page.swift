@@ -1187,6 +1187,48 @@ public class Page {
         append("c\n")
     }
 
+    func drawCircularArc(x: Float, y: Float, r: Float, alpha1: Float, alpha2: Float) -> [Float] {
+        return drawEllipticalArc(x, y, r, r, alpha1, alpha2)
+    }
+
+    func drawEllipticalArc(_ x: Float, _ y: Float,
+            _ r1: Float, _ r2: Float, _ alpha1: Float, _ alpha2: Float) -> [Float] {
+        // Normalize angles to [0, 2π]
+        let theta1 = fmod(Float(alpha1) * .pi / 180.0, 2 * .pi)
+        var theta2 = fmod(Float(alpha2) * .pi / 180.0, 2 * .pi)
+
+        if theta2 < theta1 {
+            theta2 += 2 * .pi
+        }
+        let delta = theta2 - theta1
+
+        // Handle full ellipses
+        if delta > .pi {
+            drawEllipse(x, y, r1, r2)
+            return [x, y]  // Return starting point
+        }
+
+        // Compute start (P0) and end (P3) points
+        let x0 = x + r1 * cos(theta1)
+        let y0 = y + r2 * sin(theta1)
+        let x3 = x + r1 * cos(theta2)
+        let y3 = y + r2 * sin(theta2)
+
+        // Compute control points (P1, P2)
+        let alpha = (4.0 / 3.0) * tan(delta / 4.0)
+        let x1 = x0 - alpha * r1 * sin(theta1)
+        let y1 = y0 + alpha * r2 * cos(theta1)
+        let x2 = x3 + alpha * r1 * sin(theta2)
+        let y2 = y3 - alpha * r2 * cos(theta2)
+
+        // Append the path commands
+        self.moveTo(x0, y0)
+        self.curveTo(x1, y1, x2, y2, x3, y3)
+
+        // Return endpoint
+        return [x3, y3]
+    }
+
     ///
     /// Draws a bezier curve starting from the current point.
     /// <strong>Please note:</strong> You must call the fillPath,
