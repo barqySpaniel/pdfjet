@@ -112,7 +112,7 @@ public class Image : IDrawable {
         inputStream.Dispose();
     }
 
-    // Method for creating images from byte[] imageData
+    // Method for creating images from byte[] image data
     public Image CreateImage(PDF pdf, byte[] imageBytes, int imageType) {
         MemoryStream ms = new MemoryStream(imageBytes);
         Image image = new Image(pdf, ms, imageType);
