@@ -1381,7 +1381,7 @@ final public class Page {
     }
 
     public float[] drawEllipticalArc(float x, float y, float r1, float r2, float alpha1, float alpha2) {
-        // Normalize angles to [0, 2π]
+        // Normalize angles to [0, 2π)
         double theta1 = (alpha1 * Math.PI / 180.0) % (2 * Math.PI);
         double theta2 = (alpha2 * Math.PI / 180.0) % (2 * Math.PI);
         if (theta2 < theta1) {

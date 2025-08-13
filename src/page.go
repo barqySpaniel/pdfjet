@@ -1049,7 +1049,7 @@ func (page *Page) DrawCircularArc(x, y, r, alpha1, alpha2 float32) []float32 {
 }
 
 func (page *Page) DrawEllipticalArc(x, y, r1, r2, alpha1, alpha2 float32) []float32 {
-	// Normalize angles to [0, 2π]
+	// Normalize angles to [0, 2π)
 	theta1 := math.Mod(float64(alpha1)*math.Pi/180.0, 2*math.Pi)
 	theta2 := math.Mod(float64(alpha2)*math.Pi/180.0, 2*math.Pi)
 	if theta2 < theta1 {
