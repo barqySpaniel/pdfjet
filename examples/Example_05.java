@@ -17,7 +17,6 @@ public class Example_05 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        // float[] xy = page.DrawCircularArc(500f, 100f, 50f, 0f, 30f);
         float[] xy = page.drawEllipticalArc(500f, 100f, 100f, 50f, 90f, 270f);
         // (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
 
