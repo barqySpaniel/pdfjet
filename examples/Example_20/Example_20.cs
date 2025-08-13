@@ -5,16 +5,13 @@ using System.Diagnostics;
 
 using PDFjet.NET;
 
-
 /**
  * Example_20.cs
  *
  * This example shows how to use existing logo saved as PDF file in new PDF document.
  */
 class Example_20 {
-
     public Example_20() {
-
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_20.pdf", FileMode.Create)));
 
@@ -110,7 +107,6 @@ class Example_20 {
         pdf.Complete();
     }
 
-
     public static void Main(String[] args) {
         Stopwatch sw = Stopwatch.StartNew();
         long time0 = sw.ElapsedMilliseconds;
@@ -119,5 +115,4 @@ class Example_20 {
         sw.Stop();
         TextUtils.PrintDuration("Example_20", time0, time1);
     }
-
 }   // End of Example_20.cs

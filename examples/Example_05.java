@@ -9,8 +9,7 @@ import com.pdfjet.*;
 public class Example_05 {
     public Example_05() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_05.pdf")));
+                new BufferedOutputStream(new FileOutputStream("Example_05.pdf")));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f1.setItalic(true);

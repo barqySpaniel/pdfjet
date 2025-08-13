@@ -61,7 +61,7 @@ public class Page {
     private var penCMYK: [Float] = [0.0, 0.0, 0.0, 1.0]
     private var brushCMYK: [Float] = [0.0, 0.0, 0.0, 1.0]
 
-    private var penWidth: Float = -1.0
+    private var penWidth: Float = 0.0
     private var lineCapStyle = CapStyle.BUTT
     private var lineJoinStyle = JoinStyle.MITER
     private var linePattern: String = "[] 0"
