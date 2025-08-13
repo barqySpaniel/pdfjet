@@ -503,13 +503,12 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 // @param g the green component is float value from 0.0 to 1.0.
 // @param b the blue component is float value from 0.0 to 1.0.
 func (page *Page) SetPenColorRGB(r, g, b float32) {
-	if page.pen[0] != r || page.pen[1] != g || page.pen[2] != b {
-		page.SetColorRGB(r, g, b)
-		page.appendString(" RG\n")
-		page.pen[0] = r
-		page.pen[1] = g
-		page.pen[2] = b
-	}
+	page.appendFloat32(r)
+	page.appendString(" ")
+	page.appendFloat32(g)
+	page.appendString(" ")
+	page.appendFloat32(b)
+	page.appendString(" RG\n")
 }
 
 func (page *Page) SetPenColorWithFloat32Array(rgb [3]float32) {
@@ -524,33 +523,14 @@ func (page *Page) SetPenColorWithFloat32Array(rgb [3]float32) {
 // @param y the yellow component is float value from 0.0 to 1.0.
 // @param k the black component is float value from 0.0 to 1.0.
 func (page *Page) SetPenColorCMYK(c, m, y, k float32) {
-	if page.penCMYK[0] != c || page.penCMYK[1] != m || page.penCMYK[2] != y || page.penCMYK[3] != k {
-		page.SetColorCMYK(c, m, y, k)
-		page.appendString(" K\n")
-		page.penCMYK[0] = c
-		page.penCMYK[1] = m
-		page.penCMYK[2] = y
-		page.penCMYK[3] = k
-	}
-}
-
-// SetBrushColorRGB sets the color for brush operations.
-// This is the color used when drawing regular text and filling shapes.
-// @param r the red component is float value from 0.0 to 1.0.
-// @param g the green component is float value from 0.0 to 1.0.
-// @param b the blue component is float value from 0.0 to 1.0.
-func (page *Page) SetBrushColorRGB(r, g, b float32) {
-	// if page.brush[0] != r || page.brush[1] != g || page.brush[2] != b {
-	// 	page.SetColorRGB(r, g, b)
-	// 	page.appendString(" rg\n")
-	// 	page.brush[0] = r
-	// 	page.brush[1] = g
-	// 	page.brush[2] = b
-	// }
-
-	page.SetColorRGB(r, g, b)
-	page.appendString(" rg\n")
-
+	page.appendFloat32(c)
+	page.appendString(" ")
+	page.appendFloat32(m)
+	page.appendString(" ")
+	page.appendFloat32(y)
+	page.appendString(" ")
+	page.appendFloat32(k)
+	page.appendString(" K\n")
 }
 
 // SetBrushColorCMYK sets the color for brush operations using CMYK.
@@ -560,14 +540,14 @@ func (page *Page) SetBrushColorRGB(r, g, b float32) {
 // @param y the yellow component is float value from 0.0 to 1.0.
 // @param k the black component is float value from 0.0 to 1.0.
 func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
-	if page.brushCMYK[0] != c || page.brushCMYK[1] != m || page.brushCMYK[2] != y || page.brushCMYK[3] != k {
-		page.SetColorCMYK(c, m, y, k)
-		page.appendString(" k\n")
-		page.brushCMYK[0] = c
-		page.brushCMYK[1] = m
-		page.brushCMYK[2] = y
-		page.brushCMYK[3] = k
-	}
+	page.appendFloat32(c)
+	page.appendString(" ")
+	page.appendFloat32(m)
+	page.appendString(" ")
+	page.appendFloat32(y)
+	page.appendString(" ")
+	page.appendFloat32(k)
+	page.appendString(" k\n")
 }
 
 // GetBrushColor returns the brush color.
@@ -580,24 +560,18 @@ func (page *Page) SetBrushColorWithFloat32Array(rgb [3]float32) {
 	page.SetPenColorRGB(rgb[0], rgb[1], rgb[2])
 }
 
-// SetColorRGB sets the RGB color.
-func (page *Page) SetColorRGB(r, g, b float32) {
+// SetBrushColorRGB sets the color for brush operations.
+// This is the color used when drawing regular text and filling shapes.
+// @param r the red component is float value from 0.0 to 1.0.
+// @param g the green component is float value from 0.0 to 1.0.
+// @param b the blue component is float value from 0.0 to 1.0.
+func (page *Page) SetBrushColorRGB(r, g, b float32) {
 	page.appendFloat32(r)
 	page.appendString(" ")
 	page.appendFloat32(g)
 	page.appendString(" ")
 	page.appendFloat32(b)
-}
-
-// SetColorCMYK sets the CMYK color.
-func (page *Page) SetColorCMYK(c, m, y, k float32) {
-	page.appendFloat32(c)
-	page.appendString(" ")
-	page.appendFloat32(m)
-	page.appendString(" ")
-	page.appendFloat32(y)
-	page.appendString(" ")
-	page.appendFloat32(k)
+	page.appendString(" rg\n")
 }
 
 // SetPenColor sets the pen color.
@@ -609,10 +583,6 @@ func (page *Page) SetPenColor(color int32) {
 	page.SetPenColorRGB(r, g, b)
 }
 
-func (page *Page) GetPenColor() [3]float32 {
-	return page.pen
-}
-
 // SetBrushColor sets the brush color.
 // See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
 func (page *Page) SetBrushColor(color int32) {
@@ -620,6 +590,10 @@ func (page *Page) SetBrushColor(color int32) {
 	g := float32(((color >> 8) & 0xff)) / 255.0
 	b := float32(((color) & 0xff)) / 255.0
 	page.SetBrushColorRGB(r, g, b)
+}
+
+func (page *Page) GetPenColor() [3]float32 {
+	return page.pen
 }
 
 // SetDefaultLineWidth sets the line width to the default.
