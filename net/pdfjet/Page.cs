@@ -1777,7 +1777,6 @@ public class Page {
 
     /**
      * Transformation matrix.
-     *
      */
     public void Transform(float[] values) {
         float scalex = values[MSCALE_X];

@@ -48,13 +48,24 @@ public class Rect  : IDrawable {
         this.h = h;
     }
 
-    public void SetPosition(float x, float y) {
-        SetLocation(x, y);
+    public Rect(double x, double y, double w, double h) {
+        this.x = (float) x;
+        this.y = (float) y;
+        this.w = (float) w;
+        this.h = (float) h;
     }
 
     public void SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void SetPosition(float x, float y) {
+        SetLocation(x, y);
+    }
+
+    public void SetPosition(double x, double y) {
+        SetLocation((float) x, (float) y);
     }
 
     public void SetSize(float w, float h) {
