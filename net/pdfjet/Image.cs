@@ -112,6 +112,19 @@ public class Image : IDrawable {
         inputStream.Dispose();
     }
 
+    // Method for creating images from byte[] imageData
+    public Image CreateImage(PDF pdf, byte[] imageBytes, int imageType) {
+        MemoryStream ms = new MemoryStream(imageBytes);
+        Image image = new Image(pdf, ms, imageType);
+        ms.Dispose();
+        return image;
+    }
+
+    // Convenience method for creating .PNG images
+    public Image CreateImage(PDF pdf, byte[] imageBytes) {
+        return CreateImage(pdf, imageBytes, ImageType.PNG);
+    }
+
     /**
      *  Constructor used to attach images to existing PDF.
      *
