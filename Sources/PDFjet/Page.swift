@@ -1224,6 +1224,9 @@ public class Page {
         self.moveTo(x0, y0)
         self.curveTo(x1, y1, x2, y2, x3, y3)
 
+	    self.append(Operation.STROKE)
+	    self.append("\n")
+
         // Return endpoint
         return [x3, y3]
     }

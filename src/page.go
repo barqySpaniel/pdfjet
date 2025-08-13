@@ -550,12 +550,6 @@ func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
 	page.appendString(" k\n")
 }
 
-// GetBrushColor returns the brush color.
-// @return the brush color.
-func (page *Page) GetBrushColor() [3]float32 {
-	return page.brush
-}
-
 func (page *Page) SetBrushColorWithFloat32Array(rgb [3]float32) {
 	page.SetPenColorRGB(rgb[0], rgb[1], rgb[2])
 }
@@ -594,6 +588,12 @@ func (page *Page) SetBrushColor(color int32) {
 
 func (page *Page) GetPenColor() [3]float32 {
 	return page.pen
+}
+
+// GetBrushColor returns the brush color.
+// @return the brush color.
+func (page *Page) GetBrushColor() [3]float32 {
+	return page.brush
 }
 
 // SetDefaultLineWidth sets the line width to the default.
@@ -1056,6 +1056,9 @@ func (page *Page) DrawEllipticalArc(x, y, r1, r2, alpha1, alpha2 float32) []floa
 		float32(x1), float32(y1),
 		float32(x2), float32(y2),
 		float32(x3), float32(y3))
+
+	page.appendString(operation.Stroke)
+	page.appendString("\n")
 
 	// Return endpoint
 	return []float32{float32(x3), float32(y3)}

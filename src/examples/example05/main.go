@@ -21,6 +21,7 @@ func Example05() {
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
+	// page.SetPenColor(color.Aqua)
 	_ = page.DrawEllipticalArc(500, 100, 100, 50, 90, 270)
 	// (new Line(xy[0], xy[1], xy[0], xy[1] + 50)).DrawOn(page);
 

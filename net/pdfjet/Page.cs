@@ -1371,6 +1371,9 @@ public class Page {
         MoveTo((float)x0, (float)y0);
         CurveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3);
 
+    	Append(Operation.STROKE);
+	    Append("\n");
+
         // Return endpoint
         return new float[] { (float)x3, (float)y3 };
     }
