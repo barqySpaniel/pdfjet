@@ -1187,11 +1187,11 @@ public class Page {
         append("c\n")
     }
 
-    func drawCircularArc(x: Float, y: Float, r: Float, alpha1: Float, alpha2: Float) -> [Float] {
+    public func drawCircularArc(x: Float, y: Float, r: Float, alpha1: Float, alpha2: Float) -> [Float] {
         return drawEllipticalArc(x, y, r, r, alpha1, alpha2)
     }
 
-    func drawEllipticalArc(_ x: Float, _ y: Float,
+    public func drawEllipticalArc(_ x: Float, _ y: Float,
             _ r1: Float, _ r2: Float, _ alpha1: Float, _ alpha2: Float) -> [Float] {
         // Normalize angles to [0, 2π]
         let theta1 = fmod(Float(alpha1) * .pi / 180.0, 2 * .pi)
