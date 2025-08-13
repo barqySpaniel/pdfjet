@@ -1214,7 +1214,7 @@ public class Page {
         let y3 = y + r2 * sin(theta2)
 
         // Compute control points (P1, P2)
-        let alpha = (4.0 / 3.0) * tan(delta / 4.0)
+        let alpha = Float(0.55228)
         let x1 = x0 - alpha * r1 * sin(theta1)
         let y1 = y0 + alpha * r2 * cos(theta1)
         let x2 = x3 + alpha * r1 * sin(theta2)
@@ -1277,7 +1277,7 @@ public class Page {
             _ r2: Float,
             _ operation: String) {
         // The best 4-spline magic number
-        let m4: Float = 0.551784
+        let m4: Float = 0.55228
         var list = [Point]()
         // Starting point
         list.append(Point(x + w - r1, y))

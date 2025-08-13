@@ -1044,7 +1044,7 @@ func (page *Page) DrawEllipticalArc(x, y, r1, r2, alpha1, alpha2 float32) []floa
 	y3 := float64(y) + float64(r2)*math.Sin(theta2)
 
 	// Compute control points (P1, P2)
-	alpha := (4.0 / 3.0) * math.Tan(delta/4.0)
+	alpha := 0.55228
 	x1 := float64(x0) - alpha*float64(r1)*math.Sin(theta1)
 	y1 := float64(y0) + alpha*float64(r2)*math.Cos(theta1)
 	x2 := float64(x3) + alpha*float64(r1)*math.Sin(theta2)

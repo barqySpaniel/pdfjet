@@ -1361,7 +1361,7 @@ public class Page {
         double y3 = y + r2 * Math.Sin(theta2);
 
         // Compute control points (P1, P2)
-        double alpha = (4.0 / 3.0) * Math.Tan(delta / 4.0);
+        double alpha = 0.55228;
         double x1 = x0 - alpha * r1 * Math.Sin(theta1);
         double y1 = y0 + alpha * r2 * Math.Cos(theta1);
         double x2 = x3 + alpha * r1 * Math.Sin(theta2);
