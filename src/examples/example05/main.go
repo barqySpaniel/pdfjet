@@ -21,6 +21,10 @@ func Example05() {
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
+	// float[] xy = page.DrawCircularArc(500f, 100f, 50f, 0f, 30f);
+	_ = page.DrawEllipticalArc(500, 100, 100, 50, 90, 270)
+	// (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
+
 	text := pdfjet.NewTextLine(f1, "")
 	text.SetLocation(300.0, 300.0)
 	for i := 0; i < 360; i += 15 {
