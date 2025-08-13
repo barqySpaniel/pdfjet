@@ -323,11 +323,11 @@ func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, 
 		page.appendString(" ")
 		page.appendByteArray(page.tm3)
 	}
-    page.appendString(" ")
-    page.appendFloat32(x)
-    page.appendString(" ")
-    page.appendFloat32(page.height - y)
-    page.appendString(" Tm\n")
+	page.appendString(" ")
+	page.appendFloat32(x)
+	page.appendString(" ")
+	page.appendFloat32(page.height - y)
+	page.appendString(" Tm\n")
 
 	if colors == nil {
 		page.SetBrushColor(brush)
@@ -1042,6 +1042,49 @@ func (page *Page) CurveTo(x1, y1, x2, y2, x3, y3 float32) {
 	page.appendString(" ")
 	page.appendFloat32(page.height - y3)
 	page.appendString(" c\n")
+}
+
+func (page *Page) DrawCircularArc(x, y, r, alpha1, alpha2 float32) []float32 {
+	return page.DrawEllipticalArc(x, y, r, r, alpha1, alpha2)
+}
+
+func (page *Page) DrawEllipticalArc(x, y, r1, r2, alpha1, alpha2 float32) []float32 {
+	// Normalize angles to [0, 2π]
+	theta1 := math.Mod(float64(alpha1)*math.Pi/180.0, 2*math.Pi)
+	theta2 := math.Mod(float64(alpha2)*math.Pi/180.0, 2*math.Pi)
+	if theta2 < theta1 {
+		theta2 += 2 * math.Pi
+	}
+	delta := theta2 - theta1
+
+	// Handle full ellipses
+	if delta > math.Pi {
+		page.DrawEllipse(x, y, r1, r2)
+		return []float32{x, y} // Return starting point
+	}
+
+	// Compute start (P0) and end (P3) points
+	x0 := float64(x) + float64(r1)*math.Cos(theta1)
+	y0 := float64(y) + float64(r2)*math.Sin(theta1)
+	x3 := float64(x) + float64(r1)*math.Cos(theta2)
+	y3 := float64(y) + float64(r2)*math.Sin(theta2)
+
+	// Compute control points (P1, P2)
+	alpha := (4.0 / 3.0) * math.Tan(delta/4.0)
+	x1 := float64(x0) - alpha*float64(r1)*math.Sin(theta1)
+	y1 := float64(y0) + alpha*float64(r2)*math.Cos(theta1)
+	x2 := float64(x3) + alpha*float64(r1)*math.Sin(theta2)
+	y2 := float64(y3) - alpha*float64(r2)*math.Cos(theta2)
+
+	// Append the path commands
+	page.MoveTo(float32(x0), float32(y0))
+	page.CurveTo(
+		float32(x1), float32(y1),
+		float32(x2), float32(y2),
+		float32(x3), float32(y3))
+
+	// Return endpoint
+	return []float32{float32(x3), float32(y3)}
 }
 
 /**
