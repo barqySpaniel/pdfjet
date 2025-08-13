@@ -1193,15 +1193,15 @@ public class Page {
 
     public func drawEllipticalArc(_ x: Float, _ y: Float,
             _ r1: Float, _ r2: Float, _ alpha1: Float, _ alpha2: Float) -> [Float] {
-        // Normalize angles to [0, 2π]
-        let theta1 = fmod(Float(alpha1) * .pi / 180.0, 2 * .pi)
-        var theta2 = fmod(Float(alpha2) * .pi / 180.0, 2 * .pi)
+        // Normalize angles to [0, 2π)
+        let theta1 = fmod(alpha1 * .pi / 180.0, 2 * .pi)
+        var theta2 = fmod(alpha2 * .pi / 180.0, 2 * .pi)
 
         if theta2 < theta1 {
             theta2 += 2 * .pi
         }
-        let delta = theta2 - theta1
 
+        let delta = (theta2 - theta1 * 100000).rounded(.towardZero) / 100000
         // Handle full ellipses
         if delta > .pi {
             drawEllipse(x, y, r1, r2)
