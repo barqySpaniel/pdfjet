@@ -1349,7 +1349,7 @@ public class Page {
         double delta = theta2 - theta1;
 
         // Handle full circles
-        if (delta >= Math.PI) {
+        if (delta > Math.PI) {
             DrawEllipse(x, y, r1, r2);
             return new float[] { x, y };  // Return starting point
         }

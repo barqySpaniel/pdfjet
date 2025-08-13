@@ -17,7 +17,7 @@ public class Example_05 {
 
         page.SetPenWidth(0f);
         // float[] xy = page.DrawCircularArc(500f, 100f, 50f, 0f, 30f);
-        float[] xy = page.DrawEllipticalArc(500f, 100f, 50f, 50f, 90f, 180f);
+        float[] xy = page.DrawEllipticalArc(500f, 100f, 100f, 50f, 90f, 270f);
         // (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
 
         TextLine text = new TextLine(f1);
