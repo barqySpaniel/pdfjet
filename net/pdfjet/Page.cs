@@ -728,11 +728,8 @@ public class Page {
      *  The default is the finest line width.
      */
     public void SetDefaultLineWidth() {
-        if (penWidth != 0f) {
-            penWidth = 0f;
-            Append(penWidth);
-            Append(" w\n");
-        }
+        Append(penWidth);
+        Append(" w\n");
     }
 
     /**
