@@ -75,8 +75,8 @@ public class Chart : IDrawable {
     private String hGridLinePattern = "[1 1] 0";
     private String vGridLinePattern = "[1 1] 0";
 
-    private float chartBorderWidth = 0.3f;
-    private float innerBorderWidth = 0.3f;
+    private float chartBorderWidth = 0f;
+    private float innerBorderWidth = 0f;
 
     private NumberFormat nf = null;
     private int minFractionDigits = 2;

@@ -37,7 +37,7 @@ public class Line : IDrawable {
     private float xBox;
     private float yBox;
     private float[] color = new float[] {0f, 0f, 0f};   // Black color
-    private float width = 0.3f;
+    private float width = 0f;
     private String pattern = "[] 0";
     private CapStyle capStyle = CapStyle.BUTT;
     private String language = null;

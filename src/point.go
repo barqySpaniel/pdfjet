@@ -65,7 +65,7 @@ func NewPoint(x, y float32) *Point {
 	point.shape = shape.Circle
 	point.color = color.Black
 	point.align = align.Right
-	point.lineWidth = 0.3
+	point.lineWidth = 0.0
 	point.linePattern = "[] 0"
 	return point
 }

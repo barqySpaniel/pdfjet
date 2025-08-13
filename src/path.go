@@ -49,7 +49,7 @@ func NewPath() *Path {
 	path := new(Path)
 	path.points = []*Point{}
 	path.color = color.Black
-	path.width = 0.3
+	path.width = 0.0
 	path.pattern = "[] 0"
 	return path
 }

@@ -88,8 +88,8 @@ func NewChart(f1, f2 *Font) *Chart {
 	chart.xyChart = true
 	chart.hGridLinePattern = "[1 1] 0"
 	chart.vGridLinePattern = "[1 1] 0"
-	chart.chartBorderWidth = 0.3
-	chart.innerBorderWidth = 0.3
+	chart.chartBorderWidth = 0.0
+	chart.innerBorderWidth = 0.0
 	chart.minFractionDigits = 2
 	chart.maxFractionDigits = 2
 	return chart

@@ -38,7 +38,7 @@ public class Line : Drawable {
     private var yBox: Float = 0.0
 
     private var color = Color.black
-    private var width: Float = 0.3
+    private var width: Float = 0.0
     private var pattern: String = "[] 0"
     private var capStyle = CapStyle.BUTT
 

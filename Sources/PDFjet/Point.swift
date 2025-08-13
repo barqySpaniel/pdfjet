@@ -53,7 +53,7 @@ public class Point : Drawable {
     var shape = Point.CIRCLE
     var color = Color.black
     var align = Align.RIGHT
-    var lineWidth: Float = 0.3
+    var lineWidth: Float = 0.0
     var linePattern: String = "[] 0"
     var fillShape = false
     var isControlPoint = false

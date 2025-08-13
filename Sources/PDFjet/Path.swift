@@ -31,7 +31,7 @@ import Foundation
 ///
 public class Path : Drawable {
     private var color = Color.black
-    private var width: Float = 0.3
+    private var width: Float = 0.0
     private var pattern: String = "[] 0"
     private var fillShape = false
     private var closePath = false

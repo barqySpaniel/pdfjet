@@ -33,7 +33,7 @@ import java.util.*;
  */
 public class Path implements Drawable {
     private int color = Color.black;
-    private float width = 0.3f;
+    private float width = 0f;
     private String pattern = "[] 0";
     private boolean fillShape = false;
     private boolean closePath = false;

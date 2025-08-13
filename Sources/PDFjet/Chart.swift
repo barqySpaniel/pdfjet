@@ -72,8 +72,8 @@ public class Chart : Drawable {
     private var hGridLinePattern = "[1 1] 0"
     private var vGridLinePattern = "[1 1] 0"
 
-    private var chartBorderWidth: Float = 0.3
-    private var innerBorderWidth: Float = 0.3
+    private var chartBorderWidth: Float = 0.0
+    private var innerBorderWidth: Float = 0.0
 
     private var formatter = NumberFormatter()
     private var minFractionDigits = 2

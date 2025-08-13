@@ -62,7 +62,7 @@ func NewLine(x1, y1, x2, y2 float32) *Line {
 	line.x2 = x2
 	line.y2 = y2
 	line.color = color.Black
-	line.width = 0.3
+	line.width = 0.0
 	line.pattern = "[] 0"
 	line.actualText = single.Space
 	line.altDescription = single.Space

@@ -33,7 +33,7 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class Path : IDrawable {
     private float[] color = new float[] {0f, 0f, 0f};   // Black color
-    private float width = 0.3f;
+    private float width = 0f;
     private String pattern = "[] 0";
     private bool fillShape = false;
     private bool closePath = false;

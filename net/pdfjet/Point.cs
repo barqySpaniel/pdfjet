@@ -54,7 +54,7 @@ public class Point : IDrawable {
     internal int shape = Point.CIRCLE;
     internal int color = Color.black;
     internal uint align = Align.RIGHT;
-    internal float lineWidth = 0.3f;
+    internal float lineWidth = 0f;
     internal String linePattern = "[] 0";
     internal bool fillShape = false;
     internal bool isControlPoint = false;
