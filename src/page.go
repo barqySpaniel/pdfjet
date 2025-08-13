@@ -599,11 +599,8 @@ func (page *Page) GetBrushColor() [3]float32 {
 // SetDefaultLineWidth sets the line width to the default.
 // The default is the finest line width.
 func (page *Page) SetDefaultLineWidth() {
-	if page.penWidth != 0.0 {
-		page.penWidth = 0.0
-		page.appendFloat32(page.penWidth)
-		page.appendString(" w\n")
-	}
+	page.appendFloat32(0.0)
+	page.appendString(" w\n")
 }
 
 // SetLinePattern the line dash pattern controls the pattern of dashes and gaps used to stroke paths.
