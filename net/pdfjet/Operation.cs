@@ -29,7 +29,7 @@ SOFTWARE.
 namespace PDFjet.NET {
 public class Operation {
     public static readonly char STROKE = 'S';
-    public static readonly char ClOSE = 's';
+    public static readonly char CLOSE = 's';
     public static readonly char FILL = 'f';
 }
 }   // End of namespace PDFjet.NET

@@ -42,11 +42,10 @@ public class Path : IDrawable {
     private float yBox;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
+    private int degrees;
 
     /**
      *  The default constructor.
-     *
-     *
      */
     public Path() {
         points = new List<Point>();
@@ -183,6 +182,10 @@ public class Path : IDrawable {
         return this.lineJoinStyle;
     }
 
+    public void RotateBy(int degrees) {
+        this.degrees = degrees;
+    }
+
     /**
      *  Places this path in the specified box at position (0.0, 0.0).
      *
@@ -275,6 +278,55 @@ public class Path : IDrawable {
             point.y += yBox;
         }
 
+        float xMin = 0f;
+        float yMin = 0f;
+        float xMax = 0f;
+        float yMax = 0f;
+        for (int i = 0; i < points.Count; i++) {
+            Point point = points[i];
+            if (point.x > xMax) { xMax = point.x; }
+            if (point.y > yMax) { yMax = point.y; }
+
+            if (point.x < xMin) { xMin = point.x; }
+            if (point.y < yMin) { yMin = point.y; }
+
+            point.x -= xBox;
+            point.y -= yBox;
+        }
+        float w = xMax - xMin;
+        float h = yMax - yMin;
+
+        // page.AddBMC(StructElem.P, language, actualText, altDescription);
+        page.Append("q\n");
+/*
+        // Move the path to the desired location. This command is executed last!
+        page.Append("1 0 0 1 ");
+        page.Append(xMin + xMax/2);
+        page.Append(" ");
+        page.Append((page.height - yMin) - yMax/2);
+        page.Append(" cm\n");
+
+        // Rotate the path. This command is executed second.
+        double alpha = degrees * (Math.PI / 180);
+        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
+        page.Append(" ");
+        page.Append(FastFloat.ToByteArray((float) Math.Sin(alpha)));
+        page.Append(" ");
+        page.Append(FastFloat.ToByteArray((float) -Math.Sin(alpha)));
+        page.Append(" ");
+        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
+        page.Append(" 0 0 cm\n");
+
+        // Move the center of the path to 0, 0. This command is executed first!
+        page.Append(w);
+        page.Append(" 0 0 ");
+        page.Append(h);
+        page.Append(" ");
+        page.Append(-w/2);
+        page.Append(" ");
+        page.Append(-h/2);
+        page.Append(" cm\n");
+*/
         if (fillShape) {
             page.SetBrushColor(color);
             page.DrawPath(points, Operation.FILL);
@@ -285,21 +337,13 @@ public class Path : IDrawable {
             page.SetLineCapStyle(lineCapStyle);
             page.SetLineJoinStyle(lineJoinStyle);
             if (closePath) {
-                page.DrawPath(points, Operation.ClOSE);
+                page.DrawPath(points, Operation.CLOSE);
             } else {
                 page.DrawPath(points, Operation.STROKE);
             }
         }
-
-        float xMax = 0f;
-        float yMax = 0f;
-        for (int i = 0; i < points.Count; i++) {
-            Point point = points[i];
-            if (point.x > xMax) { xMax = point.x; }
-            if (point.y > yMax) { yMax = point.y; }
-            point.x -= xBox;
-            point.y -= yBox;
-        }
+        page.Append("Q\n");
+        // page.AddEMC();
 
         return new float[] {xMax, yMax};
     }

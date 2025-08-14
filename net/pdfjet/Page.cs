@@ -933,12 +933,11 @@ public class Page {
      *  @param path the path.
      *  @param operation specifies 'stroke' or 'fill' operation.
      */
-    public void DrawPath(
-            List<Point> path, char operation) {
+    public void DrawPath(List<Point> path, char operation) {
         if (path.Count < 2) {
-            throw new Exception(
-                    "The Path object must contain at least 2 points");
+            throw new Exception("The Path object must contain at least 2 points");
         }
+
         Point point = path[0];
         MoveTo(point.x, point.y);
         bool curve = false;
@@ -1161,9 +1160,9 @@ public class Page {
             List<Point> list;
             if (p.shape == Point.CIRCLE) {
                 if (p.fillShape) {
-                    DrawCircle(p.x, p.y, p.r, 'f');
+                    DrawCircle(p.x, p.y, p.r, Operation.FILL);
                 } else {
-                    DrawCircle(p.x, p.y, p.r, 'S');
+                    DrawCircle(p.x, p.y, p.r, Operation.STROKE);
                 }
             } else if (p.shape == Point.DIAMOND) {
                 list = new List<Point>();
@@ -1172,9 +1171,9 @@ public class Page {
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
                 if (p.fillShape) {
-                    DrawPath(list, 'f');
+                    DrawPath(list, Operation.FILL);
                 } else {
-                    DrawPath(list, 's');
+                    DrawPath(list, Operation.CLOSE);
                 }
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
@@ -1183,9 +1182,9 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 if (p.fillShape) {
-                    DrawPath(list, 'f');
+                    DrawPath(list, Operation.FILL);
                 } else {
-                    DrawPath(list, 's');
+                    DrawPath(list, Operation.CLOSE);
                 }
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
@@ -1196,9 +1195,9 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 if (p.fillShape) {
-                    DrawPath(list, 'f');
+                    DrawPath(list, Operation.FILL);
                 } else {
-                    DrawPath(list, 's');
+                    DrawPath(list, Operation.CLOSE);
                 }
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new List<Point>();
@@ -1206,9 +1205,9 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x, p.y + p.r));
                 if (p.fillShape) {
-                    DrawPath(list, 'f');
+                    DrawPath(list, Operation.FILL);
                 } else {
-                    DrawPath(list, 's');
+                    DrawPath(list, Operation.CLOSE);
                 }
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new List<Point>();
@@ -1216,9 +1215,9 @@ public class Page {
                 list.Add(new Point(p.x - p.r, p.y));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 if (p.fillShape) {
-                    DrawPath(list, 'f');
+                    DrawPath(list, Operation.FILL);
                 } else {
-                    DrawPath(list, 's');
+                    DrawPath(list, Operation.CLOSE);
                 }
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new List<Point>();
@@ -1226,9 +1225,9 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 if (p.fillShape) {
-                    DrawPath(list, 'f');
+                    DrawPath(list, Operation.FILL);
                 } else {
-                    DrawPath(list, 's');
+                    DrawPath(list, Operation.CLOSE);
                 }
             } else if (p.shape == Point.H_DASH) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
@@ -1257,9 +1256,9 @@ public class Page {
                 list.Add(new Point(p.x + a, p.y - b));
                 list.Add(new Point(p.x - c, p.y + d));
                 if (p.fillShape) {
-                    DrawPath(list, 'f');
+                    DrawPath(list, Operation.FILL);
                 } else {
-                    DrawPath(list, 's');
+                    DrawPath(list, Operation.CLOSE);
                 }
             }
         }
