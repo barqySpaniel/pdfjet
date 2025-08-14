@@ -42,7 +42,7 @@ public class Path : IDrawable {
     private float yBox;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private int degrees;
+    private float degrees;
 
     /**
      *  The default constructor.
@@ -182,7 +182,7 @@ public class Path : IDrawable {
         return this.lineJoinStyle;
     }
 
-    public void RotateBy(int degrees) {
+    public void RotateBy(float degrees) {
         this.degrees = -degrees;
     }
 
@@ -294,36 +294,36 @@ public class Path : IDrawable {
         float w = xMax - x;
         float h = yMax - y;
 
-        // page.AddBMC(StructElem.P, language, actualText, altDescription);
-        page.Append("q\n");
-
-        // Move the path to the desired location. This command is executed last!
-        page.Append("1 0 0 1 ");
-        page.Append(x + w/2);
-        page.Append(" ");
-        page.Append((page.height - y) - h/2);
-        page.Append(" cm\n");
-
-        // Rotate the path. This command is executed second.
-        double alpha = degrees * (Math.PI / 180);
-        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray((float) Math.Sin(alpha)));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray((float) -Math.Sin(alpha)));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
-        page.Append(" 0 0 cm\n");
-
-        // Move the center of the path to 0, 0. This command is executed first!
-        page.Append(w);
-        page.Append(" 0 0 ");
-        page.Append(h);
-        page.Append(" ");
-        page.Append(-w/2);
-        page.Append(" ");
-        page.Append(-h/2);
-        page.Append(" cm\n");
+//        // page.AddBMC(StructElem.P, language, actualText, altDescription);
+//        page.Append("q\n");
+//
+//        // Move the path to the desired location. This command is executed last!
+//        page.Append("1 0 0 1 ");
+//        page.Append(x + w/2);
+//        page.Append(" ");
+//        page.Append((page.height - y) - h/2);
+//        page.Append(" cm\n");
+//
+//        // Rotate the path. This command is executed second.
+//        double alpha = degrees * (Math.PI / 180);
+//        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
+//        page.Append(" ");
+//        page.Append(FastFloat.ToByteArray((float) Math.Sin(alpha)));
+//        page.Append(" ");
+//        page.Append(FastFloat.ToByteArray((float) -Math.Sin(alpha)));
+//        page.Append(" ");
+//        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
+//        page.Append(" 0 0 cm\n");
+//
+//        // Move the center of the path to 0, 0. This command is executed first!
+//        page.Append(w);
+//        page.Append(" 0 0 ");
+//        page.Append(h);
+//        page.Append(" ");
+//        page.Append(-w/2);
+//        page.Append(" ");
+//        page.Append(-h/2);
+//        page.Append(" cm\n");
 
         if (fillShape) {
             page.SetBrushColor(color);
