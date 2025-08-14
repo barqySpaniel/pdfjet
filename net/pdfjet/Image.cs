@@ -35,18 +35,14 @@ using System.Text;
 namespace PDFjet.NET {
 public class Image : IDrawable {
     internal int objNumber;
-
     internal float x = 0f;  // Position of the image on the page
     internal float y = 0f;
     internal float w;       // Image width
     internal float h;       // Image height
-
     internal String uri;
     internal String key;
 
     private int degrees = 0;
-    private bool flipUpsideDown = false;
-
     private String language = null;
     private String altDescription = Single.space;
     private String actualText = Single.space;
@@ -622,18 +618,6 @@ public class Image : IDrawable {
         obj.number = objects.Count + 1;
         objects.Add(obj);
         objNumber = obj.number;
-    }
-
-    public void ResizeToFit(Page page, bool keepAspectRatio) {
-        if (keepAspectRatio) {
-            this.ScaleBy(Math.Min((page.width - x)/w, (page.height - y)/h));
-        } else {
-            this.ScaleBy((page.width - x)/w, (page.height - y)/h);
-        }
-    }
-
-    public void FlipUpsideDown(bool flipUpsideDown) {
-        this.flipUpsideDown = flipUpsideDown;
     }
 }   // End of Image.cs
 }   // End of namespace PDFjet.NET
