@@ -38,7 +38,7 @@ public class Example_03 {
 
         // image1.SetLocation(90f, xy[1] + f1.GetDescent());
         image1.SetLocation(250f, 250f);
-        image1.RotateBy(15);
+        image1.RotateBy(-15);
         // image1.ScaleBy(1f/2f);
         image1.DrawOn(page);
 //
