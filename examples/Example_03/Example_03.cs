@@ -37,7 +37,7 @@ public class Example_03 {
 //        xy = text.DrawOn(page);
 
         // image1.SetLocation(90f, xy[1] + f1.GetDescent());
-        image1.SetLocation(100f, 100f);
+        image1.SetLocation(250f, 250f);
         image1.RotateBy(15);
         // image1.ScaleBy(1f/2f);
         image1.DrawOn(page);

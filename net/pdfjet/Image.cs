@@ -44,9 +44,6 @@ public class Image : IDrawable {
     internal String uri;
     internal String key;
 
-    private float xBox;
-    private float yBox;
-
     private int degrees = 0;
     private bool flipUpsideDown = false;
 
@@ -305,16 +302,6 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Places this image in the specified box.
-     *
-     *  @param box the specified box.
-     */
-    public void PlaceIn(Box box) {
-        xBox = box.x;
-        yBox = box.y;
-    }
-
-    /**
      *  Sets the URI for the "click box" action.
      *
      *  @param uri the URI
@@ -375,36 +362,22 @@ public class Image : IDrawable {
      */
     public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
-
-        x += xBox;
-        y += yBox;
         page.Append("q\n");
 
-        page.Append("1 0 0 1 300 300 cm\n");
+        page.Append("1 0 0 1 ");
+        page.Append(x);
+        page.Append(" ");
+        page.Append(page.height - y);
+        page.Append(" cm\n");
 
-//        page.Append("1 0 0 1 ");
-//        page.Append(300f);
-//        page.Append(" ");
-//        page.Append(300f);
-//        page.Append(" cm\n");
-//
-        double theta = degrees * (Math.PI / 180);
-        byte[] a = FastFloat.ToByteArray((float) Math.Cos(theta));
-        byte[] b = FastFloat.ToByteArray((float) Math.Sin(theta));
-        byte[] c = FastFloat.ToByteArray((float) -Math.Sin(theta));
-        byte[] d = FastFloat.ToByteArray((float) Math.Cos(theta));
-Console.WriteLine(
-            Encoding.ASCII.GetString(a) + " " +
-            Encoding.ASCII.GetString(b) + " " +
-            Encoding.ASCII.GetString(c) + " " +
-            Encoding.ASCII.GetString(d));
-        page.Append(a);
+        double alpha = degrees * (Math.PI / 180);
+        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
         page.Append(" ");
-        page.Append(b);
+        page.Append(FastFloat.ToByteArray((float) Math.Sin(alpha)));
         page.Append(" ");
-        page.Append(c);
+        page.Append(FastFloat.ToByteArray((float) -Math.Sin(alpha)));
         page.Append(" ");
-        page.Append(d);
+        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
         page.Append(" 0 0 cm\n");
 
         page.Append(w);
