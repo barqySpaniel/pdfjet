@@ -21,21 +21,29 @@ case $choice in
         echo "Switching to Java 8..."
         sudo update-alternatives --set java /opt/jdk8u462-b08/bin/java
         sudo update-alternatives --set javac /opt/jdk8u462-b08/bin/javac
+        sudo update-alternatives --set jar /opt/jdk8u462-b08/bin/jar
+        sudo update-alternatives --set javadoc /opt/jdk8u462-b08/bin/javadoc
         ;;
     2)
         echo "Switching to Java 11..."
         sudo update-alternatives --set java /opt/jdk-11.0.28+6/bin/java
         sudo update-alternatives --set javac /opt/jdk-11.0.28+6/bin/javac
+        sudo update-alternatives --set jar /opt/jdk-11.0.28+6/bin/jar
+        sudo update-alternatives --set javadoc /opt/jdk-11.0.28+6/bin/javadoc
         ;;
     3)
         echo "Switching to Java 17..."
         sudo update-alternatives --set java /opt/jdk-17.0.16+8/bin/java
         sudo update-alternatives --set javac /opt/jdk-17.0.16+8/bin/javac
+        sudo update-alternatives --set jar /opt/jdk-17.0.16+8/bin/jar
+        sudo update-alternatives --set javadoc /opt/jdk-17.0.16+8/bin/javadoc
         ;;
     4)
         echo "Switching to Java 21..."
         sudo update-alternatives --set java /opt/jdk-21.0.8+9/bin/java
         sudo update-alternatives --set javac /opt/jdk-21.0.8+9/bin/javac
+        sudo update-alternatives --set jar /opt/jdk-21.0.8+9/bin/jar
+        sudo update-alternatives --set javadoc /opt/jdk-21.0.8+9/bin/javadoc
         ;;
     *)
         echo "Invalid choice. Please run the script again and choose a valid option."
