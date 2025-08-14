@@ -1155,14 +1155,15 @@ func (page *Page) Save() {
 func (page *Page) Restore() {
 	page.appendString("Q\n")
 	if len(page.savedStates) > 0 {
-		savedState := page.savedStates[len(page.savedStates)-1]
+		lastIndex := len(page.savedStates) - 1
+		savedState := page.savedStates[lastIndex]
 		page.pen = savedState.GetPen()
 		page.brush = savedState.GetBrush()
 		page.penWidth = savedState.GetPenWidth()
 		page.lineCapStyle = savedState.GetLineCapStyle()
 		page.lineJoinStyle = savedState.GetLineJoinStyle()
 		page.linePattern = savedState.GetLinePattern()
-		page.savedStates = page.savedStates[len(page.savedStates)-1:]
+		page.savedStates = page.savedStates[:lastIndex] // Remove the last state
 	}
 	if page.savedHeight != math.MaxFloat32 {
 		page.height = page.savedHeight

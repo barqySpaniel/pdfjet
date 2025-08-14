@@ -1463,14 +1463,15 @@ public class Page {
     public void Restore() {
         Append("Q\n");
         if (savedStates.Count > 0) {
-            savedStates.RemoveAt(savedStates.Count - 1);
-            State savedState = savedStates[savedStates.Count - 1];
+            int lastIndex = savedStates.Count - 1;
+            State savedState = savedStates[lastIndex];
             pen = savedState.GetPen();
             brush = savedState.GetBrush();
             penWidth = savedState.GetPenWidth();
             lineCapStyle = savedState.GetLineCapStyle();
             lineJoinStyle = savedState.GetLineJoinStyle();
             linePattern = savedState.GetLinePattern();
+            savedStates.RemoveAt(lastIndex);
         }
     }
     // <<
