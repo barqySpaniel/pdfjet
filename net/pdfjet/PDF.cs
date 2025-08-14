@@ -73,7 +73,7 @@ public class PDF {
         this.uuid = (new Salsa20()).GetID();
     }
 
-    public PDF(Stream os) : this(os, 0) {}
+    public PDF(Stream os) : this(os, Compliance.PDF_15) {}
 
     // Here is the layout of the PDF document:
     //
