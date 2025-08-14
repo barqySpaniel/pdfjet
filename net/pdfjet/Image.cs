@@ -24,6 +24,7 @@ SOFTWARE.
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text;
 
 /**
  *  Used to create image objects and draw them on a page.
@@ -275,6 +276,11 @@ public class Image : IDrawable {
         return this.ScaleBy(factor, factor);
     }
 
+    public Image RotateBy(int degrees) {
+        this.degrees = degrees;
+        return this;
+    }
+
     /**
      *  Scales this image by the specified width and height factor.
      *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
@@ -374,70 +380,46 @@ public class Image : IDrawable {
         y += yBox;
         page.Append("q\n");
 
-        if (degrees == 0) {
-            page.Append(w);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(h);
-            page.Append(' ');
-            page.Append(x);
-            page.Append(' ');
-            page.Append(page.height - (y + h));
-            page.Append(" cm\n");
-        } else if (degrees == 90) {
-            page.Append(h);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(w);
-            page.Append(' ');
-            page.Append(x);
-            page.Append(' ');
-            page.Append(page.height - y);
-            page.Append(" cm\n");
-            page.Append("0 -1 1 0 0 0 cm\n");
-        } else if (degrees == 180) {
-            page.Append(w);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(h);
-            page.Append(' ');
-            page.Append(x + w);
-            page.Append(' ');
-            page.Append(page.height - y);
-            page.Append(" cm\n");
-            page.Append("-1 0 0 -1 0 0 cm\n");
-        } else if (degrees == 270) {
-            page.Append(h);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(0f);
-            page.Append(' ');
-            page.Append(w);
-            page.Append(' ');
-            page.Append(x + h);
-            page.Append(' ');
-            page.Append(page.height - (y + w));
-            page.Append(" cm\n");
-            page.Append("0 1 -1 0 0 0 cm\n");
-        }
+        page.Append("1 0 0 1 300 300 cm\n");
 
-        if (flipUpsideDown) {
-            page.Append("1 0 0 -1 0 0 cm\n");
-        }
+//        page.Append("1 0 0 1 ");
+//        page.Append(300f);
+//        page.Append(" ");
+//        page.Append(300f);
+//        page.Append(" cm\n");
+//
+        double theta = degrees * (Math.PI / 180);
+        byte[] a = FastFloat.ToByteArray((float) Math.Cos(theta));
+        byte[] b = FastFloat.ToByteArray((float) Math.Sin(theta));
+        byte[] c = FastFloat.ToByteArray((float) -Math.Sin(theta));
+        byte[] d = FastFloat.ToByteArray((float) Math.Cos(theta));
+Console.WriteLine(
+            Encoding.ASCII.GetString(a) + " " +
+            Encoding.ASCII.GetString(b) + " " +
+            Encoding.ASCII.GetString(c) + " " +
+            Encoding.ASCII.GetString(d));
+        page.Append(a);
+        page.Append(" ");
+        page.Append(b);
+        page.Append(" ");
+        page.Append(c);
+        page.Append(" ");
+        page.Append(d);
+        page.Append(" 0 0 cm\n");
+
+        page.Append(w);
+        page.Append(" 0 0 ");
+        page.Append(h);
+        page.Append(" ");
+        page.Append(-w/2);
+        page.Append(" ");
+        page.Append(-h/2);
+        page.Append(" cm\n");
 
         page.Append("/Im");
         page.Append(objNumber);
         page.Append(" Do\n");
+
         page.Append("Q\n");
 
         page.AddEMC();
