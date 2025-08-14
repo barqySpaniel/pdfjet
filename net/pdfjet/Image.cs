@@ -107,7 +107,7 @@ public class Image : IDrawable {
     }
 
     // Method for creating images from byte[] image data
-    public Image CreateImage(PDF pdf, byte[] imageBytes, int imageType) {
+    public static Image CreateImage(PDF pdf, byte[] imageBytes, int imageType) {
         MemoryStream ms = new MemoryStream(imageBytes);
         Image image = new Image(pdf, ms, imageType);
         ms.Dispose();
@@ -115,7 +115,7 @@ public class Image : IDrawable {
     }
 
     // Convenience method for creating .PNG images
-    public Image CreateImage(PDF pdf, byte[] imageBytes) {
+    public static Image CreateImage(PDF pdf, byte[] imageBytes) {
         return CreateImage(pdf, imageBytes, ImageType.PNG);
     }
 
