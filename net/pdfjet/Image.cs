@@ -366,9 +366,9 @@ public class Image : IDrawable {
 
         // Move the image to the desired location. This command is executed last!
         page.Append("1 0 0 1 ");
-        page.Append(x);
+        page.Append(x + w/2);
         page.Append(" ");
-        page.Append(page.height - y);
+        page.Append((page.height - y) - h/2);
         page.Append(" cm\n");
 
         // Rotate the image. This command is executed second.
