@@ -63,6 +63,7 @@ type TextLine struct {
 func NewTextLine(font *Font, text string) *TextLine {
 	textLine := new(TextLine)
 	textLine.font = font
+	textLine.fallbackFont = font
 	textLine.text = text
 	textLine.trailingSpace = true
 	textLine.underlineTTS = "underline"

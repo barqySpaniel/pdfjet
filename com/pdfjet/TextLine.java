@@ -70,6 +70,7 @@ public class TextLine implements Drawable {
      */
     public TextLine(Font font) {
         this.font = font;
+        this.fallbackFont = font;
     }
 
     /**
@@ -80,6 +81,7 @@ public class TextLine implements Drawable {
      */
     public TextLine(Font font, String text) {
         this.font = font;
+        this.fallbackFont = font;
         this.text = text;
         this.altDescription = text;
     }
