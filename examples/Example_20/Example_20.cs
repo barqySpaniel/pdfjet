@@ -33,7 +33,7 @@ class Example_20 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         float height = 105f;    // The logo height in points.
-        float x = 50f;
+        float x = 350f;
         float y = 50f;
         float xScale = 0.5f;
         float yScale = 0.5f;
@@ -48,7 +48,7 @@ class Example_20 {
 
         page.SetPenColor(Color.darkblue);
         page.SetPenWidth(0f);
-        page.DrawRect(0f, 0f, 50f, 50f);
+        page.DrawRect(300f, 0f, 50f, 50f);
 
         PDFjet.NET.Path path = new PDFjet.NET.Path();
 
