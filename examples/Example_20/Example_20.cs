@@ -86,9 +86,9 @@ class Example_20 {
         path.SetClosePath(true);
         path.SetColor(Color.red);
         // path.SetFillShape(true);
-        path.SetLocation(100f, 100f);
-        path.ScaleBy(10f);
-
+        path.SetLocation(0f, 0f);
+        // path.ScaleBy(10f);
+        path.RotateBy(15);
         path.DrawOn(page);
 
         page = new Page(pdf, Letter.PORTRAIT);

@@ -270,7 +270,7 @@ public class Image : IDrawable {
     }
 
     public Image RotateBy(int degrees) {
-        this.degrees = degrees;
+        this.degrees = -degrees;
         return this;
     }
 

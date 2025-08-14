@@ -183,7 +183,7 @@ public class Path : IDrawable {
     }
 
     public void RotateBy(int degrees) {
-        this.degrees = degrees;
+        this.degrees = -degrees;
     }
 
     /**
@@ -272,38 +272,36 @@ public class Path : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-        for (int i = 0; i < points.Count; i++) {
-            Point point = points[i];
+        foreach (Point point in points) {
             point.x += xBox;
             point.y += yBox;
         }
 
-        float xMin = 0f;
-        float yMin = 0f;
+        float x = float.MaxValue;
+        float y = float.MaxValue;
         float xMax = 0f;
         float yMax = 0f;
-        for (int i = 0; i < points.Count; i++) {
-            Point point = points[i];
+        foreach (Point point in points) {
+            if (point.x < x) { x = point.x; }
+            if (point.y < y) { y = point.y; }
+
             if (point.x > xMax) { xMax = point.x; }
             if (point.y > yMax) { yMax = point.y; }
 
-            if (point.x < xMin) { xMin = point.x; }
-            if (point.y < yMin) { yMin = point.y; }
-
-            point.x -= xBox;
-            point.y -= yBox;
+            // point.x -= xBox;
+            // point.y -= yBox;
         }
-        float w = xMax - xMin;
-        float h = yMax - yMin;
+        float w = xMax - x;
+        float h = yMax - y;
 
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
-/*
+
         // Move the path to the desired location. This command is executed last!
         page.Append("1 0 0 1 ");
-        page.Append(xMin + xMax/2);
+        page.Append(x + w/2);
         page.Append(" ");
-        page.Append((page.height - yMin) - yMax/2);
+        page.Append((page.height - y) - h/2);
         page.Append(" cm\n");
 
         // Rotate the path. This command is executed second.
@@ -326,21 +324,20 @@ public class Path : IDrawable {
         page.Append(" ");
         page.Append(-h/2);
         page.Append(" cm\n");
-*/
+
         if (fillShape) {
             page.SetBrushColor(color);
             page.DrawPath(points, Operation.FILL);
+        }
+        page.SetPenWidth(width);
+        page.SetPenColor(color);
+        page.SetLinePattern(pattern);
+        page.SetLineCapStyle(lineCapStyle);
+        page.SetLineJoinStyle(lineJoinStyle);
+        if (closePath) {
+            page.DrawPath(points, Operation.CLOSE);
         } else {
-            page.SetPenWidth(width);
-            page.SetPenColor(color);
-            page.SetLinePattern(pattern);
-            page.SetLineCapStyle(lineCapStyle);
-            page.SetLineJoinStyle(lineJoinStyle);
-            if (closePath) {
-                page.DrawPath(points, Operation.CLOSE);
-            } else {
-                page.DrawPath(points, Operation.STROKE);
-            }
+            page.DrawPath(points, Operation.STROKE);
         }
         page.Append("Q\n");
         // page.AddEMC();
