@@ -316,18 +316,6 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Sets the image rotation to the specified number of degrees.
-     *
-     *  @param degrees the number of degrees.
-     */
-    public void RotateClockwise(int degrees) {
-        if (degrees != 0 && degrees != 90 && degrees != 180 && degrees != 270) {
-            throw new Exception("The rotation angle must be 0, 90, 180 or 270");
-        }
-        this.degrees = degrees;
-    }
-
-    /**
      *  Sets the alternate description of this image.
      *
      *  @param altDescription the alternate description of the image.
