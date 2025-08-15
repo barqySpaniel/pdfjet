@@ -30,7 +30,7 @@ public class Ellipse  : IDrawable {
     private float r1;
     private float r2;
     private float[] fillColor;
-    private float[] borderColor = new float[] {0f, 0f, 0f}; // Black color
+    private float[] penColor = new float[] {0f, 0f, 0f}; // Black color
     private float penWidth = 0f;
     private string pattern = "[] 0";
     private string uri;
@@ -80,19 +80,19 @@ public class Ellipse  : IDrawable {
         this.r2 = r2;
     }
 
-    public void SetBorderColor(int color) {
+    public void SetPenColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetBorderColor(r, g, b);
+        SetPenColor(r, g, b);
     }
 
-    public void SetBorderColor(float r, float g, float b) {
-        this.borderColor = new float[] {r, g, b};
+    public void SetPenColor(float r, float g, float b) {
+        this.penColor = new float[] {r, g, b};
     }
 
-    public void SetBorderColor(float[] rgbColor) {
-        this.borderColor = rgbColor;
+    public void SetPenColor(float[] rgbColor) {
+        this.penColor = rgbColor;
     }
 
     public void SetFillColor(int color) {
@@ -162,6 +162,8 @@ public class Ellipse  : IDrawable {
         page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
 
+        page.SetPenWidth(penWidth);
+        page.SetPenColor(penColor);
         float centerX = x + r1/2;
         float centerY = (page.height - y) - r2/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
