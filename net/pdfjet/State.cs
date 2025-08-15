@@ -30,7 +30,7 @@ class State {
     private float penWidth;
     private CapStyle lineCapStyle;
     private JoinStyle lineJoinStyle;
-    private String linePattern;
+    private String strokePattern;
 
     public State(
             float[] pen,
@@ -38,13 +38,13 @@ class State {
             float penWidth,
             CapStyle lineCapStyle,
             JoinStyle lineJoinStyle,
-            String linePattern) {
+            String strokePattern) {
         this.pen = new float[] { pen[0], pen[1], pen[2] };
         this.brush = new float[] { brush[0], brush[1], brush[2] };
         this.penWidth = penWidth;
         this.lineCapStyle = lineCapStyle;
         this.lineJoinStyle = lineJoinStyle;
-        this.linePattern = linePattern;
+        this.strokePattern = strokePattern;
     }
 
     public float[] GetPen() {
@@ -67,8 +67,8 @@ class State {
         return lineJoinStyle;
     }
 
-    public String GetLinePattern() {
-        return linePattern;
+    public String GetStrokePattern() {
+        return strokePattern;
     }
 }   // End of State.cs
 }   // End of namespace PDFjet.NET

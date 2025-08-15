@@ -302,7 +302,7 @@ public class Box : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.SetPenWidth(width);
-        page.SetLinePattern(pattern);
+        page.SetStrokePattern(pattern);
         if (fillShape) {
             page.SetBrushColor(color);
         } else {

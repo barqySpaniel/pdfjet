@@ -66,7 +66,7 @@ public class Page {
     private float penWidth = 0f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private String linePattern = "[] 0";
+    private String strokePattern = "[] 0";
     private Font font;
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
@@ -727,7 +727,7 @@ public class Page {
      *  Sets the line width to the default.
      *  The default is the finest line width.
      */
-    public void SetDefaultLineWidth() {
+    public void SetDefaultStrokeWidth() {
         Append(penWidth);
         Append(" w\n");
     }
@@ -755,20 +755,16 @@ public class Page {
      *
      *  @param pattern the line dash pattern.
      */
-    public void SetLinePattern(String pattern) {
-        if (!pattern.Equals(linePattern)) {
-            linePattern = pattern;
-            Append(linePattern);
-            Append(" d\n");
-        }
+    public void SetStrokePattern(String pattern) {
+        Append(pattern);
+        Append(" d\n");
     }
 
     /**
-     *  Sets the default line dash pattern - solid line.
+     * Sets the default stroke pattern to be solid line or curve.
      */
-    public void SetDefaultLinePattern() {
-        linePattern = "[] 0";
-        Append(linePattern);
+    public void SetDefaultStrokePattern() {
+        Append("[] 0");
         Append(" d\n");
     }
 
@@ -937,7 +933,8 @@ public class Page {
             List<Point> path,
             float[] brushColor,
             float penWidth,
-            float[] penColor) {
+            float[] penColor,
+            String pattern) {
         if (path.Count < 2) {
             throw new Exception("The Path object must contain at least 2 points");
         }
@@ -967,6 +964,9 @@ public class Page {
         if (penColor != null) {
             SetPenWidth(penWidth);
             SetPenColor(penColor);
+        }
+        if (strokePattern != null) {
+            SetStrokePattern(strokePattern);
         }
         if (brushColor != null && penColor != null) {
             Append("B\n");
@@ -1218,14 +1218,14 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
-                DrawPath(list, fillColor, strokeWidth, strokeColor);
+                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor);
+                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 DrawLine(p.x, p.y - p.r, p.x, p.y + p.r);
@@ -1235,28 +1235,28 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor);
+                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor);
+                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor);
+                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor);
+                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
             } else if (p.shape == Point.H_DASH) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
             } else if (p.shape == Point.V_DASH) {
@@ -1284,7 +1284,7 @@ public class Page {
                 list.Add(new Point(p.x + a, p.y - b));
                 list.Add(new Point(p.x - c, p.y + d));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor);
+                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
             }
         }
     }
@@ -1468,7 +1468,7 @@ public class Page {
         list.Add(new Point(x + r1, y));
         list.Add(new Point(x + w - r1, y));
 
-        DrawPath(list, fillColor, strokeWidth, strokeColor);
+        DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
     }
 
     /**
@@ -1490,7 +1490,7 @@ public class Page {
     public void Save() {
         Append("q\n");
         savedStates.Add(new State(
-                pen, brush, penWidth, lineCapStyle, lineJoinStyle, linePattern));
+                pen, brush, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
     }
 
     public void Restore() {
@@ -1503,7 +1503,7 @@ public class Page {
             penWidth = savedState.GetPenWidth();
             lineCapStyle = savedState.GetLineCapStyle();
             lineJoinStyle = savedState.GetLineJoinStyle();
-            linePattern = savedState.GetLinePattern();
+            strokePattern = savedState.GetStrokePattern();
             savedStates.RemoveAt(lastIndex);
         }
     }

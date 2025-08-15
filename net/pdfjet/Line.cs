@@ -373,7 +373,7 @@ public class Line : IDrawable {
         page.SetPenColor(color);
         page.SetPenWidth(width);
         page.SetLineCapStyle(capStyle);
-        page.SetLinePattern(pattern);
+        page.SetStrokePattern(pattern);
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.DrawLine(
                 x1 + xBox,

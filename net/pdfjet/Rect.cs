@@ -21,6 +21,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+using System;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
@@ -30,18 +31,18 @@ public class Rect  : IDrawable {
     private float w;
     private float h;
     private float r;
+
     private float[] fillColor;
     private float borderWidth;
     private float[] borderColor;
+    private string borderPattern = "[] 0";
 
-
-    private string pattern = "[] 0";
     private string uri;
     private string key;
     private string language = "en-US";
     private string altDescription = "";
     private string actualText = "";
-    private string structureType = StructElem.P;
+    private string structType = StructElem.P;
 
     /**
      * The default constructor.
@@ -134,18 +135,18 @@ public class Rect  : IDrawable {
         return this;
     }
 
-    public Rect SetActualText(string actualText) {
+    public Rect SetActualText(String actualText) {
         this.actualText = actualText;
         return this;
     }
 
-    public Rect SetStructureType(string structureType) {
-        this.structureType = structureType;
+    public Rect SetStructType(String structType) {
+        this.structType = structType;
         return this;
     }
 
-    public void SetPattern(string pattern) {
-        this.pattern = pattern;
+    public void SetBorderPattern(String pattern) {
+        this.borderPattern = pattern;
     }
 
     public void PlaceIn(Rect rect, float xOffset, float yOffset) {
@@ -161,7 +162,7 @@ public class Rect  : IDrawable {
     public float[] DrawOn(Page page) {
         const float k = 0.55228f;
 
-        page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
+        page.AddBMC(this.structType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
 
         if (this.r == 0.0f) {
@@ -175,7 +176,7 @@ public class Rect  : IDrawable {
             }
             page.SetPenWidth(this.borderWidth);
             page.SetPenColor(this.borderColor);
-            page.SetLinePattern(this.pattern);
+            page.SetStrokePattern(this.borderPattern);
             page.ClosePath();
         } else {
             List<Point> points = new List<Point> {
@@ -197,8 +198,7 @@ public class Rect  : IDrawable {
                 new Point((this.x + this.r) - this.r * k, this.y, true),
                 new Point((this.x + this.r), this.y, false)
             };
-            // page.SetLinePattern(this.pattern);  // TODO
-            page.DrawPath(points, fillColor, borderWidth, borderColor);
+            page.DrawPath(points, fillColor, borderWidth, borderColor, borderPattern);
         }
 
         page.Append("Q\n");

@@ -367,8 +367,8 @@ public class Chart : IDrawable {
                 x5 + ((x6 - x5) - f1.StringWidth(xAxisTitle)) / 2,
                 y4 - f1.bodyHeight / 2);
 
-        page.SetDefaultLineWidth();
-        page.SetDefaultLinePattern();
+        page.SetDefaultStrokeWidth();
+        page.SetDefaultStrokePattern();
         page.SetPenColor(Color.black);
 
         return new float[] {this.x1 + this.w, this.y1 + this.h};
@@ -456,7 +456,7 @@ public class Chart : IDrawable {
     private void DrawHorizontalGridLines(Page page) {
         page.SetPenWidth(hGridLineWidth);
         page.SetPenColor(Color.black);
-        page.SetLinePattern(hGridLinePattern);
+        page.SetStrokePattern(hGridLinePattern);
         float x = x8;
         float y = y8;
         float step = (y8 - y5) / yAxisGridLines;
@@ -469,7 +469,7 @@ public class Chart : IDrawable {
     private void DrawVerticalGridLines(Page page) {
         page.SetPenWidth(vGridLineWidth);
         page.SetPenColor(Color.black);
-        page.SetLinePattern(vGridLinePattern);
+        page.SetStrokePattern(vGridLinePattern);
         float x = x5;
         float y = y5;
         float step = (x6 - x5) / xAxisGridLines;
@@ -511,7 +511,7 @@ public class Chart : IDrawable {
             if (point.drawPath) {
                 page.SetPenColor(point.strokeColor);
                 page.SetPenWidth(point.strokeWidth);
-                page.SetLinePattern(point.linePattern);
+                page.SetStrokePattern(point.linePattern);
                 // page.DrawPath(points, Operation.STROKE);  // TODO!!!
                 if (point.GetText() != null) {
                     page.SetBrushColor(point.GetTextColor());
@@ -523,7 +523,7 @@ public class Chart : IDrawable {
                 point = points[j];
                 if (point.GetShape() != Point.INVISIBLE) {
                     page.SetPenWidth(point.strokeWidth);
-                    page.SetLinePattern(point.linePattern);
+                    page.SetStrokePattern(point.linePattern);
                     page.SetPenColor(point.strokeColor);
                     page.SetBrushColor(point.fillColor);
                     // page.DrawPoint(point);  TODO:

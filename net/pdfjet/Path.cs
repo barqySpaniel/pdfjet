@@ -202,7 +202,7 @@ public class Path : IDrawable {
      *  @param box the specified box.
      */
     public void PlaceIn(Box box) {
-        PlaceIn(box, 0.0f, 0.0f);
+        PlaceIn(box, 0f, 0f);
     }
 
     /**
@@ -328,20 +328,7 @@ public class Path : IDrawable {
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
-        page.DrawPath(points, fillColor, strokeWidth, strokeColor);
-
-
-//        page.SetBrushColor(color);
-//        page.SetPenWidth(width);
-//        page.SetPenColor(color);
-//        page.SetLinePattern(pattern);
-//        page.SetLineCapStyle(lineCapStyle);
-//        page.SetLineJoinStyle(lineJoinStyle);
-//        if (closePath) {
-//            page.DrawPath(points, Operation.CLOSE);
-//        } else {
-//            page.DrawPath(points, Operation.STROKE);
-//        }
+        page.DrawPath(points, fillColor, strokeWidth, strokeColor, strokePattern);
 
         page.Append("Q\n");
         page.AddEMC();
