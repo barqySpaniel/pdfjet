@@ -1161,6 +1161,11 @@ public class Page {
             Append("f\n");
         } else if (brushColor == null && penColor != null) {
             Append("S\n");
+        } else {
+            // Both brushColor == null and penColor == null
+            SetPenWidth(0f);
+            SetPenColor(0f, 0f, 0f);
+            Append("S\n");
         }
     }
 
