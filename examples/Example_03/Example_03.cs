@@ -24,10 +24,10 @@ public class Example_03 {
 //         float[] xy = page.AddHeader(new TextLine(f1, "This is a header!"));
 
 //        Box box = new Box();
-//        box.SetLocation(xy[0], xy[1]);
-//        box.SetSize(30f, 30f);
+//        box.SetLocation(50f, 50f);
+//        box.SetSize(400f, 400f);
 //        box.DrawOn(page);
-//
+
 //        page.AddFooter(new TextLine(f1, "And this is a footer."));
 
 //        TextLine text = new TextLine(f1,

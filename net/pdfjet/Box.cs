@@ -41,8 +41,8 @@ public class Box : IDrawable {
     private String pattern = "[] 0";
     private bool fillShape = false;
 
-    internal String uri = null;
-    internal String key = null;
+    private String uri = null;
+    private String key = null;
     private String language = null;
     private String actualText = Single.space;
     private String altDescription = Single.space;
@@ -62,8 +62,8 @@ public class Box : IDrawable {
      *  @param w the width of this box.
      *  @param h the height of this box.
      */
-    public Box(double x, double y, double w, double h) : this((float) x, (float) y, (float) w, (float) h) {
-    }
+//    public Box(double x, double y, double w, double h) : this((float) x, (float) y, (float) w, (float) h) {
+//    }
 
     /**
      *  Creates a box object.
@@ -86,9 +86,9 @@ public class Box : IDrawable {
      *  @param x the x coordinate of the top left corner of this box when drawn on the page.
      *  @param y the y coordinate of the top left corner of this box when drawn on the page.
      */
-    public void SetPosition(double x, double y) {
-        SetPosition((float) x, (float) y);
-    }
+//    public void SetPosition(double x, double y) {
+//        SetPosition((float) x, (float) y);
+//    }
 
     /**
      *  Sets the position of this box on the page.
@@ -113,6 +113,11 @@ public class Box : IDrawable {
     public void SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void SetLocation(double x, double y) {
+        this.x = (float) x;
+        this.y = (float) y;
     }
 
     /**
