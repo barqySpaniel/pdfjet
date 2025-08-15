@@ -40,7 +40,7 @@ public class Example_03 {
         image1.SetLocation(100f, 100f);
         image1.ScaleBy(1f/2f);
         image1.DrawOn(page);
-        image1.RotateBy(30);
+        image1.RotateBy(180);
         image1.DrawOn(page);
 
 
