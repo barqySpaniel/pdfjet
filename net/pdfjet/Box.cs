@@ -41,12 +41,11 @@ public class Box : IDrawable {
     private String pattern = "[] 0";
     private bool fillShape = false;
 
+    internal String uri = null;
+    internal String key = null;
     private String language = null;
     private String actualText = Single.space;
     private String altDescription = Single.space;
-
-    internal String uri = null;
-    internal String key = null;
 
     /**
      *  The default constructor.

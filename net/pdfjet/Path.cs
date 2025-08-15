@@ -44,6 +44,12 @@ public class Path : IDrawable {
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private int degrees;
 
+    private String uri = null;
+    private String key = null;
+    private String language = null;
+    private String actualText = Single.space;
+    private String altDescription = Single.space;
+
     /**
      *  The default constructor.
      */
@@ -210,7 +216,7 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Places the path inside the spacified box at coordinates (xOffset, yOffset) of the top left corner.
+     *  Places the path inside the specified box at coordinates (xOffset, yOffset) of the top left corner.
      *
      *  @param box the specified box.
      *  @param xOffset the xOffset.
@@ -243,6 +249,24 @@ public class Path : IDrawable {
     }
 
     /**
+     *  Sets the URI for the "click box" action.
+     *
+     *  @param uri the URI
+     */
+    public void SetURIAction(String uri) {
+        this.uri = uri;
+    }
+
+    /**
+     *  Sets the destination key for the action.
+     *
+     *  @param key the destination name.
+     */
+    public void SetGoToAction(String key) {
+        this.key = key;
+    }
+
+    /**
      *  Scales the path using the specified factor.
      *
      *  @param factor the specified factor.
@@ -272,10 +296,10 @@ public class Path : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-//        foreach (Point point in points) {
-//            point.x += xBox;
-//            point.y += yBox;
-//        }
+        foreach (Point point in points) {
+            point.x += xBox;
+            point.y += yBox;
+        }
 
         float x = float.MaxValue;
         float y = float.MaxValue;
@@ -318,6 +342,19 @@ public class Path : IDrawable {
 
         page.Append("Q\n");
         // page.AddEMC();
+
+        if (uri != null || key != null) {
+            page.AddAnnotation(new Annotation(
+                    uri,
+                    key,    // The destination name
+                    x,
+                    y,
+                    x + w,
+                    y + h,
+                    language,
+                    actualText,
+                    altDescription));
+        }
 
         return new float[] {xMax, yMax};
     }

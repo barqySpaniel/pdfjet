@@ -86,7 +86,7 @@ class Example_20 {
         path.SetClosePath(true);
         path.SetColor(Color.red);
         // path.SetFillShape(true);
-        path.SetLocation(0f, 0f);
+        path.SetLocation(50f, 50f);
         path.ScaleBy(10f);
         path.RotateBy(90);
         path.DrawOn(page);

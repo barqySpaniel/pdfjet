@@ -51,10 +51,10 @@ public class Example_22 {
         text.DrawOn(page);
 
         // Create a box with invisible borders
-        Box box = new Box(20f, 20f, 20f, 20f);
-        box.SetColor(Color.white);
-        box.SetGoToAction("dest#1");
-        box.DrawOn(page);
+//        Box box = new Box(20f, 20f, 20f, 20f);
+//        box.SetColor(Color.white);
+//        box.SetGoToAction("dest#1");
+//        box.DrawOn(page);
 
         // Create an up arrow and place it in the box
         PDFjet.NET.Path path = new PDFjet.NET.Path();
@@ -69,7 +69,9 @@ public class Example_22 {
         path.SetColor(Color.oldgloryblue);
         path.SetColor(Color.deepskyblue);
         path.SetFillShape(true);
-        path.PlaceIn(box);
+        path.SetLocation(20f, 20f);
+        path.SetGoToAction("dest#1");
+        // path.PlaceIn(box);
         path.DrawOn(page);
 
         FileStream fis = new FileStream(
