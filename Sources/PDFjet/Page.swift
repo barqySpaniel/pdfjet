@@ -1787,4 +1787,67 @@ public class Page {
             append("> Tj\n")
         }
     }
+
+    func scaleAndRotate(_ x: Float, _ y: Float, _ w: Float, _ h: Float, _ degrees: Float) {
+        // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
+
+        // [FINAL POSITIONING - Applied First]
+        // Moves rotated/scaled image to target (x,y) on page
+        append("1 0 0 1 ")
+        append(x + w/2)
+        append(" ")
+        append((height - y) - h/2)
+        append(" cm\n")
+
+        // [ROTATION - Applied Second]
+        // Rotates around current origin (0,0) by 'degrees'
+        let radians = degrees * (Float.pi / 180)
+        let cosValue = Float(cos(radians))
+        let sinValue = Float(sin(radians))
+        append(FastFloat.toByteArray(cosValue))
+        append(" ")
+        append(FastFloat.toByteArray(sinValue))
+        append(" ")
+        append(FastFloat.toByteArray(-sinValue))
+        append(" ")
+        append(FastFloat.toByteArray(cosValue))
+        append(" 0 0 cm\n")
+
+        // [ORIGIN SETUP - Applied Last]
+        // Centers image at (0,0) and sets scale
+        append(w)
+        append(" 0 0 ")
+        append(h)
+        append(" ")
+        append(-w/2)
+        append(" ")
+        append(-h/2)
+        append(" cm\n")
+    }
+
+    func rotateAroundCenter(_ centerX: Float, _ centerY: Float, _ degrees: Float) {
+        append("1 0 0 1 ")
+        append(centerX)
+        append(" ")
+        append(centerY)
+        append(" cm\n")
+
+        let radians = degrees * Float.pi / 180
+        let cosValue = Float(cos(radians))
+        let sinValue = Float(sin(radians))
+        append(FastFloat.toByteArray(cosValue))
+        append(" ")
+        append(FastFloat.toByteArray(sinValue))
+        append(" ")
+        append(FastFloat.toByteArray(-sinValue))
+        append(" ")
+        append(FastFloat.toByteArray(cosValue))
+        append(" 0 0 cm\n")
+
+        append("1 0 0 1 ")
+        append(-centerX)
+        append(" ")
+        append(-centerY)
+        append(" cm\n")
+    }
 }   // End of Page.swift

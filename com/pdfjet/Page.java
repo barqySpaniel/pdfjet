@@ -1968,7 +1968,7 @@ final public class Page {
         ET();
     }
 
-    void ScaleAndRotate(float x, float y, float w, float h, int degrees) {
+    void scaleAndRotate(float x, float y, float w, float h, float degrees) {
         // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
 
         // [FINAL POSITIONING - Applied First]
@@ -2005,7 +2005,7 @@ final public class Page {
         append(" cm\n");
     }
 
-    void RotateAroundCenter(float centerX, float centerY, float degrees) {
+    void rotateAroundCenter(float centerX, float centerY, float degrees) {
         append("1 0 0 1 ");
         append(centerX);
         append(" ");

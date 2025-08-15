@@ -1919,7 +1919,7 @@ public class Page {
         }
     }
 
-    internal void ScaleAndRotate(float x, float y, float w, float h, int degrees) {
+    internal void ScaleAndRotate(float x, float y, float w, float h, float degrees) {
         // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
 
         // [FINAL POSITIONING - Applied First]
