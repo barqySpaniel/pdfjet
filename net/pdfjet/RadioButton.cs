@@ -152,14 +152,25 @@ public class RadioButton : IDrawable {
         this.penWidth = r1/10;
 
         float yBox = y;
-        page.SetPenWidth(1f);
-        page.SetPenColor(Color.black);
-        page.SetLinePattern("[] 0");
-        page.SetBrushColor(Color.black);
-        // page.DrawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r1);
+        // page.SetLinePattern("[] 0");
+        var circle = new Ellipse();
+        circle.SetR1(r1);
+        circle.SetR2(r1);
+        circle.SetLocation(x + r1 + penWidth, yBox + r1 + penWidth);
+        circle.SetStrokeWidth(1f);
+        circle.SetStrokeColor(Color.black);
+        circle.DrawOn(page);
+
+//        x + r1 + penWidth,
+//            yBox + r1 + penWidth,
+//            r1,
+//            r1,
+//            Color.black,
+//            1f,
+//            Color.black);
 
         if (this.selected) {
-            // page.DrawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r2, Operation.FILL);
+            // page.DrawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r2, Color.black, 1f, Color.black);
         }
 
         if (uri != null) {

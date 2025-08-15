@@ -1106,6 +1106,17 @@ public class Page {
         // DrawEllipse(x, y, r1, r2, Operation.FILL);
     }
 
+
+    internal void DrawCircle(
+            float x,
+            float y,
+            float r,
+            float[] brushColor,
+            float penWidth,
+            float[] penColor) {
+        DrawEllipse(x, y, r, r, brushColor, penWidth, penColor);
+    }
+
     /**
      *  Draws an ellipse on the page and fills it using the current brush color.
      *
