@@ -51,13 +51,13 @@ public class Example_15 {
 
                 if (i == 0 || j == 0) {
                     cell.SetCompositeTextLine(composite);
-                    cell.SetBgColor(Color.deepskyblue);
+                    cell.SetFillColor(Color.deepskyblue);
                 }
                 else {
-                    cell.SetBgColor(Color.dodgerblue);
+                    cell.SetFillColor(Color.dodgerblue);
                 }
-                cell.SetPenColor(Color.lightgray);
-                cell.SetBrushColor(Color.black);
+                cell.SetStrokeColor(Color.lightgray);
+                cell.SetFillColor(Color.black);
                 row.Add(cell);
             }
             tableData.Add(row);
