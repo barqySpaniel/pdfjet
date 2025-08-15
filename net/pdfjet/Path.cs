@@ -301,30 +301,6 @@ public class Path : IDrawable {
         float centerY = (page.height - y) - h/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
 
-//        page.Append("1 0 0 1 ");
-//        page.Append(centerX);
-//        page.Append(" ");
-//        page.Append(centerY);
-//        page.Append(" cm\n");
-//
-//        double radians = degrees * Math.PI / 180;
-//        float cos = (float)Math.Cos(radians);
-//        float sin = (float)Math.Sin(radians);
-//        page.Append(FastFloat.ToByteArray(cos));
-//        page.Append(" ");
-//        page.Append(FastFloat.ToByteArray(sin));
-//        page.Append(" ");
-//        page.Append(FastFloat.ToByteArray(-sin));
-//        page.Append(" ");
-//        page.Append(FastFloat.ToByteArray(cos));
-//        page.Append(" 0 0 cm\n");
-//
-//        page.Append("1 0 0 1 ");
-//        page.Append(-centerX);
-//        page.Append(" ");
-//        page.Append(-centerY);
-//        page.Append(" cm\n");
-
         if (fillShape) {
             page.SetBrushColor(color);
             page.DrawPath(points, Operation.FILL);
