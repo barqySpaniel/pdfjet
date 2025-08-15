@@ -196,7 +196,7 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Places the path inside the spacified box at coordinates (xOffset, yOffset) of the top left corner.
+     *  Places the path inside the specified box at coordinates (xOffset, yOffset) of the top left corner.
      *
      *  @param box the specified box.
      *  @param xOffset the xOffset.
@@ -307,17 +307,29 @@ public class Path : IDrawable {
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
 
-        double θ = degrees * Math.PI / 180;
-        float cos = (float)Math.Cos(θ);
-        float sin = (float)Math.Sin(θ);
-        // page.Append($"1 0 0 1 {centerX} {centerY} cm\n");
         page.Append("1 0 0 1 ");
         page.Append(centerX);
         page.Append(" ");
         page.Append(centerY);
         page.Append(" cm\n");
-        page.Append($"{cos} {sin} {-sin} {cos} 0 0 cm\n");
-        page.Append($"1 0 0 1 {-centerX} {-centerY} cm\n");
+
+        double radians = degrees * Math.PI / 180;
+        float cos = (float)Math.Cos(radians);
+        float sin = (float)Math.Sin(radians);
+        page.Append(FastFloat.ToByteArray(cos));
+        page.Append(" ");
+        page.Append(FastFloat.ToByteArray(sin));
+        page.Append(" ");
+        page.Append(FastFloat.ToByteArray(-sin));
+        page.Append(" ");
+        page.Append(FastFloat.ToByteArray(cos));
+        page.Append(" 0 0 cm\n");
+
+        page.Append("1 0 0 1 ");
+        page.Append(-centerX);
+        page.Append(" ");
+        page.Append(-centerY);
+        page.Append(" cm\n");
 
         if (fillShape) {
             page.SetBrushColor(color);
