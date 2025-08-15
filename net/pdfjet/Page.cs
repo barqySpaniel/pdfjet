@@ -1903,7 +1903,7 @@ public class Page {
         }
     }
 
-    internal void ScaleAndRotate(float x, float y, float w, float h, float degrees) {
+    internal void ScaleAndRotate(float x, float y, float w, float h, int degrees) {
         // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
 
         // [FINAL POSITIONING - Applied First]
@@ -1937,6 +1937,32 @@ public class Page {
         Append(-w/2);
         Append(" ");
         Append(-h/2);
+        Append(" cm\n");
+    }
+
+    internal void RotateAroundCenter(float centerX, float centerY, int degrees) {
+        Append("1 0 0 1 ");
+        Append(centerX);
+        Append(" ");
+        Append(centerY);
+        Append(" cm\n");
+
+        double radians = degrees * Math.PI / 180;
+        float cos = (float)Math.Cos(radians);
+        float sin = (float)Math.Sin(radians);
+        Append(FastFloat.ToByteArray(cos));
+        Append(" ");
+        Append(FastFloat.ToByteArray(sin));
+        Append(" ");
+        Append(FastFloat.ToByteArray(-sin));
+        Append(" ");
+        Append(FastFloat.ToByteArray(cos));
+        Append(" 0 0 cm\n");
+
+        Append("1 0 0 1 ");
+        Append(-centerX);
+        Append(" ");
+        Append(-centerY);
         Append(" cm\n");
     }
 }   // End of Page.cs

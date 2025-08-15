@@ -88,7 +88,7 @@ class Example_20 {
         // path.SetFillShape(true);
         path.SetLocation(0f, 0f);
         path.ScaleBy(10f);
-        path.RotateBy(180);
+        path.RotateBy(90);
         path.DrawOn(page);
 
         page = new Page(pdf, Letter.PORTRAIT);

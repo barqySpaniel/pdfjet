@@ -42,7 +42,7 @@ public class Image : IDrawable {
     internal String uri;
     internal String key;
 
-    private float degrees = 0f;
+    private int degrees = 0;
     private String language = null;
     private String altDescription = Single.space;
     private String actualText = Single.space;
@@ -269,7 +269,7 @@ public class Image : IDrawable {
         return this.ScaleBy(factor, factor);
     }
 
-    public Image RotateBy(float degrees) {
+    public Image RotateBy(int degrees) {
         this.degrees = -degrees;
         return this;
     }

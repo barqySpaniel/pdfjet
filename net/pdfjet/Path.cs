@@ -42,7 +42,7 @@ public class Path : IDrawable {
     private float yBox;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private float degrees;
+    private int degrees;
 
     /**
      *  The default constructor.
@@ -182,7 +182,7 @@ public class Path : IDrawable {
         return this.lineJoinStyle;
     }
 
-    public void RotateBy(float degrees) {
+    public void RotateBy(int degrees) {
         this.degrees = -degrees;
     }
 
@@ -294,42 +294,36 @@ public class Path : IDrawable {
         float w = xMax - x;
         float h = yMax - y;
 
-        Console.WriteLine(x);
-        Console.WriteLine(y);
-        Console.WriteLine(w);
-        Console.WriteLine(h);
-        Console.WriteLine(degrees);
-
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
-        // page.ScaleAndRotate(x, y, w, h, degrees);
 
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
+        page.RotateAroundCenter(centerX, centerY, degrees);
 
-        page.Append("1 0 0 1 ");
-        page.Append(centerX);
-        page.Append(" ");
-        page.Append(centerY);
-        page.Append(" cm\n");
-
-        double radians = degrees * Math.PI / 180;
-        float cos = (float)Math.Cos(radians);
-        float sin = (float)Math.Sin(radians);
-        page.Append(FastFloat.ToByteArray(cos));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray(sin));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray(-sin));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray(cos));
-        page.Append(" 0 0 cm\n");
-
-        page.Append("1 0 0 1 ");
-        page.Append(-centerX);
-        page.Append(" ");
-        page.Append(-centerY);
-        page.Append(" cm\n");
+//        page.Append("1 0 0 1 ");
+//        page.Append(centerX);
+//        page.Append(" ");
+//        page.Append(centerY);
+//        page.Append(" cm\n");
+//
+//        double radians = degrees * Math.PI / 180;
+//        float cos = (float)Math.Cos(radians);
+//        float sin = (float)Math.Sin(radians);
+//        page.Append(FastFloat.ToByteArray(cos));
+//        page.Append(" ");
+//        page.Append(FastFloat.ToByteArray(sin));
+//        page.Append(" ");
+//        page.Append(FastFloat.ToByteArray(-sin));
+//        page.Append(" ");
+//        page.Append(FastFloat.ToByteArray(cos));
+//        page.Append(" 0 0 cm\n");
+//
+//        page.Append("1 0 0 1 ");
+//        page.Append(-centerX);
+//        page.Append(" ");
+//        page.Append(-centerY);
+//        page.Append(" cm\n");
 
         if (fillShape) {
             page.SetBrushColor(color);
