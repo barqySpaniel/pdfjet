@@ -27,12 +27,11 @@ namespace PDFjet.NET {
 public class Ellipse  : IDrawable {
     private float x;
     private float y;
-    private float w;
-    private float h;
-    private float r;
+    private float r1;
+    private float r2;
     private float[] fillColor;
     private float[] borderColor = new float[] {0f, 0f, 0f}; // Black color
-    private float width = 0f;
+    private float penWidth = 0f;
     private string pattern = "[] 0";
     private string uri;
     private string key;
@@ -49,18 +48,18 @@ public class Ellipse  : IDrawable {
     public Ellipse() {
     }
 
-    public Ellipse(float x, float y, float w, float h) {
+    public Ellipse(float x, float y, float r1, float r2) {
         this.x = x;
         this.y = y;
-        this.w = w;
-        this.h = h;
+        this.r1 = r1;
+        this.r2 = r2;
     }
 
-    public Ellipse(double x, double y, double w, double h) {
+    public Ellipse(double x, double y, double r1, double r2) {
         this.x = (float) x;
         this.y = (float) y;
-        this.w = (float) w;
-        this.h = (float) h;
+        this.r1 = (float) r1;
+        this.r2 = (float) r2;
     }
 
     public void SetLocation(float x, float y) {
@@ -76,9 +75,9 @@ public class Ellipse  : IDrawable {
         SetLocation((float) x, (float) y);
     }
 
-    public void SetSize(float w, float h) {
-        this.w = w;
-        this.h = h;
+    public void SetSize(float r1, float r2) {
+        this.r1 = r1;
+        this.r2 = r2;
     }
 
     public void SetBorderColor(int color) {
@@ -111,12 +110,16 @@ public class Ellipse  : IDrawable {
         this.fillColor = rgbColor;
     }
 
-    public void SetLineWidth(float width) {
-        this.width = width;
+    public void SetPenWidth(float penWidth) {
+        this.penWidth = penWidth;
     }
 
-    public void SetCornerRadius(float r) {
-        this.r = r;
+    public void SetR1(float r1) {
+        this.r1 = r1;
+    }
+
+    public void SetR2(float r2) {
+        this.r2 = r2;
     }
 
     public void SetURIAction(string uri) {
@@ -145,12 +148,7 @@ public class Ellipse  : IDrawable {
     public void SetPattern(string pattern) {
         this.pattern = pattern;
     }
-/*
-    public void PlaceIn(Rect rect, float xOffset, float yOffset) {
-        this.x = rect.x + xOffset;
-        this.y = rect.y + yOffset;
-    }
-*/
+
     public void ScaleBy(float factor) {
         this.x *= factor;
         this.y *= factor;
@@ -164,10 +162,10 @@ public class Ellipse  : IDrawable {
         page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
 
-        float centerX = x + w/2;
-        float centerY = (page.height - y) - h/2;
+        float centerX = x + r1/2;
+        float centerY = (page.height - y) - r2/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
-        page.DrawEllipse(x, y, w, h);
+        page.DrawEllipse(x, y, r1, r2);
 
         page.Append("Q\n");
         page.AddEMC();
@@ -178,15 +176,15 @@ public class Ellipse  : IDrawable {
                 this.key,
                 this.x,
                 this.y,
-                this.x + this.w,
-                this.y + this.h,
+                this.x + this.r1,
+                this.y + this.r2,
                 this.language,
                 this.actualText,
                 this.altDescription
             ));
         }
 
-        return new float[] { this.x + this.w, this.y + this.h };
+        return new float[] { this.x + this.r1, this.y + this.r2 };
     }
 }
 }
