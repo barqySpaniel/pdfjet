@@ -63,7 +63,11 @@ public class Example_05 {
         point.DrawOn(page);
 
         page.SetPenWidth(1.0f);
-        page.DrawEllipse(300f, 600f, 100f, 50f);
+        // page.DrawEllipse(300f, 600f, 100f, 50f);
+
+        Ellipse ellipse = new Ellipse(300f, 600f, 100f, 50f);
+        ellipse.RotateBy(45);
+        ellipse.DrawOn(page);
 
         f1.SetSize(14f);
         String unicode = "\u20AC\u0020\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160";

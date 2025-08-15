@@ -158,6 +158,8 @@ public class Rect  : IDrawable {
         const float k = 0.55228f;
 
         page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
+        page.Append("q\n");
+
         if (this.r == 0.0f) {
             page.MoveTo(this.x, this.y);
             page.LineTo(this.x + this.w, this.y);
@@ -200,6 +202,8 @@ public class Rect  : IDrawable {
             page.SetLinePattern(this.pattern);
             page.DrawPath(points, Operation.STROKE);
         }
+
+        page.Append("Q\n");
         page.AddEMC();
 
         if (this.uri != null || this.key != null) {
