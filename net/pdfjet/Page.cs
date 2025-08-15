@@ -1001,12 +1001,12 @@ public class Page {
      *  @param y the y coordinate of the center of the circle to be drawn.
      *  @param r the radius of the circle to be drawn.
      */
-    public void DrawCircle(
-            double x,
-            double y,
-            double r) {
-        DrawEllipse((float) x, (float) y, (float) r, (float) r, Operation.STROKE);
-    }
+//    public void DrawCircle(
+//            double x,
+//            double y,
+//            double r) {
+//        DrawEllipse((float) x, (float) y, (float) r, (float) r, Operation.STROKE);
+//    }
 
     /**
      *  Draws the specified circle on the page and fills it with the current brush color.
@@ -1016,13 +1016,13 @@ public class Page {
      *  @param r the radius of the circle to be drawn.
      *  @param operation Operation.STROKE or Operation.FILL
      */
-    public void DrawCircle(
-            double x,
-            double y,
-            double r,
-            char operation) {
-        DrawEllipse((float) x, (float) y, (float) r, (float) r, operation);
-    }
+//    public void DrawCircle(
+//            double x,
+//            double y,
+//            double r,
+//            char operation) {
+//        DrawEllipse((float) x, (float) y, (float) r, (float) r, operation);
+//    }
 
     /**
      *  Draws the specified circle on the page and fills it with the current brush color.
@@ -1037,7 +1037,7 @@ public class Page {
             float y,
             float r,
             char operation) {
-        DrawEllipse(x, y, r, r, operation);
+        // DrawEllipse(x, y, r, r, operation);
     }
 
     /**
@@ -1054,7 +1054,7 @@ public class Page {
             double y,
             double r1,
             double r2) {
-        DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
+        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
     }
 
     /**
@@ -1071,7 +1071,7 @@ public class Page {
             float y,
             float r1,
             float r2) {
-        DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
+        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
     }
 
     /**
@@ -1087,7 +1087,7 @@ public class Page {
             double y,
             double r1,
             double r2) {
-        DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.FILL);
+        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.FILL);
     }
 
     /**
@@ -1103,7 +1103,7 @@ public class Page {
             float y,
             float r1,
             float r2) {
-        DrawEllipse(x, y, r1, r2, Operation.FILL);
+        // DrawEllipse(x, y, r1, r2, Operation.FILL);
     }
 
     /**
@@ -1115,12 +1115,14 @@ public class Page {
      *  @param r2 the vertical radius of the ellipse to be drawn.
      *  @param operation the operation.
      */
-    private void DrawEllipse(
+    internal void DrawEllipse(
             float x,
             float y,
             float r1,
             float r2,
-            char operation) {
+            float[] brushColor,
+            float penWidth,
+            float[] penColor) {
         // The best 4-spline magic number
         float m4 = 0.55228f;
         // Starting point
@@ -1146,8 +1148,15 @@ public class Page {
         AppendPointXY(x, y - r2);
         Append("c\n");
 
-        Append(operation);
-        Append('\n');
+        if (brushColor != null) {
+            SetBrushColor(brushColor);
+            Append("f\n");
+        }
+        if (penColor != null) {
+            SetPenWidth(penWidth);
+            SetPenColor(penColor);
+            Append("S\n");
+        }
     }
 
     /**
@@ -1346,7 +1355,7 @@ public class Page {
 
         // Handle full ellipses
         if (delta > Math.PI) {
-            DrawEllipse(x, y, r1, r2);
+            // DrawEllipse(x, y, r1, r2); // TODO:
             return new float[] { x, y };  // Return starting point
         }
 

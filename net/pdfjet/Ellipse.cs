@@ -30,8 +30,8 @@ public class Ellipse  : IDrawable {
     private float r1;
     private float r2;
     private float[] fillColor;
-    private float[] penColor = new float[] {0f, 0f, 0f}; // Black color
-    private float penWidth = 0f;
+    private float[] strokeColor = new float[] {0f, 0f, 0f}; // Black color
+    private float strokeWidth = 0f;
     private string pattern = "[] 0";
     private string uri;
     private string key;
@@ -80,20 +80,6 @@ public class Ellipse  : IDrawable {
         this.r2 = r2;
     }
 
-    public void SetPenColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetPenColor(r, g, b);
-    }
-
-    public void SetPenColor(float r, float g, float b) {
-        this.penColor = new float[] {r, g, b};
-    }
-
-    public void SetPenColor(float[] rgbColor) {
-        this.penColor = rgbColor;
-    }
 
     public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
@@ -110,9 +96,26 @@ public class Ellipse  : IDrawable {
         this.fillColor = rgbColor;
     }
 
-    public void SetPenWidth(float penWidth) {
-        this.penWidth = penWidth;
+    public void SetStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
+
+    public void SetStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetStrokeColor(r, g, b);
+    }
+
+    public void SetStrokeColor(float r, float g, float b) {
+        this.strokeColor = new float[] {r, g, b};
+    }
+
+    public void SetStrokeColor(float[] rgbColor) {
+        this.strokeColor = rgbColor;
+    }
+
+
 
     public void SetR1(float r1) {
         this.r1 = r1;
@@ -149,12 +152,12 @@ public class Ellipse  : IDrawable {
         this.pattern = pattern;
     }
 
-    public void ScaleBy(float factor) {
+    public void SetScaleFactor(float factor) {
         this.x *= factor;
         this.y *= factor;
     }
 
-    public void RotateBy(int degrees) {
+    public void SetRotationAngle(int degrees) {
         this.degrees = -degrees;
     }
 
@@ -162,12 +165,13 @@ public class Ellipse  : IDrawable {
         page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
 
-        page.SetPenWidth(penWidth);
-        page.SetPenColor(penColor);
+        page.SetBrushColor(fillColor);
+        page.SetPenWidth(strokeWidth);
+        page.SetPenColor(strokeColor);
         float centerX = x + r1/2;
         float centerY = (page.height - y) - r2/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
-        page.DrawEllipse(x, y, r1, r2);
+        page.DrawEllipse(x, y, r1, r2, fillColor, strokeWidth, strokeColor);
 
         page.Append("Q\n");
         page.AddEMC();

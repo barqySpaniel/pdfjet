@@ -63,9 +63,10 @@ public class Example_05 {
         point.DrawOn(page);
 
         Ellipse ellipse = new Ellipse(300f, 600f, 100f, 50f);
-        ellipse.SetPenWidth(0.5f);
-        ellipse.SetPenColor(Color.blue);
-        ellipse.RotateBy(15);
+        ellipse.SetFillColor(Color.azure);
+        ellipse.SetStrokeWidth(0.5f);
+        ellipse.SetStrokeColor(Color.blue);
+        ellipse.SetRotationAngle(15);
         ellipse.DrawOn(page);
 
         f1.SetSize(14f);

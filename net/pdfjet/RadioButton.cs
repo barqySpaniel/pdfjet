@@ -25,7 +25,6 @@ using System;
 
 /**
  *  Creates a RadioButton, which can be set selected or unselected.
- *
  */
 namespace PDFjet.NET {
 public class RadioButton : IDrawable {
@@ -157,10 +156,10 @@ public class RadioButton : IDrawable {
         page.SetPenColor(Color.black);
         page.SetLinePattern("[] 0");
         page.SetBrushColor(Color.black);
-        page.DrawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r1);
+        // page.DrawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r1);
 
         if (this.selected) {
-            page.DrawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r2, Operation.FILL);
+            // page.DrawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r2, Operation.FILL);
         }
 
         if (uri != null) {
