@@ -48,7 +48,7 @@ public class Path : IDrawable {
     private float yBox;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private int degrees;
+    private float degrees;
 
     private String uri = null;
     private String key = null;
@@ -188,8 +188,12 @@ public class Path : IDrawable {
         return this.lineJoinStyle;
     }
 
-    public void SetRotateAngle(int degrees) {
+    public void SetRotateAngle(float degrees) {
         this.degrees = -degrees;
+    }
+
+    public void SetRotateAngle(double degrees) {
+        this.degrees = (float) -degrees;
     }
 
     /**

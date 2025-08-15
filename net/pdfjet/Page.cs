@@ -1973,7 +1973,7 @@ public class Page {
         Append(" cm\n");
     }
 
-    internal void RotateAroundCenter(float centerX, float centerY, int degrees) {
+    internal void RotateAroundCenter(float centerX, float centerY, float degrees) {
         Append("1 0 0 1 ");
         Append(centerX);
         Append(" ");
