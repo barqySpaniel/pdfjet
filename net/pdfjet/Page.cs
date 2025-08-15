@@ -564,24 +564,6 @@ public class Page {
     }
 
     /**
-     * Sets the color for stroking operations.
-     * The pen color is used when drawing lines and splines.
-     *
-     * @param r the red component is float value from 0.0f to 1.0f.
-     * @param g the green component is float value from 0.0f to 1.0f.
-     * @param b the blue component is float value from 0.0f to 1.0f.
-     */
-    public void SetPenColor(float r, float g, float b) {
-        if (pen[0] != r || pen[1] != g || pen[2] != b) {
-            SetColor(r, g, b);
-            Append(" RG\n");
-            pen[0] = r;
-            pen[1] = g;
-            pen[2] = b;
-        }
-    }
-
-    /**
      * Sets the color for stroking operations using CMYK.
      * The pen color is used when drawing lines and splines.
      *
@@ -591,14 +573,14 @@ public class Page {
      * @param k the black component is float value from 0.0f to 1.0f.
      */
     public void SetPenColorCMYK(float c, float m, float y, float k) {
-        if (penCMYK[0] != c || penCMYK[1] != m || penCMYK[2] != y || penCMYK[3] != k) {
-            SetColorCMYK(c, m, y, k);
-            Append(" K\n");
-            penCMYK[0] = c;
-            penCMYK[1] = m;
-            penCMYK[2] = y;
-            penCMYK[3] = k;
-        }
+        Append(c);
+        Append(' ');
+        Append(m);
+        Append(' ');
+        Append(y);
+        Append(' ');
+        Append(k);
+        Append(" K\n");
     }
 
     /**
@@ -621,15 +603,13 @@ public class Page {
      * @param g the green component is float value from 0.0f to 1.0f.
      * @param b the blue component is float value from 0.0f to 1.0f.
      */
-    public void SetBrushColor(
-            float r, float g, float b) {
-        if (brush[0] != r || brush[1] != g || brush[2] != b) {
-            SetColor(r, g, b);
-            Append(" rg\n");
-            brush[0] = r;
-            brush[1] = g;
-            brush[2] = b;
-        }
+    public void SetBrushColor(float r, float g, float b) {
+        Append(r);
+        Append(' ');
+        Append(g);
+        Append(' ');
+        Append(b);
+        Append(" rg\n");
     }
 
     /**
@@ -642,14 +622,14 @@ public class Page {
      * @param k the black component is float value from 0.0f to 1.0f.
      */
     public void SetBrushColorCMYK(float c, float m, float y, float k) {
-        if (brushCMYK[0] != c || brushCMYK[1] != m || brushCMYK[2] != y || brushCMYK[3] != k) {
-            SetColorCMYK(c, m, y, k);
-            Append(" k\n");
-            brushCMYK[0] = c;
-            brushCMYK[1] = m;
-            brushCMYK[2] = y;
-            brushCMYK[3] = k;
-        }
+        Append(c);
+        Append(' ');
+        Append(m);
+        Append(' ');
+        Append(y);
+        Append(' ');
+        Append(k);
+        Append(" k\n");
     }
 
     /**
@@ -671,24 +651,6 @@ public class Page {
         return brush;
     }
 
-    private void SetColor(float r, float g, float b) {
-        Append(r);
-        Append(' ');
-        Append(g);
-        Append(' ');
-        Append(b);
-    }
-
-    private void SetColorCMYK(float c, float m, float y, float k) {
-        Append(c);
-        Append(' ');
-        Append(m);
-        Append(' ');
-        Append(y);
-        Append(' ');
-        Append(k);
-    }
-
     /**
      * Sets the pen color.
      *
@@ -702,8 +664,27 @@ public class Page {
         SetPenColor(r, g, b);
     }
 
-    public void SetPenColor(float[] color) {
-        SetPenColor(color[0], color[1], color[2]);
+    public void SetPenColor(float[] rgbColor) {
+        if (rgbColor != null) {
+            SetPenColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+        }
+    }
+
+    /**
+     * Sets the color for stroking operations.
+     * The pen color is used when drawing lines and splines.
+     *
+     * @param r the red component is float value from 0.0f to 1.0f.
+     * @param g the green component is float value from 0.0f to 1.0f.
+     * @param b the blue component is float value from 0.0f to 1.0f.
+     */
+    public void SetPenColor(float r, float g, float b) {
+        Append(r);
+        Append(' ');
+        Append(g);
+        Append(' ');
+        Append(b);
+        Append(" RG\n");
     }
 
     public float[] GetPenColor() {

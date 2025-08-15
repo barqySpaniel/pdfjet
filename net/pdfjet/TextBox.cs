@@ -741,9 +741,9 @@ public class TextBox : IDrawable {
                     page.SetBrushColor(background);
                     page.FillRect(x, y, width, (lines.Length * leading - spacing) + 2*margin);
                 }
-                page.SetPenColor(this.strokeColor);
                 page.SetBrushColor(this.fillColor);
                 page.SetPenWidth(this.font.underlineThickness);
+                page.SetPenColor(this.strokeColor);
             }
             float xText = x + margin;
             float yText = y + margin + font.ascent;
