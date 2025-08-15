@@ -153,10 +153,7 @@ public class TextFrame : IDrawable {
 
     private void DrawBorder(Page page) {
         if (page != null && border) {
-            Rect rect = new Rect();
-            rect.SetLocation(x, y);
-            rect.SetSize(w, h);
-            rect.DrawOn(page);
+            (new Rect(x, y, w, h)).DrawOn(page);
         }
     }
 
