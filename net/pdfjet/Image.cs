@@ -348,34 +348,7 @@ public class Image : IDrawable {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
 
-        // Move the image to the desired location. This command is executed last!
-        page.Append("1 0 0 1 ");
-        page.Append(x + w/2);
-        page.Append(" ");
-        page.Append((page.height - y) - h/2);
-        page.Append(" cm\n");
-
-        // Rotate the image. This command is executed second.
-        double alpha = degrees * (Math.PI / 180);
-        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray((float) Math.Sin(alpha)));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray((float) -Math.Sin(alpha)));
-        page.Append(" ");
-        page.Append(FastFloat.ToByteArray((float) Math.Cos(alpha)));
-        page.Append(" 0 0 cm\n");
-
-        // Move the center of the image to 0, 0. This command is executed first!
-        page.Append(w);
-        page.Append(" 0 0 ");
-        page.Append(h);
-        page.Append(" ");
-        page.Append(-w/2);
-        page.Append(" ");
-        page.Append(-h/2);
-        page.Append(" cm\n");
-
+        page.ScaleAndRotate(x, y, w, h, degrees);
         page.Append("/Im");
         page.Append(objNumber);
         page.Append(" Do\n");

@@ -1902,5 +1902,42 @@ public class Page {
             Append("> Tj\n");
         }
     }
+
+    internal void ScaleAndRotate(float x, float y, float w, float h, float degrees) {
+        // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
+
+        // [FINAL POSITIONING - Applied First]
+        // Moves rotated/scaled image to target (x,y) on page
+        Append("1 0 0 1 ");
+        Append(x + w/2);
+        Append(" ");
+        Append((height - y) - h/2);
+        Append(" cm\n");
+
+        // [ROTATION - Applied Second]
+        // Rotates around current origin (0,0) by 'degrees'
+        double radians = degrees * (Math.PI / 180);
+        float cos = (float)Math.Cos(radians);
+        float sin = (float)Math.Sin(radians);
+        Append(FastFloat.ToByteArray(cos));
+        Append(" ");
+        Append(FastFloat.ToByteArray(sin));
+        Append(" ");
+        Append(FastFloat.ToByteArray(-sin));
+        Append(" ");
+        Append(FastFloat.ToByteArray(cos));
+        Append(" 0 0 cm\n");
+
+        // [ORIGIN SETUP - Applied Last]
+        // Centers image at (0,0) and sets scale
+        Append(w);
+        Append(" 0 0 ");
+        Append(h);
+        Append(" ");
+        Append(-w/2);
+        Append(" ");
+        Append(-h/2);
+        Append(" cm\n");
+    }
 }   // End of Page.cs
 }   // End of namespace PDFjet.NET
