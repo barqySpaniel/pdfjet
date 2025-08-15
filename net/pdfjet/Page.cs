@@ -1150,11 +1150,16 @@ public class Page {
 
         if (brushColor != null) {
             SetBrushColor(brushColor);
-            Append("f\n");
         }
         if (penColor != null) {
             SetPenWidth(penWidth);
             SetPenColor(penColor);
+        }
+        if (brushColor != null && penColor != null) {
+            Append("B\n");
+        } else if (brushColor != null && penColor == null) {
+            Append("f\n");
+        } else if (brushColor == null && penColor != null) {
             Append("S\n");
         }
     }

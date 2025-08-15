@@ -165,9 +165,6 @@ public class Ellipse  : IDrawable {
         page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
 
-        page.SetBrushColor(fillColor);
-        page.SetPenWidth(strokeWidth);
-        page.SetPenColor(strokeColor);
         float centerX = x + r1/2;
         float centerY = (page.height - y) - r2/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
