@@ -52,11 +52,17 @@ public class Point : IDrawable {
     internal float y;
     internal float r = 2f;
     internal int shape = Point.CIRCLE;
-    internal int color = Color.black;
-    internal uint align = Align.RIGHT;
-    internal float lineWidth = 0f;
+
+    internal float[] fillColor;
+    internal float strokeWidth;
+    internal float[] strokeColor;
+
+    internal Alignment alignment = Alignment.RIGHT;
+//     internal float lineWidth = 0f;
+
+
     internal String linePattern = "[] 0";
-    internal bool fillShape = false;
+    // internal bool fillShape = false;
     internal bool isControlPoint = false;
     internal bool drawPath = false;
 
@@ -69,7 +75,6 @@ public class Point : IDrawable {
 
     /**
      *  The default constructor.
-     *
      */
     public Point() {
     }
@@ -233,6 +238,52 @@ public class Point : IDrawable {
         return r;
     }
 
+
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetFillColor(r, g, b);
+    }
+
+    public void SetFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void SetFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
+    }
+
+    public void SetStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
+
+    public float[] GetFillColor() {
+        return this.fillColor;
+    }
+
+    public void SetStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetStrokeColor(r, g, b);
+    }
+
+    public void SetStrokeColor(float r, float g, float b) {
+        this.strokeColor = new float[] {r, g, b};
+    }
+
+    public void SetStrokeColor(float[] rgbColor) {
+        this.strokeColor = rgbColor;
+    }
+
+    public float[] GetStrokeColor() {
+        return this.strokeColor;
+    }
+
+
+
+
     /**
      *  Sets the shape of this point.
      *
@@ -268,59 +319,12 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets the private fillShape variable.
-     *
-     *  @param fillShape if true - fill the point with the specified brush color.
-     */
-    public void SetFillShape(bool fillShape) {
-        this.fillShape = fillShape;
-    }
-
-    /**
-     *  Returns the value of the fillShape private variable.
-     *
-     *  @return the value of the private fillShape variable.
-     */
-    public bool GetFillShape() {
-        return fillShape;
-    }
-
-    /**
-     *  Sets the pen color for this point.
-     *
-     *  @param color the color specified as an integer.
-     *  @return the point.
-     */
-    public Point SetColor(int color) {
-        this.color = color;
-        return this;
-    }
-
-    /**
-     *  Returns the point color as an integer.
-     *
-     *  @return the color.
-     */
-    public int GetColor() {
-        return color;
-    }
-
-    /**
      *  Sets the width of the lines of this point.
      *
-     *  @param lineWidth the line width.
+     *  @param width the line width.
      */
-    public void SetLineWidth(double lineWidth) {
-        this.lineWidth = (float) lineWidth;
-    }
-
-    /**
-     *  Sets the width of the lines of this point.
-     *
-     *  @param lineWidth the line width.
-     */
-    public void SetLineWidth(float lineWidth) {
-        this.lineWidth = lineWidth;
+    public void SetStrokeWidth(double width) {
+        this.strokeWidth = (float) width;
     }
 
     /**
@@ -328,8 +332,8 @@ public class Point : IDrawable {
      *
      *  @return the width of the lines used to draw this point.
      */
-    public float GetLineWidth() {
-        return lineWidth;
+    public float GetStrokeWidth() {
+        return strokeWidth;
     }
 
     /**
@@ -456,17 +460,17 @@ public class Point : IDrawable {
      *
      *  @param align the alignment value.
      */
-    public void SetAlignment(uint align) {
-        this.align = align;
+    public void SetAlignment(Alignment alignment) {
+        this.alignment = alignment;
     }
 
     /**
      *  Returns the point alignment.
      *
-     *  @return align the alignment value.
+     *  @return Alignment the alignment value.
      */
-    public uint GetAlignment() {
-        return this.align;
+    public Alignment GetAlignment() {
+        return this.alignment;
     }
 
     /**
@@ -515,18 +519,18 @@ public class Point : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-        page.SetPenWidth(lineWidth);
-        page.SetLinePattern(linePattern);
-
-        if (fillShape) {
-            page.SetBrushColor(color);
-        } else {
-            page.SetPenColor(color);
-        }
+//        page.SetPenWidth(lineWidth);
+//        page.SetLinePattern(linePattern);
+//
+//        if (fillShape) {
+//            page.SetBrushColor(color);
+//        } else {
+//            page.SetPenColor(color);
+//        }
 
         x += xBox;
         y += yBox;
-        page.DrawPoint(this);
+        page.DrawPoint(this, fillColor, strokeWidth, strokeColor);
         x -= xBox;
         y -= yBox;
 

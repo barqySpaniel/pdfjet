@@ -52,20 +52,21 @@ public class Example_05 {
         text.SetLocation(150f, 70f);
         text.DrawOn(page);
 
-        Point point = new Point(300f, 300f);
-        point.SetShape(Point.CIRCLE);
-        point.SetFillShape(true);
-        point.SetColor(Color.blue);
-        point.SetRadius(37f);
-        point.DrawOn(page);
-        point.SetRadius(25f);
-        point.SetColor(Color.white);
-        point.DrawOn(page);
+//        Point point = new Point(300f, 300f);
+//        point.SetShape(Point.CIRCLE);
+//        point.SetFillShape(true);
+//        point.SetColor(Color.blue);
+//        point.SetRadius(37f);
+//        point.DrawOn(page);
+//        point.SetRadius(25f);
+//        point.SetColor(Color.white);
+//        point.DrawOn(page);
 
         Ellipse ellipse = new Ellipse(300f, 600f, 100f, 50f);
         ellipse.SetFillColor(Color.azure);
         ellipse.SetStrokeWidth(0.5f);
         ellipse.SetStrokeColor(Color.blue);
+        ellipse.SetScaleFactor(2.0f);
         ellipse.SetRotationAngle(15);
         ellipse.DrawOn(page);
 

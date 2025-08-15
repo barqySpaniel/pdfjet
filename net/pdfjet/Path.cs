@@ -33,11 +33,17 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class Path : IDrawable {
     private float[] color = new float[] {0f, 0f, 0f};   // Black color
-    private float width = 0f;
-    private String pattern = "[] 0";
-    private bool fillShape = false;
-    private bool closePath = false;
+
+
+    // private bool fillShape = false;
+    // private bool closePath = false;
+
     private List<Point> points = null;
+    private float[] fillColor;
+    private float strokeWidth;
+    private float[] strokeColor;
+    private String strokePattern = "[] 0";
+
     private float xBox;
     private float yBox;
     private CapStyle lineCapStyle = CapStyle.BUTT;
@@ -91,8 +97,8 @@ public class Path : IDrawable {
      *
      *  @param pattern the line dash pattern.
      */
-    public void SetPattern(String pattern) {
-        this.pattern = pattern;
+    public void SetStrokePattern(String pattern) {
+        this.strokePattern = pattern;
     }
 
     /**
@@ -100,17 +106,8 @@ public class Path : IDrawable {
      *
      *  @param width the pen width.
      */
-    public void SetWidth(double width) {
-        this.width = (float) width;
-    }
-
-    /**
-     *  Sets the pen width that will be used to draw the lines and splines that are part of this path.
-     *
-     *  @param width the pen width.
-     */
-    public void SetWidth(float width) {
-        this.width = width;
+    public void SetStrokeWidth(double width) {
+        this.strokeWidth = (float) width;
     }
 
     /**
@@ -118,38 +115,41 @@ public class Path : IDrawable {
      *
      *  @param color the color is specified as an integer.
      */
-    public void SetColor(int color) {
+    public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetColor(r, g, b);
+        SetFillColor(r, g, b);
     }
 
-    public void SetColor(float r, float g, float b) {
-        this.color = new float[] {r, g, b};
+    public void SetFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
     }
 
-    public void SetColor(float[] rgbColor) {
-        this.color = rgbColor;
+    public void SetFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
     }
 
-    /**
-     *  Sets the closePath variable.
-     *
-     *  @param closePath if closePath is true a line will be draw between the first and last point of this path.
-     */
-    public void SetClosePath(bool closePath) {
-        this.closePath = closePath;
+    public void SetStrokeWidth(float width) {
+        this.strokeWidth = width;
     }
 
-    /**
-     *  Sets the fillShape private variable. If fillShape is true - the shape of the path will be filled with the current brush color.
-     *
-     *  @param fillShape the fillShape flag.
-     */
-    public void SetFillShape(bool fillShape) {
-        this.fillShape = fillShape;
+    public void SetStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetStrokeColor(r, g, b);
     }
+
+    public void SetStrokeColor(float r, float g, float b) {
+        this.strokeColor = new float[] {r, g, b};
+    }
+
+    public void SetStrokeColor(float[] rgbColor) {
+        this.strokeColor = rgbColor;
+    }
+
+
 
     /**
      *  Sets the line cap style.
@@ -324,21 +324,20 @@ public class Path : IDrawable {
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
+        page.DrawPath(points, fillColor, strokeWidth, strokeColor);
 
-        if (fillShape) {
-            page.SetBrushColor(color);
-            page.DrawPath(points, Operation.FILL);
-        }
-        page.SetPenWidth(width);
-        page.SetPenColor(color);
-        page.SetLinePattern(pattern);
-        page.SetLineCapStyle(lineCapStyle);
-        page.SetLineJoinStyle(lineJoinStyle);
-        if (closePath) {
-            page.DrawPath(points, Operation.CLOSE);
-        } else {
-            page.DrawPath(points, Operation.STROKE);
-        }
+
+//        page.SetBrushColor(color);
+//        page.SetPenWidth(width);
+//        page.SetPenColor(color);
+//        page.SetLinePattern(pattern);
+//        page.SetLineCapStyle(lineCapStyle);
+//        page.SetLineJoinStyle(lineJoinStyle);
+//        if (closePath) {
+//            page.DrawPath(points, Operation.CLOSE);
+//        } else {
+//            page.DrawPath(points, Operation.STROKE);
+//        }
 
         page.Append("Q\n");
         page.AddEMC();

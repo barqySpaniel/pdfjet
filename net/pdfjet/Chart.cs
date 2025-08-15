@@ -328,7 +328,7 @@ public class Chart : IDrawable {
                 if (xyChart) {
                     point.x = x5 + (point.x - xMin) * (x6 - x5) / (xMax - xMin);
                     point.y = y8 - (point.y - yMin) * (y8 - y5) / (yMax - yMin);
-                    point.lineWidth *= (x6 - x5) / w;
+                    point.strokeWidth *= (x6 - x5) / w;
                 } else {
                     point.x = x5 + point.x * (x6 - x5) / w;
                     point.y = y8 - (point.y - yMin) * (y8 - y5) / (yMax - yMin);
@@ -509,24 +509,24 @@ public class Chart : IDrawable {
             List<Point> points = chartData[i];
             Point point = points[0];
             if (point.drawPath) {
-                page.SetPenColor(point.color);
-                page.SetPenWidth(point.lineWidth);
+                page.SetPenColor(point.strokeColor);
+                page.SetPenWidth(point.strokeWidth);
                 page.SetLinePattern(point.linePattern);
-                page.DrawPath(points, Operation.STROKE);
+                // page.DrawPath(points, Operation.STROKE);  // TODO!!!
                 if (point.GetText() != null) {
                     page.SetBrushColor(point.GetTextColor());
                     page.SetTextDirection(point.GetTextDirection());
-                    page.DrawString(f2, point.GetText(), point.x, point.y);
+                    // page.DrawString(f2, point.GetText(), point.x, point.y);
                 }
             }
             for (int j = 0; j < points.Count; j++) {
                 point = points[j];
                 if (point.GetShape() != Point.INVISIBLE) {
-                    page.SetPenWidth(point.lineWidth);
+                    page.SetPenWidth(point.strokeWidth);
                     page.SetLinePattern(point.linePattern);
-                    page.SetPenColor(point.color);
-                    page.SetBrushColor(point.color);
-                    page.DrawPoint(point);
+                    page.SetPenColor(point.strokeColor);
+                    page.SetBrushColor(point.fillColor);
+                    // page.DrawPoint(point);  TODO:
                 }
             }
         }

@@ -263,9 +263,9 @@ public class Table {
         foreach (List<Cell> row in tableData) {
             if (index < row.Count) {
                 Cell cell = row[index];
-                cell.SetBrushColor(color);
+                cell.SetFillColor(color);
                 if (cell.textBox != null) {
-                    cell.textBox.SetBrushColor(color);
+                    cell.textBox.SetFillColor(color);
                 }
             }
         }
@@ -299,9 +299,9 @@ public class Table {
         if (index < tableData.Count) {
             List<Cell> row = tableData[index];
             foreach (Cell cell in row) {
-                cell.SetBrushColor(color);
+                cell.SetFillColor(color);
                 if (cell.textBox != null) {
-                    cell.textBox.SetBrushColor(color);
+                    cell.textBox.SetFillColor(color);
                 }
             }
         }
@@ -455,7 +455,7 @@ public class Table {
                     w += row[j].GetWidth();
                 }
                 if (page != null) {
-                    page.SetBrushColor(cell.GetBrushColor());
+                    page.SetBrushColor(cell.GetFillColor());
                     if (i == (numOfHeaderRows - 1)) {
                         cell.SetBorder(Border.BOTTOM, true);
                     }
@@ -488,7 +488,7 @@ public class Table {
                     w += row[i].GetWidth();
                 }
                 if (page != null) {
-                    page.SetBrushColor(cell.GetBrushColor());
+                    page.SetBrushColor(cell.GetFillColor());
                     cell.DrawOn(page, x, y, w, h);
                 }
                 x += w;
@@ -565,7 +565,7 @@ public class Table {
         for (int i = 0; i < tableData.Count; i++) {
             List<Cell> row = tableData[i];
             for (int j = 0; j < row.Count; j++) {
-                tableData[i][j].SetPenColor(color);
+                tableData[i][j].SetStrokeColor(color);
             }
         }
     }
@@ -684,12 +684,14 @@ public class Table {
                     Cell cell2 = new Cell(cell.GetFont());
                     cell2.SetFallbackFont(cell.GetFallbackFont());
                     cell2.SetWidth(cell.GetWidth());
+                    cell2.SetLineWidth(cell.lineWidth);
                     cell2.SetLeftPadding(cell.leftPadding);
                     cell2.SetRightPadding(cell.rightPadding);
-                    cell2.SetLineWidth(cell.lineWidth);
-                    cell2.SetBgColor(cell.GetBgColor());
-                    cell2.SetPenColor(cell.GetPenColor());
-                    cell2.SetBrushColor(cell.GetBrushColor());
+
+                    cell2.SetFillColor(cell.GetFillColor());
+                    cell2.SetStrokeWidth(cell.GetStrokeWidth());
+                    cell2.SetStrokeColor(cell.GetStrokeColor());
+
                     cell2.SetProperties(cell.GetProperties());
                     cell2.SetVerTextAlignment(cell.GetVerTextAlignment());
                     cell2.SetTopPadding(0f);

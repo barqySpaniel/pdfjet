@@ -35,13 +35,16 @@ namespace PDFjet.NET {
         private Font fallbackFont;
         private string textContent;
         private float lineSpacing = 1.0f;
-        private int? textColor;
+        private float[] textColor;
         private Dictionary<string, int> keywordHighlightColors;
         private float textPadding = 0.0f;
+
         private float[] fillColor;
-        private float borderWidth = 0.0f;
-        private float borderCornerRadius = 0.0f;
+        private float borderWidth = 0f;
         private float[] borderColor;
+
+        private float borderCornerRadius = 0.0f;
+
         private string language = "en-US";
 //        private string altDescription = "";
         private string uri;
@@ -61,7 +64,7 @@ namespace PDFjet.NET {
             this.height = 500.0f;
             this.font = font;
             this.textContent = textContent;
-            this.textColor = Color.black;
+            this.textColor = new float[] {0f, 0f, 0f};      // Black color
             this.borderColor = new float[] {0f, 0f, 0f};    // Black color
         }
 
@@ -148,7 +151,7 @@ namespace PDFjet.NET {
             this.lineSpacing = textLineHeight;
         }
 
-        public void SetTextColor(int textColor) {
+        public void SetTextColor(float[] textColor) {
             this.textColor = textColor;
         }
 
@@ -274,12 +277,13 @@ namespace PDFjet.NET {
                 this.y + this.textPadding,
                 leading * this.lineSpacing,
                 this.textDirection,
-                this.textColor.Value,
-                keywordHighlightColors);
+                this.textColor,
+                this.keywordHighlightColors);
             page.AddEMC();
 
             Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
             rect.SetFillColor(this.fillColor);
+            rect.SetBorderWidth(this.borderWidth);
             rect.SetBorderColor(this.borderColor);
             rect.SetCornerRadius(this.borderCornerRadius);
             rect.DrawOn(page);

@@ -56,8 +56,11 @@ public class TextBox : IDrawable {
     internal float lineWidth = 0f;
 
     private int background = Color.transparent;
-    private int pen = Color.black;
-    private int brush = Color.black;
+    private float[] fillColor = new float[] {0f, 0f, 0f};
+    private float strokeWidth;
+    private float[] strokeColor;
+
+
     private uint valign = Align.TOP;
     private Dictionary<String, Int32> colors = null;
     // TextBox properties
@@ -359,143 +362,52 @@ public class TextBox : IDrawable {
         return spacing;
     }
 
-    /**
-     *  Sets the background to the specified color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void SetBgColor(int color) {
-        this.background = color;
+
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetFillColor(r, g, b);
     }
 
-    /**
-     *  Sets the background to the specified color.
-     *
-     *  @param color the color specified as array of integer values from 0x00 to 0xFF.
-     */
-    public void SetBgColor(int[] color) {
-        this.background = color[0] << 16 | color[1] << 8 | color[2];
+    public void SetFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
     }
 
-    /**
-     *  Sets the background to the specified color.
-     *
-     *  @param color the color specified as array of double values from 0.0 to 1.0.
-     */
-    public void SetBgColor(double[] color) {
-        SetBgColor(new int[] { (int) color[0], (int) color[1], (int) color[2] });
+    public void SetFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
     }
 
-    /**
-     *  Returns the background color.
-     *
-     * @return int the color as 0xRRGGBB integer.
-     */
-    public int GetBgColor() {
-        return this.background;
+    public float[] GetFillColor() {
+        return fillColor;
     }
 
-    /**
-     *  Sets the pen and brush colors to the specified color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void SetFgColor(int color) {
-        this.pen = color;
-        this.brush = color;
+    public void SetStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
 
-    /**
-     *  Sets the pen and brush colors to the specified color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void SetFgColor(int[] color) {
-        this.pen = color[0] << 16 | color[1] << 8 | color[2];
-        this.brush = pen;
+
+    public void SetStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetStrokeColor(r, g, b);
     }
 
-    /**
-     *  Sets the foreground pen and brush colors to the specified color.
-     *
-     *  @param color the color specified as an array of double values from 0.0 to 1.0.
-     */
-    public void SetFgColor(double[] color) {
-        SetPenColor(new int[] { (int) color[0], (int) color[1], (int) color[2] });
-        SetBrushColor(pen);
+    public void SetStrokeColor(float r, float g, float b) {
+        this.strokeColor = new float[] {r, g, b};
     }
 
-    /**
-     *  Sets the pen color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void SetPenColor(int color) {
-        this.pen = color;
+    public void SetStrokeColor(float[] rgbColor) {
+        this.strokeColor = rgbColor;
     }
 
-    /**
-     *  Sets the pen color.
-     *
-     *  @param color the color specified as an array of int values from 0x00 to 0xFF.
-     */
-    public void SetPenColor(int[] color) {
-        this.pen = color[0] << 16 | color[1] << 8 | color[2];
+    public float[] GetStrokeColor() {
+        return strokeColor;
     }
 
-    /**
-     *  Sets the pen color.
-     *
-     *  @param color the color specified as an array of double values from 0.0 to 1.0.
-     */
-    public void SetPenColor(double[] color) {
-        SetPenColor(new int[] { (int) color[0], (int) color[1], (int) color[2] });
-    }
 
-    /**
-     *  Returns the pen color as 0xRRGGBB integer.
-     *
-     * @return int the pen color.
-     */
-    public int GetPenColor() {
-        return this.pen;
-    }
 
-    /**
-     *  Sets the brush color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void SetBrushColor(int color) {
-        this.brush = color;
-    }
-
-    /**
-     *  Sets the brush color.
-     *
-     *  @param color the color specified as an array of int values from 0x00 to 0xFF.
-     */
-    public void SetBrushColor(int[] color) {
-        this.brush = color[0] << 16 | color[1] << 8 | color[2];
-    }
-
-    /**
-     *  Sets the brush color.
-     *
-     *  @param color the color specified as an array of double values from 0.0 to 1.0.
-     */
-    public void SetBrushColor(double[] color) {
-        SetBrushColor(new int [] { (int) color[0], (int) color[1], (int) color[2] });
-    }
-
-    /**
-     * Returns the brush color.
-     *
-     * @return int the brush color specified as 0xRRGGBB integer.
-     */
-    public int GetBrushColor() {
-        return this.brush;
-    }
 
     /**
      *  Sets the TextBox border properties.
@@ -650,7 +562,7 @@ public class TextBox : IDrawable {
     }
 
     private void DrawBorders(Page page) {
-        page.SetPenColor(pen);
+        page.SetPenColor(strokeColor);
         page.SetPenWidth(lineWidth);
 
         if (GetBorder(Border.ALL)) {
@@ -778,12 +690,12 @@ public class TextBox : IDrawable {
                 }
             }
             if (page != null) {
-                if (GetBgColor() != Color.transparent) {
-                    page.SetBrushColor(background);
+                if (fillColor != null) {
+                    page.SetBrushColor(fillColor);
                     page.FillRect(x, y, width, height);
                 }
-                page.SetPenColor(this.pen);
-                page.SetBrushColor(this.brush);
+                page.SetPenColor(this.strokeColor);
+                page.SetBrushColor(this.fillColor);
                 page.SetPenWidth(this.font.underlineThickness);
             }
             float xText = x + margin;
@@ -814,7 +726,7 @@ public class TextBox : IDrawable {
                     xText = y + margin;
                 }
                 if (page != null) {
-                    DrawTextLine(page, font, fallbackFont, line, xText, yText, brush, colors);
+                    DrawTextLine(page, font, fallbackFont, line, xText, yText, fillColor, colors);
                 }
                 if (textDirection == Direction.LEFT_TO_RIGHT ||
                         textDirection == Direction.BOTTOM_TO_TOP) {
@@ -825,12 +737,12 @@ public class TextBox : IDrawable {
             }
         } else {            // TextBox that expands to fit the content
             if (page != null) {
-                if (GetBgColor() != Color.transparent) {
+                if (fillColor != null) {
                     page.SetBrushColor(background);
                     page.FillRect(x, y, width, (lines.Length * leading - spacing) + 2*margin);
                 }
-                page.SetPenColor(this.pen);
-                page.SetBrushColor(this.brush);
+                page.SetPenColor(this.strokeColor);
+                page.SetBrushColor(this.fillColor);
                 page.SetPenWidth(this.font.underlineThickness);
             }
             float xText = x + margin;
@@ -848,7 +760,7 @@ public class TextBox : IDrawable {
                     xText = x + margin;
                 }
                 if (page != null) {
-                    DrawTextLine(page, font, fallbackFont, line, xText, yText, brush, colors);
+                    DrawTextLine(page, font, fallbackFont, line, xText, yText, fillColor, colors);
                 }
                 if (textDirection == Direction.LEFT_TO_RIGHT ||
                         textDirection == Direction.BOTTOM_TO_TOP) {
@@ -885,7 +797,7 @@ public class TextBox : IDrawable {
             String text,
             float xText,
             float yText,
-            int color,
+            float[] color,
             Dictionary<String, Int32> colors) {
         page.AddBMC(StructElem.P, language, text, altDescription);
         if (textDirection == Direction.LEFT_TO_RIGHT) {

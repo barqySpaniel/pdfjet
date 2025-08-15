@@ -43,11 +43,13 @@ public class Cell {
     internal float bottomPadding = 2f;
     internal float leftPadding = 2f;
     internal float rightPadding = 2f;
+
     internal float lineWidth = 0f;
 
-    private int background = -1;
-    private int pen = Color.black;
-    private int brush = Color.black;
+    internal float[] fillColor;
+    internal float strokeWidth;
+    internal float[] strokeColor;
+
     // Cell properties
     // Colspan:
     // bits 0 to 15
@@ -317,65 +319,69 @@ public class Cell {
     }
 
     /**
-     *  Sets the background to the specified color.
-     *
-     *  @param color the color specified as an integer.
-     */
-    public void SetBgColor(int color) {
-        this.background = color;
-    }
-
-    /**
-     *  Returns the background color of this cell.
-     *
-     */
-    public int GetBgColor() {
-        return this.background;
-    }
-
-    /**
      *  Sets the pen color.
      *
      *  @param color the color specified as an integer.
      */
-    public void SetPenColor(int color) {
-        this.pen = color;
-    }
+//    public void SetPenColor(int color) {
+//        this.strokeColor = color;
+//    }
 
     /**
      *  Returns the pen color.
      *
      */
-    public int GetPenColor() {
-        return pen;
+//    public int GetPenColor() {
+//        return strokeColor;
+//    }
+
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetFillColor(r, g, b);
     }
 
-    /**
-     *  Sets the brush color.
-     *
-     *  @param color the color specified as an integer.
-     */
-    public void SetBrushColor(int color) {
-        this.brush = color;
+    public void SetFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
     }
 
-    /**
-     *  Returns the brush color.
-     *
-     */
-    public int GetBrushColor() {
-        return brush;
+    public void SetFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
     }
 
-    /**
-     *  Sets the pen and brush colors to the specified color.
-     *
-     *  @param color the color specified as an integer.
-     */
-    public void SetFgColor(int color) {
-        this.pen = color;
-        this.brush = color;
+    public void SetStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
+
+    public float GetStrokeWidth() {
+        return this.strokeWidth;
+    }
+
+
+    public float[] GetFillColor() {
+        return this.fillColor;
+    }
+
+    public void SetStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetStrokeColor(r, g, b);
+    }
+
+    public void SetStrokeColor(float r, float g, float b) {
+        this.strokeColor = new float[] {r, g, b};
+    }
+
+    public void SetStrokeColor(float[] rgbColor) {
+        this.strokeColor = rgbColor;
+    }
+
+    public float[] GetStrokeColor() {
+        return this.strokeColor;
+    }
+
 
     internal void SetProperties(uint properties) {
         this.properties = properties;
@@ -520,7 +526,7 @@ public class Cell {
             float y,
             float w,
             float h) {
-        if (background != -1) {
+        if (fillColor != null) {
             DrawBackground(page, x, y, w, h);
         }
 
@@ -559,13 +565,13 @@ public class Cell {
 
         DrawBorders(page, x, y, w, h);
         if (point != null) {
-            if (point.align == Align.LEFT) {
+            if (point.alignment == Alignment.LEFT) {
                 point.x = x + 2*point.r;
-            } else if (point.align == Align.RIGHT) {
+            } else if (point.alignment == Alignment.RIGHT) {
                 point.x = (x + w) - this.rightPadding/2;
             }
             point.y = y + h/2;
-            page.SetBrushColor(point.GetColor());
+            page.SetBrushColor(point.GetFillColor());
             if (point.GetURIAction() != null) {
                 page.AddAnnotation(new Annotation(
                         point.GetURIAction(),
@@ -578,7 +584,7 @@ public class Cell {
                         null,
                         null));
             }
-            page.DrawPoint(point);
+            page.DrawPoint(point, fillColor, strokeWidth, strokeColor);
         }
     }
 
@@ -588,7 +594,7 @@ public class Cell {
             float y,
             float cellW,
             float cellH) {
-        page.SetBrushColor(background);
+        page.SetBrushColor(fillColor);
         page.FillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth);
     }
 
@@ -598,8 +604,8 @@ public class Cell {
             float y,
             float cellW,
             float cellH) {
-        page.SetPenColor(pen);
         page.SetPenWidth(lineWidth);
+        page.SetPenColor(strokeColor);
         if (GetBorder(Border.TOP) &&
                 GetBorder(Border.BOTTOM) &&
                 GetBorder(Border.LEFT) &&
@@ -658,12 +664,12 @@ public class Cell {
             throw new Exception("Invalid vertical text alignment option.");
         }
 
-        page.SetPenColor(pen);
+        page.SetPenColor(strokeColor);
         if (GetTextAlignment() == Align.RIGHT) {
             if (compositeTextLine == null) {
                 xText = (x + cellW) - (font.StringWidth(text) + this.rightPadding);
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, brush, null);
+                page.DrawString(font, fallbackFont, text, xText, yText, fillColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);
@@ -683,7 +689,7 @@ public class Cell {
                 xText = x + this.leftPadding +
                         (((cellW - (leftPadding + rightPadding)) - font.StringWidth(text)) / 2);
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, brush, null);
+                page.DrawString(font, fallbackFont, text, xText, yText, fillColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);
@@ -703,7 +709,7 @@ public class Cell {
             xText = x + this.leftPadding;
             if (compositeTextLine == null) {
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, brush, null);
+                page.DrawString(font, fallbackFont, text, xText, yText, fillColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);

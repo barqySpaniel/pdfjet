@@ -86,7 +86,7 @@ public class Paragraph {
 
     public void SetColor(int color) {
         foreach (TextLine line in lines) {
-            line.SetColor(color);
+            line.SetTextColor(color);
         }
     }
 

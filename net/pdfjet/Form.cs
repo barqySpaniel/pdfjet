@@ -34,14 +34,14 @@ public class Form : IDrawable {
     private float x;
     private float y;
     private Font f1;
-    private float labelFontSize = 8f;
     private Font f2;
+    private float labelFontSize = 8f;
     private float valueFontSize = 10f;
     private int numberOfRows;
     private float rowLength = 500f;
     private float rowHeight = 12f;
-    private int labelColor = Color.black;
-    private int valueColor = Color.blue;
+    private float[] labelColor = new float[] {0f, 0f, 0f};
+    private float[] valueColor = new float[] {0f, 0f, 1f};
     private List<float[]> endOfLinePoints;
 
     public Form(List<Field> fields) {
@@ -97,12 +97,12 @@ public class Form : IDrawable {
         return this;
     }
 
-    public Form SetLabelColor(int labelColor) {
+    public Form SetLabelColor(float[] labelColor) {
         this.labelColor = labelColor;
         return this;
     }
 
-    public Form SetValueColor(int valueColor) {
+    public Form SetValueColor(float[] valueColor) {
         this.valueColor = valueColor;
         return this;
     }
@@ -155,10 +155,10 @@ public class Form : IDrawable {
                 if (page != null) {
                 Font font = (i == 0) ? f1 : f2;
                 float fontSize = (i == 0) ? labelFontSize : valueFontSize;
-                int color = (i == 0) ? labelColor : valueColor;
+                float[] color = (i == 0) ? labelColor : valueColor;
                     new TextLine(font, field.values[i])
                             .SetFontSize(fontSize)
-                            .SetColor(color)
+                            .SetTextColor(color)
                             .PlaceIn(box, field.x + font.descent, yField - font.descent)
                             .SetAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
                             .DrawOn(page);

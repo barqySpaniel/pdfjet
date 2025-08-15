@@ -44,7 +44,8 @@ public class TextLine : IDrawable {
     private bool strikeout = false;
 
     private int degrees = 0;
-    private int color = Color.black;
+    private float[] textColor = new float[] {0f, 0f, 0f};
+    private float[] lineColor = new float[] {0f, 0f, 0f};
 
     private float xBox;
     private float yBox;
@@ -196,25 +197,53 @@ public class TextLine : IDrawable {
         return this.fallbackFont;
     }
 
-    /**
-     *  Sets the color for this text line.
-     *
-     *  @param color the color specified as an integer.
-     *  @return this TextLine.
-     */
-    public TextLine SetColor(int color) {
-        this.color = color;
+
+    public TextLine SetTextColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetTextColor(r, g, b);
         return this;
     }
 
-    /**
-     *  Returns the text line color.
-     *
-     *  @return the text line color.
-     */
-    public int GetColor() {
-        return color;
+    public TextLine SetTextColor(float r, float g, float b) {
+        this.textColor = new float[] {r, g, b};
+        return this;
     }
+
+    public TextLine SetTextColor(float[] rgbColor) {
+        this.textColor = rgbColor;
+        return this;
+    }
+
+    public float[] GetTextColor() {
+        return textColor;
+    }
+
+    public TextLine SetLineColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetLineColor(r, g, b);
+        return this;
+    }
+
+    public TextLine SetLineColor(float r, float g, float b) {
+        this.lineColor = new float[] {r, g, b};
+        return this;
+    }
+
+    public TextLine SetLineColor(float[] rgbColor) {
+        this.lineColor = rgbColor;
+        return this;
+    }
+
+    public float[] GetLineColor() {
+        return lineColor;
+    }
+
+
+
 
     /**
      * Returns the x coordinate of the destination.
@@ -545,15 +574,15 @@ public class TextLine : IDrawable {
         x += xBox;
         y += yBox;
 
-        page.SetBrushColor(color);
+        page.SetBrushColor(textColor);
         page.AddBMC(structureType, language, text, altDescription);
-        page.DrawString(font, fallbackFont, text, x, y, color, colorMap);
+        page.DrawString(font, fallbackFont, text, x, y, textColor, colorMap);
         page.AddEMC();
 
         double radians = Math.PI * degrees / 180.0;
         if (underline) {
             page.SetPenWidth(font.underlineThickness);
-            page.SetPenColor(color);
+            page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, text);
             double xAdjust = font.underlinePosition * Math.Sin(radians) + verticalOffset;
             double yAdjust = font.underlinePosition * Math.Cos(radians) + verticalOffset;
@@ -568,7 +597,7 @@ public class TextLine : IDrawable {
 
         if (strikeout) {
             page.SetPenWidth(font.underlineThickness);
-            page.SetPenColor(color);
+            page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, text);
             double xAdjust = ( font.bodyHeight / 4.0 ) * Math.Sin(radians);
             double yAdjust = ( font.bodyHeight / 4.0 ) * Math.Cos(radians);

@@ -31,8 +31,10 @@ public class Rect  : IDrawable {
     private float h;
     private float r;
     private float[] fillColor;
-    private float[] borderColor = new float[] {0f, 0f, 0f}; // Black color
-    private float width = 0f;
+    private float borderWidth;
+    private float[] borderColor;
+
+
     private string pattern = "[] 0";
     private string uri;
     private string key;
@@ -79,21 +81,6 @@ public class Rect  : IDrawable {
         this.h = h;
     }
 
-    public void SetBorderColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetBorderColor(r, g, b);
-    }
-
-    public void SetBorderColor(float r, float g, float b) {
-        this.borderColor = new float[] {r, g, b};
-    }
-
-    public void SetBorderColor(float[] rgbColor) {
-        this.borderColor = rgbColor;
-    }
-
     public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
@@ -109,9 +96,26 @@ public class Rect  : IDrawable {
         this.fillColor = rgbColor;
     }
 
-    public void SetLineWidth(float width) {
-        this.width = width;
+    public void SetBorderWidth(float width) {
+        this.borderWidth = width;
     }
+
+    public void SetBorderColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetBorderColor(r, g, b);
+    }
+
+    public void SetBorderColor(float r, float g, float b) {
+        this.borderColor = new float[] {r, g, b};
+    }
+
+    public void SetBorderColor(float[] rgbColor) {
+        this.borderColor = rgbColor;
+    }
+
+
 
     public void SetCornerRadius(float r) {
         this.r = r;
@@ -169,7 +173,7 @@ public class Rect  : IDrawable {
                 page.SetBrushColor(this.fillColor);
                 page.FillPath();
             }
-            page.SetPenWidth(this.width);
+            page.SetPenWidth(this.borderWidth);
             page.SetPenColor(this.borderColor);
             page.SetLinePattern(this.pattern);
             page.ClosePath();
@@ -193,14 +197,8 @@ public class Rect  : IDrawable {
                 new Point((this.x + this.r) - this.r * k, this.y, true),
                 new Point((this.x + this.r), this.y, false)
             };
-            if (this.fillColor != null) {
-                page.SetBrushColor(this.fillColor);
-                page.DrawPath(points, Operation.FILL);
-            }
-            page.SetPenWidth(this.width);
-            page.SetPenColor(this.borderColor);
-            page.SetLinePattern(this.pattern);
-            page.DrawPath(points, Operation.STROKE);
+            // page.SetLinePattern(this.pattern);  // TODO
+            page.DrawPath(points, fillColor, borderWidth, borderColor);
         }
 
         page.Append("Q\n");

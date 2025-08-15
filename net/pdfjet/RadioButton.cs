@@ -154,9 +154,9 @@ public class RadioButton : IDrawable {
         float yBox = y;
         // page.SetLinePattern("[] 0");
         var circle = new Ellipse();
+        circle.SetLocation(x + r1 + penWidth, yBox + r1 + penWidth);
         circle.SetR1(r1);
         circle.SetR2(r1);
-        circle.SetLocation(x + r1 + penWidth, yBox + r1 + penWidth);
         circle.SetStrokeWidth(1f);
         circle.SetStrokeColor(Color.black);
         circle.DrawOn(page);

@@ -263,7 +263,7 @@ public class Page {
             String str,
             float x,
             float y) {
-        DrawString(font, fallbackFont, str, x, y, Color.black, null);
+        DrawString(font, fallbackFont, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
     /**
@@ -284,17 +284,17 @@ public class Page {
             String str,
             float x,
             float y,
-            int brush,
+            float[] textColor,
             Dictionary<String, Int32> colors) {
         if (font.isCoreFont || font.isCJK || fallbackFont == null || fallbackFont.isCoreFont || fallbackFont.isCJK) {
-            DrawString(font, str, x, y, brush, colors);
+            DrawString(font, str, x, y, textColor, colors);
         } else {
             Font activeFont = font;
             StringBuilder buf = new StringBuilder();
             for (int i = 0; i < str.Length; i++) {
                 int ch = str[i];
                 if (activeFont.unicodeToGID[ch] == 0) {
-                    DrawString(activeFont, buf.ToString(), x, y, brush, colors);
+                    DrawString(activeFont, buf.ToString(), x, y, textColor, colors);
                     x += activeFont.StringWidth(buf.ToString());
                     buf.Length = 0;
                     // Switch the font
@@ -306,7 +306,7 @@ public class Page {
                 }
                 buf.Append((char) ch);
             }
-            DrawString(activeFont, buf.ToString(), x, y, brush, colors);
+            DrawString(activeFont, buf.ToString(), x, y, textColor, colors);
         }
     }
 
@@ -333,7 +333,7 @@ public class Page {
             String str,
             float x,
             float y) {
-        DrawString(font, str, x, y, Color.black, null);
+        DrawString(font, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
     /**
@@ -351,8 +351,8 @@ public class Page {
             String str,
             float x,
             float y,
-            int brush,
-            Dictionary<String, Int32> colors) {
+            float[] color,
+            Dictionary<String, Int32> highlightColors) {
         if (str == null || str.Equals("")) {
             return;
         }
@@ -392,8 +392,8 @@ public class Page {
         Append(height - y);
         Append(" Tm\n");
 
-        if (colors == null) {
-            SetBrushColor(brush);
+        if (highlightColors == null) {
+            SetBrushColor(color);
             if (font.isCoreFont) {
                 Append("[<");
                 DrawASCIIString(font, str);
@@ -404,7 +404,7 @@ public class Page {
                 Append("> Tj\n");
             }
         } else {
-            DrawColoredString(font, str, brush, colors);
+            DrawColoredString(font, str, color, highlightColors);
         }
         Append("ET\n");
     }
@@ -445,7 +445,7 @@ public class Page {
             float y,
             float leading,
             Direction direction,
-            Int32 textColor,
+            float[] color,
             Dictionary<String, Int32> highlightColors) {
         if (textLines == null || textLines.Length == 0) {
             return textLines.Length * leading;
@@ -472,12 +472,12 @@ public class Page {
             }
 
             if (highlightColors == null) {
-                SetBrushColor(textColor);
+                SetBrushColor(color);
                 Append("<");
                 DrawUnicodeString(font, textLine.textLine);
                 Append("> Tj\n");
             } else {
-                DrawColoredString(font, textLine.textLine, textColor, highlightColors);
+                DrawColoredString(font, textLine.textLine, color, highlightColors);
             }
 
             if (direction == Direction.LEFT_TO_RIGHT) {
@@ -933,7 +933,11 @@ public class Page {
      *  @param path the path.
      *  @param operation specifies 'stroke' or 'fill' operation.
      */
-    public void DrawPath(List<Point> path, char operation) {
+    public void DrawPath(
+            List<Point> path,
+            float[] brushColor,
+            float penWidth,
+            float[] penColor) {
         if (path.Count < 2) {
             throw new Exception("The Path object must contain at least 2 points");
         }
@@ -956,8 +960,26 @@ public class Page {
                 }
             }
         }
-        Append(operation);
-        Append('\n');
+
+        if (brushColor != null) {
+            SetBrushColor(brushColor);
+        }
+        if (penColor != null) {
+            SetPenWidth(penWidth);
+            SetPenColor(penColor);
+        }
+        if (brushColor != null && penColor != null) {
+            Append("B\n");
+        } else if (brushColor != null && penColor == null) {
+            Append("f\n");
+        } else if (brushColor == null && penColor != null) {
+            Append("S\n");
+        } else {
+            // Both brushColor == null and penColor == null
+            SetPenWidth(0f);
+            SetPenColor(0f, 0f, 0f);
+            Append("S\n");
+        }
     }
 
     /**
@@ -1185,37 +1207,25 @@ public class Page {
      *
      *  @param p the point.
      */
-    public void DrawPoint(Point p) {
+    public void DrawPoint(Point p, float[] fillColor, float strokeWidth, float[] strokeColor) {
         if (p.shape != Point.INVISIBLE) {
             List<Point> list;
             if (p.shape == Point.CIRCLE) {
-                if (p.fillShape) {
-                    DrawCircle(p.x, p.y, p.r, Operation.FILL);
-                } else {
-                    DrawCircle(p.x, p.y, p.r, Operation.STROKE);
-                }
+                DrawCircle(p.x, p.y, p.r, fillColor, strokeWidth, strokeColor);
             } else if (p.shape == Point.DIAMOND) {
                 list = new List<Point>();
                 list.Add(new Point(p.x, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
-                if (p.fillShape) {
-                    DrawPath(list, Operation.FILL);
-                } else {
-                    DrawPath(list, Operation.CLOSE);
-                }
+                DrawPath(list, fillColor, strokeWidth, strokeColor);
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
-                if (p.fillShape) {
-                    DrawPath(list, Operation.FILL);
-                } else {
-                    DrawPath(list, Operation.CLOSE);
-                }
+                DrawPath(list, fillColor, strokeWidth, strokeColor);
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 DrawLine(p.x, p.y - p.r, p.x, p.y + p.r);
@@ -1224,41 +1234,29 @@ public class Page {
                 list.Add(new Point(p.x, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
-                if (p.fillShape) {
-                    DrawPath(list, Operation.FILL);
-                } else {
-                    DrawPath(list, Operation.CLOSE);
-                }
+                list.Add(new Point(p.x, p.y - p.r));
+                DrawPath(list, fillColor, strokeWidth, strokeColor);
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x, p.y + p.r));
-                if (p.fillShape) {
-                    DrawPath(list, Operation.FILL);
-                } else {
-                    DrawPath(list, Operation.CLOSE);
-                }
+                list.Add(new Point(p.x - p.r, p.y - p.r));
+                DrawPath(list, fillColor, strokeWidth, strokeColor);
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
-                if (p.fillShape) {
-                    DrawPath(list, Operation.FILL);
-                } else {
-                    DrawPath(list, Operation.CLOSE);
-                }
+                list.Add(new Point(p.x + p.r, p.y + p.r));
+                DrawPath(list, fillColor, strokeWidth, strokeColor);
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
-                if (p.fillShape) {
-                    DrawPath(list, Operation.FILL);
-                } else {
-                    DrawPath(list, Operation.CLOSE);
-                }
+                list.Add(new Point(p.x - p.r, p.y - p.r));
+                DrawPath(list, fillColor, strokeWidth, strokeColor);
             } else if (p.shape == Point.H_DASH) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
             } else if (p.shape == Point.V_DASH) {
@@ -1285,11 +1283,8 @@ public class Page {
                 list.Add(new Point(p.x - a, p.y - b));
                 list.Add(new Point(p.x + a, p.y - b));
                 list.Add(new Point(p.x - c, p.y + d));
-                if (p.fillShape) {
-                    DrawPath(list, Operation.FILL);
-                } else {
-                    DrawPath(list, Operation.CLOSE);
-                }
+                list.Add(new Point(p.x, p.y - p.r));
+                DrawPath(list, fillColor, strokeWidth, strokeColor);
             }
         }
     }
@@ -1438,7 +1433,15 @@ public class Page {
     // Dominique Andre Gunia <contact@dgunia.de>
     // <<
     public void DrawRectRoundCorners(
-            float x, float y, float w, float h, float r1, float r2, char operation) {
+            float x,
+            float y,
+            float w,
+            float h,
+            float r1,
+            float r2,
+            float[] fillColor,
+            float strokeWidth,
+            float[] strokeColor) {
         // The best 4-spline magic number
         float m4 = 0.55228f;
         List<Point> list = new List<Point>();
@@ -1465,7 +1468,7 @@ public class Page {
         list.Add(new Point(x + r1, y));
         list.Add(new Point(x + w - r1, y));
 
-        DrawPath(list, operation);
+        DrawPath(list, fillColor, strokeWidth, strokeColor);
     }
 
     /**
@@ -1630,14 +1633,14 @@ public class Page {
     private void DrawWord(
             Font font,
             StringBuilder buf,
-            int brush,
-            Dictionary<String, Int32> colors) {
+            float[] color,
+            Dictionary<String, Int32> highlightColors) {
         if (buf.Length > 0) {
             String str = buf.ToString();
-            if (colors.ContainsKey(str.ToLower())) {
-                SetBrushColor(colors[str.ToLower()]);
+            if (highlightColors.ContainsKey(str.ToLower())) {
+                SetBrushColor(highlightColors[str.ToLower()]);
             } else {
-                SetBrushColor(brush);
+                SetBrushColor(color);
             }
             if (font.isCoreFont) {
                 Append("[<");
@@ -1655,22 +1658,22 @@ public class Page {
     internal void DrawColoredString(
             Font font,
             String str,
-            int brush,
-            Dictionary<String, Int32> colors) {
+            float[] color,
+            Dictionary<String, Int32> highlightColors) {
         StringBuilder buf1 = new StringBuilder();
         StringBuilder buf2 = new StringBuilder();
         for (int i = 0; i < str.Length; i++) {
             char ch = str[i];
             if (Char.IsLetterOrDigit(ch)) {
-                DrawWord(font, buf2, brush, colors);
+                DrawWord(font, buf2, color, highlightColors);
                 buf1.Append(ch);
             } else {
-                DrawWord(font, buf1, brush, colors);
+                DrawWord(font, buf1, color, highlightColors);
                 buf2.Append(ch);
             }
         }
-        DrawWord(font, buf1, brush, colors);
-        DrawWord(font, buf2, brush, colors);
+        DrawWord(font, buf1, color, highlightColors);
+        DrawWord(font, buf2, color, highlightColors);
     }
 
     internal void SetStructElementsPageObjNumber(int pageObjNumber) {
@@ -1790,8 +1793,8 @@ public class Page {
         float offset = (hypotenuse - stringWidth) / 2f;
         double angle = Math.Atan(this.height / this.width);
         TextLine watermark = new TextLine(font);
-        watermark.SetColor(Color.lightgrey);
         watermark.SetText(text);
+        watermark.SetTextColor(Color.lightgrey);
         watermark.SetLocation(
                 (float) (offset * Math.Cos(angle)),
                 (this.height - (float) (offset * Math.Sin(angle))));

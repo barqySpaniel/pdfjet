@@ -255,7 +255,7 @@ public class TextColumn : IDrawable {
             for (int j = 0; j < tokens.Length; j++) {
                 String str = tokens[j];
                 text = new TextLine(line.font, str);
-                text.SetColor(line.GetColor());
+                text.SetTextColor(line.GetTextColor());
                 text.SetUnderline(line.GetUnderline());
                 text.SetStrikeout(line.GetStrikeout());
                 text.SetVerticalOffset(line.GetVerticalOffset());
