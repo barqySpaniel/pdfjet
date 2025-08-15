@@ -304,13 +304,18 @@ public class Path : IDrawable {
         page.Append("q\n");
         // page.ScaleAndRotate(x, y, w, h, degrees);
 
-        float centerX = w/2;
-        float centerY = h/2;
+        float centerX = x + w/2;
+        float centerY = (page.height - y) - h/2;
 
         double θ = degrees * Math.PI / 180;
         float cos = (float)Math.Cos(θ);
         float sin = (float)Math.Sin(θ);
-        page.Append($"1 0 0 1 {centerX} {centerY} cm\n");
+        // page.Append($"1 0 0 1 {centerX} {centerY} cm\n");
+        page.Append("1 0 0 1 ");
+        page.Append(centerX);
+        page.Append(" ");
+        page.Append(centerY);
+        page.Append(" cm\n");
         page.Append($"{cos} {sin} {-sin} {cos} 0 0 cm\n");
         page.Append($"1 0 0 1 {-centerX} {-centerY} cm\n");
 
