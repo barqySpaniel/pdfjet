@@ -272,10 +272,10 @@ public class Path : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-        foreach (Point point in points) {
-            point.x += xBox;
-            point.y += yBox;
-        }
+//        foreach (Point point in points) {
+//            point.x += xBox;
+//            point.y += yBox;
+//        }
 
         float x = float.MaxValue;
         float y = float.MaxValue;
@@ -298,10 +298,21 @@ public class Path : IDrawable {
         Console.WriteLine(y);
         Console.WriteLine(w);
         Console.WriteLine(h);
+        Console.WriteLine(degrees);
 
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
         // page.ScaleAndRotate(x, y, w, h, degrees);
+
+        float centerX = w/2;
+        float centerY = h/2;
+
+        double θ = degrees * Math.PI / 180;
+        float cos = (float)Math.Cos(θ);
+        float sin = (float)Math.Sin(θ);
+        page.Append($"1 0 0 1 {centerX} {centerY} cm\n");
+        page.Append($"{cos} {sin} {-sin} {cos} 0 0 cm\n");
+        page.Append($"1 0 0 1 {-centerX} {-centerY} cm\n");
 
         if (fillShape) {
             page.SetBrushColor(color);
