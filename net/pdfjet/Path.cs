@@ -318,7 +318,7 @@ public class Path : IDrawable {
         float w = xMax - x;
         float h = yMax - y;
 
-        // page.AddBMC(StructElem.P, language, actualText, altDescription);
+        page.AddBMC(StructElem.P, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
 
         float centerX = x + w/2;
@@ -341,7 +341,7 @@ public class Path : IDrawable {
         }
 
         page.Append("Q\n");
-        // page.AddEMC();
+        page.AddEMC();
 
         if (uri != null || key != null) {
             page.AddAnnotation(new Annotation(
