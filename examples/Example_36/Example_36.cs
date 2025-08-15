@@ -28,8 +28,7 @@ public class Example_36 {
         image1.ScaleBy(2f/3f);
         image1.DrawOn(page1);
 
-        text.SetText(
-                "JPG image file embedded once and drawn 3 times");
+        text.SetText("JPG image drawn 2 times");
         text.SetLocation(90f, 550f);
         text.DrawOn(page1);
 
@@ -37,17 +36,11 @@ public class Example_36 {
         image2.ScaleBy(0.5f);
         image2.DrawOn(page1);
 
-        image2.SetLocation(260f, 560f);
-        // image2.ScaleBy(0.5f);
-        image2.RotateBy(90);
+        image2.SetLocation(270f, 560f);
+        image2.RotateBy(45);
         image2.DrawOn(page1);
 
-        // image2.SetLocation(350f, 560f);
-        // image2.ScaleBy(0.5f);
-        // image2.DrawOn(page1);
-
-        image3.SetLocation(450f, 600f);
-        // image3.ScaleBy(0.5f);
+        image3.SetLocation(470f, 600f);
         image3.DrawOn(page1);
 
         Page page2 = new Page(pdf, A4.PORTRAIT, Page.DETACHED);
