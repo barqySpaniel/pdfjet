@@ -157,59 +157,17 @@ public class Ellipse  : IDrawable {
     }
 
     public void RotateBy(int degrees) {
-        this.degrees = degrees;
+        this.degrees = -degrees;
     }
 
     public float[] DrawOn(Page page) {
         page.AddBMC(this.structureType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
 
-        page.RotateAroundCenter(x, y, 45);
+        float centerX = x + w/2;
+        float centerY = (page.height - y) - h/2;
+        page.RotateAroundCenter(centerX, centerY, degrees);
         page.DrawEllipse(x, y, w, h);
-
-
-//        if (this.r == 0.0f) {
-//            page.MoveTo(this.x, this.y);
-//            page.LineTo(this.x + this.w, this.y);
-//            page.LineTo(this.x + this.w, this.y + this.h);
-//            page.LineTo(this.x, this.y + this.h);
-//            if (this.fillColor != null) {
-//                page.SetBrushColor(this.fillColor);
-//                page.FillPath();
-//            }
-//            page.SetPenWidth(this.width);
-//            page.SetPenColor(this.borderColor);
-//            page.SetLinePattern(this.pattern);
-//            page.ClosePath();
-//        } else {
-//            List<Point> points = new List<Point> {
-//                new Point((this.x + this.r), this.y, false),
-//                new Point((this.x + this.w) - this.r, this.y, false),
-//                new Point((this.x + this.w - this.r) + this.r * k, this.y, true),
-//                new Point((this.x + this.w), (this.y + this.r) - this.r * k, true),
-//                new Point((this.x + this.w), (this.y + this.r), false),
-//                new Point((this.x + this.w), (this.y + this.h) - this.r, false),
-//                new Point((this.x + this.w), ((this.y + this.h) - this.r) + this.r * k, true),
-//                new Point(((this.x + this.w) - this.r) + this.r * k, (this.y + this.h), true),
-//                new Point(((this.x + this.w) - this.r), (this.y + this.h), false),
-//                new Point((this.x + this.r), (this.y + this.h), false),
-//                new Point(((this.x + this.r) - this.r * k), (this.y + this.h), true),
-//                new Point(this.x, ((this.y + this.h) - this.r) + this.r * k, true),
-//                new Point(this.x, (this.y + this.h) - this.r, false),
-//                new Point(this.x, (this.y + this.r), false),
-//                new Point(this.x, (this.y + this.r) - this.r * k, true),
-//                new Point((this.x + this.r) - this.r * k, this.y, true),
-//                new Point((this.x + this.r), this.y, false)
-//            };
-//            if (this.fillColor != null) {
-//                page.SetBrushColor(this.fillColor);
-//                page.DrawPath(points, Operation.FILL);
-//            }
-//            page.SetPenWidth(this.width);
-//            page.SetPenColor(this.borderColor);
-//            page.SetLinePattern(this.pattern);
-//            page.DrawPath(points, Operation.STROKE);
-//        }
 
         page.Append("Q\n");
         page.AddEMC();

@@ -66,7 +66,7 @@ public class Example_05 {
         // page.DrawEllipse(300f, 600f, 100f, 50f);
 
         Ellipse ellipse = new Ellipse(300f, 600f, 100f, 50f);
-        ellipse.RotateBy(45);
+        ellipse.RotateBy(15);
         ellipse.DrawOn(page);
 
         f1.SetSize(14f);
