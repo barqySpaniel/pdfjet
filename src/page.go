@@ -1512,3 +1512,66 @@ func (page *Page) appendByte(b byte) {
 func (page *Page) appendByteArray(a []byte) {
 	page.buf = append(page.buf, a...)
 }
+
+func (page *Page) ScaleAndRotate(x, y, w, h, degrees float32) {
+    // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
+
+    // [FINAL POSITIONING - Applied First]
+    // Moves rotated/scaled image to target (x,y) on page
+    page.appendString("1 0 0 1 ")
+    page.appendFloat32(x + w/2)
+    page.appendString(" ")
+    page.appendFloat32((page.height - y) - h/2)
+    page.appendString(" cm\n")
+
+    // [ROTATION - Applied Second]
+    // Rotates around current origin (0,0) by 'degrees'
+    radians := degrees * (math.Pi / 180)
+    cos := float32(math.Cos(float64(radians)))
+    sin := float32(math.Sin(float64(radians)))
+    page.appendByteArray(fastfloat.ToByteArray(cos))
+    page.appendString(" ")
+    page.appendByteArray(fastfloat.ToByteArray(sin))
+    page.appendString(" ")
+    page.appendByteArray(fastfloat.ToByteArray(-sin))
+    page.appendString(" ")
+    page.appendByteArray(fastfloat.ToByteArray(cos))
+    page.appendString(" 0 0 cm\n")
+
+    // [ORIGIN SETUP - Applied Last]
+    // Centers image at (0,0) and sets scale
+    page.appendFloat32(w);
+    page.appendString(" 0 0 ");
+    page.appendFloat32(h);
+    page.appendString(" ");
+    page.appendFloat32(-w/2);
+    page.appendString(" ");
+    page.appendFloat32(-h/2);
+    page.appendString(" cm\n");
+}
+
+func (page *Page) RotateAroundCenter(centerX, centerY, degrees float32) {
+    page.appendString("1 0 0 1 ")
+    page.appendFloat32(centerX)
+    page.appendString(" ")
+    page.appendFloat32(centerY)
+    page.appendString(" cm\n")
+
+    radians := degrees * (math.Pi / 180)
+    cos := float32(math.Cos(float64(radians)))
+    sin := float32(math.Sin(float64(radians)))
+    page.appendByteArray(fastfloat.ToByteArray(cos))
+    page.appendString(" ")
+    page.appendByteArray(fastfloat.ToByteArray(sin))
+    page.appendString(" ")
+    page.appendByteArray(fastfloat.ToByteArray(-sin))
+    page.appendString(" ")
+    page.appendByteArray(fastfloat.ToByteArray(cos))
+    page.appendString(" 0 0 cm\n")
+
+    page.appendString("1 0 0 1 ")
+    page.appendFloat32(-centerX)
+    page.appendString(" ")
+    page.appendFloat32(-centerY)
+    page.appendString(" cm\n")
+}
