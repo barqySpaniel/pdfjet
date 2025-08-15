@@ -271,8 +271,8 @@ public class Path : IDrawable {
      *
      *  @param factor the specified factor.
      */
-    public void ScaleBy(double factor) {
-        ScaleBy((float) factor);
+    public void SetScaleFactor(double factor) {
+        SetScaleFactor((float) factor);
     }
 
     /**
@@ -280,7 +280,7 @@ public class Path : IDrawable {
      *
      *  @param factor the specified factor.
      */
-    public void ScaleBy(float factor) {
+    public void SetScaleFactor(float factor) {
         for (int i = 0; i < points.Count; i++) {
             Point point = points[i];
             point.x *= factor;

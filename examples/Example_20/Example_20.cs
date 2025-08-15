@@ -83,12 +83,13 @@ class Example_20 {
         path.Add(new Point( 7.5f,  3.5f));
 
         path.Add(new Point(10.0f,  4.5f));
-        path.SetClosePath(true);
-        path.SetColor(Color.red);
+        path.Add(new Point(12.5f,  0.0f));
+        // path.SetClosePath(true);
+        path.SetStrokeColor(Color.red);
         // path.SetFillShape(true);
         path.SetLocation(50f, 50f);
-        path.ScaleBy(10f);
-        path.RotateBy(45);
+        path.SetScaleFactor(10f);
+//        path.RotateBy(45);
         path.DrawOn(page);
 
         page = new Page(pdf, Letter.PORTRAIT);
