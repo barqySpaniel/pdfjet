@@ -13,6 +13,7 @@ public class Example_16 {
                 new FileStream("Example_16.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
+        f1.SetSize(15f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
@@ -32,16 +33,12 @@ public class Example_16 {
         text.SetLocation(50f, 300f);
         text.DrawOn(page);
 */
-        String latinText = File.ReadAllText("data/languages/english.txt");
-
-        f1.SetSize(15f);
-        TextBox textBox = new TextBox(f1, latinText);
+        TextBox textBox = new TextBox(f1, Content.OfTextFile("data/languages/english.txt"));
         textBox.SetLocation(100f, 50f);
         textBox.SetWidth(400f);
         // If no height is specified the height will be calculated based on the text.
         textBox.SetHeight(450f);
         textBox.SetWidth(400f);
-        textBox.SetHeight(450f);
         textBox.SetTextDirection(Direction.LEFT_TO_RIGHT);
         // textBox.SetTextDirection(Direction.BOTTOM_TO_TOP);
         // textBox.SetTextDirection(Direction.TOP_TO_BOTTOM);
@@ -49,8 +46,8 @@ public class Example_16 {
         // textBox.SetVerticalAlignment(Align.BOTTOM);
         // textBox.SetVerticalAlignment(Align.CENTER);
         // If no height is specified the height will be calculated based on the text.
-        textBox.SetBgColor(Color.whitesmoke);
-        textBox.SetTextColors(colors);
+        textBox.SetFillColor(Color.whitesmoke);
+        // textBox.SetTextColors(colors);
         textBox.SetBorders(true);
         textBox.SetBorder(Border.ALL);
         float[] xy = textBox.DrawOn(page);

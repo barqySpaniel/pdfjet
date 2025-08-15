@@ -638,8 +638,10 @@ public class Page {
      * @param color the color.
      * @throws IOException
      */
-    public void SetBrushColor(float[] color) {
-        SetBrushColor(color[0], color[1], color[2]);
+    public void SetBrushColor(float[] rgbColor) {
+        if (rgbColor != null) {
+            SetBrushColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+        }
     }
 
     /**
