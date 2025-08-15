@@ -188,7 +188,7 @@ public class Path : IDrawable {
         return this.lineJoinStyle;
     }
 
-    public void RotateBy(int degrees) {
+    public void SetRotateAngle(int degrees) {
         this.degrees = -degrees;
     }
 
