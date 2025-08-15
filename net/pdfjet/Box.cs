@@ -49,7 +49,6 @@ public class Box : IDrawable {
 
     /**
      *  The default constructor.
-     *
      */
     public Box() {
     }

@@ -41,6 +41,12 @@ public class Rect  : IDrawable {
     private string actualText = "";
     private string structureType = StructElem.P;
 
+    /**
+     * The default constructor.
+     */
+    public Rect() {
+    }
+
     public Rect(float x, float y, float w, float h) {
         this.x = x;
         this.y = y;
