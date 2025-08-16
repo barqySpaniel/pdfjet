@@ -1894,20 +1894,6 @@ final public class Page {
     }
 
     /**
-     *  Begin text block.
-     */
-    void BT() {
-        append("BT\n");
-    }
-
-    /**
-     *  End the text block.
-     */
-    void ET() {
-        append("ET\n");
-    }
-
-    /**
      *  Sets the text location.
      *
      *  @param x the x coordinate of new text location.
@@ -1951,7 +1937,7 @@ final public class Page {
      *  @param str the string.
      */
     void drawText(String str, float x, float y) {
-        BT();
+        append("BT\n");
         append(x);
         append(Token.space);
         append(height - y);
@@ -1965,7 +1951,7 @@ final public class Page {
             drawUnicodeString(font, str);
             append("> Tj\n");
         }
-        ET();
+        append("ET\n");
     }
 
     void scaleAndRotate(float x, float y, float w, float h, float degrees) {
