@@ -22,10 +22,10 @@ public class Example_06 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Box flag = new Box();
+        Rect flag = new Rect();
         flag.SetLocation(100.0f, 100.0f);
         flag.SetSize(190.0f, 100.0f);
-        flag.SetColor(Color.white);
+        flag.SetFillColor(Color.white);
         flag.DrawOn(page);
 
         float sw = 7.69f;       // stripe width
@@ -37,10 +37,9 @@ public class Example_06 {
             stripe.DrawOn(page);
         }
 
-        Box union = new Box();
+        Rect union = new Rect();
         union.SetSize(76.0f, 53.85f);
-        union.SetColor(Color.oldgloryblue);
-        union.SetFillShape(true);
+        union.SetFillColor(Color.oldgloryblue);
         union.PlaceIn(flag, 0.0f, 0.0f);
         union.DrawOn(page);
 
@@ -49,8 +48,7 @@ public class Example_06 {
         Point star = new Point(h_si/2, v_si/2);
         star.SetShape(Point.STAR);
         star.SetRadius(3.0f);
-        star.SetColor(Color.white);
-        star.SetFillShape(true);
+        star.SetFillColor(Color.white);
 
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 5; col++) {

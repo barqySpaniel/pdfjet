@@ -26,8 +26,8 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class Rect  : IDrawable {
-    private float x;
-    private float y;
+    internal float x;
+    internal float y;
     private float w;
     private float h;
     private float r;

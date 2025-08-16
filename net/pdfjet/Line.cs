@@ -330,11 +330,11 @@ public class Line : IDrawable {
      *  @return this Line object.
      */
     public Line PlaceIn(
-            Box box,
+            Rect rect,
             float xOffset,
             float yOffset) {
-        xBox = box.x + xOffset;
-        yBox = box.y + yOffset;
+        xBox = rect.x + xOffset;
+        yBox = rect.y + yOffset;
         return this;
     }
 

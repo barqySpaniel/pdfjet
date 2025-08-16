@@ -480,8 +480,8 @@ public class Point : IDrawable {
      *
      *  @param box the specified box.
      */
-    public void PlaceIn(Box box) {
-        PlaceIn(box, 0f, 0f);
+    public void PlaceIn(Rect rect) {
+        PlaceIn(rect, 0f, 0f);
     }
 
     /**
@@ -492,10 +492,10 @@ public class Point : IDrawable {
      *  @param yOffset the y offset from the top left corner of the box.
      */
     public void PlaceIn(
-            Box box,
+            Rect rect,
             double xOffset,
             double yOffset) {
-        PlaceIn(box, (float) xOffset, (float) yOffset);
+        PlaceIn(rect, (float) xOffset, (float) yOffset);
     }
 
     /**
@@ -506,11 +506,11 @@ public class Point : IDrawable {
      *  @param yOffset the y offset from the top left corner of the box.
      */
     public void PlaceIn(
-            Box box,
+            Rect rect,
             float xOffset,
             float yOffset) {
-        xBox = box.x + xOffset;
-        yBox = box.y + yOffset;
+        xBox = rect.x + xOffset;
+        yBox = rect.y + yOffset;
     }
 
     /**
