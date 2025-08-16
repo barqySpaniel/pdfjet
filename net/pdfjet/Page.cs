@@ -1118,8 +1118,9 @@ public class Page {
             float r,
             float[] brushColor,
             float penWidth,
-            float[] penColor) {
-        DrawEllipse(x, y, r, r, brushColor, penWidth, penColor);
+            float[] penColor,
+            String pattern) {
+        DrawEllipse(x, y, r, r, brushColor, penWidth, penColor, pattern);
     }
 
     /**
@@ -1138,7 +1139,8 @@ public class Page {
             float r2,
             float[] brushColor,
             float penWidth,
-            float[] penColor) {
+            float[] penColor,
+            String pattern) {
         // The best 4-spline magic number
         float m4 = 0.55228f;
         // Starting point
@@ -1171,6 +1173,9 @@ public class Page {
             SetPenWidth(penWidth);
             SetPenColor(penColor);
         }
+        if (pattern != null) {
+            SetStrokePattern(pattern);
+        }
         if (brushColor != null && penColor != null) {
             Append("B\n");
         } else if (brushColor != null && penColor == null) {
@@ -1190,11 +1195,12 @@ public class Page {
      *
      *  @param p the point.
      */
-    public void DrawPoint(Point p, float[] fillColor, float strokeWidth, float[] strokeColor) {
+    public void DrawPoint(
+            Point p, float[] fillColor, float strokeWidth, float[] strokeColor, String strokePattern) {
         if (p.shape != Point.INVISIBLE) {
             List<Point> list;
             if (p.shape == Point.CIRCLE) {
-                DrawCircle(p.x, p.y, p.r, fillColor, strokeWidth, strokeColor);
+                DrawCircle(p.x, p.y, p.r, fillColor, strokeWidth, strokeColor, strokePattern);
             } else if (p.shape == Point.DIAMOND) {
                 list = new List<Point>();
                 list.Add(new Point(p.x, p.y - p.r));

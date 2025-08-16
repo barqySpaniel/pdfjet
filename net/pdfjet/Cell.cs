@@ -49,6 +49,7 @@ public class Cell {
     internal float[] fillColor;
     internal float strokeWidth;
     internal float[] strokeColor;
+    internal String strokePattern = "[] 0";    // Solid
 
     // Cell properties
     // Colspan:
@@ -584,7 +585,7 @@ public class Cell {
                         null,
                         null));
             }
-            page.DrawPoint(point, fillColor, strokeWidth, strokeColor);
+            page.DrawPoint(point, fillColor, strokeWidth, strokeColor, strokePattern);
         }
     }
 

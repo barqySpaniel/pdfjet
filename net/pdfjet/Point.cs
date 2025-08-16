@@ -56,13 +56,10 @@ public class Point : IDrawable {
     internal float[] fillColor;
     internal float strokeWidth;
     internal float[] strokeColor;
+    internal String strokePattern = "[] 0";
 
     internal Alignment alignment = Alignment.RIGHT;
-//     internal float lineWidth = 0f;
 
-
-    internal String linePattern = "[] 0";
-    // internal bool fillShape = false;
     internal bool isControlPoint = false;
     internal bool drawPath = false;
 
@@ -360,19 +357,19 @@ public class Point : IDrawable {
      *      "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
      *  </pre>
      *
-     *  @param linePattern the line dash pattern.
+     *  @param pattern the line dash pattern.
      */
-    public void SetLinePattern(String linePattern) {
-        this.linePattern = linePattern;
+    public void SetStrokePattern(String pattern) {
+        this.strokePattern = pattern;
     }
 
     /**
-     *  Returns the line dash pattern.
+     *  Returns the dash pattern.
      *
-     *  @return the line dash pattern.
+     *  @return the dash pattern.
      */
-    public String GetLinePattern() {
-        return linePattern;
+    public String GetStrokePattern() {
+        return strokePattern;
     }
 
     /**
@@ -521,18 +518,9 @@ public class Point : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-//        page.SetPenWidth(lineWidth);
-//        page.SetLinePattern(linePattern);
-//
-//        if (fillShape) {
-//            page.SetBrushColor(color);
-//        } else {
-//            page.SetPenColor(color);
-//        }
-
         x += xBox;
         y += yBox;
-        page.DrawPoint(this, fillColor, strokeWidth, strokeColor);
+        page.DrawPoint(this, fillColor, strokeWidth, strokeColor, strokePattern);
         x -= xBox;
         y -= yBox;
 

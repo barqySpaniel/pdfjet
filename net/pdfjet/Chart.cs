@@ -511,7 +511,7 @@ public class Chart : IDrawable {
             if (point.drawPath) {
                 page.SetPenColor(point.strokeColor);
                 page.SetPenWidth(point.strokeWidth);
-                page.SetStrokePattern(point.linePattern);
+                page.SetStrokePattern(point.strokePattern);
                 // page.DrawPath(points, Operation.STROKE);  // TODO!!!
                 if (point.GetText() != null) {
                     page.SetBrushColor(point.GetTextColor());
@@ -523,7 +523,7 @@ public class Chart : IDrawable {
                 point = points[j];
                 if (point.GetShape() != Point.INVISIBLE) {
                     page.SetPenWidth(point.strokeWidth);
-                    page.SetStrokePattern(point.linePattern);
+                    page.SetStrokePattern(point.strokePattern);
                     page.SetPenColor(point.strokeColor);
                     page.SetBrushColor(point.fillColor);
                     // page.DrawPoint(point);  TODO:

@@ -32,7 +32,7 @@ public class Ellipse  : IDrawable {
     private float[] fillColor;
     private float[] strokeColor = new float[] {0f, 0f, 0f}; // Black color
     private float strokeWidth = 0f;
-    private string pattern = "[] 0";
+    private string strokePattern = "[] 0";
     private string uri;
     private string key;
     private string language = "en-US";
@@ -115,8 +115,6 @@ public class Ellipse  : IDrawable {
         this.strokeColor = rgbColor;
     }
 
-
-
     public void SetR1(float r1) {
         this.r1 = r1;
     }
@@ -148,8 +146,8 @@ public class Ellipse  : IDrawable {
         return this;
     }
 
-    public void SetPattern(string pattern) {
-        this.pattern = pattern;
+    public void SetStrokePattern(string pattern) {
+        this.strokePattern = pattern;
     }
 
     public void SetScaleFactor(float factor) {
@@ -168,7 +166,7 @@ public class Ellipse  : IDrawable {
         float centerX = x + r1/2;
         float centerY = (page.height - y) - r2/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
-        page.DrawEllipse(x, y, r1, r2, fillColor, strokeWidth, strokeColor);
+        page.DrawEllipse(x, y, r1, r2, fillColor, strokeWidth, strokeColor, strokePattern);
 
         page.Append("Q\n");
         page.AddEMC();
