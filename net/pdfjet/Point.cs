@@ -262,19 +262,21 @@ public class Point : IDrawable {
         return this.fillColor;
     }
 
-    public void SetStrokeColor(int color) {
+    public Point SetStrokeColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetStrokeColor(r, g, b);
+        return SetStrokeColor(r, g, b);
     }
 
-    public void SetStrokeColor(float r, float g, float b) {
+    public Point SetStrokeColor(float r, float g, float b) {
         this.strokeColor = new float[] {r, g, b};
+        return this;
     }
 
-    public void SetStrokeColor(float[] rgbColor) {
+    public Point SetStrokeColor(float[] rgbColor) {
         this.strokeColor = rgbColor;
+        return this;
     }
 
     public float[] GetStrokeColor() {
@@ -378,7 +380,7 @@ public class Point : IDrawable {
      *
      *  @return the point.
      */
-    public Point SetDrawPath() {
+    public Point SetStartOfPath() {
         this.drawPath = true;
         return this;
     }

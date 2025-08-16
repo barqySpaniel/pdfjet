@@ -15,18 +15,21 @@ public class Example_35 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        // f1.SetSize(8f);
+
         // Font f2 = new Font(pdf, CoreFont.HELVETICA);
+        // f2.SetSize(8f);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-
+        Font f1 = new Font(pdf, IBMPlexSans.Bold);
         f1.SetSize(8f);
+
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
         f2.SetSize(8f);
 
         List<List<Point>> chartData = new List<List<Point>>();
 
         List<Point> path1 = new List<Point>();
-        path1.Add(new Point(50f, 50f).SetDrawPath().SetColor(Color.blue));
+        path1.Add(new Point(50f, 50f).SetStartOfPath()); // .SetStrokeColor(Color.blue));
         path1.Add(new Point(55f, 55f));
         path1.Add(new Point(60f, 60f));
         path1.Add(new Point(65f, 58f));
@@ -36,7 +39,7 @@ public class Example_35 {
         chartData.Add(path1);
 
         List<Point> path2 = new List<Point>();
-        path2.Add(new Point(50f, 30f).SetDrawPath().SetColor(Color.red));
+        path2.Add(new Point(50f, 30f).SetStartOfPath().SetStrokeColor(Color.red));
         path2.Add(new Point(55f, 35f));
         path2.Add(new Point(60f, 40f));
         path2.Add(new Point(65f, 48f));
@@ -46,7 +49,7 @@ public class Example_35 {
         chartData.Add(path2);
 
         List<Point> path3 = new List<Point>();
-        path3.Add(new Point(50f, 80f).SetDrawPath().SetColor(Color.green));
+        path3.Add(new Point(50f, 80f).SetStartOfPath().SetStrokeColor(Color.green));
         path3.Add(new Point(55f, 70f));
         path3.Add(new Point(60f, 60f));
         path3.Add(new Point(65f, 55f));

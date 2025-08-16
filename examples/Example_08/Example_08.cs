@@ -16,9 +16,9 @@ public class Example_08 {
         // Font f2 = new Font(pdf, CoreFont.HELVETICA);
         // Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        Font f3 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-BoldItalic.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.SemiBold);
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
+        Font f3 = new Font(pdf, IBMPlexSans.BoldItalic);
 
         f1.SetSize(7f);
         f2.SetSize(7f);
