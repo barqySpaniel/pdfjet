@@ -13,8 +13,9 @@ public class Example_14 {
                 new FileStream("Example_14.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f1.SetSize(7f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.SetSize(7f);
 
         Page page = new Page(pdf, A4.PORTRAIT);
@@ -64,7 +65,7 @@ public class Example_14 {
                     cell.SetBorder(Border.RIGHT, true);
 
                     cell.SetColSpan(3);
-                    cell.SetBgColor(Color.darkseagreen);
+                    cell.SetFillColor(Color.darkseagreen);
                     cell.SetLineWidth(1f);
                     cell.SetTextAlignment(Align.RIGHT);
                 }
