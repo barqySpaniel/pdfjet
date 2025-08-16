@@ -119,14 +119,14 @@ namespace PDFjet.NET {
                 string text = fields[i];
                 float xText1 = vertLines[i] + this.padding;
                 float xText2 = vertLines[i + 1] - this.padding;
-                page.BeginText();
+                page.Append("BT\n");
                 if (alignment[i] == Align.LEFT) {
                     page.SetTextLocation(xText1, this.yText);
                 } else if (alignment[i] == Align.RIGHT) {
                     page.SetTextLocation(xText2 - font.StringWidth(text), this.yText);
                 }
                 page.DrawText(text);
-                page.EndText();
+                page.Append("ET\n");
             }
             page.AddEMC();
         }

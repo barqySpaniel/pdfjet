@@ -47,11 +47,9 @@ public class Example_04 {
         while ((line = reader.ReadLine()) != null) {
             if (line.Contains("Simplified")) {
                 text.SetFont(f2);
-            }
-            else if (line.Contains("Japanese")) {
+            } else if (line.Contains("Japanese")) {
                 text.SetFont(f3);
-            }
-            else if (line.Contains("Korean")) {
+            } else if (line.Contains("Korean")) {
                 text.SetFont(f4);
             }
             text.SetText(line);

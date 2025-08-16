@@ -1851,20 +1851,6 @@ public class Page {
     }
 
     /**
-     *  Begin text block.
-     */
-    internal void BeginText() {
-        Append("BT\n");
-    }
-
-    /**
-     *  End the text block.
-     */
-    internal void EndText() {
-        Append("ET\n");
-    }
-
-    /**
      *  Sets the text location.
      *
      *  @param x the x coordinate of new text location.
