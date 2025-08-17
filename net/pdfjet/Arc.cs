@@ -39,6 +39,7 @@ public class Arc : IDrawable {
 
     private float[] strokeColor = new float[] {0f, 0f, 0f};   // Black color
     private float strokeWidth = 0f;
+    private float[] fillColor;
     private String strokePattern = "[] 0";
 
     private String language = null;
@@ -153,7 +154,7 @@ public class Arc : IDrawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetStrokeColor(r, g, b);
+        this.SetStrokeColor(r, g, b);
         return this;
     }
 
@@ -164,6 +165,24 @@ public class Arc : IDrawable {
 
     public Arc SetStrokeColor(float[] rgbColor) {
         this.strokeColor = rgbColor;
+        return this;
+    }
+
+    public Arc SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.SetFillColor(r, g, b);
+        return this;
+    }
+
+    public Arc SetFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
+        return this;
+    }
+
+    public Arc SetFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
         return this;
     }
 
@@ -234,6 +253,7 @@ public class Arc : IDrawable {
         page.SetPenColor(strokeColor);
         page.SetPenWidth(strokeWidth);
         page.SetStrokePattern(strokePattern);
+        page.SetBrushColor(fillColor);
         float centerX = x + rx/2;
         float centerY = (page.height - y) - ry/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
@@ -245,6 +265,9 @@ public class Arc : IDrawable {
                 startAngle,
                 endAngle,
                 sweep);
+        if (fillColor != null) {
+            page.Append("f\n");
+        }
         page.Append("Q\n");
         page.AddEMC();
 

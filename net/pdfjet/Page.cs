@@ -1408,7 +1408,7 @@ public class Page {
             angle = segEnd;
         }
 
-        Append("S\n");
+        Append("B\n");
         return new float[] { x3, y3 };
     }
 

@@ -76,12 +76,12 @@ public class Example_05 {
         Ellipse ellipse = new Ellipse();
         ellipse.SetCenterXY(300f, 600f);
         ellipse.SetRadiusX(100f);
-        ellipse.SetRadiusY(100f);
-        // ellipse.SetFillColor(Color.azure);
+        ellipse.SetRadiusY(50f);
+        ellipse.SetFillColor(Color.azure);
         ellipse.SetStrokeWidth(1.5f);
         ellipse.SetStrokeColor(Color.blue);
-        // ellipse.SetScaleFactor(2.0f);
-        // ellipse.SetRotateAngle(15f);
+        ellipse.SetScaleFactor(0.5f);
+        ellipse.SetRotateAngle(15f);
         ellipse.DrawOn(page);
 
         f1.SetSize(14f);
