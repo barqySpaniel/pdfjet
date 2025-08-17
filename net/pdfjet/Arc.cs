@@ -30,8 +30,8 @@ namespace PDFjet.NET {
 public class Arc : IDrawable {
     private float x;
     private float y;
-    private float r1;
-    private float r2;
+    private float rx;
+    private float ry;
     private float startAngle;
     private float endAngle;
     private Sweep sweep = Sweep.CLOCKWISE;
@@ -58,8 +58,8 @@ public class Arc : IDrawable {
      *  @param r1 the x coordinate of the end point.
      *  @param r2 the y coordinate of the end point.
      */
-    public Arc(double x, double y, double r1, double r2) : this((float) x, (float) y, (float) r1, (float) r2) {
-    }
+//    public Arc(double x, double y, double r1, double r2) : this((float) x, (float) y, (float) r1, (float) r2) {
+//    }
 
     /**
      *  Create an arc object.
@@ -69,23 +69,23 @@ public class Arc : IDrawable {
      *  @param r1 the x coordinate of the end point.
      *  @param r2 the y coordinate of the end point.
      */
-    public Arc(float x, float y, float r1, float r2) {
-        this.x = x;
-        this.y = y;
-        this.r1 = r1;
-        this.r2 = r2;
-    }
+//    public Arc(float x, float y, float r1, float r2) {
+//        this.x = x;
+//        this.y = y;
+//        this.r1 = r1;
+//        this.r2 = r2;
+//    }
 
-    public Arc(
-            float x, float y, float r1, float r2, float startAngle, float endAngle, Sweep sweep) {
-        this.x = x;
-        this.y = y;
-        this.r1 = r1;
-        this.r2 = r2;
-        this.startAngle = startAngle;
-        this.endAngle = endAngle;
-        this.sweep = sweep;
-    }
+//    public Arc(
+//            float x, float y, float r1, float r2, float startAngle, float endAngle, Sweep sweep) {
+//        this.x = x;
+//        this.y = y;
+//        this.r1 = r1;
+//        this.r2 = r2;
+//        this.startAngle = startAngle;
+//        this.endAngle = endAngle;
+//        this.sweep = sweep;
+//    }
 
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
@@ -94,6 +94,22 @@ public class Arc : IDrawable {
     public Arc SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
+        return this;
+    }
+
+    public Arc SetRadiusX(float rx) {
+        this.rx = rx;
+        return this;
+    }
+
+    public Arc SetRadiusY(float ry) {
+        this.ry = ry;
+        return this;
+    }
+
+    public Arc SetRadius(float r) {
+        this.rx = r;
+        this.ry = r;
         return this;
     }
 
@@ -287,8 +303,8 @@ public class Arc : IDrawable {
      *  @return this Arc object.
      */
     public Arc ScaleBy(float factor) {
-        this.r1 *= factor;
-        this.r2 *= factor;
+        this.rx *= factor;
+        this.ry *= factor;
         return this;
     }
 
@@ -308,8 +324,8 @@ public class Arc : IDrawable {
         page.DrawEllipticalArc(
                 x,
                 y,
-                r1,
-                r2,
+                rx,
+                ry,
                 startAngle,
                 endAngle,
                 sweep);

@@ -15,8 +15,10 @@ public class Example_05 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Arc arc = new Arc(500f, 100f, 100f, 50f, 90f, 270f, Sweep.CLOCKWISE);
+        Arc arc = new Arc();
         arc.SetLocation(500f, 100f);
+        arc.SetRadiusX(100f);
+        arc.SetRadiusY(50f);
         arc.SetStrokeWidth(5f);
         arc.SetStrokeColor(Color.blue);
         arc.SetStartAngle(90f);
