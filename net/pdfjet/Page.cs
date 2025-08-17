@@ -1347,10 +1347,10 @@ public class Page {
 
     public float[] DrawCircularArc(
             float x, float y, float r, float alpha1, float alpha2, Sweep sweep) {
-        return DrawEllipticalArc(x, y, r, r, alpha1, alpha2, sweep);
+        return DrawArc(x, y, r, r, alpha1, alpha2, sweep);
     }
 
-    public float[] DrawEllipticalArc(
+    public float[] DrawArc(
             float x,
             float y,
             float rx,
@@ -1408,7 +1408,7 @@ public class Page {
             angle = segEnd;
         }
 
-        Append("B\n");
+//        Append("S\n");
         return new float[] { x3, y3 };
     }
 

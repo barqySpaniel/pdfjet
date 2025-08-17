@@ -250,14 +250,14 @@ public class Arc : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
-        page.SetPenColor(strokeColor);
-        page.SetPenWidth(strokeWidth);
-        page.SetStrokePattern(strokePattern);
-        page.SetBrushColor(fillColor);
+//        page.SetPenColor(strokeColor);
+//        page.SetPenWidth(strokeWidth);
+//        page.SetStrokePattern(strokePattern);
+//        page.SetBrushColor(fillColor);
         float centerX = x + rx/2;
         float centerY = (page.height - y) - ry/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
-        page.DrawEllipticalArc(
+        page.DrawArc(
                 x,
                 y,
                 rx,
@@ -266,7 +266,26 @@ public class Arc : IDrawable {
                 endAngle,
                 sweep);
         if (fillColor != null) {
+            page.SetBrushColor(fillColor);
+        }
+        if (strokeColor != null) {
+            page.SetPenWidth(strokeWidth);
+            page.SetPenColor(strokeColor);
+        }
+        if (strokePattern != null) {
+            page.SetStrokePattern(strokePattern);
+        }
+        if (fillColor != null && strokeColor != null) {
+            page.Append("B\n");
+        } else if (fillColor != null && strokeColor == null) {
             page.Append("f\n");
+        } else if (fillColor == null && strokeColor != null) {
+            page.Append("S\n");
+        } else {
+            // Both brushColor == null and penColor == null
+            page.SetPenWidth(0f);
+            page.SetPenColor(0f, 0f, 0f);
+            page.Append("S\n");
         }
         page.Append("Q\n");
         page.AddEMC();
