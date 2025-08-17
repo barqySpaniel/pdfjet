@@ -17,8 +17,8 @@ public class Example_05 {
 
         float[] endPointXY = (new Arc())
             .SetCenterXY(500f, 100f)
-            .SetRadiusX(100f)
-            .SetRadiusY(50f)
+            .SetRadiusX(75f)
+            .SetRadiusY(25f)
             .SetStartAngle(0f)
             .SetEndAngle(270f)
             .SetSweep(Sweep.CLOCKWISE)
