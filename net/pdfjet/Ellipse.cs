@@ -48,7 +48,7 @@ public class Ellipse  : Arc {
      */
     public Ellipse() : base() {
         SetStartAngle(0f);
-        SetEndAngle(359f);
+        SetEndAngle(360f);
     }
 
 //    public Ellipse(float x, float y, float r1, float r2) {

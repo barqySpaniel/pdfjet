@@ -1368,12 +1368,12 @@ public class Page {
         if (cw && totalDelta < 0) totalDelta += 360f;
         if (!cw && totalDelta > 0) totalDelta -= 360f;
 
-        int numSegs = (int)Math.Ceiling(Math.Abs(totalDelta) / 90f);
+        int numSegments = (int)Math.Ceiling(Math.Abs(totalDelta) / 90f);
 
         double angle = startAngle * Math.PI / 180.0;
-        double deltaPerSeg = (totalDelta / numSegs) * Math.PI / 180.0;
+        double deltaPerSeg = (totalDelta / numSegments) * Math.PI / 180.0;
 
-        for (int i = 0; i < numSegs; i++) {
+        for (int i = 0; i < numSegments; i++) {
             double segStart = angle;
             double segEnd   = angle + deltaPerSeg;
 

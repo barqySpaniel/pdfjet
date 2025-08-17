@@ -21,7 +21,7 @@ public class Example_05 {
             .SetRadiusY(75f)
             .SetStartAngle(0f)
             .SetEndAngle(180f)
-            // .SetSweep(Sweep.COUNTER_CLOCKWISE)
+            .SetSweep(Sweep.COUNTER_CLOCKWISE)
             // .SetScaleFactor(2f)
             // .SetRotateAngle(45f)
             .SetStrokeWidth(5f)
