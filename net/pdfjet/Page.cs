@@ -1358,45 +1358,56 @@ public class Page {
             float startAngle,
             float endAngle,
             Sweep sweep) {
-        const float k = 0.55228f;
+
+        bool cw = (sweep == Sweep.CLOCKWISE);
         float x3 = 0f;
         float y3 = 0f;
-        for (int i = 0; i < 4; i++) {
-            double segStart = (startAngle * Math.PI/180.0) % (2*Math.PI);
-            double segEnd = (endAngle * Math.PI/180.0) % (2*Math.PI);
-            if ((segEnd - segStart) > Math.PI/2) {
-                segEnd = segStart + Math.PI/2;
-            }
 
-            // Optimized calculations using precomputed trig values
-            float cosStart = (float) Math.Cos(segStart);
-            float sinStart = (float) Math.Sin(segStart);
-            float cosEnd = (float) Math.Cos(segEnd);
-            float sinEnd = (float) Math.Sin(segEnd);
+        // unwrap endAngle so delta has the right sign
+        float totalDelta = endAngle - startAngle;
+        if (cw && totalDelta < 0) totalDelta += 360f;
+        if (!cw && totalDelta > 0) totalDelta -= 360f;
 
-            // Compute start (P0) and end (P3) points
+        int numSegs = (int)Math.Ceiling(Math.Abs(totalDelta) / 90f);
+
+        double angle = startAngle * Math.PI / 180.0;
+        double deltaPerSeg = (totalDelta / numSegs) * Math.PI / 180.0;
+
+        for (int i = 0; i < numSegs; i++) {
+            double segStart = angle;
+            double segEnd   = angle + deltaPerSeg;
+
+            double delta = segEnd - segStart; // guaranteed ≤ ±π/2
+
+            // safe κ
+            double k = 4.0 / 3.0 * Math.Tan(delta / 4.0);
+
+            // trig
+            float cosStart = (float)Math.Cos(segStart);
+            float sinStart = (float)Math.Sin(segStart);
+            float cosEnd   = (float)Math.Cos(segEnd);
+            float sinEnd   = (float)Math.Sin(segEnd);
+
+            // points
             float x0 = x + rx * cosStart;
             float y0 = y + ry * sinStart;
             x3 = x + rx * cosEnd;
             y3 = y + ry * sinEnd;
 
-            // Compute control points (P1, P2)
-            float x1 = x0 - k * rx * sinStart;
-            float y1 = y0 + k * ry * cosStart;
-            float x2 = x3 + k * rx * sinEnd;
-            float y2 = y3 - k * ry * cosEnd;
+            // control points
+            float x1 = x0 - (float)(k * rx * sinStart);
+            float y1 = y0 + (float)(k * ry * cosStart);
+            float x2 = x3 + (float)(k * rx * sinEnd);
+            float y2 = y3 - (float)(k * ry * cosEnd);
 
-            // Append the path commands
             if (i == 0) {
                 MoveTo(x0, y0);
             }
             CurveTo(x1, y1, x2, y2, x3, y3);
 
-            if ((endAngle - startAngle) <= 90f) {
-                break;
-            }
-            startAngle += 90f;
+            angle = segEnd;
         }
+
         Append("S\n");
         return new float[] { x3, y3 };
     }

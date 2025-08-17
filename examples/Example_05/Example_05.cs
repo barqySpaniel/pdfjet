@@ -18,12 +18,12 @@ public class Example_05 {
         float[] endPointXY = (new Arc())
             .SetCenterXY(500f, 100f)
             .SetRadiusX(75f)
-            .SetRadiusY(25f)
+            .SetRadiusY(75f)
             .SetStartAngle(0f)
-            .SetEndAngle(270f)
-            .SetSweep(Sweep.CLOCKWISE)
+            .SetEndAngle(180f)
+            // .SetSweep(Sweep.COUNTER_CLOCKWISE)
             // .SetScaleFactor(2f)
-            .SetRotateAngle(45f)
+            // .SetRotateAngle(45f)
             .SetStrokeWidth(5f)
             .SetStrokeColor(Color.blue)
             .DrawOn(page);
@@ -76,7 +76,7 @@ public class Example_05 {
         Ellipse ellipse = new Ellipse();
         ellipse.SetCenterXY(300f, 600f);
         ellipse.SetRadiusX(100f);
-        ellipse.SetRadiusY(50f);
+        ellipse.SetRadiusY(100f);
         // ellipse.SetFillColor(Color.azure);
         ellipse.SetStrokeWidth(1.5f);
         ellipse.SetStrokeColor(Color.blue);
