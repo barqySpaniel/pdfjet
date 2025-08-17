@@ -51,10 +51,10 @@ public class Arc : IDrawable {
     }
 
     public void SetPosition(float x, float y) {
-        SetLocation(x, y);
+        SetCenterXY(x, y);
     }
 
-    public Arc SetLocation(float x, float y) {
+    public Arc SetCenterXY(float x, float y) {
         this.x = x;
         this.y = y;
         return this;

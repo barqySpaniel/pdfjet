@@ -1355,17 +1355,16 @@ public class Page {
             float y,
             float r1,
             float r2,
-            float alpha1,
-            float alpha2,
+            float startAngle,
+            float endAngle,
             Sweep sweep) {
         // Normalize angles to [0, 2π)
-        double theta1 = (alpha1 * Math.PI / 180.0) % (2 * Math.PI);
-        double theta2 = (alpha2 * Math.PI / 180.0) % (2 * Math.PI);
-        if (theta2 < theta1) {
-            theta2 += 2 * Math.PI;
+        double startAlpha = (startAngle * Math.PI / 180.0) % (2 * Math.PI);
+        double endAlpha = (endAngle * Math.PI / 180.0) % (2 * Math.PI);
+        if (endAlpha < startAlpha) {
+            endAlpha += 2 * Math.PI;
         }
-        double delta = theta2 - theta1;
-
+        double delta = endAlpha - startAlpha;
         // Handle full ellipses
         if (delta > Math.PI) {
             // DrawEllipse(x, y, r1, r2); // TODO:
@@ -1373,17 +1372,17 @@ public class Page {
         }
 
         // Compute start (P0) and end (P3) points
-        double x0 = x + r1 * Math.Cos(theta1);
-        double y0 = y + r2 * Math.Sin(theta1);
-        double x3 = x + r1 * Math.Cos(theta2);
-        double y3 = y + r2 * Math.Sin(theta2);
+        double x0 = x + r1 * Math.Cos(startAlpha);
+        double y0 = y + r2 * Math.Sin(startAlpha);
+        double x3 = x + r1 * Math.Cos(endAlpha);
+        double y3 = y + r2 * Math.Sin(endAlpha);
 
         // Compute control points (P1, P2)
-        double alpha = 0.55228;
-        double x1 = x0 - alpha * r1 * Math.Sin(theta1);
-        double y1 = y0 + alpha * r2 * Math.Cos(theta1);
-        double x2 = x3 + alpha * r1 * Math.Sin(theta2);
-        double y2 = y3 - alpha * r2 * Math.Cos(theta2);
+        double k = 0.55228;
+        double x1 = x0 - k * r1 * Math.Sin(startAlpha);
+        double y1 = y0 + k * r2 * Math.Cos(startAlpha);
+        double x2 = x3 + k * r1 * Math.Sin(endAlpha);
+        double y2 = y3 - k * r2 * Math.Cos(endAlpha);
 
         // Append the path commands
         MoveTo((float)x0, (float)y0);
