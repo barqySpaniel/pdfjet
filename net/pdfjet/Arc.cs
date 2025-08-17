@@ -167,12 +167,12 @@ public class Arc : IDrawable {
         return this;
     }
 
-    public Arc SetRotationAngle(float degrees) {
+    public Arc SetRotateAngle(float degrees) {
         this.degrees = -degrees;
         return this;
     }
 
-    public Arc SetRotationAngle(double degrees) {
+    public Arc SetRotateAngle(double degrees) {
         this.degrees = (float) -degrees;
         return this;
     }
@@ -205,8 +205,8 @@ public class Arc : IDrawable {
      *  @param factor the factor used to scale the line.
      *  @return this Arc object.
      */
-    public Arc ScaleBy(double factor) {
-        return ScaleBy((float) factor);
+    public Arc SetScaleFactor(double factor) {
+        return SetScaleFactor((float) factor);
     }
 
     /**
@@ -215,7 +215,7 @@ public class Arc : IDrawable {
      *  @param factor the factor used to scale the line.
      *  @return this Arc object.
      */
-    public Arc ScaleBy(float factor) {
+    public Arc SetScaleFactor(float factor) {
         this.rx *= factor;
         this.ry *= factor;
         return this;

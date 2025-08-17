@@ -15,15 +15,15 @@ public class Example_05 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        float[] xy = (new Arc())
+        float[] endPointXY = (new Arc())
             .SetCenterXY(500f, 100f)
             .SetRadiusX(100f)
             .SetRadiusY(50f)
-            // .SetRadius(25f)
             .SetStartAngle(0f)
             .SetEndAngle(270f)
             .SetSweep(Sweep.CLOCKWISE)
-            .SetRotationAngle(45f)
+            // .SetScaleFactor(2f)
+            .SetRotateAngle(45f)
             .SetStrokeWidth(5f)
             .SetStrokeColor(Color.blue)
             .DrawOn(page);

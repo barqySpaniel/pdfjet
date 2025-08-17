@@ -43,12 +43,12 @@ public class Path : IDrawable {
     private float strokeWidth;
     private float[] strokeColor;
     private String strokePattern = "[] 0";
+    private float degrees;
 
     private float xBox;
     private float yBox;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private float degrees;
 
     private String uri = null;
     private String key = null;
@@ -275,8 +275,9 @@ public class Path : IDrawable {
      *
      *  @param factor the specified factor.
      */
-    public void SetScaleFactor(double factor) {
+    public Path SetScaleFactor(double factor) {
         SetScaleFactor((float) factor);
+        return this;
     }
 
     /**
@@ -284,12 +285,13 @@ public class Path : IDrawable {
      *
      *  @param factor the specified factor.
      */
-    public void SetScaleFactor(float factor) {
+    public Path SetScaleFactor(float factor) {
         for (int i = 0; i < points.Count; i++) {
             Point point = points[i];
             point.x *= factor;
             point.y *= factor;
         }
+        return this;
     }
 
     /**
