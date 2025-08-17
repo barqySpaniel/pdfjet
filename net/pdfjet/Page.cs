@@ -1353,47 +1353,49 @@ public class Page {
     public float[] DrawEllipticalArc(
             float x,
             float y,
-            float r1,
-            float r2,
+            float rx,
+            float ry,
             float startAngle,
             float endAngle,
             Sweep sweep) {
-        // Normalize angles to [0, 2π)
-        double startAlpha = (startAngle * Math.PI / 180.0) % (2 * Math.PI);
-        double endAlpha = (endAngle * Math.PI / 180.0) % (2 * Math.PI);
-        if (endAlpha < startAlpha) {
-            endAlpha += 2 * Math.PI;
+        double x3;
+        double y3;
+        while (true) {
+            double startAlpha = (startAngle * Math.PI / 180.0) % (2 * Math.PI);
+            double endAlpha = (endAngle * Math.PI / 180.0) % (2 * Math.PI);
+            if ((endAlpha - startAlpha) > Math.PI/2) {
+                endAlpha = startAlpha + Math.PI/2;
+            }
+
+            // Compute start (P0) and end (P3) points
+            double x0 = x + rx * Math.Cos(startAlpha);
+            double y0 = y + ry * Math.Sin(startAlpha);
+            x3 = x + rx * Math.Cos(endAlpha);
+            y3 = y + ry * Math.Sin(endAlpha);
+
+            // Compute control points (P1, P2)
+            double k = 0.55228;
+            double x1 = x0 - k * rx * Math.Sin(startAlpha);
+            double y1 = y0 + k * ry * Math.Cos(startAlpha);
+            double x2 = x3 + k * rx * Math.Sin(endAlpha);
+            double y2 = y3 - k * ry * Math.Cos(endAlpha);
+
+            // Append the path commands
+            MoveTo((float)x0, (float)y0);
+            CurveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3);
+
+            Append(Operation.STROKE);
+            Append("\n");
+
+            if ((endAngle - startAngle) <= 90f) {
+Console.WriteLine("Hello???");
+                break;
+            }
+            startAngle += 90f;
         }
-        double delta = endAlpha - startAlpha;
-        // Handle full ellipses
-        if (delta > Math.PI) {
-            // DrawEllipse(x, y, r1, r2); // TODO:
-            return new float[] { x, y };  // Return starting point
-        }
 
-        // Compute start (P0) and end (P3) points
-        double x0 = x + r1 * Math.Cos(startAlpha);
-        double y0 = y + r2 * Math.Sin(startAlpha);
-        double x3 = x + r1 * Math.Cos(endAlpha);
-        double y3 = y + r2 * Math.Sin(endAlpha);
-
-        // Compute control points (P1, P2)
-        double k = 0.55228;
-        double x1 = x0 - k * r1 * Math.Sin(startAlpha);
-        double y1 = y0 + k * r2 * Math.Cos(startAlpha);
-        double x2 = x3 + k * r1 * Math.Sin(endAlpha);
-        double y2 = y3 - k * r2 * Math.Cos(endAlpha);
-
-        // Append the path commands
-        MoveTo((float)x0, (float)y0);
-        CurveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3);
-
-    	Append(Operation.STROKE);
-	    Append("\n");
-
-        // Return endpoint
-        return new float[] { (float)x3, (float)y3 };
-    }
+         return new float[] { (float)x3, (float)y3 };
+     }
 
     /**
      *  Draws a bezier curve starting from the current point.
@@ -1903,7 +1905,7 @@ public class Page {
     }
 
     /**
-     *  Draws a string at the currect location.
+     *  Draws a string at the specified location.
      *  @param str the string.
      */
     internal void DrawText(String str) {

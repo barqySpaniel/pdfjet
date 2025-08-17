@@ -21,7 +21,7 @@ public class Example_05 {
             // .SetRadiusY(50f)
             .SetRadius(25f)
             .SetStartAngle(0f)
-            .SetEndAngle(90f)
+            .SetEndAngle(270f)
             .SetSweep(Sweep.CLOCKWISE)
             .SetStrokeWidth(5f)
             .SetStrokeColor(Color.blue)
