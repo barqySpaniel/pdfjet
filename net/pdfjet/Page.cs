@@ -1358,9 +1358,9 @@ public class Page {
             float startAngle,
             float endAngle,
             Sweep sweep) {
-        const double k = 0.55228;
-        double x3 = 0f;
-        double y3 = 0f;
+        const float k = 0.55228f;
+        float x3 = 0f;
+        float y3 = 0f;
         for (int i = 0; i < 4; i++) {
             double startAlpha = (startAngle * Math.PI/180.0) % (2*Math.PI);
             double endAlpha = (endAngle * Math.PI/180.0) % (2*Math.PI);
@@ -1369,28 +1369,28 @@ public class Page {
             }
 
             // Optimized calculations using precomputed trig values
-            double cosStart = Math.Cos(startAlpha);
-            double sinStart = Math.Sin(startAlpha);
-            double cosEnd = Math.Cos(endAlpha);
-            double sinEnd = Math.Sin(endAlpha);
+            float cosStart = (float) Math.Cos(startAlpha);
+            float sinStart = (float) Math.Sin(startAlpha);
+            float cosEnd = (float) Math.Cos(endAlpha);
+            float sinEnd = (float) Math.Sin(endAlpha);
 
             // Compute start (P0) and end (P3) points
-            double x0 = x + rx * cosStart;
-            double y0 = y + ry * sinStart;
+            float x0 = x + rx * cosStart;
+            float y0 = y + ry * sinStart;
             x3 = x + rx * cosEnd;
             y3 = y + ry * sinEnd;
 
             // Compute control points (P1, P2)
-            double x1 = x0 - k * rx * sinStart;
-            double y1 = y0 + k * ry * cosStart;
-            double x2 = x3 + k * rx * sinEnd;
-            double y2 = y3 - k * ry * cosEnd;
+            float x1 = x0 - k * rx * sinStart;
+            float y1 = y0 + k * ry * cosStart;
+            float x2 = x3 + k * rx * sinEnd;
+            float y2 = y3 - k * ry * cosEnd;
 
             // Append the path commands
             if (i == 0) {
-                MoveTo((float)x0, (float)y0);
+                MoveTo(x0, y0);
             }
-            CurveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3);
+            CurveTo(x1, y1, x2, y2, x3, y3);
 
             if ((endAngle - startAngle) <= 90f) {
                 break;
@@ -1398,9 +1398,8 @@ public class Page {
             startAngle += 90f;
         }
 
-        Append(Operation.STROKE);
-        Append("\n");
-        return new float[] { (float)x3, (float)y3 };
+        Append("S\n");
+        return new float[] { x3, y3 };
     }
 
     /**
