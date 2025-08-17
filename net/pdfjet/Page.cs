@@ -1358,6 +1358,7 @@ public class Page {
             float startAngle,
             float endAngle,
             Sweep sweep) {
+        const double k = 0.55228;
         double x3;
         double y3;
         while (true) {
@@ -1367,18 +1368,23 @@ public class Page {
                 endAlpha = startAlpha + Math.PI/2;
             }
 
+            // Optimized calculations using precomputed trig values
+            double cosStart = Math.Cos(startAlpha);
+            double sinStart = Math.Sin(startAlpha);
+            double cosEnd = Math.Cos(endAlpha);
+            double sinEnd = Math.Sin(endAlpha);
+
             // Compute start (P0) and end (P3) points
-            double x0 = x + rx * Math.Cos(startAlpha);
-            double y0 = y + ry * Math.Sin(startAlpha);
-            x3 = x + rx * Math.Cos(endAlpha);
-            y3 = y + ry * Math.Sin(endAlpha);
+            double x0 = x + rx * cosStart;
+            double y0 = y + ry * sinStart;
+            x3 = x + rx * cosEnd;
+            y3 = y + ry * sinEnd;
 
             // Compute control points (P1, P2)
-            double k = 0.55228;
-            double x1 = x0 - k * rx * Math.Sin(startAlpha);
-            double y1 = y0 + k * ry * Math.Cos(startAlpha);
-            double x2 = x3 + k * rx * Math.Sin(endAlpha);
-            double y2 = y3 - k * ry * Math.Cos(endAlpha);
+            double x1 = x0 - k * rx * sinStart;
+            double y1 = y0 + k * ry * cosStart;
+            double x2 = x3 + k * rx * sinEnd;
+            double y2 = y3 - k * ry * cosEnd;
 
             // Append the path commands
             MoveTo((float)x0, (float)y0);
