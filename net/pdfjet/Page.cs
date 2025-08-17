@@ -1363,7 +1363,7 @@ public class Page {
         while (true) {
             double startAlpha = (startAngle * Math.PI / 180.0) % (2 * Math.PI);
             double endAlpha = (endAngle * Math.PI / 180.0) % (2 * Math.PI);
-            if ((endAlpha - startAlpha) > Math.PI/2) {
+            if ((endAngle - startAngle) > 90f) {
                 endAlpha = startAlpha + Math.PI/2;
             }
 
@@ -1388,7 +1388,6 @@ public class Page {
             Append("\n");
 
             if ((endAngle - startAngle) <= 90f) {
-Console.WriteLine("Hello???");
                 break;
             }
             startAngle += 90f;

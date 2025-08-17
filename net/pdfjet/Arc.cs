@@ -35,6 +35,7 @@ public class Arc : IDrawable {
     private float startAngle;
     private float endAngle;
     private Sweep sweep = Sweep.CLOCKWISE;
+    private float degrees;
 
     private float[] strokeColor = new float[] {0f, 0f, 0f};   // Black color
     private float strokeWidth = 0f;
@@ -166,6 +167,16 @@ public class Arc : IDrawable {
         return this;
     }
 
+    public Arc SetRotationAngle(float degrees) {
+        this.degrees = -degrees;
+        return this;
+    }
+
+    public Arc SetRotationAngle(double degrees) {
+        this.degrees = (float) -degrees;
+        return this;
+    }
+
     /**
      *  Sets the alternate description of this line.
      *
@@ -223,6 +234,9 @@ public class Arc : IDrawable {
         page.SetPenColor(strokeColor);
         page.SetPenWidth(strokeWidth);
         page.SetStrokePattern(strokePattern);
+        float centerX = x + rx/2;
+        float centerY = (page.height - y) - ry/2;
+        page.RotateAroundCenter(centerX, centerY, degrees);
         page.DrawEllipticalArc(
                 x,
                 y,
