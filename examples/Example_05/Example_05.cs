@@ -17,6 +17,7 @@ public class Example_05 {
 
         Arc arc = new Arc(500f, 100f, 100f, 50f, 90f, 270f, Sweep.CLOCKWISE);
         arc.SetStrokeWidth(5f);
+        arc.SetStrokeColor(Color.blue);
         arc.DrawOn(page);
         // (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
 

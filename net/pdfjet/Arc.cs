@@ -222,7 +222,7 @@ public class Arc : IDrawable {
      *  @param color the color specified as an integer.
      *  @return this Arc object.
      */
-    public Arc SetColor(int color) {
+    public Arc SetStrokeColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
