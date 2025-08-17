@@ -29,7 +29,7 @@ public class ContentBlock {
         StringBuilder sb = new StringBuilder();
         sb.append("<<\n");
         sb.append("/Type /XObject\n");
-        sb.append("/Subtype /Image\n");
+        sb.append("/Subtype /Form\n");
         sb.append("/Name /");
         sb.append(xObjectName);
         sb.append("\n");
