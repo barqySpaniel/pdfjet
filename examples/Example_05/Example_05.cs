@@ -73,11 +73,14 @@ public class Example_05 {
 //        point.SetColor(Color.white);
 //        point.DrawOn(page);
 
-        Ellipse ellipse = new Ellipse(300f, 600f, 100f, 50f);
-        ellipse.SetFillColor(Color.azure);
+        Ellipse ellipse = new Ellipse();
+        ellipse.SetCenterXY(300f, 600f);
+        ellipse.SetRadiusX(100f);
+        ellipse.SetRadiusY(50f);
+        // ellipse.SetFillColor(Color.azure);
         ellipse.SetStrokeWidth(0.5f);
         ellipse.SetStrokeColor(Color.blue);
-        ellipse.SetScaleFactor(2.0f);
+        // ellipse.SetScaleFactor(2.0f);
         // ellipse.SetRotationAngle(15);
         ellipse.DrawOn(page);
 
