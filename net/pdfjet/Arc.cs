@@ -50,43 +50,6 @@ public class Arc : IDrawable {
     public Arc() {
     }
 
-    /**
-     *  Create an arc object.
-     *
-     *  @param x1 the x coordinate of the start point.
-     *  @param y1 the y coordinate of the start point.
-     *  @param r1 the x coordinate of the end point.
-     *  @param r2 the y coordinate of the end point.
-     */
-//    public Arc(double x, double y, double r1, double r2) : this((float) x, (float) y, (float) r1, (float) r2) {
-//    }
-
-    /**
-     *  Create an arc object.
-     *
-     *  @param x1 the x coordinate of the start point.
-     *  @param y1 the y coordinate of the start point.
-     *  @param r1 the x coordinate of the end point.
-     *  @param r2 the y coordinate of the end point.
-     */
-//    public Arc(float x, float y, float r1, float r2) {
-//        this.x = x;
-//        this.y = y;
-//        this.r1 = r1;
-//        this.r2 = r2;
-//    }
-
-//    public Arc(
-//            float x, float y, float r1, float r2, float startAngle, float endAngle, Sweep sweep) {
-//        this.x = x;
-//        this.y = y;
-//        this.r1 = r1;
-//        this.r2 = r2;
-//        this.startAngle = startAngle;
-//        this.endAngle = endAngle;
-//        this.sweep = sweep;
-//    }
-
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
     }
@@ -156,67 +119,6 @@ public class Arc : IDrawable {
         this.strokePattern = pattern;
         return this;
     }
-
-    /**
-     *  Sets the x and y coordinates of the start point.
-     *
-     *  @param x the x coordinate of the start point.
-     *  @param y the y coordinate of the start point.
-     *  @return this Arc object.
-     */
-    public Arc SetStartPoint(float x, float y) {
-        this.x = x;
-        this.y = y;
-        return this;
-    }
-
-    /**
-     *  Sets the x and y coordinates of the start point.
-     *
-     *  @param x the x coordinate of the start point.
-     *  @param y the y coordinate of the start point.
-     *  @return this Arc object.
-     */
-//    public Arc SetPointA(float x, float y) {
-//        this.x1 = x;
-//        this.y1 = y;
-//        return this;
-//    }
-
-    /**
-     *  Returns the start point of this line.
-     *
-     *  @return Point the point.
-     */
-//    public Point GetStartPoint() {
-//        return new Point(x1, y1);
-//    }
-
-    /**
-     *  Sets the x and y coordinates of the end point.
-     *
-     *  @param x the x coordinate of the end point.
-     *  @param y the y coordinate of the end point.
-     *  @return this Arc object.
-     */
-//    public Arc SetEndPoint(double x, double y) {
-//        this.x2 = (float) x;
-//        this.y2 = (float) y;
-//        return this;
-//    }
-
-    /**
-     *  Sets the x and y coordinates of the end point.
-     *
-     *  @param x the x coordinate of the end point.
-     *  @param y the y coordinate of the end point.
-     *  @return this Arc object.
-     */
-//    public Arc SetEndPoint(float x, float y) {
-//        this.x2 = x;
-//        this.y2 = y;
-//        return this;
-//    }
 
     /**
      *  Sets the width of this line.
