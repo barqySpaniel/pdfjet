@@ -92,6 +92,16 @@ class Example_20 {
         path.SetRotateAngle(45f);
         path.DrawOn(page);
 
+
+        Point point = new Point();
+        // point.SetShape(Point.CIRCLE);
+        // point.SetShape(Point.STAR);
+        // point.SetShape(Point.UP_ARROW);
+        point.SetShape(Point.PLUS);
+        point.SetRadius(50f);
+        point.SetLocation(350f, 350f);
+        point.DrawOn(page);
+
         page = new Page(pdf, Letter.PORTRAIT);
 
         TextLine line = new TextLine(f1, "Hello, World!");

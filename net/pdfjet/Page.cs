@@ -1345,11 +1345,19 @@ public class Page {
         Append(" c\n");
     }
 
-    public float[] DrawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
-        return DrawEllipticalArc(x, y, r, r, alpha1, alpha2);
+    public float[] DrawCircularArc(
+            float x, float y, float r, float alpha1, float alpha2, Sweep sweep) {
+        return DrawEllipticalArc(x, y, r, r, alpha1, alpha2, sweep);
     }
 
-    public float[] DrawEllipticalArc(float x, float y, float r1, float r2, float alpha1, float alpha2) {
+    public float[] DrawEllipticalArc(
+            float x,
+            float y,
+            float r1,
+            float r2,
+            float alpha1,
+            float alpha2,
+            Sweep sweep) {
         // Normalize angles to [0, 2π)
         double theta1 = (alpha1 * Math.PI / 180.0) % (2 * Math.PI);
         double theta2 = (alpha2 * Math.PI / 180.0) % (2 * Math.PI);
