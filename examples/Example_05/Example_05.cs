@@ -15,16 +15,19 @@ public class Example_05 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Arc arc = new Arc();
-        arc.SetLocation(500f, 100f);
-        arc.SetRadiusX(100f);
-        arc.SetRadiusY(50f);
-        arc.SetStrokeWidth(5f);
-        arc.SetStrokeColor(Color.blue);
-        arc.SetStartAngle(90f);
-        arc.SetEndAngle(270f);
-        arc.SetSweep(Sweep.CLOCKWISE);
-        arc.DrawOn(page);
+        float[] xy = (new Arc())
+            .SetLocation(500f, 100f)
+            // .SetRadiusX(100f)
+            // .SetRadiusY(50f)
+            .SetRadius(150f)
+            .SetStrokeWidth(5f)
+            .SetStrokeColor(Color.blue)
+            .SetStartAngle(90f)
+            .SetEndAngle(180f)
+            .SetSweep(Sweep.CLOCKWISE)
+            .DrawOn(page);
+
+
         // (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
 
         TextLine text = new TextLine(f1);

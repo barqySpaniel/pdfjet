@@ -189,7 +189,7 @@ public class Arc : IDrawable {
     }
 
     /**
-     *  Scales this line by the spacified factor.
+     *  Scales this line by the specified factor.
      *
      *  @param factor the factor used to scale the line.
      *  @return this Arc object.
@@ -199,7 +199,7 @@ public class Arc : IDrawable {
     }
 
     /**
-     *  Scales this line by the spacified factor.
+     *  Scales this line by the specified factor.
      *
      *  @param factor the factor used to scale the line.
      *  @return this Arc object.
@@ -234,10 +234,7 @@ public class Arc : IDrawable {
         page.Append("Q\n");
         page.AddEMC();
 
-//        float xMax = Math.Max(x + xBox, x2 + xBox);
-//        float yMax = Math.Max(y1 + yBox, y2 + yBox);
-//        return new float[] {xMax, yMax};
-        return new float[] {0f, 0f};
+        return new float[] {0f, 0f};    // TODO
     }
 }   // End of Arc.cs
 }   // End of namespace PDFjet.NET
