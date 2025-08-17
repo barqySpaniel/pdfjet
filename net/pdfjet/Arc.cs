@@ -76,6 +76,17 @@ public class Arc : IDrawable {
         this.r2 = r2;
     }
 
+    public Arc(
+            float x, float y, float r1, float r2, float startAngle, float endAngle, Sweep sweep) {
+        this.x = x;
+        this.y = y;
+        this.r1 = r1;
+        this.r2 = r2;
+        this.startAngle = startAngle;
+        this.endAngle = endAngle;
+        this.sweep = sweep;
+    }
+
     /**
      *  The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
      *  It is specified by a dash array and a dash phase.
