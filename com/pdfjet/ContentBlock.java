@@ -27,11 +27,16 @@ public class ContentBlock {
     // Serialize the XObject (as a stream in a PDF context)
     public String serialize() throws IOException {
         StringBuilder sb = new StringBuilder();
-        sb.append("<< /Type /XObject /Subtype /Image /Name /");
+        sb.append("<<\n");
+        sb.append("/Type /XObject\n");
+        sb.append("/Subtype /Image\n");
+        sb.append("/Name /");
         sb.append(xObjectName);
-        sb.append(" /Length ");
+        sb.append("\n");
+        sb.append("/Length ");
         sb.append(xObjectData.length);
-        sb.append(" >>\n");
+        sb.append("\n");
+        sb.append(">>\n");
         sb.append("stream\n");
         // Write the actual stream (the data of the image or graphic)
         sb.append(new String(xObjectData, StandardCharsets.ISO_8859_1));
