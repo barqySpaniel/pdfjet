@@ -1359,12 +1359,12 @@ public class Page {
             float endAngle,
             Sweep sweep) {
         const double k = 0.55228;
-        double x3;
-        double y3;
-        while (true) {
-            double startAlpha = (startAngle * Math.PI / 180.0) % (2 * Math.PI);
-            double endAlpha = (endAngle * Math.PI / 180.0) % (2 * Math.PI);
-            if ((endAngle - startAngle) > 90f) {
+        double x3 = 0f;
+        double y3 = 0f;
+        for (int i = 0; i < 4; i++) {
+            double startAlpha = (startAngle * Math.PI/180.0) % (2*Math.PI);
+            double endAlpha = (endAngle * Math.PI/180.0) % (2*Math.PI);
+            if ((endAlpha - startAlpha) > Math.PI/2) {
                 endAlpha = startAlpha + Math.PI/2;
             }
 
@@ -1387,11 +1387,10 @@ public class Page {
             double y2 = y3 - k * ry * cosEnd;
 
             // Append the path commands
-            MoveTo((float)x0, (float)y0);
+            if (i == 0) {
+                MoveTo((float)x0, (float)y0);
+            }
             CurveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3);
-
-            Append(Operation.STROKE);
-            Append("\n");
 
             if ((endAngle - startAngle) <= 90f) {
                 break;
@@ -1399,8 +1398,10 @@ public class Page {
             startAngle += 90f;
         }
 
-         return new float[] { (float)x3, (float)y3 };
-     }
+        Append(Operation.STROKE);
+        Append("\n");
+        return new float[] { (float)x3, (float)y3 };
+    }
 
     /**
      *  Draws a bezier curve starting from the current point.
