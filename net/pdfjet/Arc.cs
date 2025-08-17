@@ -87,6 +87,31 @@ public class Arc : IDrawable {
         this.sweep = sweep;
     }
 
+    public void SetPosition(float x, float y) {
+        SetLocation(x, y);
+    }
+
+    public Arc SetLocation(float x, float y) {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+
+    public Arc SetStartAngle(float angle) {
+        this.startAngle = angle;
+        return this;
+    }
+
+    public Arc SetEndAngle(float angle) {
+        this.endAngle = angle;
+        return this;
+    }
+
+    public Arc SetSweep(Sweep sweep) {
+        this.sweep = sweep;
+        return this;
+    }
+
     /**
      *  The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
      *  It is specified by a dash array and a dash phase.
@@ -114,23 +139,6 @@ public class Arc : IDrawable {
     public Arc SetStrokePattern(String pattern) {
         this.strokePattern = pattern;
         return this;
-    }
-
-    /**
-     *  Sets the x and y coordinates of the start point.
-     *
-     *  @param x the x coordinate of the start point.
-     *  @param y the t coordinate of the start point.
-     *  @return this Arc object.
-     */
-    public Arc SetStartPoint(double x, double y) {
-        this.x = (float) x;
-        this.y = (float) y;
-        return this;
-    }
-
-    public void SetPosition(float x, float y) {
-        SetStartPoint(x, y);
     }
 
     /**

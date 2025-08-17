@@ -16,8 +16,12 @@ public class Example_05 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Arc arc = new Arc(500f, 100f, 100f, 50f, 90f, 270f, Sweep.CLOCKWISE);
+        arc.SetLocation(500f, 100f);
         arc.SetStrokeWidth(5f);
         arc.SetStrokeColor(Color.blue);
+        arc.SetStartAngle(90f);
+        arc.SetEndAngle(270f);
+        arc.SetSweep(Sweep.CLOCKWISE);
         arc.DrawOn(page);
         // (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
 
