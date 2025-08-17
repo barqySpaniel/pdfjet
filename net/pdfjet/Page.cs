@@ -1358,6 +1358,9 @@ public class Page {
             float startAngle,
             float endAngle,
             Sweep sweep) {
+        if (startAngle == endAngle) {
+            return new float[] { x, y };    // TODO: Should we throw exception here?
+        }
         const float k = 0.55228f;
         float x3 = 0f;
         float y3 = 0f;
@@ -1397,7 +1400,6 @@ public class Page {
             }
             startAngle += 90f;
         }
-
         Append("S\n");
         return new float[] { x3, y3 };
     }
