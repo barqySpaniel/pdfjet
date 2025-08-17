@@ -1358,24 +1358,21 @@ public class Page {
             float startAngle,
             float endAngle,
             Sweep sweep) {
-        if (startAngle == endAngle) {
-            return new float[] { x, y };    // TODO: Should we throw exception here?
-        }
         const float k = 0.55228f;
         float x3 = 0f;
         float y3 = 0f;
         for (int i = 0; i < 4; i++) {
-            double startAlpha = (startAngle * Math.PI/180.0) % (2*Math.PI);
-            double endAlpha = (endAngle * Math.PI/180.0) % (2*Math.PI);
-            if ((endAlpha - startAlpha) > Math.PI/2) {
-                endAlpha = startAlpha + Math.PI/2;
+            double segStart = (startAngle * Math.PI/180.0) % (2*Math.PI);
+            double segEnd = (endAngle * Math.PI/180.0) % (2*Math.PI);
+            if ((segEnd - segStart) > Math.PI/2) {
+                segEnd = segStart + Math.PI/2;
             }
 
             // Optimized calculations using precomputed trig values
-            float cosStart = (float) Math.Cos(startAlpha);
-            float sinStart = (float) Math.Sin(startAlpha);
-            float cosEnd = (float) Math.Cos(endAlpha);
-            float sinEnd = (float) Math.Sin(endAlpha);
+            float cosStart = (float) Math.Cos(segStart);
+            float sinStart = (float) Math.Sin(segStart);
+            float cosEnd = (float) Math.Cos(segEnd);
+            float sinEnd = (float) Math.Sin(segEnd);
 
             // Compute start (P0) and end (P3) points
             float x0 = x + rx * cosStart;
