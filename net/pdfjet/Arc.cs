@@ -250,10 +250,6 @@ public class Arc : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
-//        page.SetPenColor(strokeColor);
-//        page.SetPenWidth(strokeWidth);
-//        page.SetStrokePattern(strokePattern);
-//        page.SetBrushColor(fillColor);
         float centerX = x + rx/2;
         float centerY = (page.height - y) - ry/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
@@ -265,21 +261,17 @@ public class Arc : IDrawable {
                 startAngle,
                 endAngle,
                 sweep);
-        if (fillColor != null) {
+        if (fillColor != null && strokeColor != null) {
             page.SetBrushColor(fillColor);
-        }
-        if (strokeColor != null) {
             page.SetPenWidth(strokeWidth);
             page.SetPenColor(strokeColor);
-        }
-        if (strokePattern != null) {
-            page.SetStrokePattern(strokePattern);
-        }
-        if (fillColor != null && strokeColor != null) {
             page.Append("B\n");
         } else if (fillColor != null && strokeColor == null) {
+            page.SetBrushColor(fillColor);
             page.Append("f\n");
         } else if (fillColor == null && strokeColor != null) {
+            page.SetPenWidth(strokeWidth);
+            page.SetPenColor(strokeColor);
             page.Append("S\n");
         } else {
             // Both brushColor == null and penColor == null
@@ -289,7 +281,6 @@ public class Arc : IDrawable {
         }
         page.Append("Q\n");
         page.AddEMC();
-
         return new float[] {0f, 0f};    // TODO
     }
 }   // End of Arc.cs
