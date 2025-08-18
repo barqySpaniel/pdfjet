@@ -269,6 +269,15 @@ public class Image : IDrawable {
         return this.SetScaleFactor(factor, factor);
     }
 
+    public Image ScaleBy(float factor) {
+        return this.SetScaleFactor(factor, factor);
+    }
+
+    public Image SetRotateFactor(float degrees) {
+        this.degrees = -degrees;
+        return this;
+    }
+
     public Image RotateBy(float degrees) {
         this.degrees = -degrees;
         return this;
@@ -286,6 +295,11 @@ public class Image : IDrawable {
         this.h *= heightFactor;
         return this;
     }
+
+    public Image ScaleBy(float widthFactor, float heightFactor) {
+        return SetScaleFactor(widthFactor, heightFactor);
+    }
+
 
 //    public Image ResizeWidth(float width) {
 //        float factor = width / GetWidth();

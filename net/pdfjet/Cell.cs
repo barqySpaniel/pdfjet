@@ -311,8 +311,12 @@ public class Cell {
         return cellHeight;
     }
 
-    public void SetLineWidth(float lineWidth) {
-        this.lineWidth = lineWidth;
+    public void SetLineWidth(Int32 width) {
+        SetLineWidth((float) width);
+    }
+
+    public void SetLineWidth(float width) {
+        this.lineWidth = width;
     }
 
     public float GetLineWidth() {
@@ -335,6 +339,10 @@ public class Cell {
 //    public int GetPenColor() {
 //        return strokeColor;
 //    }
+
+    public void SetBgColor(int color) {
+        SetFillColor(color);
+    }
 
     public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;

@@ -198,6 +198,10 @@ public class TextLine : IDrawable {
     }
 
 
+    public TextLine SetColor(int color) {
+        return SetTextColor(color);
+    }
+
     public TextLine SetTextColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;

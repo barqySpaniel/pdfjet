@@ -50,13 +50,13 @@ public class Example_09 {
         double y = m * x + b;
         Point p1 = new Point(x, y);
         p1.SetDrawPath();
-        p1.SetColor(Color.blue);
+        p1.SetFillColor(Color.blue);
         p1.SetShape(Point.INVISIBLE);
 
         x = 1.5;
         y = m * x + b;
         Point p2 = new Point(x, y);
-        p2.SetColor(Color.blue);
+        p2.SetFillColor(Color.blue);
         p2.SetShape(Point.INVISIBLE);
         trendline.Add(p1);
         trendline.Add(p2);
@@ -75,7 +75,7 @@ public class Example_09 {
                 List<Cell> tableRow = new List<Cell>();
 
                 point.SetRadius(2f);
-                point.SetFillShape(true);
+                // point.SetFillShape(true);
                 point.SetAlignment(Align.LEFT);
 
                 Cell cell = new Cell(f2);

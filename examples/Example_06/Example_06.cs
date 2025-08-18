@@ -33,14 +33,14 @@ public class Example_06 {
         stripe.SetWidth(sw);
         stripe.SetColor(Color.oldgloryred);
         for (int row = 0; row < 7; row++) {
-            stripe.PlaceIn(flag, 0.0f, row * 2 * sw);
+            // stripe.PlaceIn(flag, 0.0f, row * 2 * sw);
             stripe.DrawOn(page);
         }
 
         Rect union = new Rect();
         union.SetSize(76.0f, 53.85f);
         union.SetFillColor(Color.oldgloryblue);
-        union.PlaceIn(flag, 0.0f, 0.0f);
+        // union.PlaceIn(flag, 0.0f, 0.0f);
         union.DrawOn(page);
 
         float h_si = 12.6f;    // horizontal star interval

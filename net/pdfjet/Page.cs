@@ -266,6 +266,20 @@ public class Page {
         DrawString(font, fallbackFont, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
+    public void DrawString(
+            Font font,
+            Font fallbackFont,
+            String str,
+            float x,
+            float y,
+            Int32 color,
+            Dictionary<String, Int32> colors) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        DrawString(font, fallbackFont, str, x, y, new float[] {r, g, b}, colors);
+    }
+
     /**
      *  Draws the text given by the specified string,
      *  using the specified Thai or Hebrew font and the current brush color.
@@ -711,8 +725,7 @@ public class Page {
      *  The default is the finest line width.
      */
     public void SetDefaultStrokeWidth() {
-        Append(penWidth);
-        Append(" w\n");
+        Append("0 w\n");
     }
 
     /**
@@ -781,11 +794,8 @@ public class Page {
      *  Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
      */
     public void SetLineCapStyle(CapStyle style) {
-        if (lineCapStyle != style) {
-            lineCapStyle = style;
-            Append((int) lineCapStyle);
-            Append(" J\n");
-        }
+        Append((int) style);
+        Append(" J\n");
     }
 
     /**
@@ -795,11 +805,8 @@ public class Page {
      *  Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
      */
     public void SetLineJoinStyle(JoinStyle style) {
-        if (lineJoinStyle != style) {
-            lineJoinStyle = style;
-            Append((int) lineJoinStyle);
-            Append(" j\n");
-        }
+        Append((int) style);
+        Append(" j\n");
     }
 
     /**
@@ -949,8 +956,7 @@ public class Page {
      * @param list the list of points that define the bezier curve.
      * @param operation must be Operation.STROKE or Operation.FILL.
      */
-    public void DrawBezierCurve(
-            List<Point> list, char operation) {
+    public void DrawBezierCurve(List<Point> list, char operation) {
         Point point = list[0];
         MoveTo(point.x, point.y);
         for (int i = 1; i < list.Count; i++) {
@@ -963,39 +969,6 @@ public class Page {
         Append(operation);
         Append('\n');
     }
-
-    /**
-     *  Draws the specified circle on the page and fills it with the current brush color.
-     *
-     *  @param x the x coordinate of the center of the circle to be drawn.
-     *  @param y the y coordinate of the center of the circle to be drawn.
-     *  @param r the radius of the circle to be drawn.
-     *  @param operation Operation.STROKE or Operation.FILL
-     */
-//    public void DrawCircle(
-//            float x,
-//            float y,
-//            float r,
-//            char operation) {
-//        // DrawEllipse(x, y, r, r, operation);
-//    }
-
-    /**
-     *  Draws an ellipse on the page and fills it using the current brush color.
-     *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
-     *  @param operation must be: Operation.FILL
-     */
-//    public void DrawEllipse(
-//            double x,
-//            double y,
-//            double r1,
-//            double r2) {
-//        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
-//    }
 
     /**
      *  Draws an ellipse on the page and fills it using the current brush color.
@@ -1306,7 +1279,8 @@ public class Page {
 
     /**
      *  Draws a bezier curve starting from the current point.
-     *  <strong>Please note:</strong> You must call the StrokePath, ClosePath or FillPath methods after the last BezierCurveTo call.
+     *  <strong>Please note:</strong> You must call the StrokePath,
+     *  ClosePath or FillPath methods after the last BezierCurveTo call.
      *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
      *
      *  @param p1 this first control point.

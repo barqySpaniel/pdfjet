@@ -105,12 +105,12 @@ public class Example_40 {
         List<Point> path1 = new List<Point>();
 
         Point point = new Point();
-        point.SetDrawPath();
+        point.SetStartOfPath();
         point.SetX(x);
         point.SetY(0f);
         point.SetShape(Point.INVISIBLE);
-        point.SetColor(color);
-        point.SetLineWidth(w);
+        point.SetFillColor(color);
+        point.SetStrokeWidth(w);
         point.SetText(text);
         point.SetTextColor(textColor);
         point.SetTextDirection(90);

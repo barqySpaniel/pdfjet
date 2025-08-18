@@ -235,6 +235,9 @@ public class Point : IDrawable {
         return r;
     }
 
+    public void SetColor(int color) {
+        SetFillColor(color);
+    }
 
     public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
@@ -279,9 +282,6 @@ public class Point : IDrawable {
     public float[] GetStrokeColor() {
         return this.strokeColor;
     }
-
-
-
 
     /**
      *  Sets the shape of this point.
@@ -378,6 +378,16 @@ public class Point : IDrawable {
      *  @return the point.
      */
     public Point SetStartOfPath() {
+        this.drawPath = true;
+        return this;
+    }
+
+    /**
+     *  Sets this point as the start of a path that will be drawn on the chart.
+     *
+     *  @return the point.
+     */
+    public Point SetDrawPath() {
         this.drawPath = true;
         return this;
     }

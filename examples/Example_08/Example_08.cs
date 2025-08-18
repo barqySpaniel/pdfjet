@@ -13,19 +13,23 @@ public class Example_08 {
                 new FileStream("Example_08.pdf", FileMode.Create)));
 
         // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        // f1.SetSize(7f);
         // Font f2 = new Font(pdf, CoreFont.HELVETICA);
+        // f2.SetSize(7f);
         // Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE);
+        // f3.SetSize(7f);
 
         Font f1 = new Font(pdf, IBMPlexSans.SemiBold);
-        Font f2 = new Font(pdf, IBMPlexSans.Regular);
-        Font f3 = new Font(pdf, IBMPlexSans.BoldItalic);
-
         f1.SetSize(7f);
+
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
         f2.SetSize(7f);
+
+        Font f3 = new Font(pdf, IBMPlexSans.BoldItalic);
         f3.SetSize(7f);
 
         Image image = new Image(pdf, "images/TeslaX.png");
-        image.ScaleBy(0.20f);
+        image.SetScaleFactor(0.20f);
 
         Barcode barcode = new Barcode(Barcode.CODE128, "Hello, World!");
         barcode.SetModuleLength(0.75f);

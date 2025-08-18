@@ -238,7 +238,7 @@ public class Example_38 {
         cell.SetBorder(Border.TOP, topBorder);
         cell.SetBorder(Border.BOTTOM, bottomBorder);
         cell.SetTextAlignment(Align.CENTER);
-        cell.SetBgColor(Color.lightblue);
+        cell.SetFillColor(Color.lightblue);
         cell.SetLineWidth(0.5f);
         return cell;
     }

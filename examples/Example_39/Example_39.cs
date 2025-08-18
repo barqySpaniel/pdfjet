@@ -46,7 +46,7 @@ public class Example_39 {
         point.SetY(45f);
         point.SetShape(Point.INVISIBLE);
         point.SetColor(Color.blue);
-        point.SetLineWidth(20f);
+        point.SetStrokeWidth(20f);
         point.SetText(" Horizontal");
         point.SetTextColor(Color.white);
         path1.Add(point);
@@ -64,7 +64,7 @@ public class Example_39 {
         point.SetY(35f);
         point.SetShape(Point.INVISIBLE);
         point.SetColor(Color.gold);
-        point.SetLineWidth(20f);
+        point.SetStrokeWidth(20f);
         point.SetText(" Bar");
         point.SetTextColor(Color.black);
         path2.Add(point);
@@ -82,7 +82,7 @@ public class Example_39 {
         point.SetY(25f);
         point.SetShape(Point.INVISIBLE);
         point.SetColor(Color.green);
-        point.SetLineWidth(20f);
+        point.SetStrokeWidth(20f);
         point.SetText(" Chart");
         point.SetTextColor(Color.white);
         path3.Add(point);
@@ -100,7 +100,7 @@ public class Example_39 {
         point.SetY(15f);
         point.SetShape(Point.INVISIBLE);
         point.SetColor(Color.red);
-        point.SetLineWidth(20f);
+        point.SetStrokeWidth(20f);
         point.SetText(" Example");
         point.SetTextColor(Color.white);
         path4.Add(point);
