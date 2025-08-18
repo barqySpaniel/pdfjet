@@ -31,7 +31,7 @@ class Example_37 {
 
         TextLine line = new TextLine(f1, "This is a test!");
         line.SetLocation(150f, 350f);
-        line.SetColor(Color.peru);
+        line.SetTextColor(Color.peru);
 
         List<PDFobj> pages = pdf.GetPageObjects(objects);
         foreach (PDFobj pageObj in pages) {
@@ -85,7 +85,7 @@ class Example_37 {
             image.DrawOn(page);
 
             TextLine text = new TextLine(f1, "Hello, World!");
-            text.SetColor(Color.blue);
+            text.SetTextColor(Color.blue);
             text.SetLocation(150f, 150f);
             text.DrawOn(page);
 

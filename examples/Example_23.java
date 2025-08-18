@@ -53,20 +53,25 @@ public class Example_23 {
         descent_text.setLocation(x1 - 85f, y1 + f1.getAscent() + 15f);
         descent_text.drawOn(page);
 
-        // Lines beside the text
-        Line arrow_line1 = new Line(x1 - 10f, y1, x1 - 10f, y1 + f1.getAscent());
-        arrow_line1.setColor(Color.blue);
-        arrow_line1.setWidth(3f);
-        arrow_line1.drawOn(page);
+        // Lines beside the text ascent
+        Line blueLine = new Line(
+            x1 - 10f,
+            y1,
+            x1 - 10f,
+            y1 + f1.getAscent());
+        blueLine.setColor(Color.blue);
+        blueLine.setWidth(5f);
+        blueLine.drawOn(page);
 
-        Line arrow_line2 = new Line(
-                x1 - 10f,
-                y1 + f1.getAscent(),
-                x1 - 10f,
-                y1 + f1.getAscent() + f1.getDescent());
-        arrow_line2.setColor(Color.red);
-        arrow_line2.setWidth(3f);
-        arrow_line2.drawOn(page);
+        // Lines beside the text descent
+        Line redLine = new Line(
+            x1 - 10f,
+            y1 + f1.getAscent(),
+            x1 - 10f,
+            y1 + f1.getAscent() + f1.getDescent());
+        redLine.setColor(Color.red);
+        redLine.setWidth(5f);
+        redLine.drawOn(page);
 
         // Lines for first line of text
         Line text_line1 = new Line(

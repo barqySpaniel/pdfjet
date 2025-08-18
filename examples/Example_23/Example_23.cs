@@ -14,9 +14,9 @@ public class Example_23 {
                 new FileStream("Example_23.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        Font f2 = new Font(pdf, CoreFont.HELVETICA);
-
         f1.SetSize(72f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.SetSize(24f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
@@ -27,9 +27,9 @@ public class Example_23 {
         float x1 = 90f;
         float y1 = 50f;
 
-        TextLine textline = new TextLine(f2, "(x1, y1)");
-        textline.SetLocation(x1, y1 - 15f);
-        textline.DrawOn(page);
+        TextLine textLine = new TextLine(f2, "(x1, y1)");
+        textLine.SetLocation(x1, y1 - 15f);
+        textLine.DrawOn(page);
 
         TextBox textBox = new TextBox(f1, buf.ToString());
         textBox.SetLocation(x1, y1);
@@ -37,7 +37,7 @@ public class Example_23 {
         // textBox.SetHeight(230f); // Test the appending of "..."
         textBox.SetMargin(0f);
         textBox.SetSpacing(0f);
-        textBox.SetBgColor(Color.lightgreen);
+        textBox.SetFillColor(Color.lightgreen);
         float[] xy = textBox.DrawOn(page);
 
         float x2 = x1 + textBox.GetWidth();
@@ -103,18 +103,18 @@ public class Example_23 {
 
         Point p1 = new Point(x1, y1);
         p1.SetRadius(5f);
-        p1.SetFillShape(true);
+        // p1.SetFillShape(true);
         p1.DrawOn(page);
 
         Point p2 = new Point(x2, y2);
         p2.SetRadius(5f);
-        p2.SetFillShape(true);
+        // p2.SetFillShape(true);
         p2.DrawOn(page);
 
         f2.SetSize(24f);
-        TextLine textline2 = new TextLine(f2, "(x2, y2)");
-        textline2.SetLocation(x2 - 80f, y2 + 30f);
-        textline2.DrawOn(page);
+        TextLine textLine2 = new TextLine(f2, "(x2, y2)");
+        textLine2.SetLocation(x2 - 80f, y2 + 30f);
+        textLine2.DrawOn(page);
 
         Box box = new Box();
         box.SetLocation(xy[0], xy[1]);
@@ -126,9 +126,9 @@ public class Example_23 {
 
     public void DrawTextAndLines(
             String text, Page page, Font font, float x, float y) {
-        TextLine textline = new TextLine(font, text);
-        textline.SetLocation(x, y);
-        textline.DrawOn(page);
+        TextLine textLine = new TextLine(font, text);
+        textLine.SetLocation(x, y);
+        textLine.DrawOn(page);
 
         Line ascenderLine = new Line(x, y - font.GetAscent(), x + 100f, y - font.GetAscent());
         ascenderLine.SetWidth(2f);
@@ -144,10 +144,6 @@ public class Example_23 {
     }
 
     public static void Main(String[] args) {
-/*
-        AssemblyName assembly = typeof(PDF).Assembly.GetName();
-        Console.WriteLine("{0} Version={1}", assembly.Name, assembly.Version);
-*/
         Stopwatch sw = Stopwatch.StartNew();
         long time0 = sw.ElapsedMilliseconds;
         new Example_23();

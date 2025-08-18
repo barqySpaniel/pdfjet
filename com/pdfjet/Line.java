@@ -359,16 +359,18 @@ public class Line implements Drawable {
      *  @throws Exception If an input or output exception occurred
      */
     public float[] drawOn(Page page) throws Exception {
+        page.addBMC(StructElem.P, language, actualText, altDescription);
+        page.append("q\n");
         page.setPenColor(color);
         page.setPenWidth(width);
         page.setLineCapStyle(capStyle);
         page.setLinePattern(pattern);
-        page.addBMC(StructElem.P, language, actualText, altDescription);
         page.drawLine(
                 x1 + xBox,
                 y1 + yBox,
                 x2 + xBox,
                 y2 + yBox);
+        page.append("Q\n");
         page.addEMC();
 
         float xMax = Math.max(x1 + xBox, x2 + xBox);
