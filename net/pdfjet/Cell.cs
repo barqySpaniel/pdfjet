@@ -221,6 +221,10 @@ public class Cell {
         this.textBox = textBox;
     }
 
+    public void SetBackgroundColor(float[] rgbColor) {
+        this.backgroundColor = rgbColor;
+    }
+
     /**
      *  Sets the width of this cell.
      *
