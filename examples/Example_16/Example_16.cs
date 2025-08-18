@@ -46,7 +46,8 @@ public class Example_16 {
         // textBox.SetVerticalAlignment(Align.BOTTOM);
         // textBox.SetVerticalAlignment(Align.CENTER);
         // If no height is specified the height will be calculated based on the text.
-        textBox.SetTextColor(Color.whitesmoke);
+        // textBox.SetTextColor(Color.whitesmoke);
+        textBox.SetTextColor(Color.black);
         // textBox.SetTextColors(colors);
         textBox.SetBorders(true);
         textBox.SetBorder(Border.ALL);
