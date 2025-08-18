@@ -53,8 +53,8 @@ public class Example_08 {
         table.SetLocationFirstPage(50f, 100f);
         table.SetLocation(50f, 0f);
         table.SetBottomMargin(15f);
-        table.SetTextColorInRow(12, Color.blue);
-        table.SetTextColorInRow(13, Color.red);
+        // table.SetTextColorInRow(12, Color.blue);
+        // table.SetTextColorInRow(13, Color.red);
         // table.GetCellAt(13, 0).GetTextBox().SetURIAction("http://pdfjet.com");
 
         List<Page> pages = new List<Page>();

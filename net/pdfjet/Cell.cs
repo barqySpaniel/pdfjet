@@ -78,6 +78,7 @@ public class Cell {
      */
     public Cell(Font font) {
         this.font = font;
+        this.fallbackFont = font;
     }
 
     /**
@@ -88,6 +89,7 @@ public class Cell {
      */
     public Cell(Font font, String text) {
         this.font = font;
+        this.fallbackFont = font;
         this.text = text;
     }
 
@@ -334,11 +336,10 @@ public class Cell {
 
     /**
      *  Returns the pen color.
-     *
      */
-//    public int GetPenColor() {
-//        return strokeColor;
-//    }
+    public float[] GetPenColor() {
+        return strokeColor;
+    }
 
     public void SetBgColor(int color) {
         SetFillColor(color);
@@ -390,7 +391,6 @@ public class Cell {
     public float[] GetStrokeColor() {
         return this.strokeColor;
     }
-
 
     internal void SetProperties(uint properties) {
         this.properties = properties;
@@ -603,8 +603,8 @@ public class Cell {
             float y,
             float cellW,
             float cellH) {
-        page.SetBrushColor(fillColor);
-        page.FillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth);
+        // page.SetBrushColor(fillColor);
+        // page.FillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth);
     }
 
     private void DrawBorders(
@@ -673,6 +673,7 @@ public class Cell {
             throw new Exception("Invalid vertical text alignment option.");
         }
 
+        page.Append("q\n");
         page.SetPenColor(strokeColor);
         if (GetTextAlignment() == Align.RIGHT) {
             if (compositeTextLine == null) {
@@ -735,6 +736,7 @@ public class Cell {
         } else {
             throw new Exception("Invalid Text Alignment!");
         }
+        page.Append("Q\n");
 
         if (uri != null) {
             float w = (compositeTextLine != null) ?

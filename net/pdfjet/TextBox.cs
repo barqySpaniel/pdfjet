@@ -55,11 +55,10 @@ public class TextBox : IDrawable {
     internal float margin = 0f;
     internal float lineWidth = 0f;
 
-    private int background = Color.transparent;
+    private float[] backgroundColor;
     private float[] fillColor = new float[] {0f, 0f, 0f};
     private float strokeWidth;
     private float[] strokeColor;
-
 
     private uint valign = Align.TOP;
     private Dictionary<String, Int32> colors = null;
@@ -690,8 +689,8 @@ public class TextBox : IDrawable {
                 }
             }
             if (page != null) {
-                if (fillColor != null) {
-                    page.SetBrushColor(fillColor);
+                if (backgroundColor != null) {
+                    page.SetBrushColor(backgroundColor);
                     page.FillRect(x, y, width, height);
                 }
                 page.SetPenColor(this.strokeColor);
@@ -738,7 +737,7 @@ public class TextBox : IDrawable {
         } else {            // TextBox that expands to fit the content
             if (page != null) {
                 if (fillColor != null) {
-                    page.SetBrushColor(background);
+                    page.SetBrushColor(fillColor);
                     page.FillRect(x, y, width, (lines.Length * leading - spacing) + 2*margin);
                 }
                 page.SetBrushColor(this.fillColor);

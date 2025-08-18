@@ -455,7 +455,7 @@ public class Table {
                     w += row[j].GetWidth();
                 }
                 if (page != null) {
-                    page.SetBrushColor(cell.GetFillColor());
+                    // page.SetBrushColor(cell.GetFillColor());
                     if (i == (numOfHeaderRows - 1)) {
                         cell.SetBorder(Border.BOTTOM, true);
                     }
@@ -488,7 +488,7 @@ public class Table {
                     w += row[i].GetWidth();
                 }
                 if (page != null) {
-                    page.SetBrushColor(cell.GetFillColor());
+                    // page.SetBrushColor(cell.GetFillColor());
                     cell.DrawOn(page, x, y, w, h);
                 }
                 x += w;
