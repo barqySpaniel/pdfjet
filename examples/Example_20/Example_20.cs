@@ -21,10 +21,7 @@ class Example_20 {
 
         pdf.AddResourceObjects(objects);
 
-        Font f1 = new Font(pdf, new FileStream(
-                "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream",
-                FileMode.Open,
-                FileAccess.Read), Font.STREAM);
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.SetSize(18f);
 
         List<PDFobj> pages = pdf.GetPageObjects(objects);
