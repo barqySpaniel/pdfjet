@@ -116,8 +116,6 @@ public class Rect  : IDrawable {
         this.borderColor = rgbColor;
     }
 
-
-
     public void SetCornerRadius(float r) {
         this.r = r;
     }
@@ -149,11 +147,6 @@ public class Rect  : IDrawable {
         this.borderPattern = pattern;
     }
 
-    public void PlaceIn(Rect rect, float xOffset, float yOffset) {
-        this.x = rect.x + xOffset;
-        this.y = rect.y + yOffset;
-    }
-
     public void ScaleBy(float factor) {
         this.x *= factor;
         this.y *= factor;
@@ -161,10 +154,8 @@ public class Rect  : IDrawable {
 
     public float[] DrawOn(Page page) {
         const float k = 0.55228f;
-
         page.AddBMC(this.structType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
-
         if (this.r == 0.0f) {
             page.MoveTo(this.x, this.y);
             page.LineTo(this.x + this.w, this.y);
@@ -198,9 +189,28 @@ public class Rect  : IDrawable {
                 new Point((this.x + this.r) - this.r * k, this.y, true),
                 new Point((this.x + this.r), this.y, false)
             };
-            page.DrawPath(points, fillColor, borderWidth, borderColor, borderPattern);
+            page.DrawPath(points);
+            if (borderColor != null && borderPattern != null) {
+                page.SetStrokePattern(borderPattern);
+            }
+            if (fillColor != null && borderColor != null) {
+                page.SetBrushColor(fillColor);
+                page.SetPenWidth(borderWidth);
+                page.SetPenColor(borderColor);
+                page.Append("B\n");
+            } else if (fillColor != null && borderColor == null) {
+                page.SetBrushColor(fillColor);
+                page.Append("f\n");
+            } else if (fillColor == null && borderColor != null) {
+                page.SetPenWidth(borderWidth);
+                page.SetPenColor(borderColor);
+                page.Append("S\n");
+            } else {    // Both fillColor == null and borderColor == null
+                page.SetPenWidth(0f);
+                page.SetPenColor(0f, 0f, 0f);
+                page.Append("S\n");
+            }
         }
-
         page.Append("Q\n");
         page.AddEMC();
 

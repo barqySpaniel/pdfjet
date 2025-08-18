@@ -302,11 +302,6 @@ public class Path : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-//        foreach (Point point in points) {
-//            point.x += xBox;
-//            point.y += yBox;
-//        }
-
         float x = float.MaxValue;
         float y = float.MaxValue;
         float xMax = 0f;
@@ -326,7 +321,7 @@ public class Path : IDrawable {
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
-        page.DrawPath(points, fillColor, strokeWidth, strokeColor, strokePattern);
+        page.DrawPath(points);
         if (strokeColor != null && strokePattern != null) {
             page.SetStrokePattern(strokePattern);
         }

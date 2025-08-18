@@ -907,21 +907,14 @@ public class Page {
     }
 
     /**
-     *  Draws or fills the specified path using the current pen or brush.
+     * Draws or fills the specified path using the current pen or brush.
      *
-     *  @param path the path.
-     *  @param operation specifies 'stroke' or 'fill' operation.
+     * @param path list of the path points.
      */
-    public void DrawPath(
-            List<Point> path,
-            float[] brushColor,
-            float penWidth,
-            float[] penColor,
-            String pattern) {
+    public void DrawPath(List<Point> path) {
         if (path.Count < 2) {
             throw new Exception("The Path object must contain at least 2 points");
         }
-
         Point point = path[0];
         MoveTo(point.x, point.y);
         bool curve = false;
@@ -939,29 +932,6 @@ public class Page {
                     LineTo(point.x, point.y);
                 }
             }
-        }
-
-        if (brushColor != null) {
-            SetBrushColor(brushColor);
-        }
-        if (penColor != null) {
-            SetPenWidth(penWidth);
-            SetPenColor(penColor);
-        }
-        if (strokePattern != null) {
-            SetStrokePattern(strokePattern);
-        }
-        if (brushColor != null && penColor != null) {
-            Append("B\n");
-        } else if (brushColor != null && penColor == null) {
-            Append("f\n");
-        } else if (brushColor == null && penColor != null) {
-            Append("S\n");
-        } else {
-            // Both brushColor == null and penColor == null
-            SetPenWidth(0f);
-            SetPenColor(0f, 0f, 0f);
-            Append("S\n");
         }
     }
 
@@ -998,22 +968,6 @@ public class Page {
     }
 
     /**
-     *  Draws a circle on the page.
-     *
-     *  The outline of the circle is drawn using the current pen color.
-     *
-     *  @param x the x coordinate of the center of the circle to be drawn.
-     *  @param y the y coordinate of the center of the circle to be drawn.
-     *  @param r the radius of the circle to be drawn.
-     */
-//    public void DrawCircle(
-//            double x,
-//            double y,
-//            double r) {
-//        DrawEllipse((float) x, (float) y, (float) r, (float) r, Operation.STROKE);
-//    }
-
-    /**
      *  Draws the specified circle on the page and fills it with the current brush color.
      *
      *  @param x the x coordinate of the center of the circle to be drawn.
@@ -1022,30 +976,14 @@ public class Page {
      *  @param operation Operation.STROKE or Operation.FILL
      */
 //    public void DrawCircle(
-//            double x,
-//            double y,
-//            double r,
+//            float x,
+//            float y,
+//            float r,
 //            char operation) {
-//        DrawEllipse((float) x, (float) y, (float) r, (float) r, operation);
+//        // DrawEllipse(x, y, r, r, operation);
 //    }
 
     /**
-     *  Draws the specified circle on the page and fills it with the current brush color.
-     *
-     *  @param x the x coordinate of the center of the circle to be drawn.
-     *  @param y the y coordinate of the center of the circle to be drawn.
-     *  @param r the radius of the circle to be drawn.
-     *  @param operation Operation.STROKE or Operation.FILL
-     */
-    public void DrawCircle(
-            float x,
-            float y,
-            float r,
-            char operation) {
-        // DrawEllipse(x, y, r, r, operation);
-    }
-
-    /**
      *  Draws an ellipse on the page and fills it using the current brush color.
      *
      *  @param x the x coordinate of the center of the ellipse to be drawn.
@@ -1054,73 +992,33 @@ public class Page {
      *  @param r2 the vertical radius of the ellipse to be drawn.
      *  @param operation must be: Operation.FILL
      */
-    public void DrawEllipse(
-            double x,
-            double y,
-            double r1,
-            double r2) {
-        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
-    }
+//    public void DrawEllipse(
+//            double x,
+//            double y,
+//            double r1,
+//            double r2) {
+//        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
+//    }
 
     /**
      *  Draws an ellipse on the page and fills it using the current brush color.
      *
      *  @param x the x coordinate of the center of the ellipse to be drawn.
      *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
+     *  @param rx the horizontal radius of the ellipse to be drawn.
+     *  @param ry the vertical radius of the ellipse to be drawn.
      *  @param operation must be: Operation.FILL
      */
     public void DrawEllipse(
             float x,
             float y,
-            float r1,
-            float r2) {
-        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
+            float rx,
+            float ry) {
+        DrawArc(x, y, rx, ry, 0f, 360f, Sweep.CLOCKWISE);
     }
 
-    /**
-     *  Draws an ellipse on the page and fills it using the current brush color.
-     *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
-     */
-    public void FillEllipse(
-            double x,
-            double y,
-            double r1,
-            double r2) {
-        // DrawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.FILL);
-    }
-
-    /**
-     *  Draws an ellipse on the page and fills it using the current brush color.
-     *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
-     */
-    public void FillEllipse(
-            float x,
-            float y,
-            float r1,
-            float r2) {
-        // DrawEllipse(x, y, r1, r2, Operation.FILL);
-    }
-
-
-    internal void DrawCircle(
-            float x,
-            float y,
-            float r,
-            float[] brushColor,
-            float penWidth,
-            float[] penColor,
-            String pattern) {
-        DrawEllipse(x, y, r, r, brushColor, penWidth, penColor, pattern);
+    internal void DrawCircle(float x, float y, float r) {
+        DrawEllipse(x, y, r, r);
     }
 
     /**
@@ -1195,26 +1093,25 @@ public class Page {
      *
      *  @param p the point.
      */
-    public void DrawPoint(
-            Point p, float[] fillColor, float strokeWidth, float[] strokeColor, String strokePattern) {
+    public void DrawPoint(Point p) {
         if (p.shape != Point.INVISIBLE) {
             List<Point> list;
             if (p.shape == Point.CIRCLE) {
-                DrawCircle(p.x, p.y, p.r, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawCircle(p.x, p.y, p.r);
             } else if (p.shape == Point.DIAMOND) {
                 list = new List<Point>();
                 list.Add(new Point(p.x, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
-                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawPath(list);
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawPath(list);
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 DrawLine(p.x, p.y - p.r, p.x, p.y + p.r);
@@ -1224,28 +1121,28 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawPath(list);
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawPath(list);
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawPath(list);
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawPath(list);
             } else if (p.shape == Point.H_DASH) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
             } else if (p.shape == Point.V_DASH) {
@@ -1273,7 +1170,7 @@ public class Page {
                 list.Add(new Point(p.x + a, p.y - b));
                 list.Add(new Point(p.x - c, p.y + d));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+                DrawPath(list);
             }
         }
     }
@@ -1479,7 +1376,7 @@ public class Page {
         list.Add(new Point(x + r1, y));
         list.Add(new Point(x + w - r1, y));
 
-        DrawPath(list, fillColor, strokeWidth, strokeColor, strokePattern);
+        DrawPath(list);
     }
 
     /**

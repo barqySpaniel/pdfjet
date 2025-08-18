@@ -585,7 +585,7 @@ public class Cell {
                         null,
                         null));
             }
-            page.DrawPoint(point, fillColor, strokeWidth, strokeColor, strokePattern);
+            page.DrawPoint(point);
         }
     }
 

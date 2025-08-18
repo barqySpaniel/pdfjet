@@ -520,7 +520,7 @@ public class Point : IDrawable {
     public float[] DrawOn(Page page) {
         x += xBox;
         y += yBox;
-        page.DrawPoint(this, fillColor, strokeWidth, strokeColor, strokePattern);
+        page.DrawPoint(this);
         x -= xBox;
         y -= yBox;
 
