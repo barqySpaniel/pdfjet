@@ -59,11 +59,11 @@ public class Page {
     internal float[] trimBox;
     internal float[] artBox;
     internal readonly List<StructElem> structures = new List<StructElem>();
-    private float[] pen = {0f, 0f, 0f};
+    private float[] penColor = {0f, 0f, 0f};
     private float[] brush = {0f, 0f, 0f};
     private float[] penCMYK = {0f, 0f, 0f, 1f};
     private float[] brushCMYK = {0f, 0f, 0f, 1f};
-    private float penWidth = 0f;
+    private float penWidth = 0.6f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String strokePattern = "[] 0";
@@ -704,7 +704,7 @@ public class Page {
     }
 
     public float[] GetPenColor() {
-        return pen;
+        return penColor;
     }
 
     /**
@@ -773,10 +773,6 @@ public class Page {
         SetPenWidth((float) width);
     }
 
-    public float GetPenWidth() {
-        return penWidth;
-    }
-
     /**
      *  Sets the pen width that will be used to draw lines and splines on this page.
      *
@@ -785,6 +781,10 @@ public class Page {
     public void SetPenWidth(float width) {
         Append(width);
         Append(" w\n");
+    }
+
+    public float GetPenWidth() {
+        return this.penWidth;
     }
 
     /**
@@ -1369,7 +1369,7 @@ public class Page {
     public void Save() {
         Append("q\n");
         savedStates.Add(new State(
-                pen, brush, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
+                penColor, brush, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
     }
 
     public void Restore() {
@@ -1377,8 +1377,8 @@ public class Page {
         if (savedStates.Count > 0) {
             int lastIndex = savedStates.Count - 1;
             State savedState = savedStates[lastIndex];
-            pen = savedState.GetPen();
             brush = savedState.GetBrush();
+            penColor = savedState.GetPen();
             penWidth = savedState.GetPenWidth();
             lineCapStyle = savedState.GetLineCapStyle();
             lineJoinStyle = savedState.GetLineJoinStyle();
