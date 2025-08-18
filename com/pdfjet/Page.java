@@ -805,7 +805,7 @@ final public class Page {
      *  @param width the pen width.
      */
     public void setPenWidth(float width) {
-        append(penWidth);
+        append(width);
         append(" w\n");
     }
 

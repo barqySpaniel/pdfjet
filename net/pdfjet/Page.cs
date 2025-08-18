@@ -770,11 +770,8 @@ public class Page {
      *  @param width the pen width.
      */
     public void SetPenWidth(float width) {
-        if (penWidth != width) {
-            penWidth = width;
-            Append(penWidth);
-            Append(" w\n");
-        }
+        Append(width);
+        Append(" w\n");
     }
 
     /**
