@@ -1284,6 +1284,32 @@ public class Page {
         return new float[] { x3, y3 };
     }
 
+    public static (float xc, float yc)
+        FindArcCenter(float x1, float y1, float x2, float y2, float radius, Sweep sweep) {
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+
+        float len = (float)Math.Sqrt(dx * dx + dy * dy);
+        if (len == 0) throw new ArgumentException("Zero-length line");
+
+        float offsetX, offsetY;
+
+        if (sweep == Sweep.CLOCKWISE) {
+            // CW: (+dy, -dx)
+            offsetX =  dy / len * radius;
+            offsetY = -dx / len * radius;
+        } else {
+            // CCW: (−dy, +dx)
+            offsetX = -dy / len * radius;
+            offsetY =  dx / len * radius;
+        }
+
+        float xc = x2 + offsetX;
+        float yc = y2 + offsetY;
+
+        return (xc, yc);
+    }
+
     /**
      *  Draws a bezier curve starting from the current point.
      *  <strong>Please note:</strong> You must call the StrokePath,
