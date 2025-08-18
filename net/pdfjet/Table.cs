@@ -263,9 +263,9 @@ public class Table {
         foreach (List<Cell> row in tableData) {
             if (index < row.Count) {
                 Cell cell = row[index];
-                cell.SetFillColor(color);
+                cell.SetTextColor(color);
                 if (cell.textBox != null) {
-                    cell.textBox.SetFillColor(color);
+                    cell.textBox.SetTextColor(color);
                 }
             }
         }
@@ -299,9 +299,9 @@ public class Table {
         if (index < tableData.Count) {
             List<Cell> row = tableData[index];
             foreach (Cell cell in row) {
-                cell.SetFillColor(color);
+                cell.SetTextColor(color);
                 if (cell.textBox != null) {
-                    cell.textBox.SetFillColor(color);
+                    cell.textBox.SetTextColor(color);
                 }
             }
         }
@@ -688,7 +688,7 @@ public class Table {
                     cell2.SetLeftPadding(cell.leftPadding);
                     cell2.SetRightPadding(cell.rightPadding);
 
-                    cell2.SetFillColor(cell.GetFillColor());
+                    cell2.SetTextColor(cell.GetTextColor());
                     cell2.SetStrokeWidth(cell.GetStrokeWidth());
                     cell2.SetStrokeColor(cell.GetStrokeColor());
 

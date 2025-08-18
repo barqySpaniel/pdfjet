@@ -56,7 +56,7 @@ public class TextBox : IDrawable {
     internal float lineWidth = 0f;
 
     private float[] backgroundColor;
-    private float[] fillColor = new float[] {0f, 0f, 0f};
+    private float[] textColor = new float[] {0f, 0f, 0f};
     private float strokeWidth;
     private float[] strokeColor;
 
@@ -361,30 +361,28 @@ public class TextBox : IDrawable {
         return spacing;
     }
 
-
-    public void SetFillColor(int color) {
+    public void SetTextColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetFillColor(r, g, b);
+        SetTextColor(r, g, b);
     }
 
-    public void SetFillColor(float r, float g, float b) {
-        this.fillColor = new float[] {r, g, b};
+    public void SetTextColor(float r, float g, float b) {
+        this.textColor = new float[] {r, g, b};
     }
 
-    public void SetFillColor(float[] rgbColor) {
-        this.fillColor = rgbColor;
+    public void SetTextColor(float[] rgbColor) {
+        this.textColor = rgbColor;
     }
 
-    public float[] GetFillColor() {
-        return fillColor;
+    public float[] GetTextColor() {
+        return textColor;
     }
 
     public void SetStrokeWidth(float strokeWidth) {
         this.strokeWidth = strokeWidth;
     }
-
 
     public void SetStrokeColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
@@ -694,7 +692,7 @@ public class TextBox : IDrawable {
                     page.FillRect(x, y, width, height);
                 }
                 page.SetPenColor(this.strokeColor);
-                page.SetBrushColor(this.fillColor);
+                page.SetBrushColor(this.textColor);
                 page.SetPenWidth(this.font.underlineThickness);
             }
             float xText = x + margin;
@@ -725,7 +723,7 @@ public class TextBox : IDrawable {
                     xText = y + margin;
                 }
                 if (page != null) {
-                    DrawTextLine(page, font, fallbackFont, line, xText, yText, fillColor, colors);
+                    DrawTextLine(page, font, fallbackFont, line, xText, yText, textColor, colors);
                 }
                 if (textDirection == Direction.LEFT_TO_RIGHT ||
                         textDirection == Direction.BOTTOM_TO_TOP) {
@@ -736,11 +734,11 @@ public class TextBox : IDrawable {
             }
         } else {            // TextBox that expands to fit the content
             if (page != null) {
-                if (fillColor != null) {
-                    page.SetBrushColor(fillColor);
+                if (backgroundColor != null) {
+                    page.SetBrushColor(backgroundColor);
                     page.FillRect(x, y, width, (lines.Length * leading - spacing) + 2*margin);
                 }
-                page.SetBrushColor(this.fillColor);
+                page.SetBrushColor(this.textColor);
                 page.SetPenWidth(this.font.underlineThickness);
                 page.SetPenColor(this.strokeColor);
             }
@@ -759,7 +757,7 @@ public class TextBox : IDrawable {
                     xText = x + margin;
                 }
                 if (page != null) {
-                    DrawTextLine(page, font, fallbackFont, line, xText, yText, fillColor, colors);
+                    DrawTextLine(page, font, fallbackFont, line, xText, yText, textColor, colors);
                 }
                 if (textDirection == Direction.LEFT_TO_RIGHT ||
                         textDirection == Direction.BOTTOM_TO_TOP) {

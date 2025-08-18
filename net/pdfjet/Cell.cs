@@ -46,7 +46,8 @@ public class Cell {
 
     internal float lineWidth = 0f;
 
-    internal float[] fillColor;
+    internal float[] backgroundColor;
+    internal float[] textColor = new float[] {0f, 0f, 0f};
     internal float strokeWidth;
     internal float[] strokeColor;
     internal String strokePattern = "[] 0";    // Solid
@@ -342,22 +343,33 @@ public class Cell {
     }
 
     public void SetBgColor(int color) {
-        SetFillColor(color);
+        SetBackgroundColor(color);
     }
 
-    public void SetFillColor(int color) {
+    public void SetBackgroundColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetFillColor(r, g, b);
+        backgroundColor = new float[] {r, g, b};
     }
 
-    public void SetFillColor(float r, float g, float b) {
-        this.fillColor = new float[] {r, g, b};
+    public void SetTextColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetTextColor(r, g, b);
     }
 
-    public void SetFillColor(float[] rgbColor) {
-        this.fillColor = rgbColor;
+    public void SetTextColor(float r, float g, float b) {
+        this.textColor = new float[] {r, g, b};
+    }
+
+    public void SetTextColor(float[] rgbColor) {
+        this.textColor = rgbColor;
+    }
+
+    public float[] GetTextColor() {
+        return this.textColor;
     }
 
     public void SetStrokeWidth(float strokeWidth) {
@@ -366,11 +378,6 @@ public class Cell {
 
     public float GetStrokeWidth() {
         return this.strokeWidth;
-    }
-
-
-    public float[] GetFillColor() {
-        return this.fillColor;
     }
 
     public void SetStrokeColor(int color) {
@@ -535,7 +542,7 @@ public class Cell {
             float y,
             float w,
             float h) {
-        if (fillColor != null) {
+        if (backgroundColor != null) {
             DrawBackground(page, x, y, w, h);
         }
 
@@ -603,8 +610,8 @@ public class Cell {
             float y,
             float cellW,
             float cellH) {
-        // page.SetBrushColor(fillColor);
-        // page.FillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth);
+        page.SetBrushColor(backgroundColor);
+        page.FillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth);
     }
 
     private void DrawBorders(
@@ -679,7 +686,7 @@ public class Cell {
             if (compositeTextLine == null) {
                 xText = (x + cellW) - (font.StringWidth(text) + this.rightPadding);
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, fillColor, null);
+                page.DrawString(font, fallbackFont, text, xText, yText, textColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);
@@ -699,7 +706,7 @@ public class Cell {
                 xText = x + this.leftPadding +
                         (((cellW - (leftPadding + rightPadding)) - font.StringWidth(text)) / 2);
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, fillColor, null);
+                page.DrawString(font, fallbackFont, text, xText, yText, textColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);
@@ -719,7 +726,7 @@ public class Cell {
             xText = x + this.leftPadding;
             if (compositeTextLine == null) {
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, fillColor, null);
+                page.DrawString(font, fallbackFont, text, xText, yText, textColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);
