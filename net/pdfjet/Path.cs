@@ -32,15 +32,9 @@ using System.Collections.Generic;
  */
 namespace PDFjet.NET {
 public class Path : IDrawable {
-    private float[] color = new float[] {0f, 0f, 0f};   // Black color
-
-
-    // private bool fillShape = false;
-    // private bool closePath = false;
-
     private List<Point> points = null;
     private float[] fillColor;
-    private float strokeWidth;
+    private float strokeWidth = 0.5f;   // DO NOT REMOVE!! Smaller value causes the rotation to fail!?
     private float[] strokeColor;
     private String strokePattern = "[] 0";
     private float degrees;
@@ -302,6 +296,11 @@ public class Path : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
+        foreach (Point point in points) {
+            point.x += xBox;
+            point.y += yBox;
+        }
+
         float x = float.MaxValue;
         float y = float.MaxValue;
         float xMax = 0f;

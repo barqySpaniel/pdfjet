@@ -85,9 +85,10 @@ class Example_20 {
         path.Add(new Point(10.0f,  4.5f));
         path.Add(new Point(12.5f,  0.0f));
         path.SetStrokeColor(Color.red);
+        path.SetStrokeWidth(0.5f);
         path.SetLocation(50f, 50f);
         path.SetScaleFactor(10f);
-        // path.SetRotateAngle(45f);
+        path.SetRotateAngle(45f);
         path.DrawOn(page);
 
         Point point = new Point();
