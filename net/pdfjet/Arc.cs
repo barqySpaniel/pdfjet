@@ -261,6 +261,9 @@ public class Arc : IDrawable {
                 startAngle,
                 endAngle,
                 sweep);
+        if (strokeColor != null && strokePattern != null) {
+            page.SetStrokePattern(strokePattern);
+        }
         if (fillColor != null && strokeColor != null) {
             page.SetBrushColor(fillColor);
             page.SetPenWidth(strokeWidth);
@@ -273,8 +276,7 @@ public class Arc : IDrawable {
             page.SetPenWidth(strokeWidth);
             page.SetPenColor(strokeColor);
             page.Append("S\n");
-        } else {
-            // Both brushColor == null and penColor == null
+        } else {    // Both brushColor == null and penColor == null
             page.SetPenWidth(0f);
             page.SetPenColor(0f, 0f, 0f);
             page.Append("S\n");
