@@ -82,7 +82,8 @@ class Example_20 {
         path.Add(new Point(10.0f,  4.5f));
         path.Add(new Point(12.5f,  0.0f));
         path.SetStrokeColor(Color.red);
-        path.SetStrokeWidth(0.32f); // !! Smaller values may cause some viewers not to display the rotated Path !!
+        path.SetStrokeWidth(0.5f);  // !! Width narrower than 0.35 may prevent some    !!
+                                    // !! PDF viewers from displaying the rotated Path !!
         path.SetLocation(50f, 50f);
         path.SetScaleFactor(10f);
         path.SetRotateAngle(45f);   // !! See SetStrokeWidth !!
