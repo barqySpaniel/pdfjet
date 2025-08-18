@@ -54,20 +54,25 @@ public class Example_23 {
         descent_text.SetLocation(x1 - 85f, y1 + f1.GetAscent() + 15f);
         descent_text.DrawOn(page);
 
-        // Lines beside the text
-        Line arrow_line1 = new Line(x1 - 10f, y1, x1 - 10f, y1 + f1.GetAscent());
-        arrow_line1.SetColor(Color.blue);
-        arrow_line1.SetWidth(3f);
-        arrow_line1.DrawOn(page);
+        // Line beside the text ascent
+        Line ascentLine = new Line(
+            x1 - 10f,
+            y1,
+            x1 - 10f,
+            y1 + f1.GetAscent());
+        ascentLine.SetColor(Color.blue);
+        ascentLine.SetWidth(3f);
+        ascentLine.DrawOn(page);
 
-        Line arrow_line2 = new Line(
+        // Line beside the text descent
+        Line descentLine = new Line(
                 x1 - 10f,
                 y1 + f1.GetAscent(),
                 x1 - 10f,
                 y1 + f1.GetAscent() + f1.GetDescent());
-        arrow_line2.SetColor(Color.red);
-        arrow_line2.SetWidth(3f);
-        arrow_line2.DrawOn(page);
+        descentLine.SetColor(Color.red);
+        descentLine.SetWidth(3f);
+        descentLine.DrawOn(page);
 
         // Lines for first line of text
         Line text_line1 = new Line(

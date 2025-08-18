@@ -45,8 +45,7 @@ public class Line : IDrawable {
     private String altDescription = Single.space;
 
     /**
-     *  The default constructor.
-     *
+     * The default constructor.
      */
     public Line() {
     }
@@ -370,16 +369,18 @@ public class Line : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
+        page.AddBMC(StructElem.P, language, actualText, altDescription);
+        page.Append("q\n");
         page.SetPenColor(color);
         page.SetPenWidth(width);
         page.SetLineCapStyle(capStyle);
         page.SetStrokePattern(pattern);
-        page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.DrawLine(
                 x1 + xBox,
                 y1 + yBox,
                 x2 + xBox,
                 y2 + yBox);
+        page.Append("Q\n");
         page.AddEMC();
 
         float xMax = Math.Max(x1 + xBox, x2 + xBox);

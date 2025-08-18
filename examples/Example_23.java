@@ -53,24 +53,24 @@ public class Example_23 {
         descent_text.setLocation(x1 - 85f, y1 + f1.getAscent() + 15f);
         descent_text.drawOn(page);
 
-        // Lines beside the text ascent
+        // Line beside the text ascent
         Line blueLine = new Line(
             x1 - 10f,
             y1,
             x1 - 10f,
             y1 + f1.getAscent());
         blueLine.setColor(Color.blue);
-        blueLine.setWidth(5f);
+        blueLine.setWidth(3f);
         blueLine.drawOn(page);
 
-        // Lines beside the text descent
+        // Line beside the text descent
         Line redLine = new Line(
             x1 - 10f,
             y1 + f1.getAscent(),
             x1 - 10f,
             y1 + f1.getAscent() + f1.getDescent());
         redLine.setColor(Color.red);
-        redLine.setWidth(5f);
+        redLine.setWidth(3f);
         redLine.drawOn(page);
 
         // Lines for first line of text
