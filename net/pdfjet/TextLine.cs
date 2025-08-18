@@ -246,9 +246,6 @@ public class TextLine : IDrawable {
         return lineColor;
     }
 
-
-
-
     /**
      * Returns the x coordinate of the destination.
      *
