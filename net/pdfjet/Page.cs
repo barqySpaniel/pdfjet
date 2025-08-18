@@ -59,11 +59,11 @@ public class Page {
     internal float[] trimBox;
     internal float[] artBox;
     internal readonly List<StructElem> structures = new List<StructElem>();
+    private float[] brushColor = {0f, 0f, 0f};
     private float[] penColor = {0f, 0f, 0f};
-    private float[] brush = {0f, 0f, 0f};
+    private float penWidth = 0.6f;
     private float[] penCMYK = {0f, 0f, 0f, 1f};
     private float[] brushCMYK = {0f, 0f, 0f, 1f};
-    private float penWidth = 0.6f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String strokePattern = "[] 0";
@@ -664,7 +664,7 @@ public class Page {
      * @return the brush color.
      */
     public float[] GetBrushColor() {
-        return brush;
+        return brushColor;
     }
 
     /**
@@ -1369,7 +1369,7 @@ public class Page {
     public void Save() {
         Append("q\n");
         savedStates.Add(new State(
-                penColor, brush, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
+                brushColor, penColor, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
     }
 
     public void Restore() {
@@ -1377,8 +1377,8 @@ public class Page {
         if (savedStates.Count > 0) {
             int lastIndex = savedStates.Count - 1;
             State savedState = savedStates[lastIndex];
-            brush = savedState.GetBrush();
-            penColor = savedState.GetPen();
+            brushColor = savedState.GetBrushColor();
+            penColor = savedState.GetPenColor();
             penWidth = savedState.GetPenWidth();
             lineCapStyle = savedState.GetLineCapStyle();
             lineJoinStyle = savedState.GetLineJoinStyle();

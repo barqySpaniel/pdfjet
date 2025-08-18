@@ -25,34 +25,34 @@ using System;
 
 namespace PDFjet.NET {
 class State {
-    private float[] pen;
-    private float[] brush;
+    private float[] brushColor;
+    private float[] penColor;
     private float penWidth;
     private CapStyle lineCapStyle;
     private JoinStyle lineJoinStyle;
     private String strokePattern;
 
     public State(
-            float[] pen,
-            float[] brush,
+            float[] brushColor,
+            float[] penColor,
             float penWidth,
             CapStyle lineCapStyle,
             JoinStyle lineJoinStyle,
             String strokePattern) {
-        this.pen = new float[] { pen[0], pen[1], pen[2] };
-        this.brush = new float[] { brush[0], brush[1], brush[2] };
+        this.brushColor = new float[] { brushColor[0], brushColor[1], brushColor[2] }; // TODO: Is this needed?
+        this.penColor = new float[] { penColor[0], penColor[1], penColor[2] };         // Creating new objects?
         this.penWidth = penWidth;
         this.lineCapStyle = lineCapStyle;
         this.lineJoinStyle = lineJoinStyle;
         this.strokePattern = strokePattern;
     }
 
-    public float[] GetPen() {
-        return pen;
+    public float[] GetBrushColor() {
+        return brushColor;
     }
 
-    public float[] GetBrush() {
-        return brush;
+    public float[] GetPenColor() {
+        return penColor;
     }
 
     public float GetPenWidth() {
