@@ -256,8 +256,8 @@ public class Image : IDrawable {
      *
      *  @param factor the factor used to scale the image.
      */
-    public Image ScaleBy(double factor) {
-        return this.ScaleBy((float) factor, (float) factor);
+    public Image SetScaleFactor(double factor) {
+        return this.SetScaleFactor((float) factor, (float) factor);
     }
 
     /**
@@ -265,8 +265,8 @@ public class Image : IDrawable {
      *
      *  @param factor the factor used to scale the image.
      */
-    public Image ScaleBy(float factor) {
-        return this.ScaleBy(factor, factor);
+    public Image SetScaleFactor(float factor) {
+        return this.SetScaleFactor(factor, factor);
     }
 
     public Image RotateBy(float degrees) {
@@ -281,21 +281,21 @@ public class Image : IDrawable {
      *  @param widthFactor the factor used to scale the width of the image
      *  @param heightFactor the factor used to scale the height of the image
      */
-    public Image ScaleBy(float widthFactor, float heightFactor) {
+    public Image SetScaleFactor(float widthFactor, float heightFactor) {
         this.w *= widthFactor;
         this.h *= heightFactor;
         return this;
     }
 
-    public Image ResizeWidth(float width) {
-        float factor = width / GetWidth();
-        return this.ScaleBy(factor, factor);
-    }
-
-    public Image ResizeHeight(float height) {
-        float factor = height / GetHeight();
-        return this.ScaleBy(factor, factor);
-    }
+//    public Image ResizeWidth(float width) {
+//        float factor = width / GetWidth();
+//        return this.ScaleBy(factor, factor);
+//    }
+//
+//    public Image ResizeHeight(float height) {
+//        float factor = height / GetHeight();
+//        return this.ScaleBy(factor, factor);
+//    }
 
     /**
      *  Sets the URI for the "click box" action.

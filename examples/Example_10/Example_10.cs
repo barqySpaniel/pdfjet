@@ -18,19 +18,21 @@ public class Example_10 {
         Image image1 = new Image(pdf, "images/sz-map.png");
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f4 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
-
         f1.SetSize(10f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f2.SetSize(14f);
+
+        Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f3.SetSize(12f);
+
+        Font f4 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
         f4.SetSize(10f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         image1.SetLocation(90f, 35f);
-        image1.ScaleBy(0.75f);
+        image1.SetScaleFactor(0.75f);
         image1.DrawOn(page);
 
         int rotate = 0;
@@ -75,7 +77,7 @@ public class Example_10 {
         buf.Append("organizations but retains a strong commitment to neutrality.");
 
         text = new TextLine(f1, buf.ToString());
-        text.SetColor(Color.red);
+        text.SetTextColor(Color.red);
         p3.Add(text);
 
         Paragraph p4 = new Paragraph();
@@ -102,13 +104,13 @@ public class Example_10 {
 
         text = new TextLine(f4,
                 "Even so, unemployment has remained at less than half the EU average.");
-        text.SetColor(Color.blue);
+        text.SetTextColor(Color.blue);
         p5.Add(text);
 
         Paragraph p6 = new Paragraph();
         p6.SetAlignment(Align.RIGHT);
         text = new TextLine(f1, "Source: The world fact book.");
-        text.SetColor(Color.blue);
+        text.SetTextColor(Color.blue);
         text.SetURIAction(
                 "https://www.cia.gov/library/publications/the-world-factbook/geos/sz.html");
         p6.Add(text);
