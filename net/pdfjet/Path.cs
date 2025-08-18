@@ -213,21 +213,6 @@ public class Path : IDrawable {
         PlaceIn(box, (float) xOffset, (float) yOffset);
     }
 
-    /**
-     *  Places the path inside the specified box at coordinates (xOffset, yOffset) of the top left corner.
-     *
-     *  @param box the specified box.
-     *  @param xOffset the xOffset.
-     *  @param yOffset the yOffset.
-     */
-    public void PlaceIn(
-            Box box,
-            float xOffset,
-            float yOffset) {
-        xBox = box.x + xOffset;
-        yBox = box.y + yOffset;
-    }
-
     public void SetPosition(double x, double y) {
         SetLocation((float) x, (float) y);
     }
