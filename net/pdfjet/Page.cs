@@ -1075,6 +1075,7 @@ public class Page {
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
                 DrawPath(list);
+                FillPath();
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
@@ -1082,6 +1083,7 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 DrawPath(list);
+                FillPath();
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 DrawLine(p.x, p.y - p.r, p.x, p.y + p.r);
@@ -1092,6 +1094,7 @@ public class Page {
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x, p.y - p.r));
                 DrawPath(list);
+                FillPath();
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
@@ -1099,6 +1102,7 @@ public class Page {
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 DrawPath(list);
+                FillPath();
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x + p.r, p.y + p.r));
@@ -1106,6 +1110,7 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 DrawPath(list);
+                FillPath();
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
@@ -1113,6 +1118,7 @@ public class Page {
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 DrawPath(list);
+                FillPath();
             } else if (p.shape == Point.H_DASH) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
             } else if (p.shape == Point.V_DASH) {
@@ -1141,6 +1147,7 @@ public class Page {
                 list.Add(new Point(p.x - c, p.y + d));
                 list.Add(new Point(p.x, p.y - p.r));
                 DrawPath(list);
+                FillPath();
             }
         }
     }

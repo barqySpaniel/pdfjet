@@ -44,6 +44,11 @@ public class Example_03 {
         image1.DrawOn(page);
 
 
+        Point point = new Point(400f, 400f);
+        point.SetShape(Point.STAR);
+        point.SetRadius(30f);
+        point.SetFillColor(Color.blue);
+        point.DrawOn(page);
 //
 //        text.SetText(
 //                "JPG image file embedded once and drawn 3 times");
