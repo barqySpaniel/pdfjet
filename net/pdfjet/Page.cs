@@ -1346,8 +1346,8 @@ public class Page {
     }
 
     public float[] DrawCircularArc(
-            float x, float y, float r, float alpha1, float alpha2, Sweep sweep) {
-        return DrawArc(x, y, r, r, alpha1, alpha2, sweep);
+            float x, float y, float r, float startAngle, float endAngle, Sweep sweep) {
+        return DrawArc(x, y, r, r, startAngle, endAngle, sweep);
     }
 
     public float[] DrawArc(
