@@ -37,7 +37,7 @@ public class Example_23 {
         // textBox.SetHeight(230f); // Test the appending of "..."
         textBox.SetMargin(0f);
         textBox.SetSpacing(0f);
-        textBox.SetFillColor(Color.lightgreen);
+        textBox.SetTextColor(Color.lightgreen);
         float[] xy = textBox.DrawOn(page);
 
         float x2 = x1 + textBox.GetWidth();

@@ -65,7 +65,7 @@ public class Example_14 {
                     cell.SetBorder(Border.RIGHT, true);
 
                     cell.SetColSpan(3);
-                    cell.SetFillColor(Color.darkseagreen);
+                    cell.SetTextColor(Color.darkseagreen);
                     cell.SetLineWidth(1f);
                     cell.SetTextAlignment(Align.RIGHT);
                 }
