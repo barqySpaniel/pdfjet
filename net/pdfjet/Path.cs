@@ -39,8 +39,8 @@ public class Path : IDrawable {
     private String strokePattern = "[] 0";
     private float degrees;
 
-    private float xBox;
-    private float yBox;
+    private float x;
+    private float y;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
 
@@ -190,29 +190,6 @@ public class Path : IDrawable {
         this.degrees = (float) -degrees;
     }
 
-    /**
-     *  Places this path in the specified box at position (0.0, 0.0).
-     *
-     *  @param box the specified box.
-     */
-    public void PlaceIn(Box box) {
-        PlaceIn(box, 0f, 0f);
-    }
-
-    /**
-     *  Places the path inside the specified box at coordinates (xOffset, yOffset) of the top left corner.
-     *
-     *  @param box the specified box.
-     *  @param xOffset the xOffset.
-     *  @param yOffset the yOffset.
-     */
-    public void PlaceIn(
-            Box box,
-            double xOffset,
-            double yOffset) {
-        PlaceIn(box, (float) xOffset, (float) yOffset);
-    }
-
     public void SetPosition(double x, double y) {
         SetLocation((float) x, (float) y);
     }
@@ -226,8 +203,8 @@ public class Path : IDrawable {
     }
 
     public Path SetLocation(float x, float y) {
-        xBox = x;
-        yBox = y;
+        this.x = x;
+        this.y = y;
         return this;
     }
 
@@ -282,8 +259,8 @@ public class Path : IDrawable {
      */
     public float[] DrawOn(Page page) {
         foreach (Point point in points) {
-            point.x += xBox;
-            point.y += yBox;
+            point.x += this.x;
+            point.y += this.y;
         }
 
         float x = float.MaxValue;
