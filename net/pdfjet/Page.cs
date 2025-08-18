@@ -1380,7 +1380,7 @@ public class Page {
             double delta = segEnd - segStart; // guaranteed ≤ ±π/2
 
             // safe κ
-            double k = 4.0 / 3.0 * Math.Tan(delta / 4.0);
+            float k = (float)(4.0 / 3.0 * Math.Tan(delta / 4.0));
 
             // trig
             float cosStart = (float)Math.Cos(segStart);
@@ -1395,10 +1395,10 @@ public class Page {
             y3 = y + ry * sinEnd;
 
             // control points
-            float x1 = x0 - (float)(k * rx * sinStart);
-            float y1 = y0 + (float)(k * ry * cosStart);
-            float x2 = x3 + (float)(k * rx * sinEnd);
-            float y2 = y3 - (float)(k * ry * cosEnd);
+            float x1 = x0 - (k * rx * sinStart);
+            float y1 = y0 + (k * ry * cosStart);
+            float x2 = x3 + (k * rx * sinEnd);
+            float y2 = y3 - (k * ry * cosEnd);
 
             if (i == 0) {
                 MoveTo(x0, y0);
