@@ -50,6 +50,8 @@ public class Point : IDrawable {
 
     internal float x;
     internal float y;
+    private float xBox;
+    private float yBox;
     internal float r = 2f;
     internal int shape = Point.CIRCLE;
 
@@ -67,8 +69,6 @@ public class Point : IDrawable {
     private int textColor;
     private int textDirection;
     private String uri;
-    private float xBox;
-    private float yBox;
 
     /**
      *  The default constructor.
@@ -531,6 +531,8 @@ public class Point : IDrawable {
         x += xBox;
         y += yBox;
         page.DrawPoint(this);
+        page.SetBrushColor(fillColor);
+        page.Append("f\n");
         x -= xBox;
         y -= yBox;
 
