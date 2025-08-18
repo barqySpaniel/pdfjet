@@ -226,8 +226,8 @@ public class Path : IDrawable {
     }
 
     public Path SetLocation(float x, float y) {
-        xBox += x;
-        yBox += y;
+        xBox = x;
+        yBox = y;
         return this;
     }
 
