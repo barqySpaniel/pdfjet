@@ -168,11 +168,11 @@ public class Form : IDrawable {
                     });
                     if (page != null && i == (field.values.Length - 1)) {
                         new Line(0f, 0f, rowLength, 0f)
-                                .PlaceIn(box, 0f, yField)
+                                // .PlaceIn(box, 0f, yField)
                                 .DrawOn(page);
                         if (field.x != 0f) {
                             new Line(0f, -(field.values.Length-1)*rowHeight, 0f, 0f)
-                                    .PlaceIn(box, field.x, yField)
+                                    // .PlaceIn(box, field.x, yField)
                                     .DrawOn(page);
                         }
                     }

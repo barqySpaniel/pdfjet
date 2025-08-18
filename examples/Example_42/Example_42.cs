@@ -5,15 +5,11 @@ using System.Diagnostics;
 
 using PDFjet.NET;
 
-
 /**
- *  Example_42.java
- *
+ * Example_42.java
  */
 public class Example_42 {
-
     public Example_42() {
-
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_42.pdf", FileMode.Create)));
 

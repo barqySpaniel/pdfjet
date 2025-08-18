@@ -13,11 +13,12 @@ public class Example_41 {
                 new FileStream("Example_41.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f3 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
-
         f1.SetSize(10f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f2.SetSize(10f);
+
+        Font f3 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
         f3.SetSize(10f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
