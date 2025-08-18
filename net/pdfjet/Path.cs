@@ -302,10 +302,10 @@ public class Path : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-        foreach (Point point in points) {
-            point.x += xBox;
-            point.y += yBox;
-        }
+//        foreach (Point point in points) {
+//            point.x += xBox;
+//            point.y += yBox;
+//        }
 
         float x = float.MaxValue;
         float y = float.MaxValue;
@@ -317,21 +317,36 @@ public class Path : IDrawable {
 
             if (point.x > xMax) { xMax = point.x; }
             if (point.y > yMax) { yMax = point.y; }
-
-            // point.x -= xBox;
-            // point.y -= yBox;
         }
         float w = xMax - x;
         float h = yMax - y;
 
         page.AddBMC(StructElem.P, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
-
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
         page.DrawPath(points, fillColor, strokeWidth, strokeColor, strokePattern);
-
+        if (strokeColor != null && strokePattern != null) {
+            page.SetStrokePattern(strokePattern);
+        }
+        if (fillColor != null && strokeColor != null) {
+            page.SetBrushColor(fillColor);
+            page.SetPenWidth(strokeWidth);
+            page.SetPenColor(strokeColor);
+            page.Append("B\n");
+        } else if (fillColor != null && strokeColor == null) {
+            page.SetBrushColor(fillColor);
+            page.Append("f\n");
+        } else if (fillColor == null && strokeColor != null) {
+            page.SetPenWidth(strokeWidth);
+            page.SetPenColor(strokeColor);
+            page.Append("S\n");
+        } else {    // Both brushColor == null and penColor == null
+            page.SetPenWidth(0f);
+            page.SetPenColor(0f, 0f, 0f);
+            page.Append("S\n");
+        }
         page.Append("Q\n");
         page.AddEMC();
 

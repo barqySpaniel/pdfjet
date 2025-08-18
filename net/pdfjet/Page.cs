@@ -1363,7 +1363,7 @@ public class Page {
         float x3 = 0f;
         float y3 = 0f;
 
-        // unwrap endAngle so delta has the right sign
+        // Unwrap endAngle so delta has the right sign
         float totalDelta = endAngle - startAngle;
         if (cw && totalDelta < 0) totalDelta += 360f;
         if (!cw && totalDelta > 0) totalDelta -= 360f;
@@ -1379,22 +1379,21 @@ public class Page {
 
             double delta = segEnd - segStart; // guaranteed ≤ ±π/2
 
-            // safe κ
+            // Calculate safe κ
             float k = (float)(4.0 / 3.0 * Math.Tan(delta / 4.0));
 
-            // trig
             float cosStart = (float)Math.Cos(segStart);
             float sinStart = (float)Math.Sin(segStart);
             float cosEnd   = (float)Math.Cos(segEnd);
             float sinEnd   = (float)Math.Sin(segEnd);
 
-            // points
+            // End points
             float x0 = x + rx * cosStart;
             float y0 = y + ry * sinStart;
             x3 = x + rx * cosEnd;
             y3 = y + ry * sinEnd;
 
-            // control points
+            // Control points
             float x1 = x0 - (k * rx * sinStart);
             float y1 = y0 + (k * ry * cosStart);
             float x2 = x3 + (k * rx * sinEnd);
