@@ -37,9 +37,9 @@ public class Arc : IDrawable {
     private Sweep sweep = Sweep.CLOCKWISE;
     private float degrees;
 
+    private float[] fillColor;
     private float[] strokeColor = new float[] {0f, 0f, 0f};   // Black color
     private float strokeWidth = 0f;
-    private float[] fillColor;
     private String strokePattern = "[] 0";
 
     private String language = null;

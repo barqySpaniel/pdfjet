@@ -33,16 +33,16 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class Path : IDrawable {
     private List<Point> points = null;
-    private float[] fillColor;
-    private float strokeWidth = 0.6f;   // !! DO NOT REMOVE OR LOWER THIS VALUE !!
-    private float[] strokeColor;
-    private String strokePattern = "[] 0";
-    private float degrees;
-
     private float x;
     private float y;
+
+    private float[] fillColor;
+    private float[] strokeColor;
+    private float strokeWidth = 0.6f;   // !! DO NOT REMOVE OR LOWER THIS VALUE !!
+    private String strokePattern = "[] 0";
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
+    private float rotateDegrees;
 
     private String uri = null;
     private String key = null;
@@ -64,6 +64,72 @@ public class Path : IDrawable {
      */
     public void Add(Point point) {
         points.Add(point);
+    }
+
+    public Path SetLocation(float x, float y) {
+        this.x = x;
+        this.y = y;
+        return this;
+    }
+
+    public Path SetLocation(double x, double y) {
+        return SetLocation((float) x, (float) y);
+    }
+
+    public void SetPosition(double x, double y) {
+        SetLocation((float) x, (float) y);
+    }
+
+    public void SetPosition(float x, float y) {
+        SetLocation(x, y);
+    }
+
+    /**
+     *  Sets the pen color that will be used to draw this path.
+     *
+     *  @param color the color is specified as an integer.
+     */
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetFillColor(r, g, b);
+    }
+
+    public void SetFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void SetFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
+    }
+
+    public void SetStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetStrokeColor(r, g, b);
+    }
+
+    public void SetStrokeColor(float r, float g, float b) {
+        this.strokeColor = new float[] {r, g, b};
+    }
+
+    public void SetStrokeColor(float[] rgbColor) {
+        this.strokeColor = rgbColor;
+    }
+
+    /**
+     *  Sets the pen width that will be used to draw the lines and splines that are part of this path.
+     *
+     *  @param width the pen width.
+     */
+    public void SetStrokeWidth(double width) {
+        this.strokeWidth = (float) width;
+    }
+
+    public void SetStrokeWidth(float width) {
+        this.strokeWidth = width;
     }
 
     /**
@@ -94,56 +160,6 @@ public class Path : IDrawable {
     public void SetStrokePattern(String pattern) {
         this.strokePattern = pattern;
     }
-
-    /**
-     *  Sets the pen width that will be used to draw the lines and splines that are part of this path.
-     *
-     *  @param width the pen width.
-     */
-    public void SetStrokeWidth(double width) {
-        this.strokeWidth = (float) width;
-    }
-
-    /**
-     *  Sets the pen color that will be used to draw this path.
-     *
-     *  @param color the color is specified as an integer.
-     */
-    public void SetFillColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetFillColor(r, g, b);
-    }
-
-    public void SetFillColor(float r, float g, float b) {
-        this.fillColor = new float[] {r, g, b};
-    }
-
-    public void SetFillColor(float[] rgbColor) {
-        this.fillColor = rgbColor;
-    }
-
-    public void SetStrokeWidth(float width) {
-        this.strokeWidth = width;
-    }
-
-    public void SetStrokeColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetStrokeColor(r, g, b);
-    }
-
-    public void SetStrokeColor(float r, float g, float b) {
-        this.strokeColor = new float[] {r, g, b};
-    }
-
-    public void SetStrokeColor(float[] rgbColor) {
-        this.strokeColor = rgbColor;
-    }
-
-
 
     /**
      *  Sets the line cap style.
@@ -183,29 +199,11 @@ public class Path : IDrawable {
     }
 
     public void SetRotateAngle(float degrees) {
-        this.degrees = -degrees;
+        this.rotateDegrees = -degrees;
     }
 
     public void SetRotateAngle(double degrees) {
-        this.degrees = (float) -degrees;
-    }
-
-    public void SetPosition(double x, double y) {
-        SetLocation((float) x, (float) y);
-    }
-
-    public void SetPosition(float x, float y) {
-        SetLocation(x, y);
-    }
-
-    public Path SetLocation(double x, double y) {
-        return SetLocation((float) x, (float) y);
-    }
-
-    public Path SetLocation(float x, float y) {
-        this.x = x;
-        this.y = y;
-        return this;
+        this.rotateDegrees = (float) -degrees;
     }
 
     /**
@@ -281,7 +279,7 @@ public class Path : IDrawable {
         page.Append("q\n");
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
-        page.RotateAroundCenter(centerX, centerY, degrees);
+        page.RotateAroundCenter(centerX, centerY, rotateDegrees);
         page.DrawPath(points);
         if (strokeColor != null && strokePattern != null) {
             page.SetStrokePattern(strokePattern);
