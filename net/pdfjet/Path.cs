@@ -34,7 +34,7 @@ namespace PDFjet.NET {
 public class Path : IDrawable {
     private List<Point> points = null;
     private float[] fillColor;
-    private float strokeWidth = 0.5f;   // DO NOT REMOVE!! Smaller value causes the rotation to fail!?
+    private float strokeWidth = 0.5f;   // !! DO NOT REMOVE !!
     private float[] strokeColor;
     private String strokePattern = "[] 0";
     private float degrees;
