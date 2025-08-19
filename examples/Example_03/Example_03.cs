@@ -52,7 +52,7 @@ public class Example_03 {
         Arc arc = new Arc();
         arc.SetStartPointToEndOf(line);
         arc.SetRadius(45f);
-        arc.SetSweepDegreesCW(180f);
+        arc.SetSweepDegreesCCW(180f);
         arc.SetStrokeWidth(3f);
         arc.SetStrokeColor(Color.blue);
         arc.DrawOn(page);
@@ -63,8 +63,8 @@ public class Example_03 {
         page.SetPenColor(Color.blue);
         // page.DrawArcFromLineEnd(line, 45f, 45f, 180f, Sweep.CLOCKWISE);
         // page.StrokePath();
-        page.DrawArcFromLineEnd(line, 45f, 45f, 180f, Sweep.COUNTER_CLOCKWISE);
-        page.StrokePath();
+        // page.DrawArcFromLineEnd(line, 45f, 45f, 180f, Sweep.COUNTER_CLOCKWISE);
+        // page.StrokePath();
         page.Restore();
 
 //

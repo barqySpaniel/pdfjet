@@ -273,7 +273,7 @@ public class Arc : IDrawable {
             float nx = -dy * invLength;
             float ny = dx * invLength;
             // Adjust direction based on sweep
-            float sign = 1f; // sweepDegrees == Sweep.CLOCKWISE ? 1f : -1f;
+            float sign = sweepDegrees > 0f ? 1f : -1f;
             cx = line.x2 + nx * rx * sign;
             cy = line.y2 + ny * ry * sign;
             startAngle = MathF.Atan2(line.y2 - cy, line.x2 - cx) * (180f / MathF.PI);
