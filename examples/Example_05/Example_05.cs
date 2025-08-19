@@ -15,23 +15,6 @@ public class Example_05 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        float[] endPointXY = (new Arc())
-            .SetCenterXY(520f, 90f)
-            // .SetStartPoint(300f, 300f)
-            .SetRadiusX(75f)
-            .SetRadiusY(75f)
-            .SetStartAngle(0f)
-            .SetEndAngle(270f)
-            // .SetSweep(Sweep.CLOCKWISE)
-            .SetSweep(Sweep.COUNTER_CLOCKWISE)
-            // .SetScaleFactor(2f)
-            .SetRotateAngle(-90f)
-            .SetStrokeWidth(5f)
-            .SetStrokeColor(Color.blue)
-            .DrawOn(page);
-
-
-        // (new Line(xy[0], xy[1], xy[0], xy[1] + 50f)).DrawOn(page);
 
         TextLine text = new TextLine(f1);
         text.SetLocation(300f, 300f);
@@ -65,32 +48,31 @@ public class Example_05 {
         text.SetLocation(150f, 70f);
         text.DrawOn(page);
 
-//        Point point = new Point(300f, 300f);
-//        point.SetShape(Point.CIRCLE);
-//        point.SetFillShape(true);
-//        point.SetColor(Color.blue);
-//        point.SetRadius(37f);
-//        point.DrawOn(page);
-//        point.SetRadius(25f);
-//        point.SetColor(Color.white);
-//        point.DrawOn(page);
+        float[] endPointXY = (new Arc())
+            .SetCenterXY(300f, 600f)
+            // .SetStartPoint(300f, 300f)
+            .SetRadiusX(75f)
+            .SetRadiusY(75f)
+            .SetStartAngle(0f)
+            .SetEndAngle(270f)
+            // .SetSweep(Sweep.CLOCKWISE)
+            .SetSweep(Sweep.COUNTER_CLOCKWISE)
+            // .SetScaleFactor(2f)
+            .SetRotateDegreesCW(90f)
+            .SetStrokeWidth(5f)
+            .SetStrokeColor(Color.blue)
+            .DrawOn(page);
 
         Ellipse ellipse = new Ellipse();
-        ellipse.SetCenterXY(300f, 600f);
+        ellipse.SetCenterXY(300f, 720f);
         ellipse.SetRadiusX(100f);
         ellipse.SetRadiusY(50f);
         ellipse.SetFillColor(Color.azure);
         ellipse.SetStrokeWidth(1.5f);
         ellipse.SetStrokeColor(Color.blue);
         ellipse.SetScaleFactor(0.5f);
-        ellipse.SetRotateAngle(15f);
+        // ellipse.SetRotateDegreesCW(15f);
         ellipse.DrawOn(page);
-
-        f1.SetSize(14f);
-        String unicode = "\u20AC\u0020\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160";
-        text = new TextLine(f1, unicode);
-        text.SetLocation(100f, 700f);
-        text.DrawOn(page);
 
         pdf.Complete();
     }

@@ -197,13 +197,23 @@ public class Arc : IDrawable {
         return this;
     }
 
-    public Arc SetRotateAngle(float degrees) {
+    public Arc SetRotateDegreesCW(float degrees) {
         this.degrees = -degrees;
         return this;
     }
 
-    public Arc SetRotateAngle(double degrees) {
+    public Arc SetRotateDegreesCW(double degrees) {
         this.degrees = (float) -degrees;
+        return this;
+    }
+
+    public Arc SetRotateDegreesCCW(float degrees) {
+        this.degrees = degrees;
+        return this;
+    }
+
+    public Arc SetRotateDegreesCCW(double degrees) {
+        this.degrees = (float) degrees;
         return this;
     }
 
