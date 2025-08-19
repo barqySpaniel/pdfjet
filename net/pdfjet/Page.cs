@@ -984,7 +984,7 @@ public class Page {
             float y,
             float rx,
             float ry) {
-        DrawArc(x, y, rx, ry, 0f, 360f, Sweep.CLOCKWISE);
+        DrawArc(x, y, rx, ry, 0f, 360f);
     }
 
     internal void DrawCircle(float x, float y, float r) {
@@ -1220,8 +1220,8 @@ public class Page {
     }
 
     public float[] DrawCircularArc(
-            float x, float y, float r, float startAngle, float endAngle, Sweep sweep) {
-        return DrawArc(x, y, r, r, startAngle, endAngle, sweep);
+            float x, float y, float r, float startAngle, float sweepDegrees) {
+        return DrawArc(x, y, r, r, startAngle, sweepDegrees);
     }
 
     public float[] DrawArc(
@@ -1230,24 +1230,13 @@ public class Page {
             float rx,
             float ry,
             float startAngle,
-            float endAngle,
-            Sweep sweep) {
-        bool cw = (sweep == Sweep.CLOCKWISE);
-//        if (!cw) {
-//            endAngle *= (-1);
-//        }
-
+            float sweepDegrees) {
         float x3 = 0f;
         float y3 = 0f;
 
-        // Unwrap endAngle so delta has the right sign
-        float totalDelta = endAngle - startAngle;
-        if (cw && totalDelta < 0) totalDelta += 360f;
-        if (!cw && totalDelta > 0) totalDelta -= 360f;
-
-        int numSegments = (int)Math.Ceiling(Math.Abs(totalDelta) / 90f);
+        int numSegments = (int)Math.Ceiling(Math.Abs(sweepDegrees) / 90.0);
         double angleRad = startAngle * Math.PI / 180.0;
-        double deltaPerSeg = (totalDelta / numSegments) * Math.PI / 180.0;
+        double deltaPerSeg = (sweepDegrees / numSegments) * Math.PI / 180.0;
         for (int i = 0; i < numSegments; i++) {
             double segStart = angleRad;
             double segEnd   = angleRad + deltaPerSeg;
@@ -1323,27 +1312,29 @@ public class Page {
         return (xc, yc);
     }
 
-    public void DrawArcFromLineEnd(
+    public void DrawArcFromLineEndCW(
             float x1,
             float y1,
             float x2,
             float y2,
             float radius,
-            float arcAngle,     // in degrees
-            Sweep sweep) {      // CW or CCW
-        // Step 1: Find the arc center
-        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, sweep);
-
-        // Step 2: Compute start angle from center to (x2, y2)
+            float sweepDegrees) {
+        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, Sweep.CLOCKWISE);
         float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
+        DrawArc(xc, yc, radius, radius, startAngle, sweepDegrees);
+        StrokePath();
+    }
 
-        // Step 3: Compute end angle depending on sweep
-        float endAngle = (sweep == Sweep.CLOCKWISE)
-            ? startAngle + arcAngle     // CW: positive delta
-            : startAngle - arcAngle;    // CCW: negative delta
-
-        // Step 4: Draw the arc
-        DrawArc(xc, yc, radius, radius, startAngle, endAngle, sweep);
+    public void DrawArcFromLineEndCCW(
+            float x1,
+            float y1,
+            float x2,
+            float y2,
+            float radius,
+            float sweepDegrees) {
+        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, Sweep.COUNTER_CLOCKWISE);
+        float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
+        DrawArc(xc, yc, radius, radius, startAngle, -sweepDegrees);
         StrokePath();
     }
 

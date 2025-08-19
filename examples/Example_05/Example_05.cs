@@ -54,11 +54,11 @@ public class Example_05 {
             .SetRadiusX(75f)
             .SetRadiusY(75f)
             .SetStartAngle(0f)
-            .SetEndAngle(270f)
-            // .SetSweep(Sweep.CLOCKWISE)
-            .SetSweep(Sweep.COUNTER_CLOCKWISE)
+            .SetSweepDegreesCW(270f)
+            // .SetSweepDegreesCCW(270f)
             // .SetScaleFactor(2f)
-            .SetRotateDegreesCW(90f)
+            // .SetRotateDegreesCW(90f)
+            // .SetRotateDegreesCCW(90f)
             .SetStrokeWidth(5f)
             .SetStrokeColor(Color.blue)
             .DrawOn(page);
@@ -71,7 +71,8 @@ public class Example_05 {
         ellipse.SetStrokeWidth(1.5f);
         ellipse.SetStrokeColor(Color.blue);
         ellipse.SetScaleFactor(0.5f);
-        // ellipse.SetRotateDegreesCW(15f);
+        // ellipse.SetRotateDegreesCW(45f);
+        // ellipse.SetRotateDegreesCCW(45f);
         ellipse.DrawOn(page);
 
         pdf.Complete();

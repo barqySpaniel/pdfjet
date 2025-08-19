@@ -33,9 +33,8 @@ public class Arc : IDrawable {
     private float rx;
     private float ry;
     private float startAngle;
-    private float endAngle;
-    private Sweep sweep = Sweep.CLOCKWISE;
-    private float degrees;
+    private float sweepDegrees;
+    private float rotateDegrees;
 
     private float[] fillColor;
     private float[] strokeColor = new float[] {0f, 0f, 0f};   // Black color
@@ -94,13 +93,13 @@ public class Arc : IDrawable {
         return this;
     }
 
-    public Arc SetEndAngle(float angle) {
-        this.endAngle = angle;
+    public Arc SetSweepDegreesCW(float sweepDegrees) {
+        this.sweepDegrees = sweepDegrees;
         return this;
     }
 
-    public Arc SetSweep(Sweep sweep) {
-        this.sweep = sweep;
+    public Arc SetSweepDegreesCCW(float sweepDegrees) {
+        this.sweepDegrees = -sweepDegrees;
         return this;
     }
 
@@ -198,22 +197,22 @@ public class Arc : IDrawable {
     }
 
     public Arc SetRotateDegreesCW(float degrees) {
-        this.degrees = -degrees;
+        this.rotateDegrees = -degrees;
         return this;
     }
 
     public Arc SetRotateDegreesCW(double degrees) {
-        this.degrees = (float) -degrees;
+        this.rotateDegrees = (float) -degrees;
         return this;
     }
 
     public Arc SetRotateDegreesCCW(float degrees) {
-        this.degrees = degrees;
+        this.rotateDegrees = degrees;
         return this;
     }
 
     public Arc SetRotateDegreesCCW(double degrees) {
-        this.degrees = (float) degrees;
+        this.rotateDegrees = (float) degrees;
         return this;
     }
 
@@ -276,22 +275,18 @@ public class Arc : IDrawable {
             y = startY + ry * (float)Math.Sin(rad); // y down
         }
 
-        if (sweep == Sweep.COUNTER_CLOCKWISE) {
-            endAngle *= (-1);
-        }
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
         float centerX = x;
         float centerY = page.height - y;
-        page.RotateAroundCenter(centerX, centerY, degrees);
+        page.RotateAroundCenter(centerX, centerY, rotateDegrees);
         page.DrawArc(
                 x,
                 y,
                 rx,
                 ry,
                 startAngle,
-                endAngle,
-                sweep);
+                sweepDegrees);
         if (strokeColor != null && strokePattern != null) {
             page.SetStrokePattern(strokePattern);
         }
