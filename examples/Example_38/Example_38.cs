@@ -8,16 +8,19 @@ using PDFjet.NET;
  *  Example_38.cs
  */
 public class Example_38 {
-    private Font font;
+    Font font = null;
     public Example_38() {
         BufferedStream bos = new BufferedStream(
                 new FileStream("Example_38.pdf", FileMode.Create));
 
         PDF pdf = new PDF(bos);
+
+        Font f1 = new Font(pdf, CoreFont.COURIER_BOLD);
         font = new Font(pdf, CoreFont.COURIER);
+
         Page page = new Page(pdf, Letter.LANDSCAPE);
 
-        Table table = new Table();
+        Table table = new Table(f1, font);
         table.SetData(CreateTableData());
         table.SetBottomMargin(10f);
         table.SetLocation(50f, 50f);

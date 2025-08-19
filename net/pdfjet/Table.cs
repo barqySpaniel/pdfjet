@@ -50,23 +50,30 @@ public class Table {
     private int rendered = 0;
     private float x1;
     private float y1;
+    private Font f1;
+    private Font f2;
     private float x1FirstPage;
     private float y1FirstPage;
     private float bottomMargin;
 
     /**
      *  Create a table object.
-     *
      */
     public Table() {
         tableData = new List<List<Cell>>();
     }
 
+    public Table(Font f1, Font f2) {
+        this.f1 = f1;
+        this.f2 = f2;
+    }
+
     /**
      *  Create a table object.
-     *
      */
     public Table(Font f1, Font f2, String fileName) {
+        this.f1 = f1;
+        this.f2 = f2;
         tableData = new List<List<Cell>>();
         StreamReader reader = new StreamReader(fileName);
         Char[] delimiterRegex = null;
@@ -408,6 +415,23 @@ public class Table {
         return column;
     }
 
+    private void AppendMissingCells(List<List<Cell>> tableData) {
+        int numOfColumns = 0;
+        foreach (List<Cell> row in tableData) {
+            if (row.Count > numOfColumns) {
+                numOfColumns = row.Count;
+            }
+        }
+        foreach (List<Cell> row in tableData) {
+            int rowCount = row.Count;
+            if (rowCount < numOfColumns) {
+                for (int i = 0; i < (numOfColumns - rowCount); i++) {
+                    row.Add(new Cell(f2, "hello"));
+                }
+            }
+        }
+    }
+
     /**
      *  Draws this table on the specified page.
      *
@@ -415,16 +439,17 @@ public class Table {
      *  @return Point the point on the page where to draw the next component.
      */
     public float[] DrawOn(Page page) {
+        AppendMissingCells(tableData);
         WrapAroundCellText();
+        float[] xy = DrawTableRows(page, DrawHeaderRows(page, 0));
         SetRightBorderOnLastColumn();
 	    SetBottomBorderOnLastRow();
-        return DrawTableRows(page, DrawHeaderRows(page, 0));
+        return xy;
     }
 
     public float[] DrawOn(PDF pdf, List<Page> pages, float[] pageSize) {
+        AppendMissingCells(tableData);
         WrapAroundCellText();
-        SetRightBorderOnLastColumn();
-	    SetBottomBorderOnLastRow();
         float[] xy = null;
         int pageNumber = 1;
         while (HasMoreData()) {
@@ -433,6 +458,8 @@ public class Table {
             xy = DrawTableRows(page, DrawHeaderRows(page, pageNumber));
             pageNumber++;
         }
+        SetRightBorderOnLastColumn();
+	    SetBottomBorderOnLastRow();
         return xy;
     }
 
@@ -475,10 +502,6 @@ public class Table {
         float y = xy[1];
         while (rendered < tableData.Count) {
             List<Cell> row = tableData[rendered];
-            if (row.Count == 0) {
-                rendered++;
-                continue;
-            }
             float h = GetMaxCellHeight(row);
             if (page != null && (y + h) > (page.height - bottomMargin)) {
                 return new float[] {x, y};
@@ -591,18 +614,12 @@ public class Table {
     // Sets the right border on all cells in the last column.
     private void SetRightBorderOnLastColumn() {
         foreach (List<Cell> row in tableData) {
-            if (row.Count == 0) {
-                continue;
-            }
             if (row[0].GetBorder(Border.LEFT) == false) {
                 return;
             }
         }
         // Only run this code if all the cells in the first column have left border.
         foreach (List<Cell> row in tableData) {
-            if (row.Count == 0) {
-                continue;
-            }
             Cell cell = null;
             int i = 0;
             while (i < row.Count) {
