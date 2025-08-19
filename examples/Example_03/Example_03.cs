@@ -56,7 +56,7 @@ line.SetWidth(2f);
 line.DrawOn(page);
 
 // Draw a 45° clockwise arc starting at the line end
-Page.DrawArcFromLine(page, 350f, 400f, 450f, 550f, 45f, 45f, Sweep.CLOCKWISE);
+Page.DrawArcFromLineCW(page, 350f, 400f, 450f, 550f, 45f, 90f);
 
 // Draw a 45° counter-clockwise arc starting at the line end
 // Page.DrawArcFromLine(page, 400f, 500f, 450f, 550f, 50f, 45f, Sweep.COUNTER_CLOCKWISE);

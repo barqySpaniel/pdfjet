@@ -1285,73 +1285,66 @@ public class Page {
         return new float[] { x3, y3 };
     }
 
-    private static (float xc, float yc) FindArcCenter(
-            float x1, float y1,
-            float x2, float y2,
-            float radius,
-            Sweep sweep) {
-        float dx = x2 - x1;
-        float dy = y2 - y1;
-        float len = (float)Math.Sqrt(dx * dx + dy * dy);
-        if (len == 0) throw new ArgumentException("Line cannot be zero length");
+// Compute the center so that the arc starts exactly at (x2, y2)
+/// <summary>
+/// Finds the center of an arc given a line from (x1,y1) to (x2,y2), radius, and sweep.
+/// </summary>
+private static (float xc, float yc) FindArcCenter(
+        Page page, float x1, float y1, float x2, float y2, float radius, Sweep sweep) {
+    // Direction vector of the line
+    float dx = x2 - x1;
+    float dy = y2 - y1;
+    float len = (float)Math.Sqrt(dx * dx + dy * dy);
 
-        // Unit vector along line
-        float ux = dx / len;
-        float uy = dy / len;
+    if (len == 0f) len = 1f; // avoid division by zero
 
-        // Perpendicular vector
-        float px = dy;
-        float py = -dx;
+    // Unit tangent along the line
+    float ux = dx / len;
+    float uy = dy / len;
 
-        // Normalize perpendicular
-        float plen = (float)Math.Sqrt(px * px + py * py);
-        px /= plen;
-        py /= plen;
+    // Perpendicular vector
+    float nx = -uy;
+    float ny = ux;
 
-        // Flip perpendicular for CW/CCW
-        if (sweep == Sweep.CLOCKWISE) {
-            px = -px;
-            py = -py;
-        }
-
-        // Center is radius away along perpendicular
-        float xc = x2 + px * radius;
-        float yc = y2 + py * radius;
-
-        return (xc, yc);
+    // For clockwise, keep as is; for counter-clockwise, invert perpendicular
+    if (sweep == Sweep.COUNTER_CLOCKWISE) {
+        nx = -nx;
+        ny = -ny;
     }
 
-    public static void DrawArcFromLine(
-            Page page,
-            float x1,
-            float y1,
-            float x2,
-            float y2,
-            float radius,
-            float arcAngle,
-            Sweep sweep) {
-        // Step 1: Compute the center of the arc
-        var (cx, cy) = FindArcCenter(x1, y1, x2, y2, radius, sweep);
+    // Center is at distance 'radius' along perpendicular from (x2,y2)
+    float xc = x2 + nx * radius;
+    float yc = y2 + ny * radius;
 
-        // Step 2: Vector from center to start point
-        float sx = x2 - cx;
-        float sy = y2 - cy;
+    page.DrawLine(x2, y2, xc, yc);
 
-        // Step 3: Compute start angle in degrees (Y-down coordinate system)
-        float startAngle = (float)(Math.Atan2(-sy, sx) * 180.0 / Math.PI);
+    return (xc, yc);
+}
 
-        // Step 4: Compute raw end angle according to sweep direction
-        float endAngle = (sweep == Sweep.CLOCKWISE) ? startAngle - arcAngle : startAngle + arcAngle;
+// Draw a small CLOCKWISE arc starting exactly from (x2, y2)
+public static void DrawArcFromLineCW(
+    Page page,
+    float x1, float y1,
+    float x2, float y2,
+    float radius,
+    float arcAngle)  // in degrees
+{
+    // Step 1: Find the arc center
+    (float xc, float yc) = FindArcCenter(page, x1, y1, x2, y2, radius, Sweep.CLOCKWISE);
 
-        // Step 5: Normalize end angle to ensure DrawArc produces correct short arc
-        float totalDelta = endAngle - startAngle;
-        if (sweep == Sweep.CLOCKWISE && totalDelta > 0) endAngle -= 360f;
-        if (sweep != Sweep.CLOCKWISE && totalDelta < 0) endAngle += 360f;
+    // Step 2: Compute start angle from center to (x2, y2)
+    // Y-down coordinate system requires negating dy
+    // float startAngle = (float)(Math.Atan2(-(y2 - yc), x2 - xc) * 180.0 / Math.PI);
+    float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
 
-        // Step 6: Draw the arc
-        DrawArc(page, cx, cy, radius, radius, startAngle, endAngle, sweep);
-        page.StrokePath();
-    }
+    // Step 3: Compute end angle for CW sweep
+    // For PDFjet: positive delta = CW
+    float endAngle = startAngle + arcAngle;
+
+    // Step 4: Draw the arc
+    DrawArc(page, xc, yc, radius, radius, startAngle, endAngle, Sweep.CLOCKWISE);
+    page.StrokePath();
+}
 
     /**
      *  Draws a bezier curve starting from the current point.
