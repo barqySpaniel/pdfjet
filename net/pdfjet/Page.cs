@@ -1284,32 +1284,22 @@ public class Page {
             float y2,
             float radius,
             Sweep sweep) {
-        // Direction vector of the line
+        // Calculate normalized perpendicular vector
         float dx = x2 - x1;
         float dy = y2 - y1;
-        float len = (float)Math.Sqrt(dx * dx + dy * dy);
 
-        if (len == 0f) len = 1f; // avoid division by zero
+        float lengthSquared = dx * dx + dy * dy;
+        if (lengthSquared == 0f) return (x2, y2);
 
-        // Unit tangent along the line
-        float ux = dx / len;
-        float uy = dy / len;
+        // Normalize and rotate 90° (clockwise perpendicular)
+        float invLength = 1f / MathF.Sqrt(lengthSquared);
+        float nx = -dy * invLength;
+        float ny = dx * invLength;
 
-        // Perpendicular vector
-        float nx = -uy;
-        float ny = ux;
+        // Adjust direction based on sweep
+        float sign = sweep == Sweep.CLOCKWISE ? 1f : -1f;
 
-        // For clockwise, keep as is; for counter-clockwise, invert perpendicular
-        if (sweep == Sweep.COUNTER_CLOCKWISE) {
-            nx = -nx;
-            ny = -ny;
-        }
-
-        // Center is at distance 'radius' along perpendicular from (x2,y2)
-        float xc = x2 + nx * radius;
-        float yc = y2 + ny * radius;
-
-        return (xc, yc);
+        return (x2 + nx * radius * sign, y2 + ny * radius * sign);
     }
 
     public void DrawArcFromLineEnd(
