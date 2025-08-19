@@ -416,6 +416,7 @@ public class Table {
     }
 
     private void AppendMissingCells(List<List<Cell>> tableData) {
+        float lineWidth = tableData[0][0].GetLineWidth();
         int numOfColumns = 0;
         foreach (List<Cell> row in tableData) {
             if (row.Count > numOfColumns) {
@@ -426,7 +427,9 @@ public class Table {
             int rowCount = row.Count;
             if (rowCount < numOfColumns) {
                 for (int i = 0; i < (numOfColumns - rowCount); i++) {
-                    row.Add(new Cell(f2, "hello"));
+                    Cell cell = new Cell(f2, "hello");
+                    cell.SetLineWidth(lineWidth);
+                    row.Add(cell);
                 }
             }
         }
@@ -644,6 +647,7 @@ Console.WriteLine("we should be here?");
         foreach (Cell cell in lastRow) {
 Console.WriteLine(cell.GetText());
             cell.SetBorder(Border.BOTTOM, true);
+Console.WriteLine(cell.GetBorder(Border.BOTTOM));
         }
     }
 
