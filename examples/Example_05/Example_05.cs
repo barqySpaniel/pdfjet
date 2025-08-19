@@ -50,7 +50,6 @@ public class Example_05 {
 
         float[] arcPoints = (new Arc())
             .SetCenterXY(300f, 600f)
-            // .SetStartPoint(300f, 300f)
             .SetRadiusX(75f)
             .SetRadiusY(75f)
             .SetStartAngle(0f)
@@ -71,7 +70,7 @@ public class Example_05 {
             .SetStrokeWidth(1.5f)
             .SetStrokeColor(Color.blue)
             .SetScaleFactor(0.5f)
-            // .SetRotateDegreesCW(45f)
+            .SetRotateDegreesCW(45f)
             // .SetRotateDegreesCCW(45f)
             .DrawOn(page);
 

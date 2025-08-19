@@ -58,6 +58,9 @@ public class Example_03 {
         arc.SetStrokeColor(Color.blue);
         arc.DrawOn(page);
 
+        arc.SetSweepDegreesCW(90f);    // Clockwise
+        arc.DrawOn(page);
+
         // Just for testing. Do not use ...
         page.Save();
         page.SetPenWidth(3f);
