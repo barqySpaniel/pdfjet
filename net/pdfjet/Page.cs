@@ -1289,7 +1289,12 @@ public class Page {
     /// Finds the center of an arc given a line from (x1,y1) to (x2,y2), radius, and sweep.
     /// </summary>
     private (float xc, float yc) FindArcCenter(
-            float x1, float y1, float x2, float y2, float radius, Sweep sweep) {
+            float x1,
+            float y1,
+            float x2,
+            float y2,
+            float radius,
+            Sweep sweep) {
         // Direction vector of the line
         float dx = x2 - x1;
         float dy = y2 - y1;
@@ -1321,8 +1326,10 @@ public class Page {
     }
 
     public void DrawArcFromLineEnd(
-            float x1, float y1,
-            float x2, float y2,
+            float x1,
+            float y1,
+            float x2,
+            float y2,
             float radius,
             float arcAngle,     // in degrees
             Sweep sweep) {      // CW or CCW
