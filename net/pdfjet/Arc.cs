@@ -253,8 +253,7 @@ public class Arc : IDrawable {
         float centerX = x + rx/2;
         float centerY = (page.height - y) - ry/2;
         page.RotateAroundCenter(centerX, centerY, degrees);
-        Page.DrawArc(
-                page,
+        page.DrawArc(
                 x,
                 y,
                 rx,

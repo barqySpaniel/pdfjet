@@ -984,7 +984,7 @@ public class Page {
             float y,
             float rx,
             float ry) {
-        DrawArc(this, x, y, rx, ry, 0f, 360f, Sweep.CLOCKWISE);
+        DrawArc(x, y, rx, ry, 0f, 360f, Sweep.CLOCKWISE);
     }
 
     internal void DrawCircle(float x, float y, float r) {
@@ -1220,12 +1220,11 @@ public class Page {
     }
 
     public float[] DrawCircularArc(
-            Page page, float x, float y, float r, float startAngle, float endAngle, Sweep sweep) {
-        return DrawArc(page, x, y, r, r, startAngle, endAngle, sweep);
+            float x, float y, float r, float startAngle, float endAngle, Sweep sweep) {
+        return DrawArc(x, y, r, r, startAngle, endAngle, sweep);
     }
 
-    public static float[] DrawArc(
-            Page page,
+    public float[] DrawArc(
             float x,
             float y,
             float rx,
@@ -1275,9 +1274,9 @@ public class Page {
             float y2 = y3 - (k * ry * cosEnd);
 
             if (i == 0) {
-                page.MoveTo(x0, y0);
+                MoveTo(x0, y0);
             }
-            page.CurveTo(x1, y1, x2, y2, x3, y3);
+            CurveTo(x1, y1, x2, y2, x3, y3);
 
             angle = segEnd;
         }
@@ -1289,8 +1288,8 @@ public class Page {
     /// <summary>
     /// Finds the center of an arc given a line from (x1,y1) to (x2,y2), radius, and sweep.
     /// </summary>
-    private static (float xc, float yc) FindArcCenter(
-            Page page, float x1, float y1, float x2, float y2, float radius, Sweep sweep) {
+    private (float xc, float yc) FindArcCenter(
+            float x1, float y1, float x2, float y2, float radius, Sweep sweep) {
         // Direction vector of the line
         float dx = x2 - x1;
         float dy = y2 - y1;
@@ -1316,20 +1315,19 @@ public class Page {
         float xc = x2 + nx * radius;
         float yc = y2 + ny * radius;
 
-        page.DrawLine(x2, y2, xc, yc);
+        DrawLine(x2, y2, xc, yc);
 
         return (xc, yc);
     }
 
-    public static void DrawArcFromLine(
-            Page page,
+    public void DrawArcFromLineEnd(
             float x1, float y1,
             float x2, float y2,
             float radius,
             float arcAngle,     // in degrees
             Sweep sweep) {      // CW or CCW
         // Step 1: Find the arc center
-        (float xc, float yc) = FindArcCenter(page, x1, y1, x2, y2, radius, sweep);
+        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, sweep);
 
         // Step 2: Compute start angle from center to (x2, y2)
         float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
@@ -1340,8 +1338,8 @@ public class Page {
             : startAngle - arcAngle;    // CCW: negative delta
 
         // Step 4: Draw the arc
-        DrawArc(page, xc, yc, radius, radius, startAngle, endAngle, sweep);
-        page.StrokePath();
+        DrawArc(xc, yc, radius, radius, startAngle, endAngle, sweep);
+        StrokePath();
     }
 
     /**
