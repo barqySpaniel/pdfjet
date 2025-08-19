@@ -624,46 +624,31 @@ public class Cell {
             float y,
             float cellW,
             float cellH) {
+        page.AddArtifactBMC();
         page.SetPenWidth(lineWidth);
         page.SetPenColor(strokeColor);
-        if (GetBorder(Border.TOP) &&
-                GetBorder(Border.BOTTOM) &&
-                GetBorder(Border.LEFT) &&
-                GetBorder(Border.RIGHT)) {
-            page.AddBMC(StructElem.P, Single.space, Single.space);
-            page.DrawRect(x, y, cellW, cellH);
-            page.AddEMC();
-        } else {
-            float qWidth = lineWidth / 4;
-            if (GetBorder(Border.TOP)) {
-                page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.MoveTo(x - qWidth, y);
-                page.LineTo(x + cellW, y);
-                page.StrokePath();
-                page.AddEMC();
-            }
-            if (GetBorder(Border.BOTTOM)) {
-                page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.MoveTo(x - qWidth, y + cellH);
-                page.LineTo(x + cellW, y + cellH);
-                page.StrokePath();
-                page.AddEMC();
-            }
-            if (GetBorder(Border.LEFT)) {
-                page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.MoveTo(x, y - qWidth);
-                page.LineTo(x, y + cellH + qWidth);
-                page.StrokePath();
-                page.AddEMC();
-            }
-            if (GetBorder(Border.RIGHT)) {
-                page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.MoveTo(x + cellW, y - qWidth);
-                page.LineTo(x + cellW, y + cellH + qWidth);
-                page.StrokePath();
-                page.AddEMC();
-            }
+        float qWidth = lineWidth / 4;
+        if (GetBorder(Border.TOP)) {
+            page.MoveTo(x - qWidth, y);
+            page.LineTo(x + cellW, y);
+            page.StrokePath();
         }
+        if (GetBorder(Border.BOTTOM)) {
+            page.MoveTo(x - qWidth, y + cellH);
+            page.LineTo(x + cellW, y + cellH);
+            page.StrokePath();
+        }
+        if (GetBorder(Border.LEFT)) {
+            page.MoveTo(x, y - qWidth);
+            page.LineTo(x, y + cellH + qWidth);
+            page.StrokePath();
+        }
+        if (GetBorder(Border.RIGHT)) {
+            page.MoveTo(x + cellW, y - qWidth);
+            page.LineTo(x + cellW, y + cellH + qWidth);
+            page.StrokePath();
+        }
+        page.AddEMC();
     }
 
     private void DrawText(

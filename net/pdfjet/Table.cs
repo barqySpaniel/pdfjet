@@ -638,9 +638,11 @@ public class Table {
                 return;
             }
         }
+Console.WriteLine("we should be here?");
         // Only run this code if all the cells in the first row have top border.
         List<Cell> lastRow = tableData[tableData.Count - 1];
         foreach (Cell cell in lastRow) {
+Console.WriteLine(cell.GetText());
             cell.SetBorder(Border.BOTTOM, true);
         }
     }
