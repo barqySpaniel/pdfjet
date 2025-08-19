@@ -12,9 +12,9 @@ public class Example_05 {
                 new FileStream("Example_05.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        f1.SetSize(12f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
-
 
         TextLine text = new TextLine(f1);
         text.SetLocation(300f, 300f);
@@ -48,7 +48,7 @@ public class Example_05 {
         text.SetLocation(150f, 70f);
         text.DrawOn(page);
 
-        float[] endPointXY = (new Arc())
+        float[] arcPoints = (new Arc())
             .SetCenterXY(300f, 600f)
             // .SetStartPoint(300f, 300f)
             .SetRadiusX(75f)
@@ -63,7 +63,7 @@ public class Example_05 {
             .SetStrokeColor(Color.blue)
             .DrawOn(page);
 
-        endPointXY = (new Ellipse())
+        (new Ellipse())
             .SetCenterXY(300f, 720f)
             .SetRadiusX(100f)
             .SetRadiusY(50f)

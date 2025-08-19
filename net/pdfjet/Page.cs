@@ -1231,6 +1231,10 @@ public class Page {
             float ry,
             float startAngle,
             float sweepDegrees) {
+        float x1 = 0f;
+        float y1 = 0f;
+        float x2 = 0f;
+        float y2 = 0f;
         float x3 = 0f;
         float y3 = 0f;
 
@@ -1257,10 +1261,10 @@ public class Page {
             y3 = y + ry * sinEnd;
 
             // Control points
-            float x1 = x0 - (k * rx * sinStart);
-            float y1 = y0 + (k * ry * cosStart);
-            float x2 = x3 + (k * rx * sinEnd);
-            float y2 = y3 - (k * ry * cosEnd);
+            x1 = x0 - (k * rx * sinStart);
+            y1 = y0 + (k * ry * cosStart);
+            x2 = x3 + (k * rx * sinEnd);
+            y2 = y3 - (k * ry * cosEnd);
 
             if (i == 0) {
                 MoveTo(x0, y0);
@@ -1270,7 +1274,7 @@ public class Page {
             angleRad = segEnd;
         }
 
-        return new float[] { x3, y3 };
+        return new float[6] { x1, y1, x2, y2, x3, y3 };
     }
 
     // Compute the center so that the arc starts exactly at (x2, y2)
