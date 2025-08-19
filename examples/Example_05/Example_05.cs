@@ -22,10 +22,10 @@ public class Example_05 {
             .SetRadiusY(75f)
             .SetStartAngle(0f)
             .SetEndAngle(270f)
-            .SetSweep(Sweep.CLOCKWISE)
-            // .SetSweep(Sweep.COUNTER_CLOCKWISE)
+            // .SetSweep(Sweep.CLOCKWISE)
+            .SetSweep(Sweep.COUNTER_CLOCKWISE)
             // .SetScaleFactor(2f)
-            .SetRotateAngle(90f)
+            .SetRotateAngle(-90f)
             .SetStrokeWidth(5f)
             .SetStrokeColor(Color.blue)
             .DrawOn(page);
