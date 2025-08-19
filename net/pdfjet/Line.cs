@@ -30,10 +30,10 @@ using System;
  */
 namespace PDFjet.NET {
 public class Line : IDrawable {
-    private float x1;
-    private float y1;
-    private float x2;
-    private float y2;
+    internal float x1;
+    internal float y1;
+    internal float x2;
+    internal float y2;
     private float xBox;
     private float yBox;
     private float[] color = new float[] {0f, 0f, 0f};   // Black color

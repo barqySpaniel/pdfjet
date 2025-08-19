@@ -1307,15 +1307,13 @@ public class Page {
     }
 
     public void DrawArcFromLineEnd(
-        float x1,
-        float y1,
-        float x2,
-        float y2,
-        float radius,
-        float sweepDegrees,
-        Sweep sweepDirection = Sweep.CLOCKWISE) {
-        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, sweepDirection);
-        float startAngle = MathF.Atan2(y2 - yc, x2 - xc) * (180f / MathF.PI);
+            Line line,
+            float radius,
+            float sweepDegrees,
+            Sweep sweepDirection = Sweep.CLOCKWISE) {
+        (float xc, float yc) = FindArcCenter(
+            line.x1, line.y1, line.x2, line.y2, radius, sweepDirection);
+        float startAngle = MathF.Atan2(line.y2 - yc, line.x2 - xc) * (180f / MathF.PI);
 
         // Use negative sweep for counter-clockwise to maintain consistent API
         float signedSweep = sweepDirection == Sweep.CLOCKWISE ? sweepDegrees : -sweepDegrees;
