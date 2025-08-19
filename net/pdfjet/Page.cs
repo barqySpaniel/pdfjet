@@ -1312,29 +1312,21 @@ public class Page {
         return (xc, yc);
     }
 
-    public void DrawArcFromLineEndCW(
-            float x1,
-            float y1,
-            float x2,
-            float y2,
-            float radius,
-            float sweepDegrees) {
-        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, Sweep.CLOCKWISE);
-        float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
-        DrawArc(xc, yc, radius, radius, startAngle, sweepDegrees);
-        StrokePath();
-    }
+    public void DrawArcFromLineEnd(
+        float x1,
+        float y1,
+        float x2,
+        float y2,
+        float radius,
+        float sweepDegrees,
+        Sweep sweepDirection = Sweep.CLOCKWISE) {
+        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, sweepDirection);
+        float startAngle = MathF.Atan2(y2 - yc, x2 - xc) * (180f / MathF.PI);
 
-    public void DrawArcFromLineEndCCW(
-            float x1,
-            float y1,
-            float x2,
-            float y2,
-            float radius,
-            float sweepDegrees) {
-        (float xc, float yc) = FindArcCenter(x1, y1, x2, y2, radius, Sweep.COUNTER_CLOCKWISE);
-        float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
-        DrawArc(xc, yc, radius, radius, startAngle, -sweepDegrees);
+        // Use negative sweep for counter-clockwise to maintain consistent API
+        float signedSweep = sweepDirection == Sweep.CLOCKWISE ? sweepDegrees : -sweepDegrees;
+
+        DrawArc(xc, yc, radius, radius, startAngle, signedSweep);
         StrokePath();
     }
 
