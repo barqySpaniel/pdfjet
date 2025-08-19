@@ -475,6 +475,10 @@ public class Table {
         float y = xy[1];
         while (rendered < tableData.Count) {
             List<Cell> row = tableData[rendered];
+            if (row.Count == 0) {
+                rendered++;
+                continue;
+            }
             float h = GetMaxCellHeight(row);
             if (page != null && (y + h) > (page.height - bottomMargin)) {
                 return new float[] {x, y};
@@ -587,12 +591,18 @@ public class Table {
     // Sets the right border on all cells in the last column.
     private void SetRightBorderOnLastColumn() {
         foreach (List<Cell> row in tableData) {
+            if (row.Count == 0) {
+                continue;
+            }
             if (row[0].GetBorder(Border.LEFT) == false) {
                 return;
             }
         }
         // Only run this code if all the cells in the first column have left border.
         foreach (List<Cell> row in tableData) {
+            if (row.Count == 0) {
+                continue;
+            }
             Cell cell = null;
             int i = 0;
             while (i < row.Count) {

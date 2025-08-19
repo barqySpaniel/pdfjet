@@ -21,7 +21,7 @@ public class Example_38 {
         table.SetData(CreateTableData());
         table.SetBottomMargin(10f);
         table.SetLocation(50f, 50f);
-        // table.AppendRow();   // Calling this method will cause a crash!
+        table.AppendRow();   // Calling this method will cause a crash!
         table.DrawOn(page);
 
         pdf.Complete();
