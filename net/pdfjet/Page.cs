@@ -1320,8 +1320,6 @@ public class Page {
         float xc = x2 + nx * radius;
         float yc = y2 + ny * radius;
 
-        DrawLine(x2, y2, xc, yc);
-
         return (xc, yc);
     }
 
@@ -1338,11 +1336,12 @@ public class Page {
 
         // Step 2: Compute start angle from center to (x2, y2)
         float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
+        float endAngle = startAngle + arcAngle;
 
-        // Step 3: Compute end angle depending on sweep
-        float endAngle = (sweep == Sweep.CLOCKWISE)
-            ? startAngle + arcAngle     // CW: positive delta
-            : startAngle - arcAngle;    // CCW: negative delta
+//        // Step 3: Compute end angle depending on sweep
+//        float endAngle = (sweep == Sweep.CLOCKWISE)
+//            ? startAngle + arcAngle     // CW: positive delta
+//            : startAngle - arcAngle;    // CCW: negative delta
 
         // Step 4: Draw the arc
         DrawArc(xc, yc, radius, radius, startAngle, endAngle, sweep);
