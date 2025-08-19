@@ -984,7 +984,7 @@ public class Page {
             float y,
             float rx,
             float ry) {
-        DrawArc(x, y, rx, ry, 0f, 360f, Sweep.CLOCKWISE);
+        DrawArc(this, x, y, rx, ry, 0f, 360f, Sweep.CLOCKWISE);
     }
 
     internal void DrawCircle(float x, float y, float r) {
@@ -1220,11 +1220,12 @@ public class Page {
     }
 
     public float[] DrawCircularArc(
-            float x, float y, float r, float startAngle, float endAngle, Sweep sweep) {
-        return DrawArc(x, y, r, r, startAngle, endAngle, sweep);
+            Page page, float x, float y, float r, float startAngle, float endAngle, Sweep sweep) {
+        return DrawArc(page, x, y, r, r, startAngle, endAngle, sweep);
     }
 
-    public float[] DrawArc(
+    public static float[] DrawArc(
+            Page page,
             float x,
             float y,
             float rx,
@@ -1274,9 +1275,9 @@ public class Page {
             float y2 = y3 - (k * ry * cosEnd);
 
             if (i == 0) {
-                MoveTo(x0, y0);
+                page.MoveTo(x0, y0);
             }
-            CurveTo(x1, y1, x2, y2, x3, y3);
+            page.CurveTo(x1, y1, x2, y2, x3, y3);
 
             angle = segEnd;
         }
@@ -1284,30 +1285,72 @@ public class Page {
         return new float[] { x3, y3 };
     }
 
-    public static (float xc, float yc)
-        FindArcCenter(float x1, float y1, float x2, float y2, float radius, Sweep sweep) {
+    private static (float xc, float yc) FindArcCenter(
+            float x1, float y1,
+            float x2, float y2,
+            float radius,
+            Sweep sweep) {
         float dx = x2 - x1;
         float dy = y2 - y1;
-
         float len = (float)Math.Sqrt(dx * dx + dy * dy);
-        if (len == 0) throw new ArgumentException("Zero-length line");
+        if (len == 0) throw new ArgumentException("Line cannot be zero length");
 
-        float offsetX, offsetY;
+        // Unit vector along line
+        float ux = dx / len;
+        float uy = dy / len;
 
+        // Perpendicular vector
+        float px = dy;
+        float py = -dx;
+
+        // Normalize perpendicular
+        float plen = (float)Math.Sqrt(px * px + py * py);
+        px /= plen;
+        py /= plen;
+
+        // Flip perpendicular for CW/CCW
         if (sweep == Sweep.CLOCKWISE) {
-            // CW: (+dy, -dx)
-            offsetX =  dy / len * radius;
-            offsetY = -dx / len * radius;
-        } else {
-            // CCW: (−dy, +dx)
-            offsetX = -dy / len * radius;
-            offsetY =  dx / len * radius;
+            px = -px;
+            py = -py;
         }
 
-        float xc = x2 + offsetX;
-        float yc = y2 + offsetY;
+        // Center is radius away along perpendicular
+        float xc = x2 + px * radius;
+        float yc = y2 + py * radius;
 
         return (xc, yc);
+    }
+
+    public static void DrawArcFromLine(
+            Page page,
+            float x1,
+            float y1,
+            float x2,
+            float y2,
+            float radius,
+            float arcAngle,
+            Sweep sweep) {
+        // Step 1: Compute the center of the arc
+        var (cx, cy) = FindArcCenter(x1, y1, x2, y2, radius, sweep);
+
+        // Step 2: Vector from center to start point
+        float sx = x2 - cx;
+        float sy = y2 - cy;
+
+        // Step 3: Compute start angle in degrees (Y-down coordinate system)
+        float startAngle = (float)(Math.Atan2(-sy, sx) * 180.0 / Math.PI);
+
+        // Step 4: Compute raw end angle according to sweep direction
+        float endAngle = (sweep == Sweep.CLOCKWISE) ? startAngle - arcAngle : startAngle + arcAngle;
+
+        // Step 5: Normalize end angle to ensure DrawArc produces correct short arc
+        float totalDelta = endAngle - startAngle;
+        if (sweep == Sweep.CLOCKWISE && totalDelta > 0) endAngle -= 360f;
+        if (sweep != Sweep.CLOCKWISE && totalDelta < 0) endAngle += 360f;
+
+        // Step 6: Draw the arc
+        DrawArc(page, cx, cy, radius, radius, startAngle, endAngle, sweep);
+        page.StrokePath();
     }
 
     /**

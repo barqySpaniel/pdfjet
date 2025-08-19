@@ -23,11 +23,6 @@ public class Example_03 {
 
 //         float[] xy = page.AddHeader(new TextLine(f1, "This is a header!"));
 
-//        Box box = new Box();
-//        box.SetLocation(50f, 50f);
-//        box.SetSize(400f, 400f);
-//        box.DrawOn(page);
-
 //        page.AddFooter(new TextLine(f1, "And this is a footer."));
 
 //        TextLine text = new TextLine(f1,
@@ -49,6 +44,24 @@ public class Example_03 {
         point.SetRadius(30f);
         point.SetFillColor(Color.blue);
         point.DrawOn(page);
+
+
+//        Line line = new Line(400f, 500f, 450f, 550f);
+//        line.SetWidth(5f);
+//        line.DrawOn(page);
+//        Page.DrawArcFromLine(page, 400f, 500f, 450f, 550f, 20f, 45f, Sweep.COUNTER_CLOCKWISE);
+
+Line line = new Line(350f, 400f, 450f, 550f);
+line.SetWidth(2f);
+line.DrawOn(page);
+
+// Draw a 45° clockwise arc starting at the line end
+Page.DrawArcFromLine(page, 350f, 400f, 450f, 550f, 45f, 45f, Sweep.CLOCKWISE);
+
+// Draw a 45° counter-clockwise arc starting at the line end
+// Page.DrawArcFromLine(page, 400f, 500f, 450f, 550f, 50f, 45f, Sweep.COUNTER_CLOCKWISE);
+
+
 //
 //        text.SetText(
 //                "JPG image file embedded once and drawn 3 times");
