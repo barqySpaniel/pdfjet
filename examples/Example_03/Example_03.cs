@@ -38,7 +38,6 @@ public class Example_03 {
         image1.RotateBy(45);
         image1.DrawOn(page);
 
-
         Point point = new Point(400f, 400f);
         point.SetShape(Point.STAR);
         point.SetRadius(30f);
@@ -46,21 +45,25 @@ public class Example_03 {
         point.DrawOn(page);
 
 
-//        Line line = new Line(400f, 500f, 450f, 550f);
-//        line.SetWidth(5f);
-//        line.DrawOn(page);
-//        Page.DrawArcFromLine(page, 400f, 500f, 450f, 550f, 20f, 45f, Sweep.COUNTER_CLOCKWISE);
-
         Line line = new Line(350f, 400f, 450f, 550f);
         line.SetWidth(3f);
         line.DrawOn(page);
 
+        Arc arc = new Arc();
+        arc.SetStartPointToEndOf(line);
+        arc.SetRadius(45f);
+        arc.SetSweepDegreesCW(180f);
+        arc.SetStrokeWidth(3f);
+        arc.SetStrokeColor(Color.blue);
+        arc.DrawOn(page);
+
+        // Just for testing. Do not use ...
         page.Save();
         page.SetPenWidth(3f);
         page.SetPenColor(Color.blue);
-        page.DrawArcFromLineEnd(line, 45f, 180f, Sweep.CLOCKWISE);
-        page.StrokePath();
-        page.DrawArcFromLineEnd(line, 45f, 180f, Sweep.COUNTER_CLOCKWISE);
+        // page.DrawArcFromLineEnd(line, 45f, 45f, 180f, Sweep.CLOCKWISE);
+        // page.StrokePath();
+        page.DrawArcFromLineEnd(line, 45f, 45f, 180f, Sweep.COUNTER_CLOCKWISE);
         page.StrokePath();
         page.Restore();
 

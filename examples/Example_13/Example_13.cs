@@ -13,8 +13,9 @@ public class Example_13 {
                 new FileStream("Example_13.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f1.SetSize(7f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.SetSize(7f);
 
         List<List<Cell>> tableData = new List<List<Cell>>();

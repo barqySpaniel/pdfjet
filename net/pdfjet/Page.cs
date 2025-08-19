@@ -1306,19 +1306,20 @@ public class Page {
         return (x2 + nx * radius * sign, y2 + ny * radius * sign);
     }
 
-    public void DrawArcFromLineEnd(
+    public float[] DrawArcFromLineEnd(
             Line line,
-            float radius,
+            float radiusX,
+            float radiusY,
             float sweepDegrees,
             Sweep sweepDirection = Sweep.CLOCKWISE) {
         (float xc, float yc) = FindArcCenter(
-            line.x1, line.y1, line.x2, line.y2, radius, sweepDirection);
+            line.x1, line.y1, line.x2, line.y2, radiusX, sweepDirection);
         float startAngle = MathF.Atan2(line.y2 - yc, line.x2 - xc) * (180f / MathF.PI);
 
         // Use negative sweep for counter-clockwise to maintain consistent API
         float signedSweep = sweepDirection == Sweep.CLOCKWISE ? sweepDegrees : -sweepDegrees;
 
-        DrawArc(xc, yc, radius, radius, startAngle, signedSweep);
+        return DrawArc(xc, yc, radiusX, radiusY, startAngle, signedSweep);
     }
 
     /**

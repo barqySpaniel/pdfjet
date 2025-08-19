@@ -28,8 +28,8 @@ using System;
  */
 namespace PDFjet.NET {
 public class Arc : IDrawable {
-    private float x;
-    private float y;
+    private float cx;
+    private float cy;
     private float rx;
     private float ry;
     private float startAngle;
@@ -45,9 +45,7 @@ public class Arc : IDrawable {
     private String actualText = Single.space;
     private String altDescription = Single.space;
 
-    private float startX;
-    private float startY;
-    private bool useStartPoint = false;
+    private Line line;
 
     /**
      *  The default constructor.
@@ -55,20 +53,18 @@ public class Arc : IDrawable {
     public Arc() {
     }
 
-    public void SetPosition(float x, float y) {
-        SetCenterXY(x, y);
+    public void SetPosition(float cx, float cy) {
+        SetCenterXY(cx, cy);
     }
 
-    public Arc SetStartPoint(float x, float y) {
-        startX = x;
-        startY = y;
-        useStartPoint = true;
+    public Arc SetStartPointToEndOf(Line line) {
+        this.line = line;
         return this;
     }
 
-    public Arc SetCenterXY(float x, float y) {
-        this.x = x;
-        this.y = y;
+    public Arc SetCenterXY(float cx, float cy) {
+        this.cx = cx;
+        this.cy = cy;
         return this;
     }
 
@@ -269,20 +265,28 @@ public class Arc : IDrawable {
      */
     public float[] DrawOn(Page page) {
         // If a start point was set, calculate center so arc begins there
-        if (useStartPoint) {
-            double rad = startAngle * Math.PI / 180.0;
-            x = startX - rx * (float)Math.Cos(rad);
-            y = startY + ry * (float)Math.Sin(rad); // y down
+        if (line != null) {
+            float dx = line.x2 - line.x1;
+            float dy = line.y2 - line.y1;
+            // Normalize and rotate 90° (clockwise perpendicular)
+            float invLength = 1f / MathF.Sqrt(dx*dx + dy*dy);
+            float nx = -dy * invLength;
+            float ny = dx * invLength;
+            // Adjust direction based on sweep
+            float sign = 1f; // sweepDegrees == Sweep.CLOCKWISE ? 1f : -1f;
+            cx = line.x2 + nx * rx * sign;
+            cy = line.y2 + ny * ry * sign;
+            startAngle = MathF.Atan2(line.y2 - cy, line.x2 - cx) * (180f / MathF.PI);
         }
 
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
-        float centerX = x;
-        float centerY = page.height - y;
+        float centerX = cx;
+        float centerY = page.height - cy;
         page.RotateAroundCenter(centerX, centerY, rotateDegrees);
-        float[] arcPoints = page.DrawArc(
-                x,
-                y,
+        float[] arcPoints = arcPoints = page.DrawArc(
+                cx,
+                cy,
                 rx,
                 ry,
                 startAngle,
