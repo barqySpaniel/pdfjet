@@ -427,7 +427,7 @@ public class Table {
             int rowCount = row.Count;
             if (rowCount < numOfColumns) {
                 for (int i = 0; i < (numOfColumns - rowCount); i++) {
-                    Cell cell = new Cell(f2, "hello");
+                    Cell cell = new Cell(f2, "");
                     cell.SetLineWidth(lineWidth);
                     row.Add(cell);
                 }
@@ -444,15 +444,17 @@ public class Table {
     public float[] DrawOn(Page page) {
         AppendMissingCells(tableData);
         WrapAroundCellText();
-        float[] xy = DrawTableRows(page, DrawHeaderRows(page, 0));
         SetRightBorderOnLastColumn();
 	    SetBottomBorderOnLastRow();
+        float[] xy = DrawTableRows(page, DrawHeaderRows(page, 0));
         return xy;
     }
 
     public float[] DrawOn(PDF pdf, List<Page> pages, float[] pageSize) {
         AppendMissingCells(tableData);
         WrapAroundCellText();
+        SetRightBorderOnLastColumn();
+	    SetBottomBorderOnLastRow();
         float[] xy = null;
         int pageNumber = 1;
         while (HasMoreData()) {
@@ -461,8 +463,6 @@ public class Table {
             xy = DrawTableRows(page, DrawHeaderRows(page, pageNumber));
             pageNumber++;
         }
-        SetRightBorderOnLastColumn();
-	    SetBottomBorderOnLastRow();
         return xy;
     }
 
@@ -641,13 +641,10 @@ public class Table {
                 return;
             }
         }
-Console.WriteLine("we should be here?");
         // Only run this code if all the cells in the first row have top border.
         List<Cell> lastRow = tableData[tableData.Count - 1];
         foreach (Cell cell in lastRow) {
-Console.WriteLine(cell.GetText());
             cell.SetBorder(Border.BOTTOM, true);
-Console.WriteLine(cell.GetBorder(Border.BOTTOM));
         }
     }
 

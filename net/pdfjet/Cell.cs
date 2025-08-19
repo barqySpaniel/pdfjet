@@ -634,7 +634,6 @@ public class Cell {
             page.StrokePath();
         }
         if (GetBorder(Border.BOTTOM)) {
-Console.WriteLine("yes");
             page.MoveTo(x - qWidth, y + cellH);
             page.LineTo(x + cellW, y + cellH);
             page.StrokePath();

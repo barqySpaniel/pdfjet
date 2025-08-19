@@ -24,7 +24,8 @@ public class Example_38 {
         table.SetData(CreateTableData());
         table.SetBottomMargin(10f);
         table.SetLocation(50f, 50f);
-        table.AppendRow();   // Calling this method will cause a crash!
+        table.AppendRow();
+        table.AppendRow();
         table.DrawOn(page);
 
         pdf.Complete();
@@ -146,7 +147,7 @@ public class Example_38 {
                 row.Add(GetCell(font, 1, "1x1", true,  true));
                 row.Add(GetCell(font, 2,   "^", false, true));
                 row.Add(GetCell(font, 1,    "", true,  false));
-                row.Add(GetCell(font, 1, "1x1", true, true));
+                row.Add(GetCell(font, 1, "1x1", true,  true));
                 row.Add(GetCell(font, 2, "2x1", true,  true));
                 row.Add(GetCell(font, 1,    "", true,  false));
                 row.Add(GetCell(font, 1, "1x2", true,  false));
@@ -220,8 +221,8 @@ public class Example_38 {
                 row.Add(GetCell(font, 2,   "^", false, true));
                 row.Add(GetCell(font, 1,    "", false, true));
                 row.Add(GetCell(font, 1,   "^", false, true));
-                row.Add(GetCell(font, 1, "1x1", true, true));
-                row.Add(GetCell(font, 1, "1x1", true, true));
+                row.Add(GetCell(font, 1, "1x1", true,  true));
+                row.Add(GetCell(font, 1, "1x1", true,  true));
                 break;
             }
             rows.Add(row);
