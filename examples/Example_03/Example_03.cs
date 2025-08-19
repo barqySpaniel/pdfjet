@@ -62,7 +62,9 @@ public class Example_03 {
         page.SetPenColor(Color.blue);
 
         page.DrawArcFromLineEnd(350f, 400f, 450f, 550f, 45f, 180f, Sweep.CLOCKWISE);
+        page.StrokePath();
         page.DrawArcFromLineEnd(350f, 400f, 450f, 550f, 45f, 180f, Sweep.COUNTER_CLOCKWISE);
+        page.StrokePath();
         // page.DrawArcFromLineEndCCW(350f, 400f, 450f, 550f, 45f, 180f);
         page.Restore();
         // Draw a 45° counter-clockwise arc starting at the line end

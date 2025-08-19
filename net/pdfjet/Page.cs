@@ -1317,7 +1317,6 @@ public class Page {
         float signedSweep = sweepDirection == Sweep.CLOCKWISE ? sweepDegrees : -sweepDegrees;
 
         DrawArc(xc, yc, radius, radius, startAngle, signedSweep);
-        StrokePath();
     }
 
     /**
