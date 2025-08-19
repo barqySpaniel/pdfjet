@@ -46,6 +46,10 @@ public class Arc : IDrawable {
     private String actualText = Single.space;
     private String altDescription = Single.space;
 
+    private float startX;
+    private float startY;
+    private bool useStartPoint = false;
+
     /**
      *  The default constructor.
      */
@@ -54,6 +58,13 @@ public class Arc : IDrawable {
 
     public void SetPosition(float x, float y) {
         SetCenterXY(x, y);
+    }
+
+    public Arc SetStartPoint(float x, float y) {
+        startX = x;
+        startY = y;
+        useStartPoint = true;
+        return this;
     }
 
     public Arc SetCenterXY(float x, float y) {
@@ -248,6 +259,13 @@ public class Arc : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
+        // If a start point was set, calculate center so arc begins there
+        if (useStartPoint) {
+            double rad = startAngle * Math.PI / 180.0;
+            x = startX - rx * (float)Math.Cos(rad);
+            y = startY + ry * (float)Math.Sin(rad); // y down
+        }
+
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
         float centerX = x + rx/2;
