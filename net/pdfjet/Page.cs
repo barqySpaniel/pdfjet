@@ -1277,51 +1277,6 @@ public class Page {
         return new float[6] { x1, y1, x2, y2, x3, y3 };
     }
 
-    // Compute the center so that the arc starts exactly at (x2, y2)
-    /// <summary>
-    /// Finds the center of an arc given a line from (x1,y1) to (x2,y2), radius, and sweep.
-    /// </summary>
-    private (float xc, float yc) FindArcCenter(
-            float x1,
-            float y1,
-            float x2,
-            float y2,
-            float radius,
-            Sweep sweep) {
-        // Calculate normalized perpendicular vector
-        float dx = x2 - x1;
-        float dy = y2 - y1;
-
-        float lengthSquared = dx * dx + dy * dy;
-        if (lengthSquared == 0f) return (x2, y2);
-
-        // Normalize and rotate 90° (clockwise perpendicular)
-        float invLength = 1f / MathF.Sqrt(lengthSquared);
-        float nx = -dy * invLength;
-        float ny = dx * invLength;
-
-        // Adjust direction based on sweep
-        float sign = sweep == Sweep.CLOCKWISE ? 1f : -1f;
-
-        return (x2 + nx * radius * sign, y2 + ny * radius * sign);
-    }
-
-    public float[] DrawArcFromLineEnd(
-            Line line,
-            float radiusX,
-            float radiusY,
-            float sweepDegrees,
-            Sweep sweepDirection = Sweep.CLOCKWISE) {
-        (float xc, float yc) = FindArcCenter(
-            line.x1, line.y1, line.x2, line.y2, radiusX, sweepDirection);
-        float startAngle = MathF.Atan2(line.y2 - yc, line.x2 - xc) * (180f / MathF.PI);
-
-        // Use negative sweep for counter-clockwise to maintain consistent API
-        float signedSweep = sweepDirection == Sweep.CLOCKWISE ? sweepDegrees : -sweepDegrees;
-
-        return DrawArc(xc, yc, radiusX, radiusY, startAngle, signedSweep);
-    }
-
     /**
      *  Draws a bezier curve starting from the current point.
      *  <strong>Please note:</strong> You must call the StrokePath,

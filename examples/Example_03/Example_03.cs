@@ -52,7 +52,8 @@ public class Example_03 {
         Arc arc = new Arc();
         arc.SetStartPointToEndOf(line);
         arc.SetRadius(45f);
-        arc.SetSweepDegreesCCW(180f);
+        // arc.SetSweepDegreesCW(180f); // Clockwise
+        arc.SetSweepDegreesCCW(180f);   // Counter Clockwise
         arc.SetStrokeWidth(3f);
         arc.SetStrokeColor(Color.blue);
         arc.DrawOn(page);
