@@ -38,13 +38,13 @@ public class Cell {
     internal TextBox textBox;
     internal Point point;
     internal CompositeTextLine compositeTextLine;
-    internal float width = 50f;
+    internal float width = 50f;     // TODO: Rename to cellWidth
     internal float topPadding = 2f;
     internal float bottomPadding = 2f;
     internal float leftPadding = 2f;
     internal float rightPadding = 2f;
 
-    internal float lineWidth = 0f;
+    internal float lineWidth = 0f;  // TODO: Rename to borderWidth
 
     internal float[] backgroundColor;
     internal float[] textColor = new float[] {0f, 0f, 0f};
