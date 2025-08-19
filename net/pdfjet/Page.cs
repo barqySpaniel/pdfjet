@@ -1232,11 +1232,11 @@ public class Page {
             float startAngle,
             float endAngle,
             Sweep sweep) {
-        if (sweep == Sweep.COUNTER_CLOCKWISE) {
-            endAngle = endAngle * (-1);
+        bool cw = (sweep == Sweep.CLOCKWISE);
+        if (!cw) {
+            endAngle *= (-1);
         }
 
-        bool cw = (sweep == Sweep.CLOCKWISE);
         float x3 = 0f;
         float y3 = 0f;
 
