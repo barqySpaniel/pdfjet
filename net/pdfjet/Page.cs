@@ -1232,6 +1232,9 @@ public class Page {
             float startAngle,
             float endAngle,
             Sweep sweep) {
+        if (sweep == Sweep.COUNTER_CLOCKWISE) {
+            endAngle = endAngle * (-1);
+        }
 
         bool cw = (sweep == Sweep.CLOCKWISE);
         float x3 = 0f;
@@ -1243,18 +1246,15 @@ public class Page {
         if (!cw && totalDelta > 0) totalDelta -= 360f;
 
         int numSegments = (int)Math.Ceiling(Math.Abs(totalDelta) / 90f);
-
-        double angle = startAngle * Math.PI / 180.0;
+        double angleRad = startAngle * Math.PI / 180.0;
         double deltaPerSeg = (totalDelta / numSegments) * Math.PI / 180.0;
-
         for (int i = 0; i < numSegments; i++) {
-            double segStart = angle;
-            double segEnd   = angle + deltaPerSeg;
-
-            double delta = segEnd - segStart; // guaranteed ≤ ±π/2
+            double segStart = angleRad;
+            double segEnd   = angleRad + deltaPerSeg;
+            double deltaRad = segEnd - segStart; // guaranteed ≤ ±π/2
 
             // Calculate safe κ
-            float k = (float)(4.0 / 3.0 * Math.Tan(delta / 4.0));
+            float k = (float)(4.0 / 3.0 * Math.Tan(deltaRad / 4.0));
 
             float cosStart = (float)Math.Cos(segStart);
             float sinStart = (float)Math.Sin(segStart);
@@ -1278,7 +1278,7 @@ public class Page {
             }
             CurveTo(x1, y1, x2, y2, x3, y3);
 
-            angle = segEnd;
+            angleRad = segEnd;
         }
 
         return new float[] { x3, y3 };
