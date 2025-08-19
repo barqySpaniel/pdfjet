@@ -80,9 +80,9 @@ class Example_20 {
 
         path.SetLocation(50f, 50f);
         path.SetStrokeColor(Color.red);
-        path.SetStrokeWidth(0.6);   // !! Width narrower than 0.6 may prevent some PDF !!
-                                    // !! viewers from displaying the rotated Path !!
-        path.SetRotateAngle(45f);   // !! See SetStrokeWidth !!
+        path.SetStrokeWidth(0.6);       // !! Width narrower than 0.6 may prevent some PDF !!
+                                        // !! viewers from displaying the rotated Path !!
+        path.SetRotateDegreesCW(45f);   // !! See SetStrokeWidth !!
         path.SetScaleFactor(10f);
         path.DrawOn(page);
 
