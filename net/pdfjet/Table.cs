@@ -851,5 +851,11 @@ public class Table {
         this.x1FirstPage = x;
         this.y1FirstPage = y;
     }
+
+    public int AppendRow() {
+        List<Cell> row = new List<Cell>();
+        tableData.Add(row);         // Add the row
+        return tableData.Count - 1; // Return the current index of the new row
+    }
 }   // End of Table.cs
 }   // End of namespace PDFjet.NET

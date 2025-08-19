@@ -21,6 +21,7 @@ public class Example_38 {
         table.SetData(CreateTableData());
         table.SetBottomMargin(10f);
         table.SetLocation(50f, 50f);
+        // table.AppendRow();   // Calling this method will cause a crash!
         table.DrawOn(page);
 
         pdf.Complete();
@@ -238,7 +239,7 @@ public class Example_38 {
         cell.SetBorder(Border.TOP, topBorder);
         cell.SetBorder(Border.BOTTOM, bottomBorder);
         cell.SetTextAlignment(Align.CENTER);
-        cell.SetTextColor(Color.lightblue);
+        cell.SetTextColor(Color.black);
         cell.SetLineWidth(0.5f);
         return cell;
     }
