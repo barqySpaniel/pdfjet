@@ -63,17 +63,17 @@ public class Example_05 {
             .SetStrokeColor(Color.blue)
             .DrawOn(page);
 
-        Ellipse ellipse = new Ellipse();
-        ellipse.SetCenterXY(300f, 720f);
-        ellipse.SetRadiusX(100f);
-        ellipse.SetRadiusY(50f);
-        ellipse.SetFillColor(Color.azure);
-        ellipse.SetStrokeWidth(1.5f);
-        ellipse.SetStrokeColor(Color.blue);
-        ellipse.SetScaleFactor(0.5f);
-        // ellipse.SetRotateDegreesCW(45f);
-        // ellipse.SetRotateDegreesCCW(45f);
-        ellipse.DrawOn(page);
+        endPointXY = (new Ellipse())
+            .SetCenterXY(300f, 720f)
+            .SetRadiusX(100f)
+            .SetRadiusY(50f)
+            .SetFillColor(Color.azure)
+            .SetStrokeWidth(1.5f)
+            .SetStrokeColor(Color.blue)
+            .SetScaleFactor(0.5f)
+            // .SetRotateDegreesCW(45f)
+            // .SetRotateDegreesCCW(45f)
+            .DrawOn(page);
 
         pdf.Complete();
     }
