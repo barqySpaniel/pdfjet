@@ -16,16 +16,16 @@ public class Example_05 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         float[] endPointXY = (new Arc())
-            .SetCenterXY(500f, 100f)
+            .SetCenterXY(520f, 90f)
             // .SetStartPoint(300f, 300f)
             .SetRadiusX(75f)
             .SetRadiusY(75f)
             .SetStartAngle(0f)
-            .SetEndAngle(90f)
-            // .SetSweep(Sweep.CLOCKWISE)
-            .SetSweep(Sweep.COUNTER_CLOCKWISE)
+            .SetEndAngle(270f)
+            .SetSweep(Sweep.CLOCKWISE)
+            // .SetSweep(Sweep.COUNTER_CLOCKWISE)
             // .SetScaleFactor(2f)
-            // .SetRotateAngle(45f)
+            .SetRotateAngle(90f)
             .SetStrokeWidth(5f)
             .SetStrokeColor(Color.blue)
             .DrawOn(page);

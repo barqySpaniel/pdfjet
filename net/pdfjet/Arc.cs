@@ -266,10 +266,13 @@ public class Arc : IDrawable {
             y = startY + ry * (float)Math.Sin(rad); // y down
         }
 
+        if (sweep == Sweep.COUNTER_CLOCKWISE) {
+            endAngle *= (-1);
+        }
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
-        float centerX = x + rx/2;
-        float centerY = (page.height - y) - ry/2;
+        float centerX = x;
+        float centerY = page.height - y;
         page.RotateAroundCenter(centerX, centerY, degrees);
         page.DrawArc(
                 x,

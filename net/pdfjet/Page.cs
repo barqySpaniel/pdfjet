@@ -1233,9 +1233,9 @@ public class Page {
             float endAngle,
             Sweep sweep) {
         bool cw = (sweep == Sweep.CLOCKWISE);
-        if (!cw) {
-            endAngle *= (-1);
-        }
+//        if (!cw) {
+//            endAngle *= (-1);
+//        }
 
         float x3 = 0f;
         float y3 = 0f;
@@ -1336,12 +1336,11 @@ public class Page {
 
         // Step 2: Compute start angle from center to (x2, y2)
         float startAngle = (float)(Math.Atan2(y2 - yc, x2 - xc) * 180.0 / Math.PI);
-        float endAngle = startAngle + arcAngle;
 
-//        // Step 3: Compute end angle depending on sweep
-//        float endAngle = (sweep == Sweep.CLOCKWISE)
-//            ? startAngle + arcAngle     // CW: positive delta
-//            : startAngle - arcAngle;    // CCW: negative delta
+        // Step 3: Compute end angle depending on sweep
+        float endAngle = (sweep == Sweep.CLOCKWISE)
+            ? startAngle + arcAngle     // CW: positive delta
+            : startAngle - arcAngle;    // CCW: negative delta
 
         // Step 4: Draw the arc
         DrawArc(xc, yc, radius, radius, startAngle, endAngle, sweep);
