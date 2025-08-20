@@ -10,6 +10,8 @@ public class FormXObject : Canvas {
 
     public FormXObject(int objectNumber, float width, float height) {
         this.objectNumber = objectNumber;
+        base.width = width;
+        base.height = height;
         this.resourceRefs = new Dictionary<string, int>();
     }
 
