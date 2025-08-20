@@ -79,12 +79,12 @@ public class Page : Canvas {
     /*
      * From Android's Matrix object:
      */
-    private static int MSCALE_X = 0;
-    private static int MSKEW_X  = 1;
-    private static int MTRANS_X = 2;
-    private static int MSKEW_Y  = 3;
-    private static int MSCALE_Y = 4;
-    private static int MTRANS_Y = 5;
+//    private static int MSCALE_X = 0;
+//    private static int MSKEW_X  = 1;
+//    private static int MTRANS_X = 2;
+//    private static int MSKEW_Y  = 3;
+//    private static int MSCALE_Y = 4;
+//    private static int MTRANS_Y = 5;
 
     public static bool DETACHED = false;
 
@@ -1460,19 +1460,19 @@ public class Page : Canvas {
         this.artBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
     }
 
-    private void AppendPointXY(float x, float y) {
-        Append(x);
-        Append(' ');
-        Append(height - y);
-        Append(' ');
-    }
-
-    private void Append(Point point) {
-        Append(point.x);
-        Append(' ');
-        Append(height - point.y);
-        Append(' ');
-    }
+//    private void AppendPointXY(float x, float y) {
+//        Append(x);
+//        Append(' ');
+//        Append(height - y);
+//        Append(' ');
+//    }
+//
+//    private void Append(Point point) {
+//        Append(point.x);
+//        Append(' ');
+//        Append(height - point.y);
+//        Append(' ');
+//    }
 
 //    internal void Append(String str) {
 //        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str);
@@ -1706,32 +1706,32 @@ public class Page : Canvas {
     /**
      * Transformation matrix.
      */
-    public void Transform(float[] values) {
-        float scalex = values[MSCALE_X];
-        float scaley = values[MSCALE_Y];
-        float transx = values[MTRANS_X];
-        float transy = values[MTRANS_Y];
-
-        Append(scalex);
-        Append(Token.space);
-        Append(values[MSKEW_X]);
-        Append(Token.space);
-        Append(values[MSKEW_Y]);
-        Append(Token.space);
-        Append(scaley);
-        Append(Token.space);
-
-        if (Math.Asin(values[MSKEW_Y]) != 0f) {
-            transx -= values[MSKEW_Y] * height / scaley;
-        }
-        Append(transx);
-        Append(Token.space);
-        Append(-transy);
-        Append(" cm\n");
-
-        // Weil mit der Hoehe immer die Y-Koordinate im PDF-Koordinatensystem berechnet wird:
-        height = height / scaley;
-    }
+//    public void Transform(float[] values) {
+//        float scalex = values[MSCALE_X];
+//        float scaley = values[MSCALE_Y];
+//        float transx = values[MTRANS_X];
+//        float transy = values[MTRANS_Y];
+//
+//        Append(scalex);
+//        Append(Token.space);
+//        Append(values[MSKEW_X]);
+//        Append(Token.space);
+//        Append(values[MSKEW_Y]);
+//        Append(Token.space);
+//        Append(scaley);
+//        Append(Token.space);
+//
+//        if (Math.Asin(values[MSKEW_Y]) != 0f) {
+//            transx -= values[MSKEW_Y] * height / scaley;
+//        }
+//        Append(transx);
+//        Append(Token.space);
+//        Append(-transy);
+//        Append(" cm\n");
+//
+//        // Weil mit der Hoehe immer die Y-Koordinate im PDF-Koordinatensystem berechnet wird:
+//        height = height / scaley;
+//    }
 
     public float[] AddHeader(TextLine textLine) {
         return AddHeader(textLine, 1.5f*textLine.font.ascent);
