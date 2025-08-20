@@ -38,7 +38,7 @@ public class Page {
     var pageObj: PDFobj?
     var objNumber = 0
     var buf = [UInt8]()
-    var tm: [Float] = [1.0, 0.0, 0.0, 1.0]
+    var tmx: [Float] = [1.0, 0.0, 0.0, 1.0]
     var tm0: [UInt8]
     var tm1: [UInt8]
     var tm2: [UInt8]
@@ -93,10 +93,10 @@ public class Page {
         self.destinations = [Destination]()
         self.width = pageSize[0]
         self.height = pageSize[1]
-        self.tm0 = Array(String(format: pdf.floatFormat, tm[0]).utf8)
-        self.tm1 = Array(String(format: pdf.floatFormat, tm[1]).utf8)
-        self.tm2 = Array(String(format: pdf.floatFormat, tm[2]).utf8)
-        self.tm3 = Array(String(format: pdf.floatFormat, tm[3]).utf8)
+        self.tm0 = FastFloat.toByteArray(tmx[0])
+        self.tm1 = FastFloat.toByteArray(tmx[1])
+        self.tm2 = FastFloat.toByteArray(tmx[2])
+        self.tm3 = FastFloat.toByteArray(tmx[3])
         if addPageToPDF {
             pdf.addPage(self)
         }
@@ -107,10 +107,10 @@ public class Page {
         self.pageObj = pageObj
         self.width = pageObj.getPageSize()[0]
         self.height = pageObj.getPageSize()[1]
-        self.tm0 = Array(String(format: pdf.floatFormat, tm[0]).utf8)
-        self.tm1 = Array(String(format: pdf.floatFormat, tm[1]).utf8)
-        self.tm2 = Array(String(format: pdf.floatFormat, tm[2]).utf8)
-        self.tm3 = Array(String(format: pdf.floatFormat, tm[3]).utf8)
+        self.tm0 = FastFloat.toByteArray(tmx[0])
+        self.tm1 = FastFloat.toByteArray(tmx[1])
+        self.tm2 = FastFloat.toByteArray(tmx[2])
+        self.tm3 = FastFloat.toByteArray(tmx[3])
         self.pageObj = removeComments(self.pageObj!)
         append("q\n")
         if pageObj.gsNumber != -1 {
@@ -342,18 +342,18 @@ public class Page {
         }
 
         if font.skew15 &&
-                self.tm[0] == 1.0 &&
-                self.tm[1] == 0.0 &&
-                self.tm[2] == 0.0 &&
-                self.tm[3] == 1.0 {
+                self.tmx[0] == 1.0 &&
+                self.tmx[1] == 0.0 &&
+                self.tmx[2] == 0.0 &&
+                self.tmx[3] == 1.0 {
             let skew = Float(0.26)
-            append(self.tm[0])
+            append(self.tmx[0])
             append(Token.space)
-            append(self.tm[1])
+            append(self.tmx[1])
             append(Token.space)
-            append(self.tm[2] + skew)
+            append(self.tmx[2] + skew)
             append(Token.space)
-            append(self.tm[3])
+            append(self.tmx[3])
         } else {
             append(self.tm0)
             append(Token.space)
@@ -1138,24 +1138,24 @@ public class Page {
             degrees %= 360
         }
         if degrees == 0 {
-            self.tm = [ 1.0,  0.0,  0.0,  1.0 ]
+            self.tmx = [ 1.0,  0.0,  0.0,  1.0 ]
         } else if degrees == 90 {
-            self.tm = [ 0.0,  1.0, -1.0,  0.0 ]
+            self.tmx = [ 0.0,  1.0, -1.0,  0.0 ]
         } else if degrees == 180 {
-            self.tm = [-1.0,  0.0,  0.0, -1.0 ]
+            self.tmx = [-1.0,  0.0,  0.0, -1.0 ]
         } else if degrees == 270 {
-            self.tm = [ 0.0, -1.0,  1.0,  0.0 ]
+            self.tmx = [ 0.0, -1.0,  1.0,  0.0 ]
         } else if degrees == 360 {
-            self.tm = [ 1.0,  0.0,  0.0,  1.0 ]
+            self.tmx = [ 1.0,  0.0,  0.0,  1.0 ]
         } else {
             let sinOfAngle = Float(sin(Float(degrees) * (Float.pi / 180.0)))
             let cosOfAngle = Float(cos(Float(degrees) * (Float.pi / 180.0)))
-            self.tm = [cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle]
+            self.tmx = [cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle]
         }
-        self.tm0 = Array(String(format: pdf.floatFormat, tm[0]).utf8)
-        self.tm1 = Array(String(format: pdf.floatFormat, tm[1]).utf8)
-        self.tm2 = Array(String(format: pdf.floatFormat, tm[2]).utf8)
-        self.tm3 = Array(String(format: pdf.floatFormat, tm[3]).utf8)
+        self.tm0 = Array(String(format: pdf.floatFormat, tmx[0]).utf8)
+        self.tm1 = Array(String(format: pdf.floatFormat, tmx[1]).utf8)
+        self.tm2 = Array(String(format: pdf.floatFormat, tmx[2]).utf8)
+        self.tm3 = Array(String(format: pdf.floatFormat, tmx[3]).utf8)
     }
 
     ///
@@ -1458,7 +1458,6 @@ public class Page {
     }
 
     func append(_ val: Float) {
-        // append(String(format: pdf.floatFormat, val))
         append(FastFloat.toByteArray(val))
     }
 
