@@ -189,6 +189,176 @@ public class Page : Canvas {
         return dest;
     }
 
+    public void Save() {
+        Append("q\n");
+        savedStates.Add(new State(
+                brushColor, penColor, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
+    }
+
+    public void Restore() {
+        Append("Q\n");
+        if (savedStates.Count > 0) {
+            int lastIndex = savedStates.Count - 1;
+            State savedState = savedStates[lastIndex];
+            brushColor = savedState.GetBrushColor();
+            penColor = savedState.GetPenColor();
+            penWidth = savedState.GetPenWidth();
+            lineCapStyle = savedState.GetLineCapStyle();
+            lineJoinStyle = savedState.GetLineJoinStyle();
+            strokePattern = savedState.GetStrokePattern();
+            savedStates.RemoveAt(lastIndex);
+        }
+    }
+    // <<
+
+    /**
+     * Sets the page CropBox.
+     * See page 77 of the PDF32000_2008.pdf specification.
+     *
+     * @param upperLeftX the top left X coordinate of the CropBox.
+     * @param upperLeftY the top left Y coordinate of the CropBox.
+     * @param lowerRightX the bottom right X coordinate of the CropBox.
+     * @param lowerRightY the bottom right Y coordinate of the CropBox.
+     */
+    public void SetCropBox(
+            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
+        this.cropBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
+    }
+
+    /**
+     * Sets the page BleedBox.
+     * See page 77 of the PDF32000_2008.pdf specification.
+     *
+     * @param upperLeftX the top left X coordinate of the BleedBox.
+     * @param upperLeftY the top left Y coordinate of the BleedBox.
+     * @param lowerRightX the bottom right X coordinate of the BleedBox.
+     * @param lowerRightY the bottom right Y coordinate of the BleedBox.
+     */
+    public void SetBleedBox(
+            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
+        this.bleedBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
+    }
+
+    /**
+     * Sets the page TrimBox.
+     * See page 77 of the PDF32000_2008.pdf specification.
+     *
+     * @param upperLeftX the top left X coordinate of the TrimBox.
+     * @param upperLeftY the top left Y coordinate of the TrimBox.
+     * @param lowerRightX the bottom right X coordinate of the TrimBox.
+     * @param lowerRightY the bottom right Y coordinate of the TrimBox.
+     */
+    public void SetTrimBox(
+            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
+        this.trimBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
+    }
+
+    /**
+     * Sets the page ArtBox.
+     * See page 77 of the PDF32000_2008.pdf specification.
+     *
+     * @param upperLeftX the top left X coordinate of the ArtBox.
+     * @param upperLeftY the top left Y coordinate of the ArtBox.
+     * @param lowerRightX the bottom right X coordinate of the ArtBox.
+     * @param lowerRightY the bottom right Y coordinate of the ArtBox.
+     */
+    public void SetArtBox(
+            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
+        this.artBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
+    }
+
+    /**
+     *  Sets the graphics state. Please see Example_31.
+     *
+     *  @param gs the graphics state to use.
+     */
+    public void SetGraphicsState(GraphicsState gs) {
+        // Should we have here:
+        // Append("q\n");  // ??
+        StringBuilder sb = new StringBuilder();
+        sb.Append("/CA ");
+        sb.Append(gs.GetAlphaStroking());
+        sb.Append(" ");
+        sb.Append("/ca ");
+        sb.Append(gs.GetAlphaNonStroking());
+        String state = sb.ToString();
+        Int32 n;
+        if (pdf.states.ContainsKey(state)) {
+            n = pdf.states[state];
+        } else {
+            n = pdf.states.Count + 1;
+            pdf.states[state] = n;
+        }
+        Append("/GS");
+        Append(n);
+        Append(" gs\n");
+    }
+
+    internal void SetStructElementsPageObjNumber(int pageObjNumber) {
+        foreach (StructElem element in structures) {
+            element.pageObjNumber = pageObjNumber;
+        }
+    }
+
+    public void AddBMC(
+            String structure,
+            String actualText,
+            String altDescription) {
+        AddBMC(structure, null, actualText, altDescription);
+    }
+
+    public void AddBMC(
+            String structure,
+            String language,
+            String actualText,
+            String altDescription) {
+        if (pdf.compliance == Compliance.PDF_UA_1) {
+            StructElem element = new StructElem();
+            element.structure = structure;
+            element.mcid = mcid;
+            element.language = language;
+            element.actualText = actualText;
+            element.altDescription = altDescription;
+            structures.Add(element);
+
+            Append("/");
+            Append(structure);
+            Append(" <</MCID ");
+            Append(mcid++);
+            Append(">>\n");
+            Append("BDC\n");
+        }
+    }
+
+    public void AddArtifactBMC() {
+        if (pdf.compliance == Compliance.PDF_UA_1) {
+            Append("/Artifact BMC\n");
+        }
+    }
+
+    public void AddEMC() {
+        if (pdf.compliance == Compliance.PDF_UA_1) {
+            Append("EMC\n");
+        }
+    }
+
+    internal void AddAnnotation(Annotation annotation) {
+        annotation.y1 = this.height - annotation.y1;
+        annotation.y2 = this.height - annotation.y2;
+        annots.Add(annotation);
+        if (pdf.compliance == Compliance.PDF_UA_1) {
+            StructElem element = new StructElem();
+            element.structure = StructElem.LINK;
+            element.language = annotation.language;
+            element.actualText = annotation.actualText;
+            element.altDescription = annotation.altDescription;
+            element.annotation = annotation;
+            structures.Add(element);
+        }
+    }
+
+
+
     /**
      *  Draws a line on the page, using the current color, between the points (x1, y1) and (x2, y2).
      *
@@ -492,32 +662,6 @@ public class Page : Canvas {
         }
     }
 */
-    /**
-     *  Sets the graphics state. Please see Example_31.
-     *
-     *  @param gs the graphics state to use.
-     */
-    public void SetGraphicsState(GraphicsState gs) {
-        // Should we have here:
-        // Append("q\n");  // ??
-        StringBuilder sb = new StringBuilder();
-        sb.Append("/CA ");
-        sb.Append(gs.GetAlphaStroking());
-        sb.Append(" ");
-        sb.Append("/ca ");
-        sb.Append(gs.GetAlphaNonStroking());
-        String state = sb.ToString();
-        Int32 n;
-        if (pdf.states.ContainsKey(state)) {
-            n = pdf.states[state];
-        } else {
-            n = pdf.states.Count + 1;
-            pdf.states[state] = n;
-        }
-        Append("/GS");
-        Append(n);
-        Append(" gs\n");
-    }
 
     /**
      * Sets the color for stroking operations.
@@ -1331,84 +1475,6 @@ public class Page : Canvas {
 //        ClipPath();
 //    }
 
-    public void Save() {
-        Append("q\n");
-        savedStates.Add(new State(
-                brushColor, penColor, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
-    }
-
-    public void Restore() {
-        Append("Q\n");
-        if (savedStates.Count > 0) {
-            int lastIndex = savedStates.Count - 1;
-            State savedState = savedStates[lastIndex];
-            brushColor = savedState.GetBrushColor();
-            penColor = savedState.GetPenColor();
-            penWidth = savedState.GetPenWidth();
-            lineCapStyle = savedState.GetLineCapStyle();
-            lineJoinStyle = savedState.GetLineJoinStyle();
-            strokePattern = savedState.GetStrokePattern();
-            savedStates.RemoveAt(lastIndex);
-        }
-    }
-    // <<
-
-    /**
-     * Sets the page CropBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the CropBox.
-     * @param upperLeftY the top left Y coordinate of the CropBox.
-     * @param lowerRightX the bottom right X coordinate of the CropBox.
-     * @param lowerRightY the bottom right Y coordinate of the CropBox.
-     */
-    public void SetCropBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.cropBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
-    }
-
-    /**
-     * Sets the page BleedBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the BleedBox.
-     * @param upperLeftY the top left Y coordinate of the BleedBox.
-     * @param lowerRightX the bottom right X coordinate of the BleedBox.
-     * @param lowerRightY the bottom right Y coordinate of the BleedBox.
-     */
-    public void SetBleedBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.bleedBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
-    }
-
-    /**
-     * Sets the page TrimBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the TrimBox.
-     * @param upperLeftY the top left Y coordinate of the TrimBox.
-     * @param lowerRightX the bottom right X coordinate of the TrimBox.
-     * @param lowerRightY the bottom right Y coordinate of the TrimBox.
-     */
-    public void SetTrimBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.trimBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
-    }
-
-    /**
-     * Sets the page ArtBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the ArtBox.
-     * @param upperLeftY the top left Y coordinate of the ArtBox.
-     * @param lowerRightX the bottom right X coordinate of the ArtBox.
-     * @param lowerRightY the bottom right Y coordinate of the ArtBox.
-     */
-    public void SetArtBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.artBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
-    }
-
 //    private void AppendPointXY(float x, float y) {
 //        Append(x);
 //        Append(' ');
@@ -1520,68 +1586,6 @@ public class Page : Canvas {
         DrawWord(font, sb2, color, highlightColors);
     }
 */
-    internal void SetStructElementsPageObjNumber(int pageObjNumber) {
-        foreach (StructElem element in structures) {
-            element.pageObjNumber = pageObjNumber;
-        }
-    }
-
-    public void AddBMC(
-            String structure,
-            String actualText,
-            String altDescription) {
-        AddBMC(structure, null, actualText, altDescription);
-    }
-
-    public void AddBMC(
-            String structure,
-            String language,
-            String actualText,
-            String altDescription) {
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            StructElem element = new StructElem();
-            element.structure = structure;
-            element.mcid = mcid;
-            element.language = language;
-            element.actualText = actualText;
-            element.altDescription = altDescription;
-            structures.Add(element);
-
-            Append("/");
-            Append(structure);
-            Append(" <</MCID ");
-            Append(mcid++);
-            Append(">>\n");
-            Append("BDC\n");
-        }
-    }
-
-    public void AddArtifactBMC() {
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            Append("/Artifact BMC\n");
-        }
-    }
-
-    public void AddEMC() {
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            Append("EMC\n");
-        }
-    }
-
-    internal void AddAnnotation(Annotation annotation) {
-        annotation.y1 = this.height - annotation.y1;
-        annotation.y2 = this.height - annotation.y2;
-        annots.Add(annotation);
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            StructElem element = new StructElem();
-            element.structure = StructElem.LINK;
-            element.language = annotation.language;
-            element.actualText = annotation.actualText;
-            element.altDescription = annotation.altDescription;
-            element.annotation = annotation;
-            structures.Add(element);
-        }
-    }
 /*
     internal void BeginTransform(
             float x, float y, float xScale, float yScale) {
