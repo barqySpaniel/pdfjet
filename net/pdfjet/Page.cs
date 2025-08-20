@@ -890,13 +890,13 @@ public class Page : Canvas {
      *  @param w the width of the rectangle to be drawn.
      *  @param h the height of the rectangle to be drawn.
      */
-    public void DrawRect(double x, double y, double w, double h) {
-        MoveTo(x, y);
-        LineTo(x+w, y);
-        LineTo(x+w, y+h);
-        LineTo(x, y+h);
-        ClosePath();
-    }
+//    public void DrawRect(double x, double y, double w, double h) {
+//        MoveTo(x, y);
+//        LineTo(x+w, y);
+//        LineTo(x+w, y+h);
+//        LineTo(x, y+h);
+//        ClosePath();
+//    }
 
     /**
      *  Fills the specified rectangle on the page.
