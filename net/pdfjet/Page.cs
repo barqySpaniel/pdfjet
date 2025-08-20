@@ -40,7 +40,6 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class Page : Canvas {
     public static bool DETACHED = false;
-    internal PDF pdf;
     internal PDFobj pageObj;
     internal int objNumber;
 

@@ -35,11 +35,10 @@ using System.Collections.Generic;
  *  The size of the pages are represented in points.
  *  1 point is 1/72 inches.
  *  </pre>
- *
  */
 namespace PDFjet.NET {
 public class Canvas {
-    internal PDF pdf;
+    protected internal PDF pdf;
 
     internal MemoryStream buf;
     internal float width;
