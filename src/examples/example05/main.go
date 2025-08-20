@@ -23,7 +23,7 @@ func Example05() {
 
 	// page.SetPenColor(color.Aqua)
 	page.SetPenWidth(0.0)
-	_ = page.DrawArc(500, 100, 100, 50, 90, 270)
+	_ = page.DrawArc(500, 100, 50, 50, 0, 90)
 	// (new Line(xy[0], xy[1], xy[0], xy[1] + 50)).DrawOn(page);
 
 	text := pdfjet.NewTextLine(f1, "")
@@ -72,12 +72,6 @@ func Example05() {
 
 	page.SetPenWidth(1.0)
 	page.DrawEllipse(300.0, 600.0, 100.0, 50.0)
-
-	f1.SetSize(14.0)
-	unicode := "\u20AC\u0020\u201A\u0192\u201E\u2026\u2020\u2021\u02C6\u2030\u0160"
-	text = pdfjet.NewTextLine(f1, unicode)
-	text.SetLocation(100.0, 700.0)
-	text.DrawOn(page)
 
 	pdf.Complete()
 }
