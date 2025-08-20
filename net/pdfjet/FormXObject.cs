@@ -9,9 +9,9 @@ public class FormXObject : Canvas {
     private Dictionary<string, int> resourceRefs;
 
     public FormXObject(int objectNumber, float width, float height) {
-        this.objectNumber = objectNumber;
         base.width = width;
         base.height = height;
+        this.objectNumber = objectNumber;
         this.resourceRefs = new Dictionary<string, int>();
     }
 
@@ -19,38 +19,30 @@ public class FormXObject : Canvas {
         return objectNumber;
     }
 
-    private void SetObjectNumber(int value) {
-        objectNumber = value;
+    private void SetObjectNumber(int objectNumber) {
+        this.objectNumber = objectNumber;
     }
-
-//    public float GetWidth() {
-//        return width;
-//    }
-//
-//    public float GetHeight() {
-//        return height;
-//    }
 
     private void WriteString(String s) {
         var bytes = Encoding.ASCII.GetBytes(s);
         buf.Write(bytes, 0, bytes.Length);
     }
 
-//    public void SetFillColorRGB(float r, float g, float b) {
-//        buf.Write($"{r} {g} {b} rg\n");
-//    }
-//
-//    public void SetStrokeColorRGB(float r, float g, float b) {
-//        buf.Write($"{r} {g} {b} RG\n");
-//    }
-//
-//    public void FillRectangle(float x, float y, float w, float h) {
-//        buf.Write($"{x} {y} {w} {h} re\nf\n");
-//    }
+    public void SetFillColorRGB(float r, float g, float b) {
+        WriteString($"{r} {g} {b} rg\n");
+    }
 
-//    public void DrawRectangle(float x, float y, float w, float h) {
-//        buf.Write($"{x} {y} {w} {h} re\nS\n");
-//    }
+    public void SetStrokeColorRGB(float r, float g, float b) {
+        WriteString($"{r} {g} {b} RG\n");
+    }
+
+    public void FillRectangle(float x, float y, float w, float h) {
+        WriteString($"{x} {y} {w} {h} re\nf\n");
+    }
+
+    public void DrawRectangle(float x, float y, float w, float h) {
+        WriteString($"{x} {y} {w} {h} re\nS\n");
+    }
 
     public void Stroke() {
         WriteString("S\n");
@@ -66,19 +58,17 @@ public class FormXObject : Canvas {
 
     public string ToPdfObject() {
         var dict = new StringBuilder();
-
         dict.AppendLine("<<");
         dict.AppendLine("/Type /XObject");
         dict.AppendLine("/Subtype /Form");
         dict.AppendFormat("/BBox [0 0 {0} {1}]\n", width, height);
-
         if (resourceRefs.Count > 0) {
             dict.AppendLine("/Resources <<");
-            foreach (var kv in resourceRefs)
+            foreach (var kv in resourceRefs) {
                 dict.AppendFormat("/{0} {1} 0 R\n", kv.Key, kv.Value);
+            }
             dict.AppendLine(">>");
         }
-
         dict.AppendFormat("/Length {0}\n", buf.Length);
         dict.AppendLine(">>");
 
