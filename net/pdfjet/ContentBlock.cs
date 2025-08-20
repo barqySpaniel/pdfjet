@@ -5,20 +5,39 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class ContentBlock {
-    public int ObjectNumber { get; private set; }
-    public float Width { get; }
-    public float Height { get; }
-    public byte[] StreamData => stream.ToArray();
-
+    private int objectNumber;
+    private float width;
+    private float height;
     private MemoryStream stream;
     private Dictionary<string, int> resourceRefs;
 
     public ContentBlock(int objectNumber, float width, float height) {
-        ObjectNumber = objectNumber;
-        Width = width;
-        Height = height;
-        stream = new MemoryStream();
-        resourceRefs = new Dictionary<string, int>();
+        this.objectNumber = objectNumber;
+        this.width = width;
+        this.height = height;
+        this.stream = new MemoryStream();
+        this.resourceRefs = new Dictionary<string, int>();
+    }
+
+    public int GetObjectNumber() {
+        return objectNumber;
+    }
+
+    private void SetObjectNumber(int value) {
+        objectNumber = value;
+    }
+
+    public float GetWidth() {
+        return width;
+    }
+
+    public float GetHeight() {
+        return height;
+    }
+
+    private void Write(string s) {
+        var bytes = Encoding.ASCII.GetBytes(s);
+        stream.Write(bytes, 0, bytes.Length);
     }
 
     public void SetFillColorRGB(float r, float g, float b) {
@@ -57,9 +76,8 @@ public class ContentBlock {
         Write(s);
     }
 
-    private void Write(string s) {
-        var bytes = Encoding.ASCII.GetBytes(s);
-        stream.Write(bytes, 0, bytes.Length);
+    public byte[] GetStreamData() {
+        return stream.ToArray();
     }
 
     public string ToPdfObject() {
@@ -68,7 +86,7 @@ public class ContentBlock {
         dict.AppendLine("<<");
         dict.AppendLine("/Type /XObject");
         dict.AppendLine("/Subtype /Form");
-        dict.AppendFormat("/BBox [0 0 {0} {1}]\n", Width, Height);
+        dict.AppendFormat("/BBox [0 0 {0} {1}]\n", width, height);
 
         if (resourceRefs.Count > 0) {
             dict.AppendLine("/Resources <<");
@@ -80,8 +98,8 @@ public class ContentBlock {
         dict.AppendFormat("/Length {0}\n", stream.Length);
         dict.AppendLine(">>");
 
-        return $"{ObjectNumber} 0 obj\n{dict}stream\n" +
-               Encoding.ASCII.GetString(StreamData) +
+        return $"{objectNumber} 0 obj\n{dict}stream\n" +
+               Encoding.ASCII.GetString(GetStreamData()) +
                "endstream\nendobj\n";
     }
 }
