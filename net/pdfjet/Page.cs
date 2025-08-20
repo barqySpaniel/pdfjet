@@ -61,10 +61,10 @@ public class Page : Canvas {
     internal readonly List<State> savedStates = new List<State>();
     internal readonly List<StructElem> structures = new List<StructElem>();
 
-    internal float[] cropBox;
-    internal float[] bleedBox;
-    internal float[] trimBox;
-    internal float[] artBox;
+//    internal float[] cropBox;
+//    internal float[] bleedBox;
+//    internal float[] trimBox;
+//    internal float[] artBox;
     internal float savedHeight = -1;
 
     private int mcid;
@@ -106,11 +106,6 @@ public class Page : Canvas {
         destinations = new List<Destination>();
         width = pageSize[0];
         height = pageSize[1];
-        // buf = new MemoryStream(8192);
-        // tm0 = FastFloat.ToByteArray(tm[0]);
-        // tm1 = FastFloat.ToByteArray(tm[1]);
-        // tm2 = FastFloat.ToByteArray(tm[2]);
-        // tm3 = FastFloat.ToByteArray(tm[3]);
         if (addPageToPDF) {
             pdf.AddPage(this);
         }
@@ -121,17 +116,17 @@ public class Page : Canvas {
         this.pageObj = RemoveComments(pageObj);
         width = pageObj.GetPageSize()[0];
         height = pageObj.GetPageSize()[1];
-        // buf = new MemoryStream(8192);
-        // tm0 = FastFloat.ToByteArray(tm[0]);
-        // tm1 = FastFloat.ToByteArray(tm[1]);
-        // tm2 = FastFloat.ToByteArray(tm[2]);
-        // tm3 = FastFloat.ToByteArray(tm[3]);
-        Append("q\n");
+        Append("q\n");      // TODO: Why is this here?
         if (pageObj.gsNumber != -1) {
             Append("/GS");
             Append(pageObj.gsNumber + 1);
             Append(" gs\n");
         }
+    }
+
+    public void Complete(List<PDFobj> objects) {
+        Append("Q\n");      // TODO: We need this??
+        pageObj.AddContent(GetContent(), objects);
     }
 
     private PDFobj RemoveComments(PDFobj obj) {
@@ -167,15 +162,6 @@ public class Page : Canvas {
         pageObj.AddResource(font, objects);
     }
 
-    public void Complete(List<PDFobj> objects) {
-        Append("Q\n");
-        pageObj.AddContent(GetContent(), objects);
-    }
-
-//    public byte[] GetContent() {
-//        return buf.ToArray();
-//    }
-
     /**
      *  Adds destination to this page.
      *
@@ -204,24 +190,6 @@ public class Page : Canvas {
         destinations.Add(dest);
         return dest;
     }
-
-    /**
-     *  Returns the width of this page.
-     *
-     *  @return the width of the page.
-     */
-//    public float GetWidth() {
-//        return width;
-//    }
-
-    /**
-     *  Returns the height of this page.
-     *
-     *  @return the height of the page.
-     */
-//    public float GetHeight() {
-//        return height;
-//    }
 
     /**
      *  Draws a line on the page, using the current color, between the points (x1, y1) and (x2, y2).
@@ -532,6 +500,8 @@ public class Page : Canvas {
      *  @param gs the graphics state to use.
      */
     public void SetGraphicsState(GraphicsState gs) {
+        // Should we have here:
+        // Append("q\n");  // ??
         StringBuilder sb = new StringBuilder();
         sb.Append("/CA ");
         sb.Append(gs.GetAlphaStroking());
@@ -1350,18 +1320,18 @@ public class Page : Canvas {
     /**
      *  Clips the path.
      */
-    public void ClipPath() {
-        Append("W\n");
-        Append("n\n");  // Close the path without painting it.
-    }
-
-    public void ClipRect(float x, float y, float w, float h) {
-        MoveTo(x, y);
-        LineTo(x + w, y);
-        LineTo(x + w, y + h);
-        LineTo(x, y + h);
-        ClipPath();
-    }
+//    public void ClipPath() {
+//        Append("W\n");
+//        Append("n\n");  // Close the path without painting it.
+//    }
+//
+//    public void ClipRect(float x, float y, float w, float h) {
+//        MoveTo(x, y);
+//        LineTo(x + w, y);
+//        LineTo(x + w, y + h);
+//        LineTo(x, y + h);
+//        ClipPath();
+//    }
 
     public void Save() {
         Append("q\n");
