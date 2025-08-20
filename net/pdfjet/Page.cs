@@ -65,7 +65,6 @@ public class Page : Canvas {
 //    internal float[] bleedBox;
 //    internal float[] trimBox;
 //    internal float[] artBox;
-    internal float savedHeight = -1;
 
     private int mcid;
 

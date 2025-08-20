@@ -40,7 +40,6 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class Canvas {
     internal PDF pdf;
-    internal int objNumber;
 
     internal MemoryStream buf;
     internal float width;
@@ -62,7 +61,6 @@ public class Canvas {
     internal float[] artBox;
     internal readonly List<StructElem> structures = new List<StructElem>();
     internal Font font;
-    internal float savedHeight = -1;
     internal float[] brushColor = {0f, 0f, 0f};
     internal float[] penColor = {0f, 0f, 0f};
     internal float penWidth = 0.6f;
