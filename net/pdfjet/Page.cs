@@ -58,34 +58,16 @@ public class Page : Canvas {
     internal readonly List<Int32> contents;
     internal readonly List<Annotation> annots;
     internal readonly List<Destination> destinations;
+    internal readonly List<State> savedStates = new List<State>();
+    internal readonly List<StructElem> structures = new List<StructElem>();
+
     internal float[] cropBox;
     internal float[] bleedBox;
     internal float[] trimBox;
     internal float[] artBox;
-    internal readonly List<StructElem> structures = new List<StructElem>();
     internal float savedHeight = -1;
 
-    private float[] brushColor = {0f, 0f, 0f};
-    private float[] penColor = {0f, 0f, 0f};
-    private float penWidth = 0.6f;
-    private float[] penCMYK = {0f, 0f, 0f, 1f};
-    private float[] brushCMYK = {0f, 0f, 0f, 1f};
-    private CapStyle lineCapStyle = CapStyle.BUTT;
-    private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private String strokePattern = "[] 0";
-    private readonly List<State> savedStates = new List<State>();
     private int mcid;
-
-    /*
-     * From Android's Matrix object:
-     */
-//    private static int MSCALE_X = 0;
-//    private static int MSKEW_X  = 1;
-//    private static int MTRANS_X = 2;
-//    private static int MSKEW_Y  = 3;
-//    private static int MSCALE_Y = 4;
-//    private static int MTRANS_Y = 5;
-
 
     /**
      *  Creates page object and add it to the PDF document.

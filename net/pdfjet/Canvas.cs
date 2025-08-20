@@ -63,15 +63,15 @@ public class Canvas {
     internal readonly List<StructElem> structures = new List<StructElem>();
     internal Font font;
     internal float savedHeight = -1;
+    internal float[] brushColor = {0f, 0f, 0f};
+    internal float[] penColor = {0f, 0f, 0f};
+    internal float penWidth = 0.6f;
+    internal float[] penCMYK = {0f, 0f, 0f, 1f};
+    internal float[] brushCMYK = {0f, 0f, 0f, 1f};
+    internal CapStyle lineCapStyle = CapStyle.BUTT;
+    internal JoinStyle lineJoinStyle = JoinStyle.MITER;
+    internal String strokePattern = "[] 0";
 
-    private float[] brushColor = {0f, 0f, 0f};
-    private float[] penColor = {0f, 0f, 0f};
-    private float penWidth = 0.6f;
-    private float[] penCMYK = {0f, 0f, 0f, 1f};
-    private float[] brushCMYK = {0f, 0f, 0f, 1f};
-    private CapStyle lineCapStyle = CapStyle.BUTT;
-    private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private String strokePattern = "[] 0";
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
 
