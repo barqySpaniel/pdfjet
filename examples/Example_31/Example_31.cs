@@ -14,12 +14,10 @@ public class Example_31 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        // Font f1 = new Font(pdf, "fonts/Noto/NotoSansDevanagari-Regular.ttf.stream");
-        // TODO:
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-
+        Font f1 = new Font(pdf, NotoSansDevanagari.Regular);
         f1.SetSize(15f);
+
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
         f2.SetSize(15f);
 
         StringBuilder buf = new StringBuilder();
