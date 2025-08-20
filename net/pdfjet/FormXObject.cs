@@ -4,17 +4,17 @@ using System.Text;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-public class FormXObject {
+public class FormXObject : Canvas {
     private int objectNumber;
-    private float width;
-    private float height;
+//    private float width;
+//    private float height;
     private MemoryStream stream;
     private Dictionary<string, int> resourceRefs;
 
     public FormXObject(int objectNumber, float width, float height) {
         this.objectNumber = objectNumber;
-        this.width = width;
-        this.height = height;
+        // this.width = width;
+        // this.height = height;
         this.stream = new MemoryStream();
         this.resourceRefs = new Dictionary<string, int>();
     }
@@ -27,13 +27,13 @@ public class FormXObject {
         objectNumber = value;
     }
 
-    public float GetWidth() {
-        return width;
-    }
-
-    public float GetHeight() {
-        return height;
-    }
+//    public float GetWidth() {
+//        return width;
+//    }
+//
+//    public float GetHeight() {
+//        return height;
+//    }
 
     private void Write(string s) {
         var bytes = Encoding.ASCII.GetBytes(s);
@@ -56,13 +56,13 @@ public class FormXObject {
         Write($"{x} {y} {w} {h} re\nS\n");
     }
 
-    public void MoveTo(float x, float y) {
-        Write($"{x} {y} m\n");
-    }
-
-    public void LineTo(float x, float y) {
-        Write($"{x} {y} l\n");
-    }
+//    public void MoveTo(float x, float y) {
+//        Write($"{x} {y} m\n");
+//    }
+//
+//    public void LineTo(float x, float y) {
+//        Write($"{x} {y} l\n");
+//    }
 
     public void Stroke() {
         Write("S\n");

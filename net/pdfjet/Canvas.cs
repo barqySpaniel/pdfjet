@@ -40,20 +40,22 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class Canvas {
     internal PDF pdf;
-    internal PDFobj pageObj;
     internal int objNumber;
+
     internal MemoryStream buf;
+    internal float width;
+    internal float height;
+
+    internal int renderingMode = 0;
     internal float[] tm = {1f, 0f, 0f, 1f};
     internal byte[] tm0;
     internal byte[] tm1;
     internal byte[] tm2;
     internal byte[] tm3;
-    internal int renderingMode = 0;
-    internal readonly float width;
-    internal float height;
-    internal readonly List<Int32> contents;
-    internal readonly List<Annotation> annots;
-    internal readonly List<Destination> destinations;
+
+//    internal readonly List<Int32> contents;
+//    internal readonly List<Annotation> annots;
+//    internal readonly List<Destination> destinations;
     internal float[] cropBox;
     internal float[] bleedBox;
     internal float[] trimBox;
@@ -70,122 +72,14 @@ public class Canvas {
     private Font font;
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
-
     internal float savedHeight = -1;
 
-    /*
-     * From Android's Matrix object:
-     */
-    private static int MSCALE_X = 0;
-    private static int MSKEW_X  = 1;
-    private static int MTRANS_X = 2;
-    private static int MSKEW_Y  = 3;
-    private static int MSCALE_Y = 4;
-    private static int MTRANS_Y = 5;
-
-    public static bool DETACHED = false;
-
-//    /**
-//     *  Creates page object and add it to the PDF document.
-//     *
-//     *  Please note:
-//     *  <pre>
-//     *  The coordinate (0.0, 0.0) is the top left corner of the page.
-//     *  The size of the pages are represented in points.
-//     *  1 point is 1/72 inches.
-//     *  </pre>
-//     *
-//     *  @param pdf the pdf object.
-//     *  @param pageSize the page size of this page.
-//     */
-//    public Page(PDF pdf, float[] pageSize) : this(pdf, pageSize, true) {
-//    }
-//
-//    /**
-//     *  Creates page object and add it to the PDF document.
-//     *
-//     *  Please note:
-//     *  <pre>
-//     *  The coordinate (0.0, 0.0) is the top left corner of the page.
-//     *  The size of the pages are represented in points.
-//     *  1 point is 1/72 inches.
-//     *  </pre>
-//     *
-//     *  @param pdf the pdf object.
-//     *  @param pageSize the page size of this page.
-//     *  @param addPageToPDF bool flag.
-//     */
-//    public Page(PDF pdf, float[] pageSize, bool addPageToPDF) {
-//        this.pdf = pdf;
-//        contents = new List<Int32>();
-//        annots = new List<Annotation>();
-//        destinations = new List<Destination>();
-//        width = pageSize[0];
-//        height = pageSize[1];
-//        buf = new MemoryStream(8192);
-//        tm0 = ToByteArray(tm[0]);
-//        tm1 = ToByteArray(tm[1]);
-//        tm2 = ToByteArray(tm[2]);
-//        tm3 = ToByteArray(tm[3]);
-//        if (addPageToPDF) {
-//            pdf.AddPage(this);
-//        }
-//    }
-//
-//    public Page(PDF pdf, PDFobj pageObj) {
-//        this.pdf = pdf;
-//        this.pageObj = RemoveComments(pageObj);
-//        width = pageObj.GetPageSize()[0];
-//        height = pageObj.GetPageSize()[1];
-//        buf = new MemoryStream(8192);
-//        tm0 = ToByteArray(tm[0]);
-//        tm1 = ToByteArray(tm[1]);
-//        tm2 = ToByteArray(tm[2]);
-//        tm3 = ToByteArray(tm[3]);
-//        Append("q\n");
-//        if (pageObj.gsNumber != -1) {
-//            Append("/GS");
-//            Append(pageObj.gsNumber + 1);
-//            Append(" gs\n");
-//        }
-//    }
-//
-//    private PDFobj RemoveComments(PDFobj obj) {
-//        List<String> list = new List<String>();
-//        bool comment = false;
-//        foreach (String token in obj.dict) {
-//            if (token.Equals("%")) {
-//                comment = true;
-//            } else {
-//                if (token.StartsWith("/")) {
-//                    comment = false;
-//                    list.Add(token);
-//                } else {
-//                    if (!comment) {
-//                        list.Add(token);
-//                    }
-//                }
-//            }
-//        }
-//        obj.dict = list;
-//        return obj;
-//    }
-
-    public Font AddResource(CoreFont coreFont, List<PDFobj> objects) {
-        return pageObj.AddResource(coreFont, objects);
-    }
-
-    public void AddResource(Image image, List<PDFobj> objects) {
-        pageObj.AddResource(image, objects);
-    }
-
-    public void AddResource(Font font, List<PDFobj> objects) {
-        pageObj.AddResource(font, objects);
-    }
-
-    public void Complete(List<PDFobj> objects) {
-        Append("Q\n");
-        pageObj.AddContent(GetContent(), objects);
+    public Canvas() {
+        buf = new MemoryStream(8192);
+        tm0 = ToByteArray(tm[0]);
+        tm1 = ToByteArray(tm[1]);
+        tm2 = ToByteArray(tm[2]);
+        tm3 = ToByteArray(tm[3]);
     }
 
     public byte[] GetContent() {
@@ -201,25 +95,25 @@ public class Canvas {
      *
      *  @return the destination.
      */
-    public Destination AddDestination(String name, float xPosition, float yPosition) {
-        Destination dest = new Destination(name, xPosition, height - yPosition);
-        destinations.Add(dest);
-        return dest;
-    }
-
-    /**
-     *  Adds destination to this page.
-     *
-     *  @param name The destination name.
-     *  @param yPosition The vertical position of the destination on this page.
-     *
-     *  @return the destination.
-     */
-    public Destination AddDestination(String name, float yPosition) {
-        Destination dest = new Destination(name, 0f, height - yPosition);
-        destinations.Add(dest);
-        return dest;
-    }
+//    public Destination AddDestination(String name, float xPosition, float yPosition) {
+//        Destination dest = new Destination(name, xPosition, height - yPosition);
+//        destinations.Add(dest);
+//        return dest;
+//    }
+//
+//    /**
+//     *  Adds destination to this page.
+//     *
+//     *  @param name The destination name.
+//     *  @param yPosition The vertical position of the destination on this page.
+//     *
+//     *  @return the destination.
+//     */
+//    public Destination AddDestination(String name, float yPosition) {
+//        Destination dest = new Destination(name, 0f, height - yPosition);
+//        destinations.Add(dest);
+//        return dest;
+//    }
 
     /**
      *  Returns the width of this page.
@@ -304,13 +198,13 @@ public class Canvas {
             DrawString(font, str, x, y, textColor, colors);
         } else {
             Font activeFont = font;
-            StringBuilder buf = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < str.Length; i++) {
                 int ch = str[i];
                 if (activeFont.unicodeToGID[ch] == 0) {
-                    DrawString(activeFont, buf.ToString(), x, y, textColor, colors);
-                    x += activeFont.StringWidth(buf.ToString());
-                    buf.Length = 0;
+                    DrawString(activeFont, sb.ToString(), x, y, textColor, colors);
+                    x += activeFont.StringWidth(sb.ToString());
+                    sb.Length = 0;
                     // Switch the font
                     if (activeFont == font) {
                         activeFont = fallbackFont;
@@ -318,9 +212,9 @@ public class Canvas {
                         activeFont = font;
                     }
                 }
-                buf.Append((char) ch);
+                sb.Append((char) ch);
             }
-            DrawString(activeFont, buf.ToString(), x, y, textColor, colors);
+            DrawString(activeFont, sb.ToString(), x, y, textColor, colors);
         }
     }
 
@@ -506,7 +400,7 @@ public class Canvas {
         return textLines.Length * leading;
     }
 
-    private void DrawUnicodeString(Font font, String str) {
+    internal void DrawUnicodeString(Font font, String str) {
         if (str == null || str.Length == 0) {
             return;
         }
@@ -1444,14 +1338,14 @@ public class Canvas {
         this.artBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
     }
 
-    private void AppendPointXY(float x, float y) {
+    internal void AppendPointXY(float x, float y) {
         Append(x);
         Append(' ');
         Append(height - y);
         Append(' ');
     }
 
-    private void Append(Point point) {
+    internal void Append(Point point) {
         Append(point.x);
         Append(' ');
         Append(height - point.y);
@@ -1486,11 +1380,11 @@ public class Canvas {
         buf.Write(buffer, 0, buffer.Length);
     }
 
-    private static readonly byte[] HEX = {
+    internal static readonly byte[] HEX = {
         (byte)'0', (byte)'1', (byte)'2', (byte)'3', (byte)'4', (byte)'5', (byte)'6', (byte)'7', (byte)'8', (byte)'9',
         (byte)'A', (byte)'B', (byte)'C', (byte)'D', (byte)'E', (byte)'F'
     };
-    private void AppendCodePointAsHex(int codePoint) {
+    internal void AppendCodePointAsHex(int codePoint) {
         if (codePoint <= 0xFFFF) {
             // Basic Multilingual Plane (BMP) character
             buf.WriteByte(HEX[(codePoint >> 12) & 0xF]);
@@ -1603,20 +1497,20 @@ public class Canvas {
         }
     }
 
-    internal void AddAnnotation(Annotation annotation) {
-        annotation.y1 = this.height - annotation.y1;
-        annotation.y2 = this.height - annotation.y2;
-        annots.Add(annotation);
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            StructElem element = new StructElem();
-            element.structure = StructElem.LINK;
-            element.language = annotation.language;
-            element.actualText = annotation.actualText;
-            element.altDescription = annotation.altDescription;
-            element.annotation = annotation;
-            structures.Add(element);
-        }
-    }
+//    internal void AddAnnotation(Annotation annotation) {
+//        annotation.y1 = this.height - annotation.y1;
+//        annotation.y2 = this.height - annotation.y2;
+//        annots.Add(annotation);
+//        if (pdf.compliance == Compliance.PDF_UA_1) {
+//            StructElem element = new StructElem();
+//            element.structure = StructElem.LINK;
+//            element.language = annotation.language;
+//            element.actualText = annotation.actualText;
+//            element.altDescription = annotation.altDescription;
+//            element.annotation = annotation;
+//            structures.Add(element);
+//        }
+//    }
 
     internal void BeginTransform(
             float x, float y, float xScale, float yScale) {
