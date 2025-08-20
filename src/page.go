@@ -1045,7 +1045,7 @@ func (page *Page) DrawArc(
 		x0 := x + rx*cosStart
 		y0 := y + ry*sinStart
 		x3 = x + rx*cosEnd
-		y3 = y + ry*cosEnd
+		y3 = y + ry*sinEnd
 
 		// Control points
 		x1 = x0 - (k * rx * sinStart)
