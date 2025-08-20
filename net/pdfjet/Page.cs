@@ -357,6 +357,48 @@ public class Page : Canvas {
         }
     }
 
+    public float[] AddHeader(TextLine textLine) {
+        return AddHeader(textLine, 1.5f*textLine.font.ascent);
+    }
+
+    public float[] AddHeader(TextLine textLine, float offset) {
+        textLine.SetLocation((GetWidth() - textLine.GetWidth())/2, offset);
+        float[] xy = textLine.DrawOn(this);
+        xy[1] += font.descent;
+        return xy;
+    }
+
+    public float[] AddFooter(TextLine textLine) {
+        return AddFooter(textLine, textLine.font.ascent);
+    }
+
+    public float[] AddFooter(TextLine textLine, float offset) {
+        textLine.SetLocation((GetWidth() - textLine.GetWidth())/2, GetHeight() - offset);
+        return textLine.DrawOn(this);
+    }
+
+    public void AddWatermark(Font font, String text) {
+        float hypotenuse = (float)
+                Math.Sqrt(this.height * this.height + this.width * this.width);
+        float stringWidth = font.StringWidth(text);
+        float offset = (hypotenuse - stringWidth) / 2f;
+        double angle = Math.Atan(this.height / this.width);
+        TextLine watermark = new TextLine(font);
+        watermark.SetText(text);
+        watermark.SetTextColor(Color.lightgrey);
+        watermark.SetLocation(
+                (float) (offset * Math.Cos(angle)),
+                (this.height - (float) (offset * Math.Sin(angle))));
+        watermark.SetTextDirection((int) (angle * (180.0 / Math.PI)));
+        watermark.DrawOn(this);
+    }
+
+    public void InvertYAxis() {
+        Append("1 0 0 -1 0 ");
+        Append(this.height);
+        Append(" cm\n");
+    }
+
 
 
     /**
@@ -1634,27 +1676,6 @@ public class Page : Canvas {
         }
     }
 */
-    public void AddWatermark(Font font, String text) {
-        float hypotenuse = (float)
-                Math.Sqrt(this.height * this.height + this.width * this.width);
-        float stringWidth = font.StringWidth(text);
-        float offset = (hypotenuse - stringWidth) / 2f;
-        double angle = Math.Atan(this.height / this.width);
-        TextLine watermark = new TextLine(font);
-        watermark.SetText(text);
-        watermark.SetTextColor(Color.lightgrey);
-        watermark.SetLocation(
-                (float) (offset * Math.Cos(angle)),
-                (this.height - (float) (offset * Math.Sin(angle))));
-        watermark.SetTextDirection((int) (angle * (180.0 / Math.PI)));
-        watermark.DrawOn(this);
-    }
-
-    public void InvertYAxis() {
-        Append("1 0 0 -1 0 ");
-        Append(this.height);
-        Append(" cm\n");
-    }
 
     /**
      * Transformation matrix.
@@ -1686,25 +1707,6 @@ public class Page : Canvas {
 //        height = height / scaley;
 //    }
 
-    public float[] AddHeader(TextLine textLine) {
-        return AddHeader(textLine, 1.5f*textLine.font.ascent);
-    }
-
-    public float[] AddHeader(TextLine textLine, float offset) {
-        textLine.SetLocation((GetWidth() - textLine.GetWidth())/2, offset);
-        float[] xy = textLine.DrawOn(this);
-        xy[1] += font.descent;
-        return xy;
-    }
-
-    public float[] AddFooter(TextLine textLine) {
-        return AddFooter(textLine, textLine.font.ascent);
-    }
-
-    public float[] AddFooter(TextLine textLine, float offset) {
-        textLine.SetLocation((GetWidth() - textLine.GetWidth())/2, GetHeight() - offset);
-        return textLine.DrawOn(this);
-    }
 
     /**
      *  Sets the text location.
