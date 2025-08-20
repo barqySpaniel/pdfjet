@@ -1325,6 +1325,7 @@ public class Page : Canvas {
     // Code provided by:
     // Dominique Andre Gunia <contact@dgunia.de>
     // <<
+/*
     public void DrawRectRoundCorners(
             float x,
             float y,
@@ -1363,7 +1364,7 @@ public class Page : Canvas {
 
         DrawPath(list);
     }
-
+*/
     /**
      *  Clips the path.
      */
