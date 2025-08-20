@@ -39,6 +39,7 @@ using System.Collections.Generic;
  */
 namespace PDFjet.NET {
 public class Page : Canvas {
+    public static bool DETACHED = false;
     internal PDF pdf;
     internal PDFobj pageObj;
     internal int objNumber;
@@ -52,8 +53,7 @@ public class Page : Canvas {
 //    internal byte[] tm1;
 //    internal byte[] tm2;
 //    internal byte[] tm3;
-
-    // internal int renderingMode = 0;
+//    internal int renderingMode = 0;
 
     internal readonly List<Int32> contents;
     internal readonly List<Annotation> annots;
@@ -63,6 +63,8 @@ public class Page : Canvas {
     internal float[] trimBox;
     internal float[] artBox;
     internal readonly List<StructElem> structures = new List<StructElem>();
+    internal float savedHeight = -1;
+
     private float[] brushColor = {0f, 0f, 0f};
     private float[] penColor = {0f, 0f, 0f};
     private float penWidth = 0.6f;
@@ -71,11 +73,8 @@ public class Page : Canvas {
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String strokePattern = "[] 0";
-//    private Font font;
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
-
-    internal float savedHeight = -1;
 
     /*
      * From Android's Matrix object:
@@ -87,7 +86,6 @@ public class Page : Canvas {
 //    private static int MSCALE_Y = 4;
 //    private static int MTRANS_Y = 5;
 
-    public static bool DETACHED = false;
 
     /**
      *  Creates page object and add it to the PDF document.
@@ -192,9 +190,9 @@ public class Page : Canvas {
         pageObj.AddContent(GetContent(), objects);
     }
 
-    public byte[] GetContent() {
-        return buf.ToArray();
-    }
+//    public byte[] GetContent() {
+//        return buf.ToArray();
+//    }
 
     /**
      *  Adds destination to this page.
