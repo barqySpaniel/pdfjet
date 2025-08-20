@@ -51,7 +51,6 @@ public class Canvas {
     internal byte[] tm2;
     internal byte[] tm3;
 
-    internal readonly List<StructElem> structures = new List<StructElem>();
     internal Font font;
     internal float[] brushColor = {0f, 0f, 0f};
     internal float[] penColor = {0f, 0f, 0f};
@@ -62,6 +61,7 @@ public class Canvas {
     internal JoinStyle lineJoinStyle = JoinStyle.MITER;
     internal String strokePattern = "[] 0";
 
+    internal readonly List<StructElem> structElements = new List<StructElem>();
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
 
@@ -1355,7 +1355,7 @@ public class Canvas {
     }
 
     internal void SetStructElementsPageObjNumber(int pageObjNumber) {
-        foreach (StructElem element in structures) {
+        foreach (StructElem element in structElements) {
             element.pageObjNumber = pageObjNumber;
         }
     }
@@ -1379,7 +1379,7 @@ public class Canvas {
             element.language = language;
             element.actualText = actualText;
             element.altDescription = altDescription;
-            structures.Add(element);
+            structElements.Add(element);
 
             Append("/");
             Append(structure);

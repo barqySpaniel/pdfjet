@@ -58,14 +58,11 @@ public class Page : Canvas {
     internal readonly List<Annotation> annots;
     internal readonly List<Destination> destinations;
     internal readonly List<State> savedStates = new List<State>();
-    internal readonly List<StructElem> structures = new List<StructElem>();
 
     internal float[] cropBox;
     internal float[] bleedBox;
     internal float[] trimBox;
     internal float[] artBox;
-
-    private int mcid;
 
     /**
      *  Creates page object and add it to the PDF document.
@@ -294,11 +291,11 @@ public class Page : Canvas {
     }
 
     internal void SetStructElementsPageObjNumber(int pageObjNumber) {
-        foreach (StructElem element in structures) {
+        foreach (StructElem element in structElements) {
             element.pageObjNumber = pageObjNumber;
         }
     }
-
+/*
     public void AddBMC(
             String structure,
             String actualText,
@@ -318,7 +315,7 @@ public class Page : Canvas {
             element.language = language;
             element.actualText = actualText;
             element.altDescription = altDescription;
-            structures.Add(element);
+            structElements.Add(element);
 
             Append("/");
             Append(structure);
@@ -340,7 +337,7 @@ public class Page : Canvas {
             Append("EMC\n");
         }
     }
-
+*/
     internal void AddAnnotation(Annotation annotation) {
         annotation.y1 = this.height - annotation.y1;
         annotation.y2 = this.height - annotation.y2;
@@ -352,7 +349,7 @@ public class Page : Canvas {
             element.actualText = annotation.actualText;
             element.altDescription = annotation.altDescription;
             element.annotation = annotation;
-            structures.Add(element);
+            structElements.Add(element);
         }
     }
 

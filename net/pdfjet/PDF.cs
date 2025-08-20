@@ -443,7 +443,7 @@ public class PDF {
         Append(Token.objRef);
         Append("/K [\n");
         foreach (Page page in pages) {
-            foreach (StructElem structElement in page.structures) {
+            foreach (StructElem structElement in page.structElements) {
                 Append(structElement.objNumber);
                 Append(" 0 R\n");
             }
@@ -457,10 +457,10 @@ public class PDF {
     private void AddStructElementObjects() {
         int structTreeRootObjNumber = GetObjNumber() + 1;
         foreach (Page page in pages) {
-            structTreeRootObjNumber += page.structures.Count;
+            structTreeRootObjNumber += page.structElements.Count;
         }
         foreach (Page page in pages) {
-            foreach (StructElem element in page.structures) {
+            foreach (StructElem element in page.structElements) {
                 Newobj();
                 element.objNumber = GetObjNumber();
                 Append("<<\n/Type /StructElem /S /");
@@ -548,7 +548,7 @@ public class PDF {
             Page page = pages[i];
             Append(i);
             Append(" [\n");
-            foreach (StructElem element in page.structures) {
+            foreach (StructElem element in page.structElements) {
                 if (element.annotation == null) {
                     Append(element.objNumber);
                     Append(Token.objRef);
@@ -558,7 +558,7 @@ public class PDF {
         }
         int index = pages.Count;
         foreach (Page page in pages) {
-            foreach (StructElem element in page.structures) {
+            foreach (StructElem element in page.structElements) {
                 if (element.annotation != null) {
                     Append(index);
                     Append(Token.space);
@@ -830,8 +830,8 @@ public class PDF {
     private void AddAnnotDictionaries() {
         int index = pages.Count;
         foreach (Page page in pages) {
-            if (page.structures.Count > 0) {
-                foreach (StructElem element in page.structures) {
+            if (page.structElements.Count > 0) {
+                foreach (StructElem element in page.structElements) {
                     if (element.annotation != null) {
                         AddAnnotationObject(element.annotation, index);
                     }
