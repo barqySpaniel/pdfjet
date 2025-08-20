@@ -578,10 +578,10 @@ public class Page : Canvas {
      * @param g the green component is float value from 0.0 to 1.0.
      * @param b the blue component is float value from 0.0 to 1.0.
      */
-    public void SetPenColor(
-            double r, double g, double b) {
-        SetPenColor((float) r, (float) g, (float) b);
-    }
+//    public void SetPenColor(
+//            double r, double g, double b) {
+//        SetPenColor((float) r, (float) g, (float) b);
+//    }
 
     /**
      * Sets the color for stroking operations using CMYK.
@@ -592,16 +592,16 @@ public class Page : Canvas {
      * @param y the yellow component is float value from 0.0f to 1.0f.
      * @param k the black component is float value from 0.0f to 1.0f.
      */
-    public void SetPenColorCMYK(float c, float m, float y, float k) {
-        Append(c);
-        Append(' ');
-        Append(m);
-        Append(' ');
-        Append(y);
-        Append(' ');
-        Append(k);
-        Append(" K\n");
-    }
+//    public void SetPenColorCMYK(float c, float m, float y, float k) {
+//        Append(c);
+//        Append(' ');
+//        Append(m);
+//        Append(' ');
+//        Append(y);
+//        Append(' ');
+//        Append(k);
+//        Append(" K\n");
+//    }
 
     /**
      * Sets the color for brush operations.
@@ -611,9 +611,9 @@ public class Page : Canvas {
      * @param g the green component is float value from 0.0 to 1.0.
      * @param b the blue component is float value from 0.0 to 1.0.
      */
-    public void SetBrushColor(double r, double g, double b) {
-        SetBrushColor((float) r, (float) g, (float) b);
-    }
+//    public void SetBrushColor(double r, double g, double b) {
+//        SetBrushColor((float) r, (float) g, (float) b);
+//    }
 
     /**
      * Sets the color for brush operations.
@@ -623,14 +623,14 @@ public class Page : Canvas {
      * @param g the green component is float value from 0.0f to 1.0f.
      * @param b the blue component is float value from 0.0f to 1.0f.
      */
-    public void SetBrushColor(float r, float g, float b) {
-        Append(r);
-        Append(' ');
-        Append(g);
-        Append(' ');
-        Append(b);
-        Append(" rg\n");
-    }
+//    public void SetBrushColor(float r, float g, float b) {
+//        Append(r);
+//        Append(' ');
+//        Append(g);
+//        Append(' ');
+//        Append(b);
+//        Append(" rg\n");
+//    }
 
     /**
      * Sets the color for brush operations using CMYK.
@@ -641,16 +641,16 @@ public class Page : Canvas {
      * @param y the yellow component is float value from 0.0f to 1.0f.
      * @param k the black component is float value from 0.0f to 1.0f.
      */
-    public void SetBrushColorCMYK(float c, float m, float y, float k) {
-        Append(c);
-        Append(' ');
-        Append(m);
-        Append(' ');
-        Append(y);
-        Append(' ');
-        Append(k);
-        Append(" k\n");
-    }
+//    public void SetBrushColorCMYK(float c, float m, float y, float k) {
+//        Append(c);
+//        Append(' ');
+//        Append(m);
+//        Append(' ');
+//        Append(y);
+//        Append(' ');
+//        Append(k);
+//        Append(" k\n");
+//    }
 
     /**
      * Sets the color for brush operations.
@@ -658,20 +658,20 @@ public class Page : Canvas {
      * @param color the color.
      * @throws IOException
      */
-    public void SetBrushColor(float[] rgbColor) {
-        if (rgbColor != null) {
-            SetBrushColor(rgbColor[0], rgbColor[1], rgbColor[2]);
-        }
-    }
+//    public void SetBrushColor(float[] rgbColor) {
+//        if (rgbColor != null) {
+//            SetBrushColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+//        }
+//    }
 
     /**
      * Returns the brush color.
      *
      * @return the brush color.
      */
-    public float[] GetBrushColor() {
-        return brushColor;
-    }
+//    public float[] GetBrushColor() {
+//        return brushColor;
+//    }
 
     /**
      * Sets the pen color.
@@ -720,12 +720,12 @@ public class Page : Canvas {
      * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
      * @throws IOException
      */
-    public void SetBrushColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetBrushColor(r, g, b);
-    }
+//    public void SetBrushColor(int color) {
+//        float r = ((color >> 16) & 0xff)/255f;
+//        float g = ((color >>  8) & 0xff)/255f;
+//        float b = ((color)       & 0xff)/255f;
+//        SetBrushColor(r, g, b);
+//    }
 
     /**
      *  Sets the line width to the default.
@@ -1010,6 +1010,7 @@ public class Page : Canvas {
      *  @param r2 the vertical radius of the ellipse to be drawn.
      *  @param operation the operation.
      */
+/*
     internal void DrawEllipse(
             float x,
             float y,
@@ -1067,7 +1068,7 @@ public class Page : Canvas {
             Append("S\n");
         }
     }
-
+*/
     /**
      *  Draws a point on the page using the current pen color.
      *
