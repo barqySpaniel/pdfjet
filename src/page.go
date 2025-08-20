@@ -140,8 +140,8 @@ func newPage(pdf *PDF, pageSize [2]float32, addToPDF bool) *Page {
 	page.height = pageSize[1]
 	page.linePattern = "[] 0"
 	page.savedHeight = math.MaxFloat32
-	page.tmx = [4]float32{1.0, 0.0, 0.0, 1.0}
 	page.penWidth = 0
+	page.tmx = [4]float32{1.0, 0.0, 0.0, 1.0}
 	page.tm0 = fastfloat.ToByteArray(page.tmx[0])
 	page.tm1 = fastfloat.ToByteArray(page.tmx[1])
 	page.tm2 = fastfloat.ToByteArray(page.tmx[2])
