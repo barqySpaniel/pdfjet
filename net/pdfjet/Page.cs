@@ -209,7 +209,6 @@ public class Page : Canvas {
             savedStates.RemoveAt(lastIndex);
         }
     }
-    // <<
 
     /**
      * Sets the page CropBox.
@@ -274,7 +273,7 @@ public class Page : Canvas {
      */
     public void SetGraphicsState(GraphicsState gs) {
         // Should we have here:
-        // Append("q\n");  // ??
+        // Append("q\n");  // TODO ??
         StringBuilder sb = new StringBuilder();
         sb.Append("/CA ");
         sb.Append(gs.GetAlphaStroking());
