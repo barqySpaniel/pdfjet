@@ -8,14 +8,14 @@ public class FormXObject : Canvas {
     private int objectNumber;
 //    private float width;
 //    private float height;
-    private MemoryStream stream;
+    // private MemoryStream stream;
     private Dictionary<string, int> resourceRefs;
 
     public FormXObject(int objectNumber, float width, float height) {
         this.objectNumber = objectNumber;
         // this.width = width;
         // this.height = height;
-        this.stream = new MemoryStream();
+        base.buf = new MemoryStream();
         this.resourceRefs = new Dictionary<string, int>();
     }
 
@@ -37,31 +37,23 @@ public class FormXObject : Canvas {
 
     private void Write(string s) {
         var bytes = Encoding.ASCII.GetBytes(s);
-        stream.Write(bytes, 0, bytes.Length);
+        buf.Write(bytes, 0, bytes.Length);
     }
 
-    public void SetFillColorRGB(float r, float g, float b) {
-        Write($"{r} {g} {b} rg\n");
-    }
-
-    public void SetStrokeColorRGB(float r, float g, float b) {
-        Write($"{r} {g} {b} RG\n");
-    }
-
-    public void FillRectangle(float x, float y, float w, float h) {
-        Write($"{x} {y} {w} {h} re\nf\n");
-    }
-
-    public void DrawRectangle(float x, float y, float w, float h) {
-        Write($"{x} {y} {w} {h} re\nS\n");
-    }
-
-//    public void MoveTo(float x, float y) {
-//        Write($"{x} {y} m\n");
+//    public void SetFillColorRGB(float r, float g, float b) {
+//        buf.Write($"{r} {g} {b} rg\n");
 //    }
 //
-//    public void LineTo(float x, float y) {
-//        Write($"{x} {y} l\n");
+//    public void SetStrokeColorRGB(float r, float g, float b) {
+//        buf.Write($"{r} {g} {b} RG\n");
+//    }
+//
+//    public void FillRectangle(float x, float y, float w, float h) {
+//        buf.Write($"{x} {y} {w} {h} re\nf\n");
+//    }
+
+//    public void DrawRectangle(float x, float y, float w, float h) {
+//        buf.Write($"{x} {y} {w} {h} re\nS\n");
 //    }
 
     public void Stroke() {
@@ -77,7 +69,7 @@ public class FormXObject : Canvas {
     }
 
     public byte[] GetStreamData() {
-        return stream.ToArray();
+        return buf.ToArray();
     }
 
     public string ToPdfObject() {
@@ -95,7 +87,7 @@ public class FormXObject : Canvas {
             dict.AppendLine(">>");
         }
 
-        dict.AppendFormat("/Length {0}\n", stream.Length);
+        dict.AppendFormat("/Length {0}\n", buf.Length);
         dict.AppendLine(">>");
 
         return $"{objectNumber} 0 obj\n{dict}stream\n" +
