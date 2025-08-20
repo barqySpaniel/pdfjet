@@ -126,10 +126,10 @@ public class Page : Canvas {
         width = pageSize[0];
         height = pageSize[1];
         // buf = new MemoryStream(8192);
-        // tm0 = ToByteArray(tm[0]);
-        // tm1 = ToByteArray(tm[1]);
-        // tm2 = ToByteArray(tm[2]);
-        // tm3 = ToByteArray(tm[3]);
+        // tm0 = FastFloat.ToByteArray(tm[0]);
+        // tm1 = FastFloat.ToByteArray(tm[1]);
+        // tm2 = FastFloat.ToByteArray(tm[2]);
+        // tm3 = FastFloat.ToByteArray(tm[3]);
         if (addPageToPDF) {
             pdf.AddPage(this);
         }
@@ -141,10 +141,10 @@ public class Page : Canvas {
         width = pageObj.GetPageSize()[0];
         height = pageObj.GetPageSize()[1];
         // buf = new MemoryStream(8192);
-        // tm0 = ToByteArray(tm[0]);
-        // tm1 = ToByteArray(tm[1]);
-        // tm2 = ToByteArray(tm[2]);
-        // tm3 = ToByteArray(tm[3]);
+        // tm0 = FastFloat.ToByteArray(tm[0]);
+        // tm1 = FastFloat.ToByteArray(tm[1]);
+        // tm2 = FastFloat.ToByteArray(tm[2]);
+        // tm3 = FastFloat.ToByteArray(tm[3]);
         Append("q\n");
         if (pageObj.gsNumber != -1) {
             Append("/GS");
@@ -1199,10 +1199,10 @@ public class Page : Canvas {
 //            float cosOfAngle = (float) Math.Cos(degrees * (Math.PI / 180));
 //            tm = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
 //        }
-//        tm0 = ToByteArray(tm[0]);
-//        tm1 = ToByteArray(tm[1]);
-//        tm2 = ToByteArray(tm[2]);
-//        tm3 = ToByteArray(tm[3]);
+//        tm0 = FastFloat.ToByteArray(tm[0]);
+//        tm1 = FastFloat.ToByteArray(tm[1]);
+//        tm2 = FastFloat.ToByteArray(tm[2]);
+//        tm3 = FastFloat.ToByteArray(tm[3]);
 //    }
 
     /**
@@ -1750,15 +1750,6 @@ public class Page : Canvas {
     public float[] AddFooter(TextLine textLine, float offset) {
         textLine.SetLocation((GetWidth() - textLine.GetWidth())/2, GetHeight() - offset);
         return textLine.DrawOn(this);
-    }
-
-    private static byte[] ToByteArray(float value) {
-        MemoryStream buf = new MemoryStream();
-        string str = PDF.FloatToString(value);
-        for (int i = 0; i < str.Length; i++) {
-            buf.WriteByte((byte) str[i]);
-        }
-        return buf.ToArray();
     }
 
     /**

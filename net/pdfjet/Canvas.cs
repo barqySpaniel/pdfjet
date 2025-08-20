@@ -76,10 +76,10 @@ public class Canvas {
 
     public Canvas() {
         buf = new MemoryStream(8192);
-        tm0 = ToByteArray(tmx[0]);
-        tm1 = ToByteArray(tmx[1]);
-        tm2 = ToByteArray(tmx[2]);
-        tm3 = ToByteArray(tmx[3]);
+        tm0 = FastFloat.ToByteArray(tmx[0]);
+        tm1 = FastFloat.ToByteArray(tmx[1]);
+        tm2 = FastFloat.ToByteArray(tmx[2]);
+        tm3 = FastFloat.ToByteArray(tmx[3]);
     }
 
     public byte[] GetContent() {
@@ -1081,10 +1081,10 @@ public class Canvas {
             float cosOfAngle = (float) Math.Cos(degrees * (Math.PI / 180));
             tmx = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
         }
-        tm0 = ToByteArray(tmx[0]);
-        tm1 = ToByteArray(tmx[1]);
-        tm2 = ToByteArray(tmx[2]);
-        tm3 = ToByteArray(tmx[3]);
+        tm0 = FastFloat.ToByteArray(tmx[0]);
+        tm1 = FastFloat.ToByteArray(tmx[1]);
+        tm2 = FastFloat.ToByteArray(tmx[2]);
+        tm3 = FastFloat.ToByteArray(tmx[3]);
     }
 
     /**
@@ -1557,15 +1557,6 @@ public class Canvas {
             DrawString(font, str.Substring(i, 1), x1, y);
             x1 += dx;
         }
-    }
-
-    private static byte[] ToByteArray(float value) {
-        MemoryStream buf = new MemoryStream();
-        string str = PDF.FloatToString(value);
-        for (int i = 0; i < str.Length; i++) {
-            buf.WriteByte((byte) str[i]);
-        }
-        return buf.ToArray();
     }
 
     /**
