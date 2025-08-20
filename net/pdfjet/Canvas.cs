@@ -1435,21 +1435,6 @@ public class Canvas {
         }
     }
 
-//    internal void AddAnnotation(Annotation annotation) {
-//        annotation.y1 = this.height - annotation.y1;
-//        annotation.y2 = this.height - annotation.y2;
-//        annots.Add(annotation);
-//        if (pdf.compliance == Compliance.PDF_UA_1) {
-//            StructElem element = new StructElem();
-//            element.structure = StructElem.LINK;
-//            element.language = annotation.language;
-//            element.actualText = annotation.actualText;
-//            element.altDescription = annotation.altDescription;
-//            element.annotation = annotation;
-//            structures.Add(element);
-//        }
-//    }
-
     internal void BeginTransform(
             float x, float y, float xScale, float yScale) {
         Append("q\n");

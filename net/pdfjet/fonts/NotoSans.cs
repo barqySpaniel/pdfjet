@@ -1,4 +1,4 @@
-namespace PDFjet.NET {
+namespace PDFjet.NET.fonts {
     public static class NotoSans {
         public const string Black            = "fonts/NotoSans/NotoSans-Black.ttf.stream";
         public const string BlackItalic      = "fonts/NotoSans/NotoSans-BlackItalic.ttf.stream";

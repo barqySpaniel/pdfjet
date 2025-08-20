@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="net/pdfjet/*.cs" />
+    <Compile Include="net/pdfjet/fonts/*.cs" />
   </ItemGroup>
 </Project>

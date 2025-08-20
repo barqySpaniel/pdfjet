@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Diagnostics;
 using PDFjet.NET;
+using PDFjet.NET.fonts;
 
 /**
  *  Example_31.cs
@@ -14,7 +15,8 @@ public class Example_31 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Font f1 = new Font(pdf, NotoSansDevanagari.Regular);
+        // Font f1 = new Font(pdf, NotoSansDevanagari.Regular); // TODO
+        Font f1 = new Font(pdf, NotoSans.Regular);
         f1.SetSize(15f);
 
         Font f2 = new Font(pdf, IBMPlexSans.Regular);
