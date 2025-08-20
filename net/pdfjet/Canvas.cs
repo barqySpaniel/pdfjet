@@ -51,10 +51,6 @@ public class Canvas {
     internal byte[] tm2;
     internal byte[] tm3;
 
-//    internal readonly List<Int32> contents;
-//    internal readonly List<Annotation> annots;
-//    internal readonly List<Destination> destinations;
-
     internal readonly List<StructElem> structures = new List<StructElem>();
     internal Font font;
     internal float[] brushColor = {0f, 0f, 0f};
@@ -80,35 +76,6 @@ public class Canvas {
     public byte[] GetContent() {
         return buf.ToArray();
     }
-
-    /**
-     *  Adds destination to this page.
-     *
-     *  @param name The destination name.
-     *  @param xPosition The horizontal position of the destination on this page.
-     *  @param yPosition The vertical position of the destination on this page.
-     *
-     *  @return the destination.
-     */
-//    public Destination AddDestination(String name, float xPosition, float yPosition) {
-//        Destination dest = new Destination(name, xPosition, height - yPosition);
-//        destinations.Add(dest);
-//        return dest;
-//    }
-//
-//    /**
-//     *  Adds destination to this page.
-//     *
-//     *  @param name The destination name.
-//     *  @param yPosition The vertical position of the destination on this page.
-//     *
-//     *  @return the destination.
-//     */
-//    public Destination AddDestination(String name, float yPosition) {
-//        Destination dest = new Destination(name, 0f, height - yPosition);
-//        destinations.Add(dest);
-//        return dest;
-//    }
 
     /**
      *  Returns the width of this page.
