@@ -295,49 +295,7 @@ public class Page : Canvas {
             element.pageObjNumber = pageObjNumber;
         }
     }
-/*
-    public void AddBMC(
-            String structure,
-            String actualText,
-            String altDescription) {
-        AddBMC(structure, null, actualText, altDescription);
-    }
 
-    public void AddBMC(
-            String structure,
-            String language,
-            String actualText,
-            String altDescription) {
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            StructElem element = new StructElem();
-            element.structure = structure;
-            element.mcid = mcid;
-            element.language = language;
-            element.actualText = actualText;
-            element.altDescription = altDescription;
-            structElements.Add(element);
-
-            Append("/");
-            Append(structure);
-            Append(" <</MCID ");
-            Append(mcid++);
-            Append(">>\n");
-            Append("BDC\n");
-        }
-    }
-
-    public void AddArtifactBMC() {
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            Append("/Artifact BMC\n");
-        }
-    }
-
-    public void AddEMC() {
-        if (pdf.compliance == Compliance.PDF_UA_1) {
-            Append("EMC\n");
-        }
-    }
-*/
     internal void AddAnnotation(Annotation annotation) {
         annotation.y1 = this.height - annotation.y1;
         annotation.y2 = this.height - annotation.y2;
