@@ -1360,47 +1360,62 @@ final public class Page {
         append(" c\n");
     }
 
-    public float[] drawCircularArc(float x, float y, float r, float alpha1, float alpha2) {
-        return drawEllipticalArc(x, y, r, r, alpha1, alpha2);
+    public float[] drawCircularArc(
+            float x, float y, float r, float startAngle, float sweepDegrees) {
+        return drawArc(x, y, r, r, startAngle, sweepDegrees);
     }
 
-    public float[] drawEllipticalArc(float x, float y, float r1, float r2, float alpha1, float alpha2) {
-        // Normalize angles to [0, 2π)
-        double theta1 = (alpha1 * Math.PI / 180.0) % (2 * Math.PI);
-        double theta2 = (alpha2 * Math.PI / 180.0) % (2 * Math.PI);
-        if (theta2 < theta1) {
-            theta2 += 2 * Math.PI;
+    public float[] drawArc(
+            float x,
+            float y,
+            float rx,
+            float ry,
+            float startAngle,
+            float sweepDegrees) {
+        float x1 = 0f;
+        float y1 = 0f;
+        float x2 = 0f;
+        float y2 = 0f;
+        float x3 = 0f;
+        float y3 = 0f;
+
+        int numSegments = (int)Math.ceil(Math.abs(sweepDegrees) / 90.0);
+        double angleRad = startAngle * Math.PI / 180.0;
+        double deltaPerSeg = (sweepDegrees / numSegments) * Math.PI / 180.0;
+        for (int i = 0; i < numSegments; i++) {
+            double segStart = angleRad;
+            double segEnd   = angleRad + deltaPerSeg;
+            double deltaRad = segEnd - segStart; // guaranteed ≤ ±π/2
+
+            // Calculate safe κ
+            float k = (float)(4.0 / 3.0 * Math.tan(deltaRad / 4.0));
+
+            float cosStart = (float)Math.cos(segStart);
+            float sinStart = (float)Math.sin(segStart);
+            float cosEnd   = (float)Math.cos(segEnd);
+            float sinEnd   = (float)Math.sin(segEnd);
+
+            // End points
+            float x0 = x + rx * cosStart;
+            float y0 = y + ry * sinStart;
+            x3 = x + rx * cosEnd;
+            y3 = y + ry * sinEnd;
+
+            // Control points
+            x1 = x0 - (k * rx * sinStart);
+            y1 = y0 + (k * ry * cosStart);
+            x2 = x3 + (k * rx * sinEnd);
+            y2 = y3 - (k * ry * cosEnd);
+
+            if (i == 0) {
+                moveTo(x0, y0);
+            }
+            curveTo(x1, y1, x2, y2, x3, y3);
+
+            angleRad = segEnd;
         }
-        double delta = theta2 - theta1;
 
-        // Handle full ellipses
-        if (delta > Math.PI) {
-            drawEllipse(x, y, r1, r2);
-            return new float[] { x, y };  // Return starting point
-        }
-
-        // Compute start (P0) and end (P3) points
-        double x0 = x + r1 * Math.cos(theta1);
-        double y0 = y + r2 * Math.sin(theta1);
-        double x3 = x + r1 * Math.cos(theta2);
-        double y3 = y + r2 * Math.sin(theta2);
-
-        // Compute control points (P1, P2)
-        double alpha = 0.55228;
-        double x1 = x0 - alpha * r1 * Math.sin(theta1);
-        double y1 = y0 + alpha * r2 * Math.cos(theta1);
-        double x2 = x3 + alpha * r1 * Math.sin(theta2);
-        double y2 = y3 - alpha * r2 * Math.cos(theta2);
-
-        // Append the path commands
-        moveTo((float)x0, (float)y0);
-        curveTo((float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3);
-
-	    append(Operation.STROKE);
-	    append("\n");
-
-        // Return endpoint
-        return new float[] { (float)x3, (float)y3 };
+        return new float[] { x1, y1, x2, y2, x3, y3 };
     }
 
     /**
