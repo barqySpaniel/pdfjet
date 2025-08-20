@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using PDFjet.NET;
+using PDFjet.NET.fonts;
 
 /**
  *  Example_08.cs

@@ -1,8 +1,9 @@
 using System;
 using System.IO;
 using System.Diagnostics;
-using PDFjet.NET;
 using System.Collections.Generic;
+using PDFjet.NET;
+using PDFjet.NET.fonts;
 
 public class Example_01 {
     // Constructor to generate the PDF document
