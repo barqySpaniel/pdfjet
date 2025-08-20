@@ -24,7 +24,7 @@ class Example_20 {
         f1.setSize(18f);
 
         List<PDFobj> pages = pdf.getPageObjects(objects);
-        PDFobj contents = pages.get(0).getContentsObject(objects);
+        PDFobj content = pages.get(0).getContentObject(objects);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
@@ -35,7 +35,7 @@ class Example_20 {
         float yScale = 0.5f;
 
         page.drawContents(
-                contents.getData(),
+                content.getData(),
                 height,
                 x,
                 y,

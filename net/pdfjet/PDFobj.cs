@@ -209,7 +209,7 @@ public class PDFobj {
         return 0;
     }
 
-    public PDFobj GetContentsObject(List<PDFobj> objects) {
+    public PDFobj GetContentObject(List<PDFobj> objects) {
         for (int i = 0; i < dict.Count; i++) {
             if (dict[i].Equals("/Contents")) {
                 if (dict[i + 1].Equals("[")) {

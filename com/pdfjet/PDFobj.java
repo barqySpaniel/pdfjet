@@ -212,7 +212,7 @@ public class PDFobj {
      * @param objects the objects list.
      * @return the contents object.
      */
-    public PDFobj getContentsObject(List<PDFobj> objects) {
+    public PDFobj getContentObject(List<PDFobj> objects) {
         for (int i = 0; i < dict.size(); i++) {
             if (dict.get(i).equals("/Contents")) {
                 if (dict.get(i + 1).equals("[")) {

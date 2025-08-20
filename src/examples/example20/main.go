@@ -26,7 +26,7 @@ func Example20() {
 	font1.SetSize(18.0)
 
 	pages := pdf.GetPageObjects(objects)
-	contents := pages[0].GetContentsObject(objects)
+	content := pages[0].GetContentObject(objects)
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
@@ -37,7 +37,7 @@ func Example20() {
 	yScale := float32(0.5)
 
 	page.DrawContents(
-		contents.GetData(),
+		content.GetData(),
 		height,
 		x,
 		y,

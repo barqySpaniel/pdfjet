@@ -17,7 +17,7 @@ public class Example_20 {
                 Font.STREAM).setSize(18.0)
 
         let pages = pdf.getPageObjects(from: objects)
-        let contents = pages[0].getContentsObject(&objects)!
+        let content = pages[0].getContentObject(&objects)!
         var page = Page(pdf, Letter.PORTRAIT)
 
         let height: Float = 105.0   // The logo height in points.
@@ -27,7 +27,7 @@ public class Example_20 {
         let yScale: Float = 0.5
 
         page.drawContents(
-                contents.getData(),
+                content.getData(),
                 height,
                 x,
                 y,

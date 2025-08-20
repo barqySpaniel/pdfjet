@@ -192,7 +192,7 @@ public class Page : Canvas {
     }
 
     public byte[] GetContent() {
-        return base.buf.ToArray();
+        return buf.ToArray();
     }
 
     /**

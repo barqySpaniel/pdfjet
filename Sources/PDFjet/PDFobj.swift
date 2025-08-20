@@ -201,7 +201,7 @@ public final class PDFobj {
         return objects[number - 1]
     }
 
-    public final func getContentsObject(_ objects: inout [PDFobj]) -> PDFobj? {
+    public final func getContentObject(_ objects: inout [PDFobj]) -> PDFobj? {
         for i in 0..<dict.count {
             if dict[i] == "/Contents" {
                 if dict[i + 1] == "[" {

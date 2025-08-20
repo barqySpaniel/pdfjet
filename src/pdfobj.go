@@ -221,8 +221,8 @@ func (obj *PDFobj) getLength(objects []*PDFobj, number int) int {
 	return 0
 }
 
-// GetContentsObject returns the contect object.
-func (obj *PDFobj) GetContentsObject(objects []*PDFobj) *PDFobj {
+// GetContentObject returns the contect object.
+func (obj *PDFobj) GetContentObject(objects []*PDFobj) *PDFobj {
 	for i := 0; i < len(obj.dict); i++ {
 		if obj.dict[i] == "/Contents" {
 			if obj.dict[i+1] == "[" {

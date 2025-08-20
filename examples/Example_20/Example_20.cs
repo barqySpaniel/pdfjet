@@ -25,7 +25,7 @@ class Example_20 {
         f1.SetSize(18f);
 
         List<PDFobj> pages = pdf.GetPageObjects(objects);
-        PDFobj contents = pages[0].GetContentsObject(objects);
+        PDFobj content = pages[0].GetContentObject(objects);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
@@ -36,7 +36,7 @@ class Example_20 {
         float yScale = 0.5f;
 
         page.DrawContents(
-                contents.GetData(),
+                content.GetData(),
                 height,
                 x,
                 y,
