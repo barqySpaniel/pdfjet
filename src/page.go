@@ -1015,50 +1015,53 @@ func (page *Page) CurveTo(x1, y1, x2, y2, x3, y3 float32) {
 	page.appendString(" c\n")
 }
 
-func (page *Page) DrawCircularArc(x, y, r, alpha1, alpha2 float32) []float32 {
-	return page.DrawEllipticalArc(x, y, r, r, alpha1, alpha2)
+func (page *Page) DrawCircularArc(
+	x, y, r, startAngle, sweepDegrees float32) []float32 {
+	return page.DrawArc(x, y, r, r, startAngle, sweepDegrees)
 }
 
-func (page *Page) DrawEllipticalArc(x, y, r1, r2, alpha1, alpha2 float32) []float32 {
-	// Normalize angles to [0, 2π)
-	theta1 := math.Mod(float64(alpha1)*math.Pi/180.0, 2*math.Pi)
-	theta2 := math.Mod(float64(alpha2)*math.Pi/180.0, 2*math.Pi)
-	if theta2 < theta1 {
-		theta2 += 2 * math.Pi
+func (page *Page) DrawArc(
+	x, y, rx, ry, startAngle, sweepDegrees float32) []float32 {
+	var x1, y1, x2, y2, x3, y3 float32
+
+	numSegments := int(math.Ceil(math.Abs(float64(sweepDegrees)) / 90.0))
+	angleRad := float64(startAngle) * math.Pi / 180.0
+	deltaPerSeg := float64(sweepDegrees/float32(numSegments)) * math.Pi / 180.0
+
+	for i := 0; i < numSegments; i++ {
+		segStart := angleRad
+		segEnd := angleRad + deltaPerSeg
+		deltaRad := segEnd - segStart // guaranteed ≤ ±π/2
+
+		// Calculate safe κ
+		k := float32(4.0 / 3.0 * math.Tan(deltaRad/4.0))
+
+		cosStart := float32(math.Cos(segStart))
+		sinStart := float32(math.Sin(segStart))
+		cosEnd := float32(math.Cos(segEnd))
+		sinEnd := float32(math.Sin(segEnd))
+
+		// End points
+		x0 := x + rx*cosStart
+		y0 := y + ry*sinStart
+		x3 = x + rx*cosEnd
+		y3 = y + ry*cosEnd
+
+		// Control points
+		x1 = x0 - (k * rx * sinStart)
+		y1 = y0 + (k * ry * cosStart)
+		x2 = x3 + (k * rx * sinEnd)
+		y2 = y3 - (k * ry * cosEnd)
+
+		if i == 0 {
+			page.MoveTo(x0, y0)
+		}
+		page.CurveTo(x1, y1, x2, y2, x3, y3)
+
+		angleRad = segEnd
 	}
-	delta := theta2 - theta1
 
-	// Handle full ellipses
-	if delta > math.Pi {
-		page.DrawEllipse(x, y, r1, r2)
-		return []float32{x, y} // Return starting point
-	}
-
-	// Compute start (P0) and end (P3) points
-	x0 := float64(x) + float64(r1)*math.Cos(theta1)
-	y0 := float64(y) + float64(r2)*math.Sin(theta1)
-	x3 := float64(x) + float64(r1)*math.Cos(theta2)
-	y3 := float64(y) + float64(r2)*math.Sin(theta2)
-
-	// Compute control points (P1, P2)
-	alpha := 0.55228
-	x1 := float64(x0) - alpha*float64(r1)*math.Sin(theta1)
-	y1 := float64(y0) + alpha*float64(r2)*math.Cos(theta1)
-	x2 := float64(x3) + alpha*float64(r1)*math.Sin(theta2)
-	y2 := float64(y3) - alpha*float64(r2)*math.Cos(theta2)
-
-	// Append the path commands
-	page.MoveTo(float32(x0), float32(y0))
-	page.CurveTo(
-		float32(x1), float32(y1),
-		float32(x2), float32(y2),
-		float32(x3), float32(y3))
-
-	page.appendString(operation.Stroke)
-	page.appendString("\n")
-
-	// Return endpoint
-	return []float32{float32(x3), float32(y3)}
+	return []float32{x1, y1, x2, y2, x3, y3}
 }
 
 /**
@@ -1514,64 +1517,64 @@ func (page *Page) appendByteArray(a []byte) {
 }
 
 func (page *Page) ScaleAndRotate(x, y, w, h, degrees float32) {
-    // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
+	// PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
 
-    // [FINAL POSITIONING - Applied First]
-    // Moves rotated/scaled image to target (x,y) on page
-    page.appendString("1 0 0 1 ")
-    page.appendFloat32(x + w/2)
-    page.appendString(" ")
-    page.appendFloat32((page.height - y) - h/2)
-    page.appendString(" cm\n")
+	// [FINAL POSITIONING - Applied First]
+	// Moves rotated/scaled image to target (x,y) on page
+	page.appendString("1 0 0 1 ")
+	page.appendFloat32(x + w/2)
+	page.appendString(" ")
+	page.appendFloat32((page.height - y) - h/2)
+	page.appendString(" cm\n")
 
-    // [ROTATION - Applied Second]
-    // Rotates around current origin (0,0) by 'degrees'
-    radians := degrees * (math.Pi / 180)
-    cos := float32(math.Cos(float64(radians)))
-    sin := float32(math.Sin(float64(radians)))
-    page.appendByteArray(fastfloat.ToByteArray(cos))
-    page.appendString(" ")
-    page.appendByteArray(fastfloat.ToByteArray(sin))
-    page.appendString(" ")
-    page.appendByteArray(fastfloat.ToByteArray(-sin))
-    page.appendString(" ")
-    page.appendByteArray(fastfloat.ToByteArray(cos))
-    page.appendString(" 0 0 cm\n")
+	// [ROTATION - Applied Second]
+	// Rotates around current origin (0,0) by 'degrees'
+	radians := degrees * (math.Pi / 180)
+	cos := float32(math.Cos(float64(radians)))
+	sin := float32(math.Sin(float64(radians)))
+	page.appendByteArray(fastfloat.ToByteArray(cos))
+	page.appendString(" ")
+	page.appendByteArray(fastfloat.ToByteArray(sin))
+	page.appendString(" ")
+	page.appendByteArray(fastfloat.ToByteArray(-sin))
+	page.appendString(" ")
+	page.appendByteArray(fastfloat.ToByteArray(cos))
+	page.appendString(" 0 0 cm\n")
 
-    // [ORIGIN SETUP - Applied Last]
-    // Centers image at (0,0) and sets scale
-    page.appendFloat32(w);
-    page.appendString(" 0 0 ");
-    page.appendFloat32(h);
-    page.appendString(" ");
-    page.appendFloat32(-w/2);
-    page.appendString(" ");
-    page.appendFloat32(-h/2);
-    page.appendString(" cm\n");
+	// [ORIGIN SETUP - Applied Last]
+	// Centers image at (0,0) and sets scale
+	page.appendFloat32(w)
+	page.appendString(" 0 0 ")
+	page.appendFloat32(h)
+	page.appendString(" ")
+	page.appendFloat32(-w / 2)
+	page.appendString(" ")
+	page.appendFloat32(-h / 2)
+	page.appendString(" cm\n")
 }
 
 func (page *Page) RotateAroundCenter(centerX, centerY, degrees float32) {
-    page.appendString("1 0 0 1 ")
-    page.appendFloat32(centerX)
-    page.appendString(" ")
-    page.appendFloat32(centerY)
-    page.appendString(" cm\n")
+	page.appendString("1 0 0 1 ")
+	page.appendFloat32(centerX)
+	page.appendString(" ")
+	page.appendFloat32(centerY)
+	page.appendString(" cm\n")
 
-    radians := degrees * (math.Pi / 180)
-    cos := float32(math.Cos(float64(radians)))
-    sin := float32(math.Sin(float64(radians)))
-    page.appendByteArray(fastfloat.ToByteArray(cos))
-    page.appendString(" ")
-    page.appendByteArray(fastfloat.ToByteArray(sin))
-    page.appendString(" ")
-    page.appendByteArray(fastfloat.ToByteArray(-sin))
-    page.appendString(" ")
-    page.appendByteArray(fastfloat.ToByteArray(cos))
-    page.appendString(" 0 0 cm\n")
+	radians := degrees * (math.Pi / 180)
+	cos := float32(math.Cos(float64(radians)))
+	sin := float32(math.Sin(float64(radians)))
+	page.appendByteArray(fastfloat.ToByteArray(cos))
+	page.appendString(" ")
+	page.appendByteArray(fastfloat.ToByteArray(sin))
+	page.appendString(" ")
+	page.appendByteArray(fastfloat.ToByteArray(-sin))
+	page.appendString(" ")
+	page.appendByteArray(fastfloat.ToByteArray(cos))
+	page.appendString(" 0 0 cm\n")
 
-    page.appendString("1 0 0 1 ")
-    page.appendFloat32(-centerX)
-    page.appendString(" ")
-    page.appendFloat32(-centerY)
-    page.appendString(" cm\n")
+	page.appendString("1 0 0 1 ")
+	page.appendFloat32(-centerX)
+	page.appendString(" ")
+	page.appendFloat32(-centerY)
+	page.appendString(" cm\n")
 }
