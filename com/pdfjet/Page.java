@@ -42,7 +42,7 @@ final public class Page {
     PDFobj pageObj;
     int objNumber;
     ByteArrayOutputStream buf;
-    float[] tm = new float[] {1f, 0f, 0f, 1f};
+    float[] tmx = new float[] {1f, 0f, 0f, 1f};
     byte[] tm0;   // Used for caching tm values
     byte[] tm1;
     byte[] tm2;
@@ -123,10 +123,10 @@ final public class Page {
         width = pageSize[0];
         height = pageSize[1];
         buf = new ByteArrayOutputStream(8192);
-        tm0 = FastFloat.toByteArray(tm[0]);
-        tm1 = FastFloat.toByteArray(tm[1]);
-        tm2 = FastFloat.toByteArray(tm[2]);
-        tm3 = FastFloat.toByteArray(tm[3]);
+        tm0 = FastFloat.toByteArray(tmx[0]);
+        tm1 = FastFloat.toByteArray(tmx[1]);
+        tm2 = FastFloat.toByteArray(tmx[2]);
+        tm3 = FastFloat.toByteArray(tmx[3]);
         if (addPageToPDF) {
             pdf.addPage(this);
         }
@@ -138,10 +138,10 @@ final public class Page {
         width = pageObj.getPageSize()[0];
         height = pageObj.getPageSize()[1];
         buf = new ByteArrayOutputStream(8192);
-        tm0 = FastFloat.toByteArray(tm[0]);
-        tm1 = FastFloat.toByteArray(tm[1]);
-        tm2 = FastFloat.toByteArray(tm[2]);
-        tm3 = FastFloat.toByteArray(tm[3]);
+        tm0 = FastFloat.toByteArray(tmx[0]);
+        tm1 = FastFloat.toByteArray(tmx[1]);
+        tm2 = FastFloat.toByteArray(tmx[2]);
+        tm3 = FastFloat.toByteArray(tmx[3]);
         this.append("q\n");
         if (pageObj.gsNumber != -1) {
             append("/GS");
@@ -423,18 +423,18 @@ final public class Page {
         }
 
         if (font.skew15 &&
-                tm[0] == 1f &&
-                tm[1] == 0f &&
-                tm[2] == 0f &&
-                tm[3] == 1f) {
+                tmx[0] == 1f &&
+                tmx[1] == 0f &&
+                tmx[2] == 0f &&
+                tmx[3] == 1f) {
             float skew = 0.26f;
-            append(tm[0]);
+            append(tmx[0]);
             append(' ');
-            append(tm[1]);
+            append(tmx[1]);
             append(' ');
-            append(tm[2] + skew);
+            append(tmx[2] + skew);
             append(' ');
-            append(tm[3]);
+            append(tmx[3]);
         } else {
             append(tm0);
             append(' ');
@@ -1314,24 +1314,24 @@ final public class Page {
     public void setTextDirection(int degrees) {
         if (degrees > 360) degrees %= 360;
         if (degrees == 0) {
-            tm = new float[] { 1f,  0f,  0f,  1f};
+            tmx = new float[] { 1f,  0f,  0f,  1f};
         } else if (degrees == 90) {
-            tm = new float[] { 0f,  1f, -1f,  0f};
+            tmx = new float[] { 0f,  1f, -1f,  0f};
         } else if (degrees == 180) {
-            tm = new float[] {-1f,  0f,  0f, -1f};
+            tmx = new float[] {-1f,  0f,  0f, -1f};
         } else if (degrees == 270) {
-            tm = new float[] { 0f, -1f,  1f,  0f};
+            tmx = new float[] { 0f, -1f,  1f,  0f};
         } else if (degrees == 360) {
-            tm = new float[] { 1f,  0f,  0f,  1f};
+            tmx = new float[] { 1f,  0f,  0f,  1f};
         } else {
             float sinOfAngle = (float) Math.sin(degrees * (Math.PI / 180));
             float cosOfAngle = (float) Math.cos(degrees * (Math.PI / 180));
-            tm = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
+            tmx = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
         }
-        tm0 = FastFloat.toByteArray(tm[0]);
-        tm1 = FastFloat.toByteArray(tm[1]);
-        tm2 = FastFloat.toByteArray(tm[2]);
-        tm3 = FastFloat.toByteArray(tm[3]);
+        tm0 = FastFloat.toByteArray(tmx[0]);
+        tm1 = FastFloat.toByteArray(tmx[1]);
+        tm2 = FastFloat.toByteArray(tmx[2]);
+        tm3 = FastFloat.toByteArray(tmx[3]);
     }
 
     /**
