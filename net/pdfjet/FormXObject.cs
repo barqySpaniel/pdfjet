@@ -4,14 +4,14 @@ using System.Text;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-public class ContentBlock {
+public class FormXObject {
     private int objectNumber;
     private float width;
     private float height;
     private MemoryStream stream;
     private Dictionary<string, int> resourceRefs;
 
-    public ContentBlock(int objectNumber, float width, float height) {
+    public FormXObject(int objectNumber, float width, float height) {
         this.objectNumber = objectNumber;
         this.width = width;
         this.height = height;
@@ -102,5 +102,5 @@ public class ContentBlock {
                Encoding.ASCII.GetString(GetStreamData()) +
                "endstream\nendobj\n";
     }
-}
-}
+}   // End of FormXObject.cs
+}   // End of PDFjet.NET
