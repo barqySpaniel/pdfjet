@@ -54,10 +54,7 @@ public class Canvas {
 //    internal readonly List<Int32> contents;
 //    internal readonly List<Annotation> annots;
 //    internal readonly List<Destination> destinations;
-    internal float[] cropBox;
-    internal float[] bleedBox;
-    internal float[] trimBox;
-    internal float[] artBox;
+
     internal readonly List<StructElem> structures = new List<StructElem>();
     internal Font font;
     internal float[] brushColor = {0f, 0f, 0f};
@@ -1277,63 +1274,6 @@ public class Canvas {
             strokePattern = savedState.GetStrokePattern();
             savedStates.RemoveAt(lastIndex);
         }
-    }
-    // <<
-
-    /**
-     * Sets the page CropBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the CropBox.
-     * @param upperLeftY the top left Y coordinate of the CropBox.
-     * @param lowerRightX the bottom right X coordinate of the CropBox.
-     * @param lowerRightY the bottom right Y coordinate of the CropBox.
-     */
-    public void SetCropBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.cropBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
-    }
-
-    /**
-     * Sets the page BleedBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the BleedBox.
-     * @param upperLeftY the top left Y coordinate of the BleedBox.
-     * @param lowerRightX the bottom right X coordinate of the BleedBox.
-     * @param lowerRightY the bottom right Y coordinate of the BleedBox.
-     */
-    public void SetBleedBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.bleedBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
-    }
-
-    /**
-     * Sets the page TrimBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the TrimBox.
-     * @param upperLeftY the top left Y coordinate of the TrimBox.
-     * @param lowerRightX the bottom right X coordinate of the TrimBox.
-     * @param lowerRightY the bottom right Y coordinate of the TrimBox.
-     */
-    public void SetTrimBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.trimBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
-    }
-
-    /**
-     * Sets the page ArtBox.
-     * See page 77 of the PDF32000_2008.pdf specification.
-     *
-     * @param upperLeftX the top left X coordinate of the ArtBox.
-     * @param upperLeftY the top left Y coordinate of the ArtBox.
-     * @param lowerRightX the bottom right X coordinate of the ArtBox.
-     * @param lowerRightY the bottom right Y coordinate of the ArtBox.
-     */
-    public void SetArtBox(
-            float upperLeftX, float upperLeftY, float lowerRightX, float lowerRightY) {
-        this.artBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
     }
 
     internal void AppendPointXY(float x, float y) {

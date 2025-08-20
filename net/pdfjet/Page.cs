@@ -60,10 +60,10 @@ public class Page : Canvas {
     internal readonly List<State> savedStates = new List<State>();
     internal readonly List<StructElem> structures = new List<StructElem>();
 
-//    internal float[] cropBox;
-//    internal float[] bleedBox;
-//    internal float[] trimBox;
-//    internal float[] artBox;
+    internal float[] cropBox;
+    internal float[] bleedBox;
+    internal float[] trimBox;
+    internal float[] artBox;
 
     private int mcid;
 
