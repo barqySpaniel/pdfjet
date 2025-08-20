@@ -47,7 +47,7 @@ public class Canvas {
     internal float height;
 
     internal int renderingMode = 0;
-    internal float[] tm = {1f, 0f, 0f, 1f};
+    internal float[] tmx = {1f, 0f, 0f, 1f};
     internal byte[] tm0;
     internal byte[] tm1;
     internal byte[] tm2;
@@ -76,10 +76,10 @@ public class Canvas {
 
     public Canvas() {
         buf = new MemoryStream(8192);
-        tm0 = ToByteArray(tm[0]);
-        tm1 = ToByteArray(tm[1]);
-        tm2 = ToByteArray(tm[2]);
-        tm3 = ToByteArray(tm[3]);
+        tm0 = ToByteArray(tmx[0]);
+        tm1 = ToByteArray(tmx[1]);
+        tm2 = ToByteArray(tmx[2]);
+        tm3 = ToByteArray(tmx[3]);
     }
 
     public byte[] GetContent() {
@@ -273,18 +273,18 @@ public class Canvas {
         }
 
         if (font.skew15 &&
-                tm[0] == 1f &&
-                tm[1] == 0f &&
-                tm[2] == 0f &&
-                tm[3] == 1f) {
+                tmx[0] == 1f &&
+                tmx[1] == 0f &&
+                tmx[2] == 0f &&
+                tmx[3] == 1f) {
             float skew = 0.26f;
-            Append(tm[0]);
+            Append(tmx[0]);
             Append(' ');
-            Append(tm[1]);
+            Append(tmx[1]);
             Append(' ');
-            Append(tm[2] + skew);
+            Append(tmx[2] + skew);
             Append(' ');
-            Append(tm[3]);
+            Append(tmx[3]);
         } else {
             Append(tm0);
             Append(' ');
@@ -1067,24 +1067,24 @@ public class Canvas {
     public void SetTextDirection(int degrees) {
         if (degrees > 360) degrees %= 360;
         if (degrees == 0) {
-            tm = new float[] {1f,  0f,  0f,  1f};
+            tmx = new float[] {1f,  0f,  0f,  1f};
         } else if (degrees == 90) {
-            tm = new float[] {0f,  1f, -1f,  0f};
+            tmx = new float[] {0f,  1f, -1f,  0f};
         } else if (degrees == 180) {
-            tm = new float[] {-1f,  0f,  0f, -1f};
+            tmx = new float[] {-1f,  0f,  0f, -1f};
         } else if (degrees == 270) {
-            tm = new float[] {0f, -1f,  1f,  0f};
+            tmx = new float[] {0f, -1f,  1f,  0f};
         } else if (degrees == 360) {
-            tm = new float[] {1f,  0f,  0f,  1f};
+            tmx = new float[] {1f,  0f,  0f,  1f};
         } else {
             float sinOfAngle = (float) Math.Sin(degrees * (Math.PI / 180));
             float cosOfAngle = (float) Math.Cos(degrees * (Math.PI / 180));
-            tm = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
+            tmx = new float[] {cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle};
         }
-        tm0 = ToByteArray(tm[0]);
-        tm1 = ToByteArray(tm[1]);
-        tm2 = ToByteArray(tm[2]);
-        tm3 = ToByteArray(tm[3]);
+        tm0 = ToByteArray(tmx[0]);
+        tm1 = ToByteArray(tmx[1]);
+        tm2 = ToByteArray(tmx[2]);
+        tm3 = ToByteArray(tmx[3]);
     }
 
     /**
