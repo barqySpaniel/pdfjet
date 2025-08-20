@@ -57,7 +57,7 @@ type Page struct {
 	buf           []byte
 	pageObj       *PDFobj
 	objNumber     int
-	tm            [4]float32
+	tmx           [4]float32
 	tm0           []byte
 	tm1           []byte
 	tm2           []byte
@@ -140,12 +140,12 @@ func newPage(pdf *PDF, pageSize [2]float32, addToPDF bool) *Page {
 	page.height = pageSize[1]
 	page.linePattern = "[] 0"
 	page.savedHeight = math.MaxFloat32
-	page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
+	page.tmx = [4]float32{1.0, 0.0, 0.0, 1.0}
 	page.penWidth = 0
-	page.tm0 = fastfloat.ToByteArray(page.tm[0])
-	page.tm1 = fastfloat.ToByteArray(page.tm[1])
-	page.tm2 = fastfloat.ToByteArray(page.tm[2])
-	page.tm3 = fastfloat.ToByteArray(page.tm[3])
+	page.tm0 = fastfloat.ToByteArray(page.tmx[0])
+	page.tm1 = fastfloat.ToByteArray(page.tmx[1])
+	page.tm2 = fastfloat.ToByteArray(page.tmx[2])
+	page.tm3 = fastfloat.ToByteArray(page.tmx[3])
 	if addToPDF {
 		pdf.AddPage(page)
 	}
@@ -159,11 +159,11 @@ func NewPageFromObject(pdf *PDF, pageObj *PDFobj) *Page {
 	page.pageObj = page.removeComments(pageObj)
 	page.width = pageObj.GetPageSize()[0]
 	page.height = pageObj.GetPageSize()[1]
-	page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
-	page.tm0 = fastfloat.ToByteArray(page.tm[0])
-	page.tm1 = fastfloat.ToByteArray(page.tm[1])
-	page.tm2 = fastfloat.ToByteArray(page.tm[2])
-	page.tm3 = fastfloat.ToByteArray(page.tm[3])
+	page.tmx = [4]float32{1.0, 0.0, 0.0, 1.0}
+	page.tm0 = fastfloat.ToByteArray(page.tmx[0])
+	page.tm1 = fastfloat.ToByteArray(page.tmx[1])
+	page.tm2 = fastfloat.ToByteArray(page.tmx[2])
+	page.tm3 = fastfloat.ToByteArray(page.tmx[3])
 	page.appendString("q\n")
 	if pageObj.gsNumber != 0 {
 		page.appendString("/GS")
@@ -302,18 +302,18 @@ func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, 
 	}
 
 	if font.skew15 &&
-		page.tm[0] == 1.0 &&
-		page.tm[1] == 0.0 &&
-		page.tm[2] == 0.0 &&
-		page.tm[3] == 1.0 {
+		page.tmx[0] == 1.0 &&
+		page.tmx[1] == 0.0 &&
+		page.tmx[2] == 0.0 &&
+		page.tmx[3] == 1.0 {
 		var skew float32 = 0.26
-		page.appendFloat32(page.tm[0])
+		page.appendFloat32(page.tmx[0])
 		page.appendString(" ")
-		page.appendFloat32(page.tm[1])
+		page.appendFloat32(page.tmx[1])
 		page.appendString(" ")
-		page.appendFloat32(page.tm[2] + skew)
+		page.appendFloat32(page.tmx[2] + skew)
 		page.appendString(" ")
-		page.appendFloat32(page.tm[3])
+		page.appendFloat32(page.tmx[3])
 	} else {
 		page.appendByteArray(page.tm0)
 		page.appendString(" ")
@@ -970,24 +970,24 @@ func (page *Page) SetTextDirection(degrees int) {
 	}
 	switch degrees {
 	case 0:
-		page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
+		page.tmx = [4]float32{1.0, 0.0, 0.0, 1.0}
 	case 90:
-		page.tm = [4]float32{0.0, 1.0, -1.0, 0.0}
+		page.tmx = [4]float32{0.0, 1.0, -1.0, 0.0}
 	case 180:
-		page.tm = [4]float32{-1.0, 0.0, 0.0, -1.0}
+		page.tmx = [4]float32{-1.0, 0.0, 0.0, -1.0}
 	case 270:
-		page.tm = [4]float32{0.0, -1.0, 1.0, 0.0}
+		page.tmx = [4]float32{0.0, -1.0, 1.0, 0.0}
 	case 360:
-		page.tm = [4]float32{1.0, 0.0, 0.0, 1.0}
+		page.tmx = [4]float32{1.0, 0.0, 0.0, 1.0}
 	default:
 		sinOfAngle := float32(math.Sin(float64(degrees) * (math.Pi / 180)))
 		cosOfAngle := float32(math.Cos(float64(degrees) * (math.Pi / 180)))
-		page.tm = [4]float32{cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle}
+		page.tmx = [4]float32{cosOfAngle, sinOfAngle, -sinOfAngle, cosOfAngle}
 	}
-	page.tm0 = fastfloat.ToByteArray(page.tm[0])
-	page.tm1 = fastfloat.ToByteArray(page.tm[1])
-	page.tm2 = fastfloat.ToByteArray(page.tm[2])
-	page.tm3 = fastfloat.ToByteArray(page.tm[3])
+	page.tm0 = fastfloat.ToByteArray(page.tmx[0])
+	page.tm1 = fastfloat.ToByteArray(page.tmx[1])
+	page.tm2 = fastfloat.ToByteArray(page.tmx[2])
+	page.tm3 = fastfloat.ToByteArray(page.tmx[3])
 }
 
 /**
