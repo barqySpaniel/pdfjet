@@ -61,6 +61,9 @@ public class Canvas {
     internal float[] trimBox;
     internal float[] artBox;
     internal readonly List<StructElem> structures = new List<StructElem>();
+    internal Font font;
+    internal float savedHeight = -1;
+
     private float[] brushColor = {0f, 0f, 0f};
     private float[] penColor = {0f, 0f, 0f};
     private float penWidth = 0.6f;
@@ -69,10 +72,8 @@ public class Canvas {
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String strokePattern = "[] 0";
-    private Font font;
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
-    internal float savedHeight = -1;
 
     public Canvas() {
         buf = new MemoryStream(8192);

@@ -53,7 +53,8 @@ public class Page : Canvas {
 //    internal byte[] tm2;
 //    internal byte[] tm3;
 
-    internal int renderingMode = 0;
+    // internal int renderingMode = 0;
+
     internal readonly List<Int32> contents;
     internal readonly List<Annotation> annots;
     internal readonly List<Destination> destinations;
@@ -70,7 +71,7 @@ public class Page : Canvas {
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String strokePattern = "[] 0";
-    private Font font;
+//    private Font font;
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
 
@@ -429,34 +430,34 @@ public class Page : Canvas {
         Append("ET\n");
     }
 */
-    private void DrawASCIIString(Font font, String str) {
-        int len = str.Length;
-        for (int i = 0; i < len; i++) {
-            int c1 = str[i];
-            if (c1 < font.firstChar || c1 > font.lastChar) {
-                // Append(0x20.ToString("X2"));
-                AppendCodePointAsHex(0x20);
-                continue;
-            }
-            // Append(c1.ToString("X2"));
-            AppendCodePointAsHex(c1);
-            if (font.isCoreFont && font.kernPairs && i < (str.Length - 1)) {
-                c1 -= 32;
-                int c2 = str[i + 1];
-                if (c2 < font.firstChar || c2 > font.lastChar) {
-                    c2 = 32;
-                }
-                for (int j = 2; j < font.metrics[c1].Length; j += 2) {
-                    if (font.metrics[c1][j] == c2) {
-                        Append(">");
-                        Append(-font.metrics[c1][j + 1]);
-                        Append("<");
-                        break;
-                    }
-                }
-            }
-        }
-    }
+//    private void DrawASCIIString(Font font, String str) {
+//        int len = str.Length;
+//        for (int i = 0; i < len; i++) {
+//            int c1 = str[i];
+//            if (c1 < font.firstChar || c1 > font.lastChar) {
+//                // Append(0x20.ToString("X2"));
+//                AppendCodePointAsHex(0x20);
+//                continue;
+//            }
+//            // Append(c1.ToString("X2"));
+//            AppendCodePointAsHex(c1);
+//            if (font.isCoreFont && font.kernPairs && i < (str.Length - 1)) {
+//                c1 -= 32;
+//                int c2 = str[i + 1];
+//                if (c2 < font.firstChar || c2 > font.lastChar) {
+//                    c2 = 32;
+//                }
+//                for (int j = 2; j < font.metrics[c1].Length; j += 2) {
+//                    if (font.metrics[c1][j] == c2) {
+//                        Append(">");
+//                        Append(-font.metrics[c1][j + 1]);
+//                        Append("<");
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//    }
 /*
     internal float DrawTextBlock(
             Font font,
