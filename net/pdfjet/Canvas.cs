@@ -1314,7 +1314,7 @@ public class Canvas {
     /**
      * Appends the specified array of bytes to the page.
      */
-    public void Append(byte[] buffer) {
+    internal void Append(byte[] buffer) {
         buf.Write(buffer, 0, buffer.Length);
     }
 
