@@ -6,16 +6,10 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class FormXObject : Canvas {
     private int objectNumber;
-//    private float width;
-//    private float height;
-    // private MemoryStream stream;
     private Dictionary<string, int> resourceRefs;
 
     public FormXObject(int objectNumber, float width, float height) {
         this.objectNumber = objectNumber;
-        // this.width = width;
-        // this.height = height;
-        base.buf = new MemoryStream();
         this.resourceRefs = new Dictionary<string, int>();
     }
 
@@ -35,7 +29,7 @@ public class FormXObject : Canvas {
 //        return height;
 //    }
 
-    private void Write(string s) {
+    private void WriteString(String s) {
         var bytes = Encoding.ASCII.GetBytes(s);
         buf.Write(bytes, 0, bytes.Length);
     }
@@ -57,15 +51,11 @@ public class FormXObject : Canvas {
 //    }
 
     public void Stroke() {
-        Write("S\n");
+        WriteString("S\n");
     }
 
     public void AddResource(string name, int objectNumber) {
         resourceRefs[name] = objectNumber;
-    }
-
-    public void WriteRaw(string s) {
-        Write(s);
     }
 
     public byte[] GetStreamData() {
