@@ -63,7 +63,6 @@ public class Example_01 {
         textBlock.setLocation(50f, xy[1] + 30f);
         textBlock.setWidth(473f);
         textBlock.setTextPadding(10f);
-        textBlock.setBorderColor(Color.none); // No border for Greek text
         xy = textBlock.drawOn(page);
 
         // Add Bulgarian text from a file with a blue border and rounded corners
