@@ -5,10 +5,12 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class FormXObject : Canvas {
+    private PDF pdf;
     private int objectNumber;
     private Dictionary<string, int> resourceRefs;
 
-    public FormXObject(int objectNumber, float width, float height) {
+    public FormXObject(PDF pdf, int objectNumber, float width, float height) {
+        this.pdf = pdf;
         base.width = width;
         base.height = height;
         this.objectNumber = objectNumber;
@@ -56,25 +58,37 @@ public class FormXObject : Canvas {
         return buf.ToArray();
     }
 
-    public string ToPdfObject() {
-        var dict = new StringBuilder();
-        dict.AppendLine("<<");
-        dict.AppendLine("/Type /XObject");
-        dict.AppendLine("/Subtype /Form");
-        dict.AppendFormat("/BBox [0 0 {0} {1}]\n", width, height);
+    public void ToPdfObject() {
+        pdf.Newobj();
+        Append("<<\n");
+        Append("/Type /XObject\n");
+        Append("/Subtype /Form\n");
+        Append("/BBox [0 0 ");
+        Append(width);
+        Append(' ');
+        Append(height);
+        Append("]\n")
+        Append("/Resources <<\n");
         if (resourceRefs.Count > 0) {
-            dict.AppendLine("/Resources <<");
             foreach (var kv in resourceRefs) {
-                dict.AppendFormat("/{0} {1} 0 R\n", kv.Key, kv.Value);
+                Append('/');
+                Append(kv.Key);
+                Append(' ');
+                Append(kv.Value);
+                Append(" 0 R\n");
             }
-            dict.AppendLine(">>");
         }
-        dict.AppendFormat("/Length {0}\n", buf.Length);
-        dict.AppendLine(">>");
-
-        return $"{objectNumber} 0 obj\n{dict}stream\n" +
-               Encoding.ASCII.GetString(GetStreamData()) +
-               "endstream\nendobj\n";
+        Append(">>\n");         // End of Resources
+        Append("/Length ");
+        Append(buf.Length);
+        Append('\n');
+        Append(">>\n");         // End of XObject dictionary
+        Append("stream\n");
+        Append(buf, 0, buf.Length);
+        Append("\nendstream\n");
+        pdf.Endobj();        // TODO:
+        // page.images.Add(this);
+        // objNumber = pdf.GetObjNumber();
     }
 }   // End of FormXObject.cs
 }   // End of PDFjet.NET
