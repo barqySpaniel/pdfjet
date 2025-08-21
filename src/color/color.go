@@ -32,7 +32,6 @@ SOFTWARE.
 // Color constants in PascalCase
 const (
 	Transparent          = -1
-	None                 = -1
 	AliceBlue            = 0xf0f8ff
 	AntiqueWhite         = 0xfaebd7
 	Aqua                 = 0x00ffff

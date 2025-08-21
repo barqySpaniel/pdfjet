@@ -52,7 +52,6 @@ func Example01() {
 	textBlock.SetLocation(50.0, xy[1]+30.0)
 	textBlock.SetWidth(430.0)
 	textBlock.SetTextPadding(10.0)
-	textBlock.SetBorderColor(color.None)
 	xy, err = textBlock.DrawOn(page)
 	if err != nil {
 		log.Fatal(err)

@@ -4,7 +4,6 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/content"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
@@ -38,7 +37,6 @@ func Example02() {
 	textBlock := pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/japanese.txt"))
 	textBlock.SetLocation(50.0, 50.0)
 	textBlock.SetWidth(415.0)
-	textBlock.SetBorderColor(color.None)
 	textBlock.DrawOn(page)
 
 	// Create and draw Korean text block:
@@ -49,7 +47,6 @@ func Example02() {
 	textBlock = pdfjet.NewTextBlock(font2, content.OfTextFile("data/languages/korean.txt"))
 	textBlock.SetLocation(50.0, 450.0)
 	textBlock.SetWidth(415.0)
-	textBlock.SetBorderColor(color.None)
 	textBlock.DrawOn(page)
 
 	// Finalize the PDF document
