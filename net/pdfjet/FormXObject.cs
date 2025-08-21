@@ -76,8 +76,8 @@ public class FormXObject : Canvas {
         WriteString("S\n");
     }
 
-    public void AddResource(string name, int objectNumber) {
-        resourceRefs[name] = objectNumber;
+    public void AddResource(string name, int objNumber) {
+        resourceRefs[name] = objNumber;
     }
 
     public byte[] GetFormXObjectData() {
