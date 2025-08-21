@@ -5,16 +5,46 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class FormXObject : Canvas {
-    private Page page;
     private int objNumber;
     private Dictionary<string, int> resourceRefs;
 
-    public FormXObject(Page page, int objNumber, float width, float height) {
-        this.page = page;
+    public FormXObject(PDF pdf, float width, float height) : base(pdf) {
         base.width = width;
         base.height = height;
-        this.objNumber = objNumber;
         this.resourceRefs = new Dictionary<string, int>();
+    }
+
+    public void AddFormXObjectToPDF() {
+        pdf.Newobj();
+        Append("<<\n");
+        Append("/Type /XObject\n");
+        Append("/Subtype /Form\n");
+        Append("/BBox [0 0 ");
+        Append(width);
+        Append(' ');
+        Append(height);
+        Append("]\n");
+        Append("/Resources <<\n");      // Must be here even if empty!!
+        if (resourceRefs.Count > 0) {
+            foreach (var kv in resourceRefs) {
+                Append('/');
+                Append(kv.Key);
+                Append(' ');
+                Append(kv.Value);
+                Append(" 0 R\n");
+            }
+        }
+        Append(">>\n");                 // End of Resources
+        Append("/Length ");
+        Append(buf.Length);
+        Append('\n');
+        Append(">>\n");                 // End of XObject dictionary
+        Append("stream\n");
+        Append(buf.ToArray());
+        Append("\nendstream\n");
+        pdf.Endobj();
+        pdf.formXObjects.Add(this);
+        objNumber = pdf.GetObjNumber();
     }
 
     public int GetObjectNumber() {
@@ -50,41 +80,8 @@ public class FormXObject : Canvas {
         resourceRefs[name] = objectNumber;
     }
 
-    public byte[] GetStreamData() {
+    public byte[] GetFormXObjectData() {
         return buf.ToArray();
-    }
-
-    public void ToPdfObject() {
-        page.pdf.Newobj();
-        Append("<<\n");
-        Append("/Type /XObject\n");
-        Append("/Subtype /Form\n");
-        Append("/BBox [0 0 ");
-        Append(width);
-        Append(' ');
-        Append(height);
-        Append("]\n");
-        Append("/Resources <<\n");      // Must be here even if empty!!
-        if (resourceRefs.Count > 0) {
-            foreach (var kv in resourceRefs) {
-                Append('/');
-                Append(kv.Key);
-                Append(' ');
-                Append(kv.Value);
-                Append(" 0 R\n");
-            }
-        }
-        Append(">>\n");                 // End of Resources
-        Append("/Length ");
-        Append(buf.Length);
-        Append('\n');
-        Append(">>\n");                 // End of XObject dictionary
-        Append("stream\n");
-        Append(buf.ToArray());
-        Append("\nendstream\n");
-        page.pdf.Endobj();
-        page.pdf.formXObjects.Add(this);
-        // objNumber = pdf.GetObjNumber();  // TODO:
     }
 }   // End of FormXObject.cs
 }   // End of PDFjet.NET

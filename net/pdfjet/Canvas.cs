@@ -65,12 +65,13 @@ public abstract class Canvas {
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
 
-    public Canvas() {
-        buf = new MemoryStream(8192);
-        tm0 = FastFloat.ToByteArray(tmx[0]);
-        tm1 = FastFloat.ToByteArray(tmx[1]);
-        tm2 = FastFloat.ToByteArray(tmx[2]);
-        tm3 = FastFloat.ToByteArray(tmx[3]);
+    public Canvas(PDF pdf) {
+        this.pdf = pdf;
+        this.buf = new MemoryStream(8192);
+        this.tm0 = FastFloat.ToByteArray(tmx[0]);
+        this.tm1 = FastFloat.ToByteArray(tmx[1]);
+        this.tm2 = FastFloat.ToByteArray(tmx[2]);
+        this.tm3 = FastFloat.ToByteArray(tmx[3]);
     }
 
     public byte[] GetContent() {
@@ -1370,11 +1371,11 @@ public abstract class Canvas {
         DrawWord(font, buf2, color, highlightColors);
     }
 
-    internal void SetStructElementsPageObjNumber(int pageObjNumber) {
-        foreach (StructElem element in structElements) {
-            element.pageObjNumber = pageObjNumber;
-        }
-    }
+//    internal void SetStructElementsPageObjNumber(int pageObjNumber) {
+//        foreach (StructElem element in structElements) {
+//            element.pageObjNumber = pageObjNumber;
+//        }
+//    }
 
     public void AddBMC(
             String structure,

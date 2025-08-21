@@ -94,8 +94,7 @@ public class Page : Canvas {
      *  @param pageSize the page size of this page.
      *  @param addPageToPDF bool flag.
      */
-    public Page(PDF pdf, float[] pageSize, bool addPageToPDF) {
-        this.pdf = pdf;
+    public Page(PDF pdf, float[] pageSize, bool addPageToPDF) : base(pdf) {
         contents = new List<Int32>();
         annots = new List<Annotation>();
         destinations = new List<Destination>();
@@ -106,12 +105,11 @@ public class Page : Canvas {
         }
     }
 
-    public Page(PDF pdf, PDFobj pageObj) {
-        this.pdf = pdf;
+    public Page(PDF pdf, PDFobj pageObj) : base(pdf) {
         this.pageObj = RemoveComments(pageObj);
         width = pageObj.GetPageSize()[0];
         height = pageObj.GetPageSize()[1];
-        Append("q\n");      // TODO: Why is this here?
+        Append("q\n");
         if (pageObj.gsNumber != -1) {
             Append("/GS");
             Append(pageObj.gsNumber + 1);
@@ -120,7 +118,7 @@ public class Page : Canvas {
     }
 
     public void Complete(List<PDFobj> objects) {
-        Append("Q\n");      // TODO: We need this??
+        Append("Q\n");
         pageObj.AddContent(GetContent(), objects);
     }
 
