@@ -89,8 +89,8 @@ public class FormXObject : Canvas {
         Append(buf.ToArray());
         Append("\nendstream\n");
         page.pdf.Endobj();
-        // page.resources.Add(this);    // TODO
-        // objNumber = pdf.GetObjNumber();
+        page.pdf.formXObjects.Add(this);
+        // objNumber = pdf.GetObjNumber();  // TODO:
     }
 }   // End of FormXObject.cs
 }   // End of PDFjet.NET

@@ -37,6 +37,7 @@ public class PDF {
     internal int outputIntentObjNumber = 0;
     internal List<Font> fonts = new List<Font>();
     internal List<Image> images = new List<Image>();
+    internal List<FormXObject> formXObjects = new List<FormXObject>();
     internal List<Page> pages = new List<Page>();
     internal Dictionary<String, Destination> destinations = new Dictionary<String, Destination>();
     internal List<OptionalContentGroup> groups = new List<OptionalContentGroup>();
