@@ -1197,7 +1197,20 @@ public abstract class Canvas {
         ClipPath();
     }
 
+    [Obsolete("This method is deprecated. Use SaveGraphicsState() instead.")]
     public void Save() {
+        SaveGraphicsState();
+    }
+
+    [Obsolete("This method is deprecated. Use RestoreGraphicsState() instead.")]
+    public void Restore() {
+        RestoreGraphicsState();
+    }
+
+    /**
+     *  Saves the graphics state. Please see Example_31.
+     */
+    public void SaveGraphicsState() {
         Append("q\n");
         savedStates.Add(new State(
                 brushColor, penColor, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
@@ -1228,7 +1241,10 @@ public abstract class Canvas {
         Append(" gs\n");
     }
 
-    public void Restore() {
+    /**
+     *  Restores the graphics state. Please see Example_31.
+     */
+    public void RestoreGraphicsState() {
         Append("Q\n");
         if (savedStates.Count > 0) {
             int lastIndex = savedStates.Count - 1;

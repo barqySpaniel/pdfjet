@@ -15,12 +15,8 @@ public class Example_31 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        // Font f1 = new Font(pdf, NotoSansDevanagari.Regular); // TODO
         Font f1 = new Font(pdf, NotoSans.Regular);
         f1.SetSize(15f);
-
-        Font f2 = new Font(pdf, IBMPlexSans.Regular);
-        f2.SetSize(15f);
 
         StringBuilder buf = new StringBuilder();
         StreamReader reader = new StreamReader(
@@ -32,7 +28,6 @@ public class Example_31 {
         reader.Close();
 
         TextBox textBox = new TextBox(f1, buf.ToString(), 500f, 300f);
-        textBox.SetFallbackFont(f2);
         textBox.SetLocation(50f, 50f);
         textBox.SetBorder(Border.LEFT);
         textBox.SetBorder(Border.RIGHT);
@@ -40,13 +35,14 @@ public class Example_31 {
 
         String str = "असम के बाद UP में भी CM कैंडिडेट का ऐलान करेगी BJP?";
         TextLine textLine = new TextLine(f1, str);
-        textLine.SetFallbackFont(f2);
         textLine.SetLocation(50f, 175f);
         textLine.DrawOn(page);
 
         page.SetPenColor(Color.blue);
         page.SetBrushColor(Color.blue);
         page.FillRect(50f, 200f, 200f, 200f);
+
+        page.SaveGraphicsState();
 
         GraphicsState gs = new GraphicsState();
         gs.SetAlphaStroking(0.5f);      // The stroking alpha constant
@@ -61,8 +57,7 @@ public class Example_31 {
         page.SetBrushColor(Color.red);
         page.FillRect(150, 300, 200f, 200f);
 
-        // Reset the parameters to the default values
-        page.SetGraphicsState(new GraphicsState());
+        page.RestoreGraphicsState();
 
         page.SetPenColor(Color.orange);
         page.SetBrushColor(Color.orange);

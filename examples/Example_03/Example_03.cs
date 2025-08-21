@@ -21,10 +21,8 @@ public class Example_03 {
 
         Page page = new Page(pdf, A4.PORTRAIT);
 
-//         float[] xy = page.AddHeader(new TextLine(f1, "This is a header!"));
-
+//        float[] xy = page.AddHeader(new TextLine(f1, "This is a header!"));
 //        page.AddFooter(new TextLine(f1, "And this is a footer."));
-
 //        TextLine text = new TextLine(f1,
 //                "The map below is an embedded PNG image");
 //        text.SetLocation(90f, 30f);
@@ -44,7 +42,6 @@ public class Example_03 {
         point.SetFillColor(Color.blue);
         point.DrawOn(page);
 
-
         Line line = new Line(350f, 400f, 450f, 550f);
         line.SetWidth(3f);
         line.DrawOn(page);
@@ -61,17 +58,6 @@ public class Example_03 {
         arc.SetSweepDegreesCW(90f);    // Clockwise
         arc.DrawOn(page);
 
-        // Just for testing. Do not use ...
-        page.Save();
-        page.SetPenWidth(3f);
-        page.SetPenColor(Color.blue);
-        // page.DrawArcFromLineEnd(line, 45f, 45f, 180f, Sweep.CLOCKWISE);
-        // page.StrokePath();
-        // page.DrawArcFromLineEnd(line, 45f, 45f, 180f, Sweep.COUNTER_CLOCKWISE);
-        // page.StrokePath();
-        page.Restore();
-
-//
 //        text.SetText(
 //                "JPG image file embedded once and drawn 3 times");
 //        text.SetLocation(90f, 550f);
@@ -117,9 +103,6 @@ public class Example_03 {
     }
 
     public static void Main(String[] args) {
-        // AssemblyName assembly = typeof(PDF).Assembly.GetName();
-        // Console.WriteLine("{0} Version={1}", assembly.Name, assembly.Version);
-
         Stopwatch sw = Stopwatch.StartNew();
         long time0 = sw.ElapsedMilliseconds;
         new Example_03();
