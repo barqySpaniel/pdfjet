@@ -263,31 +263,6 @@ public class Page : Canvas {
         this.artBox = new float[] {upperLeftX, upperLeftY, lowerRightX, lowerRightY};
     }
 
-    /**
-     *  Sets the graphics state. Please see Example_31.
-     *
-     *  @param gs the graphics state to use.
-     */
-//    public void SetGraphicsState(GraphicsState gs) {
-//        StringBuilder sb = new StringBuilder();
-//        sb.Append("/CA ");
-//        sb.Append(gs.GetAlphaStroking());
-//        sb.Append(" ");
-//        sb.Append("/ca ");
-//        sb.Append(gs.GetAlphaNonStroking());
-//        String state = sb.ToString();
-//        Int32 n;
-//        if (pdf.states.ContainsKey(state)) {
-//            n = pdf.states[state];
-//        } else {
-//            n = pdf.states.Count + 1;
-//            pdf.states[state] = n;
-//        }
-//        Append("/GS");
-//        Append(n);
-//        Append(" gs\n");
-//    }
-
     internal void SetStructElementsPageObjNumber(int pageObjNumber) {
         foreach (StructElem element in structElements) {
             element.pageObjNumber = pageObjNumber;

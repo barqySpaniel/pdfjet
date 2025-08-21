@@ -37,7 +37,7 @@ using System.Collections.Generic;
  *  </pre>
  */
 namespace PDFjet.NET {
-public class Canvas {
+public abstract class Canvas {
     protected internal PDF pdf;
 
     internal MemoryStream buf;
