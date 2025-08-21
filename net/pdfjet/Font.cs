@@ -370,6 +370,14 @@ public class Font {
         return descent;
     }
 
+    public float GetAscent(float fontSize) {
+        return fontAscent * fontSize / unitsPerEm;
+    }
+
+    public float GetDescent(float fontSize) {
+        return -fontDescent * fontSize / unitsPerEm;
+    }
+
     public float GetHeight() {
         return ascent + descent;
     }

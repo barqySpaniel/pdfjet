@@ -333,11 +333,11 @@ public abstract class Canvas {
                 Append("1 0 0 1 ");
                 Append(xText + textLine.xOffset);
                 Append(' ');
-                Append(height - (yText + font.ascent));
+                Append(height - (yText + font.GetAscent(fontSize)));
                 Append(" Tm\n");
             } else {                // BOTTOM_TO_TOP
                 Append("0 1 -1 0 ");
-                Append(xText + font.ascent);
+                Append(xText + font.GetAscent(fontSize));
                 Append(' ');
                 Append(yText);
                 Append(" Tm\n");

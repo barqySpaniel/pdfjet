@@ -292,8 +292,8 @@ namespace PDFjet.NET {
             page.Append("q\n");
             page.SetPenWidth(this.borderWidth);
 
-            float ascent = this.font.GetAscent();
-            float descent = this.font.GetDescent();
+            float ascent = this.font.GetAscent(fontSize);
+            float descent = this.font.GetDescent(fontSize);
             float leading = (ascent + descent) * this.lineSpacing;
             TextLineWithOffset[] textLines = GetTextLinesWithOffsets();
             if (textAlignment == Alignment.RIGHT) {
