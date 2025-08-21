@@ -102,7 +102,7 @@ public class Example_27 {
         textLine.DrawOn(page);
 */
         y += 15f;
-        f3.SetSize(13);
+        f3.SetSize(14);
         // Arabic text from a file
         textBlock = new TextBlock(f3,
                 Content.OfTextFile("data/languages/arabic.txt"));
