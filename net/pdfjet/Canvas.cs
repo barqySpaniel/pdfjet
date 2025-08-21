@@ -1128,17 +1128,7 @@ public abstract class Canvas {
     }
 
     public void SetTextFont(Font font) {
-        this.font = font;
-        if (font.fontID != null) {
-            Append('/');
-            Append(font.fontID);
-        } else {
-            Append("/F");
-            Append(font.objNumber);
-        }
-        Append(Token.space);
-        Append(font.size);
-        Append(" Tf\n");
+        SetTextFont(font, font.size);
     }
 
     public void SetTextFont(Font font, float fontSize) {
