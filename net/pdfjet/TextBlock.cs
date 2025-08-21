@@ -66,7 +66,6 @@ namespace PDFjet.NET {
             this.font = font;
             this.textContent = textContent;
             this.textColor = new float[] {0f, 0f, 0f};      // Black color
-            this.borderColor = new float[] {0f, 0f, 0f};    // Black color
         }
 
         public void SetFont(Font font) {

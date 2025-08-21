@@ -31,7 +31,7 @@ public class Example_27 {
         TextBlock textBlock = new TextBlock(f1,
                 Content.OfTextFile("data/languages/thai.txt"));
         textBlock.SetLocation(30f, 30f);
-        textBlock.SetBorderColor(Color.transparent);
+        textBlock.SetBorderColor(Color.blue);
         textBlock.SetWidth(430f);
         textBlock.SetTextPadding(10f);
         float[] xy = textBlock.DrawOn(page);  // Draw the text and get coordinates
@@ -107,7 +107,7 @@ public class Example_27 {
         textBlock = new TextBlock(f3,
                 Content.OfTextFile("data/languages/arabic.txt"));
         textBlock.SetLocation(50f, y);
-        textBlock.SetBorderColor(Color.transparent);
+        textBlock.SetBorderColor(Color.blue);
         textBlock.SetWidth(520f);
         textBlock.SetTextIsArabic();
         textBlock.SetTextAlignment(Alignment.RIGHT);
