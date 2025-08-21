@@ -161,17 +161,21 @@ public class Rect  : IDrawable {
         page.AddBMC(this.structType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
         if (this.r == 0.0f) {
-            page.MoveTo(this.x, this.y);
-            page.LineTo(this.x + this.w, this.y);
-            page.LineTo(this.x + this.w, this.y + this.h);
-            page.LineTo(this.x, this.y + this.h);
             if (this.fillColor != null) {
+                page.MoveTo(this.x, this.y);
+                page.LineTo(this.x + this.w, this.y);
+                page.LineTo(this.x + this.w, this.y + this.h);
+                page.LineTo(this.x, this.y + this.h);
                 page.SetBrushColor(this.fillColor);
                 page.FillPath();
             }
             if (borderColor != null) {
-                page.SetPenWidth(this.borderWidth);
+                page.MoveTo(this.x, this.y);
+                page.LineTo(this.x + this.w, this.y);
+                page.LineTo(this.x + this.w, this.y + this.h);
+                page.LineTo(this.x, this.y + this.h);
                 page.SetPenColor(this.borderColor);
+                page.SetPenWidth(this.borderWidth);
                 page.SetStrokePattern(this.borderPattern);
                 page.ClosePath();
             }

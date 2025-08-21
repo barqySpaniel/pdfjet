@@ -43,17 +43,6 @@ public class Page : Canvas {
     internal PDFobj pageObj;
     internal int objNumber;
 
-//    internal MemoryStream buf;
-//    internal readonly float width;
-//    internal float height;
-
-//    internal float[] tm = {1f, 0f, 0f, 1f};
-//    internal byte[] tm0;
-//    internal byte[] tm1;
-//    internal byte[] tm2;
-//    internal byte[] tm3;
-//    internal int renderingMode = 0;
-
     internal readonly List<Int32> contents;
     internal readonly List<Annotation> annots;
     internal readonly List<Destination> destinations;

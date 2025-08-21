@@ -33,6 +33,7 @@ public class Example_01 {
         textBlock.SetLocation(50f, 50f);
         textBlock.SetWidth(430f);
         textBlock.SetTextPadding(10f);
+        textBlock.SetBorderColor(Color.black);
         textBlock.SetKeywordHighlightColors(map);
         float[] xy = textBlock.DrawOn(page);  // Draw the text and get coordinates
 

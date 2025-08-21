@@ -407,9 +407,6 @@ public class TextBox : IDrawable {
         return strokeColor;
     }
 
-
-
-
     /**
      *  Sets the TextBox border properties.
      *

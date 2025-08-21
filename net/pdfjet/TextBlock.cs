@@ -59,11 +59,12 @@ namespace PDFjet.NET {
         private bool textIsArabic = false;
 
         public TextBlock(Font font, string textContent) {
+            this.font = font;
+            this.fallbackFont = font;
             this.x = 0.0f;
             this.y = 0.0f;
             this.width = 500.0f;
             this.height = 500.0f;
-            this.font = font;
             this.textContent = textContent;
             this.textColor = new float[] {0f, 0f, 0f};      // Black color
         }
@@ -126,6 +127,10 @@ namespace PDFjet.NET {
         }
 
         public void SetFillColor(int color) {
+            if (color == Color.transparent) {
+                this.fillColor = null;
+                return;
+            }
             float r = ((color >> 16) & 0xff)/255f;
             float g = ((color >>  8) & 0xff)/255f;
             float b = ((color)       & 0xff)/255f;
@@ -282,12 +287,12 @@ namespace PDFjet.NET {
                 throw new ArgumentException("A valid Page object is required.");
             }
 
+            page.Append("q\n");
             page.SetPenWidth(this.borderWidth);
 
             float ascent = this.font.GetAscent();
             float descent = this.font.GetDescent();
             float leading = (ascent + descent) * this.lineSpacing;
-
             TextLineWithOffset[] textLines = GetTextLinesWithOffsets();
             if (textAlignment == Alignment.RIGHT) {
                 RightAlignText(textLines);
@@ -313,6 +318,7 @@ namespace PDFjet.NET {
             rect.SetBorderColor(this.borderColor);
             rect.SetCornerRadius(this.borderCornerRadius);
             rect.DrawOn(page);
+            page.Append("Q\n");
 
             return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
         }
