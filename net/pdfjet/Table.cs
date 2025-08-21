@@ -887,5 +887,13 @@ public class Table {
         tableData.Add(row);         // Add the row
         return tableData.Count - 1; // Return the current index of the new row
     }
+
+    public int GetRowCount() { return tableData.Count; }
+    public int GetColCount(int row) {
+        if (row <= tableData.Count)
+            return tableData[row].Count;
+        else
+            return 0;
+    }
 }   // End of Table.cs
 }   // End of namespace PDFjet.NET
