@@ -45,7 +45,7 @@ public class PDF {
     internal Compliance compliance;
 
     private Stream os = null;
-    private readonly List<Int32> objOffset = new List<Int32>();
+    private readonly List<Int32> objOffset = new List<Int32>(); // Required by the xref section
     private String title = "";
     private String author = "";
     private String subject = "";

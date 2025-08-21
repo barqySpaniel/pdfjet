@@ -5,25 +5,27 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class FormXObject : Canvas {
-    private PDF pdf;
-    private int objectNumber;
+    // private PDF pdf;
+    private Page page;
+    private int objNumber;
     private Dictionary<string, int> resourceRefs;
 
-    public FormXObject(PDF pdf, int objectNumber, float width, float height) {
-        this.pdf = pdf;
+    public FormXObject(Page page, int objNumber, float width, float height) {
+        // this.pdf = pdf;
+        this.page = page;
         base.width = width;
         base.height = height;
-        this.objectNumber = objectNumber;
+        this.objNumber = objNumber;
         this.resourceRefs = new Dictionary<string, int>();
     }
 
     public int GetObjectNumber() {
-        return objectNumber;
+        return objNumber;
     }
 
-    private void SetObjectNumber(int objectNumber) {
-        this.objectNumber = objectNumber;
-    }
+//    private void SetObjectNumber(int objNumber) {
+//        this.objNumber = objNumber;
+//    }
 
     private void WriteString(String s) {
         var bytes = Encoding.ASCII.GetBytes(s);
@@ -59,7 +61,7 @@ public class FormXObject : Canvas {
     }
 
     public void ToPdfObject() {
-        pdf.Newobj();
+        page.pdf.Newobj();
         Append("<<\n");
         Append("/Type /XObject\n");
         Append("/Subtype /Form\n");
@@ -67,7 +69,7 @@ public class FormXObject : Canvas {
         Append(width);
         Append(' ');
         Append(height);
-        Append("]\n")
+        Append("]\n");
         Append("/Resources <<\n");
         if (resourceRefs.Count > 0) {
             foreach (var kv in resourceRefs) {
@@ -84,10 +86,10 @@ public class FormXObject : Canvas {
         Append('\n');
         Append(">>\n");         // End of XObject dictionary
         Append("stream\n");
-        Append(buf, 0, buf.Length);
+        Append(buf.ToArray());
         Append("\nendstream\n");
-        pdf.Endobj();        // TODO:
-        // page.images.Add(this);
+        page.pdf.Endobj();
+        // page.resources.Add(this);    // TODO
         // objNumber = pdf.GetObjNumber();
     }
 }   // End of FormXObject.cs
