@@ -5,13 +5,11 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class FormXObject : Canvas {
-    // private PDF pdf;
     private Page page;
     private int objNumber;
     private Dictionary<string, int> resourceRefs;
 
     public FormXObject(Page page, int objNumber, float width, float height) {
-        // this.pdf = pdf;
         this.page = page;
         base.width = width;
         base.height = height;
@@ -22,10 +20,6 @@ public class FormXObject : Canvas {
     public int GetObjectNumber() {
         return objNumber;
     }
-
-//    private void SetObjectNumber(int objNumber) {
-//        this.objNumber = objNumber;
-//    }
 
     private void WriteString(String s) {
         var bytes = Encoding.ASCII.GetBytes(s);
