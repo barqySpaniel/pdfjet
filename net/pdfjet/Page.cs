@@ -185,7 +185,7 @@ public class Page : Canvas {
         destinations.Add(dest);
         return dest;
     }
-
+/*
     public void Save() {
         Append("q\n");
         savedStates.Add(new State(
@@ -206,7 +206,7 @@ public class Page : Canvas {
             savedStates.RemoveAt(lastIndex);
         }
     }
-
+*/
     /**
      * Sets the page CropBox.
      * See page 77 of the PDF32000_2008.pdf specification.

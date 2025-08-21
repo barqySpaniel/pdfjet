@@ -50,7 +50,7 @@ public class Example_31 {
 
         GraphicsState gs = new GraphicsState();
         gs.SetAlphaStroking(0.5f);      // The stroking alpha constant
-        gs.SetAlphaNonStroking(0.5f);   // The nonstroking alpha constant
+        gs.SetAlphaNonStroking(0.5f);   // The non-stroking alpha constant
         page.SetGraphicsState(gs);
 
         page.SetPenColor(Color.green);
