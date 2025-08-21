@@ -311,6 +311,7 @@ public abstract class Canvas {
 
     internal float DrawTextBlock(
             Font font,
+            float fontSize,
             TextLineWithOffset[] textLines,
             float x,
             float y,
@@ -323,7 +324,7 @@ public abstract class Canvas {
         }
 
         Append("BT\n");
-        SetTextFont(font);
+        SetTextFont(font, fontSize);
 
         float xText = x;
         float yText = y;
@@ -1137,6 +1138,20 @@ public abstract class Canvas {
         }
         Append(Token.space);
         Append(font.size);
+        Append(" Tf\n");
+    }
+
+    public void SetTextFont(Font font, float fontSize) {
+        this.font = font;
+        if (font.fontID != null) {
+            Append('/');
+            Append(font.fontID);
+        } else {
+            Append("/F");
+            Append(font.objNumber);
+        }
+        Append(Token.space);
+        Append(fontSize);
         Append(" Tf\n");
     }
 

@@ -33,6 +33,7 @@ namespace PDFjet.NET {
         private float height;
         private Font font;
         private Font fallbackFont;
+        private float fontSize = 12f;
         private string textContent;
         private float lineSpacing = 1.0f;
         private float[] textColor;
@@ -71,21 +72,22 @@ namespace PDFjet.NET {
 
         public void SetFont(Font font) {
             this.font = font;
+            this.fallbackFont = font;
         }
 
         public void SetFallbackFont(Font font) {
             this.fallbackFont = font;
         }
 
-        public void SetFontSize(float size) {
-            this.font.SetSize(size);
+        public void SetTextFontSize(float size) {
+            this.fontSize = size;
         }
 
-        public void SetFallbackFontSize(float size) {
-            if (this.fallbackFont != null) {
-                this.fallbackFont.SetSize(size);
-            }
-        }
+//        public void SetFallbackFontSize(float size) {
+//            if (this.fallbackFont != null) {
+//                this.fallbackFont.SetSize(size);
+//            }
+//        }
 
         public void SetText(string text) {
             this.textContent = text;
@@ -303,6 +305,7 @@ namespace PDFjet.NET {
             page.AddBMC(StructElem.P, this.language, this.textContent, null);
             float textBlockHeight = page.DrawTextBlock(
                 this.font,
+                this.fontSize,
                 textLines,
                 this.x + this.textPadding,
                 this.y + this.textPadding,

@@ -18,6 +18,7 @@ public class Example_01 {
         // Load font for the PDF (IBMPlexSans Regular)
         // Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
         Font font = new Font(pdf, IBMPlexSans.Regular);
+        font.SetSize(12f);
 
         // Create a new page with Portrait orientation
         Page page = new Page(pdf, Letter.PORTRAIT);
@@ -32,6 +33,7 @@ public class Example_01 {
                 Content.OfTextFile("data/languages/english.txt"));
         textBlock.SetLocation(50f, 50f);
         textBlock.SetWidth(430f);
+        textBlock.SetTextFontSize(12f);
         textBlock.SetTextPadding(10f);
         textBlock.SetBorderColor(Color.black);
         textBlock.SetKeywordHighlightColors(map);
@@ -47,6 +49,7 @@ public class Example_01 {
                 Content.OfTextFile("data/languages/greek.txt"));
         textBlock.SetLocation(50f, xy[1] + 30f);
         textBlock.SetWidth(430f);
+        textBlock.SetTextFontSize(7f);
         textBlock.SetBorderColor(Color.transparent);  // No border for Greek text
         xy = textBlock.DrawOn(page);  // Draw the Greek text and update coordinates
 
