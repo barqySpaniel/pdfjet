@@ -35,7 +35,6 @@ public class Example_01 {
         let textBlock2 = TextBlock(font, greekText)
         textBlock2.setLocation(50, xy[1] + 30)  // Set location below the previous text
         textBlock2.setWidth(430)                // Set width for Greek text block
-        textBlock2.setBorderColor(Color.none)   // No border for Greek text
         xy = textBlock2.drawOn(page)            // Draw Greek text and update coordinates
 
         // Read Bulgarian text from a file and draw it with a blue border and rounded corners
