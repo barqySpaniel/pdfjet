@@ -56,6 +56,7 @@ namespace PDFjet.NET {
         private Alignment textAlignment = Alignment.LEFT;
 //        private bool underline = false;
 //        private bool strikeout = false;
+        private bool textIsArabic = false;
 
         public TextBlock(Font font, string textContent) {
             this.x = 0.0f;
@@ -137,6 +138,10 @@ namespace PDFjet.NET {
         }
 
         public void SetBorderColor(int color) {
+            if (color == Color.transparent) {
+                this.borderColor = null;
+                return;
+            }
             float r = ((color >> 16) & 0xff)/255f;
             float g = ((color >>  8) & 0xff)/255f;
             float b = ((color)       & 0xff)/255f;
@@ -175,6 +180,10 @@ namespace PDFjet.NET {
             }
         }
 
+        public void SetTextIsArabic() {
+            this.textIsArabic = true;
+        }
+
         private bool TextIsCJK(string str) {
             int numOfCJK = 0;
             char[] chars = str.ToCharArray();
@@ -199,7 +208,14 @@ namespace PDFjet.NET {
             this.textContent = this.textContent.Replace("\r\n", "\n").Trim();
             string[] lines = this.textContent.Split('\n');
 
-            foreach (string line in lines) {
+            foreach (String str in lines) {
+                String line = str;
+                if (textIsArabic) {
+                    line = Bidi.ReorderVisually(line);
+                    textLines.Add(new TextLineWithOffset(line, 0f));
+                    continue;
+                }
+
                 if (this.font.StringWidth(this.fallbackFont, line) <= textAreaWidth) {
                     textLines.Add(new TextLineWithOffset(line, 0f));
                 } else {
@@ -248,6 +264,12 @@ namespace PDFjet.NET {
         private void CenterText(TextLineWithOffset[] textLines) {
             foreach (TextLineWithOffset textLineWithOffset in textLines) {
                 textLineWithOffset.xOffset = (this.width - font.StringWidth(textLineWithOffset.textLine)) / 2f;
+            }
+        }
+
+        private void ReorderVisually(TextLineWithOffset[] textLines) {
+            foreach (TextLineWithOffset textLineWithOffset in textLines) {
+                textLineWithOffset.textLine = Bidi.ReorderVisually(textLineWithOffset.textLine);
             }
         }
 

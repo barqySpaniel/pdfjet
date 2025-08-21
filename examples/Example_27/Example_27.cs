@@ -30,14 +30,14 @@ public class Example_27 {
         // Thai text from a file
         TextBlock textBlock = new TextBlock(f1,
                 Content.OfTextFile("data/languages/thai.txt"));
-        textBlock.SetLocation(50f, 50f);
-        textBlock.SetBorderColor(Color.none);
+        textBlock.SetLocation(30f, 30f);
+        textBlock.SetBorderColor(Color.transparent);
         textBlock.SetWidth(430f);
         textBlock.SetTextPadding(10f);
         float[] xy = textBlock.DrawOn(page);  // Draw the text and get coordinates
 
-        float x = 590f;
-        float y = xy[1] + 50f;
+        float x = 585f;
+        float y = xy[1] + 10f;
 
         String str = "כך נראית תחתית הטבלה עם סיום הפלייאוף התחתון:";
         str = Bidi.ReorderVisually(str);
@@ -69,8 +69,8 @@ public class Example_27 {
         textLine.SetLocation(x - f2.StringWidth(str), y += 20f);
         textLine.DrawOn(page);
 
+/*
         y += 60f;
-
         str = Bidi.ReorderVisually(
                 "قالت شركة PSA بيجو ستروين الفرنسية وشريكتها الصينية شركة دونغفينغ موترز الاربعاء إنهما اتفقتا");
         textLine = new TextLine(f3, str);
@@ -100,16 +100,16 @@ public class Example_27 {
         textLine = new TextLine(f3, str);
         textLine.SetLocation(x - f3.StringWidth(str), y += 20f);
         textLine.DrawOn(page);
-
-        y += 30f;
-
+*/
+        y += 15f;
+        f3.SetSize(13);
         // Arabic text from a file
-        f3.SetSize(14);
         textBlock = new TextBlock(f3,
-                Bidi.ReorderVisually(Content.OfTextFile("data/languages/arabic.txt")));
+                Content.OfTextFile("data/languages/arabic.txt"));
         textBlock.SetLocation(50f, y);
-        textBlock.SetBorderColor(Color.none);
-        textBlock.SetWidth(530f);
+        textBlock.SetBorderColor(Color.transparent);
+        textBlock.SetWidth(520f);
+        textBlock.SetTextIsArabic();
         textBlock.SetTextAlignment(Alignment.RIGHT);
         textBlock.SetTextPadding(10f);
         textBlock.DrawOn(page);

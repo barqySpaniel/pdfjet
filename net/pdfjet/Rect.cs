@@ -102,6 +102,10 @@ public class Rect  : IDrawable {
     }
 
     public void SetBorderColor(int color) {
+        if (color == Color.transparent) {
+            this.borderColor = null;
+            return;
+        }
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
@@ -165,10 +169,12 @@ public class Rect  : IDrawable {
                 page.SetBrushColor(this.fillColor);
                 page.FillPath();
             }
-            page.SetPenWidth(this.borderWidth);
-            page.SetPenColor(this.borderColor);
-            page.SetStrokePattern(this.borderPattern);
-            page.ClosePath();
+            if (borderColor != null) {
+                page.SetPenWidth(this.borderWidth);
+                page.SetPenColor(this.borderColor);
+                page.SetStrokePattern(this.borderPattern);
+                page.ClosePath();
+            }
         } else {
             List<Point> points = new List<Point> {
                 new Point((this.x + this.r), this.y, false),
@@ -204,10 +210,6 @@ public class Rect  : IDrawable {
             } else if (fillColor == null && borderColor != null) {
                 page.SetPenWidth(borderWidth);
                 page.SetPenColor(borderColor);
-                page.Append("S\n");
-            } else {    // Both fillColor == null and borderColor == null
-                page.SetPenWidth(0f);
-                page.SetPenColor(0f, 0f, 0f);
                 page.Append("S\n");
             }
         }

@@ -46,7 +46,7 @@ public class Example_01 {
                 Content.OfTextFile("data/languages/greek.txt"));
         textBlock.SetLocation(50f, xy[1] + 30f);
         textBlock.SetWidth(430f);
-        textBlock.SetBorderColor(Color.none);  // No border for Greek text
+        textBlock.SetBorderColor(Color.transparent);  // No border for Greek text
         xy = textBlock.DrawOn(page);  // Draw the Greek text and update coordinates
 
         // Add Bulgarian text from a file with a blue border and rounded corners
