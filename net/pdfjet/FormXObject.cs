@@ -64,7 +64,7 @@ public class FormXObject : Canvas {
         Append(' ');
         Append(height);
         Append("]\n");
-        Append("/Resources <<\n");
+        Append("/Resources <<\n");      // Must be here even if empty!!
         if (resourceRefs.Count > 0) {
             foreach (var kv in resourceRefs) {
                 Append('/');
@@ -74,11 +74,11 @@ public class FormXObject : Canvas {
                 Append(" 0 R\n");
             }
         }
-        Append(">>\n");         // End of Resources
+        Append(">>\n");                 // End of Resources
         Append("/Length ");
         Append(buf.Length);
         Append('\n');
-        Append(">>\n");         // End of XObject dictionary
+        Append(">>\n");                 // End of XObject dictionary
         Append("stream\n");
         Append(buf.ToArray());
         Append("\nendstream\n");
