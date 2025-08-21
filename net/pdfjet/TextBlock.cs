@@ -180,6 +180,11 @@ namespace PDFjet.NET {
         }
 
         public void SetTextIsArabic() {
+            // Important!! The library renders Arabic properly, however it doesn't use ligatures like the one below !!
+            // The Arabic character that looks like a Latin "I" and "J" connected is the ligature for "لَا" (lām + alif).
+            // Here is the isolated form: لا
+            // When it's written, the lām (ل) resembles a curved "J" or a hook,
+            // and the alif (ا) is a straight vertical stroke that looks like an "I".
             this.textIsArabic = true;
         }
 
