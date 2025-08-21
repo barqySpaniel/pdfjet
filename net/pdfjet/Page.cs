@@ -268,27 +268,25 @@ public class Page : Canvas {
      *
      *  @param gs the graphics state to use.
      */
-    public void SetGraphicsState(GraphicsState gs) {
-        // Should we have here:
-        // Append("q\n");  // TODO ??
-        StringBuilder sb = new StringBuilder();
-        sb.Append("/CA ");
-        sb.Append(gs.GetAlphaStroking());
-        sb.Append(" ");
-        sb.Append("/ca ");
-        sb.Append(gs.GetAlphaNonStroking());
-        String state = sb.ToString();
-        Int32 n;
-        if (pdf.states.ContainsKey(state)) {
-            n = pdf.states[state];
-        } else {
-            n = pdf.states.Count + 1;
-            pdf.states[state] = n;
-        }
-        Append("/GS");
-        Append(n);
-        Append(" gs\n");
-    }
+//    public void SetGraphicsState(GraphicsState gs) {
+//        StringBuilder sb = new StringBuilder();
+//        sb.Append("/CA ");
+//        sb.Append(gs.GetAlphaStroking());
+//        sb.Append(" ");
+//        sb.Append("/ca ");
+//        sb.Append(gs.GetAlphaNonStroking());
+//        String state = sb.ToString();
+//        Int32 n;
+//        if (pdf.states.ContainsKey(state)) {
+//            n = pdf.states[state];
+//        } else {
+//            n = pdf.states.Count + 1;
+//            pdf.states[state] = n;
+//        }
+//        Append("/GS");
+//        Append(n);
+//        Append(" gs\n");
+//    }
 
     internal void SetStructElementsPageObjNumber(int pageObjNumber) {
         foreach (StructElem element in structElements) {

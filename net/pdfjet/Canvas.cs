@@ -396,31 +396,6 @@ public class Canvas {
     }
 
     /**
-     *  Sets the graphics state. Please see Example_31.
-     *
-     *  @param gs the graphics state to use.
-     */
-    public void SetGraphicsState(GraphicsState gs) {
-        StringBuilder buf = new StringBuilder();
-        buf.Append("/CA ");
-        buf.Append(gs.GetAlphaStroking());
-        buf.Append(" ");
-        buf.Append("/ca ");
-        buf.Append(gs.GetAlphaNonStroking());
-        String state = buf.ToString();
-        Int32 n;
-        if (pdf.states.ContainsKey(state)) {
-            n = pdf.states[state];
-        } else {
-            n = pdf.states.Count + 1;
-            pdf.states[state] = n;
-        }
-        Append("/GS");
-        Append(n);
-        Append(" gs\n");
-    }
-
-    /**
      * Sets the color for stroking operations.
      * The pen color is used when drawing lines and splines.
      *
@@ -1226,6 +1201,31 @@ public class Canvas {
         Append("q\n");
         savedStates.Add(new State(
                 brushColor, penColor, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
+    }
+
+    /**
+     *  Sets the graphics state. Please see Example_31.
+     *
+     *  @param gs the graphics state to use.
+     */
+    public void SetGraphicsState(GraphicsState gs) {
+        StringBuilder buf = new StringBuilder();
+        buf.Append("/CA ");
+        buf.Append(gs.GetAlphaStroking());
+        buf.Append(" ");
+        buf.Append("/ca ");
+        buf.Append(gs.GetAlphaNonStroking());
+        String state = buf.ToString();
+        Int32 n;
+        if (pdf.states.ContainsKey(state)) {
+            n = pdf.states[state];
+        } else {
+            n = pdf.states.Count + 1;
+            pdf.states[state] = n;
+        }
+        Append("/GS");
+        Append(n);
+        Append(" gs\n");
     }
 
     public void Restore() {
