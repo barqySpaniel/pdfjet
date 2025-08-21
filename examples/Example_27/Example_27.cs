@@ -101,6 +101,19 @@ public class Example_27 {
         textLine.SetLocation(x - f3.StringWidth(str), y += 20f);
         textLine.DrawOn(page);
 
+        y += 30f;
+
+        // Arabic text from a file
+        f3.SetSize(14);
+        textBlock = new TextBlock(f3,
+                Bidi.ReorderVisually(Content.OfTextFile("data/languages/arabic.txt")));
+        textBlock.SetLocation(50f, y);
+        textBlock.SetBorderColor(Color.none);
+        textBlock.SetWidth(530f);
+        textBlock.SetTextAlignment(Alignment.RIGHT);
+        textBlock.SetTextPadding(10f);
+        textBlock.DrawOn(page);
+
         pdf.Complete();
     }
 
