@@ -1,15 +1,15 @@
-package com.pdfjet;
+package com.pdfjet.corefonts;
 
-class Courier_Bold {
-    protected static final String name = "Courier-Bold";
-    protected static final int bBoxLLx = -113;
-    protected static final int bBoxLLy = -250;
-    protected static final int bBoxURx = 749;
-    protected static final int bBoxURy = 801;
-    protected static final int underlinePosition = -100;
-    protected static final int underlineThickness = 50;
-    protected static final String notice = "Copyright (c) 1989, 1990, 1991, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved.";
-    protected static final int[][] metrics = {
+public final class Courier {
+    public static final String name = "Courier";
+    public static final int bBoxLLx = -23;
+    public static final int bBoxLLy = -250;
+    public static final int bBoxURx = 715;
+    public static final int bBoxURy = 805;
+    public static final int underlinePosition = -100;
+    public static final int underlineThickness = 50;
+    public static final String notice = "Copyright (c) 1989, 1990, 1991, 1992, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved.";
+    public static final int[][] metrics = {
         {32,600,},
         {33,600,},
         {34,600,},
