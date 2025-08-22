@@ -3,7 +3,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using PDFjet.NET;
-using PDFjet.NET.fonts;
+using PDFjet.NET.Fonts;
 
 public class Example_01 {
     // Constructor to generate the PDF document

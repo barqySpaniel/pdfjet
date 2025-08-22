@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using PDFjet.NET;
+using PDFjet.NET.Fonts;
 
 /**
  *  Example_22.cs
@@ -12,7 +13,7 @@ public class Example_22 {
             new FileStream("Example_22.pdf", FileMode.Create)));
         pdf.SetCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
 /*
         PDF pdf = new PDF(new FileStream("Example_22.pdf", FileMode.Create));
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
