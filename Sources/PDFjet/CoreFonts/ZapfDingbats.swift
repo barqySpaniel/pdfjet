@@ -7,7 +7,7 @@ public enum ZapfDingbats {
     public static let underlinePosition: Int16 = -100
     public static let underlineThickness: Int16 = 50
     public static let notice = "Copyright (c) 1985, 1987, 1988, 1989, 1997 Adobe Systems Incorporated. All Rights Reserved. ITC Zapf Dingbats is a registered trademark of International Typeface Corporation."
-    public static let metrics = Array<[Int16]>(arrayLiteral:
+    public static let metrics: [[Int16]] = [
         [32,278],
         [33,974],
         [34,961],
@@ -232,5 +232,5 @@ public enum ZapfDingbats {
         [253,970],
         [254,918],
         [255,278]
-    )
+    ]
 }

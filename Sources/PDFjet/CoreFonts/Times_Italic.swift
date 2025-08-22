@@ -7,7 +7,7 @@ public enum Times_Italic {
     public static let underlinePosition: Int16 = -100
     public static let underlineThickness: Int16 = 50
     public static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries."
-    public static let metrics = Array<[Int16]>(arrayLiteral:
+    public static let metrics: [[Int16]] = [
         [32,250,65,-18,193,-18,194,-18,196,-18,192,-18,197,-18,195,-18,84,-18,86,-35,87,-40,89,-75,221,-75,159,-75],
         [33,333],
         [34,420],
@@ -232,5 +232,5 @@ public enum Times_Italic {
         [253,444,44,-55,46,-55],
         [254,500],
         [255,444,44,-55,46,-55]
-    )
+    ]
 }

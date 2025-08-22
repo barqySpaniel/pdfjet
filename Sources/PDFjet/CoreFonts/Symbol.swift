@@ -7,7 +7,7 @@ public enum Symbol {
     public static let underlinePosition: Int16 = -100
     public static let underlineThickness: Int16 = 50
     public static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All rights reserved."
-    public static let metrics = Array<[Int16]>(arrayLiteral:
+    public static let metrics: [[Int16]] = [
         [32,250],
         [33,333],
         [34,713],
@@ -232,5 +232,5 @@ public enum Symbol {
         [253,494],
         [254,494],
         [255,250]
-    )
+    ]
 }

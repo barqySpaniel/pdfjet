@@ -7,7 +7,7 @@ public enum Helvetica_Bold {
     public static let underlinePosition: Int16 = -100
     public static let underlineThickness: Int16 = 50
     public static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved. Helvetica is a trademark of Linotype-Hell AG and/or its subsidiaries."
-    public static let metrics = Array<[Int16]>(arrayLiteral:
+    public static let metrics: [[Int16]] = [
         [32,278,84,-100,86,-80,87,-80,89,-120,221,-120,159,-120,147,-80,145,-60],
         [33,333],
         [34,474],
@@ -232,5 +232,5 @@ public enum Helvetica_Bold {
         [253,556,97,-30,225,-30,226,-30,228,-30,224,-30,229,-30,227,-30,44,-80,101,-10,233,-10,234,-10,235,-10,232,-10,111,-25,243,-25,244,-25,246,-25,242,-25,248,-25,245,-25,46,-80],
         [254,611],
         [255,556,97,-30,225,-30,226,-30,228,-30,224,-30,229,-30,227,-30,44,-80,101,-10,233,-10,234,-10,235,-10,232,-10,111,-25,243,-25,244,-25,246,-25,242,-25,248,-25,245,-25,46,-80]
-    )
+    ]
 }
