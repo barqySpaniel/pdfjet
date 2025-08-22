@@ -272,7 +272,7 @@ public class Page : Canvas {
     }
 
     public float[] AddHeader(TextLine textLine) {
-        return AddHeader(textLine, 1.5f*textLine.font.ascent);
+        return AddHeader(textLine, 1.5f*textLine.font.GetAscent(textLine.fontSize));
     }
 
     public float[] AddHeader(TextLine textLine, float offset) {

@@ -34,6 +34,7 @@ namespace PDFjet.NET {
 public class TextFrame : IDrawable {
     private List<TextLine> paragraphs;
     private Font font;
+    private float fontSize = 12f;
     private float x;
     private float y;
     private float w;
@@ -122,9 +123,13 @@ public class TextFrame : IDrawable {
         SetLocation(x, y);
     }
 
+    public void SetFontSize(float fontSize) {
+        this.fontSize = fontSize;
+    }
+
     public float[] DrawOn(Page page) {
         float xText = x;
-        float yText = y + font.ascent;
+        float yText = y + font.GetAscent(fontSize);
         while (paragraphs.Count > 0) {
             // The paragraphs are reversed so we can efficiently remove the first one:
             TextLine textLine = paragraphs[paragraphs.Count - 1];

@@ -235,7 +235,7 @@ public class CheckBox : IDrawable {
         if (uri != null) {
             page.SetBrushColor(Color.blue);
         }
-        page.DrawString(font, fontSize, label, x + 3f*w/2f, y + font.ascent);
+        page.DrawString(font, fontSize, label, x + 3f*w/2f, y + font.GetAscent(fontSize));
         page.SetPenWidth(0f);
         page.SetPenColor(Color.black);
         page.SetBrushColor(Color.black);

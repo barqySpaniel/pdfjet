@@ -298,8 +298,8 @@ public class TextLine : IDrawable {
      *  @return the height.
      */
     public double GetHeight() {
-        float ascent = Math.Max(font.ascent, fallbackFont.ascent);
-        float descent = Math.Max(font.descent, fallbackFont.descent);
+        float ascent = Math.Max(font.GetAscent(fontSize), fallbackFont.GetAscent(fontSize));
+        float descent = Math.Max(font.GetDescent(fontSize), fallbackFont.GetDescent(fontSize));
         return ascent + descent;
     }
 
@@ -625,9 +625,9 @@ public class TextLine : IDrawable {
                     uri,
                     key,    // The destination name
                     x,
-                    y - font.ascent,
+                    y - font.GetAscent(fontSize),
                     x + font.StringWidth(fallbackFont, text),
-                    y + font.descent,
+                    y + font.GetDescent(fontSize),
                     uriLanguage,
                     uriActualText,
                     uriAltDescription));

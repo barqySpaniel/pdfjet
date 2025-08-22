@@ -288,18 +288,18 @@ public class CompositeTextLine : IDrawable {
 
         foreach (TextLine component in textLines) {
             if (component.GetTextEffect() == Effect.SUPERSCRIPT) {
-                cur = (position[Y] - component.font.ascent) - fontSize * superscriptPosition;
+                cur = (position[Y] - component.font.GetAscent(fontSize)) - fontSize * superscriptPosition;
                 if (cur < min)
                     min = cur;
             } else if (component.GetTextEffect() == Effect.SUBSCRIPT) {
-                cur = (position[Y] + component.font.descent) + fontSize * subscriptPosition;
+                cur = (position[Y] + component.font.GetDescent(fontSize)) + fontSize * subscriptPosition;
                 if (cur > max)
                     max = cur;
             } else {
-                cur = position[Y] - component.font.ascent;
+                cur = position[Y] - component.font.GetAscent(fontSize);
                 if (cur < min)
                     min = cur;
-                cur = position[Y] + component.font.descent;
+                cur = position[Y] + component.font.GetDescent(fontSize);
                 if (cur > max)
                     max = cur;
             }

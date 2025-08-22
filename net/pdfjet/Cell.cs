@@ -665,9 +665,9 @@ public class Cell {
         float xText;
         float yText;
         if (valign == Align.TOP) {
-            yText = y + font.ascent + this.topPadding;
+            yText = y + font.GetAscent(fontSize) + this.topPadding;
         } else if (valign == Align.CENTER) {
-            yText = y + cellH/2 + font.ascent/2;
+            yText = y + cellH/2 + font.GetAscent(fontSize)/2;
         } else if (valign == Align.BOTTOM) {
             yText = (y + cellH) - this.bottomPadding;
         } else {
@@ -746,9 +746,9 @@ public class Cell {
                     uri,
                     null,
                     xText,
-                    (page.height - yText) - font.ascent,
+                    (page.height - yText) - font.GetAscent(fontSize),
                     xText + w,
-                    (page.height - yText) + font.descent,
+                    (page.height - yText) + font.GetDescent(fontSize),
                     null,
                     null,
                     null));

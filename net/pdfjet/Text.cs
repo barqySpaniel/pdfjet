@@ -35,6 +35,7 @@ public class Text : IDrawable {
     private List<Paragraph> paragraphs;
     private Font font;
     private Font fallbackFont;
+    private float fontSize = 12f;
     private float x1;
     private float y1;
     private float width;
@@ -70,6 +71,10 @@ public class Text : IDrawable {
         this.x1 = x;
         this.y1 = y;
         return this;
+    }
+
+    public void SetFontSize(float fontSize) {
+        this.fontSize = fontSize;
     }
 
     public Text SetWidth(float width) {
@@ -110,7 +115,7 @@ public class Text : IDrawable {
                 TextLine textLine = paragraph.lines[i];
                 if (i == 0) {
                     paragraph.x1 = x1;
-                    paragraph.y1 = yText - font.ascent;
+                    paragraph.y1 = yText - font.GetAscent(fontSize);
                     paragraph.xText = xText;
                     paragraph.yText = yText;
                 }

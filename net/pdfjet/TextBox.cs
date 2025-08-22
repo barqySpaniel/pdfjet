@@ -672,7 +672,7 @@ public class TextBox : IDrawable {
      */
     public float[] DrawOn(Page page) {
         String[] lines = getTextLines();
-        float leading = font.ascent + font.descent + spacing;
+        float leading = font.GetAscent(fontSize) + font.GetDescent(fontSize) + spacing;
         if (height > 0f) {  // TextBox with fixed height
             if ((lines.Length*leading - spacing) > (height - 2*margin)) {
                 List<String> list = new List<String>();
@@ -702,19 +702,19 @@ public class TextBox : IDrawable {
                 page.SetPenWidth(this.font.underlineThickness);
             }
             float xText = x + margin;
-            float yText = y + margin + font.ascent;
+            float yText = y + margin + font.GetAscent(fontSize);
             if (textDirection == Direction.LEFT_TO_RIGHT) {
                 if (valign == Align.TOP) {
-                    yText = y + margin + font.ascent;
+                    yText = y + margin + font.GetAscent(fontSize);
                 } else if (valign == Align.BOTTOM) {
                     yText = (y + height) - (((float) lines.Length)*leading + margin);
-                    yText += font.ascent;
+                    yText += font.GetAscent(fontSize);
                 } else if (valign == Align.CENTER) {
                     yText = y + (height - ((float) lines.Length)*leading)/2;
-                    yText += font.ascent;
+                    yText += font.GetAscent(fontSize);
                 }
             } else {
-                yText = x + margin + font.ascent;
+                yText = x + margin + font.GetAscent(fontSize);
             }
             foreach (String line in lines) {
                 if (textDirection == Direction.LEFT_TO_RIGHT) {
@@ -749,7 +749,7 @@ public class TextBox : IDrawable {
                 page.SetPenColor(this.strokeColor);
             }
             float xText = x + margin;
-            float yText = y + margin + font.ascent;
+            float yText = y + margin + font.GetAscent(fontSize);
             foreach (String line in lines) {
                 if (textDirection == Direction.LEFT_TO_RIGHT) {
                     if (GetTextAlignment() == Align.LEFT) {
@@ -772,7 +772,7 @@ public class TextBox : IDrawable {
                     yText -= leading;
                 }
             }
-            height = ((yText - y) - (font.ascent + spacing)) + margin;
+            height = ((yText - y) - (font.GetAscent(fontSize) + spacing)) + margin;
         }
         if (page != null) {
             DrawBorders(page);
@@ -811,7 +811,7 @@ public class TextBox : IDrawable {
         } else if (textDirection == Direction.TOP_TO_BOTTOM) {
             page.SetTextDirection(270);
             page.DrawString(font, fallbackFont, fontSize, text,
-                    (yText + width) - (margin + 2*font.ascent), xText, color, colors);
+                    (yText + width) - (margin + 2*font.GetAscent(fontSize)), xText, color, colors);
         }
         page.AddEMC();
         if (textDirection == Direction.LEFT_TO_RIGHT) {

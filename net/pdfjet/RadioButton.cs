@@ -177,7 +177,7 @@ public class RadioButton : IDrawable {
         if (uri != null) {
             page.SetBrushColor(Color.blue);
         }
-        page.DrawString(font, fontSize, label, x + 3*r1, y + font.ascent);
+        page.DrawString(font, fontSize, label, x + 3*r1, y + font.GetAscent(fontSize));
         page.SetPenWidth(0f);
         page.SetBrushColor(Color.black);
 
