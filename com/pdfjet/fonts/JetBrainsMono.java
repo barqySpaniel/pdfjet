@@ -1,4 +1,4 @@
-package com.pdfjet.font;
+package com.pdfjet.fonts;
 
 public class JetBrainsMono {
     public static final String Bold             = "fonts/JetBrainsMono/JetBrainsMono-Bold.ttf.stream";

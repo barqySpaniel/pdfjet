@@ -1,4 +1,4 @@
-package com.pdfjet.font;
+package com.pdfjet.fonts;
 
 public class NotoSans {
     public static final String Bold             = "fonts/NotoSans/NotoSans-Bold.ttf.stream";

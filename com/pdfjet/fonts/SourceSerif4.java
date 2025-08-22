@@ -1,4 +1,4 @@
-package com.pdfjet.font;
+package com.pdfjet.fonts;
 
 public class SourceSerif4 {
     public static final String Bold             = "fonts/SourceSerif4/SourceSerif4-Bold.ttf.stream";
