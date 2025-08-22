@@ -609,8 +609,8 @@ public class TextLine : IDrawable {
             page.SetPenWidth(font.underlineThickness);
             page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, text);
-            double xAdjust = ( font.bodyHeight / 4.0 ) * Math.Sin(radians);
-            double yAdjust = ( font.bodyHeight / 4.0 ) * Math.Cos(radians);
+            double xAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Sin(radians);
+            double yAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Cos(radians);
             double x2 = x + lineLength * Math.Cos(radians);
             double y2 = y - lineLength * Math.Sin(radians);
             page.AddBMC(structureType, language, text, "Strikethrough text: " + text);

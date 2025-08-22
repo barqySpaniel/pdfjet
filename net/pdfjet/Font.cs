@@ -370,22 +370,6 @@ public class Font {
         return descent;
     }
 
-    public float GetAscent(float fontSize) {
-        return fontAscent * fontSize / unitsPerEm;
-    }
-
-    public float GetDescent(float fontSize) {
-        return -fontDescent * fontSize / unitsPerEm;
-    }
-
-    public float GetUnderlineThickness(float fontSize) {
-        return (fontUnderlineThickness * fontSize / unitsPerEm);
-    }
-
-    public float GetUnderlinePosition(float fontSize) {
-        return  -(fontUnderlinePosition * fontSize / unitsPerEm) + underlineThickness / 2.0f;
-    }
-
     public float GetHeight() {
         return ascent + descent;
     }
@@ -400,6 +384,26 @@ public class Font {
 
     public float GetUnderlineThickness() {
         return fontUnderlineThickness;
+    }
+
+    public float GetAscent(float fontSize) {
+        return fontAscent * fontSize / unitsPerEm;
+    }
+
+    public float GetDescent(float fontSize) {
+        return -fontDescent * fontSize / unitsPerEm;
+    }
+
+    public float GetBodyHeight(float fontSize) {
+        return GetAscent(fontSize) + GetDescent(fontSize);
+    }
+
+    public float GetUnderlineThickness(float fontSize) {
+        return (fontUnderlineThickness * fontSize / unitsPerEm);
+    }
+
+    public float GetUnderlinePosition(float fontSize) {
+        return  -(fontUnderlinePosition * fontSize / unitsPerEm) + underlineThickness / 2.0f;
     }
 
     public int GetFitChars(String str, double width) {

@@ -825,8 +825,8 @@ public class TextBox : IDrawable {
             }
             if (GetStrikeout()) {
                 page.AddArtifactBMC();
-                page.MoveTo(xText, yText - (font.bodyHeight/4));
-                page.LineTo(xText + lineLength, yText - (font.bodyHeight/4));
+                page.MoveTo(xText, yText - (font.GetBodyHeight(fontSize)/4));
+                page.LineTo(xText + lineLength, yText - (font.GetBodyHeight(fontSize)/4));
                 page.StrokePath();
                 page.AddEMC();
             }
