@@ -46,6 +46,7 @@ namespace PDFjet.NET {
 public class TextBox : IDrawable {
     internal Font font;
     internal Font fallbackFont;
+    internal float fontSize = 12f;
     internal String text;
     internal float x;
     internal float y;
@@ -151,6 +152,10 @@ public class TextBox : IDrawable {
      */
     public Font GetFont() {
         return font;
+    }
+
+    public void SetFontSize(float fontSize) {
+        this.fontSize = fontSize;
     }
 
     /**
@@ -799,13 +804,13 @@ public class TextBox : IDrawable {
             Dictionary<String, Int32> colors) {
         page.AddBMC(StructElem.P, language, text, altDescription);
         if (textDirection == Direction.LEFT_TO_RIGHT) {
-            page.DrawString(font, fallbackFont, text, xText, yText, color, colors);
+            page.DrawString(font, fallbackFont, fontSize, text, xText, yText, color, colors);
         } else if (textDirection == Direction.BOTTOM_TO_TOP) {
             page.SetTextDirection(90);
-            page.DrawString(font, fallbackFont, text, yText, xText + height, color, colors);
+            page.DrawString(font, fallbackFont, fontSize, text, yText, xText + height, color, colors);
         } else if (textDirection == Direction.TOP_TO_BOTTOM) {
             page.SetTextDirection(270);
-            page.DrawString(font, fallbackFont, text,
+            page.DrawString(font, fallbackFont, fontSize, text,
                     (yText + width) - (margin + 2*font.ascent), xText, color, colors);
         }
         page.AddEMC();

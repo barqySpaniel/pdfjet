@@ -27,13 +27,13 @@ public class Example_50 {
                 new FileStream("fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream",
                         FileMode.Open,
                         FileAccess.Read), Font.STREAM);
-        f1.SetSize(12f);
+        float f1Size =12f;
 
         Font f2 = new Font(objects,
                 new FileStream("fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream",
                         FileMode.Open,
                         FileAccess.Read), Font.STREAM);
-        f2.SetSize(12f);
+        float f2Size = 12f;
 
         List<PDFobj> pages = pdf.GetPageObjects(objects);
         Page page = new Page(pdf, pages[0]);
@@ -43,6 +43,7 @@ public class Example_50 {
         page.AddResource(f1, objects);
         page.AddResource(f2, objects);
         Font f3 = page.AddResource(CoreFont.HELVETICA, objects).SetSize(12f);
+        float f3Size = 12f;
 
         image.DrawOn(page);
 
@@ -54,74 +55,74 @@ public class Example_50 {
         page.SetBrushColor(Color.blue);
 
         // First Name and Initial
-        page.DrawString(f2, "Иван", x, y);
+        page.DrawString(f2, f2Size, "Иван", x, y);
 
         // Last Name
-        page.DrawString(f3, "Jones", x + 258f, y);
+        page.DrawString(f3, f3Size, "Jones", x + 258f, y);
 
         // Social Insurance Number
-        page.DrawString(f1, StripSpacesAndDashes("243-590-129"), x + 437f, y, dx);
+        page.DrawString(f1, f1Size, StripSpacesAndDashes("243-590-129"), x + 437f, y, dx);
 
         // Last Name at Birth
-        page.DrawString(f1, "Culverton", x, y += dy);
+        page.DrawString(f1, f1Size, "Culverton", x, y += dy);
 
         // Mailing Address
-        page.DrawString(f1, "10 Elm Street", x, y += dy);
+        page.DrawString(f1, f1Size, "10 Elm Street", x, y += dy);
 
         // City
-        page.DrawString(f1, "Toronto", x, y + dy);
+        page.DrawString(f1, f1Size, "Toronto", x, y + dy);
 
         // Province or Territory
-        page.DrawString(f1, "Ontario", x + 365f, y += dy);
+        page.DrawString(f1, f1Size, "Ontario", x + 365f, y += dy);
 
         // Postal Code
-        page.DrawString(f1, StripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
+        page.DrawString(f1, f1Size, StripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
 
         // Home Address
-        page.DrawString(f1, "10 Oak Road", x, y += dy);
+        page.DrawString(f1, f1Size, "10 Oak Road", x, y += dy);
 
         // City
         y += dy;
-        page.DrawString(f1, "Toronto", x, y);
+        page.DrawString(f1, f1Size, "Toronto", x, y);
 
         // Previous Province or Territory
-        page.DrawString(f1, "Ontario", x + 365f, y);
+        page.DrawString(f1, f1Size, "Ontario", x + 365f, y);
 
         // Postal Code
-        page.DrawString(f1, StripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
+        page.DrawString(f1, f1Size, StripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
 
         // Home telephone number
-        page.DrawString(f1, "905-222-3333", x, y + dy);
+        page.DrawString(f1, f1Size, "905-222-3333", x, y + dy);
         // Work telephone number
-        page.DrawString(f1, "416-567-9903", x + 279f, y += dy);
+        page.DrawString(f1, f1Size, "416-567-9903", x + 279f, y += dy);
 
         // Previous province or territory
-        page.DrawString(f1, "British Columbia", x + 452f, y += dy);
+        page.DrawString(f1, f1Size, "British Columbia", x + 452f, y += dy);
 
         // Move date from previous province or territory
         y += dy;
-        page.DrawString(f1, StripSpacesAndDashes("2016-04-12"), x + 452f, y, dx);
+        page.DrawString(f1, f1Size, StripSpacesAndDashes("2016-04-12"), x + 452f, y, dx);
 
         // Date new marital status began
-        page.DrawString(f1, StripSpacesAndDashes("2014-11-02"), x + 452f, 467f, dx);
+        page.DrawString(f1, f1Size, StripSpacesAndDashes("2014-11-02"), x + 452f, 467f, dx);
 
         // First name of spouse
         y = 521f;
-        page.DrawString(f1, "Melanie", x, y);
+        page.DrawString(f1, f1Size, "Melanie", x, y);
         // Last name of spouse
-        page.DrawString(f1, "Jones", x + 258f, y);
+        page.DrawString(f1, f1Size, "Jones", x + 258f, y);
 
         // Social Insurance number of spouse
-        page.DrawString(f1, StripSpacesAndDashes("192-760-427"), x + 437f, y, dx);
+        page.DrawString(f1, f1Size, StripSpacesAndDashes("192-760-427"), x + 437f, y, dx);
 
         // Spouse or common-law partner's address
-        page.DrawString(f1, "12 Smithfield Drive", x, 554f);
+        page.DrawString(f1, f1Size, "12 Smithfield Drive", x, 554f);
 
         // Signature Date
-        page.DrawString(f1, "2016-08-07", x + 475f, 615f);
+        page.DrawString(f1, f1Size, "2016-08-07", x + 475f, 615f);
 
         // Signature Date of spouse
-        page.DrawString(f1, "2016-08-07", x + 475f, 651f);
+        page.DrawString(f1, f1Size, "2016-08-07", x + 475f, 651f);
 
         // Female Checkbox 1
         // CheckBox.XMark(page, 477.5f, 197.5f, 7f);

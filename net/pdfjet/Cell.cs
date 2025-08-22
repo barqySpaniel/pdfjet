@@ -32,6 +32,7 @@ namespace PDFjet.NET {
 public class Cell {
     internal Font font;
     internal Font fallbackFont;
+    internal float fontSize = 12f;
     internal String text;
     internal Image image;
     internal Barcode barcode;
@@ -159,6 +160,10 @@ public class Cell {
      */
     public String GetText() {
         return this.text;
+    }
+
+    public void SetFontSize(float fontSize) {
+        this.fontSize = fontSize;
     }
 
     /**
@@ -675,7 +680,7 @@ public class Cell {
             if (compositeTextLine == null) {
                 xText = (x + cellW) - (font.StringWidth(text) + this.rightPadding);
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, textColor, null);
+                page.DrawString(font, fallbackFont, fontSize, text, xText, yText, textColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);
@@ -695,7 +700,7 @@ public class Cell {
                 xText = x + this.leftPadding +
                         (((cellW - (leftPadding + rightPadding)) - font.StringWidth(text)) / 2);
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, textColor, null);
+                page.DrawString(font, fallbackFont, fontSize, text, xText, yText, textColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);
@@ -715,7 +720,7 @@ public class Cell {
             xText = x + this.leftPadding;
             if (compositeTextLine == null) {
                 page.AddBMC(StructElem.P, Single.space, Single.space);
-                page.DrawString(font, fallbackFont, text, xText, yText, textColor, null);
+                page.DrawString(font, fallbackFont, fontSize, text, xText, yText, textColor, null);
                 page.AddEMC();
                 if (GetUnderline()) {
                     UnderlineText(page, font, text, xText, yText);

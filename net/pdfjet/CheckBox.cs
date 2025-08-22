@@ -41,6 +41,7 @@ public class CheckBox : IDrawable {
     private float checkWidth;
     private int mark = 0;
     private Font font = null;
+    private float fontSize = 12f;
     private String label = "";
     private String uri = null;
 
@@ -64,7 +65,7 @@ public class CheckBox : IDrawable {
      *  @return this CheckBox.
      */
     public CheckBox SetFontSize(float fontSize) {
-        this.font.SetSize(fontSize);
+        this.fontSize = fontSize;
         return this;
     }
 
@@ -234,7 +235,7 @@ public class CheckBox : IDrawable {
         if (uri != null) {
             page.SetBrushColor(Color.blue);
         }
-        page.DrawString(font, label, x + 3f*w/2f, y + font.ascent);
+        page.DrawString(font, fontSize, label, x + 3f*w/2f, y + font.ascent);
         page.SetPenWidth(0f);
         page.SetPenColor(Color.black);
         page.SetBrushColor(Color.black);

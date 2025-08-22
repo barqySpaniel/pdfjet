@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using PDFjet.NET;
+using PDFjet.NET.fonts;
 
 /**
  *  Example_45.cs
@@ -13,14 +14,11 @@ public class Example_45 {
             new FileStream("Example_45.pdf", FileMode.Create)));
         pdf.SetCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        f1.SetSize(14f);
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        Font f2 = new Font(pdf, IBMPlexSans.Italic);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
-        f2.SetSize(14f);
-
-        Font f3 = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream");
-        f3.SetSize(10f);
+        Font f3 = new Font(pdf, JetBrainsMono.Regular);
+        float f3Size = 10f;
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
@@ -43,7 +41,7 @@ public class Example_45 {
         fields.Add(new Field(  w/4, new String[] {"Fax (if applicable)", "(416) 124-9879"}));
         fields.Add(new Field(  w/2, new String[] {"Email","jsmith12345@gmail.ca"}));
         fields.Add(new Field(   0f, new String[] {
-                "Other Information","We don't work on weekends.", "Please send us an Email."}));
+                "Other Information", "We don't work on weekends.", "Please send us an Email."}));
 
         new Form(fields)
                 .SetLabelFont(f1)
@@ -71,7 +69,7 @@ public class Example_45 {
         float dy = f3.GetBodyHeight();
         List<String> lines = Text.ReadLines("data/languages/english.txt");
         foreach (String line in lines) {
-            page.DrawString(f3, f3, line, x, y, Color.gray, colors);
+            page.DrawString(f3, null, f3Size, line, x, y, Color.gray, colors);
             y += dy;
         }
 

@@ -34,6 +34,7 @@ public class TextLine : IDrawable {
 
     internal Font font;
     internal Font fallbackFont;
+    internal float fontSize = 12f;
     internal String text;
     internal bool trailingSpace = true;
 
@@ -173,7 +174,7 @@ public class TextLine : IDrawable {
      *  @return this TextLine.
      */
     public TextLine SetFontSize(float fontSize) {
-        this.font.SetSize(fontSize);
+        this.fontSize = fontSize;
         return this;
     }
 
@@ -203,6 +204,10 @@ public class TextLine : IDrawable {
     }
 
     public TextLine SetTextColor(int color) {
+        if (color == Color.transparent) {
+            this.textColor = null;
+            return this;
+        }
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
@@ -225,6 +230,10 @@ public class TextLine : IDrawable {
     }
 
     public TextLine SetLineColor(int color) {
+        if (color == Color.transparent) {
+            this.textColor = null;
+            return this;
+        }
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
@@ -577,7 +586,7 @@ public class TextLine : IDrawable {
 
         page.SetBrushColor(textColor);
         page.AddBMC(structureType, language, text, altDescription);
-        page.DrawString(font, fallbackFont, text, x, y, textColor, colorMap);
+        page.DrawString(font, fallbackFont, fontSize, text, x, y, textColor, colorMap);
         page.AddEMC();
 
         double radians = Math.PI * degrees / 180.0;

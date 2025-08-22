@@ -84,6 +84,7 @@ public class Chart : IDrawable {
 
     private Font f1 = null;
     private Font f2 = null;
+    private float fontSize = 12f;
 
     private List<List<Point>> chartData = null;
 
@@ -196,6 +197,10 @@ public class Chart : IDrawable {
         this.h = h;
     }
 
+    public void SetFontSize(float fontSize) {
+        this.fontSize = fontSize;
+    }
+
     /**
      *  Sets the minimum number of fractions digits do display for the X and Y axis labels.
      *
@@ -286,6 +291,7 @@ public class Chart : IDrawable {
         // Draw chart title
         page.DrawString(
                 f1,
+                fontSize,
                 title,
                 x1 + ((w - f1.StringWidth(title)) / 2),
                 y1 + 1.5f * f1.bodyHeight);
@@ -355,6 +361,7 @@ public class Chart : IDrawable {
         page.SetTextDirection(90);
         page.DrawString(
                 f1,
+                fontSize,
                 yAxisTitle,
                 x1 + f1.bodyHeight,
                 y8 - ((y8 - y5) - f1.StringWidth(yAxisTitle)) / 2);
@@ -363,6 +370,7 @@ public class Chart : IDrawable {
         page.SetTextDirection(0);
         page.DrawString(
                 f1,
+                fontSize,
                 xAxisTitle,
                 x5 + ((x6 - x5) - f1.StringWidth(xAxisTitle)) / 2,
                 y4 - f1.bodyHeight / 2);
@@ -486,7 +494,7 @@ public class Chart : IDrawable {
         page.SetBrushColor(Color.black);
         for (int i = 0; i < (xAxisGridLines + 1); i++) {
             String label = nf.Format(xMin + ((xMax - xMin) / xAxisGridLines) * i);
-            page.DrawString(f2, label, x - (f2.StringWidth(label) / 2), y);
+            page.DrawString(f2, fontSize, label, x - (f2.StringWidth(label) / 2), y);
             x += step;
         }
     }
@@ -498,7 +506,7 @@ public class Chart : IDrawable {
         page.SetBrushColor(Color.black);
         for (int i = 0; i < (yAxisGridLines + 1); i++) {
             String label = nf.Format(yMin + ((yMax - yMin) / yAxisGridLines) * i);
-            page.DrawString(f2, label, x, y);
+            page.DrawString(f2, fontSize, label, x, y);
             y -= step;
         }
     }
@@ -512,11 +520,11 @@ public class Chart : IDrawable {
                 page.SetPenColor(point.strokeColor);
                 page.SetPenWidth(point.strokeWidth);
                 page.SetStrokePattern(point.strokePattern);
-                // page.DrawPath(points, Operation.STROKE);  // TODO!!!
+                page.DrawPath(points);
                 if (point.GetText() != null) {
                     page.SetBrushColor(point.GetTextColor());
                     page.SetTextDirection(point.GetTextDirection());
-                    // page.DrawString(f2, point.GetText(), point.x, point.y);
+                    page.DrawString(f2, fontSize, point.GetText(), point.x, point.y);
                 }
             }
             for (int j = 0; j < points.Count; j++) {
@@ -526,7 +534,7 @@ public class Chart : IDrawable {
                     page.SetStrokePattern(point.strokePattern);
                     page.SetPenColor(point.strokeColor);
                     page.SetBrushColor(point.fillColor);
-                    // page.DrawPoint(point);  TODO:
+                    page.DrawPoint(point);
                 }
             }
         }

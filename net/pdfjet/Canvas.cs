@@ -117,15 +117,17 @@ public abstract class Canvas {
     public void DrawString(
             Font font,
             Font fallbackFont,
+            float fontSize,
             String str,
             float x,
             float y) {
-        DrawString(font, fallbackFont, str, x, y, new float[] {0f, 0f, 0f}, null);
+        DrawString(font, fallbackFont, fontSize, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
     public void DrawString(
             Font font,
             Font fallbackFont,
+            float fontSize,
             String str,
             float x,
             float y,
@@ -134,7 +136,7 @@ public abstract class Canvas {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        DrawString(font, fallbackFont, str, x, y, new float[] {r, g, b}, colors);
+        DrawString(font, fallbackFont, fontSize, str, x, y, new float[] {r, g, b}, colors);
     }
 
     /**
@@ -152,20 +154,21 @@ public abstract class Canvas {
     public void DrawString(
             Font font,
             Font fallbackFont,
+            float fontSize,
             String str,
             float x,
             float y,
             float[] textColor,
             Dictionary<String, Int32> colors) {
         if (font.isCoreFont || font.isCJK || fallbackFont == null || fallbackFont.isCoreFont || fallbackFont.isCJK) {
-            DrawString(font, str, x, y, textColor, colors);
+            DrawString(font, fontSize, str, x, y, textColor, colors);
         } else {
             Font activeFont = font;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < str.Length; i++) {
                 int ch = str[i];
                 if (activeFont.unicodeToGID[ch] == 0) {
-                    DrawString(activeFont, sb.ToString(), x, y, textColor, colors);
+                    DrawString(activeFont, fontSize, sb.ToString(), x, y, textColor, colors);
                     x += activeFont.StringWidth(sb.ToString());
                     sb.Length = 0;
                     // Switch the font
@@ -177,7 +180,7 @@ public abstract class Canvas {
                 }
                 sb.Append((char) ch);
             }
-            DrawString(activeFont, sb.ToString(), x, y, textColor, colors);
+            DrawString(activeFont, fontSize, sb.ToString(), x, y, textColor, colors);
         }
     }
 
@@ -193,18 +196,20 @@ public abstract class Canvas {
      */
     public void DrawString(
             Font font,
+            double fontSize,
             String str,
             double x,
             double y) {
-        DrawString(font, str, (float) x, (float) y);
+        DrawString(font, (float) fontSize, str, (float) x, (float) y);
     }
 
     public void DrawString(
             Font font,
+            float fontSize,
             String str,
             float x,
             float y) {
-        DrawString(font, str, x, y, new float[] {0f, 0f, 0f}, null);
+        DrawString(font, fontSize, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
     /**
@@ -219,6 +224,7 @@ public abstract class Canvas {
      */
     public void DrawString(
             Font font,
+            float fontSize,
             String str,
             float x,
             float y,
@@ -228,7 +234,7 @@ public abstract class Canvas {
             return;
         }
         Append("BT\n");
-        SetTextFont(font);
+        SetTextFont(font, fontSize);
 
         if (renderingMode != 0) {
             Append(renderingMode);
@@ -1463,10 +1469,10 @@ public abstract class Canvas {
         EndTransform();
     }
 
-    public void DrawString(Font font, String str, float x, float y, float dx) {
+    public void DrawString(Font font, float fontSize, String str, float x, float y, float dx) {
         float x1 = x;
         for (int i = 0; i < str.Length; i++) {
-            DrawString(font, str.Substring(i, 1), x1, y);
+            DrawString(font, fontSize, str.Substring(i, 1), x1, y);
             x1 += dx;
         }
     }

@@ -14,7 +14,7 @@ public class Example_18 {
                 new FileStream("Example_18.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        font.SetSize(12f);
+        float fontSize = 12f;
 
         List<Page> pages = new List<Page>();
         Page page = new Page(pdf, A4.PORTRAIT, Page.DETACHED);
@@ -52,6 +52,7 @@ public class Example_18 {
             page.SetBrushColor(Color.black);
             page.DrawString(
                     font,
+                    fontSize,
                     footer,
                     (page.GetWidth() - font.StringWidth(footer))/2f,
                     (page.GetHeight() - 5f));
