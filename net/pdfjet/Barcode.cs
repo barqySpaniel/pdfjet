@@ -48,6 +48,7 @@ public class Barcode : IDrawable {
     private float barHeightFactor = 50.0f;
     private int direction = LEFT_TO_RIGHT;
     private Font font = null;
+    private float fontSize = 12f;
 
     private int[] tableA = {3211,2221,2122,1411,1132,1231,1114,1312,1213,3112};
     private Dictionary<Char, String> tableB = new Dictionary<Char, String>();
@@ -208,6 +209,10 @@ public class Barcode : IDrawable {
      */
     public void SetFont(Font font) {
         this.font = font;
+    }
+
+    public void SetFontSize(float fontSize) {
+        this.fontSize = fontSize;
     }
 
     /**
@@ -646,7 +651,7 @@ public class Barcode : IDrawable {
         if (font == null) {
             return m1 * barHeightFactor;
         }
-        return m1 * barHeightFactor + font.GetBodyHeight();
+        return m1 * barHeightFactor + font.GetBodyHeight(fontSize);
     }
 }   // End of Barcode.cs
 }   // End of namespace PDFjet.NET

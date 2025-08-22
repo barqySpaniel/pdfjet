@@ -47,12 +47,12 @@ public class TextFrame : IDrawable {
     public TextFrame(List<TextLine> paragraphs) {
         this.paragraphs = new List<TextLine>(paragraphs);
         this.font = paragraphs[0].font;
-        this.leading = font.GetBodyHeight();
+        this.leading = font.GetBodyHeight(fontSize);
         this.paragraphLeading = 2*leading;
         this.beginParagraphPoints = new List<float[]>();
         Font fallbackFont = paragraphs[0].fallbackFont;
-        if (fallbackFont != null && (fallbackFont.GetBodyHeight() > this.leading)) {
-            this.leading = fallbackFont.GetBodyHeight();
+        if (fallbackFont != null && (fallbackFont.GetBodyHeight(fontSize) > this.leading)) {
+            this.leading = fallbackFont.GetBodyHeight(fontSize);
         }
         this.paragraphs.Reverse();
     }
@@ -142,7 +142,7 @@ public class TextFrame : IDrawable {
                     break;
                 }
                 yText = textLine.Advance(leading);
-                if (yText + font.GetDescent() >= (y + h)) {
+                if (yText + font.GetDescent(fontSize) >= (y + h)) {
                     // The paragraphs are reversed so we can efficiently add new first paragraph:
                     paragraphs.Add(textLine);
                     DrawBorder(page);

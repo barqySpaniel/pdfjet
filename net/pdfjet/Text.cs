@@ -50,7 +50,7 @@ public class Text : IDrawable {
         this.paragraphs = paragraphs;
         this.font = paragraphs[0].lines[0].GetFont();
         this.fallbackFont = paragraphs[0].lines[0].GetFallbackFont();
-        this.leading = font.GetBodyHeight();
+        this.leading = font.GetBodyHeight(fontSize);
         this.paragraphLeading = 2*leading;
         this.spaceBetweenTextLines = font.StringWidth(fallbackFont, Single.space);
     }
@@ -132,7 +132,7 @@ public class Text : IDrawable {
             yText += paragraphLeading;
         }
 
-        float height = ((yText - paragraphLeading) - y1) + font.GetDescent();
+        float height = ((yText - paragraphLeading) - y1) + font.GetDescent(fontSize);
         if (page != null && border) {
             Box box = new Box();
             box.SetLocation(x1, y1);
