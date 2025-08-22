@@ -1,13 +1,13 @@
-class Courier_Oblique {
-    static let name = "Courier-Oblique"
-    static let bBoxLLx: Int16 = -27
-    static let bBoxLLy: Int16 = -250
-    static let bBoxURx: Int16 = 849
-    static let bBoxURy: Int16 = 805
-    static let underlinePosition: Int16 = -100
-    static let underlineThickness: Int16 = 50
-    static let notice = "Copyright (c) 1989, 1990, 1991, 1992, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved."
-    static let metrics = Array<[Int16]>(arrayLiteral:
+public enum Courier_Oblique {
+    public static let name = "Courier-Oblique"
+    public static let bBoxLLx: Int16 = -27
+    public static let bBoxLLy: Int16 = -250
+    public static let bBoxURx: Int16 = 849
+    public static let bBoxURy: Int16 = 805
+    public static let underlinePosition: Int16 = -100
+    public static let underlineThickness: Int16 = 50
+    public static let notice = "Copyright (c) 1989, 1990, 1991, 1992, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved."
+    public static let metrics = Array<[Int16]>(arrayLiteral:
         [32,600],
         [33,600],
         [34,600],
