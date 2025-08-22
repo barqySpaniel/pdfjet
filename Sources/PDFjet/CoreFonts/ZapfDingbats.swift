@@ -1,13 +1,13 @@
-class ZapfDingbats {
-    static let name = "ZapfDingbats"
-    static let bBoxLLx: Int16 = -1
-    static let bBoxLLy: Int16 = -143
-    static let bBoxURx: Int16 = 981
-    static let bBoxURy: Int16 = 820
-    static let underlinePosition: Int16 = -100
-    static let underlineThickness: Int16 = 50
-    static let notice = "Copyright (c) 1985, 1987, 1988, 1989, 1997 Adobe Systems Incorporated. All Rights Reserved. ITC Zapf Dingbats is a registered trademark of International Typeface Corporation."
-    static let metrics = Array<[Int16]>(arrayLiteral:
+public enum ZapfDingbats {
+    public static let name = "ZapfDingbats"
+    public static let bBoxLLx: Int16 = -1
+    public static let bBoxLLy: Int16 = -143
+    public static let bBoxURx: Int16 = 981
+    public static let bBoxURy: Int16 = 820
+    public static let underlinePosition: Int16 = -100
+    public static let underlineThickness: Int16 = 50
+    public static let notice = "Copyright (c) 1985, 1987, 1988, 1989, 1997 Adobe Systems Incorporated. All Rights Reserved. ITC Zapf Dingbats is a registered trademark of International Typeface Corporation."
+    public static let metrics = Array<[Int16]>(arrayLiteral:
         [32,278],
         [33,974],
         [34,961],

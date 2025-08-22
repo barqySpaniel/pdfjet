@@ -1,13 +1,13 @@
-class Symbol {
-    static let name = "Symbol"
-    static let bBoxLLx: Int16 = -180
-    static let bBoxLLy: Int16 = -293
-    static let bBoxURx: Int16 = 1090
-    static let bBoxURy: Int16 = 1010
-    static let underlinePosition: Int16 = -100
-    static let underlineThickness: Int16 = 50
-    static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All rights reserved."
-    static let metrics = Array<[Int16]>(arrayLiteral:
+public enum Symbol {
+    public static let name = "Symbol"
+    public static let bBoxLLx: Int16 = -180
+    public static let bBoxLLy: Int16 = -293
+    public static let bBoxURx: Int16 = 1090
+    public static let bBoxURy: Int16 = 1010
+    public static let underlinePosition: Int16 = -100
+    public static let underlineThickness: Int16 = 50
+    public static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All rights reserved."
+    public static let metrics = Array<[Int16]>(arrayLiteral:
         [32,250],
         [33,333],
         [34,713],

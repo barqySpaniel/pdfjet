@@ -1,13 +1,13 @@
-class Times_BoldItalic {
-    static let name = "Times-BoldItalic"
-    static let bBoxLLx: Int16 = -200
-    static let bBoxLLy: Int16 = -218
-    static let bBoxURx: Int16 = 996
-    static let bBoxURy: Int16 = 921
-    static let underlinePosition: Int16 = -100
-    static let underlineThickness: Int16 = 50
-    static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries."
-    static let metrics = Array<[Int16]>(arrayLiteral:
+public enum Times_BoldItalic {
+    public static let name = "Times-BoldItalic"
+    public static let bBoxLLx: Int16 = -200
+    public static let bBoxLLy: Int16 = -218
+    public static let bBoxURx: Int16 = 996
+    public static let bBoxURy: Int16 = 921
+    public static let underlinePosition: Int16 = -100
+    public static let underlineThickness: Int16 = 50
+    public static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries."
+    public static let metrics = Array<[Int16]>(arrayLiteral:
         [32,250,65,-37,193,-37,194,-37,196,-37,192,-37,197,-37,195,-37,86,-70,87,-70,89,-70,221,-70,159,-70],
         [33,389],
         [34,555],
