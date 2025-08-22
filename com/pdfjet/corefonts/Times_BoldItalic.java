@@ -1,15 +1,15 @@
-package com.pdfjet;
+package com.pdfjet.corefonts;
 
-class Times_BoldItalic {
-    protected static final String name = "Times-BoldItalic";
-    protected static final int bBoxLLx = -200;
-    protected static final int bBoxLLy = -218;
-    protected static final int bBoxURx = 996;
-    protected static final int bBoxURy = 921;
-    protected static final int underlinePosition = -100;
-    protected static final int underlineThickness = 50;
-    protected static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries.";
-    protected static final int[][] metrics = {
+public final class Times_BoldItalic {
+    public static final String name = "Times-BoldItalic";
+    public static final int bBoxLLx = -200;
+    public static final int bBoxLLy = -218;
+    public static final int bBoxURx = 996;
+    public static final int bBoxURy = 921;
+    public static final int underlinePosition = -100;
+    public static final int underlineThickness = 50;
+    public static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries.";
+    public static final int[][] metrics = {
         {32,250,65,-37,193,-37,194,-37,196,-37,192,-37,197,-37,195,-37,86,-70,87,-70,89,-70,221,-70,159,-70,},
         {33,389,},
         {34,555,},

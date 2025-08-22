@@ -1,15 +1,15 @@
-package com.pdfjet;
+package com.pdfjet.corefonts;
 
-class Times_Roman {
-    protected static final String name = "Times-Roman";
-    protected static final int bBoxLLx = -168;
-    protected static final int bBoxLLy = -218;
-    protected static final int bBoxURx = 1000;
-    protected static final int bBoxURy = 898;
-    protected static final int underlinePosition = -100;
-    protected static final int underlineThickness = 50;
-    protected static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries.";
-    protected static final int[][] metrics = {
+public final class Times_Roman {
+    public static final String name = "Times-Roman";
+    public static final int bBoxLLx = -168;
+    public static final int bBoxLLy = -218;
+    public static final int bBoxURx = 1000;
+    public static final int bBoxURy = 898;
+    public static final int underlinePosition = -100;
+    public static final int underlineThickness = 50;
+    public static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries.";
+    public static final int[][] metrics = {
         {32,250,65,-55,193,-55,194,-55,196,-55,192,-55,197,-55,195,-55,84,-18,86,-50,87,-30,89,-90,221,-90,159,-90,},
         {33,333,},
         {34,408,},
