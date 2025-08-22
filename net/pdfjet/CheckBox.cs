@@ -202,7 +202,7 @@ public class CheckBox : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
 
-        this.w = font.GetAscent();
+        this.w = font.ascent;
         this.h = this.w;
         this.penWidth = this.w/15;
         this.checkWidth = this.w/5;

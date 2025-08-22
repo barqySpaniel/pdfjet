@@ -103,7 +103,7 @@ public class Text : IDrawable {
 
     public float[] DrawOn(Page page) {
         this.xText = x1;
-        this.yText = y1 + font.GetAscent();
+        this.yText = y1 + font.ascent;
         foreach (Paragraph paragraph in paragraphs) {
             int numberOfTextLines = paragraph.lines.Count;
             StringBuilder buf = new StringBuilder();
