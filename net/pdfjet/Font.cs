@@ -374,14 +374,6 @@ public class Font {
         return bodyHeight;
     }
 
-    public float GetUnderlinePosition() {
-        return fontUnderlinePosition;
-    }
-
-    public float GetUnderlineThickness() {
-        return fontUnderlineThickness;
-    }
-
     public float GetAscent(float fontSize) {
         return fontAscent * fontSize / unitsPerEm;
     }
