@@ -818,8 +818,8 @@ public class TextBox : IDrawable {
             float lineLength = font.StringWidth(fallbackFont, text);
             if (GetUnderline()) {
                 page.AddArtifactBMC();
-                page.MoveTo(xText, yText + font.underlinePosition);
-                page.LineTo(xText + lineLength, yText + font.underlinePosition);
+                page.MoveTo(xText, yText + font.GetUnderlinePosition(fontSize));
+                page.LineTo(xText + lineLength, yText + font.GetUnderlinePosition(fontSize));
                 page.StrokePath();
                 page.AddEMC();
             }

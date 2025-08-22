@@ -594,8 +594,8 @@ public class TextLine : IDrawable {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, text);
-            double xAdjust = font.underlinePosition * Math.Sin(radians) + verticalOffset;
-            double yAdjust = font.underlinePosition * Math.Cos(radians) + verticalOffset;
+            double xAdjust = font.GetUnderlinePosition(fontSize) * Math.Sin(radians) + verticalOffset;
+            double yAdjust = font.GetUnderlinePosition(fontSize) * Math.Cos(radians) + verticalOffset;
             double x2 = x + lineLength * Math.Cos(radians);
             double y2 = y - lineLength * Math.Sin(radians);
             page.AddBMC(structureType, language, text, "Underlined text: " + text);
