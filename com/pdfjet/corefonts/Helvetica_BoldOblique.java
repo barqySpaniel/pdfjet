@@ -1,15 +1,15 @@
-package com.pdfjet;
+package com.pdfjet.corefonts;
 
-class Helvetica_BoldOblique {
-    protected static final String name = "Helvetica-BoldOblique";
-    protected static final int bBoxLLx = -174;
-    protected static final int bBoxLLy = -228;
-    protected static final int bBoxURx = 1114;
-    protected static final int bBoxURy = 962;
-    protected static final int underlinePosition = -100;
-    protected static final int underlineThickness = 50;
-    protected static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved. Helvetica is a trademark of Linotype-Hell AG and/or its subsidiaries.";
-    protected static final int[][] metrics = {
+public final class Helvetica_BoldOblique {
+    public static final String name = "Helvetica-BoldOblique";
+    public static final int bBoxLLx = -174;
+    public static final int bBoxLLy = -228;
+    public static final int bBoxURx = 1114;
+    public static final int bBoxURy = 962;
+    public static final int underlinePosition = -100;
+    public static final int underlineThickness = 50;
+    public static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved. Helvetica is a trademark of Linotype-Hell AG and/or its subsidiaries.";
+    public static final int[][] metrics = {
         {32,278,84,-100,86,-80,87,-80,89,-120,221,-120,159,-120,147,-80,145,-60,},
         {33,333,},
         {34,474,},

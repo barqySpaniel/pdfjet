@@ -1,5 +1,7 @@
 package com.pdfjet;
 
+import com.pdfjet.corefonts.*;
+
 class StandardFont {
     protected String name;
     protected int bBoxLLx;
