@@ -1,16 +1,16 @@
 using System;
 
-namespace PDFjet.NET {
-class Helvetica_BoldOblique {
-    internal static readonly String name = "Helvetica-BoldOblique";
-    internal static readonly int bBoxLLx = -174;
-    internal static readonly int bBoxLLy = -228;
-    internal static readonly int bBoxURx = 1114;
-    internal static readonly int bBoxURy = 962;
-    internal static readonly int underlinePosition = -100;
-    internal static readonly int underlineThickness = 50;
-    internal static readonly string notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved. Helvetica is a trademark of Linotype-Hell AG and/or its subsidiaries.";
-    internal static readonly int[][] metrics = {
+namespace PDFjet.NET.CoreFonts {
+public static class Helvetica_Bold {
+    public static readonly String name = "Helvetica-Bold";
+    public static readonly int bBoxLLx = -170;
+    public static readonly int bBoxLLy = -228;
+    public static readonly int bBoxURx = 1003;
+    public static readonly int bBoxURy = 962;
+    public static readonly int underlinePosition = -100;
+    public static readonly int underlineThickness = 50;
+    public static readonly string notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved. Helvetica is a trademark of Linotype-Hell AG and/or its subsidiaries.";
+    public static readonly int[][] metrics = {
         new int[] {32,278,84,-100,86,-80,87,-80,89,-120,221,-120,159,-120,147,-80,145,-60,},
         new int[] {33,333,},
         new int[] {34,474,},

@@ -1,16 +1,16 @@
 using System;
 
-namespace PDFjet.NET {
-class ZapfDingbats {
-    internal static readonly String name = "ZapfDingbats";
-    internal static readonly int bBoxLLx = -1;
-    internal static readonly int bBoxLLy = -143;
-    internal static readonly int bBoxURx = 981;
-    internal static readonly int bBoxURy = 820;
-    internal static readonly int underlinePosition = -100;
-    internal static readonly int underlineThickness = 50;
-    internal static readonly string notice = "Copyright (c) 1985, 1987, 1988, 1989, 1997 Adobe Systems Incorporated. All Rights Reserved. ITC Zapf Dingbats is a registered trademark of International Typeface Corporation.";
-    internal static readonly int[][] metrics = {
+namespace PDFjet.NET.CoreFonts {
+public static class ZapfDingbats {
+    public static readonly String name = "ZapfDingbats";
+    public static readonly int bBoxLLx = -1;
+    public static readonly int bBoxLLy = -143;
+    public static readonly int bBoxURx = 981;
+    public static readonly int bBoxURy = 820;
+    public static readonly int underlinePosition = -100;
+    public static readonly int underlineThickness = 50;
+    public static readonly string notice = "Copyright (c) 1985, 1987, 1988, 1989, 1997 Adobe Systems Incorporated. All Rights Reserved. ITC Zapf Dingbats is a registered trademark of International Typeface Corporation.";
+    public static readonly int[][] metrics = {
         new int[] {32,278},
         new int[] {33,974},
         new int[] {34,961},

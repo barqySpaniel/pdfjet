@@ -1,16 +1,16 @@
 using System;
 
-namespace PDFjet.NET {
-class Times_Italic {
-    internal static readonly String name = "Times-Italic";
-    internal static readonly int bBoxLLx = -169;
-    internal static readonly int bBoxLLy = -217;
-    internal static readonly int bBoxURx = 1010;
-    internal static readonly int bBoxURy = 883;
-    internal static readonly int underlinePosition = -100;
-    internal static readonly int underlineThickness = 50;
-    internal static readonly string notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries.";
-    internal static readonly int[][] metrics = {
+namespace PDFjet.NET.CoreFonts {
+public static class Times_Italic {
+    public static readonly String name = "Times-Italic";
+    public static readonly int bBoxLLx = -169;
+    public static readonly int bBoxLLy = -217;
+    public static readonly int bBoxURx = 1010;
+    public static readonly int bBoxURy = 883;
+    public static readonly int underlinePosition = -100;
+    public static readonly int underlineThickness = 50;
+    public static readonly string notice = "Copyright (c) 1985, 1987, 1989, 1990, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved. Times is a trademark of Linotype-Hell AG and/or its subsidiaries.";
+    public static readonly int[][] metrics = {
         new int[] {32,250,65,-18,193,-18,194,-18,196,-18,192,-18,197,-18,195,-18,84,-18,86,-35,87,-40,89,-75,221,-75,159,-75,},
         new int[] {33,333,},
         new int[] {34,420,},

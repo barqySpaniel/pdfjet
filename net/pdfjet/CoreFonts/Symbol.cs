@@ -1,16 +1,16 @@
 using System;
 
-namespace PDFjet.NET {
-class Symbol {
-    internal static readonly String name = "Symbol";
-    internal static readonly int bBoxLLx = -180;
-    internal static readonly int bBoxLLy = -293;
-    internal static readonly int bBoxURx = 1090;
-    internal static readonly int bBoxURy = 1010;
-    internal static readonly int underlinePosition = -100;
-    internal static readonly int underlineThickness = 50;
-    internal static readonly string notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All rights reserved.";
-    internal static readonly int[][] metrics = {
+namespace PDFjet.NET.CoreFonts {
+public static class Symbol {
+    public static readonly String name = "Symbol";
+    public static readonly int bBoxLLx = -180;
+    public static readonly int bBoxLLy = -293;
+    public static readonly int bBoxURx = 1090;
+    public static readonly int bBoxURy = 1010;
+    public static readonly int underlinePosition = -100;
+    public static readonly int underlineThickness = 50;
+    public static readonly string notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All rights reserved.";
+    public static readonly int[][] metrics = {
         new int[] {32,250},
         new int[] {33,333},
         new int[] {34,713},
