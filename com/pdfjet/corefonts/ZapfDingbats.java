@@ -1,15 +1,15 @@
-package com.pdfjet;
+package com.pdfjet.corefonts;
 
-class ZapfDingbats {
-    protected static final String name = "ZapfDingbats";
-    protected static final int bBoxLLx = -1;
-    protected static final int bBoxLLy = -143;
-    protected static final int bBoxURx = 981;
-    protected static final int bBoxURy = 820;
-    protected static final int underlinePosition = -100;
-    protected static final int underlineThickness = 50;
-    protected static final String notice = "Copyright (c) 1985, 1987, 1988, 1989, 1997 Adobe Systems Incorporated. All Rights Reserved. ITC Zapf Dingbats is a registered trademark of International Typeface Corporation.";
-    protected static final int[][] metrics = {
+public final class ZapfDingbats {
+    public static final String name = "ZapfDingbats";
+    public static final int bBoxLLx = -1;
+    public static final int bBoxLLy = -143;
+    public static final int bBoxURx = 981;
+    public static final int bBoxURy = 820;
+    public static final int underlinePosition = -100;
+    public static final int underlineThickness = 50;
+    public static final String notice = "Copyright (c) 1985, 1987, 1988, 1989, 1997 Adobe Systems Incorporated. All Rights Reserved. ITC Zapf Dingbats is a registered trademark of International Typeface Corporation.";
+    public static final int[][] metrics = {
         {32,278},
         {33,974},
         {34,961},

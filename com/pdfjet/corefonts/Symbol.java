@@ -1,15 +1,15 @@
-package com.pdfjet;
+package com.pdfjet.corefonts;
 
-class Symbol {
-    protected static final String name = "Symbol";
-    protected static final int bBoxLLx = -180;
-    protected static final int bBoxLLy = -293;
-    protected static final int bBoxURx = 1090;
-    protected static final int bBoxURy = 1010;
-    protected static final int underlinePosition = -100;
-    protected static final int underlineThickness = 50;
-    protected static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All rights reserved.";
-    protected static final int[][] metrics = {
+public final class Symbol {
+    public static final String name = "Symbol";
+    public static final int bBoxLLx = -180;
+    public static final int bBoxLLy = -293;
+    public static final int bBoxURx = 1090;
+    public static final int bBoxURy = 1010;
+    public static final int underlinePosition = -100;
+    public static final int underlineThickness = 50;
+    public static final String notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All rights reserved.";
+    public static final int[][] metrics = {
         {32,250},
         {33,333},
         {34,713},
