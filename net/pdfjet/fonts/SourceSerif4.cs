@@ -1,4 +1,4 @@
-namespace PDFjet.NET {
+namespace PDFjet.NET.Fonts {
     public static class SourceSerif4 {
         public const string Black            = "fonts/SourceSerif4/SourceSerif4-Black.ttf.stream";
         public const string BlackItalic      = "fonts/SourceSerif4/SourceSerif4-BlackItalic.ttf.stream";

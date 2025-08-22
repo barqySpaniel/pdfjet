@@ -1,4 +1,4 @@
-namespace PDFjet.NET {
+namespace PDFjet.NET.Fonts {
     public static class JetBrainsMono {
         public const string Bold             = "fonts/JetBrainsMono/JetBrainsMono-Bold.ttf.stream";
         public const string BoldItalic       = "fonts/JetBrainsMono/JetBrainsMono-BoldItalic.ttf.stream";

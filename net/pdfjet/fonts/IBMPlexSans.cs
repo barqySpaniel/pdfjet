@@ -1,4 +1,4 @@
-namespace PDFjet.NET.fonts {
+namespace PDFjet.NET.Fonts {
     public static class IBMPlexSans {
         public const string Bold             = "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream";
         public const string BoldItalic       = "fonts/IBMPlexSans/IBMPlexSans-BoldItalic.ttf.stream";
