@@ -699,7 +699,7 @@ public class TextBox : IDrawable {
                 }
                 page.SetPenColor(this.strokeColor);
                 page.SetBrushColor(this.textColor);
-                page.SetPenWidth(this.font.underlineThickness);
+                page.SetPenWidth(this.font.GetUnderlineThickness(fontSize));
             }
             float xText = x + margin;
             float yText = y + margin + font.GetAscent(fontSize);
@@ -745,7 +745,7 @@ public class TextBox : IDrawable {
                     page.FillRect(x, y, width, (lines.Length * leading - spacing) + 2*margin);
                 }
                 page.SetBrushColor(this.textColor);
-                page.SetPenWidth(this.font.underlineThickness);
+                page.SetPenWidth(this.font.GetUnderlineThickness(fontSize));
                 page.SetPenColor(this.strokeColor);
             }
             float xText = x + margin;

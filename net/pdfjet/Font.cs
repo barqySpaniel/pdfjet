@@ -73,7 +73,7 @@ public class Font {
     internal float descent;
     internal float bodyHeight;
     internal float underlinePosition;
-    internal float underlineThickness;
+    private float underlineThickness;
 
     /**
      *  Constructor for the 14 standard fonts.

@@ -758,7 +758,7 @@ public class Cell {
     private void UnderlineText(
             Page page, Font font, String text, float x, float y) {
         page.AddBMC(StructElem.P, Single.space, Single.space);
-        page.SetPenWidth(font.underlineThickness);
+        page.SetPenWidth(font.GetUnderlineThickness(fontSize));
         page.MoveTo(x, y + font.GetDescent());
         page.LineTo(x + font.StringWidth(text), y + font.GetDescent(fontSize));
         page.StrokePath();
@@ -768,7 +768,7 @@ public class Cell {
     private void StrikeoutText(
             Page page, Font font, String text, float x, float y) {
         page.AddBMC(StructElem.P, Single.space, Single.space);
-        page.SetPenWidth(font.underlineThickness);
+        page.SetPenWidth(font.GetUnderlineThickness(fontSize));
         page.MoveTo(x, y - font.GetAscent()/3f);
         page.LineTo(x + font.StringWidth(text), y - font.GetAscent(fontSize)/3f);
         page.StrokePath();
