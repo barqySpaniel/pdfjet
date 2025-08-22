@@ -27,7 +27,7 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 /**
- *  Used to create one dimentional barcodes - UPC, Code 39 and Code 128.
+ *  Used to create one dimensional barcodes - UPC, Code 39 and Code 128.
  *
  *  Please see Example_11.
  */
@@ -323,7 +323,7 @@ public class Barcode : IDrawable {
             xy[1] = Math.Max(y, xy[1]);
 
             font.SetSize(fontSize);
-            return new float[] {xy[0], xy[1] + font.descent};
+            return new float[] {xy[0], xy[1] + font.GetDescent()};
         }
 
         return new float[] {xy[0], xy[1]};
@@ -445,7 +445,7 @@ public class Barcode : IDrawable {
                         y1 + h + font.bodyHeight);
                 xy = textLine.DrawOn(page);
                 xy[0] = Math.Max(x, xy[0]);
-                return new float[] {xy[0], xy[1] + font.descent};
+                return new float[] {xy[0], xy[1] + font.GetDescent()};
             } else if (direction == TOP_TO_BOTTOM) {
                 TextLine textLine = new TextLine(font, text);
                 textLine.SetLocation(
@@ -593,7 +593,7 @@ public class Barcode : IDrawable {
                 textLine.SetTextDirection(90);
                 xy = textLine.DrawOn(page);
                 xy[1] = Math.Max(y, xy[1]);
-                return new float[] {xy[0], xy[1] + font.descent};
+                return new float[] {xy[0], xy[1] + font.GetDescent()};
             }
         }
 

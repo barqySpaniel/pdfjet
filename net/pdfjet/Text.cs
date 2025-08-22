@@ -127,12 +127,12 @@ public class Text : IDrawable {
                 yText = point[1];
             }
             paragraph.x2 = xText;
-            paragraph.y2 = yText + font.descent;
+            paragraph.y2 = yText + font.GetDescent();
             xText = x1;
             yText += paragraphLeading;
         }
 
-        float height = ((yText - paragraphLeading) - y1) + font.descent;
+        float height = ((yText - paragraphLeading) - y1) + font.GetDescent();
         if (page != null && border) {
             Box box = new Box();
             box.SetLocation(x1, y1);

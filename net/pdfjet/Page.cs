@@ -278,12 +278,12 @@ public class Page : Canvas {
     public float[] AddHeader(TextLine textLine, float offset) {
         textLine.SetLocation((GetWidth() - textLine.GetWidth())/2, offset);
         float[] xy = textLine.DrawOn(this);
-        xy[1] += font.descent;
+        xy[1] += font.GetDescent();
         return xy;
     }
 
     public float[] AddFooter(TextLine textLine) {
-        return AddFooter(textLine, textLine.font.ascent);
+        return AddFooter(textLine, textLine.font.GetAscent());
     }
 
     public float[] AddFooter(TextLine textLine, float offset) {

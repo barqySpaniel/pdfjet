@@ -98,14 +98,14 @@ public class CalendarMonth : IDrawable {
                 if (row == 0) {
                     float offset = (dx - f1.StringWidth(days[col])) / 2;
                     TextLine text = new TextLine(f1, days[col]);
-                    text.SetLocation(x1 + col*dx + offset, y1 + (dy/2) - f1.descent);
+                    text.SetLocation(x1 + col*dx + offset, y1 + (dy/2) - f1.GetDescent());
                     text.DrawOn(page);
                     // Draw the line separating the title from the dates.
                     Line line = new Line(
                             x1,
-                            y1 + dy/2 + f1.descent,
+                            y1 + dy/2 + f1.GetDescent(),
                             x1 + 7*dx,
-                            y1 + dy/2 + f1.descent);
+                            y1 + dy/2 + f1.GetDescent());
                     line.DrawOn(page);
                 } else {
                     int dayOfMonth = ((7*row + col) - 6) - dayOfWeek;

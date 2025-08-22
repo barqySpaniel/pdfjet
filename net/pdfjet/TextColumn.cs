@@ -242,11 +242,11 @@ public class TextColumn : IDrawable {
             if (i == 0) {
                 lineHeight = line.font.bodyHeight + spaceBetweenLines;
                 if (rotate == 0) {
-                    y1 += line.font.ascent;
+                    y1 += line.font.GetAscent();
                 } else if (rotate == 90) {
-                    x1 += line.font.ascent;
+                    x1 += line.font.GetAscent();
                 } else if (rotate == 270) {
-                    x1 -= line.font.ascent;
+                    x1 -= line.font.GetAscent();
                 }
             }
 
@@ -333,9 +333,9 @@ public class TextColumn : IDrawable {
                             null,                       // The URI
                             textLine.GetGoToAction(),   // The destination name
                             x,
-                            y - textLine.font.ascent,
+                            y - textLine.font.GetAscent(),
                             x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
-                            y + textLine.font.descent,
+                            y + textLine.font.GetDescent(),
                             null,
                             null,
                             null));
@@ -401,9 +401,9 @@ public class TextColumn : IDrawable {
                         null,                       // The URI
                         textLine.GetGoToAction(),   // The destination name
                         x,
-                        y - textLine.font.ascent,
+                        y - textLine.font.GetAscent(),
                         x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
-                        y + textLine.font.descent,
+                        y + textLine.font.GetDescent(),
                         null,
                         null,
                         null));

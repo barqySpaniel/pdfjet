@@ -759,8 +759,8 @@ public class Cell {
             Page page, Font font, String text, float x, float y) {
         page.AddBMC(StructElem.P, Single.space, Single.space);
         page.SetPenWidth(font.underlineThickness);
-        page.MoveTo(x, y + font.descent);
-        page.LineTo(x + font.StringWidth(text), y + font.descent);
+        page.MoveTo(x, y + font.GetDescent());
+        page.LineTo(x + font.StringWidth(text), y + font.GetDescent());
         page.StrokePath();
         page.AddEMC();
     }

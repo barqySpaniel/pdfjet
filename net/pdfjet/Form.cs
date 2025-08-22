@@ -159,12 +159,12 @@ public class Form : IDrawable {
                     new TextLine(font, field.values[i])
                             .SetFontSize(fontSize)
                             .SetTextColor(color)
-                            .PlaceIn(box, field.x + font.descent, yField - font.descent)
+                            .PlaceIn(box, field.x + font.GetDescent(), yField - font.GetDescent())
                             .SetAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
                             .DrawOn(page);
                     endOfLinePoints.Add(new float[] {
-                            field.x + f1.descent + font.StringWidth(field.values[i]),
-                            yField + font.descent,
+                            field.x + f1.GetDescent() + font.StringWidth(field.values[i]),
+                            yField + font.GetDescent(),
                     });
                     if (page != null && i == (field.values.Length - 1)) {
                         new Line(0f, 0f, rowLength, 0f)

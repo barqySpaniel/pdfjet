@@ -142,7 +142,7 @@ public class TextFrame : IDrawable {
                     break;
                 }
                 yText = textLine.Advance(leading);
-                if (yText + font.descent >= (y + h)) {
+                if (yText + font.GetDescent() >= (y + h)) {
                     // The paragraphs are reversed so we can efficiently add new first paragraph:
                     paragraphs.Add(textLine);
                     DrawBorder(page);
