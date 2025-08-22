@@ -190,13 +190,13 @@ public class RadioButton : IDrawable {
                     x + 3*r1,
                     y,
                     x + 3*r1 + font.StringWidth(label),
-                    y + font.bodyHeight,
+                    y + font.GetBodyHeight(fontSize),
                     language,
                     actualText,
                     altDescription));
         }
 
-        return new float[] { x + 6*r1 + font.StringWidth(label), y + font.bodyHeight };
+        return new float[] { x + 6*r1 + font.StringWidth(label), y + font.GetBodyHeight(fontSize) };
     }
 }   // End of RadioButton.cs
 }   // End of namespace PDFjet.NET

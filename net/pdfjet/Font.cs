@@ -71,7 +71,7 @@ public class Font {
 
     internal float ascent;
     internal float descent;
-    internal float bodyHeight;
+    private float bodyHeight;
     private float underlinePosition;
     private float underlineThickness;
 

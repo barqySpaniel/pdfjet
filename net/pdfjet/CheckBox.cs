@@ -249,13 +249,13 @@ public class CheckBox : IDrawable {
                     x + 3f*w/2f,
                     y,
                     x + 3f*w/2f + font.StringWidth(label),
-                    y + font.bodyHeight,
+                    y + font.GetBodyHeight(fontSize),
                     language,
                     actualText,
                     altDescription));
         }
 
-        return new float[] { x + 3f*w + font.StringWidth(label), y + font.bodyHeight };
+        return new float[] { x + 3f*w + font.StringWidth(label), y + font.GetBodyHeight(fontSize) };
     }
 }   // End of CheckBox.java
 }   // End of namespace PDFjet.NET

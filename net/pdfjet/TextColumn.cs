@@ -240,7 +240,7 @@ public class TextColumn : IDrawable {
         for (int i = 0; i < paragraph.lines.Count; i++) {
             TextLine line = paragraph.lines[i];
             if (i == 0) {
-                lineHeight = line.font.bodyHeight + spaceBetweenLines;
+                lineHeight = line.font.GetBodyHeight(line.font.GetSize()) + spaceBetweenLines;
                 if (rotate == 0) {
                     y1 += line.font.GetAscent();
                 } else if (rotate == 90) {

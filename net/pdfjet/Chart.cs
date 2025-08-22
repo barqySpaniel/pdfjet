@@ -294,12 +294,12 @@ public class Chart : IDrawable {
                 fontSize,
                 title,
                 x1 + ((w - f1.StringWidth(title)) / 2),
-                y1 + 1.5f * f1.bodyHeight);
+                y1 + 1.5f * f1.GetBodyHeight(f1.GetSize()));
 
-        float topMargin = 2.5f * f1.bodyHeight;
-        float leftMargin = GetLongestAxisYLabelWidth() + 2f * f2.bodyHeight;
-        float rightMargin = 2f * f2.bodyHeight;
-        float bottomMargin = 2.5f * f2.bodyHeight;
+        float topMargin = 2.5f * f1.GetBodyHeight(f1.GetSize());
+        float leftMargin = GetLongestAxisYLabelWidth() + 2f * f2.GetBodyHeight(f2.GetSize());
+        float rightMargin = 2f * f2.GetBodyHeight(f2.GetSize());
+        float bottomMargin = 2.5f * f2.GetBodyHeight(f2.GetSize());
 
         x5 = x1 + leftMargin;
         y5 = y1 + topMargin;
@@ -363,7 +363,7 @@ public class Chart : IDrawable {
                 f1,
                 fontSize,
                 yAxisTitle,
-                x1 + f1.bodyHeight,
+                x1 + f1.GetBodyHeight(f1.GetSize()),
                 y8 - ((y8 - y5) - f1.StringWidth(yAxisTitle)) / 2);
 
         // Draw the X axis title
@@ -373,7 +373,7 @@ public class Chart : IDrawable {
                 fontSize,
                 xAxisTitle,
                 x5 + ((x6 - x5) - f1.StringWidth(xAxisTitle)) / 2,
-                y4 - f1.bodyHeight / 2);
+                y4 - f1.GetBodyHeight(f1.GetSize()) / 2);
 
         page.SetDefaultStrokeWidth();
         page.SetDefaultStrokePattern();
@@ -489,7 +489,7 @@ public class Chart : IDrawable {
 
     private void DrawXAxisLabels(Page page) {
         float x = x5;
-        float y = y8 + f2.bodyHeight;
+        float y = y8 + f2.GetBodyHeight(f2.GetSize());
         float step = (x6 - x5) / xAxisGridLines;
         page.SetBrushColor(Color.black);
         for (int i = 0; i < (xAxisGridLines + 1); i++) {
