@@ -22,7 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-public class Compress {
-    public static let YES = true
-    public static let NO = false
+public enum Compress {
+    case YES
+    case NO
 }

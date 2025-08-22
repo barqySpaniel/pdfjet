@@ -34,7 +34,7 @@ public class EmbeddedFile {
     public convenience init(
             _ pdf: PDF,
             _ filePath: String,
-            _ compress: Bool) throws {
+            _ compress: Compress) throws {
         var fileName = ""
         for scalar in filePath.unicodeScalars {
             if scalar == "/" {
@@ -50,10 +50,10 @@ public class EmbeddedFile {
             _ pdf: PDF,
             _ fileName: String,
             _ stream: InputStream,
-            _ compress: Bool) throws {
+            _ compress: Compress) throws {
         self.fileName = fileName
         var buf = try Content.getFromStream(stream)
-        if compress {
+        if compress == Compress.YES {
             var buf2 = [UInt8]()
             FlateEncode(&buf2, buf)
             // LZWEncode(&buf2, buf)
@@ -63,7 +63,7 @@ public class EmbeddedFile {
         pdf.newobj()
         pdf.append(Token.beginDictionary)
         pdf.append("/Type /EmbeddedFile\n")
-        if compress {
+        if compress == Compress.NO {
             pdf.append("/Filter /FlateDecode\n")
             // pdf.append("/Filter /LZWDecode\n")
         }
