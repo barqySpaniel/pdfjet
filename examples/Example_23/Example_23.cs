@@ -51,7 +51,7 @@ public class Example_23 {
         ascent_text.DrawOn(page);
 
         TextLine descent_text = new TextLine(f2, "Descent");
-        descent_text.SetLocation(x1 - 85f, y1 + f1.GetAscent() + 15f);
+        descent_text.SetLocation(x1 - 85f, y1 + f1.GetAscent(f1.GetSize()) + 15f);
         descent_text.DrawOn(page);
 
         // Line beside the text ascent
@@ -67,9 +67,9 @@ public class Example_23 {
         // Line beside the text descent
         Line descentLine = new Line(
                 x1 - 10f,
-                y1 + f1.GetAscent(),
+                y1 + f1.GetAscent(f1.GetSize()),
                 x1 - 10f,
-                y1 + f1.GetAscent() + f1.GetDescent());
+                y1 + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
         descentLine.SetColor(Color.red);
         descentLine.SetWidth(3f);
         descentLine.DrawOn(page);
@@ -77,33 +77,33 @@ public class Example_23 {
         // Lines for first line of text
         Line text_line1 = new Line(
                 x1,
-                y1 + f1.GetAscent(),
+                y1 + f1.GetAscent(f1.GetSize()),
                 x2,
-                y1 + f1.GetAscent());
+                y1 + f1.GetAscent(f1.GetSize()));
         text_line1.DrawOn(page);
 
         Line descent_line1 = new Line(
                 x1,
-                y1 + (f1.GetAscent() + f1.GetDescent()),
+                y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())),
                 x2,
-                y1 + (f1.GetAscent() + f1.GetDescent()));
+                y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())));
         descent_line1.DrawOn(page);
 
         // Lines for second line of text
-        float curr_y = y1 + f1.GetBodyHeight();
+        float curr_y = y1 + f1.GetBodyHeight(f1.GetSize());
 
         Line text_line2 = new Line(
                 x1,
-                curr_y + f1.GetAscent(),
+                curr_y + f1.GetAscent(f1.GetSize()),
                 x2,
-                curr_y + f1.GetAscent());
+                curr_y + f1.GetAscent(f1.GetSize()));
         text_line2.DrawOn(page);
 
         Line descent_line2 = new Line(
                 x1,
-                curr_y + f1.GetAscent() + f1.GetDescent(),
+                curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()),
                 x2,
-                curr_y + f1.GetAscent() + f1.GetDescent());
+                curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
         descent_line2.DrawOn(page);
 
         Point p1 = new Point(x1, y1);
@@ -135,7 +135,7 @@ public class Example_23 {
         textLine.SetLocation(x, y);
         textLine.DrawOn(page);
 
-        Line ascenderLine = new Line(x, y - font.GetAscent(), x + 100f, y - font.GetAscent());
+        Line ascenderLine = new Line(x, y - font.GetAscent(), x + 100f, y - font.GetAscent(font.GetSize()));
         ascenderLine.SetWidth(2f);
         ascenderLine.DrawOn(page);
 
@@ -143,7 +143,7 @@ public class Example_23 {
         line.SetWidth(2f);
         line.DrawOn(page);
 
-        Line descenderLine = new Line(x, y + font.GetDescent(), x + 100f, y + font.GetDescent());
+        Line descenderLine = new Line(x, y + font.GetDescent(), x + 100f, y + font.GetDescent(font.GetSize()));
         descenderLine.SetWidth(2f);
         descenderLine.DrawOn(page);
     }

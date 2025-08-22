@@ -15,10 +15,13 @@ public class Example_45 {
         pdf.SetCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        f1.SetSize(12f);
+
         Font f2 = new Font(pdf, IBMPlexSans.Italic);
+        f2.SetSize(12f);
 
         Font f3 = new Font(pdf, JetBrainsMono.Regular);
-        float f3Size = 10f;
+        f3.SetSize(10f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
@@ -66,10 +69,10 @@ public class Example_45 {
 
         float x = 50;
         float y = 280;
-        float dy = f3.GetBodyHeight();
+        float dy = f3.GetBodyHeight(f3.GetSize());
         List<String> lines = Text.ReadLines("data/languages/english.txt");
         foreach (String line in lines) {
-            page.DrawString(f3, null, f3Size, line, x, y, Color.gray, colors);
+            page.DrawString(f3, null, f3.GetSize(), line, x, y, Color.gray, colors);
             y += dy;
         }
 

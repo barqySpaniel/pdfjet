@@ -12,6 +12,7 @@ public class Example_30 {
                 new FileStream("Example_30.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, CoreFont.HELVETICA);
+        font.SetSize(12f);
 
         Image image1 = new Image(pdf, "images/map407.png");
         image1.SetLocation(10f, 100f);
@@ -29,7 +30,7 @@ public class Example_30 {
         textLine = new TextLine(font);
         textLine.SetText("http://www.openstreetmap.org/copyright");
         textLine.SetURIAction("http://www.openstreetmap.org/copyright");
-        textLine.SetLocation(380f, xy[1] + font.GetBodyHeight());
+        textLine.SetLocation(380f, xy[1] + font.GetBodyHeight(font.GetSize()));
         textLine.DrawOn(page);
 
         OptionalContentGroup group = new OptionalContentGroup("Map");

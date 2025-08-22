@@ -13,7 +13,7 @@ public class Example_32 {
                 new FileStream("Example_32.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream");
-        float fontSize = 10f;
+        font.SetSize(10f);
 
         Dictionary<String, Int32> colors = new Dictionary<String, Int32>();
         colors["new"] = Color.red;
@@ -29,10 +29,10 @@ public class Example_32 {
         Page page = new Page(pdf, Letter.PORTRAIT);
         float x = 50f;
         float y = 50f;
-        float leading = font.GetBodyHeight();
+        float leading = font.GetBodyHeight(font.GetSize());
         List<String> lines = Text.ReadLines("examples/Example_02/Example_02.cs");
         foreach (String line in lines) {
-            page.DrawString(font, fontSize, line, x, y, new float[] {0f, 0f, 0f}, colors);
+            page.DrawString(font, font.GetSize(), line, x, y, new float[] {0f, 0f, 0f}, colors);
             y += leading;
             if (y > (page.GetHeight() - 20f)) {
                 page = new Page(pdf, Letter.PORTRAIT);
