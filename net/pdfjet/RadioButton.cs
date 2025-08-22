@@ -148,7 +148,7 @@ public class RadioButton : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
 
-        this.r1 = font.ascent/2;
+        this.r1 = font.GetAscent()/2;
         this.r2 = r1/2;
         this.penWidth = r1/10;
 
