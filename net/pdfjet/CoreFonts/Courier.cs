@@ -1,6 +1,6 @@
 using System;
 
-namespace PDFjet.NET.corefonts {
+namespace PDFjet.NET.CoreFonts {
 public static class Courier {
     public static readonly String name = "Courier";
     public static readonly int bBoxLLx = -23;
