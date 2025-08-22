@@ -1,4 +1,5 @@
 using System;
+using PDFjet.NET.corefonts;
 
 namespace PDFjet.NET {
 class StandardFont {

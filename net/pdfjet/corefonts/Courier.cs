@@ -1,16 +1,16 @@
 using System;
 
-namespace PDFjet.NET {
-class Courier {
-    internal static readonly String name = "Courier";
-    internal static readonly int bBoxLLx = -23;
-    internal static readonly int bBoxLLy = -250;
-    internal static readonly int bBoxURx = 715;
-    internal static readonly int bBoxURy = 805;
-    internal static readonly int underlinePosition = -100;
-    internal static readonly int underlineThickness = 50;
-    internal static readonly string notice = "Copyright (c) 1989, 1990, 1991, 1992, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved.";
-    internal static readonly int[][] metrics = {
+namespace PDFjet.NET.corefonts {
+public static class Courier {
+    public static readonly String name = "Courier";
+    public static readonly int bBoxLLx = -23;
+    public static readonly int bBoxLLy = -250;
+    public static readonly int bBoxURx = 715;
+    public static readonly int bBoxURy = 805;
+    public static readonly int underlinePosition = -100;
+    public static readonly int underlineThickness = 50;
+    public static readonly string notice = "Copyright (c) 1989, 1990, 1991, 1992, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved.";
+    public static readonly int[][] metrics = {
         new int[] {32,600,},
         new int[] {33,600,},
         new int[] {34,600,},
