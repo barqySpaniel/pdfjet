@@ -371,10 +371,16 @@ public class Font {
     }
 
     public float GetAscent(float fontSize) {
+        if (isCJK) {
+            return fontSize;
+        }
         return fontAscent * fontSize / unitsPerEm;
     }
 
     public float GetDescent(float fontSize) {
+        if (isCJK) {
+            return fontSize/4;
+        }
         return -fontDescent * fontSize / unitsPerEm;
     }
 
