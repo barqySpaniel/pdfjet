@@ -2,6 +2,7 @@ package examples;
 
 import java.io.*;
 import com.pdfjet.*;
+import com.pdfjet.fonts.*;
 
 /**
  *  Example_03.java
@@ -14,20 +15,11 @@ public class Example_03 {
 
         pdf.setKeywords("React Vue Java Python");
         // Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
 
-        // On Android you have use the getClass().getResourceAsStream(...) method:
-        Image image1 = new Image(pdf,
-                getClass().getResourceAsStream("/images/ee-map.png"), ImageType.PNG);
-        Image image2 = new Image(pdf,
-                getClass().getResourceAsStream("/images/fruit.jpg"), ImageType.JPG);
-        Image image3 = new Image(pdf,
-                getClass().getResourceAsStream("/images/mt-map.bmp"), ImageType.BMP);
-
-        // On other platforms you can use this convenience constructors:
-        // Image image1 = new Image(pdf, "images/ee-map.png");
-        // Image image2 = new Image(pdf, "images/fruit.jpg");
-        // Image image3 = new Image(pdf, "images/mt-map.bmp");
+        Image image1 = new Image(pdf, "images/ee-map.png");
+        Image image2 = new Image(pdf, "images/fruit.jpg");
+        Image image3 = new Image(pdf, "images/mt-map.bmp");
 
         Page page = new Page(pdf, A4.PORTRAIT);
 
