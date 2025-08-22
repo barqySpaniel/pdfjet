@@ -1,13 +1,13 @@
-class Helvetica_BoldOblique {
-    static let name = "Helvetica-BoldOblique"
-    static let bBoxLLx: Int16 = -174
-    static let bBoxLLy: Int16 = -228
-    static let bBoxURx: Int16 = 1114
-    static let bBoxURy: Int16 = 962
-    static let underlinePosition: Int16 = -100
-    static let underlineThickness: Int16 = 50
-    static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved. Helvetica is a trademark of Linotype-Hell AG and/or its subsidiaries."
-    static let metrics = Array<[Int16]>(arrayLiteral:
+public enum Helvetica_BoldOblique {
+    public static let name = "Helvetica-BoldOblique"
+    public static let bBoxLLx: Int16 = -174
+    public static let bBoxLLy: Int16 = -228
+    public static let bBoxURx: Int16 = 1114
+    public static let bBoxURy: Int16 = 962
+    public static let underlinePosition: Int16 = -100
+    public static let underlineThickness: Int16 = 50
+    public static let notice = "Copyright (c) 1985, 1987, 1989, 1990, 1997 Adobe Systems Incorporated. All Rights Reserved. Helvetica is a trademark of Linotype-Hell AG and/or its subsidiaries."
+    public static let metrics = Array<[Int16]>(arrayLiteral:
         [32,278,84,-100,86,-80,87,-80,89,-120,221,-120,159,-120,147,-80,145,-60],
         [33,333],
         [34,474],
