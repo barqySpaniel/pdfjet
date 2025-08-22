@@ -7,7 +7,7 @@ public enum Courier {
     public static let underlinePosition: Int16 = -100
     public static let underlineThickness: Int16 = 50
     public static let notice = "Copyright (c) 1989, 1990, 1991, 1992, 1993, 1997 Adobe Systems Incorporated. All Rights Reserved."
-    public static let metrics = Array<[Int16]>(arrayLiteral:
+    public static let metrics:  [[Int16]] = [
         [32,600],
         [33,600],
         [34,600],
@@ -232,5 +232,5 @@ public enum Courier {
         [253,600],
         [254,600],
         [255,600]
-    )
+    ]
 }
