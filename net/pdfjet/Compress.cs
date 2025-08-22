@@ -1,8 +1,18 @@
 using System;
 
 namespace PDFjet.NET {
-public class Compress {
-    public static bool YES = true;
-    public static bool NO = false;
-}
+    /// <summary>
+    /// Enum used to specify compression.
+    /// </summary>
+    public enum Compress {
+        /// <summary>
+        /// Compress
+        /// </summary>
+        YES,
+
+        /// <summary>
+        /// Do not compress
+        /// </summary>
+        NO
+    }
 }

@@ -33,16 +33,16 @@ public class EmbeddedFile {
     internal int objNumber = -1;
     internal String fileName = null;
 
-    public EmbeddedFile(PDF pdf, String fileName, bool compress) :
+    public EmbeddedFile(PDF pdf, String fileName, Compress compress) :
         this(pdf, fileName.Substring(fileName.LastIndexOf("/") + 1),
                 new BufferedStream(new FileStream(fileName, FileMode.Open, FileAccess.Read)), compress) {
     }
 
-    public EmbeddedFile(PDF pdf, String fileName, Stream stream, bool compress) {
+    public EmbeddedFile(PDF pdf, String fileName, Stream stream, Compress compress) {
         this.fileName = fileName;
         byte[] buf = Content.GetFromStream(stream);
 
-        if (compress) {
+        if (compress == Compress.YES) {
             MemoryStream baos = new MemoryStream();
             DeflaterOutputStream dos = new DeflaterOutputStream(baos);
             dos.Write(buf, 0, buf.Length);
@@ -52,7 +52,7 @@ public class EmbeddedFile {
         pdf.Newobj();
         pdf.Append(Token.beginDictionary);
         pdf.Append("/Type /EmbeddedFile\n");
-        if (compress) {
+        if (compress == Compress.YES) {
             pdf.Append("/Filter /FlateDecode\n");
         }
         pdf.Append(Token.length);
