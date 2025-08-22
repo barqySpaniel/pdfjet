@@ -370,10 +370,6 @@ public class Font {
         return descent;
     }
 
-//    public float GetBodyHeight() {
-//        return bodyHeight;
-//    }
-
     public float GetAscent(float fontSize) {
         return fontAscent * fontSize / unitsPerEm;
     }
