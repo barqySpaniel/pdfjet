@@ -1,16 +1,12 @@
 package com.pdfjet;
 
 /**
- * Class used to specify compression.
+ * Enum used to specify compression.
  */
-public class Compress {
-    /** The default constructor */
-    public Compress() {
-    }
-
+public enum Compress {
     /** Compress */
-    public static boolean YES = true;
+    YES,
 
     /** Do not compress */
-    public static boolean NO = false;
+    NO
 }
