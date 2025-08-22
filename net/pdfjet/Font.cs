@@ -296,7 +296,7 @@ public class Font {
         this.size = fontSize;
         if (isCJK) {
             this.ascent = size;
-            this.descent = ascent/4;
+            this.descent = size/4;
             this.bodyHeight = this.ascent + this.descent;
             return this;
         }
