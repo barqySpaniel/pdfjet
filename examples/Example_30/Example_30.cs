@@ -29,7 +29,7 @@ public class Example_30 {
         textLine = new TextLine(font);
         textLine.SetText("http://www.openstreetmap.org/copyright");
         textLine.SetURIAction("http://www.openstreetmap.org/copyright");
-        textLine.SetLocation(380f, xy[1] + font.GetHeight());
+        textLine.SetLocation(380f, xy[1] + font.GetBodyHeight());
         textLine.DrawOn(page);
 
         OptionalContentGroup group = new OptionalContentGroup("Map");

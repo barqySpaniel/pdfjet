@@ -646,7 +646,7 @@ public class Barcode : IDrawable {
         if (font == null) {
             return m1 * barHeightFactor;
         }
-        return m1 * barHeightFactor + font.GetHeight();
+        return m1 * barHeightFactor + font.GetBodyHeight();
     }
 }   // End of Barcode.cs
 }   // End of namespace PDFjet.NET

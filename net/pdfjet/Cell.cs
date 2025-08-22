@@ -314,9 +314,9 @@ public class Cell {
         } else if (barcode != null) {
             cellHeight = barcode.GetHeight() + topPadding + bottomPadding;
         } else if (text != null) {
-            float fontHeight = font.GetHeight();
-            if (fallbackFont != null && fallbackFont.GetHeight() > fontHeight) {
-                fontHeight = fallbackFont.GetHeight();
+            float fontHeight = font.GetBodyHeight(fontSize);
+            if (fallbackFont != null && fallbackFont.GetBodyHeight(fontSize) > fontHeight) {
+                fontHeight = fallbackFont.GetBodyHeight(fontSize);
             }
             cellHeight = fontHeight + topPadding + bottomPadding;
         }
@@ -760,7 +760,7 @@ public class Cell {
         page.AddBMC(StructElem.P, Single.space, Single.space);
         page.SetPenWidth(font.underlineThickness);
         page.MoveTo(x, y + font.GetDescent());
-        page.LineTo(x + font.StringWidth(text), y + font.GetDescent());
+        page.LineTo(x + font.StringWidth(text), y + font.GetDescent(fontSize));
         page.StrokePath();
         page.AddEMC();
     }
@@ -770,7 +770,7 @@ public class Cell {
         page.AddBMC(StructElem.P, Single.space, Single.space);
         page.SetPenWidth(font.underlineThickness);
         page.MoveTo(x, y - font.GetAscent()/3f);
-        page.LineTo(x + font.StringWidth(text), y - font.GetAscent()/3f);
+        page.LineTo(x + font.StringWidth(text), y - font.GetAscent(fontSize)/3f);
         page.StrokePath();
         page.AddEMC();
     }

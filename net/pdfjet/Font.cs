@@ -370,10 +370,6 @@ public class Font {
         return descent;
     }
 
-    public float GetHeight() {
-        return ascent + descent;
-    }
-
     public float GetBodyHeight() {
         return bodyHeight;
     }
