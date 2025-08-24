@@ -33,11 +33,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/edragoev1/pdfjet/src/tokens"
+	"github.com/edragoev1/pdfjet/src/token"
 )
 
 // EmbeddedFile is used to embed file objects in the PDF.
-// The file objects must added to the PDF before drawing on the first page.
+// The file objects must be added to the PDF before drawing on the first page.
 type EmbeddedFile struct {
 	objNumber int
 	fileName  string
@@ -83,7 +83,7 @@ func NewEmbeddedFile(pdf *PDF, fileName string, reader io.Reader, compress bool)
 	}
 
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /EmbeddedFile\n")
 	if compress {
 		pdf.appendString("/Filter /FlateDecode\n")
@@ -91,14 +91,14 @@ func NewEmbeddedFile(pdf *PDF, fileName string, reader io.Reader, compress bool)
 	pdf.appendString("/Length ")
 	pdf.appendInteger(len(file.content))
 	pdf.appendByte('\n')
-	pdf.appendByteArray(tokens.EndDictionary)
-	pdf.appendByteArray(tokens.Stream)
+	pdf.appendByteArray(token.EndDictionary)
+	pdf.appendByteArray(token.Stream)
 	pdf.appendByteArray(file.content)
-	pdf.appendByteArray(tokens.EndStream)
+	pdf.appendByteArray(token.EndStream)
 	pdf.endobj()
 
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /Filespec\n")
 	pdf.appendString("/F (")
 	pdf.appendString(fileName)
@@ -106,7 +106,7 @@ func NewEmbeddedFile(pdf *PDF, fileName string, reader io.Reader, compress bool)
 	pdf.appendString("/EF <</F ")
 	pdf.appendInteger(pdf.getObjNumber() - 1)
 	pdf.appendString(" 0 R>>\n")
-	pdf.appendByteArray(tokens.EndDictionary)
+	pdf.appendByteArray(token.EndDictionary)
 	pdf.endobj()
 
 	file.objNumber = pdf.getObjNumber()

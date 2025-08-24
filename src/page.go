@@ -39,7 +39,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/fastfloat"
 	"github.com/edragoev1/pdfjet/src/operation"
 	"github.com/edragoev1/pdfjet/src/shape"
-	"github.com/edragoev1/pdfjet/src/tokens"
+	"github.com/edragoev1/pdfjet/src/token"
 )
 
 // Page is used to create PDF page objects.
@@ -1090,7 +1090,7 @@ func (page *Page) SetTextFont(font *Font) {
 		page.appendString("/F")
 		page.appendInteger(font.objNumber)
 	}
-	page.appendByte(tokens.Space)
+	page.appendByte(token.Space)
 	page.appendFloat32(font.size)
 	page.appendString(" Tf\n")
 }
@@ -1460,7 +1460,7 @@ func (page *Page) EndText() {
 
 func (page *Page) SetTextLocation(x, y float32) {
 	page.appendFloat32(x)
-	page.appendByte(tokens.Space)
+	page.appendByte(token.Space)
 	page.appendFloat32(page.height - y)
 	page.appendString(" Td\n")
 }

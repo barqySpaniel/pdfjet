@@ -39,7 +39,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/compressor"
 	"github.com/edragoev1/pdfjet/src/djb"
 	"github.com/edragoev1/pdfjet/src/fastfloat"
-	"github.com/edragoev1/pdfjet/src/tokens"
+	"github.com/edragoev1/pdfjet/src/token"
 )
 
 // PDF is used to create PDF objects.
@@ -277,16 +277,16 @@ func (pdf *PDF) addMetadataObject(notice string, fontMetadataObject bool) int {
 	xml := []byte(sb.String())
 	// This is the metadata object
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /Metadata\n")
 	pdf.appendString("/Subtype /XML\n")
-	pdf.appendByteArray(tokens.Length)
+	pdf.appendByteArray(token.Length)
 	pdf.appendInteger(len(xml))
-	pdf.appendByte(tokens.Newline)
-	pdf.appendByteArray(tokens.EndDictionary)
-	pdf.appendByteArray(tokens.Stream)
+	pdf.appendByte(token.Newline)
+	pdf.appendByteArray(token.EndDictionary)
+	pdf.appendByteArray(token.Stream)
 	pdf.appendByteArray(xml)
-	pdf.appendByteArray(tokens.EndStream)
+	pdf.appendByteArray(token.EndStream)
 	pdf.endobj()
 
 	return pdf.getObjNumber()
@@ -294,23 +294,23 @@ func (pdf *PDF) addMetadataObject(notice string, fontMetadataObject bool) int {
 
 func (pdf *PDF) addOutputIntentObject() int {
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/N 3\n")
 
-	pdf.appendByteArray(tokens.Length)
+	pdf.appendByteArray(token.Length)
 	pdf.appendInteger(len(ICCBlackScaledProfile))
-	pdf.appendByte(tokens.Newline)
+	pdf.appendByte(token.Newline)
 
 	pdf.appendString("/Filter /FlateDecode\n")
-	pdf.appendByteArray(tokens.EndDictionary)
-	pdf.appendByteArray(tokens.Stream)
+	pdf.appendByteArray(token.EndDictionary)
+	pdf.appendByteArray(token.Stream)
 	pdf.appendByteArray(ICCBlackScaledProfile)
-	pdf.appendByteArray(tokens.EndStream)
+	pdf.appendByteArray(token.EndStream)
 	pdf.endobj()
 
 	// OutputIntent object
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /OutputIntent\n")
 	pdf.appendString("/S /GTS_PDFA1\n")
 	pdf.appendString("/OutputCondition (sRGB IEC61966-2.1)\n")
@@ -318,8 +318,8 @@ func (pdf *PDF) addOutputIntentObject() int {
 	pdf.appendString("/Info (sRGB IEC61966-2.1)\n")
 	pdf.appendString("/DestOutputProfile ")
 	pdf.appendInteger(pdf.getObjNumber() - 1)
-	pdf.appendByteArray(tokens.ObjRef)
-	pdf.appendByteArray(tokens.EndDictionary)
+	pdf.appendByteArray(token.ObjRef)
+	pdf.appendByteArray(token.EndDictionary)
 	pdf.endobj()
 
 	return pdf.getObjNumber()
@@ -327,13 +327,13 @@ func (pdf *PDF) addOutputIntentObject() int {
 
 func (pdf *PDF) addResourcesObject() int {
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	if pdf.extGState != "" {
 		pdf.appendString(pdf.extGState)
 	}
 	if len(pdf.fonts) > 0 || len(pdf.importedFonts) > 0 {
 		pdf.appendString("/Font\n")
-		pdf.appendByteArray(tokens.BeginDictionary)
+		pdf.appendByteArray(token.BeginDictionary)
 		for _, token := range pdf.importedFonts {
 			pdf.appendString(token)
 			if token == "R" {
@@ -349,11 +349,11 @@ func (pdf *PDF) addResourcesObject() int {
 			pdf.appendInteger(font.objNumber)
 			pdf.appendString(" 0 R\n")
 		}
-		pdf.appendByteArray(tokens.EndDictionary)
+		pdf.appendByteArray(token.EndDictionary)
 	}
 	if len(pdf.images) > 0 {
 		pdf.appendString("/XObject\n")
-		pdf.appendByteArray(tokens.BeginDictionary)
+		pdf.appendByteArray(token.BeginDictionary)
 		for _, image := range pdf.images {
 			pdf.appendString("/Im")
 			pdf.appendInteger(image.objNumber)
@@ -361,11 +361,11 @@ func (pdf *PDF) addResourcesObject() int {
 			pdf.appendInteger(image.objNumber)
 			pdf.appendString(" 0 R\n")
 		}
-		pdf.appendByteArray(tokens.EndDictionary)
+		pdf.appendByteArray(token.EndDictionary)
 	}
 	if len(pdf.groups) > 0 {
 		pdf.appendString("/Properties\n")
-		pdf.appendByteArray(tokens.BeginDictionary)
+		pdf.appendByteArray(token.BeginDictionary)
 		for i, ocg := range pdf.groups {
 			pdf.appendString("/OC")
 			pdf.appendInteger(i + 1)
@@ -373,7 +373,7 @@ func (pdf *PDF) addResourcesObject() int {
 			pdf.appendInteger(ocg.objNumber)
 			pdf.appendString(" 0 R\n")
 		}
-		pdf.appendByteArray(tokens.EndDictionary)
+		pdf.appendByteArray(token.EndDictionary)
 	}
 	// String state = "/CA 0.5 /ca 0.5"
 	if len(pdf.states) > 0 {
@@ -383,18 +383,18 @@ func (pdf *PDF) addResourcesObject() int {
 			pdf.appendInteger(value)
 			pdf.appendString(" <<")
 			pdf.appendString(key)
-			pdf.appendByteArray(tokens.EndDictionary)
+			pdf.appendByteArray(token.EndDictionary)
 		}
-		pdf.appendByteArray(tokens.EndDictionary)
+		pdf.appendByteArray(token.EndDictionary)
 	}
-	pdf.appendByteArray(tokens.EndDictionary)
+	pdf.appendByteArray(token.EndDictionary)
 	pdf.endobj()
 	return pdf.getObjNumber()
 }
 
 func (pdf *PDF) addPagesObject() int {
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /Pages\n")
 	pdf.appendString("/Kids [\n")
 	for _, page := range pdf.pages {
@@ -408,7 +408,7 @@ func (pdf *PDF) addPagesObject() int {
 	pdf.appendString("/Count ")
 	pdf.appendInteger(len(pdf.pages))
 	pdf.appendByte('\n')
-	pdf.appendByteArray(tokens.EndDictionary)
+	pdf.appendByteArray(token.EndDictionary)
 	pdf.endobj()
 	return pdf.getObjNumber()
 }
@@ -442,7 +442,7 @@ func (pdf *PDF) addInfoObject() int {
 
 func (pdf *PDF) addStructTreeRootObject() int {
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /StructTreeRoot\n")
 	pdf.appendString("/ParentTree ")
 	pdf.appendInteger(pdf.getObjNumber() + 1)
@@ -451,26 +451,26 @@ func (pdf *PDF) addStructTreeRootObject() int {
 	pdf.appendInteger(pdf.getObjNumber() + 2)
 	pdf.appendString(" 0 R\n")
 	pdf.appendString("]\n")
-	pdf.appendByteArray(tokens.EndDictionary)
+	pdf.appendByteArray(token.EndDictionary)
 	pdf.endobj()
 	return pdf.getObjNumber()
 }
 
 func (pdf *PDF) addStructDocumentObject(parent int) int {
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /StructElem\n")
 	pdf.appendString("/S /Document\n")
 	pdf.appendString("/P ")
 	pdf.appendInteger(parent)
-	pdf.appendByteArray(tokens.ObjRef)
+	pdf.appendByteArray(token.ObjRef)
 	pdf.appendString("/K [\n")
 	for _, structElement := range pdf.structElements {
 		pdf.appendInteger(structElement.objNumber)
-		pdf.appendByteArray(tokens.ObjRef)
+		pdf.appendByteArray(token.ObjRef)
 	}
 	pdf.appendString("]\n")
-	pdf.appendByteArray(tokens.EndDictionary)
+	pdf.appendByteArray(token.EndDictionary)
 	pdf.endobj()
 	return pdf.getObjNumber()
 }

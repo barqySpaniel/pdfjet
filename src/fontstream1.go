@@ -32,7 +32,7 @@ import (
 	"strings"
 
 	"github.com/edragoev1/pdfjet/src/decompressor"
-	"github.com/edragoev1/pdfjet/src/tokens"
+	"github.com/edragoev1/pdfjet/src/token"
 )
 
 // FontStream1 is used to add stream fonts to the PDF.
@@ -233,7 +233,7 @@ func addCIDFontDictionaryObject(pdf *PDF, font *Font) {
 	}
 
 	pdf.newobj()
-	pdf.appendByteArray(tokens.BeginDictionary)
+	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /Font\n")
 	if font.cff {
 		pdf.appendString("/Subtype /CIDFontType0\n")
@@ -242,11 +242,11 @@ func addCIDFontDictionaryObject(pdf *PDF, font *Font) {
 	}
 	pdf.appendString("/BaseFont /")
 	pdf.appendString(font.name)
-	pdf.appendByte(tokens.Newline)
+	pdf.appendByte(token.Newline)
 	pdf.appendString("/CIDSystemInfo <</Registry (Adobe) /Ordering (Identity) /Supplement 0>>\n")
 	pdf.appendString("/FontDescriptor ")
 	pdf.appendInteger(font.fontDescriptorObjNumber)
-	pdf.appendByteArray(tokens.ObjRef)
+	pdf.appendByteArray(token.ObjRef)
 
 	k := float32(1000.0) / float32(font.unitsPerEm)
 
@@ -262,7 +262,7 @@ func addCIDFontDictionaryObject(pdf *PDF, font *Font) {
 	pdf.appendString("]]\n")
 
 	pdf.appendString("/CIDToGIDMap /Identity\n")
-	pdf.appendByteArray(tokens.EndDictionary)
+	pdf.appendByteArray(token.EndDictionary)
 	pdf.endobj()
 
 	font.cidFontDictObjNumber = pdf.getObjNumber()
