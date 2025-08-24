@@ -11,15 +11,21 @@ public class Example_36 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_36.pdf", FileMode.Create)));
 
-        Font f1 = new Font(pdf, CoreFont.HELVETICA);
-
-        Page page = new Page(pdf, Letter.PORTRAIT);
+        Image image = new Image(pdf, "images/ee-map.png");
 
         FormXObject form = new FormXObject(pdf, 100, 100);
         form.MoveTo(0f, 0f);
         form.LineTo(50f, 50f);
         form.StrokePath();
         form.AddToPDF(pdf);
+
+        Page page = new Page(pdf, Letter.PORTRAIT);
+
+        image.SetLocation(100f, 100f);
+        image.DrawOn(page);
+
+        // form.SetLocation(200f, 200f);
+        // form.DrawOn(page);
 
         pdf.Complete();
     }

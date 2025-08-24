@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class FormXObject : Canvas {
-    private int objNumber;
+    public int objNumber = -1;
     private Dictionary<string, int> resourceRefs;
 
     public FormXObject(PDF pdf, float width, float height) : base(pdf) {
@@ -48,10 +48,19 @@ public class FormXObject : Canvas {
     }
 
     public float[] DrawOn(Page page) {
+        // 1. CHECK IF THE FORM HAS BEEN ADDED TO THE PDF YET
+        //    (objNumber is invalid until AddToPDF is called)
+        if (this.objNumber == -1) {
+            // 2. IF NOT, ADD IT NOW.
+            this.AddToPDF(page.pdf);
+        }
+
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
 
         // page.ScaleAndRotate(x, y, w, h, degrees);
+        page.Append("300 300 cm\n");
+
         page.Append("/Fm");
         page.Append(objNumber);
         page.Append(" Do\n");

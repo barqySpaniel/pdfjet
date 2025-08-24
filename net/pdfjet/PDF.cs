@@ -327,18 +327,58 @@ public class PDF {
             }
             Append(Token.endDictionary);
         }
-        if (images.Count > 0) {
-            Append("/XObject\n");
-            Append(Token.beginDictionary);
+
+        // Check if we have ANY XObjects at all
+        if (images.Count > 0 || formXObjects.Count > 0) {
+            Append("/XObject <<\n"); // Write the key and open the dictionary ONCE
+
+            // Add all Images to the same dictionary
             foreach (Image image in images) {
                 Append("/Im");
                 Append(image.objNumber);
-                Append(Token.space);
+                Append(" ");
                 Append(image.objNumber);
-                Append(Token.objRef);
+                Append(" 0 R\n");
             }
-            Append(Token.endDictionary);
+
+            // Add all Form XObjects to the SAME dictionary
+            foreach (FormXObject form in formXObjects) {
+                Append("/Fm");
+                Append(form.objNumber);
+                Append(" ");
+                Append(form.objNumber);
+                Append(" 0 R\n");
+            }
+
+            Append(">>\n"); // Close the dictionary
         }
+
+
+//        if (images.Count > 0) {
+//            Append("/XObject\n");
+//            Append(Token.beginDictionary);
+//            foreach (Image image in images) {
+//                Append("/Im");
+//                Append(image.objNumber);
+//                Append(Token.space);
+//                Append(image.objNumber);
+//                Append(Token.objRef);
+//            }
+//            Append(Token.endDictionary);
+//        }
+//        if (formXObjects.Count > 0) {
+//            Append("/XObject\n");
+//            Append(Token.beginDictionary);
+//            foreach (FormXObject formXObject in formXObjects) {
+//                Append("/Fm");
+//                Append(formXObject.objNumber);
+//                Append(Token.space);
+//                Append(formXObject.objNumber);
+//                Append(Token.objRef);
+//            }
+//            Append(Token.endDictionary);
+//        }
+
         if (groups.Count > 0) {
             Append("/Properties\n");
             Append(Token.beginDictionary);
