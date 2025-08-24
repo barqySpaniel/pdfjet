@@ -55,6 +55,7 @@ public class FormXObject : Canvas {
     }
 
     public float[] DrawOn(Page page) {
+        // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n"); // Save the graphics state
 
         // Calculate the correct Y position for a top-down coordinate system.
@@ -78,7 +79,9 @@ public class FormXObject : Canvas {
         page.Append(" Do\n");
 
         page.Append("Q\n"); // Restore the graphics state
-        return new float[] { this.x, this.y };
+        // page.AddEMC();
+
+        return new float[] { this.x + width, this.y + height };
     }
 
     public int GetObjectNumber() {
