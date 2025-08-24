@@ -13,53 +13,13 @@ public class Example_36 {
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
 
-        Page page1 = new Page(pdf, A4.PORTRAIT, Page.DETACHED);
+        Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Image image1 = new Image(pdf, "images/ee-map.png");
-        Image image2 = new Image(pdf, "images/fruit.jpg");
-        Image image3 = new Image(pdf, "images/palette.bmp");
-
-        TextLine text = new TextLine(f1,
-                "The map below is an embedded PNG image");
-        text.SetLocation(90f, 30f);
-        text.DrawOn(page1);
-
-        image1.SetLocation(90f, 40f);
-        image1.ScaleBy(2f/3f);
-        image1.DrawOn(page1);
-
-        text.SetText("JPG image drawn 2 times");
-        text.SetLocation(90f, 550f);
-        text.DrawOn(page1);
-
-        image2.SetLocation(90f, 560f);
-        image2.ScaleBy(0.5f);
-        image2.DrawOn(page1);
-
-        image2.SetLocation(270f, 560f);
-        image2.RotateBy(45);
-        image2.DrawOn(page1);
-
-        image3.SetLocation(470f, 600f);
-        image3.DrawOn(page1);
-
-        Page page2 = new Page(pdf, A4.PORTRAIT, Page.DETACHED);
-        image1.DrawOn(page2);
-
-        text.SetText("Hello, World!!");
-        text.SetLocation(90f, 800f);
-        text.DrawOn(page2);
-
-        text.SetText(
-                "The map on the right is an embedded BMP image");
-        text.SetUnderline(true);
-        text.SetStrikeout(true);
-        text.SetTextDirection(15);
-        text.SetLocation(90f, 800f);
-        text.DrawOn(page1);
-
-        pdf.AddPage(page2);
-        pdf.AddPage(page1);
+        FormXObject form = new FormXObject(pdf, 100, 100);
+        form.MoveTo(0f, 0f);
+        form.LineTo(50f, 50f);
+        form.StrokePath();
+        form.AddToPDF(pdf);
 
         pdf.Complete();
     }

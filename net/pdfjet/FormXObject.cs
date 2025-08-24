@@ -14,7 +14,7 @@ public class FormXObject : Canvas {
         this.resourceRefs = new Dictionary<string, int>();
     }
 
-    public void AddFormXObjectToPDF() {
+    public void AddToPDF(PDF pdf) {
         pdf.Newobj();
         Append("<<\n");
         Append("/Type /XObject\n");
