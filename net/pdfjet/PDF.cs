@@ -353,32 +353,6 @@ public class PDF {
             Append(">>\n"); // Close the dictionary
         }
 
-
-//        if (images.Count > 0) {
-//            Append("/XObject\n");
-//            Append(Token.beginDictionary);
-//            foreach (Image image in images) {
-//                Append("/Im");
-//                Append(image.objNumber);
-//                Append(Token.space);
-//                Append(image.objNumber);
-//                Append(Token.objRef);
-//            }
-//            Append(Token.endDictionary);
-//        }
-//        if (formXObjects.Count > 0) {
-//            Append("/XObject\n");
-//            Append(Token.beginDictionary);
-//            foreach (FormXObject formXObject in formXObjects) {
-//                Append("/Fm");
-//                Append(formXObject.objNumber);
-//                Append(Token.space);
-//                Append(formXObject.objNumber);
-//                Append(Token.objRef);
-//            }
-//            Append(Token.endDictionary);
-//        }
-
         if (groups.Count > 0) {
             Append("/Properties\n");
             Append(Token.beginDictionary);

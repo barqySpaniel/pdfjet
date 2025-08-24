@@ -25,7 +25,7 @@ public class Example_36 {
         image.DrawOn(page);
 
         // form.SetLocation(200f, 200f);
-        // form.DrawOn(page);
+        form.DrawOn(page);
 
         pdf.Complete();
     }
