@@ -16,32 +16,32 @@ public class FormXObject : Canvas {
 
     public void AddToPDF(PDF pdf) {
         pdf.Newobj();
-        Append("<<\n");
-        Append("/Type /XObject\n");
-        Append("/Subtype /Form\n");
-        Append("/BBox [0 0 ");
-        Append(width);
-        Append(' ');
-        Append(height);
-        Append("]\n");
-        Append("/Resources <<\n");      // Must be here even if empty!!
+        pdf.Append("<<\n");
+        pdf.Append("/Type /XObject\n");
+        pdf.Append("/Subtype /Form\n");
+        pdf.Append("/BBox [0 0 ");
+        pdf.Append(width);
+        pdf.Append(' ');
+        pdf.Append(height);
+        pdf.Append("]\n");
+        pdf.Append("/Resources <<\n");  // Must be here even if empty!!
         if (resourceRefs.Count > 0) {
             foreach (var kv in resourceRefs) {
-                Append('/');
-                Append(kv.Key);
-                Append(' ');
-                Append(kv.Value);
-                Append(" 0 R\n");
+                pdf.Append('/');
+                pdf.Append(kv.Key);
+                pdf.Append(' ');
+                pdf.Append(kv.Value);
+                pdf.Append(" 0 R\n");
             }
         }
-        Append(">>\n");                 // End of Resources
-        Append("/Length ");
-        Append(buf.Length);
-        Append('\n');
-        Append(">>\n");                 // End of XObject dictionary
-        Append("stream\n");
-        Append(buf.ToArray());
-        Append("\nendstream\n");
+        pdf.Append(">>\n");             // End of Resources
+        pdf.Append("/Length ");
+        pdf.Append(buf.Length);
+        pdf.Append('\n');
+        pdf.Append(">>\n");             // End of XObject dictionary
+        pdf.Append("stream\n");
+        pdf.Append(buf.ToArray());
+        pdf.Append("\nendstream\n");
         pdf.Endobj();
         pdf.formXObjects.Add(this);
         objNumber = pdf.GetObjNumber();
@@ -59,7 +59,7 @@ public class FormXObject : Canvas {
         page.Append("q\n");
 
         // page.ScaleAndRotate(x, y, w, h, degrees);
-        page.Append("300 300 cm\n");
+        // page.Append("300 300 cm\n");
 
         page.Append("/Fm");
         page.Append(objNumber);
