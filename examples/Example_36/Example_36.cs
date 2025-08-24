@@ -17,6 +17,7 @@ public class Example_36 {
         form.MoveTo(0f, 0f);
         form.LineTo(50f, 50f);
         form.StrokePath();
+        form.SetPenColor(Color.blue);
         form.MoveTo(0f, 0f);
         form.LineTo(100f, 0f);
         form.LineTo(100f, 100f);
@@ -26,10 +27,10 @@ public class Example_36 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-//        image.SetLocation(100f, 100f);
+        // image.SetLocation(100f, 100f);
         // image.DrawOn(page);
 
-        // form.SetLocation(0f, 0f);
+        form.SetLocation(0f, 0f);
         form.DrawOn(page, 0f, 0f);
 
         pdf.Complete();
