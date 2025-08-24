@@ -47,6 +47,20 @@ public class FormXObject : Canvas {
         objNumber = pdf.GetObjNumber();
     }
 
+    public float[] DrawOn(Page page) {
+        // page.AddBMC(StructElem.P, language, actualText, altDescription);
+        page.Append("q\n");
+
+        // page.ScaleAndRotate(x, y, w, h, degrees);
+        page.Append("/Fm");
+        page.Append(objNumber);
+        page.Append(" Do\n");
+
+        page.Append("Q\n");
+        // page.AddEMC();
+        return new float[] { 0f, 0f };
+    }
+
     public int GetObjectNumber() {
         return objNumber;
     }
