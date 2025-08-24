@@ -49,23 +49,23 @@ public class EmbeddedFile {
             buf = baos.ToArray();
         }
 
-        pdf.Newobj();
-        pdf.Append(Token.beginDictionary);
+        pdf.NewObj();
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /EmbeddedFile\n");
         if (compress == Compress.YES) {
             pdf.Append("/Filter /FlateDecode\n");
         }
-        pdf.Append(Token.length);
+        pdf.Append(Token.Length);
         pdf.Append(buf.Length);
-        pdf.Append(Token.newline);
-        pdf.Append(Token.endDictionary);
-        pdf.Append(Token.stream);
+        pdf.Append(Token.Newline);
+        pdf.Append(Token.EndDictionary);
+        pdf.Append(Token.Stream);
         pdf.Append(buf);
-        pdf.Append(Token.endstream);
-        pdf.Endobj();
+        pdf.Append(Token.EndStream);
+        pdf.EndObj();
 
-        pdf.Newobj();
-        pdf.Append(Token.beginDictionary);
+        pdf.NewObj();
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /Filespec\n");
         pdf.Append("/F (");
         pdf.Append(fileName);
@@ -73,8 +73,8 @@ public class EmbeddedFile {
         pdf.Append("/EF <</F ");
         pdf.Append(pdf.GetObjNumber() - 1);
         pdf.Append(" 0 R>>\n");
-        pdf.Append(Token.endDictionary);
-        pdf.Endobj();
+        pdf.Append(Token.EndDictionary);
+        pdf.EndObj();
 
         this.objNumber = pdf.GetObjNumber();
     }

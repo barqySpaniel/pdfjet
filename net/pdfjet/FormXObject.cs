@@ -17,7 +17,7 @@ public class FormXObject : Canvas {
     }
 
     public void AddToPDF(PDF pdf) {
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Form\n");
@@ -44,7 +44,7 @@ public class FormXObject : Canvas {
         pdf.Append("stream\n");
         pdf.Append(buf.ToArray());
         pdf.Append("\nendstream\n");
-        pdf.Endobj();
+        pdf.EndObj();
         pdf.formXObjects.Add(this);
         objNumber = pdf.GetObjNumber();
     }

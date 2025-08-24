@@ -105,7 +105,7 @@ public class Font {
         this.fontDescent = font.bBoxLLy;
         SetSize(size);
 
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /Font\n");
         pdf.Append("/Subtype /Type1\n");
@@ -116,7 +116,7 @@ public class Font {
             pdf.Append("/Encoding /WinAnsiEncoding\n");
         }
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
         objNumber = pdf.GetObjNumber();
 
         pdf.fonts.Add(this);
@@ -160,7 +160,7 @@ public class Font {
         this.bodyHeight = this.ascent + this.descent;
 
         // Font Descriptor
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /FontDescriptor\n");
         pdf.Append("/FontName /");
@@ -169,10 +169,10 @@ public class Font {
         pdf.Append("/Flags 4\n");
         pdf.Append("/FontBBox [0 0 0 0]\n");
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         // CIDFont Dictionary
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /Font\n");
         pdf.Append("/Subtype /CIDFontType0\n");
@@ -202,10 +202,10 @@ public class Font {
         }
         pdf.Append(">>\n");
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         // Type0 Font Dictionary
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /Font\n");
         pdf.Append("/Subtype /Type0\n");
@@ -230,7 +230,7 @@ public class Font {
         pdf.Append(pdf.GetObjNumber() - 1);
         pdf.Append(" 0 R]\n");
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
         objNumber = pdf.GetObjNumber();
 
         pdf.fonts.Add(this);

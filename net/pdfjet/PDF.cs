@@ -126,21 +126,21 @@ public class PDF {
         Append((byte) 0x00F4);
         Append((byte) 0x00F5);
         Append((byte) 0x00F6);
-        Append(Token.newline);
+        Append(Token.Newline);
     }
 
     public void SetCompliance(Compliance compliance) {
         this.compliance = compliance;
     }
 
-    internal void Newobj() {
+    internal void NewObj() {
         objOffset.Add(byteCount);
         Append(objOffset.Count);
-        Append(Token.newobj);
+        Append(Token.NewObj);
     }
 
-    internal void Endobj() {
-        Append(Token.endobj);
+    internal void EndObj() {
+        Append(Token.EndObj);
     }
 
     internal int GetObjNumber() {
@@ -252,25 +252,25 @@ public class PDF {
         byte[] xml = (new System.Text.UTF8Encoding()).GetBytes(sb.ToString());
 
         // This is the metadata object
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Type /Metadata\n");
         Append("/Subtype /XML\n");
         Append("/Length ");
         Append(xml.Length);
-        Append(Token.newline);
-        Append(Token.endDictionary);
-        Append(Token.stream);
+        Append(Token.Newline);
+        Append(Token.EndDictionary);
+        Append(Token.Stream);
         Append(xml, 0, xml.Length);
-        Append(Token.endstream);
-        Endobj();
+        Append(Token.EndStream);
+        EndObj();
 
         return GetObjNumber();
     }
 
     private int AddOutputIntentObject() {
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/N 3\n");
 
         Append("/Length ");
@@ -278,15 +278,15 @@ public class PDF {
         Append("\n");
 
         Append("/Filter /FlateDecode\n");
-        Append(Token.endDictionary);
-        Append(Token.stream);
+        Append(Token.EndDictionary);
+        Append(Token.Stream);
         Append(ICCBlackScaled.profile, 0, ICCBlackScaled.profile.Length);
-        Append(Token.endstream);
-        Endobj();
+        Append(Token.EndStream);
+        EndObj();
 
         // OutputIntent object
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Type /OutputIntent\n");
         Append("/S /GTS_PDFA1\n");
         Append("/OutputCondition (sRGB IEC61966-2.1)\n");
@@ -294,39 +294,39 @@ public class PDF {
         Append("/Info (sRGB IEC61966-2.1)\n");
         Append("/DestOutputProfile ");
         Append(GetObjNumber() - 1);
-        Append(Token.objRef);
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.ObjRef);
+        Append(Token.EndDictionary);
+        EndObj();
 
         return GetObjNumber();
     }
 
     private int AddResourcesObject() {
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         if (!extGState.Equals("")) {
             Append(extGState);
         }
 
         if (fonts.Count > 0 || importedFonts.Count > 0) {
             Append("/Font\n");
-            Append(Token.beginDictionary);
+            Append(Token.BeginDictionary);
             foreach (String token in importedFonts) {
                 Append(token);
                 if (token.Equals("R")) {
-                    Append(Token.newline);
+                    Append(Token.Newline);
                 } else {
-                    Append(Token.space);
+                    Append(Token.Space);
                 }
             }
             foreach (Font font in fonts) {
                 Append("/F");
                 Append(font.objNumber);
-                Append(Token.space);
+                Append(Token.Space);
                 Append(font.objNumber);
-                Append(Token.objRef);
+                Append(Token.ObjRef);
             }
-            Append(Token.endDictionary);
+            Append(Token.EndDictionary);
         }
 
         // Check if we have ANY XObjects at all
@@ -356,16 +356,16 @@ public class PDF {
 
         if (groups.Count > 0) {
             Append("/Properties\n");
-            Append(Token.beginDictionary);
+            Append(Token.BeginDictionary);
             for (int i = 0; i < groups.Count; i++) {
                 OptionalContentGroup ocg = groups[i];
                 Append("/OC");
                 Append(i + 1);
-                Append(Token.space);
+                Append(Token.Space);
                 Append(ocg.objNumber);
-                Append(Token.objRef);
+                Append(Token.ObjRef);
             }
-            Append(Token.endDictionary);
+            Append(Token.EndDictionary);
         }
         // String state = "/CA 0.5 /ca 0.5";
         if (states.Count > 0) {
@@ -375,18 +375,18 @@ public class PDF {
                 Append(states[state]);
                 Append(" <<");
                 Append(state);
-                Append(Token.endDictionary);
+                Append(Token.EndDictionary);
             }
-            Append(Token.endDictionary);
+            Append(Token.EndDictionary);
         }
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
         return GetObjNumber();
     }
 
     private int AddPagesObject() {
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Type /Pages\n");
         Append("/Kids [\n");
         for (int i = 0; i < pages.Count; i++) {
@@ -400,16 +400,16 @@ public class PDF {
         Append("]\n");
         Append("/Count ");
         Append(pages.Count);
-        Append(Token.newline);
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.Newline);
+        Append(Token.EndDictionary);
+        EndObj();
         return GetObjNumber();
     }
 
     private int AddInfoObject() {
         // Add the info object
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Title (");
         Append(title);
         Append(")\n");
@@ -428,35 +428,35 @@ public class PDF {
         Append("/CreationDate (D:");
         Append(creationDate.Substring(0, creationDate.Length - 1)); // Remove the 'Z'
         Append("-05'00')\n");
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
         return GetObjNumber();
     }
 
     private int AddStructTreeRootObject() {
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Type /StructTreeRoot\n");
         Append("/ParentTree ");
         Append(GetObjNumber() + 1);
-        Append(Token.objRef);
+        Append(Token.ObjRef);
         Append("/K [\n");
         Append(GetObjNumber() + 2);
-        Append(Token.objRef);
+        Append(Token.ObjRef);
         Append("]\n");
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
         return GetObjNumber();
     }
 
     private int AddStructDocumentObject(int parent) {
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Type /StructElem\n");
         Append("/S /Document\n");
         Append("/P ");
         Append(parent);
-        Append(Token.objRef);
+        Append(Token.ObjRef);
         Append("/K [\n");
         foreach (Page page in pages) {
             foreach (StructElem structElement in page.structElements) {
@@ -465,8 +465,8 @@ public class PDF {
             }
         }
         Append("]\n");
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
         return GetObjNumber();
     }
 
@@ -477,7 +477,7 @@ public class PDF {
         }
         foreach (Page page in pages) {
             foreach (StructElem element in page.structElements) {
-                Newobj();
+                NewObj();
                 element.objNumber = GetObjNumber();
                 Append("<<\n/Type /StructElem /S /");
                 Append(element.structure);
@@ -485,7 +485,7 @@ public class PDF {
                 Append(structTreeRootObjNumber + 2);    // Use the document struct as parent!
                 Append(" 0 R\n/Pg ");
                 Append(element.pageObjNumber);
-                Append(Token.objRef);
+                Append(Token.ObjRef);
 
                 if (element.annotation != null) {
                     Append("/K <</Type /OBJR /Obj ");
@@ -513,8 +513,8 @@ public class PDF {
                 Append(ToHex(element.altDescription));
                 Append(">\n");
 
-                 Append(">>\n");
-                Endobj();
+                Append(">>\n");
+                EndObj();
             }
         }
     }
@@ -557,8 +557,8 @@ public class PDF {
     }
 
     private void AddNumsParentTree() {
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Nums [\n");
         for (int i = 0; i < pages.Count; i++) {
             Page page = pages[i];
@@ -567,7 +567,7 @@ public class PDF {
             foreach (StructElem element in page.structElements) {
                 if (element.annotation == null) {
                     Append(element.objNumber);
-                    Append(Token.objRef);
+                    Append(Token.ObjRef);
                 }
             }
             Append("]\n");
@@ -577,22 +577,22 @@ public class PDF {
             foreach (StructElem element in page.structElements) {
                 if (element.annotation != null) {
                     Append(index);
-                    Append(Token.space);
+                    Append(Token.Space);
                     Append(element.objNumber);
-                    Append(Token.objRef);
+                    Append(Token.ObjRef);
                     index++;
                 }
             }
         }
         Append("]\n");
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
     }
 
     private int AddRootObject(int structTreeRootObjNumber, int outlineDictNum) {
         // Add the root object
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Type /Catalog\n");
 
         if (compliance != Compliance.PDF_15) {
@@ -611,13 +611,13 @@ public class PDF {
         if (pageLayout != null) {
             Append("/PageLayout /");
             Append(pageLayout);
-            Append(Token.newline);
+            Append(Token.Newline);
         }
 
         if (pageMode != null) {
             Append("/PageMode /");
             Append(pageMode);
-            Append(Token.newline);
+            Append(Token.Newline);
         }
 
         AddOCProperties();
@@ -642,8 +642,8 @@ public class PDF {
             Append(" 0 R\n");
         }
 
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
         return GetObjNumber();
     }
 
@@ -652,11 +652,11 @@ public class PDF {
         Append(boxName);
         Append(" [");
         Append(rect[0]);
-        Append(Token.space);
+        Append(Token.Space);
         Append(page.height - rect[3]);
-        Append(Token.space);
+        Append(Token.Space);
         Append(rect[2]);
-        Append(Token.space);
+        Append(Token.Space);
         Append(page.height - rect[1]);
         Append("]\n");
     }
@@ -686,9 +686,9 @@ public class PDF {
             Page page = pages[i];
 
             // Page object
-            Newobj();
+            NewObj();
             page.objNumber = GetObjNumber();
-            Append(Token.beginDictionary);
+            Append(Token.BeginDictionary);
             Append("/Type /Page\n");
             Append("/Parent ");
             Append(pagesObjNumber);
@@ -734,11 +734,11 @@ public class PDF {
                 Append("/Tabs /S\n");
                 Append("/StructParents ");
                 Append(i);
-                Append(Token.newline);
+                Append(Token.Newline);
             }
 
-            Append(Token.endDictionary);
-            Endobj();
+            Append(Token.EndDictionary);
+            EndObj();
         }
     }
 /*
@@ -749,40 +749,40 @@ public class PDF {
         dos.Write(buf, 0, buf.Length);
         page.buf = null;    // Release the page content memory!
 
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Filter /FlateDecode\n");
         Append("/Length ");
         Append(baos.Length);
-        Append(Token.newline);
-        Append(Token.endDictionary);
-        Append(Token.stream);
+        Append(Token.Newline);
+        Append(Token.EndDictionary);
+        Append(Token.Stream);
         Append(baos);
-        Append(Token.endstream);
-        Endobj();
+        Append(Token.EndStream);
+        EndObj();
         page.contents.Add(GetObjNumber());
     }
 */
     // Use this method on systems that don't have Deflater stream or when troubleshooting.
     private void AddPageContent(Page page) {
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Length ");
         Append(page.buf.Length);
-        Append(Token.newline);
-        Append(Token.endDictionary);
-        Append(Token.stream);
+        Append(Token.Newline);
+        Append(Token.EndDictionary);
+        Append(Token.Stream);
         Append(page.buf);
-        Append(Token.endstream);
-        Endobj();
+        Append(Token.EndStream);
+        EndObj();
         page.buf = null;    // Release the page content memory!
         page.contents.Add(GetObjNumber());
     }
 
     private int AddAnnotationObject(Annotation annot, int index) {
-        Newobj();
+        NewObj();
         annot.objNumber = GetObjNumber();
-        Append(Token.beginDictionary);
+        Append(Token.BeginDictionary);
         Append("/Type /Annot\n");
         if (annot.fileAttachment != null) {
             Append("/Subtype /FileAttachment\n");
@@ -837,8 +837,8 @@ public class PDF {
             Append(index++);
             Append("\n");
         }
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
 
         return index;
     }
@@ -1395,8 +1395,8 @@ public class PDF {
 
     public int AddOutlineDict(Bookmark toc) {
         int numOfChildren = GetNumOfChildren(0, toc);
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Type /Outlines\n");
         Append("/First ");
         Append(GetObjNumber() + 1);
@@ -1406,9 +1406,9 @@ public class PDF {
         Append(" 0 R\n");
         Append("/Count ");
         Append(numOfChildren);
-        Append(Token.newline);
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.Newline);
+        Append(Token.EndDictionary);
+        EndObj();
         return GetObjNumber();
     }
 
@@ -1425,8 +1425,8 @@ public class PDF {
             count = (-1) * GetNumOfChildren(0, bm1);
         }
 
-        Newobj();
-        Append(Token.beginDictionary);
+        NewObj();
+        Append(Token.BeginDictionary);
         Append("/Title <");
         Append(ToHex(bm1.GetTitle()));
         Append(">\n");
@@ -1466,8 +1466,8 @@ public class PDF {
         Append(" ");
         Append(bm1.GetDestination().yPosition);
         Append(" 0]\n");
-        Append(Token.endDictionary);
-        Endobj();
+        Append(Token.EndDictionary);
+        EndObj();
     }
 
     private int GetNumOfChildren(int numOfChildren, Bookmark bm1) {
@@ -1657,7 +1657,7 @@ public class PDF {
                 // Create new object.
                 objOffset.Add(byteCount);
                 Append(obj.number);
-                Append(Token.newobj);
+                Append(Token.NewObj);
                 if (obj.dict != null) {
                     for (int i = 0; i < obj.dict.Count; i++) {
                         Append(obj.dict[i]);
@@ -1670,12 +1670,12 @@ public class PDF {
                         Append(obj.stream.Length);
                         Append(" >>");
                     }
-                    Append(Token.newline);
-                    Append(Token.stream);
+                    Append(Token.Newline);
+                    Append(Token.Stream);
                     Append(obj.stream, 0, obj.stream.Length);
-                    Append(Token.endstream);
+                    Append(Token.EndStream);
                 }
-                Append(Token.endobj);
+                Append(Token.EndObj);
             } else {
                 objOffset.Add(byteCount);
                 bool link = false;
@@ -1691,18 +1691,18 @@ public class PDF {
                     }
                     if (i < (n - 1)) {
                         if (!link) {
-                            Append(Token.space);
+                            Append(Token.Space);
                         }
                     } else {
-                        Append(Token.newline);
+                        Append(Token.Newline);
                     }
                 }
                 if (obj.stream != null) {
                     Append(obj.stream, 0, obj.stream.Length);
-                    Append(Token.endstream);
+                    Append(Token.EndStream);
                 }
                 if (!token.Equals("endobj")) {
-                    Append(Token.endobj);
+                    Append(Token.EndObj);
                 }
             }
         }

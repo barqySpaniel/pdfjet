@@ -54,7 +54,7 @@ class OpenTypeFont {
         AddToUnicodeCMapObject(pdf, font, otf);
 
         // Type0 Font Dictionary
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /Font\n");
         pdf.Append("/Subtype /Type0\n");
@@ -69,7 +69,7 @@ class OpenTypeFont {
         pdf.Append(font.toUnicodeCMapObjNumber);
         pdf.Append(" 0 R\n");
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         font.objNumber = pdf.GetObjNumber();
         pdf.fonts.Add(font);
@@ -86,7 +86,7 @@ class OpenTypeFont {
 
         int metadataObjNumber = pdf.AddMetadataObject(otf.fontInfo, true);
 
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         if (otf.cff) {
             pdf.Append("/Subtype /CIDFontType0C\n");
@@ -113,7 +113,7 @@ class OpenTypeFont {
         pdf.Append("stream\n");
         pdf.Append(otf.baos);
         pdf.Append("\nendstream\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         font.fileObjNumber = pdf.GetObjNumber();
     }
@@ -126,7 +126,7 @@ class OpenTypeFont {
             }
         }
 
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /FontDescriptor\n");
         pdf.Append("/FontName /");
@@ -161,7 +161,7 @@ class OpenTypeFont {
         pdf.Append('\n');
         pdf.Append("/StemV 79\n");
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         font.fontDescriptorObjNumber = pdf.GetObjNumber();
     }
@@ -215,7 +215,7 @@ class OpenTypeFont {
         sb.Append("CMapName currentdict /CMap defineresource pop\n");
         sb.Append("end\nend");
 
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Length ");
         pdf.Append(sb.Length);
@@ -224,7 +224,7 @@ class OpenTypeFont {
         pdf.Append("stream\n");
         pdf.Append(sb.ToString());
         pdf.Append("\nendstream\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         font.toUnicodeCMapObjNumber = pdf.GetObjNumber();
     }
@@ -240,7 +240,7 @@ class OpenTypeFont {
             }
         }
 
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /Font\n");
         if (otf.cff) {
@@ -270,7 +270,7 @@ class OpenTypeFont {
 
         pdf.Append("/CIDToGIDMap /Identity\n");
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         font.cidFontDictObjNumber = pdf.GetObjNumber();
     }

@@ -66,7 +66,7 @@ public class OptionalContentGroup {
             page.pdf.groups.Add(this);
             ocgNumber = page.pdf.groups.Count;
 
-            page.pdf.Newobj();
+            page.pdf.NewObj();
             page.pdf.Append("<<\n");
             page.pdf.Append("/Type /OCG\n");
             page.pdf.Append("/Name (" + name + ")\n");
@@ -88,7 +88,7 @@ public class OptionalContentGroup {
             }
             page.pdf.Append(">>\n");
             page.pdf.Append(">>\n");
-            page.pdf.Endobj();
+            page.pdf.EndObj();
 
             objNumber = page.pdf.GetObjNumber();
 

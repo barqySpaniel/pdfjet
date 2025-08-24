@@ -169,7 +169,7 @@ public class Image : IDrawable {
     public Image(PDF pdf, PDFobj obj) {
         w = float.Parse(obj.GetValue("/Width"));
         h = float.Parse(obj.GetValue("/Height"));
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Image\n");
@@ -210,7 +210,7 @@ public class Image : IDrawable {
         pdf.Append("stream\n");
         pdf.Append(obj.stream, 0, obj.stream.Length);
         pdf.Append("\nendstream\n");
-        pdf.Endobj();
+        pdf.EndObj();
         pdf.images.Add(this);
         objNumber = pdf.GetObjNumber();
     }
@@ -411,7 +411,7 @@ public class Image : IDrawable {
             byte[] data,
             String colorSpace,
             int bitsPerComponent) {
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Image\n");
@@ -435,7 +435,7 @@ public class Image : IDrawable {
         pdf.Append("stream\n");
         pdf.Append(data, 0, data.Length);
         pdf.Append("\nendstream\n");
-        pdf.Endobj();
+        pdf.EndObj();
         objNumber = pdf.GetObjNumber();
     }
 
@@ -449,7 +449,7 @@ public class Image : IDrawable {
         if (alpha != null) {
             AddSoftMask(pdf, alpha, "DeviceGray", bitsPerComponent);
         }
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Image\n");
@@ -486,7 +486,7 @@ public class Image : IDrawable {
         pdf.Append("stream\n");
         pdf.Append(data, 0, data.Length);
         pdf.Append("\nendstream\n");
-        pdf.Endobj();
+        pdf.EndObj();
         pdf.images.Add(this);
         objNumber = pdf.GetObjNumber();
     }

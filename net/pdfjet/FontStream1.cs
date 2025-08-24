@@ -39,13 +39,13 @@ class FontStream1 {
         AddToUnicodeCMapObject(pdf, font);
 
         // Type0 Font Dictionary
-        pdf.Newobj();
-        pdf.Append(Token.beginDictionary);
+        pdf.NewObj();
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /Font\n");
         pdf.Append("/Subtype /Type0\n");
         pdf.Append("/BaseFont /");
         pdf.Append(Encoding.UTF8.GetBytes(font.name));
-        pdf.Append(Token.newline);
+        pdf.Append(Token.Newline);
         pdf.Append("/Encoding /Identity-H\n");
         pdf.Append("/DescendantFonts [");
         pdf.Append(font.cidFontDictObjNumber);
@@ -53,8 +53,8 @@ class FontStream1 {
         pdf.Append("/ToUnicode ");
         pdf.Append(font.toUnicodeCMapObjNumber);
         pdf.Append(" 0 R\n");
-        pdf.Append(Token.endDictionary);
-        pdf.Endobj();
+        pdf.Append(Token.EndDictionary);
+        pdf.EndObj();
 
         font.objNumber = pdf.GetObjNumber();
         pdf.fonts.Add(font);
@@ -70,8 +70,8 @@ class FontStream1 {
         }
 
         int metadataObjNumber = pdf.AddMetadataObject(font.info, true);
-        pdf.Newobj();
-        pdf.Append(Token.beginDictionary);
+        pdf.NewObj();
+        pdf.Append(Token.BeginDictionary);
 
         pdf.Append("/Metadata ");
         pdf.Append(metadataObjNumber);
@@ -83,24 +83,24 @@ class FontStream1 {
         pdf.Append("/Filter /FlateDecode\n");
         pdf.Append("/Length ");
         pdf.Append(font.compressedSize);
-        pdf.Append(Token.newline);
+        pdf.Append(Token.Newline);
 
         if (!font.cff) {
             pdf.Append("/Length1 ");
             pdf.Append(font.uncompressedSize);
-            pdf.Append(Token.newline);
+            pdf.Append(Token.Newline);
         }
 
-        pdf.Append(Token.endDictionary);
-        pdf.Append(Token.stream);
+        pdf.Append(Token.EndDictionary);
+        pdf.Append(Token.Stream);
         byte[] buf = new byte[4096];
         int len;
         while ((len = inputStream.Read(buf, 0, buf.Length)) > 0) {
             pdf.Append(buf, 0, len);
         }
         inputStream.Dispose();
-        pdf.Append(Token.endstream);
-        pdf.Endobj();
+        pdf.Append(Token.EndStream);
+        pdf.EndObj();
 
         font.fileObjNumber = pdf.GetObjNumber();
     }
@@ -113,8 +113,8 @@ class FontStream1 {
             }
         }
 
-        pdf.Newobj();
-        pdf.Append(Token.beginDictionary);
+        pdf.NewObj();
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /FontDescriptor\n");
         pdf.Append("/FontName /");
         pdf.Append(font.name);
@@ -147,8 +147,8 @@ class FontStream1 {
         pdf.Append(font.capHeight);
         pdf.Append('\n');
         pdf.Append("/StemV 79\n");
-        pdf.Append(Token.endDictionary);
-        pdf.Endobj();
+        pdf.Append(Token.EndDictionary);
+        pdf.EndObj();
 
         font.fontDescriptorObjNumber = pdf.GetObjNumber();
     }
@@ -199,7 +199,7 @@ class FontStream1 {
         sb.Append("CMapName currentdict /CMap defineresource pop\n");
         sb.Append("end\nend");
 
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Length ");
         pdf.Append(sb.Length);
@@ -208,7 +208,7 @@ class FontStream1 {
         pdf.Append("stream\n");
         pdf.Append(sb.ToString());
         pdf.Append("\nendstream\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         font.toUnicodeCMapObjNumber = pdf.GetObjNumber();
     }
@@ -221,7 +221,7 @@ class FontStream1 {
             }
         }
 
-        pdf.Newobj();
+        pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /Font\n");
         if (font.cff) {
@@ -251,7 +251,7 @@ class FontStream1 {
 
         pdf.Append("/CIDToGIDMap /Identity\n");
         pdf.Append(">>\n");
-        pdf.Endobj();
+        pdf.EndObj();
 
         font.cidFontDictObjNumber = pdf.GetObjNumber();
     }

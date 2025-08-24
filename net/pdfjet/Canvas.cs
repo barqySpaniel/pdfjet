@@ -1146,7 +1146,7 @@ public abstract class Canvas {
             Append("/F");
             Append(font.objNumber);
         }
-        Append(Token.space);
+        Append(Token.Space);
         Append(fontSize);
         Append(" Tf\n");
     }
@@ -1485,7 +1485,7 @@ public abstract class Canvas {
      */
     internal void SetTextLocation(float x, float y) {
         Append(x);
-        Append(Token.space);
+        Append(Token.Space);
         Append(height - y);
         Append(" Td\n");
     }
