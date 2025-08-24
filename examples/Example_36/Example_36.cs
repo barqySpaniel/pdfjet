@@ -14,15 +14,16 @@ public class Example_36 {
         // Image image = new Image(pdf, "images/ee-map.png");
 
         FormXObject form = new FormXObject(pdf, 100f, 100f);
-        form.MoveTo(0f, 0f);
-        form.LineTo(50f, 50f);
-        form.StrokePath();
         form.SetPenColor(Color.blue);
         form.MoveTo(0f, 0f);
         form.LineTo(100f, 0f);
         form.LineTo(100f, 100f);
         form.LineTo(0f, 100f);
         form.ClosePath();
+        form.SetPenColor(Color.black);
+        form.MoveTo(0f, 0f);
+        form.LineTo(50f, 50f);
+        form.StrokePath();
         form.AddToPDF(pdf);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
@@ -31,7 +32,7 @@ public class Example_36 {
         // image.DrawOn(page);
 
         form.SetLocation(0f, 0f);
-        form.DrawOn(page, 0f, 0f);
+        form.DrawOn(page);
 
         pdf.Complete();
     }

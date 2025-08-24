@@ -54,12 +54,31 @@ public class FormXObject : Canvas {
         this.y = y;
     }
 
-    public float[] DrawOn(Page page, float x, float y) {
+    public float[] DrawOn(Page page) {
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
-        page.Append("q\n");
+        page.Append("q\n"); // Save the graphics state
 
-        // page.ScaleAndRotate(x, y, width, height - y, 0f);
-        // page.Append("300 300 cm\n");
+        // Create the transformation matrix.
+        //    This matrix does two things:
+        //    a) Translates the object to (x, y) on the page.
+        //    b) Flips the Y-axis so (0,0) is top-left.
+        // The matrix is: [1, 0, 0, -1, x, height + y]
+        // [1  0  0]   --> Scales X by 1 (no change)
+        // [0  -1 0]   --> Scales Y by -1 (flips it vertically)
+        // [x  y' 1]   --> Translates by x and y' (y' = page_height - y - form_height)
+        //
+        // But since we stored 'y' from the top, we need to adjust.
+        // Let 'pageHeight' be the height of the page (e.g., 792 for Letter).
+        float pageHeight = page.GetHeight();
+        float tx = this.x;
+        float ty = pageHeight - this.y; // - this.height; // Calculate the Y translation
+
+        // Write the cm command: [a b c d e f] cm
+        page.Append("1 0 0 -1 "); // Scale X by 1, Scale Y by -1 (flip)
+        page.Append(tx);
+        page.Append(' ');
+        page.Append(ty);
+        page.Append(" cm\n"); // Concatenate this matrix to the current transformation matrix
 
         page.Append("/Fm");
         page.Append(objNumber);
