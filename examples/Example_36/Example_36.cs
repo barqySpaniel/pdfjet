@@ -31,7 +31,7 @@ public class Example_36 {
         // image.SetLocation(100f, 100f);
         // image.DrawOn(page);
 
-        form.SetLocation(0f, 0f);
+        form.SetLocation(100f, 100f);
         form.DrawOn(page);
 
         pdf.Complete();

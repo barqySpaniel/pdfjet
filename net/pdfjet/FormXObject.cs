@@ -55,38 +55,30 @@ public class FormXObject : Canvas {
     }
 
     public float[] DrawOn(Page page) {
-        // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n"); // Save the graphics state
 
-        // Create the transformation matrix.
-        //    This matrix does two things:
-        //    a) Translates the object to (x, y) on the page.
-        //    b) Flips the Y-axis so (0,0) is top-left.
-        // The matrix is: [1, 0, 0, -1, x, height + y]
-        // [1  0  0]   --> Scales X by 1 (no change)
-        // [0  -1 0]   --> Scales Y by -1 (flips it vertically)
-        // [x  y' 1]   --> Translates by x and y' (y' = page_height - y - form_height)
-        //
-        // But since we stored 'y' from the top, we need to adjust.
-        // Let 'pageHeight' be the height of the page (e.g., 792 for Letter).
+        // Calculate the correct Y position for a top-down coordinate system.
+        // We are given a desired (x, y) where (0,0) is the top-left of the page.
+        // We need to convert this 'y' to the PDF's coordinate system where (0,0) is the bottom-left.
         float pageHeight = page.GetHeight();
-        float tx = this.x;
-        float ty = pageHeight - this.y; // - this.height; // Calculate the Y translation
+        float drawX = this.x;
+        float drawY = (pageHeight - this.height) - this.y;  // The key calculation
 
-        // Write the cm command: [a b c d e f] cm
-        page.Append("1 0 0 -1 "); // Scale X by 1, Scale Y by -1 (flip)
-        page.Append(tx);
+        // Apply a simple translation matrix to move the FormXObject.
+        // [1 0 0 1 drawX drawY] cm
+        page.Append("1 0 0 1 ");
+        page.Append(drawX);
         page.Append(' ');
-        page.Append(ty);
-        page.Append(" cm\n"); // Concatenate this matrix to the current transformation matrix
+        page.Append(drawY);
+        page.Append(" cm\n");
 
+        // Draw the Form XObject. Its internal (0,0) will now be at (drawX, drawY).
         page.Append("/Fm");
         page.Append(objNumber);
         page.Append(" Do\n");
 
-        page.Append("Q\n");
-        // page.AddEMC();
-        return new float[] { 0f, 0f };
+        page.Append("Q\n"); // Restore the graphics state
+        return new float[] { this.x, this.y };
     }
 
     public int GetObjectNumber() {
