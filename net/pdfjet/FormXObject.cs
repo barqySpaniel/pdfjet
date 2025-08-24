@@ -7,6 +7,8 @@ namespace PDFjet.NET {
 public class FormXObject : Canvas {
     public int objNumber = -1;
     private Dictionary<string, int> resourceRefs;
+    private float x;
+    private float y;
 
     public FormXObject(PDF pdf, float width, float height) : base(pdf) {
         base.width = width;
@@ -47,18 +49,23 @@ public class FormXObject : Canvas {
         objNumber = pdf.GetObjNumber();
     }
 
-    public float[] DrawOn(Page page) {
-        // 1. CHECK IF THE FORM HAS BEEN ADDED TO THE PDF YET
-        //    (objNumber is invalid until AddToPDF is called)
-        if (this.objNumber == -1) {
-            // 2. IF NOT, ADD IT NOW.
-            this.AddToPDF(page.pdf);
-        }
+    public void SetLocation(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public float[] DrawOn(Page page, float x, float y) {
+//        // 1. CHECK IF THE FORM HAS BEEN ADDED TO THE PDF YET
+//        //    (objNumber is invalid until AddToPDF is called)
+//        if (this.objNumber == -1) {
+//            // 2. IF NOT, ADD IT NOW.
+//            this.AddToPDF(page.pdf);
+//        }
 
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
 
-        // page.ScaleAndRotate(x, y, w, h, degrees);
+        // page.ScaleAndRotate(x, y, width, height - y, 0f);
         // page.Append("300 300 cm\n");
 
         page.Append("/Fm");

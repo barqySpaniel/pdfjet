@@ -13,19 +13,24 @@ public class Example_36 {
 
         // Image image = new Image(pdf, "images/ee-map.png");
 
-        FormXObject form = new FormXObject(pdf, 200f, 200f);
+        FormXObject form = new FormXObject(pdf, 100f, 100f);
         form.MoveTo(0f, 0f);
         form.LineTo(50f, 50f);
         form.StrokePath();
-        // form.AddToPDF(pdf);
+        form.MoveTo(0f, 0f);
+        form.LineTo(100f, 0f);
+        form.LineTo(100f, 100f);
+        form.LineTo(0f, 100f);
+        form.ClosePath();
+        form.AddToPDF(pdf);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
 //        image.SetLocation(100f, 100f);
         // image.DrawOn(page);
 
-        // form.SetLocation(200f, 200f);
-        form.DrawOn(page);
+        // form.SetLocation(0f, 0f);
+        form.DrawOn(page, 0f, 0f);
 
         pdf.Complete();
     }
