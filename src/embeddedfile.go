@@ -94,7 +94,7 @@ func NewEmbeddedFile(pdf *PDF, fileName string, reader io.Reader, compress bool)
 	pdf.appendByteArray(tokens.EndDictionary)
 	pdf.appendByteArray(tokens.Stream)
 	pdf.appendByteArray(file.content)
-	pdf.appendByteArray(tokens.Endstream)
+	pdf.appendByteArray(tokens.EndStream)
 	pdf.endobj()
 
 	pdf.newobj()

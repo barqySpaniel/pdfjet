@@ -282,11 +282,11 @@ func (pdf *PDF) addMetadataObject(notice string, fontMetadataObject bool) int {
 	pdf.appendString("/Subtype /XML\n")
 	pdf.appendByteArray(tokens.Length)
 	pdf.appendInteger(len(xml))
-	pdf.appendByteArray(tokens.Newline)
+	pdf.appendByte(tokens.Newline)
 	pdf.appendByteArray(tokens.EndDictionary)
 	pdf.appendByteArray(tokens.Stream)
 	pdf.appendByteArray(xml)
-	pdf.appendByteArray(tokens.Endstream)
+	pdf.appendByteArray(tokens.EndStream)
 	pdf.endobj()
 
 	return pdf.getObjNumber()
@@ -299,13 +299,13 @@ func (pdf *PDF) addOutputIntentObject() int {
 
 	pdf.appendByteArray(tokens.Length)
 	pdf.appendInteger(len(ICCBlackScaledProfile))
-	pdf.appendByteArray(tokens.Newline)
+	pdf.appendByte(tokens.Newline)
 
 	pdf.appendString("/Filter /FlateDecode\n")
 	pdf.appendByteArray(tokens.EndDictionary)
 	pdf.appendByteArray(tokens.Stream)
 	pdf.appendByteArray(ICCBlackScaledProfile)
-	pdf.appendByteArray(tokens.Endstream)
+	pdf.appendByteArray(tokens.EndStream)
 	pdf.endobj()
 
 	// OutputIntent object

@@ -242,7 +242,7 @@ func addCIDFontDictionaryObject(pdf *PDF, font *Font) {
 	}
 	pdf.appendString("/BaseFont /")
 	pdf.appendString(font.name)
-	pdf.appendByteArray(tokens.Newline)
+	pdf.appendByte(tokens.Newline)
 	pdf.appendString("/CIDSystemInfo <</Registry (Adobe) /Ordering (Identity) /Supplement 0>>\n")
 	pdf.appendString("/FontDescriptor ")
 	pdf.appendInteger(font.fontDescriptorObjNumber)

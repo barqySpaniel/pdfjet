@@ -1090,7 +1090,7 @@ func (page *Page) SetTextFont(font *Font) {
 		page.appendString("/F")
 		page.appendInteger(font.objNumber)
 	}
-	page.appendByteArray(tokens.Space)
+	page.appendByte(tokens.Space)
 	page.appendFloat32(font.size)
 	page.appendString(" Tf\n")
 }
@@ -1460,7 +1460,7 @@ func (page *Page) EndText() {
 
 func (page *Page) SetTextLocation(x, y float32) {
 	page.appendFloat32(x)
-	page.appendByteArray(tokens.Space)
+	page.appendByte(tokens.Space)
 	page.appendFloat32(page.height - y)
 	page.appendString(" Td\n")
 }
