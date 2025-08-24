@@ -75,22 +75,22 @@ public class EmbeddedFile {
         }
 
         pdf.newobj();
-        pdf.append(Token.beginDictionary);
+        pdf.append(Token.BEGIN_DICTIONARY);
         pdf.append("/Type /EmbeddedFile\n");
         if (compress == Compress.YES) {
             pdf.append("/Filter /FlateDecode\n");
         }
-        pdf.append(Token.length);
+        pdf.append(Token.LENGTH);
         pdf.append(buf.length);
-        pdf.append(Token.newline);
-        pdf.append(Token.endDictionary);
-        pdf.append(Token.stream);
+        pdf.append(Token.NEWLINE);
+        pdf.append(Token.END_DICTIONARY);
+        pdf.append(Token.STREAM);
         pdf.append(buf);
-        pdf.append(Token.endstream);
+        pdf.append(Token.END_STREAM);
         pdf.endobj();
 
         pdf.newobj();
-        pdf.append(Token.beginDictionary);
+        pdf.append(Token.BEGIN_DICTIONARY);
         pdf.append("/Type /Filespec\n");
         pdf.append("/F (");
         pdf.append(fileName);
@@ -98,7 +98,7 @@ public class EmbeddedFile {
         pdf.append("/EF <</F ");
         pdf.append(pdf.getObjNumber() - 1);
         pdf.append(" 0 R>>\n");
-        pdf.append(Token.endDictionary);
+        pdf.append(Token.END_DICTIONARY);
         pdf.endobj();
 
         this.objNumber = pdf.getObjNumber();

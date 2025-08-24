@@ -1444,7 +1444,7 @@ final public class Page {
             append("/F");
             append(font.objNumber);
         }
-        append(Token.space);
+        append(Token.SPACE);
         append(font.size);
         append(" Tf\n");
     }
@@ -1867,20 +1867,20 @@ final public class Page {
         float transy = values[MTRANS_Y];
 
         append(scalex);
-        append(Token.space);
+        append(Token.SPACE);
         append(values[MSKEW_X]);
-        append(Token.space);
+        append(Token.SPACE);
         append(values[MSKEW_Y]);
-        append(Token.space);
+        append(Token.SPACE);
         append(scaley);
-        append(Token.space);
+        append(Token.SPACE);
 
         if (Math.asin(values[MSKEW_Y]) != 0f) {
             transx -= values[MSKEW_Y] * height / scaley;
         }
 
         append(transx);
-        append(Token.space);
+        append(Token.SPACE);
         append(-transy);
         append(" cm\n");
 
@@ -1916,7 +1916,7 @@ final public class Page {
      */
     private void setTextLocation(float x, float y) {
         append(x);
-        append(Token.space);
+        append(Token.SPACE);
         append(height - y);
         append(" Td\n");
     }
@@ -1954,7 +1954,7 @@ final public class Page {
     void drawText(String str, float x, float y) {
         append("BT\n");
         append(x);
-        append(Token.space);
+        append(Token.SPACE);
         append(height - y);
         append(" Td\n");
         if (font.isCoreFont) {

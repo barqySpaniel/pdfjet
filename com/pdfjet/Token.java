@@ -1,17 +1,27 @@
 package com.pdfjet;
 
+import java.nio.charset.StandardCharsets;
+
 public class Token {
-    public static final byte space = ' ';
-    public static final byte newline = '\n';
-    public static final byte[] beginDictionary = "<<\n".getBytes();
-    public static final byte[] endDictionary = ">>\n".getBytes();
-    public static final byte[] stream = "stream\n".getBytes();
-    public static final byte[] endstream = "\nendstream\n".getBytes();
-    public static final byte[] newobj = " 0 obj\n".getBytes();
-    public static final byte[] endobj = "endobj\n".getBytes();
-    public static final byte[] objRef = " 0 R\n".getBytes();
-    public static final byte[] beginText = "BT\n".getBytes();
-    public static final byte[] endText = "ET\n".getBytes();
-    public static final byte[] count = "/Count ".getBytes();
-    public static final byte[] length = "/Length ".getBytes();
+    // Fundamental structural tokens
+    public static final byte SPACE = (byte) ' ';
+    public static final byte NEWLINE = (byte) '\n';
+    public static final byte[] BEGIN_DICTIONARY = "<<\n".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] END_DICTIONARY = ">>\n".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] STREAM = "stream\n".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] END_STREAM = "\nendstream\n".getBytes(StandardCharsets.US_ASCII);
+
+    // Object management tokens
+    public static final byte[] NEW_OBJ = " 0 obj\n".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] END_OBJ = "endobj\n".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] OBJ_REF = " 0 R\n".getBytes(StandardCharsets.US_ASCII);
+
+    // Text and content tokens
+    public static final byte[] BEGIN_TEXT = "BT\n".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] END_TEXT = "ET\n".getBytes(StandardCharsets.US_ASCII);
+
+    // Essential property tokens (used everywhere)
+    public static final byte[] LENGTH = "/Length ".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] TYPE = "/Type ".getBytes(StandardCharsets.US_ASCII);
+    public static final byte[] RESOURCES = "/Resources ".getBytes(StandardCharsets.US_ASCII);
 }
