@@ -24,20 +24,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-//var BeginDictionary = []byte("<<\n")
-//var EndDictionary = []byte(">>\n")
-//var Stream = []byte("stream\n")
-//var Endstream = []byte("\nendstream\n")
-//var Newobj = []byte(" 0 obj\n")
-//var Endobj = []byte("endobj\n")
-//var ObjRef = []byte(" 0 R\n")
-//var beginText = []byte("BT\n")
-//var endText = []byte("ET\n")
-//var Count = []byte("/Count ")
-//var Length = []byte("/Length ")
-//var Space = []byte(" ")
-//var Newline = []byte("\n")
-
 var (
 	Space           = byte(' ')
 	Newline         = byte('\n')
