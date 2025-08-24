@@ -307,6 +307,7 @@ public class PDF {
         if (!extGState.Equals("")) {
             Append(extGState);
         }
+
         if (fonts.Count > 0 || importedFonts.Count > 0) {
             Append("/Font\n");
             Append(Token.beginDictionary);
