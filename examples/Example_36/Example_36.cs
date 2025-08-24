@@ -34,6 +34,12 @@ public class Example_36 {
         form.SetLocation(100f, 100f);
         form.DrawOn(page);
 
+        form.SetLocation(200f, 200f);
+        form.DrawOn(page);
+
+        form.SetLocation(300f, 300f);
+        form.DrawOn(page);
+
         pdf.Complete();
     }
 
