@@ -16,12 +16,12 @@ public class Example_36 {
                 new FileStream("Example_36.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, IBMPlexSans.Regular);
-        font.SetSize(16f);
+        font.SetSize(12f);
         // Font font = new Font(pdf, CoreFont.HELVETICA);
+        // font.SetSize(12f);
 
         // Create a 100x100 point Form XObject (reusable graphics container)
         FormXObject form = new FormXObject(pdf, 100f, 100f);
-        form.AddFontResource(font);
 
         // Draw a blue square
         form.SetPenColor(Color.blue);

@@ -6,23 +6,22 @@ using System.Collections.Generic;
 namespace PDFjet.NET {
 public class FormXObject : Canvas {
     public int objNumber;
-    private Dictionary<string, int> resourceRefs;
     private float x;
     private float y;
     private float rotateDegrees = 0f;
+    private Dictionary<String, int> resourceRefs = new Dictionary<String, int>();
     private List<TextLine> textLines = new List<TextLine>();
 
     public FormXObject(PDF pdf, float width, float height) : base(pdf) {
         base.width = width;
         base.height = height;
-        this.resourceRefs = new Dictionary<string, int>();
 
         // Scale the following drawing operations so they fit in the 1x1 object.
-//        float scalingFactor = 1f / (float)Math.Max(width, height);
-//        Append(FastFloat.ToByteArray(scalingFactor));
-//        Append(" 0 0 ");
-//        Append(FastFloat.ToByteArray(scalingFactor));
-//        Append(" 0 0 cm\n");
+        //  float scalingFactor = 1f / (float)Math.Max(width, height);
+        //  Append(FastFloat.ToByteArray(scalingFactor));
+        //  Append(" 0 0 ");
+        //  Append(FastFloat.ToByteArray(scalingFactor));
+        //  Append(" 0 0 cm\n");
     }
 
     public void SetLocation(float x, float y) {
@@ -59,10 +58,6 @@ public class FormXObject : Canvas {
 
     public void SetRotateDegreesCCW(double degrees) {
         this.rotateDegrees = (float) degrees;
-    }
-
-    public void AddFontResource(Font font) {
-        resourceRefs["F" + font.objNumber] = font.objNumber;
     }
 
     public void Add(TextLine text) {
