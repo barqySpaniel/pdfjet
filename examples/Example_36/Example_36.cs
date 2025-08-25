@@ -17,8 +17,6 @@ public class Example_36 {
 
         Font font = new Font(pdf, IBMPlexSans.Regular);
         font.SetSize(14f);
-        // Font font = new Font(pdf, CoreFont.HELVETICA);
-        // font.SetSize(14f);
 
         // Create a 100x100 point Form XObject (reusable graphics container)
         FormXObject form = new FormXObject(pdf, 100f, 100f);
@@ -45,7 +43,7 @@ public class Example_36 {
         form.Add(text);
 
         text = new TextLine(font, "World");
-        text.SetLocation(15f, 35f);
+        text.SetLocation(35f, 35f);
         text.SetTextColor(Color.blue);
         form.Add(text);
 
