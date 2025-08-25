@@ -39,7 +39,7 @@ public class Example_36 {
         text.DrawOn(form);
 
         // Finalize the Form XObject definition in the PDF
-        form.AddToPDF(pdf);
+        form.Complete();
 
         // Create a new page
         Page page = new Page(pdf, Letter.PORTRAIT);

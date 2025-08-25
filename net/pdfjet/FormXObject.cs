@@ -16,7 +16,12 @@ public class FormXObject : Canvas {
         this.resourceRefs = new Dictionary<string, int>();
     }
 
-    public void AddToPDF(PDF pdf) {
+    public void SetLocation(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void Complete() {
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
@@ -49,11 +54,6 @@ public class FormXObject : Canvas {
         objNumber = pdf.GetObjNumber();
     }
 
-    public void SetLocation(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
     public float[] DrawOn(Page page) {
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n"); // Save the graphics state
@@ -82,43 +82,6 @@ public class FormXObject : Canvas {
         // page.AddEMC();
 
         return new float[] { this.x + width, this.y + height };
-    }
-
-    public int GetObjectNumber() {
-        return objNumber;
-    }
-
-    private void WriteString(String s) {
-        var bytes = Encoding.ASCII.GetBytes(s);
-        buf.Write(bytes, 0, bytes.Length);
-    }
-
-    public void SetFillColorRGB(float r, float g, float b) {
-        WriteString($"{r} {g} {b} rg\n");
-    }
-
-    public void SetStrokeColorRGB(float r, float g, float b) {
-        WriteString($"{r} {g} {b} RG\n");
-    }
-
-    public void FillRectangle(float x, float y, float w, float h) {
-        WriteString($"{x} {y} {w} {h} re\nf\n");
-    }
-
-    public void DrawRectangle(float x, float y, float w, float h) {
-        WriteString($"{x} {y} {w} {h} re\nS\n");
-    }
-
-    public void Stroke() {
-        WriteString("S\n");
-    }
-
-    public void AddResource(string name, int objNumber) {
-        resourceRefs[name] = objNumber;
-    }
-
-    public byte[] GetFormXObjectData() {
-        return buf.ToArray();
     }
 }   // End of FormXObject.cs
 }   // End of PDFjet.NET
