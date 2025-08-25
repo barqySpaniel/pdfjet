@@ -27,8 +27,8 @@ SOFTWARE.
 ///
 public class Token {
     // Fundamental structural tokens
-    public static let space = " "  //: UInt8 = 32      // ASCII space
-    public static let newline: UInt8 = 10    // ASCII LF
+    public static let space: UInt8 = 32     // ASCII space
+    public static let newline: UInt8 = 10   // ASCII LF
 
     public static let beginDictionary = [UInt8]("<<\n".utf8)
     public static let endDictionary = [UInt8](">>\n".utf8)
