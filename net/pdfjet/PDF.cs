@@ -741,7 +741,7 @@ public class PDF {
             EndObj();
         }
     }
-/*
+
     private void AddPageContent(Page page) {
         MemoryStream baos = new MemoryStream();
         DeflaterOutputStream dos = new DeflaterOutputStream(baos);
@@ -762,7 +762,7 @@ public class PDF {
         EndObj();
         page.contents.Add(GetObjNumber());
     }
-*/
+/*
     // Use this method on systems that don't have Deflater stream or when troubleshooting.
     private void AddPageContent(Page page) {
         NewObj();
@@ -778,7 +778,7 @@ public class PDF {
         page.buf = null;    // Release the page content memory!
         page.contents.Add(GetObjNumber());
     }
-
+*/
     private int AddAnnotationObject(Annotation annot, int index) {
         NewObj();
         annot.objNumber = GetObjNumber();
