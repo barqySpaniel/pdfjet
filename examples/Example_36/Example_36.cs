@@ -16,9 +16,9 @@ public class Example_36 {
                 new FileStream("Example_36.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, IBMPlexSans.Regular);
-        font.SetSize(12f);
+        font.SetSize(14f);
         // Font font = new Font(pdf, CoreFont.HELVETICA);
-        // font.SetSize(12f);
+        // font.SetSize(14f);
 
         // Create a 100x100 point Form XObject (reusable graphics container)
         FormXObject form = new FormXObject(pdf, 100f, 100f);
@@ -73,13 +73,9 @@ public class Example_36 {
         form.DrawOn(page);
 
         // Fourth placement
-        form.SetLocation(100f, 325f);
+        form.SetLocation(100f, 300f);
         form.SetRotateDegreesCCW(45f);
         form.DrawOn(page);
-
-        text = new TextLine(font, "Hello");
-        text.SetLocation(315f, 115f);
-        text.DrawOn(page);
 
         // Finalize the PDF document
         pdf.Complete();
