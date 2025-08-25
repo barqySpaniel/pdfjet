@@ -38,7 +38,7 @@ public class Token {
     // Object management tokens
     public static let newObj = [UInt8](" 0 obj\n".utf8)
     public static let endObj = [UInt8]("endobj\n".utf8)
-    public static let objRef = " 0 R\n" // [UInt8](" 0 R\n".utf8)
+    public static let objRef = [UInt8](" 0 R\n".utf8)
 
     // Text and content tokens
     public static let beginText = [UInt8]("BT\n".utf8)

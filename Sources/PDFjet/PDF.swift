@@ -524,7 +524,6 @@ public class PDF {
     private func addNumsParentTree() {
         var buffer = String()
 
-        // newobj()
         objOffset.append(byteCount)
         buffer.append(String(objOffset.count))
         buffer.append(" 0 obj\n")
@@ -538,7 +537,7 @@ public class PDF {
             for element in page.structures {
                 if element.annotation == nil {
                     buffer.append(String(element.objNumber!))
-                    buffer.append(Token.objRef)
+                    buffer.append(" 0 R\n")
                 }
             }
             buffer.append("]\n")
@@ -548,9 +547,9 @@ public class PDF {
             for element in page.structures {
                 if element.annotation != nil {
                     buffer.append(String(index))
-                    buffer.append(Token.space)
+                    buffer.append(" ")
                     buffer.append(String(element.objNumber!))
-                    buffer.append(Token.objRef)
+                    buffer.append(" 0 R\n")
                     index += 1
                 }
             }
