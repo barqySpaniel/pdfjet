@@ -61,7 +61,7 @@ public class Example_36 {
         form.DrawOn(page);
 
         text = new TextLine(font, "World!");
-        text.SetLocation(300f, 115f);
+        text.SetLocation(315f, 115f);
         text.DrawOn(page);
 
         // Finalize the PDF document
