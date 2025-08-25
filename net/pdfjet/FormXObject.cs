@@ -34,14 +34,14 @@ public class FormXObject : Canvas {
         this.y = (float)y;
     }
 
-    public void SetSize(float width, float height) {
-        this.width = width;
-        this.height = height;
+    public void SetScaleFactor(float factor) {
+        this.width *= factor;
+        this.height *= factor;
     }
 
-    public void SetSize(double width, double height) {
-        this.width = (float)width;
-        this.height = (float)height;
+    public void SetScaleFactor(double factor) {
+        this.width *= (float)factor;
+        this.height *= (float)factor;
     }
 
     public void SetRotateDegreesCW(float degrees) {

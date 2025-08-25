@@ -64,9 +64,9 @@ public class Example_36 {
         form.DrawOn(page);
 
         // Fourth placement
-        form.SetLocation(100f, 350f);
-        form.SetSize(50f, 50f);
-        form.SetRotateDegreesCW(30f);
+        form.SetLocation(100f, 325f);
+        form.SetScaleFactor(0.5f);
+        form.SetRotateDegreesCCW(45f);
         form.DrawOn(page);
 
         text = new TextLine(font, "World!");
