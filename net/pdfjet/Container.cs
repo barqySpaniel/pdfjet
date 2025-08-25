@@ -70,11 +70,8 @@ public class Container : IDrawable {
         page.Append(" cm\n");
 
         double rad = rotateDegrees * (Math.PI / 180.0);
-        float cos;
-        float sin;
-        cos = (float)Math.Cos(rad);
-        sin = (float)Math.Sin(rad);
-
+        float cos = (float)Math.Cos(rad);
+        float sin = (float)Math.Sin(rad);
         page.Append(FastFloat.ToByteArray(cos));
         page.Append(' ');
         page.Append(FastFloat.ToByteArray(sin));
