@@ -5,15 +5,14 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class Container : IDrawable {
-    public int objNumber;
     private float x;
     private float y;
     private float width;
     private float height;
+    private List<IDrawable> elements = new List<IDrawable>();
     private float rotateDegrees = 0f;
-    private List<TextLine> textLines = new List<TextLine>();
 
-    public Container(PDF pdf, float width, float height) {
+    public Container(float width, float height) {
         this.width = width;
         this.height = height;
     }
@@ -49,8 +48,8 @@ public class Container : IDrawable {
         this.rotateDegrees = (float) degrees;
     }
 
-    public void Add(TextLine text) {
-        this.textLines.Add(text);
+    public void Add(IDrawable element) {
+        this.elements.Add(element);
     }
 
     public void Complete() {
@@ -60,16 +59,16 @@ public class Container : IDrawable {
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n"); // Save the graphics state
 
-        float drawX = this.x;
-        float drawY = (page.height - this.height) - this.y;
-
-        // 5. POSITION: move to desired location on page
-        page.Append("1 0 0 1 ");
-        page.Append(drawX);
-        page.Append(' ');
-        page.Append(drawY);
-        page.Append(" cm\n");
-
+//        float drawX = this.x;
+//        float drawY = (page.height - this.height) - this.y;
+//
+//        // 5. POSITION: move to desired location on page
+//        page.Append("1 0 0 1 ");
+//        page.Append(drawX);
+//        page.Append(' ');
+//        page.Append(drawY);
+//        page.Append(" cm\n");
+/*
         // 4. MOVE BACK: after rotation
         page.Append("1 0 0 1 ");
         page.Append(width/2);
@@ -96,46 +95,12 @@ public class Container : IDrawable {
         page.Append(' ');
         page.Append(-height/2);
         page.Append(" cm\n");
-
-        // 1. DRAW: draw the object
-        page.Append("/Fm");
-        page.Append(objNumber);
-        page.Append(" Do\n");
-
-        page.Append("BT\n");
-        foreach (TextLine textLine in textLines) {
-            Font font = textLine.GetFont();
-            if (font.fontID != null) {
-                page.Append('/');
-                page.Append(font.fontID);
-            } else {
-                page.Append("/F");
-                page.Append(font.objNumber);
-            }
-            page.Append(' ');
-            page.Append(textLine.GetFont().size);
-            page.Append(" Tf\n");
-
-            page.Append("1 0 0 1 ");
-            page.Append(textLine.x);
-            page.Append(' ');
-            page.Append(height - textLine.y);
-            page.Append(" Tm\n");
-
-            float[] textColor = textLine.GetTextColor();
-            page.Append(textColor[0]);
-            page.Append(' ');
-            page.Append(textColor[1]);
-            page.Append(' ');
-            page.Append(textColor[2]);
-            page.Append(" rg\n");
-
-            page.Append("<");
-            page.DrawUnicodeString(textLine.GetFont(), textLine.GetText());
-            page.Append("> Tj\n");
+*/
+        foreach (IDrawable element in elements) {
+//            element.x += x;
+//            element.y += y;
+            element.DrawOn(page);
         }
-        page.Append("ET\n");
-
         page.Append("Q\n"); // Restore the graphics state
         // page.AddEMC();
 

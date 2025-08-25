@@ -15,6 +15,9 @@ public class Example_35 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
+        Font font = new Font(pdf, IBMPlexSans.Regular);
+        font.SetSize(14f);
+
         // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         // f1.SetSize(8f);
 
@@ -71,6 +74,23 @@ public class Example_35 {
         // chart.SetXAxisMinMax(45f, 80f, 7);
         // chart.SetYAxisMinMax(20f, 80f, 6);
         chart.DrawOn(page);
+
+
+        Rect rect = new Rect(0f, 0f, 300f, 300f);
+        rect.SetLocation(0f, 0f);
+        rect.SetBorderColor(Color.blue);
+        rect.DrawOn(page);
+
+        TextLine text = new TextLine(font, "Yahoo!");
+        text.SetLocation(25f, 25f);
+        text.SetFontSize(16f);
+        text.SetTextColor(Color.blue);
+
+        Container c = new Container(300f, 300f);
+        c.SetLocation(50f, 450f);
+        c.Add(rect);
+        c.Add(text);
+        c.DrawOn(page);
 
         pdf.Complete();
     }
