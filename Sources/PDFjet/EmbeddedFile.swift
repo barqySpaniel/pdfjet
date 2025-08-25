@@ -73,7 +73,7 @@ public class EmbeddedFile {
         pdf.append(Token.endDictionary)
         pdf.append(Token.stream)
         pdf.append(buf)
-        pdf.append(Token.endstream)
+        pdf.append(Token.endStream)
         pdf.endobj()
 
         pdf.newobj()

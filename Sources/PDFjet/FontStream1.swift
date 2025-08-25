@@ -102,7 +102,7 @@ class FontStream1 {
                 pdf.append(buffer, 0, count)
             }
         }
-        pdf.append(Token.endstream)
+        pdf.append(Token.endStream)
         pdf.endobj()
 
         font.fileObjNumber = pdf.getObjNumber()
@@ -209,7 +209,7 @@ class FontStream1 {
         pdf.append(Token.endDictionary)
         pdf.append(Token.stream)
         pdf.append(sb)
-        pdf.append(Token.endstream)
+        pdf.append(Token.endStream)
         pdf.endobj()
 
         font.toUnicodeCMapObjNumber = pdf.getObjNumber()

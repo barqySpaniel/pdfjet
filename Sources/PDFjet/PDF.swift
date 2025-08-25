@@ -146,11 +146,11 @@ public class PDF {
     func newobj() {
         objOffset.append(byteCount)
         append(objOffset.count)
-        append(Token.newobj)
+        append(Token.newObj)
     }
 
     func endobj() {
-        append(Token.endobj)
+        append(Token.endObj)
     }
 
     func getObjNumber() -> Int {
@@ -272,7 +272,7 @@ public class PDF {
         append(Token.endDictionary)
         append(Token.stream)
         append(buf)
-        append(Token.endstream)
+        append(Token.endStream)
         endobj()
 
         return self.getObjNumber()
@@ -291,7 +291,7 @@ public class PDF {
         append(Token.endDictionary)
         append(Token.stream)
         append(ICCBlackScaled.profile, 0, ICCBlackScaled.profile.count)
-        append(Token.endstream)
+        append(Token.endStream)
         endobj()
 
         // OutputIntent object
@@ -558,7 +558,6 @@ public class PDF {
         buffer.append("]\n")
         buffer.append(">>\n")
 
-        // endobj()
         buffer.append("endobj\n")
         append(buffer)
     }
@@ -730,7 +729,7 @@ public class PDF {
         append(Token.endDictionary)
         append(Token.stream)
         append(page.buf)
-        append(Token.endstream)
+        append(Token.endStream)
         endobj()
         page.contents.append(getObjNumber())
     }
@@ -752,7 +751,7 @@ public class PDF {
         append(Token.endDictionary)
         append(Token.stream)
         append(buffer)
-        append(Token.endstream)
+        append(Token.endStream)
         endobj()
         page.contents.append(getObjNumber())
     }
@@ -774,7 +773,7 @@ public class PDF {
         append(Token.endDictionary)
         append(Token.stream)
         append(buffer)
-        append(Token.endstream)
+        append(Token.endStream)
         endobj()
         page.contents.append(getObjNumber())
     }
@@ -1731,9 +1730,9 @@ public class PDF {
                     append(Token.newline)
                     append(Token.stream)
                     append(obj.stream!, 0, obj.stream!.count)
-                    append(Token.endstream)
+                    append(Token.endStream)
                 }
-                append(Token.endobj)
+                append(Token.endObj)
             } else {
                 objOffset.append(byteCount)
                 var link = false
@@ -1760,10 +1759,10 @@ public class PDF {
                 append(buffer)
                 if obj.stream != nil {
                     append(obj.stream!)
-                    append(Token.endstream)
+                    append(Token.endStream)
                 }
                 if token! != "endobj" {
-                    append(Token.endobj)
+                    append(Token.endObj)
                 }
             }
         }

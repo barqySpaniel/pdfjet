@@ -26,17 +26,26 @@ SOFTWARE.
 /// Please see PDF.swift
 ///
 public class Token {
-    public static let space = " "           // SPACE
-    public static let newline: UInt8 = 10   // LF
-    public static let beginDictionary = Array("<<\n".utf8);
-    public static let endDictionary = Array(">>\n".utf8);
-    public static let stream = Array("stream\n".utf8)
-    public static let endstream = Array("\nendstream\n".utf8)
-    public static let newobj = Array(" 0 obj\n".utf8)
-    public static let endobj = Array("endobj\n".utf8)
-    public static let objRef = " 0 R\n"
-    public static let beginText = Array("BT\n".utf8)
-    public static let endText = Array("ET\n".utf8)
-    public static let count = Array("/Count ".utf8);
-    public static let length = Array("/Length ".utf8);
+    // Fundamental structural tokens
+    public static let space = " "  //: UInt8 = 32      // ASCII space
+    public static let newline: UInt8 = 10    // ASCII LF
+
+    public static let beginDictionary = [UInt8]("<<\n".utf8)
+    public static let endDictionary = [UInt8](">>\n".utf8)
+    public static let stream = [UInt8]("stream\n".utf8)
+    public static let endStream = [UInt8]("\nendstream\n".utf8)
+
+    // Object management tokens
+    public static let newObj = [UInt8](" 0 obj\n".utf8)
+    public static let endObj = [UInt8]("endobj\n".utf8)
+    public static let objRef = " 0 R\n" // [UInt8](" 0 R\n".utf8)
+
+    // Text and content tokens
+    public static let beginText = [UInt8]("BT\n".utf8)
+    public static let endText = [UInt8]("ET\n".utf8)
+
+    // Essential property tokens (used everywhere)
+    public static let length = [UInt8]("/Length ".utf8)
+    public static let type = [UInt8]("/Type ".utf8)
+    public static let resources = [UInt8]("/Resources ".utf8)
 }
