@@ -59,7 +59,7 @@ public class Example_36 {
         // Third placement
         form.SetLocation(pointXY[0], pointXY[1]);
         // form.SetLocation(0f, 0f);
-        form.SetRotateDegreesCW(15f);
+        form.SetRotateDegreesCW(45f);
         form.DrawOn(page);
 
         text = new TextLine(font, "World!");

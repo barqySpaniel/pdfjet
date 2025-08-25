@@ -89,23 +89,27 @@ Console.WriteLine(scalingFactor);
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n"); // Save the graphics state
 
-        // Calculate the correct Y position for a top-down coordinate system.
-        // We are given a desired (x, y) where (0,0) is the top-left of the page.
-        // We need to convert this 'y' to the PDF's coordinate system where (0,0) is the bottom-left.
         float drawX = this.x;
-        float drawY = (page.height - this.height) - this.y;  // The key calculation
+        float drawY = (page.height - this.height) - this.y;
 
-        // Apply a simple translation matrix to move the FormXObject.
-        // [1 0 0 1 drawX drawY] cm
+        // 6. POSITION: move to desired location on page
         page.Append("1 0 0 1 ");
         page.Append(drawX);
         page.Append(' ');
         page.Append(drawY);
         page.Append(" cm\n");
 
-        page.Append("1 0 0 1 0.5 0.5 cm\n");        // Move back
+        // 5. SCALE: scale from 1×1 to final size
+        page.Append(FastFloat.ToByteArray(width));
+        page.Append(" 0 0 ");
+        page.Append(FastFloat.ToByteArray(height));
+        page.Append(" 0 0 cm\n");
 
-        // Rotates around current origin (0,0) by 'rotateDegrees'
+        // 4. MOVE TO CENTER: Prepare for rotation around center
+        // Move origin TO center (0.5,0.5)
+        // page.Append("1 0 0 1 0.5 0.5 cm\n");
+
+        // 3. ROTATE: rotate around origin
         double radians = rotateDegrees * (Math.PI / 180);
         float cos = (float)Math.Cos(radians);
         float sin = (float)Math.Sin(radians);
@@ -118,15 +122,10 @@ Console.WriteLine(scalingFactor);
         page.Append(FastFloat.ToByteArray(cos));
         page.Append(" 0 0 cm\n");
 
-        page.Append("1 0 0 1 -0.5 -0.5 cm\n");      // Move the center to (0,0)
+        // 2. MOVE: move the center of the object to origin
+        page.Append("1 0 0 1 -0.5 -0.5 cm\n");
 
-        // Scale the Form XObject
-        page.Append(FastFloat.ToByteArray(width));
-        page.Append(" 0 0 ");
-        page.Append(FastFloat.ToByteArray(height));
-        page.Append(" 0 0 cm\n");
-
-        // Draw the normalized 1×1 object
+        // 1. DRAW: draw the normalized 1×1 object
         page.Append("/Fm");
         page.Append(objNumber);
         page.Append(" Do\n");
