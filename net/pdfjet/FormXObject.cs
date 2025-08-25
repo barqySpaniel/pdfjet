@@ -9,7 +9,6 @@ public class FormXObject : Canvas {
     private float x;
     private float y;
     private float rotateDegrees = 0f;
-    private Dictionary<String, int> resourceRefs = new Dictionary<String, int>();
     private List<TextLine> textLines = new List<TextLine>();
 
     public FormXObject(PDF pdf, float width, float height) : base(pdf) {
@@ -59,17 +58,7 @@ public class FormXObject : Canvas {
         pdf.Append(FastFloat.ToByteArray(height));
         pdf.Append("]\n");
 
-        pdf.Append("/Resources <<\n");      // Must be here even if empty!!
-        if (resourceRefs.Count > 0) {
-            foreach (var kv in resourceRefs) {
-                pdf.Append('/');
-                pdf.Append(kv.Key);
-                pdf.Append(' ');
-                pdf.Append(kv.Value);
-                pdf.Append(" 0 R\n");
-            }
-        }
-        pdf.Append(Token.EndDictionary);
+        pdf.Append("/Resources <<>>\n");    // Must be here even if empty!!
         pdf.Append("/Length ");
         pdf.Append(buf.Length);
         pdf.Append(Token.Newline);
