@@ -60,10 +60,8 @@ public class Container : IDrawable {
         page.Append(-this.y);
         page.Append(" cm\n");
 
-        float cx;
-        float cy;
-        cx = width * 0.5f;
-        cy = height * 0.5f;
+        float cx = width * 0.5f;
+        float cy = height * 0.5f;
 
         page.Append("1 0 0 1 ");
         page.Append(cx);
@@ -71,8 +69,7 @@ public class Container : IDrawable {
         page.Append(cy);
         page.Append(" cm\n");
 
-        double rad;
-        rad = rotateDegrees * (Math.PI / 180.0);
+        double rad = rotateDegrees * (Math.PI / 180.0);
         float cos;
         float sin;
         cos = (float)Math.Cos(rad);
@@ -87,18 +84,18 @@ public class Container : IDrawable {
         page.Append(FastFloat.ToByteArray(cos));
         page.Append(" 0 0 cm\n");
 
-        page.Append(scaleX);
-        page.Append(' ');
-        page.Append('0');
-        page.Append(' ');
-        page.Append('0');
-        page.Append(' ');
-        page.Append(scaleY);
-        page.Append(' ');
-        page.Append('0');
-        page.Append(' ');
-        page.Append('0');
-        page.Append(" cm\n");
+//        page.Append(scaleX);
+//        page.Append(' ');
+//        page.Append('0');
+//        page.Append(' ');
+//        page.Append('0');
+//        page.Append(' ');
+//        page.Append(scaleY);
+//        page.Append(' ');
+//        page.Append('0');
+//        page.Append(' ');
+//        page.Append('0');
+//        page.Append(" cm\n");
 
         page.Append("1 0 0 1 ");
         page.Append(-cx);
