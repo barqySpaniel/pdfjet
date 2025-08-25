@@ -15,6 +15,7 @@ public class FormXObject : Canvas {
         base.width = width;
         base.height = height;
         this.resourceRefs = new Dictionary<string, int>();
+
         // Scale the following drawing operations so they fit in the 1x1 object.
         float scalingFactor = 1f / (float)Math.Max(width, height);
         Append(FastFloat.ToByteArray(scalingFactor));

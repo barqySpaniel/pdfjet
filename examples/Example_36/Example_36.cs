@@ -22,6 +22,7 @@ public class Example_36 {
 
         // Draw a blue square
         form.SetPenColor(Color.blue);
+        form.SetPenWidth(2f);
         form.MoveTo(0f, 0f);
         form.LineTo(100f, 0f);
         form.LineTo(100f, 100f);
@@ -30,6 +31,7 @@ public class Example_36 {
 
         // Draw a black diagonal line inside the square
         form.SetPenColor(Color.black);
+        form.SetPenWidth(2f);
         form.MoveTo(0f, 0f);
         form.LineTo(50f, 50f);
         form.StrokePath();
@@ -58,9 +60,13 @@ public class Example_36 {
 
         // Third placement
         form.SetLocation(pointXY[0], pointXY[1]);
-//        form.SetLocation(50f, 50f);
-//        form.SetSize(50f, 50f);
-//        // form.SetRotateDegreesCW(45f);
+        form.SetRotateDegreesCW(45f);
+        form.DrawOn(page);
+
+        // Fourth placement
+        form.SetLocation(100f, 350f);
+        form.SetSize(50f, 50f);
+        form.SetRotateDegreesCW(30f);
         form.DrawOn(page);
 
         text = new TextLine(font, "World!");
