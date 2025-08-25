@@ -777,16 +777,16 @@ public class TextBox : IDrawable {
         if (page != null) {
             DrawBorders(page);
             if (textDirection == Direction.LEFT_TO_RIGHT && (uri != null || key != null)) {
-//                page.AddAnnotation(new Annotation(
-//                        uri,
-//                        key,    // The destination name
-//                        x,
-//                        y,
-//                        x + width,
-//                        y + height,
-//                        uriLanguage,
-//                        uriActualText,
-//                        uriAltDescription));
+                page.AddAnnotation(new Annotation(
+                        uri,
+                        key,    // The destination name
+                        x,
+                        y,
+                        x + width,
+                        y + height,
+                        uriLanguage,
+                        uriActualText,
+                        uriAltDescription));
             }
             page.SetTextDirection(0);
         }
