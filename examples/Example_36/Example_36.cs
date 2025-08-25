@@ -16,9 +16,11 @@ public class Example_36 {
                 new FileStream("Example_36.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, IBMPlexSans.Regular);
+        // Font font = new Font(pdf, CoreFont.HELVETICA);
 
         // Create a 100x100 point Form XObject (reusable graphics container)
         FormXObject form = new FormXObject(pdf, 100f, 100f);
+        form.AddFontResource(font);
 
         // Draw a blue square
         form.SetPenColor(Color.blue);
@@ -36,7 +38,7 @@ public class Example_36 {
         form.LineTo(50f, 50f);
         form.StrokePath();
 
-        TextLine text = new TextLine(font, "Hello,");
+        TextLine text = new TextLine(font, "Hello");
         text.SetLocation(15f, 15f);
         text.DrawOn(form);
 
@@ -69,7 +71,7 @@ public class Example_36 {
         form.SetRotateDegreesCCW(45f);
         form.DrawOn(page);
 
-        text = new TextLine(font, "World!");
+        text = new TextLine(font, "Hello");
         text.SetLocation(315f, 115f);
         text.DrawOn(page);
 

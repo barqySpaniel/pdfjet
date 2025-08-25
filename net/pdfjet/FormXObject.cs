@@ -60,6 +60,10 @@ public class FormXObject : Canvas {
         this.rotateDegrees = (float) degrees;
     }
 
+    public void AddFontResource(Font font) {
+        resourceRefs["F" + font.objNumber] = font.objNumber;
+    }
+
     public void Complete() {
         pdf.NewObj();
         pdf.Append("<<\n");
