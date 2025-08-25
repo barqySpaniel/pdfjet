@@ -72,7 +72,7 @@ public class FileAttachment : IDrawable {
         SetLocation(x, y);
     }
 
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         Annotation annotation = new Annotation(
                 null,
                 null,

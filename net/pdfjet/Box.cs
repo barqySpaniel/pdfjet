@@ -299,7 +299,7 @@ public class Box : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.SetPenWidth(width);
         page.SetStrokePattern(pattern);

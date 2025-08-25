@@ -368,7 +368,7 @@ public class Line : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
         page.SetPenColor(color);

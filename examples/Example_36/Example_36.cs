@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using PDFjet.NET;
+using PDFjet.NET.Fonts;
 
 /**
  *  Example_36.cs - Demonstrates creation and placement of Form XObjects.
@@ -14,25 +15,31 @@ public class Example_36 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_36.pdf", FileMode.Create)));
 
+        Font font = new Font(pdf, IBMPlexSans.Regular);
+
         // Create a 100x100 point Form XObject (reusable graphics container)
-        FormXObject squareWithDiagonal = new FormXObject(pdf, 100f, 100f);
+        FormXObject form = new FormXObject(pdf, 100f, 100f);
 
         // Draw a blue square
-        squareWithDiagonal.SetPenColor(Color.blue);
-        squareWithDiagonal.MoveTo(0f, 0f);
-        squareWithDiagonal.LineTo(100f, 0f);
-        squareWithDiagonal.LineTo(100f, 100f);
-        squareWithDiagonal.LineTo(0f, 100f);
-        squareWithDiagonal.ClosePath();
+        form.SetPenColor(Color.blue);
+        form.MoveTo(0f, 0f);
+        form.LineTo(100f, 0f);
+        form.LineTo(100f, 100f);
+        form.LineTo(0f, 100f);
+        form.ClosePath();
 
         // Draw a black diagonal line inside the square
-        squareWithDiagonal.SetPenColor(Color.black);
-        squareWithDiagonal.MoveTo(0f, 0f);
-        squareWithDiagonal.LineTo(50f, 50f);
-        squareWithDiagonal.StrokePath();
+        form.SetPenColor(Color.black);
+        form.MoveTo(0f, 0f);
+        form.LineTo(50f, 50f);
+        form.StrokePath();
+
+        TextLine text = new TextLine(font, "Hello,");
+        text.SetLocation(15f, 15f);
+        text.DrawOn(form);
 
         // Finalize the Form XObject definition in the PDF
-        squareWithDiagonal.AddToPDF(pdf);
+        form.AddToPDF(pdf);
 
         // Create a new page
         Page page = new Page(pdf, Letter.PORTRAIT);
@@ -42,16 +49,20 @@ public class Example_36 {
         float currentY = 100f;
 
         // First placement
-        squareWithDiagonal.SetLocation(currentX, currentY);
-        float[] newPosition = squareWithDiagonal.DrawOn(page);
+        form.SetLocation(currentX, currentY);
+        float[] newPosition = form.DrawOn(page);
 
         // Second placement - using returned position from previous draw
-        squareWithDiagonal.SetLocation(newPosition[0], newPosition[1]);
-        newPosition = squareWithDiagonal.DrawOn(page);
+        form.SetLocation(newPosition[0], newPosition[1]);
+        newPosition = form.DrawOn(page);
 
         // Third placement
-        squareWithDiagonal.SetLocation(newPosition[0], newPosition[1]);
-        squareWithDiagonal.DrawOn(page);
+        form.SetLocation(newPosition[0], newPosition[1]);
+        form.DrawOn(page);
+
+        text = new TextLine(font, "World!");
+        text.SetLocation(300f, 115f);
+        text.DrawOn(page);
 
         // Finalize the PDF document
         pdf.Complete();

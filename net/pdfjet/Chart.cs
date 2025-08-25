@@ -270,7 +270,7 @@ public class Chart : IDrawable {
      *
      *  @param page the page to draw this chart on.
      */
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         nf.SetMinimumFractionDigits(minFractionDigits);
         nf.SetMaximumFractionDigits(maxFractionDigits);
 
@@ -439,7 +439,7 @@ public class Chart : IDrawable {
         yAxisGridLines = round.numOfGridLines;
     }
 
-    private void DrawChartBorder(Page page) {
+    private void DrawChartBorder(Canvas page) {
         page.SetPenWidth(chartBorderWidth);
         page.SetPenColor(Color.black);
         page.MoveTo(x1, y1);
@@ -450,7 +450,7 @@ public class Chart : IDrawable {
         page.StrokePath();
     }
 
-    private void DrawInnerBorder(Page page) {
+    private void DrawInnerBorder(Canvas page) {
         page.SetPenWidth(innerBorderWidth);
         page.SetPenColor(Color.black);
         page.MoveTo(x5, y5);
@@ -461,7 +461,7 @@ public class Chart : IDrawable {
         page.StrokePath();
     }
 
-    private void DrawHorizontalGridLines(Page page) {
+    private void DrawHorizontalGridLines(Canvas page) {
         page.SetPenWidth(hGridLineWidth);
         page.SetPenColor(Color.black);
         page.SetStrokePattern(hGridLinePattern);
@@ -474,7 +474,7 @@ public class Chart : IDrawable {
         }
     }
 
-    private void DrawVerticalGridLines(Page page) {
+    private void DrawVerticalGridLines(Canvas page) {
         page.SetPenWidth(vGridLineWidth);
         page.SetPenColor(Color.black);
         page.SetStrokePattern(vGridLinePattern);
@@ -487,7 +487,7 @@ public class Chart : IDrawable {
         }
     }
 
-    private void DrawXAxisLabels(Page page) {
+    private void DrawXAxisLabels(Canvas page) {
         float x = x5;
         float y = y8 + f2.GetBodyHeight(f2.GetSize());
         float step = (x6 - x5) / xAxisGridLines;
@@ -499,7 +499,7 @@ public class Chart : IDrawable {
         }
     }
 
-    private void DrawYAxisLabels(Page page) {
+    private void DrawYAxisLabels(Canvas page) {
         float x = x5 - GetLongestAxisYLabelWidth();
         float y = y8 + f2.GetAscent(fontSize) / 3;
         float step = (y8 - y5) / yAxisGridLines;
@@ -512,7 +512,7 @@ public class Chart : IDrawable {
     }
 
     private void DrawPathsAndPoints(
-            Page page, List<List<Point>> chartData) {
+            Canvas page, List<List<Point>> chartData) {
         for (int i = 0; i < chartData.Count; i++) {
             List<Point> points = chartData[i];
             Point point = points[0];

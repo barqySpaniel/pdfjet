@@ -527,7 +527,7 @@ public class Point : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         x += xBox;
         y += yBox;
         page.SetBrushColor(fillColor);

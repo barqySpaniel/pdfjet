@@ -92,7 +92,7 @@ public class CalendarMonth : IDrawable {
         return SetLocation((float) x, (float) y);
     }
 
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         for (int row = 0; row < 7; row++) {
             for (int col = 0; col < 7; col++) {
                 if (row == 0) {

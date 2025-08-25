@@ -101,7 +101,7 @@ public class Text : IDrawable {
         this.border = border;
     }
 
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         this.xText = x1;
         this.yText = y1 + font.GetAscent();
         foreach (Paragraph paragraph in paragraphs) {
@@ -144,7 +144,7 @@ public class Text : IDrawable {
     }
 
     public float[] DrawTextLine(
-            Page page, float x, float y, TextLine textLine) {
+            Canvas page, float x, float y, TextLine textLine) {
         this.xText = x;
         this.yText = y;
 

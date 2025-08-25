@@ -64,6 +64,7 @@ public abstract class Canvas {
     internal readonly List<StructElem> structElements = new List<StructElem>();
     private readonly List<State> savedStates = new List<State>();
     private int mcid;
+    internal readonly List<Annotation> annots;
 
     public Canvas(PDF pdf) {
         this.pdf = pdf;
@@ -72,6 +73,7 @@ public abstract class Canvas {
         this.tm1 = FastFloat.ToByteArray(tmx[1]);
         this.tm2 = FastFloat.ToByteArray(tmx[2]);
         this.tm3 = FastFloat.ToByteArray(tmx[3]);
+        annots = new List<Annotation>();
     }
 
     public byte[] GetContent() {
@@ -1593,6 +1595,21 @@ public abstract class Canvas {
         Append(" ");
         Append(-centerY);
         Append(" cm\n");
+    }
+
+    internal void AddAnnotation(Annotation annotation) {
+        annotation.y1 = this.height - annotation.y1;
+        annotation.y2 = this.height - annotation.y2;
+        annots.Add(annotation);
+        if (pdf.compliance == Compliance.PDF_UA_1) {
+            StructElem element = new StructElem();
+            element.structure = StructElem.LINK;
+            element.language = annotation.language;
+            element.actualText = annotation.actualText;
+            element.altDescription = annotation.altDescription;
+            element.annotation = annotation;
+            structElements.Add(element);
+        }
     }
 }   // End of Canvas.cs
 }   // End of namespace PDFjet.NET

@@ -127,7 +127,7 @@ public class TextFrame : IDrawable {
         this.fontSize = fontSize;
     }
 
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         float xText = x;
         float yText = y + font.GetAscent(fontSize);
         while (paragraphs.Count > 0) {
@@ -156,13 +156,13 @@ public class TextFrame : IDrawable {
         return new float[] {x + w, y + h};
     }
 
-    private void DrawBorder(Page page) {
+    private void DrawBorder(Canvas page) {
         if (page != null && border) {
             (new Rect(x, y, w, h)).DrawOn(page);
         }
     }
 
-    private TextLine DrawLineOnPage(TextLine textLine, Page page) {
+    private TextLine DrawLineOnPage(TextLine textLine, Canvas page) {
         StringBuilder sb1 = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         String[] tokens = Regex.Split(textLine.GetText(), @"\s+");

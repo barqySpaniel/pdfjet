@@ -44,7 +44,7 @@ public class Page : Canvas {
     internal int objNumber;
 
     internal readonly List<Int32> contents;
-    internal readonly List<Annotation> annots;
+    // internal readonly List<Annotation> annots;
     internal readonly List<Destination> destinations;
     internal readonly List<State> savedStates = new List<State>();
 
@@ -85,7 +85,7 @@ public class Page : Canvas {
      */
     public Page(PDF pdf, float[] pageSize, bool addPageToPDF) : base(pdf) {
         contents = new List<Int32>();
-        annots = new List<Annotation>();
+        // annots = new List<Annotation>();
         destinations = new List<Destination>();
         width = pageSize[0];
         height = pageSize[1];
@@ -255,7 +255,7 @@ public class Page : Canvas {
             element.pageObjNumber = pageObjNumber;
         }
     }
-
+/*
     internal void AddAnnotation(Annotation annotation) {
         annotation.y1 = this.height - annotation.y1;
         annotation.y2 = this.height - annotation.y2;
@@ -270,7 +270,7 @@ public class Page : Canvas {
             structElements.Add(element);
         }
     }
-
+*/
     public float[] AddHeader(TextLine textLine) {
         return AddHeader(textLine, 1.5f*textLine.font.GetAscent(textLine.fontSize));
     }

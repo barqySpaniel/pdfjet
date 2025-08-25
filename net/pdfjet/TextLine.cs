@@ -574,7 +574,7 @@ public class TextLine : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Page page) {
+    public float[] DrawOn(Canvas page) {
         if (page == null || text == null || text.Equals("")) {
             return new float[] {x, y};
         }
