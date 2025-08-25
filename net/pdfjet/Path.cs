@@ -42,7 +42,7 @@ public class Path : IDrawable {
     private String strokePattern = "[] 0";
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private float rotateDegrees;
+    private float rotateDegrees = 0f;
 
     private String uri = null;
     private String key = null;

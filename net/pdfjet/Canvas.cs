@@ -1537,7 +1537,7 @@ public abstract class Canvas {
     internal void ScaleAndRotate(float x, float y, float w, float h, float degrees) {
         // PDF transformations apply LAST-TO-FIRST (like a stack: last command = first applied)
 
-        // [FINAL POSITIONING - Applied First]
+        // [FINAL POSITIONING - Applied Last]
         // Moves rotated/scaled image to target (x,y) on page
         Append("1 0 0 1 ");
         Append(x + w/2);
@@ -1559,7 +1559,7 @@ public abstract class Canvas {
         Append(FastFloat.ToByteArray(cos));
         Append(" 0 0 cm\n");
 
-        // [ORIGIN SETUP - Applied Last]
+        // [ORIGIN SETUP - Applied First]
         // Centers image at (0,0) and sets scale
         Append(w);
         Append(" 0 0 ");

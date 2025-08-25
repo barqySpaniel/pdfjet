@@ -9,11 +9,18 @@ public class FormXObject : Canvas {
     private Dictionary<string, int> resourceRefs;
     private float x;
     private float y;
+    private float rotateDegrees = 0f;
 
     public FormXObject(PDF pdf, float width, float height) : base(pdf) {
         base.width = width;
         base.height = height;
         this.resourceRefs = new Dictionary<string, int>();
+        float scalingFactor = 1f / (float)Math.Max(width, height);
+Console.WriteLine(scalingFactor);
+        Append(FastFloat.ToByteArray(scalingFactor));
+        Append(" 0 0 ");
+        Append(FastFloat.ToByteArray(scalingFactor));
+        Append(" 0 0 cm\n");
     }
 
     public void SetLocation(float x, float y) {
@@ -21,16 +28,40 @@ public class FormXObject : Canvas {
         this.y = y;
     }
 
+    public void SetLocation(double x, double y) {
+        this.x = (float)x;
+        this.y = (float)y;
+    }
+
+    public void SetRotateDegreesCW(float degrees) {
+        this.rotateDegrees = -degrees;
+    }
+
+    public void SetRotateDegreesCW(double degrees) {
+        this.rotateDegrees = (float) -degrees;
+    }
+
+    public void SetRotateDegreesCCW(float degrees) {
+        this.rotateDegrees = degrees;
+    }
+
+    public void SetRotateDegreesCCW(double degrees) {
+        this.rotateDegrees = (float) degrees;
+    }
+
     public void Complete() {
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Form\n");
-        pdf.Append("/BBox [0 0 ");
-        pdf.Append(width);
-        pdf.Append(' ');
-        pdf.Append(height);
-        pdf.Append("]\n");
+
+        pdf.Append("/BBox [0 0 1 1]\n");
+//        pdf.Append("/BBox [0 0 ");
+//        pdf.Append(width);
+//        pdf.Append(' ');
+//        pdf.Append(height);
+//        pdf.Append("]\n");
+
         pdf.Append("/Resources <<\n");  // Must be here even if empty!!
         if (resourceRefs.Count > 0) {
             foreach (var kv in resourceRefs) {
@@ -61,9 +92,8 @@ public class FormXObject : Canvas {
         // Calculate the correct Y position for a top-down coordinate system.
         // We are given a desired (x, y) where (0,0) is the top-left of the page.
         // We need to convert this 'y' to the PDF's coordinate system where (0,0) is the bottom-left.
-        float pageHeight = page.GetHeight();
         float drawX = this.x;
-        float drawY = (pageHeight - this.height) - this.y;  // The key calculation
+        float drawY = (page.height - this.height) - this.y;  // The key calculation
 
         // Apply a simple translation matrix to move the FormXObject.
         // [1 0 0 1 drawX drawY] cm
@@ -73,7 +103,30 @@ public class FormXObject : Canvas {
         page.Append(drawY);
         page.Append(" cm\n");
 
-        // Draw the Form XObject. Its internal (0,0) will now be at (drawX, drawY).
+        page.Append("1 0 0 1 0.5 0.5 cm\n");        // Move back
+
+        // Rotates around current origin (0,0) by 'rotateDegrees'
+        double radians = rotateDegrees * (Math.PI / 180);
+        float cos = (float)Math.Cos(radians);
+        float sin = (float)Math.Sin(radians);
+        page.Append(FastFloat.ToByteArray(cos));
+        page.Append(' ');
+        page.Append(FastFloat.ToByteArray(sin));
+        page.Append(' ');
+        page.Append(FastFloat.ToByteArray(-sin));
+        page.Append(' ');
+        page.Append(FastFloat.ToByteArray(cos));
+        page.Append(" 0 0 cm\n");
+
+        page.Append("1 0 0 1 -0.5 -0.5 cm\n");      // Move the center to (0,0)
+
+        // Scale the Form XObject
+        page.Append(FastFloat.ToByteArray(width));
+        page.Append(" 0 0 ");
+        page.Append(FastFloat.ToByteArray(height));
+        page.Append(" 0 0 cm\n");
+
+        // Draw the normalized 1×1 object
         page.Append("/Fm");
         page.Append(objNumber);
         page.Append(" Do\n");
