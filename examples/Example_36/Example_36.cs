@@ -50,14 +50,14 @@ public class Example_36 {
 
         // First placement
         form.SetLocation(currentX, currentY);
-        float[] newPosition = form.DrawOn(page);
+        float[] pointXY = form.DrawOn(page);
 
         // Second placement - using returned position from previous draw
-        form.SetLocation(newPosition[0], newPosition[1]);
-        newPosition = form.DrawOn(page);
+        form.SetLocation(pointXY[0], pointXY[1]);
+        pointXY = form.DrawOn(page);
 
         // Third placement
-        form.SetLocation(newPosition[0], newPosition[1]);
+        form.SetLocation(pointXY[0], pointXY[1]);
         form.DrawOn(page);
 
         text = new TextLine(font, "World!");
