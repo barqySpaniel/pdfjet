@@ -24,6 +24,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+// PDF structure tokens as byte arrays.
+// WARNING: These are shared, mutable byte slices. Treat as READ-ONLY - DO NOT MODIFY!
+// Any modification will corrupt PDF generation for all users.
 var (
 	Space           = byte(' ')
 	Newline         = byte('\n')
