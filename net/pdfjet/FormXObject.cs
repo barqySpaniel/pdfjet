@@ -15,8 +15,8 @@ public class FormXObject : Canvas {
         base.width = width;
         base.height = height;
         this.resourceRefs = new Dictionary<string, int>();
+        // Scale the following drawing operations so they fit in the 1x1 object.
         float scalingFactor = 1f / (float)Math.Max(width, height);
-Console.WriteLine(scalingFactor);
         Append(FastFloat.ToByteArray(scalingFactor));
         Append(" 0 0 ");
         Append(FastFloat.ToByteArray(scalingFactor));
@@ -31,6 +31,16 @@ Console.WriteLine(scalingFactor);
     public void SetLocation(double x, double y) {
         this.x = (float)x;
         this.y = (float)y;
+    }
+
+    public void SetSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void SetSize(double width, double height) {
+        this.width = (float)width;
+        this.height = (float)height;
     }
 
     public void SetRotateDegreesCW(float degrees) {
@@ -54,15 +64,8 @@ Console.WriteLine(scalingFactor);
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Form\n");
-
-        pdf.Append("/BBox [0 0 1 1]\n");
-//        pdf.Append("/BBox [0 0 ");
-//        pdf.Append(width);
-//        pdf.Append(' ');
-//        pdf.Append(height);
-//        pdf.Append("]\n");
-
-        pdf.Append("/Resources <<\n");  // Must be here even if empty!!
+        pdf.Append("/BBox [0 0 1 1]\n");    // Using 1x1 object!!
+        pdf.Append("/Resources <<\n");      // Must be here even if empty!!
         if (resourceRefs.Count > 0) {
             foreach (var kv in resourceRefs) {
                 pdf.Append('/');
@@ -72,11 +75,11 @@ Console.WriteLine(scalingFactor);
                 pdf.Append(" 0 R\n");
             }
         }
-        pdf.Append(">>\n");             // End of Resources
+        pdf.Append(">>\n");                 // End of Resources
         pdf.Append("/Length ");
         pdf.Append(buf.Length);
         pdf.Append('\n');
-        pdf.Append(">>\n");             // End of XObject dictionary
+        pdf.Append(">>\n");                 // End of XObject dictionary
         pdf.Append("stream\n");
         pdf.Append(buf.ToArray());
         pdf.Append("\nendstream\n");
@@ -105,9 +108,8 @@ Console.WriteLine(scalingFactor);
         page.Append(FastFloat.ToByteArray(height));
         page.Append(" 0 0 cm\n");
 
-        // 4. MOVE TO CENTER: Prepare for rotation around center
-        // Move origin TO center (0.5,0.5)
-        // page.Append("1 0 0 1 0.5 0.5 cm\n");
+        // 4. MOVE BACK: after rotation
+        page.Append("1 0 0 1 0.5 0.5 cm\n");
 
         // 3. ROTATE: rotate around origin
         double radians = rotateDegrees * (Math.PI / 180);
