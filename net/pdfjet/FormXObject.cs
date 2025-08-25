@@ -15,13 +15,6 @@ public class FormXObject : Canvas {
     public FormXObject(PDF pdf, float width, float height) : base(pdf) {
         base.width = width;
         base.height = height;
-
-        // Scale the following drawing operations so they fit in the 1x1 object.
-        //  float scalingFactor = 1f / (float)Math.Max(width, height);
-        //  Append(FastFloat.ToByteArray(scalingFactor));
-        //  Append(" 0 0 ");
-        //  Append(FastFloat.ToByteArray(scalingFactor));
-        //  Append(" 0 0 cm\n");
     }
 
     public void SetLocation(float x, float y) {
@@ -32,16 +25,6 @@ public class FormXObject : Canvas {
     public void SetLocation(double x, double y) {
         this.x = (float)x;
         this.y = (float)y;
-    }
-
-    public void SetScaleFactor(float factor) {
-        this.width *= factor;
-        this.height *= factor;
-    }
-
-    public void SetScaleFactor(double factor) {
-        this.width *= (float)factor;
-        this.height *= (float)factor;
     }
 
     public void SetRotateDegreesCW(float degrees) {
@@ -66,11 +49,10 @@ public class FormXObject : Canvas {
 
     public void Complete() {
         pdf.NewObj();
-        pdf.Append("<<\n");
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Form\n");
 
-        // pdf.Append("/BBox [0 0 1 1]\n");    // Using 1x1 object!!
         pdf.Append("/BBox [0 0 ");
         pdf.Append(FastFloat.ToByteArray(width));
         pdf.Append(' ');
@@ -87,14 +69,14 @@ public class FormXObject : Canvas {
                 pdf.Append(" 0 R\n");
             }
         }
-        pdf.Append(">>\n");                 // End of Resources
+        pdf.Append(Token.EndDictionary);
         pdf.Append("/Length ");
         pdf.Append(buf.Length);
-        pdf.Append('\n');
-        pdf.Append(">>\n");                 // End of XObject dictionary
-        pdf.Append("stream\n");
+        pdf.Append(Token.Newline);
+        pdf.Append(Token.EndDictionary);    // End of XObject dictionary
+        pdf.Append(Token.Stream);
         pdf.Append(buf.ToArray());
-        pdf.Append("\nendstream\n");
+        pdf.Append(Token.EndStream);
         pdf.EndObj();
         pdf.formXObjects.Add(this);
         objNumber = pdf.GetObjNumber();
@@ -107,21 +89,14 @@ public class FormXObject : Canvas {
         float drawX = this.x;
         float drawY = (page.height - this.height) - this.y;
 
-        // 6. POSITION: move to desired location on page
+        // 5. POSITION: move to desired location on page
         page.Append("1 0 0 1 ");
         page.Append(drawX);
         page.Append(' ');
         page.Append(drawY);
         page.Append(" cm\n");
 
-        // 5. SCALE: scale from 1×1 to final size
-        //  page.Append(FastFloat.ToByteArray(width));
-        //  page.Append(" 0 0 ");
-        //  page.Append(FastFloat.ToByteArray(height));
-        //  page.Append(" 0 0 cm\n");
-
         // 4. MOVE BACK: after rotation
-        // page.Append("1 0 0 1 0.5 0.5 cm\n");
         page.Append("1 0 0 1 ");
         page.Append(width/2);
         page.Append(' ');
@@ -142,14 +117,13 @@ public class FormXObject : Canvas {
         page.Append(" 0 0 cm\n");
 
         // 2. MOVE: move the center of the object to origin
-        // page.Append("1 0 0 1 -0.5 -0.5 cm\n");
         page.Append("1 0 0 1 ");
         page.Append(-width/2);
         page.Append(' ');
         page.Append(-height/2);
         page.Append(" cm\n");
 
-        // 1. DRAW: draw the normalized 1×1 object
+        // 1. DRAW: draw the object
         page.Append("/Fm");
         page.Append(objNumber);
         page.Append(" Do\n");

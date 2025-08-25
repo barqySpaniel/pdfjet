@@ -74,7 +74,6 @@ public class Example_36 {
 
         // Fourth placement
         form.SetLocation(100f, 325f);
-        // form.SetScaleFactor(0.5f);
         form.SetRotateDegreesCCW(45f);
         form.DrawOn(page);
 
