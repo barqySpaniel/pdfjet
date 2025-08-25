@@ -309,8 +309,7 @@ public class PDF {
         }
 
         if (fonts.Count > 0 || importedFonts.Count > 0) {
-            Append("/Font\n");
-            Append(Token.BeginDictionary);
+            Append("/Font <<\n");
             foreach (String token in importedFonts) {
                 Append(token);
                 if (token.Equals("R")) {

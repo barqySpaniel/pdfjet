@@ -10,6 +10,7 @@ public class FormXObject : Canvas {
     private float x;
     private float y;
     private float rotateDegrees = 0f;
+    private List<TextLine> textLines = new List<TextLine>();
 
     public FormXObject(PDF pdf, float width, float height) : base(pdf) {
         base.width = width;
@@ -17,11 +18,11 @@ public class FormXObject : Canvas {
         this.resourceRefs = new Dictionary<string, int>();
 
         // Scale the following drawing operations so they fit in the 1x1 object.
-        float scalingFactor = 1f / (float)Math.Max(width, height);
-        Append(FastFloat.ToByteArray(scalingFactor));
-        Append(" 0 0 ");
-        Append(FastFloat.ToByteArray(scalingFactor));
-        Append(" 0 0 cm\n");
+//        float scalingFactor = 1f / (float)Math.Max(width, height);
+//        Append(FastFloat.ToByteArray(scalingFactor));
+//        Append(" 0 0 ");
+//        Append(FastFloat.ToByteArray(scalingFactor));
+//        Append(" 0 0 cm\n");
     }
 
     public void SetLocation(float x, float y) {
@@ -64,12 +65,23 @@ public class FormXObject : Canvas {
         resourceRefs["F" + font.objNumber] = font.objNumber;
     }
 
+    public void Add(TextLine text) {
+        this.textLines.Add(text);
+    }
+
     public void Complete() {
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Type /XObject\n");
         pdf.Append("/Subtype /Form\n");
-        pdf.Append("/BBox [0 0 1 1]\n");    // Using 1x1 object!!
+
+        // pdf.Append("/BBox [0 0 1 1]\n");    // Using 1x1 object!!
+        pdf.Append("/BBox [0 0 ");
+        pdf.Append(FastFloat.ToByteArray(width));
+        pdf.Append(' ');
+        pdf.Append(FastFloat.ToByteArray(height));
+        pdf.Append("]\n");
+
         pdf.Append("/Resources <<\n");      // Must be here even if empty!!
         if (resourceRefs.Count > 0) {
             foreach (var kv in resourceRefs) {
@@ -108,13 +120,18 @@ public class FormXObject : Canvas {
         page.Append(" cm\n");
 
         // 5. SCALE: scale from 1×1 to final size
-        page.Append(FastFloat.ToByteArray(width));
-        page.Append(" 0 0 ");
-        page.Append(FastFloat.ToByteArray(height));
-        page.Append(" 0 0 cm\n");
+        //  page.Append(FastFloat.ToByteArray(width));
+        //  page.Append(" 0 0 ");
+        //  page.Append(FastFloat.ToByteArray(height));
+        //  page.Append(" 0 0 cm\n");
 
         // 4. MOVE BACK: after rotation
-        page.Append("1 0 0 1 0.5 0.5 cm\n");
+        // page.Append("1 0 0 1 0.5 0.5 cm\n");
+        page.Append("1 0 0 1 ");
+        page.Append(width/2);
+        page.Append(' ');
+        page.Append(height/2);
+        page.Append(" cm\n");
 
         // 3. ROTATE: rotate around origin
         double radians = rotateDegrees * (Math.PI / 180);
@@ -130,12 +147,51 @@ public class FormXObject : Canvas {
         page.Append(" 0 0 cm\n");
 
         // 2. MOVE: move the center of the object to origin
-        page.Append("1 0 0 1 -0.5 -0.5 cm\n");
+        // page.Append("1 0 0 1 -0.5 -0.5 cm\n");
+        page.Append("1 0 0 1 ");
+        page.Append(-width/2);
+        page.Append(' ');
+        page.Append(-height/2);
+        page.Append(" cm\n");
 
         // 1. DRAW: draw the normalized 1×1 object
         page.Append("/Fm");
         page.Append(objNumber);
         page.Append(" Do\n");
+
+        page.Append("BT\n");
+        foreach (TextLine textLine in textLines) {
+            Font font = textLine.GetFont();
+            if (font.fontID != null) {
+                page.Append('/');
+                page.Append(font.fontID);
+            } else {
+                page.Append("/F");
+                page.Append(font.objNumber);
+            }
+            page.Append(' ');
+            page.Append(textLine.GetFont().size);
+            page.Append(" Tf\n");
+
+            page.Append("1 0 0 1 ");
+            page.Append(textLine.x);
+            page.Append(' ');
+            page.Append(height - textLine.y);
+            page.Append(" Tm\n");
+
+            float[] textColor = textLine.GetTextColor();
+            page.Append(textColor[0]);
+            page.Append(' ');
+            page.Append(textColor[1]);
+            page.Append(' ');
+            page.Append(textColor[2]);
+            page.Append(" rg\n");
+
+            page.Append("<");
+            page.DrawUnicodeString(textLine.GetFont(), textLine.GetText());
+            page.Append("> Tj\n");
+        }
+        page.Append("ET\n");
 
         page.Append("Q\n"); // Restore the graphics state
         // page.AddEMC();

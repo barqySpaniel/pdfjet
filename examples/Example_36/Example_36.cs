@@ -16,6 +16,7 @@ public class Example_36 {
                 new FileStream("Example_36.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, IBMPlexSans.Regular);
+        font.SetSize(16f);
         // Font font = new Font(pdf, CoreFont.HELVETICA);
 
         // Create a 100x100 point Form XObject (reusable graphics container)
@@ -40,7 +41,13 @@ public class Example_36 {
 
         TextLine text = new TextLine(font, "Hello");
         text.SetLocation(15f, 15f);
-        text.DrawOn(form);
+        text.SetTextColor(Color.black);
+        form.Add(text);
+
+        text = new TextLine(font, "World");
+        text.SetLocation(15f, 35f);
+        text.SetTextColor(Color.blue);
+        form.Add(text);
 
         // Finalize the Form XObject definition in the PDF
         form.Complete();
@@ -67,7 +74,7 @@ public class Example_36 {
 
         // Fourth placement
         form.SetLocation(100f, 325f);
-        form.SetScaleFactor(0.5f);
+        // form.SetScaleFactor(0.5f);
         form.SetRotateDegreesCCW(45f);
         form.DrawOn(page);
 
