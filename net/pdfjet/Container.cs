@@ -1,20 +1,24 @@
 using System;
-using System.IO;
-using System.Text;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class Container : IDrawable {
-    private float x;
-    private float y;
-    private float width;
-    private float height;
-    private List<IDrawable> elements = new List<IDrawable>();
-    private float rotateDegrees = 0f;
+    public float x;
+    public float y;
+    public float width;
+    public float height;
+    public float rotateDegrees;
+    public float scaleX;
+    public float scaleY;
+    private List<IDrawable> elements;
 
     public Container(float width, float height) {
         this.width = width;
         this.height = height;
+        this.rotateDegrees = 0f;
+        this.scaleX = 1f;
+        this.scaleY = 1f;
+        this.elements = new List<IDrawable>();
     }
 
     public void SetPosition(float x, float y) {
@@ -27,25 +31,17 @@ public class Container : IDrawable {
         this.y = y;
     }
 
-    public void SetLocation(double x, double y) {
-        this.x = (float)x;
-        this.y = (float)y;
-    }
-
     public void SetRotateDegreesCW(float degrees) {
         this.rotateDegrees = -degrees;
-    }
-
-    public void SetRotateDegreesCW(double degrees) {
-        this.rotateDegrees = (float) -degrees;
     }
 
     public void SetRotateDegreesCCW(float degrees) {
         this.rotateDegrees = degrees;
     }
 
-    public void SetRotateDegreesCCW(double degrees) {
-        this.rotateDegrees = (float) degrees;
+    public void SetScale(float sx, float sy) {
+        this.scaleX = sx;
+        this.scaleY = sy;
     }
 
     public void Add(IDrawable element) {
@@ -56,30 +52,32 @@ public class Container : IDrawable {
     }
 
     public float[] DrawOn(Canvas page) {
-        // page.AddBMC(StructElem.P, language, actualText, altDescription);
-        page.Append("q\n"); // Save the graphics state
+        page.Append("q\n"); // Save graphics state
 
-//        float drawX = this.x;
-//        float drawY = (page.height - this.height) - this.y;
-//
-//        // 5. POSITION: move to desired location on page
-//        page.Append("1 0 0 1 ");
-//        page.Append(drawX);
-//        page.Append(' ');
-//        page.Append(drawY);
-//        page.Append(" cm\n");
-/*
-        // 4. MOVE BACK: after rotation
         page.Append("1 0 0 1 ");
-        page.Append(width/2);
+        page.Append(this.x);
         page.Append(' ');
-        page.Append(height/2);
+        page.Append(-this.y);
         page.Append(" cm\n");
 
-        // 3. ROTATE: rotate around origin
-        double radians = rotateDegrees * (Math.PI / 180);
-        float cos = (float)Math.Cos(radians);
-        float sin = (float)Math.Sin(radians);
+        float cx;
+        float cy;
+        cx = width * 0.5f;
+        cy = height * 0.5f;
+
+        page.Append("1 0 0 1 ");
+        page.Append(cx);
+        page.Append(' ');
+        page.Append(cy);
+        page.Append(" cm\n");
+
+        double rad;
+        rad = rotateDegrees * (Math.PI / 180.0);
+        float cos;
+        float sin;
+        cos = (float)Math.Cos(rad);
+        sin = (float)Math.Sin(rad);
+
         page.Append(FastFloat.ToByteArray(cos));
         page.Append(' ');
         page.Append(FastFloat.ToByteArray(sin));
@@ -89,22 +87,32 @@ public class Container : IDrawable {
         page.Append(FastFloat.ToByteArray(cos));
         page.Append(" 0 0 cm\n");
 
-        // 2. MOVE: move the center of the object to origin
-        page.Append("1 0 0 1 ");
-        page.Append(-width/2);
+        page.Append(scaleX);
         page.Append(' ');
-        page.Append(-height/2);
+        page.Append('0');
+        page.Append(' ');
+        page.Append('0');
+        page.Append(' ');
+        page.Append(scaleY);
+        page.Append(' ');
+        page.Append('0');
+        page.Append(' ');
+        page.Append('0');
         page.Append(" cm\n");
-*/
+
+        page.Append("1 0 0 1 ");
+        page.Append(-cx);
+        page.Append(' ');
+        page.Append(-cy);
+        page.Append(" cm\n");
+
         foreach (IDrawable element in elements) {
-//            element.x += x;
-//            element.y += y;
             element.DrawOn(page);
         }
-        page.Append("Q\n"); // Restore the graphics state
-        // page.AddEMC();
+
+        page.Append("Q\n"); // Restore graphics state
 
         return new float[] { this.x + width, this.y + height };
     }
-}   // End of Container.cs
-}   // End of PDFjet.NET
+}
+}

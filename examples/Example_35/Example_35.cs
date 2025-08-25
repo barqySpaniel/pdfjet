@@ -79,7 +79,6 @@ public class Example_35 {
         Rect rect = new Rect(0f, 0f, 300f, 300f);
         rect.SetLocation(0f, 0f);
         rect.SetBorderColor(Color.blue);
-        rect.DrawOn(page);
 
         TextLine text = new TextLine(font, "Yahoo!");
         text.SetLocation(25f, 25f);
@@ -87,9 +86,10 @@ public class Example_35 {
         text.SetTextColor(Color.blue);
 
         Container c = new Container(300f, 300f);
-        c.SetLocation(50f, 450f);
+        c.SetLocation(150f, 250f);
         c.Add(rect);
         c.Add(text);
+        c.SetRotateDegreesCW(50);
         c.DrawOn(page);
 
         pdf.Complete();
