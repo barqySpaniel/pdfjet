@@ -781,7 +781,7 @@ final public class PDF {
             append(Token.END_STREAM);
             endobj();
             page.contents.add(getObjNumber());
-        } else {    // No compression. Used for diagnostics.
+        } else {    // No compression. Used for diagnostics
             newobj();
             append(Token.BEGIN_DICTIONARY);
             append(Token.LENGTH);
