@@ -14,9 +14,6 @@ public class Container: Drawable {
     public var scaleY: Float
     private var elements: [Drawable]
 
-    public init() {
-    }
-
     /// Creates a new container with the specified width and height.
     ///
     /// The container is initialized with:
@@ -108,7 +105,7 @@ public class Container: Drawable {
     /// - Parameter page: The `Page` to draw on.
     /// - Returns: An array containing the bottom-right position of the container.
     /// - Throws: An error if drawing fails.
-    public func drawOn(_ page: Page?) throws -> [Float] {
+    public func drawOn(_ page: Page?) -> [Float] {
         page!.append("q\n") // Save the graphics state
 
         page!.append("1 0 0 1 ")
@@ -123,7 +120,7 @@ public class Container: Drawable {
         page!.append("1 0 0 1 ")
         page!.append(cx)
         page!.append(" ")
-        page!.append(page.height - cy)
+        page!.append(page!.height - cy)
         page!.append(" cm\n")
 
         let rad = rotateDegrees * Float.pi / 180.0
@@ -154,14 +151,14 @@ public class Container: Drawable {
         page!.append("1 0 0 1 ")
         page!.append(-cx)
         page!.append(" ")
-        page!.append(-(page.height - cy))
+        page!.append(-(page!.height - cy))
         page!.append(" cm\n")
 
         for element in elements {
-            try element.drawOn(page)
+            element.drawOn(page)
         }
 
-        page.append("Q\n") // Restore the graphics state
+        page!.append("Q\n") // Restore the graphics state
 
         return [self.x + width, self.y + height]
     }
