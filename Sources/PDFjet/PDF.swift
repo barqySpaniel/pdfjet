@@ -1023,11 +1023,6 @@ public class PDF {
 
     func append(_ number: UInt8) {
         append([UInt8](arrayLiteral: number))
-
-        // var buffer = number
-        // if os!.write(&buffer, maxLength: 1) == 1 {
-        //     self.byteCount += 1
-        // }
     }
 
     func append(_ number: UInt16) {
@@ -1047,7 +1042,6 @@ public class PDF {
     }
 
     func append(_ val: Float) {
-        // append(String(format: floatFormat, val))
         append(FastFloat.toByteArray(val))
     }
 
