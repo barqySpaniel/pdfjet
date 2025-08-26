@@ -171,7 +171,7 @@ public class Barcode2D : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         return DrawPdf417(page);
     }
 
@@ -275,7 +275,7 @@ public class Barcode2D : IDrawable {
         }
     }
 
-    private float[] DrawPdf417(Canvas page) {
+    private float[] DrawPdf417(Page page) {
         float x = x1;
         float y = y1;
 
@@ -323,7 +323,7 @@ public class Barcode2D : IDrawable {
     }
 
     private void DrawBar(
-            Canvas page,
+            Page page,
             float x,
             float y,
             float w,    // Bar width

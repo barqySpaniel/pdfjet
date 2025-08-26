@@ -156,7 +156,7 @@ public class Rect  : IDrawable {
         this.y *= factor;
     }
 
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         const float k = 0.55228f;
         page.AddBMC(this.structType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");

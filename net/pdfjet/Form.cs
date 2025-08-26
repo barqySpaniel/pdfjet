@@ -114,7 +114,7 @@ public class Form : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         foreach (Field field in fields) {
             if (field.format) {
                 field.values = Format(field.values[0], field.values[1], this.f2, this.rowLength);

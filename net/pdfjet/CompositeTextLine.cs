@@ -334,7 +334,7 @@ public class CompositeTextLine : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         float xMax = 0f;
         float yMax = 0f;
         // Loop through all the text lines and draw them on the page

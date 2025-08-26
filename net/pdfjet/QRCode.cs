@@ -111,7 +111,7 @@ public class QRCode : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         page.SetBrushColor(this.color);
         for (int row = 0; row < modules.Length; row++) {
             for (int col = 0; col < modules.Length; col++) {

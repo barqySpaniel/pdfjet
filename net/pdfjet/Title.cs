@@ -59,7 +59,7 @@ public class Title : IDrawable {
         textLine.SetPosition(x, y);
     }
 
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         if (!prefix.Equals("")) {
             prefix.DrawOn(page);
         }

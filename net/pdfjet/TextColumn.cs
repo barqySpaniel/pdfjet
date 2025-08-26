@@ -222,7 +222,7 @@ public class TextColumn : IDrawable {
      *  @param page the page to draw this text column on.
      *  @return the point with x and y coordinates of the location where to draw the next component.
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         float[] xy = null;
         for (int i = 0; i < paragraphs.Count; i++) {
             Paragraph paragraph = paragraphs[i];
@@ -234,7 +234,7 @@ public class TextColumn : IDrawable {
         return xy;
     }
 
-    private float[] DrawParagraphOn(Canvas page, Paragraph paragraph) {
+    private float[] DrawParagraphOn(Page page, Paragraph paragraph) {
         List<TextLine> list = new List<TextLine>();
         float runLength = 0f;
         for (int i = 0; i < paragraph.lines.Count; i++) {
@@ -316,7 +316,7 @@ public class TextColumn : IDrawable {
         return new float[] {x1, y1};
     }
 
-    private float[] DrawLineOfText(Canvas page, List<TextLine> list) {
+    private float[] DrawLineOfText(Page page, List<TextLine> list) {
         if (alignment == Align.JUSTIFY) {
             float sumOfWordWidths = 0f;
             for (int i = 0; i < list.Count; i++) {
@@ -362,7 +362,7 @@ public class TextColumn : IDrawable {
         return new float[] {x1, y1};
     }
 
-    private float[] DrawNonJustifiedLine(Canvas page, List<TextLine> list) {
+    private float[] DrawNonJustifiedLine(Page page, List<TextLine> list) {
         float runLength = 0f;
         for (int i = 0; i < list.Count; i++) {
             TextLine textLine = list[i];

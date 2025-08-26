@@ -199,7 +199,7 @@ public class CheckBox : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
 
         this.w = font.GetAscent();

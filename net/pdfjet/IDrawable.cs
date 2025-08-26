@@ -36,7 +36,7 @@ public interface IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    float[] DrawOn(Canvas canvas);
+    float[] DrawOn(Page canvas);
     void SetPosition(float x, float y);
 }
 }   // End of namespace PDFjet.NET

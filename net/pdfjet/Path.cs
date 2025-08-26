@@ -263,7 +263,7 @@ public class Path : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         foreach (Point point in points) {
             point.x += this.x;
             point.y += this.y;

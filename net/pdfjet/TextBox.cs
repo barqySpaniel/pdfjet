@@ -564,7 +564,7 @@ public class TextBox : IDrawable {
         return this.colors;
     }
 
-    private void DrawBorders(Canvas page) {
+    private void DrawBorders(Page page) {
         page.SetPenColor(strokeColor);
         page.SetPenWidth(lineWidth);
 
@@ -670,7 +670,7 @@ public class TextBox : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         String[] lines = getTextLines();
         float leading = font.GetAscent(fontSize) + font.GetDescent(fontSize) + spacing;
         if (height > 0f) {  // TextBox with fixed height
@@ -794,7 +794,7 @@ public class TextBox : IDrawable {
     }
 
     private void DrawTextLine(
-            Canvas page,
+            Page page,
             Font font,
             Font fallbackFont,
             String text,

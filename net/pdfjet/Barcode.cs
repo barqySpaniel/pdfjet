@@ -222,7 +222,7 @@ public class Barcode : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         if (barcodeType == Barcode.UPC) {
             return DrawCodeUPC(page, x1, y1);
         } else if (barcodeType == Barcode.CODE128) {
@@ -234,7 +234,7 @@ public class Barcode : IDrawable {
         }
     }
 
-    internal float[] DrawOnPageAtLocation(Canvas page, float x1, float y1) {
+    internal float[] DrawOnPageAtLocation(Page page, float x1, float y1) {
         if (barcodeType == Barcode.UPC) {
             return DrawCodeUPC(page, x1, y1);
         } else if (barcodeType == Barcode.CODE128) {
@@ -246,7 +246,7 @@ public class Barcode : IDrawable {
         }
     }
 
-    private float[] DrawCodeUPC(Canvas page, float x1, float y1) {
+    private float[] DrawCodeUPC(Page page, float x1, float y1) {
         float x = x1;
         float y = y1;
         float h = m1 * barHeightFactor; // Barcode height when drawn horizontally
@@ -335,7 +335,7 @@ public class Barcode : IDrawable {
     }
 
     private float DrawEGuard(
-            Canvas page,
+            Page page,
             float x,
             float y,
             float m1,
@@ -349,7 +349,7 @@ public class Barcode : IDrawable {
     }
 
     private float DrawMGuard(
-            Canvas page,
+            Page page,
             float x,
             float y,
             float m1,
@@ -363,7 +363,7 @@ public class Barcode : IDrawable {
     }
 
     private void DrawBar(
-            Canvas page,
+            Page page,
             float x,
             float y,
             float m1,   // Single bar width
@@ -376,7 +376,7 @@ public class Barcode : IDrawable {
         }
     }
 
-    private float[] DrawCode128(Canvas page, float x1, float y1) {
+    private float[] DrawCode128(Page page, float x1, float y1) {
         float x = x1;
         float y = y1;
         float w = m1;
@@ -465,7 +465,7 @@ public class Barcode : IDrawable {
         return xy;
     }
 
-    private float[] DrawCode39(Canvas page, float x1, float y1) {
+    private float[] DrawCode39(Page page, float x1, float y1) {
         text = "*" + text + "*";
 
         float x = x1;
@@ -606,7 +606,7 @@ public class Barcode : IDrawable {
     }
 
     private void DrawVertBar(
-            Canvas page,
+            Page page,
             float x,
             float y,
             float m1,   // Module length
@@ -620,7 +620,7 @@ public class Barcode : IDrawable {
     }
 
     private void DrawHorzBar(
-            Canvas page,
+            Page page,
             float x,
             float y,
             float m1,   // Module length
@@ -634,7 +634,7 @@ public class Barcode : IDrawable {
     }
 
     private void DrawHorzBar2(
-            Canvas page,
+            Page page,
             float x,
             float y,
             float m1,   // Module length

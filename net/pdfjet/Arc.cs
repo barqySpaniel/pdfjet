@@ -263,7 +263,7 @@ public class Arc : IDrawable {
      *  @return x and y coordinates of the bottom right corner of this component.
      *  @throws Exception
      */
-    public float[] DrawOn(Canvas page) {
+    public float[] DrawOn(Page page) {
         // If a start point was set, calculate center so arc begins there
         if (line != null) {
             float dx = line.x2 - line.x1;
