@@ -131,6 +131,11 @@ public class Page {
         this.pageObj = RemoveComments(pageObj);
         this.width = pageObj.GetPageSize()[0];
         this.height = pageObj.GetPageSize()[1];
+        this.buf = new MemoryStream(8192);
+        this.tm0 = FastFloat.ToByteArray(tmx[0]);
+        this.tm1 = FastFloat.ToByteArray(tmx[1]);
+        this.tm2 = FastFloat.ToByteArray(tmx[2]);
+        this.tm3 = FastFloat.ToByteArray(tmx[3]);
         Append("q\n");
         if (pageObj.gsNumber != -1) {
             Append("/GS");
