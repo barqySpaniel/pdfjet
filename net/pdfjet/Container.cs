@@ -64,8 +64,8 @@ public class Container : IDrawable {
         page.Append(-this.y);
         page.Append(" cm\n");
 
-        float cx = width * 0.5f;
-        float cy = height * 0.5f;
+        float cx = width / 2f;
+        float cy = height / 2f;
 
         page.Append("1 0 0 1 ");
         page.Append(cx);
