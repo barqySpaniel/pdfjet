@@ -198,19 +198,15 @@ public class Path : IDrawable {
         return this.lineJoinStyle;
     }
 
-    public void SetRotateDegreesCW(float degrees) {
-        this.rotateDegrees = -degrees;
+    public void SetRotation(double degrees) {
+        this.rotateDegrees = (float) degrees;
     }
 
-    public void SetRotateDegreesCW(double degrees) {
+    public void SetRotationClockwise(double degrees) {
         this.rotateDegrees = (float) -degrees;
     }
 
-    public void SetRotateDegreesCCW(float degrees) {
-        this.rotateDegrees = degrees;
-    }
-
-    public void SetRotateDegreesCCW(double degrees) {
+    public void SetRotationCounterClockwise(double degrees) {
         this.rotateDegrees = (float) degrees;
     }
 
