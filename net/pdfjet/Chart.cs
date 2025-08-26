@@ -271,6 +271,8 @@ public class Chart : IDrawable {
      *  @param page the page to draw this chart on.
      */
     public float[] DrawOn(Page page) {
+        page.Append("q\n"); // Save the graphics state
+
         nf.SetMinimumFractionDigits(minFractionDigits);
         nf.SetMaximumFractionDigits(maxFractionDigits);
 
@@ -378,6 +380,8 @@ public class Chart : IDrawable {
         page.SetDefaultStrokeWidth();
         page.SetDefaultStrokePattern();
         page.SetPenColor(Color.black);
+
+        page.Append("Q\n"); // Restore the graphics state
 
         return new float[] {this.x1 + this.w, this.y1 + this.h};
     }
