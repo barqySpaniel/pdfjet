@@ -738,23 +738,6 @@ public class PDF {
             append(Token.endStream)
             endobj()
             page.contents.append(getObjNumber())
-        } else if contentStreamsCompression == Compression.LZW {
-            var buffer = [UInt8]()
-            LZWEncode(&buffer, page.buf)
-            page.buf.removeAll()   // Release the page content memory!
-
-            newobj()
-            append(Token.beginDictionary)
-            append("/Filter /LZWDecode\n")
-            append(Token.length)
-            append(buffer.count)
-            append(Token.newline)
-            append(Token.endDictionary)
-            append(Token.stream)
-            append(buffer)
-            append(Token.endStream)
-            endobj()
-            page.contents.append(getObjNumber())
         } else {    // No compression. Used for diagnostics
             newobj()
             append(Token.beginDictionary)
