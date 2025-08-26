@@ -4,16 +4,16 @@ import PDFjet
 public class Example_43 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_43.pdf", append: false)!)
-        pdf.setCompliance(Compliance.PDF_UA_1)
+        // pdf.setCompliance(Compliance.PDF_UA_1)
 
         // Used for performance testing. Results in 2000+ pages PDF.
         let fileName = "data/Electric_Vehicle_Population_Data.csv"
         // let fileName = "data/Electric_Vehicle_Population_10_Pages.csv"
 
-        let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
+        let f1 = try Font(pdf, IBMPlexSans.SemiBold)
         f1.setSize(10.0)
 
-        let f2 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+        let f2 = try Font(pdf, IBMPlexSans.Regular)
         f2.setSize(9.0)
 
         let table = BigTable(pdf, f1, f2, Letter.LANDSCAPE)

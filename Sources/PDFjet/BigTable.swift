@@ -91,7 +91,6 @@ public class BigTable {
     }
 
     private func drawFieldsAndLine(fields: [String], font: Font) {
-        page!.addArtifactBMC()
         if self.highlightRow {
             highlightRow(page: page!, font: font, color: highlightColor)
             self.highlightRow = false
@@ -105,10 +104,9 @@ public class BigTable {
         page!.lineTo(vertLines[numberOfColumns], self.yText - font.ascent)
         page!.strokePath()
         page!.setPenColor(original)
-        page!.addEMC()
 
-        let rowText = getRowText(row: fields)
-        page!.addBMC(StructElem.P, language, rowText, rowText)
+        // let rowText = getRowText(row: fields)
+        // page!.addBMC(StructElem.P, language, rowText, rowText)
         page!.setPenWidth(0.0)
         page!.setTextFont(font)
         page!.setBrushColor(Color.black)
@@ -125,7 +123,7 @@ public class BigTable {
             page!.drawText(text)
             page!.endText()
         }
-        page!.addEMC()
+        // page!.addEMC()
     }
 
     private func highlightRow(page: Page, font: Font, color: Int32) {
@@ -140,7 +138,7 @@ public class BigTable {
     }
 
     private func drawTheVerticalLines() {
-        page!.addArtifactBMC()
+        // page!.addArtifactBMC()
         let original = page!.getPenColor()
         page!.setPenColor(penColor)
         for i in 0...numberOfColumns {
@@ -154,7 +152,7 @@ public class BigTable {
         page!.lineTo(vertLines[numberOfColumns], self.yText - f2.ascent)
         page!.strokePath()
         page!.setPenColor(original)
-        page!.addEMC()
+        // page!.addEMC()
     }
 
     private func getRowText(row: [String]) -> String {

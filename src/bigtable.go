@@ -1,6 +1,8 @@
-/*
-  - bigtable.go
+package pdfjet
 
+/**
+ * bigtable.go
+ *
 ©2025 PDFjet Software
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,7 +23,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-package pdfjet
 
 import (
 	"bufio"
@@ -145,7 +146,7 @@ func (bt *BigTable) drawTextAndLine(fields []string, font *Font) error {
 }
 
 func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
-	bt.page.AddArtifactBMC()
+	// bt.page.AddArtifactBMC()
 	if bt.highlight {
 		bt.highlightRow(bt.page, font, bt.highlightColor)
 		bt.highlight = false
@@ -159,7 +160,7 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 	bt.page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-font.ascent)
 	bt.page.StrokePath()
 	bt.page.SetPenColorWithFloat32Array(original)
-	bt.page.AddEMC()
+	// bt.page.AddEMC()
 
 	// bt.page.AddBMC("P", bt.language, rowText, rowText)
 	bt.page.SetPenWidth(0.0)
@@ -194,7 +195,7 @@ func (bt *BigTable) highlightRow(page *Page, font *Font, color int32) {
 }
 
 func (bt *BigTable) drawTheVerticalLines() {
-	bt.page.AddArtifactBMC()
+	// bt.page.AddArtifactBMC()
 	original := bt.page.GetPenColor()
 	bt.page.SetPenColor(bt.penColor)
 	for i := 0; i <= bt.numberOfColumns; i++ {
@@ -208,7 +209,7 @@ func (bt *BigTable) drawTheVerticalLines() {
 	bt.page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-bt.f2.ascent)
 	bt.page.StrokePath()
 	bt.page.SetPenColorWithFloat32Array(original)
-	bt.page.AddEMC()
+	// bt.page.AddEMC()
 }
 
 func (bt *BigTable) getAlignment(str string) int {

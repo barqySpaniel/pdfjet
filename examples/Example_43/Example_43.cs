@@ -3,21 +3,22 @@ using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using PDFjet.NET;
+using PDFjet.NET.Fonts;
 
 public class Example_43 {
     public Example_43() {
         PDF pdf = new PDF(
             new BufferedStream(new FileStream("Example_43.pdf", FileMode.Create)));
-        pdf.SetCompliance(Compliance.PDF_UA_1);
+        // pdf.SetCompliance(Compliance.PDF_UA_1);
 
         // Used for performance testing. Results in 2000+ pages PDF.
         String fileName = "data/Electric_Vehicle_Population_Data.csv";
         // String fileName = "data/Electric_Vehicle_Population_10_Pages.csv";
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.SemiBold);
         f1.SetSize(10f);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
         f2.SetSize(9f);
 
         BigTable table = new BigTable(pdf, f1, f2, Letter.LANDSCAPE);

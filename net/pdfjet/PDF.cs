@@ -510,7 +510,8 @@ public class PDF {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
         'A', 'B', 'C', 'D', 'E', 'F'
     };
-    private string ToHex(String str) {
+
+    private string ToHexOriginal(String str) {
         if (string.IsNullOrEmpty(str)) {
             return "";
         }
@@ -543,7 +544,7 @@ public class PDF {
         return buf.ToString();
     }
 
-    private static string ToHexFast(string str) {
+    private static string ToHex(string str) {
         if (string.IsNullOrEmpty(str)) {
             return string.Empty;
         }
@@ -553,7 +554,6 @@ public class PDF {
 
         for (int i = 0; i < span.Length; i++) {
             int codePoint;
-
             // Handle surrogate pairs
             if (char.IsHighSurrogate(span[i])) {
                 if (i + 1 < span.Length && char.IsLowSurrogate(span[i + 1])) {

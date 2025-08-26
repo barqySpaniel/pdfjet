@@ -5,14 +5,13 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
 // Example43 demonstrates creating a PDF with a big table
 func Example43() {
 	pdf := pdfjet.NewPDFFile("Example_43.pdf")
-	pdf.SetCompliance(compliance.PDF_UA_1)
+	// pdf.SetCompliance(compliance.PDF_UA_1)
 
 	// Used for performance testing. Results in 2000+ pages PDF.
 	fileName := "data/Electric_Vehicle_Population_Data.csv"

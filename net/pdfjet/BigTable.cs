@@ -94,7 +94,7 @@ namespace PDFjet.NET {
         }
 
         private void DrawFieldsAndLine(string[] fields, Font font) {
-            page.AddArtifactBMC();
+            // page.AddArtifactBMC();
             if (this.highlightRow) {
                 HighlightRow(page, font, highlightColor);
                 this.highlightRow = false;
@@ -108,10 +108,10 @@ namespace PDFjet.NET {
             page.LineTo(vertLines[this.numberOfColumns], this.yText - font.ascent);
             page.StrokePath();
             page.SetPenColor(original);
-            page.AddEMC();
+            // page.AddEMC();
 
             string rowText = GetRowText(fields);
-            page.AddBMC(StructElem.P, language, rowText, rowText);
+            // page.AddBMC(StructElem.P, language, rowText, rowText);
             page.SetPenWidth(0f);
             page.SetTextFont(font);
             page.SetBrushColor(Color.black);
@@ -143,7 +143,7 @@ namespace PDFjet.NET {
         }
 
         private void DrawTheVerticalLines() {
-            page.AddArtifactBMC();
+            // page.AddArtifactBMC();
             float[] original = page.GetPenColor();
             page.SetPenColor(penColor);
             for (int i = 0; i <= this.numberOfColumns; i++) {
@@ -157,7 +157,7 @@ namespace PDFjet.NET {
             page.LineTo(vertLines[this.numberOfColumns], this.yText - f2.ascent);
             page.StrokePath();
             page.SetPenColor(original);
-            page.AddEMC();
+            // page.AddEMC();
         }
 
         private string GetRowText(string[] row) {

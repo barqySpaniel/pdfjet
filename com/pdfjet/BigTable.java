@@ -105,7 +105,6 @@ public class BigTable {
 
     private void drawTextAndLine(String[] fields, Font font) throws Exception {
         if (page == null) {     // The first page
-            // page.addBMC(StructElem.TABLE, language, rowText, rowText);
             page = new Page(pdf, pageSize, Page.DETACHED);
             pages.add(page);
             page.setPenWidth(0f);
@@ -117,7 +116,6 @@ public class BigTable {
             return;
         }
         if (startNewPage) {     // Create new page
-            // page.addBMC(StructElem.TABLE, language, rowText, rowText);
             page = new Page(pdf, pageSize, Page.DETACHED);
             pages.add(page);
             page.setPenWidth(0f);
@@ -139,7 +137,7 @@ public class BigTable {
     }
 
     private void drawFieldsAndLine(String[] fields, Font font) {
-        page.addArtifactBMC();
+        // page.addArtifactBMC();
         if (this.highlightRow) {
             highlightRow(page, font, highlightColor);
             this.highlightRow = false;
@@ -153,10 +151,10 @@ public class BigTable {
         page.lineTo(vertLines[this.numberOfColumns], this.yText - font.ascent);
         page.strokePath();
         page.setPenColor(original);
-        page.addEMC();
+        // page.addEMC();
 
         
-        page.addBMC(StructElem.TR, language, "", "");
+        // page.addBMC(StructElem.TR, language, "", "");
         page.setTextFont(font);
         page.setBrushColor(Color.black);
         for (int i = 0; i < this.numberOfColumns; i++) {
@@ -165,11 +163,11 @@ public class BigTable {
             if (alignment[i] == Alignment.RIGHT) {
                 xText = (vertLines[i + 1] - this.padding) - font.stringWidth(text);
             }
-            page.addBMC(StructElem.TD, language, "", "");
+            // page.addBMC(StructElem.TD, language, "", "");
             page.drawText(text, xText, this.yText);
-            page.addEMC();
+            // page.addEMC();
         }
-        page.addEMC();
+        // page.addEMC();
     }
 
     /**
@@ -187,7 +185,7 @@ public class BigTable {
     }
 
     private void drawTheVerticalLines() {
-        page.addArtifactBMC();
+        // page.addArtifactBMC();
         float[] original = page.getPenColor();
         page.setPenColor(penColor);
         for (int i = 0; i <= this.numberOfColumns; i++) {
@@ -202,7 +200,7 @@ public class BigTable {
         page.lineTo(vertLines[this.numberOfColumns], this.yText - f2.ascent);
         page.strokePath();
         page.setPenColor(original);
-        page.addEMC();
+        // page.addEMC();
     }
 
     private Alignment getAlignment(String str) {
