@@ -104,7 +104,6 @@ public class Container: Drawable {
     ///
     /// - Parameter page: The `Page` to draw on.
     /// - Returns: An array containing the bottom-right position of the container.
-    /// - Throws: An error if drawing fails.
     public func drawOn(_ page: Page?) -> [Float] {
         page!.append("q\n") // Save the graphics state
 
