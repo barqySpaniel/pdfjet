@@ -37,7 +37,6 @@ public class PDF {
     internal int outputIntentObjNumber = 0;
     internal List<Font> fonts = new List<Font>();
     internal List<Image> images = new List<Image>();
-    internal List<FormXObject> formXObjects = new List<FormXObject>();
     internal List<Page> pages = new List<Page>();
     internal Dictionary<String, Destination> destinations = new Dictionary<String, Destination>();
     internal List<OptionalContentGroup> groups = new List<OptionalContentGroup>();
@@ -329,9 +328,8 @@ public class PDF {
         }
 
         // Check if we have ANY XObjects at all
-        if (images.Count > 0 || formXObjects.Count > 0) {
+        if (images.Count > 0) {
             Append("/XObject <<\n"); // Write the key and open the dictionary ONCE
-
             // Add all Images to the same dictionary
             foreach (Image image in images) {
                 Append("/Im");
@@ -340,16 +338,6 @@ public class PDF {
                 Append(image.objNumber);
                 Append(" 0 R\n");
             }
-
-            // Add all Form XObjects to the SAME dictionary
-            foreach (FormXObject form in formXObjects) {
-                Append("/Fm");
-                Append(form.objNumber);
-                Append(" ");
-                Append(form.objNumber);
-                Append(" 0 R\n");
-            }
-
             Append(">>\n"); // Close the dictionary
         }
 
