@@ -12,6 +12,17 @@ public class Container : IDrawable {
     public float scaleY;
     private List<IDrawable> elements;
 
+    /// <summary>
+    /// Creates a new container with the specified width and height.
+    /// The container is initialized with:
+    /// <list type="bullet">
+    ///   <item><description>Rotation set to 0 degrees</description></item>
+    ///   <item><description>Scaling factors set to 1.0 for both axes</description></item>
+    ///   <item><description>An empty list of drawable elements</description></item>
+    /// </list>
+    /// </summary>
+    /// <param name="width">The width of the container.</param>
+    /// <param name="height">The height of the container.</param>
     public Container(float width, float height) {
         this.width = width;
         this.height = height;
@@ -21,41 +32,82 @@ public class Container : IDrawable {
         this.elements = new List<IDrawable>();
     }
 
+    /// <summary>
+    /// Sets the position of the container on the page.
+    /// </summary>
+    /// <param name="x">The X coordinate.</param>
+    /// <param name="y">The Y coordinate.</param>
     public void SetPosition(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
+    /// <summary>
+    /// Sets the location of the container on the page (alias for <see cref="SetPosition"/>).
+    /// </summary>
+    /// <param name="x">The X coordinate.</param>
+    /// <param name="y">The Y coordinate.</param>
     public void SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
+    /// <summary>
+    /// Sets the rotation angle.
+    /// </summary>
+    /// <param name="degrees">The rotation angle in degrees.</param>
     public void SetRotation(double degrees) {
-        this.rotateDegrees = (float) degrees;
+        this.rotateDegrees = (float)degrees;
     }
 
+    /// <summary>
+    /// Sets clockwise rotation.
+    /// </summary>
+    /// <param name="degrees">The rotation angle in degrees (clockwise).</param>
     public void SetRotationClockwise(double degrees) {
-        this.rotateDegrees = (float) -degrees;
+        this.rotateDegrees = (float)-degrees;
     }
 
+    /// <summary>
+    /// Sets counter-clockwise rotation.
+    /// </summary>
+    /// <param name="degrees">The rotation angle in degrees (counter-clockwise).</param>
     public void SetRotationCounterClockwise(double degrees) {
-        this.rotateDegrees = (float) degrees;
+        this.rotateDegrees = (float)degrees;
     }
 
+    /// <summary>
+    /// Sets a uniform scaling factor for both X and Y axes.
+    /// </summary>
+    /// <param name="factor">The scaling factor to apply.</param>
     public void SetScaleFactor(float factor) {
         SetScaleFactorXY(factor, factor);
     }
 
+    /// <summary>
+    /// Sets non-uniform scaling factors for the X and Y axes.
+    /// </summary>
+    /// <param name="sx">The scaling factor for X.</param>
+    /// <param name="sy">The scaling factor for Y.</param>
     public void SetScaleFactorXY(float sx, float sy) {
         this.scaleX = sx;
         this.scaleY = sy;
     }
 
+    /// <summary>
+    /// Adds a drawable element to this container.
+    /// </summary>
+    /// <param name="element">The element to add.</param>
     public void Add(IDrawable element) {
         this.elements.Add(element);
     }
 
+    /// <summary>
+    /// Draws this container and its child elements onto the page.
+    /// </summary>
+    /// <param name="page">The <see cref="Page"/> to draw on.</param>
+    /// <returns>An array containing the bottom-right position of the container.</returns>
+    /// <exception cref="Exception">Thrown if drawing fails.</exception>
     public float[] DrawOn(Page page) {
         page.Append("q\n"); // Save the graphics state
 
