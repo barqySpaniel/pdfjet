@@ -54,11 +54,11 @@ public class Example_36 {
         pointXY = container.DrawOn(page);
 
         container.SetLocation(pointXY[0], pointXY[1]);
-        container.SetRotateDegreesCW(45f);
+        container.SetRotationClockwise(45);
         pointXY = container.DrawOn(page);
 
         container.SetLocation(pointXY[0] - 300f, pointXY[1]);
-        container.SetRotateDegreesCCW(45f);
+        container.SetRotationCounterClockwise(45);
         container.DrawOn(page);
 
         // Finalize the PDF document

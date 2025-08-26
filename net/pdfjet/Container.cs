@@ -31,12 +31,16 @@ public class Container : IDrawable {
         this.y = y;
     }
 
-    public void SetRotateDegreesCW(float degrees) {
-        this.rotateDegrees = -degrees;
+    public void SetRotation(double degrees) {
+        this.rotateDegrees = (float) degrees;
     }
 
-    public void SetRotateDegreesCCW(float degrees) {
-        this.rotateDegrees = degrees;
+    public void SetRotationClockwise(double degrees) {
+        this.rotateDegrees = (float) -degrees;
+    }
+
+    public void SetRotationCounterClockwise(double degrees) {
+        this.rotateDegrees = (float) degrees;
     }
 
     public void SetScaleFactor(float factor) {
