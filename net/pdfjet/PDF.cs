@@ -43,6 +43,7 @@ public class PDF {
     internal Dictionary<String, Int32> states = new Dictionary<String, Int32>();
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
     internal Compliance compliance;
+    internal Bookmark toc = null;
 
     private Stream os = null;
     private readonly List<Int32> objOffset = new List<Int32>(); // Required by the xref section
@@ -60,11 +61,10 @@ public class PDF {
     private String pageMode = null;
     private String language = "en-US";
     private String uuid = null;
-
-    internal Bookmark toc = null;
-    internal List<String> importedFonts = new List<String>();
-    internal String extGState = "";
-    internal Page prevPage = null;
+    private List<String> importedFonts = new List<String>();
+    private String extGState = "";
+    private Page prevPage = null;
+    private Compression contentStreamsCompression = Compression.DEFLATE;
 
     /**
      * The default constructor - use when reading PDF files.
@@ -730,42 +730,41 @@ public class PDF {
     }
 
     private void AddPageContent(Page page) {
-        MemoryStream baos = new MemoryStream();
-        DeflaterOutputStream dos = new DeflaterOutputStream(baos);
-        byte[] buf = page.buf.ToArray();
-        dos.Write(buf, 0, buf.Length);
-        page.buf = null;    // Release the page content memory!
+        if (contentStreamsCompression == Compression.DEFLATE) {
+            MemoryStream baos = new MemoryStream();
+            DeflaterOutputStream dos = new DeflaterOutputStream(baos);
+            byte[] buf = page.buf.ToArray();
+            dos.Write(buf, 0, buf.Length);
+            page.buf = null;    // Release the page content memory!
 
-        NewObj();
-        Append(Token.BeginDictionary);
-        Append("/Filter /FlateDecode\n");
-        Append("/Length ");
-        Append(baos.Length);
-        Append(Token.Newline);
-        Append(Token.EndDictionary);
-        Append(Token.Stream);
-        Append(baos);
-        Append(Token.EndStream);
-        EndObj();
-        page.contents.Add(GetObjNumber());
+            NewObj();
+            Append(Token.BeginDictionary);
+            Append("/Filter /FlateDecode\n");
+            Append("/Length ");
+            Append(baos.Length);
+            Append(Token.Newline);
+            Append(Token.EndDictionary);
+            Append(Token.Stream);
+            Append(baos);
+            Append(Token.EndStream);
+            EndObj();
+            page.contents.Add(GetObjNumber());
+        } else {    // No compression. Used for diagnostics
+            NewObj();
+            Append(Token.BeginDictionary);
+            Append("/Length ");
+            Append(page.buf.Length);
+            Append(Token.Newline);
+            Append(Token.EndDictionary);
+            Append(Token.Stream);
+            Append(page.buf);
+            Append(Token.EndStream);
+            EndObj();
+            page.buf = null;    // Release the page content memory!
+            page.contents.Add(GetObjNumber());
+        }
     }
-/*
-    // Use this method on systems that don't have Deflater stream or when troubleshooting.
-    private void AddPageContent(Page page) {
-        NewObj();
-        Append(Token.BeginDictionary);
-        Append("/Length ");
-        Append(page.buf.Length);
-        Append(Token.Newline);
-        Append(Token.EndDictionary);
-        Append(Token.Stream);
-        Append(page.buf);
-        Append(Token.EndStream);
-        EndObj();
-        page.buf = null;    // Release the page content memory!
-        page.contents.Add(GetObjNumber());
-    }
-*/
+
     private int AddAnnotationObject(Annotation annot, int index) {
         NewObj();
         annot.objNumber = GetObjNumber();

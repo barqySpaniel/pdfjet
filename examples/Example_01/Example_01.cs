@@ -49,7 +49,7 @@ public class Example_01 {
                 Content.OfTextFile("data/languages/greek.txt"));
         textBlock.SetLocation(50f, xy[1] + 30f);
         textBlock.SetWidth(430f);
-        textBlock.SetTextFontSize(7f);
+        textBlock.SetTextFontSize(12f);
         textBlock.SetBorderColor(Color.transparent);  // No border for Greek text
         xy = textBlock.DrawOn(page);  // Draw the Greek text and update coordinates
 
