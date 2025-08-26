@@ -228,6 +228,17 @@ public class Line : IDrawable {
     }
 
     /**
+     *  Sets the width of this line.
+     *
+     *  @param width the width.
+     *  @return this Line object.
+     */
+    public Line SetLineWidth(float width) {
+        this.width = width;
+        return this;
+    }
+
+    /**
      *  Sets the color for this line.
      *
      *  @param color the color specified as an integer.

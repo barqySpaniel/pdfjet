@@ -30,21 +30,23 @@ public class Example_36 {
         rect.SetBorderWidth(2f);
         container.Add(rect);
 
+        // Add a line to container
         Line line = new Line(0f, 0f, 75f, 75f);
-        line.SetWidth(2f);
+        line.SetLineWidth(2f);
         container.Add(line);
 
         // Add a text line to container
-        TextLine title = new TextLine(font, "Hello");
-        title.SetFontSize(16f);
-        title.SetLocation(20f, 20f);
-        container.Add(title);
+        TextLine textLine = new TextLine(font, "Hello");
+        textLine.SetFontSize(16f);
+        textLine.SetLocation(20f, 20f);
+        container.Add(textLine);
 
-        title = new TextLine(font, "World");
-        title.SetFontSize(16f);
-        title.SetLocation(40f, 40f);
-        title.SetTextColor(Color.blue);
-        container.Add(title);
+        // Add another text line to container
+        textLine = new TextLine(font, "World");
+        textLine.SetFontSize(16f);
+        textLine.SetLocation(40f, 40f);
+        textLine.SetTextColor(Color.blue);
+        container.Add(textLine);
 
         float[] pointXY = container.DrawOn(page);
 
@@ -57,7 +59,7 @@ public class Example_36 {
 
         container.SetLocation(pointXY[0] - 300f, pointXY[1]);
         container.SetRotateDegreesCCW(45f);
-        pointXY = container.DrawOn(page);
+        container.DrawOn(page);
 
         // Finalize the PDF document
         pdf.Complete();
