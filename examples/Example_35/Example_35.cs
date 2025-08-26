@@ -87,11 +87,11 @@ public class Example_35 {
         text.SetTextColor(Color.blue);
 
         Container c = new Container(300f, 300f);
-        c.SetLocation(200f, 200f);
+        c.SetLocation(200f, 400f);
         c.Add(rect);
         c.Add(text);
-        c.SetScaleFactor(0.5f);
-        c.SetRotateDegreesCW(44);
+        // c.SetScaleFactor(0.5f);
+        c.SetRotateDegreesCCW(45);
         c.DrawOn(page);
 
         pdf.Complete();

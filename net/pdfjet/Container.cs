@@ -55,6 +55,8 @@ public class Container : IDrawable {
     public float[] DrawOn(Canvas page) {
         page.Append("q\n"); // Save the graphics state
 
+        // 1) Translate container to its final position on the page
+        //    This is logically the last transformation, but in PDF it’s applied first
         page.Append("1 0 0 1 ");
         page.Append(this.x);
         page.Append(' ');
@@ -64,12 +66,16 @@ public class Container : IDrawable {
         float cx = width / 2f;
         float cy = height / 2f;
 
+        // 2) Move origin to the center of the container
+        //    Needed for rotation and scaling
+        //    This transformation is applied on top of the previous translation
         page.Append("1 0 0 1 ");
         page.Append(cx);
         page.Append(' ');
         page.Append(page.height - cy);
         page.Append(" cm\n");
 
+        // 3) Rotate around the container center
         double rad = rotateDegrees * (Math.PI / 180.0);
         float cos = (float)Math.Cos(rad);
         float sin = (float)Math.Sin(rad);
@@ -82,6 +88,7 @@ public class Container : IDrawable {
         page.Append(FastFloat.ToByteArray(cos));
         page.Append(" 0 0 cm\n");
 
+        // 4) Scale around the container center
         page.Append(scaleX);
         page.Append(' ');
         page.Append('0');
@@ -95,18 +102,22 @@ public class Container : IDrawable {
         page.Append('0');
         page.Append(" cm\n");
 
+        // 5) Move origin back so children can draw using local coordinates (0,0)
+        //    Executed last in the stream, but logically the first transformation for child drawing
         page.Append("1 0 0 1 ");
         page.Append(-cx);
         page.Append(' ');
         page.Append(-(page.height - cy));
         page.Append(" cm\n");
 
+        // 6) Draw children elements
         foreach (IDrawable element in elements) {
             element.DrawOn(page);
         }
 
-        page.Append("Q\n"); // Restore graphics state
+        page.Append("Q\n"); // Restore the graphics state
 
+        // Return bottom-right position of container
         return new float[] { this.x + width, this.y + height };
     }
 }
