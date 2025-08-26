@@ -60,6 +60,8 @@ public class PDF {
     private var uuid: String?
     private var prevPage: Page?
 
+    private var contentStreamsCompression = Compression.DEFLATE
+
     ///
     /// The default constructor - use when reading PDF files.
     ///
@@ -717,66 +719,57 @@ public class PDF {
             endobj()
         }
     }
-/*
-    // Use this method on systems that don't have Deflater stream or when troubleshooting.
-    private func addPageContent(_ page: Page) {
-        newobj()
-        append(Token.beginDictionary)
-        append(Token.length)
-        append(page.buf.count)
-        append(Token.newline)
-        append(Token.endDictionary)
-        append(Token.stream)
-        append(page.buf)
-        append(Token.endStream)
-        endobj()
-        page.contents.append(getObjNumber())
-    }
-*/
-    private func addPageContent(_ page: Page) {
-        var buffer = [UInt8]()
-        // let time0 = Int64(Date().timeIntervalSince1970 * 1000)
-        FlateEncode(&buffer, page.buf)
-        // let time1 = Int64(Date().timeIntervalSince1970 * 1000)
-        // Swift.print(time1 - time0)
-        page.buf.removeAll()   // Release the page content memory!
 
-        newobj()
-        append(Token.beginDictionary)
-        append("/Filter /FlateDecode\n")
-        append(Token.length)
-        append(buffer.count)
-        append(Token.newline)
-        append(Token.endDictionary)
-        append(Token.stream)
-        append(buffer)
-        append(Token.endStream)
-        endobj()
-        page.contents.append(getObjNumber())
-    }
-/* This method uses LZW compression
-    private func addPageContent_ page: Page) {
-        var buffer = [UInt8]()
-        // let time0 = Int64(Date().timeIntervalSince1970 * 1000)
-        LZWEncode(&buffer, page.buf)
-        // let time1 = Int64(Date().timeIntervalSince1970 * 1000)
-        // Swift.print(time1 - time0)
-        page.buf.removeAll()   // Release the page content memory!
+    private func addPageContent(_ page: Page) {
+        if contentStreamsCompression == Compression.DEFLATE {
+            var buffer = [UInt8]()
+            FlateEncode(&buffer, page.buf)
+            page.buf.removeAll()   // Release the page content memory!
 
-        newobj()
-        append(Token.beginDictionary)
-        append("/Filter /LZWDecode\n")
-        append(Token.length)
-        append(buffer.count)
-        append(Token.newline)
-        append(Token.endDictionary)
-        append(Token.stream)
-        append(buffer)
-        append(Token.endStream)
-        endobj()
-        page.contents.append(getObjNumber())
+            newobj()
+            append(Token.beginDictionary)
+            append("/Filter /FlateDecode\n")
+            append(Token.length)
+            append(buffer.count)
+            append(Token.newline)
+            append(Token.endDictionary)
+            append(Token.stream)
+            append(buffer)
+            append(Token.endStream)
+            endobj()
+            page.contents.append(getObjNumber())
+        } else if contentStreamsCompression == Compression.LZW {
+            var buffer = [UInt8]()
+            LZWEncode(&buffer, page.buf)
+            page.buf.removeAll()   // Release the page content memory!
+
+            newobj()
+            append(Token.beginDictionary)
+            append("/Filter /LZWDecode\n")
+            append(Token.length)
+            append(buffer.count)
+            append(Token.newline)
+            append(Token.endDictionary)
+            append(Token.stream)
+            append(buffer)
+            append(Token.endStream)
+            endobj()
+            page.contents.append(getObjNumber())
+        } else {    // No compression. Used for diagnostics
+            newobj()
+            append(Token.beginDictionary)
+            append(Token.length)
+            append(page.buf.count)
+            append(Token.newline)
+            append(Token.endDictionary)
+            append(Token.stream)
+            append(page.buf)
+            append(Token.endStream)
+            endobj()
+            page.contents.append(getObjNumber())
+        }
     }
-*/
+
     @discardableResult
     private func addAnnotationObject(
             _ annot: Annotation,
