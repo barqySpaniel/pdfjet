@@ -16,29 +16,59 @@ public class Example_36 {
                 new FileStream("Example_36.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, IBMPlexSans.Regular);
-        font.SetSize(14f);
 
         // Create a new page
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Rect rect = new Rect(0f, 0f, 300f, 300f);
-        rect.SetLocation(50f, 450f);
+        // Base container
+        Container container = new Container(150f, 150f);
+        container.SetLocation(50f, 50f);
+
+        // Add a rectangle to container
+        Rect rect = new Rect(0f, 0f, 150f, 150f);
         rect.SetBorderColor(Color.blue);
-        rect.DrawOn(page);
+        rect.SetBorderWidth(2f);
+        container.Add(rect);
+
+        Line line = new Line(0f, 0f, 75f, 75f);
+        line.SetWidth(2f);
+        container.Add(line);
+
+        // Add a text line to container
+        TextLine title = new TextLine(font, "Hello");
+        title.SetFontSize(16f);
+        title.SetLocation(20f, 20f);
+        container.Add(title);
+
+        title = new TextLine(font, "World");
+        title.SetFontSize(16f);
+        title.SetLocation(40f, 40f);
+        title.SetTextColor(Color.blue);
+        container.Add(title);
+
+        float[] pointXY = container.DrawOn(page);
+
+        container.SetLocation(pointXY[0], pointXY[1]);
+        pointXY = container.DrawOn(page);
+
+        container.SetLocation(pointXY[0], pointXY[1]);
+        container.SetRotateDegreesCW(45f);
+        pointXY = container.DrawOn(page);
+
+        container.SetLocation(pointXY[0] - 300f, pointXY[1]);
+        container.SetRotateDegreesCCW(45f);
+        pointXY = container.DrawOn(page);
 
         // Finalize the PDF document
         pdf.Complete();
     }
 
     public static void Main(String[] args) {
-        Stopwatch performanceTimer = Stopwatch.StartNew();
-        long startTime = performanceTimer.ElapsedMilliseconds;
-
+        Stopwatch sw = Stopwatch.StartNew();
+        long time0 = sw.ElapsedMilliseconds;
         new Example_36();
-
-        long endTime = performanceTimer.ElapsedMilliseconds;
-        performanceTimer.Stop();
-
-        TextUtils.PrintDuration("Example_36", startTime, endTime);
+        long time1 = sw.ElapsedMilliseconds;
+        sw.Stop();
+        TextUtils.PrintDuration("Example_36", time0, time1);
     }
 }   // End of Example_36.cs

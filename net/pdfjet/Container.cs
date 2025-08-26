@@ -40,10 +40,10 @@ public class Container : IDrawable {
     }
 
     public void SetScaleFactor(float factor) {
-        SetScaleFactor(factor, factor);
+        SetScaleFactorXY(factor, factor);
     }
 
-    public void SetScaleFactor(float sx, float sy) {
+    public void SetScaleFactorXY(float sx, float sy) {
         this.scaleX = sx;
         this.scaleY = sy;
     }
