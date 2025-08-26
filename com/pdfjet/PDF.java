@@ -64,6 +64,7 @@ final public class PDF {
     private final List<String> importedFonts = new ArrayList<String>();
     private String extGState = "";
     private Page prevPage = null;
+    private Compression contentStreamsCompression = Compression.DEFLATE;
 
     /**
      * The default constructor - use when reading PDF files.
@@ -739,66 +740,63 @@ final public class PDF {
             endobj();
         }
     }
-/*
-    private void addPageContent(Page page) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Deflater deflater = new Deflater();
-        DeflaterOutputStream dos = new DeflaterOutputStream(baos, deflater);
-        byte[] buf = page.buf.toByteArray();
-        dos.write(buf, 0, buf.length);
-        dos.finish();
-        deflater.end();
-        page.buf = null;    // Release the page content memory!
 
-        newobj();
-        append(Token.beginDictionary);
-        append("/Filter /FlateDecode\n");
-        append(Token.length);
-        append(baos.size());
-        append(Token.newline);
-        append(Token.endDictionary);
-        append(Token.stream);
-        append(baos);
-        append(Token.endstream);
-        endobj();
-        page.contents.add(getObjNumber());
-    }
-*/
-    // Use this method on systems that don't have Deflater stream or when troubleshooting.
     private void addPageContent(Page page) throws Exception {
-        newobj();
-        append(Token.BEGIN_DICTIONARY);
-        append(Token.LENGTH);
-        append(page.buf.size());
-        append(Token.NEWLINE);
-        append(Token.END_DICTIONARY);
-        append(Token.STREAM);
-        append(page.buf);
-        append(Token.END_STREAM);
-        endobj();
-        page.buf = null;    // Release the page content memory!
-        page.contents.add(Integer.valueOf(getObjNumber()));
-    }
-/*
-    private void addPageContent(Page page) throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        new LZWEncode(page.buf.toByteArray(), baos);
-        page.buf = null;    // Release the page content memory!
+        if (contentStreamsCompression == Compression.DEFLATE) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Deflater deflater = new Deflater();
+            DeflaterOutputStream dos = new DeflaterOutputStream(baos, deflater);
+            byte[] buf = page.buf.toByteArray();
+            dos.write(buf, 0, buf.length);
+            dos.finish();
+            deflater.end();
+            page.buf = null;    // Release the page content memory!
 
-        newobj();
-        append(Token.beginDictionary);
-        append("/Filter /LZWDecode\n");
-        append(Token.length);
-        append(baos.size());
-        append(Token.newline);
-        append(Token.endDictionary);
-        append(Token.stream);
-        append(baos);
-        append(Token.endstream);
-        endobj();
-        page.contents.add(getObjNumber());
+            newobj();
+            append(Token.BEGIN_DICTIONARY);
+            append("/Filter /FlateDecode\n");
+            append(Token.LENGTH);
+            append(baos.size());
+            append(Token.NEWLINE);
+            append(Token.END_DICTIONARY);
+            append(Token.STREAM);
+            append(baos);
+            append(Token.END_STREAM);
+            endobj();
+            page.contents.add(getObjNumber());
+        } else if (contentStreamsCompression == Compression.LZW) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            new LZWEncode(page.buf.toByteArray(), baos);
+            page.buf = null;    // Release the page content memory!
+
+            newobj();
+            append(Token.BEGIN_DICTIONARY);
+            append("/Filter /LZWDecode\n");
+            append(Token.LENGTH);
+            append(baos.size());
+            append(Token.NEWLINE);
+            append(Token.END_DICTIONARY);
+            append(Token.STREAM);
+            append(baos);
+            append(Token.END_STREAM);
+            endobj();
+            page.contents.add(getObjNumber());
+        } else {    // No compression. Used for diagnostics.
+            newobj();
+            append(Token.BEGIN_DICTIONARY);
+            append(Token.LENGTH);
+            append(page.buf.size());
+            append(Token.NEWLINE);
+            append(Token.END_DICTIONARY);
+            append(Token.STREAM);
+            append(page.buf);
+            append(Token.END_STREAM);
+            endobj();
+            page.buf = null;    // Release the page content memory!
+            page.contents.add(getObjNumber());
+        }
     }
-*/
+
     private int addAnnotationObject(Annotation annot, int index) throws Exception {
         newobj();
         annot.objNumber = getObjNumber();
