@@ -39,7 +39,11 @@ public class Container : IDrawable {
         this.rotateDegrees = degrees;
     }
 
-    public void SetScale(float sx, float sy) {
+    public void SetScaleFactor(float factor) {
+        SetScaleFactor(factor, factor);
+    }
+
+    public void SetScaleFactor(float sx, float sy) {
         this.scaleX = sx;
         this.scaleY = sy;
     }
@@ -81,18 +85,18 @@ public class Container : IDrawable {
         page.Append(FastFloat.ToByteArray(cos));
         page.Append(" 0 0 cm\n");
 
-//        page.Append(scaleX);
-//        page.Append(' ');
-//        page.Append('0');
-//        page.Append(' ');
-//        page.Append('0');
-//        page.Append(' ');
-//        page.Append(scaleY);
-//        page.Append(' ');
-//        page.Append('0');
-//        page.Append(' ');
-//        page.Append('0');
-//        page.Append(" cm\n");
+        page.Append(scaleX);
+        page.Append(' ');
+        page.Append('0');
+        page.Append(' ');
+        page.Append('0');
+        page.Append(' ');
+        page.Append(scaleY);
+        page.Append(' ');
+        page.Append('0');
+        page.Append(' ');
+        page.Append('0');
+        page.Append(" cm\n");
 
         page.Append("1 0 0 1 ");
         page.Append(-cx);

@@ -90,6 +90,7 @@ public class Example_35 {
         c.SetLocation(200f, 200f);
         c.Add(rect);
         c.Add(text);
+        c.SetScaleFactor(0.5f);
         c.SetRotateDegreesCW(44);
         c.DrawOn(page);
 
