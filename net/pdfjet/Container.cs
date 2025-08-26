@@ -66,7 +66,7 @@ public class Container : IDrawable {
         page.Append("1 0 0 1 ");
         page.Append(cx);
         page.Append(' ');
-        page.Append(cy);
+        page.Append(page.height - cy);
         page.Append(" cm\n");
 
         double rad = rotateDegrees * (Math.PI / 180.0);
@@ -97,7 +97,7 @@ public class Container : IDrawable {
         page.Append("1 0 0 1 ");
         page.Append(-cx);
         page.Append(' ');
-        page.Append(-cy);
+        page.Append(-(page.height - cy));
         page.Append(" cm\n");
 
         foreach (IDrawable element in elements) {
