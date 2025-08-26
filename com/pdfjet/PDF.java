@@ -765,23 +765,6 @@ final public class PDF {
             append(Token.END_STREAM);
             endobj();
             page.contents.add(getObjNumber());
-        } else if (contentStreamsCompression == Compression.LZW) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            new LZWEncode(page.buf.toByteArray(), baos);
-            page.buf = null;    // Release the page content memory!
-
-            newobj();
-            append(Token.BEGIN_DICTIONARY);
-            append("/Filter /LZWDecode\n");
-            append(Token.LENGTH);
-            append(baos.size());
-            append(Token.NEWLINE);
-            append(Token.END_DICTIONARY);
-            append(Token.STREAM);
-            append(baos);
-            append(Token.END_STREAM);
-            endobj();
-            page.contents.add(getObjNumber());
         } else {    // No compression. Used for diagnostics
             newobj();
             append(Token.BEGIN_DICTIONARY);
