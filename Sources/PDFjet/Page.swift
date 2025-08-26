@@ -1446,7 +1446,7 @@ public class Page {
     }
 
     func append(_ str: String) {
-        self.buf.append(contentsOf: Array(str.utf8))
+        self.buf.append(contentsOf: str.utf8)
     }
 
     func append(_ num: UInt32) {
