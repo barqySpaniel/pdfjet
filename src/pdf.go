@@ -36,6 +36,7 @@ import (
 	"unicode"
 
 	"github.com/edragoev1/pdfjet/src/compliance"
+	"github.com/edragoev1/pdfjet/src/compression"
 	"github.com/edragoev1/pdfjet/src/compressor"
 	"github.com/edragoev1/pdfjet/src/djb"
 	"github.com/edragoev1/pdfjet/src/fastfloat"
@@ -44,36 +45,37 @@ import (
 
 // PDF is used to create PDF objects.
 type PDF struct {
-	writer                *bufio.Writer
-	byteCount             int
-	objOffsets            []int
-	fonts                 []*Font
-	images                []*Image
-	pages                 []*Page
-	destinations          map[string]*Destination
-	groups                []*OptionalContentGroup
-	states                map[string]int
-	metadataObjNumber     int
-	outputIntentObjNumber int
-	compliance            int
-	title                 string
-	author                string
-	subject               string
-	keywords              string
-	producer              string
-	creator               string
-	createDate            string
-	creationDate          string
-	pagesObjNumber        int
-	pageLayout            string
-	pageMode              string
-	language              string
-	toc                   *Bookmark
-	importedFonts         []string
-	extGState             string
-	uuid                  string
-	prevPage              *Page
-	structElements        []*StructElem
+	writer                    *bufio.Writer
+	byteCount                 int
+	objOffsets                []int
+	fonts                     []*Font
+	images                    []*Image
+	pages                     []*Page
+	destinations              map[string]*Destination
+	groups                    []*OptionalContentGroup
+	states                    map[string]int
+	metadataObjNumber         int
+	outputIntentObjNumber     int
+	compliance                int
+	title                     string
+	author                    string
+	subject                   string
+	keywords                  string
+	producer                  string
+	creator                   string
+	createDate                string
+	creationDate              string
+	pagesObjNumber            int
+	pageLayout                string
+	pageMode                  string
+	language                  string
+	toc                       *Bookmark
+	importedFonts             []string
+	extGState                 string
+	uuid                      string
+	prevPage                  *Page
+	structElements            []*StructElem
+	contentStreamsCompression compression.CompressionType
 }
 
 // NewPDF the constructor.
@@ -741,59 +743,37 @@ func (pdf *PDF) addAllPages(resObjNumber int) {
 }
 
 func (pdf *PDF) addPageContent(page *Page) {
-	compressed := compressor.Deflate(page.buf)
-	page.buf = nil // Release the page content memory!
+	if pdf.contentStreamsCompression == compression.DEFLATE {
+		compressed := compressor.Deflate(page.buf)
+		page.buf = nil // Release the page content memory!
 
-	pdf.newobj()
-	pdf.appendString("<<\n")
-	pdf.appendString("/Filter /FlateDecode\n")
-	pdf.appendString("/Length ")
-	pdf.appendInteger(len(compressed))
-	pdf.appendString("\n")
-	pdf.appendString(">>\n")
-	pdf.appendString("stream\n")
-	pdf.appendByteArray(compressed)
-	pdf.appendString("\nendstream\n")
-	pdf.endobj()
-	page.contents = append(page.contents, pdf.getObjNumber())
+		pdf.newobj()
+		pdf.appendString("<<\n")
+		pdf.appendString("/Filter /FlateDecode\n")
+		pdf.appendString("/Length ")
+		pdf.appendInteger(len(compressed))
+		pdf.appendString("\n")
+		pdf.appendString(">>\n")
+		pdf.appendString("stream\n")
+		pdf.appendByteArray(compressed)
+		pdf.appendString("\nendstream\n")
+		pdf.endobj()
+		page.contents = append(page.contents, pdf.getObjNumber())
+	} else { // No compression. Used for diagnostics
+		pdf.newobj()
+		pdf.appendString("<<\n")
+		pdf.appendString("/Length ")
+		pdf.appendInteger(len(page.buf))
+		pdf.appendString("\n")
+		pdf.appendString(">>\n")
+		pdf.appendString("stream\n")
+		pdf.appendByteArray(page.buf)
+		pdf.appendString("\nendstream\n")
+		pdf.endobj()
+		page.buf = nil // Release the page content memory!
+		page.contents = append(page.contents, pdf.getObjNumber())
+	}
 }
-
-/*
-// Use this method on systems that don't have Deflater stream or when troubleshooting.
-func (pdf *PDF) addPageContent(page *Page) {
-	pdf.newobj()
-	pdf.appendString("<<\n")
-	pdf.appendString("/Length ")
-	pdf.appendInteger(len(page.buf))
-	pdf.appendString("\n")
-	pdf.appendString(">>\n")
-	pdf.appendString("stream\n")
-	pdf.appendByteArray(page.buf)
-	pdf.appendString("\nendstream\n")
-	pdf.endobj()
-	page.buf = nil // Release the page content memory!
-	page.contents = append(page.contents, pdf.getObjNumber())
-}
-
-func (pdf *PDF) addPageContent(Page page) {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream()
-    new LZWEncode(page.buf.toByteArray(), baos)
-    page.buf = nil  // Release the page content memory!
-
-    newobj()
-    appendString("<<\n")
-    appendString("/Filter /LZWDecode\n")
-    appendString("/Length ")
-    append(baos.size())
-    appendString("\n")
-    appendString(">>\n")
-    appendString("stream\n")
-    append(baos)
-    appendString("\nendstream\n")
-    endobj()
-    page.contents.add(getObjNumber())
-}
-*/
 
 func (pdf *PDF) addAnnotationObject(annot *Annotation, index int) int {
 	pdf.newobj()
