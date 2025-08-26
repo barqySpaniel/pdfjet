@@ -13,6 +13,19 @@ public class Container implements Drawable {
     public float scaleY;
     private List<Drawable> elements;
 
+    /**
+     * Creates a new container with the specified width and height.
+     * <p>
+     * The container is initialized with:
+     * <ul>
+     *   <li>Rotation set to {@code 0} degrees</li>
+     *   <li>Scaling factors set to {@code 1.0} for both axes</li>
+     *   <li>An empty list of drawable elements</li>
+     * </ul>
+     *
+     * @param width  the width of the container
+     * @param height the height of the container
+     */
     public Container(float width, float height) {
         this.width = width;
         this.height = height;
@@ -22,50 +35,91 @@ public class Container implements Drawable {
         this.elements = new ArrayList<Drawable>();
     }
 
-    /** Sets the position of the container on the page. */
+    /**
+     * Sets the position of the container on the page.
+     *
+     * @param x the X coordinate
+     * @param y the Y coordinate
+     */
     public void setPosition(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    /** Sets the location of the container on the page (alias for setPosition). */
+    /**
+     * Sets the location of the container on the page (alias for {@link #setPosition}).
+     *
+     * @param x the X coordinate
+     * @param y the Y coordinate
+     */
     public void setLocation(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    /** Sets the rotation angle (in degrees). */
+    /**
+     * Sets the rotation angle.
+     *
+     * @param degrees the rotation angle in degrees
+     */
     public void setRotation(double degrees) {
         this.rotateDegrees = (float) degrees;
     }
 
-    /** Sets clockwise rotation by the given angle (in degrees). */
+    /**
+     * Sets clockwise rotation.
+     *
+     * @param degrees the rotation angle in degrees (clockwise)
+     */
     public void setRotationClockwise(double degrees) {
         this.rotateDegrees = (float) -degrees;
     }
 
-    /** Sets counter-clockwise rotation by the given angle (in degrees). */
+    /**
+     * Sets counter-clockwise rotation.
+     *
+     * @param degrees the rotation angle in degrees (counter-clockwise)
+     */
     public void setRotationCounterClockwise(double degrees) {
         this.rotateDegrees = (float) degrees;
     }
 
-    /** Sets uniform scaling for both X and Y axes. */
+    /**
+     * Sets a uniform scaling factor for both X and Y axes.
+     *
+     * @param factor the scaling factor to apply
+     */
     public void setScaleFactor(float factor) {
         setScaleFactorXY(factor, factor);
     }
 
-    /** Sets non-uniform scaling factors for X and Y axes. */
+    /**
+     * Sets non-uniform scaling factors for the X and Y axes.
+     *
+     * @param sx the scaling factor for X
+     * @param sy the scaling factor for Y
+     */
     public void setScaleFactorXY(float sx, float sy) {
         this.scaleX = sx;
         this.scaleY = sy;
     }
 
-    /** Adds a drawable element to this container. */
+    /**
+     * Adds a drawable element to this container.
+     *
+     * @param element the element to add
+     */
     public void add(Drawable element) {
         this.elements.add(element);
     }
 
-    /** Draws this container and its child elements onto the page. */
+    /**
+     * Draws this container and its child elements onto the page.
+     *
+     * @param page the {@link Page} to draw on
+     * @return an array containing the bottom-right position of the container
+     * @throws Exception if drawing fails
+     */
     public float[] drawOn(Page page) throws Exception {
         page.append("q\n"); // Save the graphics state
 
