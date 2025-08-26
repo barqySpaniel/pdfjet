@@ -52,9 +52,6 @@ public class Container : IDrawable {
         this.elements.Add(element);
     }
 
-    public void Complete() {
-    }
-
     public float[] DrawOn(Canvas page) {
         page.Append("q\n"); // Save the graphics state
 
