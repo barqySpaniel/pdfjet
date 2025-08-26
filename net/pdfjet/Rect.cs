@@ -166,6 +166,7 @@ public class Rect  : IDrawable {
                 page.LineTo(this.x + this.w, this.y);
                 page.LineTo(this.x + this.w, this.y + this.h);
                 page.LineTo(this.x, this.y + this.h);
+                page.LineTo(this.x, this.y);
                 page.SetBrushColor(this.fillColor);
                 page.FillPath();
             }
