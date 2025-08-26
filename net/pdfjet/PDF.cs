@@ -64,7 +64,7 @@ public class PDF {
     private List<String> importedFonts = new List<String>();
     private String extGState = "";
     private Page prevPage = null;
-    private Compression contentStreamsCompression = Compression.DEFLATE;
+    private bool contentStreamsCompression = true;
 
     /**
      * The default constructor - use when reading PDF files.
@@ -507,7 +507,7 @@ public class PDF {
     }
 
     private static readonly char[] HEX = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
         'A', 'B', 'C', 'D', 'E', 'F'
     };
 
@@ -521,7 +521,7 @@ public class PDF {
         while (enumerator.MoveNext()) {
             string textElement = enumerator.GetTextElement();
             int codePoint = char.ConvertToUtf32(textElement, 0);
-            
+
             if (codePoint == 0xFEFF) continue; // Skip BOM
 
             if (codePoint <= 0xFFFF) {
@@ -540,7 +540,7 @@ public class PDF {
                 buf.Append(HEX[ codePoint        & 0xF]);
             }
         }
-        
+
         return buf.ToString();
     }
 
@@ -774,7 +774,7 @@ public class PDF {
     }
 
     private void AddPageContent(Page page) {
-        if (contentStreamsCompression == Compression.DEFLATE) {
+        if (contentStreamsCompression) {
             MemoryStream baos = new MemoryStream();
             DeflaterOutputStream dos = new DeflaterOutputStream(baos);
             byte[] buf = page.buf.ToArray();

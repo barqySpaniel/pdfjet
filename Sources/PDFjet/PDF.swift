@@ -60,7 +60,7 @@ public class PDF {
     private var uuid: String?
     private var prevPage: Page?
 
-    private var contentStreamsCompression = Compression.NONE
+    private var contentStreamsCompression = true
 
     ///
     /// The default constructor - use when reading PDF files.
@@ -721,7 +721,7 @@ public class PDF {
     }
 
     private func addPageContent(_ page: Page) {
-        if contentStreamsCompression == Compression.DEFLATE {
+        if contentStreamsCompression {
             var buffer = [UInt8]()
             FlateEncode(&buffer, page.buf)
             page.buf.removeAll()   // Release the page content memory!

@@ -36,7 +36,6 @@ import (
 	"unicode"
 
 	"github.com/edragoev1/pdfjet/src/compliance"
-	"github.com/edragoev1/pdfjet/src/compression"
 	"github.com/edragoev1/pdfjet/src/compressor"
 	"github.com/edragoev1/pdfjet/src/djb"
 	"github.com/edragoev1/pdfjet/src/fastfloat"
@@ -75,7 +74,7 @@ type PDF struct {
 	uuid                      string
 	prevPage                  *Page
 	structElements            []*StructElem
-	contentStreamsCompression compression.CompressionType
+	contentStreamsCompression bool
 }
 
 // NewPDF the constructor.
@@ -118,6 +117,7 @@ type PDF struct {
  */
 func NewPDF(w *bufio.Writer) *PDF {
 	pdf := new(PDF)
+	pdf.contentStreamsCompression = true
 	pdf.writer = w
 	pdf.producer = "PDFjet v8.0.4"
 	pdf.creator = pdf.producer
@@ -743,7 +743,7 @@ func (pdf *PDF) addAllPages(resObjNumber int) {
 }
 
 func (pdf *PDF) addPageContent(page *Page) {
-	if pdf.contentStreamsCompression == compression.DEFLATE {
+	if pdf.contentStreamsCompression {
 		compressed := compressor.Deflate(page.buf)
 		page.buf = nil // Release the page content memory!
 

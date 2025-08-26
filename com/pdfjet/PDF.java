@@ -64,7 +64,7 @@ final public class PDF {
     private final List<String> importedFonts = new ArrayList<String>();
     private String extGState = "";
     private Page prevPage = null;
-    private Compression contentStreamsCompression = Compression.DEFLATE;
+    private boolean contentStreamsCompression = true;
 
     /**
      * The default constructor - use when reading PDF files.
@@ -524,7 +524,7 @@ final public class PDF {
     }
 
     private static final char[] HEX = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
         'A', 'B', 'C', 'D', 'E', 'F'
     };
 
@@ -743,7 +743,7 @@ final public class PDF {
     }
 
     private void addPageContent(Page page) throws Exception {
-        if (contentStreamsCompression == Compression.DEFLATE) {
+        if (contentStreamsCompression) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Deflater deflater = new Deflater();
             DeflaterOutputStream dos = new DeflaterOutputStream(baos, deflater);
