@@ -157,18 +157,6 @@ public class PDFEncryption {
         return K;   // TODO:
     }
 
-    private BigInteger Convert16BytesToBigInteger(byte[] input) {
-        if (input.Length < 16) {
-            throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(input));
-        }
-        byte[] bytes = new byte[16];
-        for (int i = 0; i < 16; i++) {
-            bytes[i] = input[i];
-        }
-        // The BigInteger constructor expects a big-endian byte array.
-        return new BigInteger(bytes, isUnsigned: true, isBigEndian: true);
-    }
-
     /// <summary>
     /// Analyzes the first 16 bytes of the ciphertext 'E' to determine the next hash algorithm to use.
     /// </summary>
