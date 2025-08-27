@@ -131,7 +131,7 @@ public class PDF {
         dateFormatter2.dateFormat = "yyyyMMddhhmmss"
         self.creationDate = dateFormatter2.string(from: date)
 
-        append("%PDF-1.5\n")
+        append("%PDF-1.7\n")
         append("%")
         append(UInt8(0x00F2))
         append(UInt8(0x00F3))

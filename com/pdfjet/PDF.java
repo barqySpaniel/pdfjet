@@ -132,7 +132,7 @@ final public class PDF {
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
         creationDate = sdf2.format(date);   // PDF info object
 
-        append("%PDF-1.5\n");
+        append("%PDF-1.7\n");
         append('%');
         append((byte) 0x00F2);
         append((byte) 0x00F3);

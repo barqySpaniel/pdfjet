@@ -136,7 +136,7 @@ func NewPDF(w *bufio.Writer) *PDF {
 
 	pdf.states = make(map[string]int)
 
-	pdf.appendString("%PDF-1.5\n")
+	pdf.appendString("%PDF-1.7\n")
 	pdf.appendString("%")
 	pdf.appendByte(0xF2)
 	pdf.appendByte(0xF3)
