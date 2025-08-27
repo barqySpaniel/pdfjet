@@ -56,15 +56,42 @@ public class PDFEncryption {
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
 
+        // === Owner key (O) ===
+        // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
+        // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
+        // that shall be used in computing the file encryption key and in
+        // determining whether a valid owner password was entered.
+        pdf.Append("/O <");
+        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
+        pdf.Append(">\n");
+
         // === User key (U) ===
+        // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
+        // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
+        // that shall be used in determining whether to prompt the user for a password
+        // and, if so, whether a valid user or owner password was entered.
         pdf.Append("/U <");
         pdf.Append(ToHex(HashPassword(this.key)));
         pdf.Append(">\n");
 
-        // === Owner key (O) ===
-        pdf.Append("/O <");
+        // === Owner Encryption Key (OE) ===
+        pdf.Append("/OE <");
         pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
         pdf.Append(">\n");
+
+        // === User Encryption Key (UE) ===
+        pdf.Append("/UE<");
+        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
+        pdf.Append(">\n");
+
+        // A set of flags specifying which operations shall be permitted
+        // when the document is opened with user access (see "Table 22 — User access permissions").
+        pdf.Append("/P -3904\n");
+
+        // A 16-byte string, encrypted with the file encryption key,
+        // that contains an encrypted copy of the permissions flags.
+        // For more information, see 7.6.4.4, "Password algorithms".
+        pdf.Append("/Parms ????\n");
 
         pdf.Append(">>\n");
         pdf.EndObj();
@@ -124,7 +151,7 @@ public class PDFEncryption {
 
             // NOTE 3
             // Tests indicate that the total number of rounds will most likely be between 65 and 80.
-            // So we can print this number to verify we are in this range!
+            // !! We can print this number to verify we are in this range !!
         }
     }
 
@@ -141,11 +168,11 @@ public class PDFEncryption {
     }
 
     /// <summary>
-    /// Encrypts data with AES-128-CBC and PKCS#7 padding.
+    /// Encrypts data with AES-128-CBC or AES-256-CBC and PKCS#7 padding.
     /// </summary>
-    public byte[] Encrypt(byte[] plain) {
+    public byte[] Encrypt(byte[] plain, int keySize) {
         using (Aes aes = Aes.Create()) {
-            aes.KeySize = 128;
+            aes.KeySize = keySize;
             aes.Key = key;
             aes.IV = iv;
             aes.Mode = CipherMode.CBC;
