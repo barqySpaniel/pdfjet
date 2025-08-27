@@ -95,6 +95,7 @@ public class PDFEncryption {
             // d) Using the hash algorithm determined in step c, take the hash of E.
             //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
         }
+
         // Repeat the process (a-d) with this new value for K.
         // Following 64 rounds (round number 0 to round number 63),
         // do the following, starting with round number 64:
