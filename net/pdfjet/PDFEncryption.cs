@@ -39,6 +39,7 @@ public class PDFEncryption {
         pdf.Append("/V 4\n");               // Algorithm version
         pdf.Append("/R 4\n");               // Revision (AES-128)
         pdf.Append("/Length 128\n");        // Key length in bits
+        pdf.Append("/P -3904\n");
         pdf.Append("/CF << /StdCF << /CFM /AESV2 /AuthEvent /DocOpen /Length 16 >> >>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
