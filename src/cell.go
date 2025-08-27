@@ -251,7 +251,6 @@ func (cell *Cell) GetHeight(width float32) float32 {
 	} else if cell.barcode != nil {
 		cellHeight = cell.barcode.GetHeight() + cell.topPadding + cell.bottomPadding
 	} else if cell.text != nil {
-		// fmt.Println("are we here???")
 		fontHeight := cell.font.GetHeight()
 		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
 			fontHeight = cell.fallbackFont.GetHeight()
