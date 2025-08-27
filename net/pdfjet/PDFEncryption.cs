@@ -16,7 +16,7 @@ public class PDFEncryption {
     /// <param name="pdf">The parent PDF document.</param>
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
-    public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
+    public PDFEncryption(PDF pdf, string userPassword, string ownerPassword, string uuid) {
         // Derive AES-128 key using SHA-256 and take first 16 bytes
         using (SHA256 sha256 = SHA256.Create()) {
             byte[] fullHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(userPassword + ownerPassword));
