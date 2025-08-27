@@ -47,10 +47,10 @@ public class PDFEncryption {
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Filter /Standard\n");
-        pdf.Append("/V 6\n");               // AES-256
-        pdf.Append("/R 6\n");               // AES-256
-        pdf.Append("/Length 256\n");        // Key length in bits
-        pdf.Append("/P -3904\n");           // Permissions (example value)
+        pdf.Append("/V 5\n");           // AES-128 or AES-256
+        pdf.Append("/R 5\n");
+        pdf.Append("/Length 128\n");    // AES-128
+        pdf.Append("/P -3904\n");       // Permissions (example value)
         pdf.Append("/CF << /StdCF << /CFM /AESV2 /AuthEvent /DocOpen /Length 16 >> >>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
