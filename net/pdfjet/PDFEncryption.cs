@@ -3,6 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Numerics;
+using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class PDFEncryption {
@@ -71,9 +72,10 @@ public class PDFEncryption {
         objNumber = pdf.GetObjNumber();
     }
 
-    private void Algorithm2B(byte[] input) {
+    private void Algorithm2B(byte[] inputPassword, bool isOwnerPassword) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
-        byte[] K = HashPassword(input);
+        byte[] K = HashPassword(inputPassword);
+        List<byte> K1 = new List<byte>();
         // Perform the following steps (a)-(d) 64 times:
         for (int i = 0; i < 64; i++) {
             // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
@@ -81,6 +83,17 @@ public class PDFEncryption {
             //    The 48 byte user key is only used when checking the owner password or creating the owner key.
             //    If checking the user password or creating the user key,
             //    K1 is the concatenation of the input password and K.
+            K1.Clear();
+            for (int j = 0; j < 64; j++) {
+                if (isOwnerPassword) {
+                    K1.AddRange(inputPassword);
+                    K1.AddRange(K);
+                    // K1.AddRange(userKey);   // The 48-byte user key
+                } else {    // user password
+                    K1.AddRange(inputPassword);
+                    K1.AddRange(K);
+                }
+            }
 
             // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
             //    using the first 16 bytes of K as the key and the second
