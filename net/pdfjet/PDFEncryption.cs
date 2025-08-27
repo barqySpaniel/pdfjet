@@ -16,10 +16,12 @@ public class PDFEncryption {
     /// <param name="pdf">The parent PDF document.</param>
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
-    public PDFEncryption(PDF pdf, string userPassword, string ownerPassword, string uuid) {
+    public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
         // Derive AES-128 key using SHA-256 and take first 16 bytes
         using (SHA256 sha256 = SHA256.Create()) {
-            byte[] fullHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(userPassword + ownerPassword));
+            byte[] fullHash = sha256.ComputeHash(Combine(
+                Encoding.UTF8.GetBytes(userPassword + ownerPassword),
+                Encoding.UTF8.GetBytes(pdf.uuid)));
             this.key = new byte[16];
             Array.Copy(fullHash, this.key, 16);
         }

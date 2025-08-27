@@ -44,6 +44,7 @@ public class PDF {
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
     internal Compliance compliance;
     internal Bookmark toc = null;
+    internal String uuid = null;
 
     private Stream os = null;
     private readonly List<Int32> objOffset = new List<Int32>(); // Required by the xref section
@@ -60,7 +61,7 @@ public class PDF {
     private String pageLayout = null;
     private String pageMode = null;
     private String language = "en-US";
-    private String uuid = null;
+
     private List<String> importedFonts = new List<String>();
     private String extGState = "";
     private Page prevPage = null;
@@ -1743,10 +1744,6 @@ public class PDF {
                 }
             }
         }
-    }
-
-    public String GetUUID() {
-        return this.uuid;
     }
 
     public void SetEncryption(PDFEncryption pdfEncryption) {
