@@ -28,10 +28,10 @@ public class PDFEncryption {
             rng.GetBytes(this.iv);
         }
 
-        WriteEncryptionDictionary(pdf, ownerPassword);
+        WriteEncryptionDictionary(pdf, ownerPassword, -3904);
     }
 
-    private void WriteEncryptionDictionary(PDF pdf, String ownerPassword) {
+    private void WriteEncryptionDictionary(PDF pdf, String ownerPassword, int permissions = -3904) {
         pdf.NewObj();
         pdf.Append(Token.BeginDictionary);
 
@@ -39,6 +39,11 @@ public class PDFEncryption {
         pdf.Append("/V 5\n");                  // Algorithm version
         pdf.Append("/R 5\n");                  // Revision (AES-256, SHA-256)
         pdf.Append("/Length 256\n");           // Key length in bits
+
+        pdf.Append("/P ");
+        pdf.Append(permissions);
+        pdf.Append("\n");
+
         pdf.Append("/CF << /StdCF << /CFM /AESV3 /AuthEvent /DocOpen /Length 32 >> >>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
