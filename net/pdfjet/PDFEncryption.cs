@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Numerics;
 
 namespace PDFjet.NET {
 public class PDFEncryption {
@@ -109,6 +110,17 @@ public class PDFEncryption {
         // NOTE 3
         // Tests indicate that the total number of rounds will most likely be between 65 and 80.
         // So we can print this number to verify we are in this range!
+    }
+
+    private BigInteger Convert16BytesToBigInteger(byte[] bytes) {
+        if (bytes == null)
+            throw new ArgumentNullException(nameof(bytes));
+        if (bytes.Length != 16)
+            throw new ArgumentException("Byte array must be exactly 16 bytes long.", nameof(bytes));
+
+        // The BigInteger constructor expects a big-endian byte array.
+        // Since our input is 16 bytes, it's correctly interpreted as an unsigned integer.
+        return new BigInteger(bytes, isUnsigned: true, isBigEndian: true);
     }
 
     /// <summary>
