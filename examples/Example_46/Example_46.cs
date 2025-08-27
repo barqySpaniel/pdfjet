@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using PDFjet.NET;
+using PDFjet.NET.Fonts;
 
 /**
  *  Example_46.cs
@@ -12,13 +13,15 @@ public class Example_46 {
             new FileStream("Example_46.pdf", FileMode.Create)));
         pdf.SetCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream");
+        pdf.SetEncryption(new PDFEncryption(pdf, "Hello", "World"));
+
+        Font f1 = new Font(pdf, IBMPlexSans.Bold);
         f1.SetSize(14f);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
         f2.SetSize(14f);
 
-        Font f3 = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Bold.ttf.stream");
+        Font f3 = new Font(pdf, JetBrainsMono.Bold);
         f3.SetSize(14f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
