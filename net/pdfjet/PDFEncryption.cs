@@ -47,10 +47,10 @@ public class PDFEncryption {
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Filter /Standard\n");
-        pdf.Append("/V 4\n");                  // Algorithm version: AES
-        pdf.Append("/R 4\n");                  // Revision 4 (AES-128)
-        pdf.Append("/Length 128\n");           // Key length in bits
-        pdf.Append("/P -3904\n");              // Permissions (example value)
+        pdf.Append("/V 6\n");               // AES-256
+        pdf.Append("/R 6\n");               // AES-256
+        pdf.Append("/Length 256\n");        // Key length in bits
+        pdf.Append("/P -3904\n");           // Permissions (example value)
         pdf.Append("/CF << /StdCF << /CFM /AESV2 /AuthEvent /DocOpen /Length 16 >> >>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
@@ -112,14 +112,15 @@ public class PDFEncryption {
         // So we can print this number to verify we are in this range!
     }
 
-    private BigInteger Convert16BytesToBigInteger(byte[] bytes) {
-        if (bytes == null)
-            throw new ArgumentNullException(nameof(bytes));
-        if (bytes.Length != 16)
-            throw new ArgumentException("Byte array must be exactly 16 bytes long.", nameof(bytes));
-
+    private BigInteger Convert16BytesToBigInteger(byte[] input) {
+        if (input.Length < 16) {
+            throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(input));
+        }
+        byte[] bytes = new byte[16];
+        for (int i = 0; i < 16; i++) {
+            bytes[i] = input[i];
+        }
         // The BigInteger constructor expects a big-endian byte array.
-        // Since our input is 16 bytes, it's correctly interpreted as an unsigned integer.
         return new BigInteger(bytes, isUnsigned: true, isBigEndian: true);
     }
 
