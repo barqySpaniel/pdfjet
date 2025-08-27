@@ -5,6 +5,13 @@ using System.Text;
 
 namespace PDFjet.NET {
 public class PDFEncryption {
+    private const int PAD_LENGTH = 32;
+    private static readonly byte[] PASSWORD_PADDING = {
+        0x28,0xBF,0x4E,0x5E,0x4E,0x75,0x8A,0x41,
+        0x64,0x00,0x4E,0x56,0xFF,0xFA,0x01,0x08,
+        0x2E,0x2E,0x00,0xB6,0xD0,0x68,0x3E,0x80,
+        0x2F,0x0C,0xA9,0xFE,0x64,0x53,0x69,0x7A
+    };
     private readonly byte[] key;   // 128-bit AES key
     private readonly byte[] iv;    // 128-bit IV
     private readonly int objNumber;
@@ -16,10 +23,13 @@ public class PDFEncryption {
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
+        byte[] userPad = PadPassword(userPassword);
+        byte[] ownerPad = PadPassword(ownerPassword);
+
         // === Derive AES-128 key from user+owner password and docID ===
         using (SHA256 sha256 = SHA256.Create()) {
             byte[] fullHash = sha256.ComputeHash(Combine(
-                Encoding.UTF8.GetBytes(userPassword + ownerPassword),
+                Combine(PadPassword(userPassword), PadPassword(ownerPassword)),
                 Encoding.UTF8.GetBytes(pdf.uuid)   // docID
             ));
             this.key = new byte[16];          // AES-128
@@ -59,7 +69,28 @@ public class PDFEncryption {
 
         objNumber = pdf.GetObjNumber();
     }
+/*
+    // TODO:
+    private byte[] StandardKDF(string password, byte[] salt, byte[] docID, int iterations = 65536) {
+        // 1. Initial hash: SHA-256( password + salt )
+        byte[] initialHash = SHA256(Combine(Encoding.UTF8.GetBytes(password), salt));
 
+        // 2. Iterate 64,000 times:
+        //    For i=0 to iterations-1: currentHash = SHA-256( currentHash )
+        byte[] iterativeHash = initialHash;
+        for (int i = 0; i < iterations; i++) {
+            iterativeHash = SHA256(iterativeHash);
+        }
+
+        // 3. Final key derivation: SHA-256( iterativeHash + docID )
+        byte[] finalKey = SHA256(Combine(iterativeHash, docID));
+
+        // 4. For AES-128, truncate to 16 bytes
+        byte[] aes128Key = new byte[16];
+        Array.Copy(finalKey, aes128Key, 16);
+        return aes128Key;
+    }
+*/
     /// <summary>
     /// Encrypts data with AES-128-CBC and PKCS#7 padding.
     /// </summary>
@@ -82,6 +113,15 @@ public class PDFEncryption {
 
     public int GetObjNumber() {
         return objNumber;
+    }
+
+    private byte[] PadPassword(string password) {
+        byte[] pwd = Encoding.UTF8.GetBytes(password ?? "");
+        byte[] padded = new byte[PAD_LENGTH];
+        int len = Math.Min(pwd.Length, PAD_LENGTH);
+        if (len > 0) Array.Copy(pwd, 0, padded, 0, len);
+        if (len < PAD_LENGTH) Array.Copy(PASSWORD_PADDING, 0, padded, len, PAD_LENGTH - len);
+        return padded;
     }
 
     // === Helpers ===
