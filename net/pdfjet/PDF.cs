@@ -1745,6 +1745,10 @@ public class PDF {
         }
     }
 
+    public String GetUUID() {
+        return this.uuid;
+    }
+
     public void SetEncryption(PDFEncryption pdfEncryption) {
         this.pdfEncryption = pdfEncryption;
     }
