@@ -440,13 +440,13 @@ public class Page {
             if (direction == Direction.LEFT_TO_RIGHT) {
                 append("1 0 0 1 ")
                 append(xText + textLine.xOffset)
-                append(" ")
+                append(Token.space)
                 append(height - (yText + font.ascent))
                 append(" Tm\n")
             } else {                // BOTTOM_TO_TOP
                 append("0 1 -1 0 ")
                 append(xText + font.ascent)
-                append(" ")
+                append(Token.space)
                 append(yText)
                 append(" Tm\n")
             }
@@ -1808,7 +1808,7 @@ public class Page {
         // Moves rotated/scaled image to target (x,y) on page
         append("1 0 0 1 ")
         append(x + w/2)
-        append(" ")
+        append(Token.space)
         append((height - y) - h/2)
         append(" cm\n")
 
@@ -1818,11 +1818,11 @@ public class Page {
         let cosValue = Float(cos(radians))
         let sinValue = Float(sin(radians))
         append(FastFloat.toByteArray(cosValue))
-        append(" ")
+        append(Token.space)
         append(FastFloat.toByteArray(sinValue))
-        append(" ")
+        append(Token.space)
         append(FastFloat.toByteArray(-sinValue))
-        append(" ")
+        append(Token.space)
         append(FastFloat.toByteArray(cosValue))
         append(" 0 0 cm\n")
 
@@ -1831,9 +1831,9 @@ public class Page {
         append(w)
         append(" 0 0 ")
         append(h)
-        append(" ")
+        append(Token.space)
         append(-w/2)
-        append(" ")
+        append(Token.space)
         append(-h/2)
         append(" cm\n")
     }
@@ -1841,7 +1841,7 @@ public class Page {
     func rotateAroundCenter(_ centerX: Float, _ centerY: Float, _ degrees: Float) {
         append("1 0 0 1 ")
         append(centerX)
-        append(" ")
+        append(Token.space)
         append(centerY)
         append(" cm\n")
 
@@ -1849,17 +1849,17 @@ public class Page {
         let cosValue = Float(cos(radians))
         let sinValue = Float(sin(radians))
         append(FastFloat.toByteArray(cosValue))
-        append(" ")
+        append(Token.space)
         append(FastFloat.toByteArray(sinValue))
-        append(" ")
+        append(Token.space)
         append(FastFloat.toByteArray(-sinValue))
-        append(" ")
+        append(Token.space)
         append(FastFloat.toByteArray(cosValue))
         append(" 0 0 cm\n")
 
         append("1 0 0 1 ")
         append(-centerX)
-        append(" ")
+        append(Token.space)
         append(-centerY)
         append(" cm\n")
     }

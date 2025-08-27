@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents a drawable container that can hold and transform child elements.
-/// 
+///
 /// The container maintains its own position, dimensions, rotation, and scaling factors,
 /// and can draw its child elements onto a PDF `Page`.
 public class Container: Drawable {
@@ -109,7 +109,7 @@ public class Container: Drawable {
 
         page!.append("1 0 0 1 ")
         page!.append(self.x)
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append(-self.y)
         page!.append(" cm\n")
 
@@ -118,7 +118,7 @@ public class Container: Drawable {
 
         page!.append("1 0 0 1 ")
         page!.append(cx)
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append(page!.height - cy)
         page!.append(" cm\n")
 
@@ -126,30 +126,30 @@ public class Container: Drawable {
         let cosVal = cos(rad)
         let sinVal = sin(rad)
         page!.append(FastFloat.toByteArray(cosVal))
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append(FastFloat.toByteArray(sinVal))
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append(FastFloat.toByteArray(-sinVal))
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append(FastFloat.toByteArray(cosVal))
         page!.append(" 0 0 cm\n")
 
         page!.append(scaleX)
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append("0")
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append("0")
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append(scaleY)
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append("0")
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append("0")
         page!.append(" cm\n")
 
         page!.append("1 0 0 1 ")
         page!.append(-cx)
-        page!.append(" ")
+        page!.append(Token.space)
         page!.append(-(page!.height - cy))
         page!.append(" cm\n")
 

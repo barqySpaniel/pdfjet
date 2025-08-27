@@ -802,7 +802,7 @@ public class PDF {
                 append(destination!.pageObjNumber)
                 append(" 0 R /XYZ ")
                 append(destination!.xPosition)
-                append(" ")
+                append(Token.space)
                 append(destination!.yPosition)
                 append(" 0]\n")
             }
@@ -1484,7 +1484,7 @@ public class PDF {
         append(bm1.getDestination()!.pageObjNumber)
         append(" 0 R /XYZ ")
         append(bm1.getDestination()!.xPosition)
-        append(" ")
+        append(Token.space)
         append(bm1.getDestination()!.yPosition)
         append(" 0]\n")
         append(Token.endDictionary)
