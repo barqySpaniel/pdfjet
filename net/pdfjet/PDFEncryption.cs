@@ -158,6 +158,38 @@ public class PDFEncryption {
     }
 
     /// <summary>
+    /// Performs the encryption for Step (b) of Algorithm 2.B.
+    /// Encrypts the input data using AES-128-CBC with no padding, using the provided key and IV.
+    /// </summary>
+    /// <param name="data">The data to encrypt (the K1 array).</param>
+    /// <param name="key">The 16-byte AES key.</param>
+    /// <param name="iv">The 16-byte initialization vector.</param>
+    /// <returns>The ciphertext result E.</returns>
+    private byte[] EncryptAlgorithmStep2B(byte[] data, byte[] key, byte[] iv) {
+        // Input validation
+        if (key.Length != 16) throw new ArgumentException("Key must be 16 bytes for AES-128.", nameof(key));
+        if (iv.Length != 16) throw new ArgumentException("IV must be 16 bytes.", nameof(iv));
+
+        using (Aes aes = Aes.Create()) {
+            // Configure EXACTLY as specified for Algorithm 2.B, Step (b)
+            aes.KeySize = 128;              // Must be AES-128
+            aes.Key = key;
+            aes.IV = iv;
+            aes.Mode = CipherMode.CBC;      // Must be CBC mode
+            aes.Padding = PaddingMode.None; // CRITICAL: No padding
+
+            using (ICryptoTransform encryptor = aes.CreateEncryptor())
+            using (MemoryStream ms = new MemoryStream())
+            using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
+                // Encrypt the entire data array without padding
+                cs.Write(data, 0, data.Length);
+                cs.FlushFinalBlock();       // Still necessary to process all data
+                return ms.ToArray();
+            }
+        }
+    }
+
+    /// <summary>
     /// Analyzes the first 16 bytes of the ciphertext 'E' to determine the next hash algorithm to use.
     /// </summary>
     /// <param name="ciphertextE">The ciphertext output from the encryption step.</param>
