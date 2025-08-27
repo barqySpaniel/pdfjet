@@ -69,39 +69,45 @@ public class PDFEncryption {
 
         objNumber = pdf.GetObjNumber();
     }
-/*
-    // TODO:
-    private byte[] StandardKDF(string password, byte[] salt, byte[] docID, int iterations = 65536) {
-        // 1. Initial hash: SHA-256( password + salt )
-        byte[] initialHash = SHA256(Combine(Encoding.UTF8.GetBytes(password), salt));
-
-        // 2. Iterate 64,000 times:
-        //    For i=0 to iterations-1: currentHash = SHA-256( currentHash )
-        byte[] iterativeHash = initialHash;
-        for (int i = 0; i < iterations; i++) {
-            iterativeHash = SHA256(iterativeHash);
-        }
-
-        // 3. Final key derivation: SHA-256( iterativeHash + docID )
-        byte[] finalKey = SHA256(Combine(iterativeHash, docID));
-
-        // 4. For AES-128, truncate to 16 bytes
-        byte[] aes128Key = new byte[16];
-        Array.Copy(finalKey, aes128Key, 16);
-        return aes128Key;
-    }
-*/
 
     private void Algorithm2B(byte[] input) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         byte[] K = HashPassword(input);
         // Perform the following steps (a)-(d) 64 times:
         for (int i = 0; i < 64; i++) {
-        // a) Make a new string, K1, consisting of 64 repetitions of the sequence: input password, K, the 48-byte user
-        // b)
-        // c)
-        // d)
+            // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
+            //    input password, K, the 48-byte user key.
+            //    The 48 byte user key is only used when checking the owner password or creating the owner key.
+            //    If checking the user password or creating the user key,
+            //    K1 is the concatenation of the input password and K.
+
+            // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
+            //    using the first 16 bytes of K as the key and the second
+            //    16 bytes of K as the initialization vector.
+            //    The result of this encryption is E.
+
+            // c) Taking the first 16 bytes of E as an unsigned big-endian integer,
+            //    compute the remainder, modulo 3.
+            //    If the result is 0, the next hash used is SHA-256,
+            //    if the result is 1, the next hash used is SHA-384,
+            //    if the result is 2, the next hash used is SHA-512.
+
+            // d) Using the hash algorithm determined in step c, take the hash of E.
+            //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
         }
+        // Repeat the process (a-d) with this new value for K.
+        // Following 64 rounds (round number 0 to round number 63),
+        // do the following, starting with round number 64:
+
+        // e) Look at the very last byte of E.
+        //    If the value of that byte (taken as an unsigned integer)
+        //    is greater than the round number - 32, repeat steps (a-d) again.
+
+        // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
+
+        // NOTE 3
+        // Tests indicate that the total number of rounds will most likely be between 65 and 80.
+        // So we can print this number to verify we are in this range!
     }
 
     /// <summary>
