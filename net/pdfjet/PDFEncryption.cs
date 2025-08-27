@@ -5,7 +5,6 @@ using System.Text;
 
 namespace PDFjet.NET {
 public class PDFEncryption {
-    private PDF pdf;
     private byte[] key;       // 256-bit AES key
     private byte[] iv;        // 128-bit IV
     private int objNumber;
@@ -18,8 +17,6 @@ public class PDFEncryption {
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
-        this.pdf = pdf;
-
         // Derive AES-256 key using SHA-256
         using (SHA256 sha256 = SHA256.Create()) {
             this.key = sha256.ComputeHash(Encoding.UTF8.GetBytes(userPassword + ownerPassword));
@@ -31,16 +28,16 @@ public class PDFEncryption {
             rng.GetBytes(this.iv);
         }
 
-        WriteEncryptionDictionary();
+        WriteEncryptionDictionary(pdf, ownerPassword);
     }
 
-    private void WriteEncryptionDictionary() {
+    private void WriteEncryptionDictionary(PDF pdf, String ownerPassword) {
         pdf.NewObj();
         pdf.Append(Token.BeginDictionary);
 
         pdf.Append("/Filter /Standard\n");
         pdf.Append("/V 5\n");                  // Algorithm version
-        pdf.Append("/R 6\n");                  // Revision (AES-256, SHA-256)
+        pdf.Append("/R 5\n");                  // Revision (AES-256, SHA-256)
         pdf.Append("/Length 256\n");           // Key length in bits
         pdf.Append("/CF << /StdCF << /CFM /AESV3 /AuthEvent /DocOpen /Length 32 >> >>\n");
         pdf.Append("/StmF /StdCF\n");
@@ -53,7 +50,7 @@ public class PDFEncryption {
 
         // Owner password hash
         pdf.Append("/O <");
-        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes("MyOwnerPassword"))));
+        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
         pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);
