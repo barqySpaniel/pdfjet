@@ -48,12 +48,12 @@ public class PDFEncryption {
 
         // User password hash
         pdf.Append("/U <");
-        pdf.Append(BitConverter.ToString(HashPassword(key)).Replace("-", ""));
+        pdf.Append(ToHex(HashPassword(key)));
         pdf.Append(">\n");
 
         // Owner password hash
         pdf.Append("/O <");
-        pdf.Append(BitConverter.ToString(HashPassword(Encoding.UTF8.GetBytes("owner"))).Replace("-", ""));
+        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes("MyOwnerPassword"))));
         pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);
@@ -92,14 +92,14 @@ public class PDFEncryption {
         return objNumber;
     }
 
-    private String ToHex(byte[] bytes) {
+    private string ToHex(byte[] bytes) {
         char[] hex = new char[bytes.Length * 2];
-        const String HEX_CHARS = "0123456789ABCDEF";
+        const string HEX_CHARS = "0123456789ABCDEF";
         for (int i = 0; i < bytes.Length; i++) {
-            hex[i * 2]     = HEX_CHARS[bytes[i] >> 4];     // high nibble
-            hex[i * 2 + 1] = HEX_CHARS[bytes[i] & 0x0F];   // low nibble
+            hex[i * 2]     = HEX_CHARS[bytes[i] >> 4];
+            hex[i * 2 + 1] = HEX_CHARS[bytes[i] & 0x0F];
         }
-        return new String(hex);
+        return new string(hex);
     }
 }
 }
