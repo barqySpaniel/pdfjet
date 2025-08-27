@@ -5,69 +5,63 @@ using System.Text;
 
 namespace PDFjet.NET {
 public class PDFEncryption {
-    private byte[] key;   // 128-bit AES key
-    private byte[] iv;    // 128-bit IV
-    private int objNumber;
+    private readonly byte[] key;   // 128-bit AES key
+    private readonly byte[] iv;    // 128-bit IV
+    private readonly int objNumber;
 
     /// <summary>
-    /// Creates a new PDFEncryption that embeds an AES-128
-    /// based encryption dictionary into the PDF.
+    /// Creates a new AES-128 encryption dictionary and adds it to the PDF.
     /// </summary>
     /// <param name="pdf">The parent PDF document.</param>
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
-        // Derive AES-128 key using SHA-256 and take first 16 bytes
+        // === Derive AES-128 key from user+owner password and docID ===
         using (SHA256 sha256 = SHA256.Create()) {
             byte[] fullHash = sha256.ComputeHash(Combine(
                 Encoding.UTF8.GetBytes(userPassword + ownerPassword),
-                Encoding.UTF8.GetBytes(pdf.uuid)));
-            this.key = new byte[16];
+                Encoding.UTF8.GetBytes(pdf.uuid)   // docID
+            ));
+            this.key = new byte[16];          // AES-128
             Array.Copy(fullHash, this.key, 16);
         }
 
-        // Generate random IV (AES block size is 128-bit)
+        // === Generate random IV (AES block size = 128-bit) ===
         this.iv = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(this.iv);
         }
 
+        // === Write Encryption Dictionary ===
         pdf.NewObj();
-        pdf.Append(Token.BeginDictionary);
-
+        pdf.Append("<<\n");
         pdf.Append("/Filter /Standard\n");
-        pdf.Append("/V 4\n");               // Algorithm version
-        pdf.Append("/R 4\n");               // Revision (AES-128)
-        pdf.Append("/Length 128\n");        // Key length in bits
-        pdf.Append("/P -3904\n");
+        pdf.Append("/V 4\n");                  // Algorithm version: AES
+        pdf.Append("/R 4\n");                  // Revision 4 (AES-128)
+        pdf.Append("/Length 128\n");           // Key length in bits
+        pdf.Append("/P -3904\n");              // Permissions (example value)
         pdf.Append("/CF << /StdCF << /CFM /AESV2 /AuthEvent /DocOpen /Length 16 >> >>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
 
-        // User password hash
+        // === User key (U) ===
         pdf.Append("/U <");
-        pdf.Append(ToHex(HashPassword(key)));
+        pdf.Append(ToHex(HashPassword(this.key)));
         pdf.Append(">\n");
 
-        // Owner password hash
+        // === Owner key (O) ===
         pdf.Append("/O <");
         pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
         pdf.Append(">\n");
 
-        pdf.Append(Token.EndDictionary);
+        pdf.Append(">>\n");
         pdf.EndObj();
 
         objNumber = pdf.GetObjNumber();
     }
 
-    private byte[] HashPassword(byte[] input) {
-        using (SHA256 sha256 = SHA256.Create()) {
-            return sha256.ComputeHash(input);
-        }
-    }
-
     /// <summary>
-    /// Encrypts a buffer using AES-128-CBC with the derived key/IV.
+    /// Encrypts data with AES-128-CBC and PKCS#7 padding.
     /// </summary>
     public byte[] Encrypt(byte[] plain) {
         using (Aes aes = Aes.Create()) {
@@ -88,6 +82,13 @@ public class PDFEncryption {
 
     public int GetObjNumber() {
         return objNumber;
+    }
+
+    // === Helpers ===
+    private byte[] HashPassword(byte[] input) {
+        using (SHA256 sha256 = SHA256.Create()) {
+            return sha256.ComputeHash(input);
+        }
     }
 
     private byte[] Combine(byte[] a, byte[] b) {
