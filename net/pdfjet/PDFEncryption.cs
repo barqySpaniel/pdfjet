@@ -91,5 +91,15 @@ public class PDFEncryption {
     public int GetObjNumber() {
         return objNumber;
     }
+
+    private String ToHex(byte[] bytes) {
+        char[] hex = new char[bytes.Length * 2];
+        const String HEX_CHARS = "0123456789ABCDEF";
+        for (int i = 0; i < bytes.Length; i++) {
+            hex[i * 2]     = HEX_CHARS[bytes[i] >> 4];     // high nibble
+            hex[i * 2 + 1] = HEX_CHARS[bytes[i] & 0x0F];   // low nibble
+        }
+        return new String(hex);
+    }
 }
 }
