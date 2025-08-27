@@ -31,7 +31,7 @@ public class PDFEncryption {
         WriteEncryptionDictionary(pdf, ownerPassword, -3904);
     }
 
-    private void WriteEncryptionDictionary(PDF pdf, String ownerPassword, int permissions = -3904) {
+    private void WriteEncryptionDictionary(PDF pdf, String ownerPassword, int permissions) {
         pdf.NewObj();
         pdf.Append(Token.BeginDictionary);
 
