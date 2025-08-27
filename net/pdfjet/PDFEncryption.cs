@@ -25,18 +25,9 @@ public class PDFEncryption {
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
-        byte[] userPad = PadPassword(userPassword);
-        byte[] ownerPad = PadPassword(ownerPassword);
-
-        // === Derive AES-128 key from user+owner password and uuid ===
-        using (SHA256 sha256 = SHA256.Create()) {
-            byte[] fullHash = sha256.ComputeHash(Combine(
-                Combine(PadPassword(userPassword), PadPassword(ownerPassword)),
-                Encoding.UTF8.GetBytes(pdf.uuid)
-            ));
-            this.key = new byte[16];    // AES-128
-            Array.Copy(fullHash, this.key, 16);
-        }
+        // Convert and pad in one step. This is fine.
+        byte[] userPassBytes = PadPassword(userPassword);
+        byte[] ownerPassBytes = PadPassword(ownerPassword);
 
         // === Generate random IV (AES block size = 128-bit) ===
         this.iv = new byte[16];
@@ -51,10 +42,15 @@ public class PDFEncryption {
         pdf.Append("/V 5\n");           // AES-256
         pdf.Append("/R 6\n");           // Security revision 6 (strong password hashing)
         pdf.Append("/Length 256\n");    // 256-bit encryption key
-        pdf.Append("/P -3904\n");       // Permissions (example value)
         pdf.Append("/CF << /StdCF << /CFM /AESV3 /AuthEvent /DocOpen /Length 16 >> >>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
+
+        // 1. Calculate the values first, storing them in well-named variables
+        byte[] ownerPasswordValidationHash = new byte[32]; //ComputeOwnerPasswordHash(ownerPassword, userPassword, permissionFlags);
+        byte[] userPasswordValidationHash = new byte[32]; //= ComputeUserPasswordHash(userPassword, permissionFlags);
+        byte[] ownerEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(ownerPassword, userPassword, permissionFlags);
+        byte[] userEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(userPassword, userPassword, permissionFlags);
 
         // === Owner key (O) ===
         // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
@@ -62,7 +58,7 @@ public class PDFEncryption {
         // that shall be used in computing the file encryption key and in
         // determining whether a valid owner password was entered.
         pdf.Append("/O <");
-        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
+        pdf.Append(ToHex(ownerPasswordValidationHash));
         pdf.Append(">\n");
 
         // === User key (U) ===
@@ -71,17 +67,17 @@ public class PDFEncryption {
         // that shall be used in determining whether to prompt the user for a password
         // and, if so, whether a valid user or owner password was entered.
         pdf.Append("/U <");
-        pdf.Append(ToHex(HashPassword(this.key)));
+        pdf.Append(ToHex(userPasswordValidationHash));
         pdf.Append(">\n");
 
         // === Owner Encryption Key (OE) ===
         pdf.Append("/OE <");
-        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
+        pdf.Append(ToHex(ownerEncryptionKey));
         pdf.Append(">\n");
 
         // === User Encryption Key (UE) ===
         pdf.Append("/UE<");
-        pdf.Append(ToHex(HashPassword(Encoding.UTF8.GetBytes(ownerPassword))));
+        pdf.Append(ToHex(userEncryptionKey));
         pdf.Append(">\n");
 
         // A set of flags specifying which operations shall be permitted
@@ -97,9 +93,13 @@ public class PDFEncryption {
         pdf.EndObj();
 
         objNumber = pdf.GetObjNumber();
+
+        // SECURITY: This is the crucial step. Wipe the padded passwords from memory.
+        CryptographicOperations.ZeroMemory(userPassBytes);
+        CryptographicOperations.ZeroMemory(ownerPassBytes);
     }
 
-    private void Algorithm2B(byte[] inputPassword, bool isOwnerPassword, byte[] userKey) {
+    private byte[] ComputeHashValue(byte[] inputPassword, bool isOwnerPassword, byte[] userKey) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         byte[] K = HashPassword(inputPassword);
         byte[] K1;
@@ -153,6 +153,8 @@ public class PDFEncryption {
             // Tests indicate that the total number of rounds will most likely be between 65 and 80.
             // !! We can print this number to verify we are in this range !!
         }
+
+        return K;   // TODO:
     }
 
     private BigInteger Convert16BytesToBigInteger(byte[] input) {
@@ -165,6 +167,34 @@ public class PDFEncryption {
         }
         // The BigInteger constructor expects a big-endian byte array.
         return new BigInteger(bytes, isUnsigned: true, isBigEndian: true);
+    }
+
+    /// <summary>
+    /// Analyzes the first 16 bytes of the ciphertext 'E' to determine the next hash algorithm to use.
+    /// </summary>
+    /// <param name="ciphertextE">The ciphertext output from the encryption step.</param>
+    /// <returns>An instance of the chosen hash algorithm (SHA256, SHA384, or SHA512).</returns>
+    private HashAlgorithm DetermineNextHashAlgorithm(byte[] ciphertextE) {
+        if (ciphertextE.Length < 16) {
+            throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(ciphertextE));
+        }
+
+        // 1. Take the first 16 bytes of E and convert to an unsigned big-endian integer
+        BigInteger bigInt = new BigInteger(
+            new ReadOnlySpan<byte>(ciphertextE, 0, 16),
+                isUnsigned: true,
+                isBigEndian: true);
+
+        // 2. Compute the remainder, modulo 3
+        int remainder = (int)(bigInt % 3);
+
+        // 3. Return the right hash algorithm
+        return remainder switch {
+            0 => SHA256.Create(),
+            1 => SHA384.Create(),
+            2 => SHA512.Create(),
+            _ => throw new InvalidOperationException() // Required by the compiler
+        };
     }
 
     /// <summary>
