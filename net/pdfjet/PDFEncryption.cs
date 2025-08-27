@@ -26,13 +26,13 @@ public class PDFEncryption {
         byte[] userPad = PadPassword(userPassword);
         byte[] ownerPad = PadPassword(ownerPassword);
 
-        // === Derive AES-128 key from user+owner password and docID ===
+        // === Derive AES-128 key from user+owner password and uuid ===
         using (SHA256 sha256 = SHA256.Create()) {
             byte[] fullHash = sha256.ComputeHash(Combine(
                 Combine(PadPassword(userPassword), PadPassword(ownerPassword)),
-                Encoding.UTF8.GetBytes(pdf.uuid)   // docID
+                Encoding.UTF8.GetBytes(pdf.uuid)
             ));
-            this.key = new byte[16];          // AES-128
+            this.key = new byte[16];    // AES-128
             Array.Copy(fullHash, this.key, 16);
         }
 
@@ -91,6 +91,19 @@ public class PDFEncryption {
         return aes128Key;
     }
 */
+
+    private void Algorithm2B(byte[] input) {
+        // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
+        byte[] K = HashPassword(input);
+        // Perform the following steps (a)-(d) 64 times:
+        for (int i = 0; i < 64; i++) {
+        // a) Make a new string, K1, consisting of 64 repetitions of the sequence: input password, K, the 48-byte user
+        // b)
+        // c)
+        // d)
+        }
+    }
+
     /// <summary>
     /// Encrypts data with AES-128-CBC and PKCS#7 padding.
     /// </summary>
