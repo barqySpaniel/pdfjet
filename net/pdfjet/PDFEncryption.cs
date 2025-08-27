@@ -30,10 +30,6 @@ public class PDFEncryption {
             rng.GetBytes(this.iv);
         }
 
-        WriteEncryptionDictionary(pdf, ownerPassword);
-    }
-
-    private void WriteEncryptionDictionary(PDF pdf, string ownerPassword) {
         pdf.NewObj();
         pdf.Append(Token.BeginDictionary);
 
