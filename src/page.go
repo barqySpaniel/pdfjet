@@ -603,8 +603,22 @@ func (page *Page) SetBrushColorRGB(rgbColor [3]float32) {
 	page.appendString(" rg\n")
 }
 
-// SetPenColor sets the penColor color.
-// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+// SetPenColor sets the pen color using a packed RGB color integer.
+// The color should be provided in the 0x00RRGGBB format (hexadecimal),
+// where RR, GG, and BB represent the red, green, and blue components
+// of the color, respectively, each in the range 00 to FF (0-255).
+//
+// Parameters:
+//
+//	color: A 32-bit integer representing the color in the format 0x00RRGGBB.
+//	       The method converts this integer into RGB float values between 0.0 and 1.0,
+//	       and sets the pen color accordingly.
+//
+// Notes:
+//   - The color components are extracted by bit-shifting and masking the integer
+//     to separate the red, green, and blue channels. Each component is then scaled
+//     to a float value between 0.0 and 1.0 (by dividing by 255).
+//   - The method calls SetPenColorRGB internally to apply the color using float32 values.
 func (page *Page) SetPenColor(color int32) {
 	r := float32(((color >> 16) & 0xff)) / 255.0
 	g := float32(((color >> 8) & 0xff)) / 255.0
@@ -612,8 +626,22 @@ func (page *Page) SetPenColor(color int32) {
 	page.SetPenColorRGB([3]float32{r, g, b})
 }
 
-// SetBrushColor sets the brushColor color.
-// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+// SetBrushColor sets the brush color using a packed RGB color integer.
+// The color should be provided in the 0x00RRGGBB format (hexadecimal),
+// where RR, GG, and BB represent the red, green, and blue components
+// of the color, respectively, each in the range 00 to FF (0-255).
+//
+// Parameters:
+//
+//	color: A 32-bit integer representing the color in the format 0x00RRGGBB.
+//	       The method converts this integer into RGB float values between 0.0 and 1.0,
+//	       and sets the brush color accordingly.
+//
+// Notes:
+//   - The color components are extracted by bit-shifting and masking the integer
+//     to separate the red, green, and blue channels. Each component is then scaled
+//     to a float value between 0.0 and 1.0 (by dividing by 255).
+//   - The method calls SetBrushColorRGB internally to apply the color using float32 values.
 func (page *Page) SetBrushColor(color int32) {
 	r := float32(((color >> 16) & 0xff)) / 255.0
 	g := float32(((color >> 8) & 0xff)) / 255.0
