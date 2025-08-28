@@ -199,7 +199,9 @@ public class PDFEncryption {
     /// <returns>The ciphertext result E.</returns>
     private byte[] EncryptAlgorithmStep2B(byte[] data, byte[] key, byte[] iv) {
         // Input validation
-        if (key.Length != 16) throw new ArgumentException("Key must be 16 bytes for AES-128.", nameof(key));
+        // Algorithm 2.B always uses AES-128-CBC to encrypt K1, regardless of the file key length (AES-128 or AES-256)
+        if (key.Length != 16) throw new ArgumentException(
+            "Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
         if (iv.Length != 16) throw new ArgumentException("IV must be 16 bytes.", nameof(iv));
 
         using (Aes aes = Aes.Create()) {
