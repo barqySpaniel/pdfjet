@@ -37,7 +37,7 @@ public class Example_30 {
         group.drawOn(page);
 
         TextBox textBox = new TextBox(f1);
-        textBox.setFontSize(16f);
+        // textBox.setFontSize(16f);
         textBox.setText("Blue Layer Text");
         textBox.setLocation(10f, 130f);
 

@@ -1553,7 +1553,10 @@ public class Page {
         (byte)'A', (byte)'B', (byte)'C', (byte)'D', (byte)'E', (byte)'F'
     };
     internal void AppendCodePointAsHex(int codePoint) {
-        if (codePoint <= 0xFFFF) {
+        if (codePoint <= 0xFF) {
+            buf.WriteByte(HEX[(codePoint >> 4)  & 0xF]);
+            buf.WriteByte(HEX[(codePoint)       & 0xF]);
+        } else if (codePoint <= 0xFFFF) {
             // Basic Multilingual Plane (BMP) character
             buf.WriteByte(HEX[(codePoint >> 12) & 0xF]);
             buf.WriteByte(HEX[(codePoint >> 8)  & 0xF]);

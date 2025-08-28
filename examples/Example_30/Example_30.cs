@@ -41,7 +41,7 @@ public class Example_30 {
         group.DrawOn(page);
 
         TextBox textBox = new TextBox(f1);
-        textLine.SetFontSize(14f);
+        textLine.SetFontSize(16f);
         textBox.SetText("Blue Layer Text");
         textBox.SetLocation(350f, 130f);
 
@@ -54,6 +54,7 @@ public class Example_30 {
         group = new OptionalContentGroup(pdf, "Blue Layer");
         group.Add(textBox);
         group.Add(line);
+        group.SetVisible(true);
         group.DrawOn(page);
 
         line = new Line();
