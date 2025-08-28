@@ -496,10 +496,22 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 	page.appendString(" gs\n")
 }
 
-// SetPenColorRGB sets the color for stroking operations.
-// The penColor color is used when drawing lines and splines.
+// SetPenColorRGB sets the pen color using an RGB color array.
+// Each element in the array represents the red, green, and blue components
+// of the color as floating-point values between 0.0 and 1.0.
 //
-// @param rbgColor contains the red, green and blue components. They are values from 0.0 to 1.0
+// Parameters:
+//
+//	rgbColor: A fixed-size array of 3 float32 values representing the
+//	red, green, and blue color components respectively. Each value should
+//	be between 0.0 (no intensity) and 1.0 (full intensity).
+//
+// Notes:
+//   - The method performs a range check to ensure that each color component
+//     is within the valid range [0.0, 1.0]. If any component is out of range,
+//     the method prints a warning and exits early without modifying the color.
+//   - The method then sets the penColor and appends the color values to the
+//     appropriate output stream (e.g., for a PDF or graphics context).
 func (page *Page) SetPenColorRGB(rgbColor [3]float32) {
 	// Your exact code for range check
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
@@ -556,6 +568,22 @@ func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
 	page.appendString(" k\n")
 }
 
+// SetBrushColorRGB sets the brush color using an RGB color array.
+// Each element in the array represents the red, green, and blue components
+// of the color as floating-point values between 0.0 and 1.0.
+//
+// Parameters:
+//
+//	rgbColor: A fixed-size array of 3 float32 values representing the
+//	red, green, and blue color components respectively. Each value should
+//	be between 0.0 (no intensity) and 1.0 (full intensity).
+//
+// Notes:
+//   - The method performs a range check to ensure that each color component
+//     is within the valid range [0.0, 1.0]. If any component is out of range,
+//     the method prints a warning and exits early without modifying the color.
+//   - The method then sets the brushColor and appends the color values to the
+//     appropriate output stream (e.g., for a PDF or graphics context).
 func (page *Page) SetBrushColorRGB(rgbColor [3]float32) {
 	// Your exact code for range check
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
