@@ -39,10 +39,14 @@ public class PDFEncryption {
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Filter /Standard\n");
-        pdf.Append("/V 5\n");           // AES-256
-        pdf.Append("/R 6\n");           // Security revision 6 (strong password hashing)
-        pdf.Append("/Length 256\n");    // 256-bit encryption key
-        pdf.Append("/CF << /StdCF << /CFM /AESV3 /AuthEvent /DocOpen /Length 16 >> >>\n");
+        pdf.Append("/V 5\n");            // Algorithm 2.A / 2.B
+        pdf.Append("/R 6\n");            // Security revision 6 (strong password hashing)
+        pdf.Append("/Length 128\n");     // !! Vestigial, required, ignored (must still be present) !!
+        pdf.Append("/CF << /StdCF <<\n");
+        pdf.Append("  /CFM /AESV3\n");   // AESV3 = AES-256 in CBC
+        pdf.Append("  /Length 32\n");    // 32 bytes = 256-bit file key
+        pdf.Append("  /AuthEvent /DocOpen\n");
+        pdf.Append(">> >>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
 
