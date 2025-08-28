@@ -31,10 +31,8 @@ public class Example_30 {
         textLine.setLocation(380f, xy[1] + font.getHeight());
         textLine.drawOn(page);
 
-        OptionalContentGroup group = new OptionalContentGroup(pdf, "Map");
+        OptionalContentGroup group = new OptionalContentGroup(pdf, "map");
         group.add(image1);
-        group.setVisible(true);
-        // group.setPrintable(true);
         group.drawOn(page);
 
         TextBox textBox = new TextBox(font);
@@ -47,10 +45,9 @@ public class Example_30 {
         line.setWidth(2f);
         line.setColor(Color.blue);
 
-        group = new OptionalContentGroup("Blue");
+        group = new OptionalContentGroup(pdf, "blue");
         group.add(textBox);
         group.add(line);
-        // group.setVisible(true);
         group.drawOn(page);
 
         line = new Line();
@@ -59,11 +56,13 @@ public class Example_30 {
         line.setWidth(2f);
         line.setColor(Color.red);
 
-        group = new OptionalContentGroup("Barcode");
+        InitialState state = new InitialState()
+            .setVisible(true)
+            .setPrintable(false)
+            .setExportable(false);
+        group = new OptionalContentGroup(pdf, "barcode", state);
         group.add(image2);
         group.add(line);
-        group.setVisible(true);
-        group.setPrintable(true);
         group.drawOn(page);
 
         pdf.complete();
