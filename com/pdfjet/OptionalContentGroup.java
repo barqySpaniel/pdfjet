@@ -37,59 +37,22 @@ public class OptionalContentGroup {
 
     private PDF pdf;
     private String name;
-    private int ocgNumber;
+    private int ocgNumber = -1;
+    private boolean visible;
+    private boolean printable;
+    private boolean exportable;
     private List<Drawable> components;
 
     /**
      * Creates OptionalContentGroup object
      *
-     * @param pdf the PDF to add to
-     * @param name the name of the group
-     */
-    public OptionalContentGroup(PDF pdf, String name) throws Exception {
-        this(pdf, name, new InitialState()
-            .setVisible(true)
-            .setPrintable(true)
-            .setExportable(true));
-    }
-
-    /**
-     * Creates OptionalContentGroup object
-     *
-     * @param pdf the PDF to add to
      * @param name the name of the group
      * @param state the initial state for this group
      */
-    public OptionalContentGroup(PDF pdf, String name, InitialState state) throws Exception {
+    public OptionalContentGroup(PDF pdf, String name) throws Exception {
         this.pdf = pdf;
         this.name = name;
         this.components = new ArrayList<Drawable>();
-
-        pdf.newobj();
-        pdf.append("<<\n");
-        pdf.append("/Type /OCG\n");
-        pdf.append("/Name (" + name + ")\n");
-        pdf.append("/Usage <<\n");
-        if (state.visible) {
-            pdf.append("/View << /ViewState /ON >>\n");
-        } else {
-            pdf.append("/View << /ViewState /OFF >>\n");
-        }
-        if (state.printable) {
-            pdf.append("/Print << /PrintState /ON >>\n");
-        } else {
-            pdf.append("/Print << /PrintState /OFF >>\n");
-        }
-        if (state.exportable) {
-            pdf.append("/Export << /ExportState /ON >>\n");
-        } else {
-            pdf.append("/Export << /ExportState /OFF >>\n");
-        }
-        pdf.append(">>\n");
-        pdf.append(">>\n");
-        pdf.endobj();
-
-        objNumber = pdf.getObjNumber();
     }
 
     /**
@@ -98,11 +61,34 @@ public class OptionalContentGroup {
      * @param drawable the drawable object
      */
     public void add(Drawable drawable) {
-        if (components.size() == 0) {
-            pdf.groups.add(this);
-            ocgNumber = pdf.groups.size();
-        }
         components.add(drawable);
+    }
+
+    /**
+     * Sets the visibility of this group
+     *
+     * @param visible flag
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    /**
+     * Sets the printability of this group
+     *
+     * @param printable flag
+     */
+    public void setPrintable(boolean printable) {
+        this.printable = printable;
+    }
+
+    /**
+     * Sets the exportability of this group
+     *
+     * @param exportable flag
+     */
+    public void setExportable(boolean exportable) {
+        this.exportable = exportable;
     }
 
     /**
@@ -112,6 +98,38 @@ public class OptionalContentGroup {
      * @throws Exception if there is a problem
      */
     public void drawOn(Page page) throws Exception {
+        if (this.ocgNumber == -1) {
+System.out.println("Hello");
+            pdf.newobj();
+            pdf.append("<<\n");
+            pdf.append("/Type /OCG\n");
+            pdf.append("/Name (" + name + ")\n");
+            pdf.append("/Usage <<\n");
+            if (visible) {
+                pdf.append("/View << /ViewState /ON >>\n");
+            } else {
+                pdf.append("/View << /ViewState /OFF >>\n");
+            }
+            if (printable) {
+                pdf.append("/Print << /PrintState /ON >>\n");
+            } else {
+                pdf.append("/Print << /PrintState /OFF >>\n");
+            }
+            if (exportable) {
+                pdf.append("/Export << /ExportState /ON >>\n");
+            } else {
+                pdf.append("/Export << /ExportState /OFF >>\n");
+            }
+            pdf.append(">>\n");
+            pdf.append(">>\n");
+            pdf.endobj();
+
+            objNumber = pdf.getObjNumber();
+
+            pdf.groups.add(this);
+            this.ocgNumber = pdf.groups.size();
+        }
+
         if (components.size() > 0) {
             page.append("/OC /OC");
             page.append(ocgNumber);
