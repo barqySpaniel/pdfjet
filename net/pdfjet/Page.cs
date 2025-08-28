@@ -755,7 +755,12 @@ public class Page {
         brushColor = rgbColor;
 
         // Proceed with setting the color (example)
-        SetBrushColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+        Append(rgbColor[0]);
+        Append(Token.Space);
+        Append(rgbColor[1]);
+        Append(Token.Space);
+        Append(rgbColor[2]);
+        Append(" rg\n");
     }
 
     /**
@@ -798,7 +803,12 @@ public class Page {
         penColor = rgbColor;
 
         // Proceed with setting the color (example)
-        SetPenColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+        Append(rgbColor[0]);
+        Append(Token.Space);
+        Append(rgbColor[1]);
+        Append(Token.Space);
+        Append(rgbColor[2]);
+        Append(" RG\n");
     }
 
     /**

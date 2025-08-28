@@ -717,7 +717,12 @@ final public class Page {
         brushColor = rgbColor;
 
         // Proceed with setting the color (example)
-        setBrushColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+        append(rgbColor[0]);
+        append(Token.SPACE);
+        append(rgbColor[1]);
+        append(Token.SPACE);
+        append(rgbColor[2]);
+        append(" rg\n");
     }
 
     /**
@@ -759,7 +764,12 @@ final public class Page {
         penColor = rgbColor;
 
         // Proceed with setting the color (example)
-        setPenColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+        append(rgbColor[0]);
+        append(Token.SPACE);
+        append(rgbColor[1]);
+        append(Token.SPACE);
+        append(rgbColor[2]);
+        append(" RG\n");
     }
 
     public float[] getPenColor() {
