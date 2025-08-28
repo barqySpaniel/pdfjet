@@ -562,8 +562,20 @@ func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
 	page.appendString(" k\n")
 }
 
-func (page *Page) SetBrushColorWithFloat32Array(rgb [3]float32) {
-	page.SetPenColorRGB(rgb[0], rgb[1], rgb[2])
+func (page *Page) SetBrushColorWithFloat32Array(rgbColor [3]float32) {
+	// Your exact code for range check
+	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
+		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
+		rgbColor[2] < 0.0 || rgbColor[2] > 1.0 {
+		fmt.Println("Warning: RGB color values must be between 0f and 1f. Ignoring request.")
+		return // Early exit if out of range
+	}
+
+	// Now set the brush color
+	page.brushColor = rgbColor
+
+	// Proceed with setting the color (example)
+	page.SetBrushColorRGB(rgbColor[0], rgbColor[1], rgbColor[2])
 }
 
 // SetBrushColorRGB sets the color for brushColor operations.
