@@ -555,7 +555,12 @@ public class Page {
         penColor = rgbColor!
 
         // Proceed with setting the color (example)
-        setPenColor(rgbColor![0], rgbColor![1], rgbColor![2])
+        append(rgbColor![0])
+        append(Token.space)
+        append(rgbColor![1])
+        append(Token.space)
+        append(rgbColor![2])
+        append(" RG\n")
     }
 
     public final func getPenColor() -> [Float] {
@@ -643,7 +648,12 @@ public class Page {
         brushColor = rgbColor!
 
         // Proceed with setting the color (example)
-        setBrushColor(rgbColor![0], rgbColor![1], rgbColor![2])
+        append(rgbColor![0])
+        append(Token.space)
+        append(rgbColor![1])
+        append(Token.space)
+        append(rgbColor![2])
+        append(" rg\n")
     }
 
     ///
