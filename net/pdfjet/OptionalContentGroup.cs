@@ -67,7 +67,7 @@ public class OptionalContentGroup {
     public void DrawOn(Page page) {
         if (this.ocgNumber == -1) {
             pdf.NewObj();
-            pdf.Append("<<\n");
+            pdf.Append(Token.BeginDictionary);
             pdf.Append("/Type /OCG\n");
             pdf.Append("/Name (" + name + ")\n");
             pdf.Append("/Usage <<\n");
@@ -87,7 +87,7 @@ public class OptionalContentGroup {
                 pdf.Append("/Export << /ExportState /OFF >>\n");
             }
             pdf.Append(">>\n");
-            pdf.Append(">>\n");
+            pdf.Append(Token.EndDictionary);
             pdf.EndObj();
 
             objNumber = pdf.GetObjNumber();

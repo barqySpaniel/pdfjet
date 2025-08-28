@@ -20,27 +20,27 @@ public class Example_30 {
 
         var textLine = TextLine(font)
         textLine.setText("© OpenStreetMap contributors")
-        textLine.setLocation(430.0, 655.0)
+        textLine.setLocation(10.0, 655.0)
         let xy = textLine.drawOn(page)
 
         textLine = TextLine(font, "http://www.openstreetmap.org/copyright")
         textLine.setURIAction("http://www.openstreetmap.org/copyright")
-        textLine.setLocation(380.0, xy[1] + font.getHeight())
+        textLine.setLocation(10.0, xy[1] + font.getHeight())
         textLine.drawOn(page)
 
-        var group = OptionalContentGroup(pdf, "Map")
+        var group = OptionalContentGroup(pdf, "Open Source Map")
         group.add(image1)
         group.setVisible(true)
-        // group.setPrintable(true)
+        group.setPrintable(false)
         group.drawOn(page)
 
         let textBox = TextBox(font)
         textBox.setText("Blue Layer Text")
-        textBox.setLocation(300.0, 200.0)
+        textBox.setLocation(350.0, 130.0)
 
         var line = Line()
-        line.setPointA(300.0, 250.0)
-        line.setPointB(500.0, 250.0)
+        line.setPointA(350.0, 150.0)
+        line.setPointB(550.0, 150.0)
         line.setWidth(2.0)
         line.setColor(Color.blue)
 
@@ -51,8 +51,8 @@ public class Example_30 {
         group.drawOn(page)
 
         line = Line()
-        line.setPointA(300.0, 260.0)
-        line.setPointB(500.0, 260.0)
+        line.setPointA(350.0, 160.0)
+        line.setPointB(550.0, 160.0)
         line.setWidth(2.0)
         line.setColor(Color.red)
         line.drawOn(page)

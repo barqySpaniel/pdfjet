@@ -26,18 +26,18 @@ public class Example_30 {
         TextLine textLine = new TextLine(f2, "© OpenStreetMap contributors");
         textLine.SetFontSize(10f);
         textLine.SetLocation(10f, 655f);
-        float[] xy = textLine.DrawOn(page);
+        float[] pointXY = textLine.DrawOn(page);
 
         textLine = new TextLine(f2, "http://www.openstreetmap.org/copyright");
         textLine.SetFontSize(10f);
         textLine.SetURIAction("http://www.openstreetmap.org/copyright");
-        textLine.SetLocation(10f, xy[1] + f2.GetBodyHeight(f2.GetSize()));
+        textLine.SetLocation(10f, pointXY[1] + f2.GetBodyHeight(10f));
         textLine.DrawOn(page);
 
         OptionalContentGroup group = new OptionalContentGroup(pdf, "Open Street Map");
         group.Add(image1);
         group.SetVisible(true);
-        group.SetPrintable(true);
+        group.SetPrintable(false);
         group.DrawOn(page);
 
         TextBox textBox = new TextBox(f1);
