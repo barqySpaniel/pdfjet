@@ -7,13 +7,6 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class PDFEncryption {
-    private const int PAD_LENGTH = 32;
-    private static readonly byte[] PASSWORD_PADDING = {
-        0x28,0xBF,0x4E,0x5E,0x4E,0x75,0x8A,0x41,
-        0x64,0x00,0x4E,0x56,0xFF,0xFA,0x01,0x08,
-        0x2E,0x2E,0x00,0xB6,0xD0,0x68,0x3E,0x80,
-        0x2F,0x0C,0xA9,0xFE,0x64,0x53,0x69,0x7A
-    };
     private readonly byte[] key;   // 128-bit AES key
     private readonly byte[] iv;    // 128-bit IV
     private readonly int objNumber;
@@ -25,9 +18,10 @@ public class PDFEncryption {
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
-        // Convert and pad in one step. This is fine.
-        byte[] userPassBytes = PadPassword(userPassword);
-        byte[] ownerPassBytes = PadPassword(ownerPassword);
+        // For AES-256, this is the NEW way (correct)
+        // Convert the password strings to UTF-8 bytes directly
+        byte[] userPassBytes = Encoding.UTF8.GetBytes(userPassword ?? "");
+        byte[] ownerPassBytes = Encoding.UTF8.GetBytes(ownerPassword ?? "");
 
         // === Generate a random 256-bit (32-byte) file encryption key ===
         this.key = new byte[32]; // 32 bytes for AES-256
@@ -271,27 +265,11 @@ public class PDFEncryption {
         return objNumber;
     }
 
-    private byte[] PadPassword(string password) {
-        byte[] pwd = Encoding.UTF8.GetBytes(password ?? "");
-        byte[] padded = new byte[PAD_LENGTH];
-        int len = Math.Min(pwd.Length, PAD_LENGTH);
-        if (len > 0) Array.Copy(pwd, 0, padded, 0, len);
-        if (len < PAD_LENGTH) Array.Copy(PASSWORD_PADDING, 0, padded, len, PAD_LENGTH - len);
-        return padded;
-    }
-
     // === Helpers ===
     private byte[] HashPassword(byte[] input) {
         using (SHA256 sha256 = SHA256.Create()) {
             return sha256.ComputeHash(input);
         }
-    }
-
-    private byte[] Combine(byte[] a, byte[] b) {
-        byte[] combined = new byte[a.Length + b.Length];
-        Buffer.BlockCopy(a, 0, combined, 0, a.Length);
-        Buffer.BlockCopy(b, 0, combined, a.Length, b.Length);
-        return combined;
     }
 
     private string ToHex(byte[] bytes) {
