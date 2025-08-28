@@ -26,13 +26,13 @@ func Example30() {
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
 	textLine := pdfjet.NewTextLine(font, "© OpenStreetMap contributors")
-	textLine.SetLocation(430.0, 655.0)
+	textLine.SetLocation(10.0, 655.0)
 	xy := textLine.DrawOn(page)
 
 	uri := "http://www.openstreetmap.org/copyright"
 	textLine = pdfjet.NewTextLine(font, "http://www.openstreetmap.org/copyright")
 	textLine.SetURIAction(&uri)
-	textLine.SetLocation(380.0, xy[1]+font.GetHeight())
+	textLine.SetLocation(10.0, xy[1]+font.GetHeight())
 	textLine.DrawOn(page)
 
 	group := pdfjet.NewOptionalContentGroup(pdf, "map")
@@ -43,9 +43,9 @@ func Example30() {
 
 	textBox := pdfjet.NewTextBox(font)
 	textBox.SetText("Hello Blue Layer Text")
-	textBox.SetLocation(300.0, 200.0)
+	textBox.SetLocation(350.0, 130.0)
 
-	line := pdfjet.NewLine(300.0, 250.0, 500.0, 250.0)
+	line := pdfjet.NewLine(350.0, 150.0, 550.0, 150.0)
 	line.SetWidth(2.0)
 	line.SetColor(color.Blue)
 
@@ -55,7 +55,7 @@ func Example30() {
 	// group.SetVisible(true)
 	group.DrawOn(page)
 
-	line = pdfjet.NewLine(300.0, 260.0, 500.0, 260.0)
+	line = pdfjet.NewLine(350.0, 160.0, 550.0, 160.0)
 	line.SetWidth(2.0)
 	line.SetColor(color.Red)
 
