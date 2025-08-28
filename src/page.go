@@ -649,12 +649,28 @@ func (page *Page) SetBrushColor(color int32) {
 	page.SetBrushColorRGB([3]float32{r, g, b})
 }
 
+// GetPenColor returns the current pen color as an RGB float32 array.
+// The returned array contains three float32 values representing the
+// red, green, and blue components of the pen color, each in the range
+// [0.0, 1.0].
+//
+// @return: A [3]float32 array representing the pen color in RGB format.
+//
+//	The array contains values in the range [0.0, 1.0] corresponding to
+//	the red, green, and blue color components.
 func (page *Page) GetPenColor() [3]float32 {
 	return page.penColor
 }
 
-// GetBrushColor returns the brushColor color.
-// @return the brushColor color.
+// GetBrushColor returns the current brush color as an RGB float32 array.
+// The returned array contains three float32 values representing the
+// red, green, and blue components of the brush color, each in the range
+// [0.0, 1.0].
+//
+// @return: A [3]float32 array representing the brush color in RGB format.
+//
+//	The array contains values in the range [0.0, 1.0] corresponding to
+//	the red, green, and blue color components.
 func (page *Page) GetBrushColor() [3]float32 {
 	return page.brushColor
 }
