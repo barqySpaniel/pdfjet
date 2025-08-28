@@ -30,16 +30,17 @@ import Foundation
 ///  @author Mark Paxton
 ///
 public class OptionalContentGroup {
+    var pdf: PDF
     var name: String?
-    var ocgNumber = 0
     var objNumber = 0
+    var ocgNumber = -1
     var visible: Bool?
     var printable: Bool?
     var exportable: Bool?
-
     private var components = [Drawable]()
 
-    public init(_ name: String) {
+    public init(_ pdf: PDF, _ name: String) {
+        self.pdf = pdf
         self.name = name
     }
 
@@ -60,35 +61,38 @@ public class OptionalContentGroup {
     }
 
     public func drawOn(_ page: Page) {
-        if !components.isEmpty {
-            page.pdf.groups.append(self)
-            ocgNumber = page.pdf.groups.count
-
-            page.pdf.newobj()
-            page.pdf.append(Token.beginDictionary)
-            page.pdf.append("/Type /OCG\n")
-            page.pdf.append("/Name (" + name! + ")\n")
-            page.pdf.append("/Usage <<\n")
+        if ocgNumber != -1 {
+            pdf.newobj()
+            pdf.append(Token.beginDictionary)
+            pdf.append("/Type /OCG\n")
+            pdf.append("/Name (" + name! + ")\n")
+            pdf.append("/Usage <<\n")
             if visible != nil {
-                page.pdf.append("/View << /ViewState /ON >>\n")
+                pdf.append("/View << /ViewState /ON >>\n")
             } else {
-                page.pdf.append("/View << /ViewState /OFF >>\n")
+                pdf.append("/View << /ViewState /OFF >>\n")
             }
             if printable != nil {
-                page.pdf.append("/Print << /PrintState /ON >>\n")
+                pdf.append("/Print << /PrintState /ON >>\n")
             } else {
-                page.pdf.append("/Print << /PrintState /OFF >>\n")
+                pdf.append("/Print << /PrintState /OFF >>\n")
             }
             if exportable != nil {
-                page.pdf.append("/Export << /ExportState /ON >>\n")
+                pdf.append("/Export << /ExportState /ON >>\n")
             } else {
-                page.pdf.append("/Export << /ExportState /OFF >>\n")
+                pdf.append("/Export << /ExportState /OFF >>\n")
             }
-            page.pdf.append(Token.endDictionary)
-            page.pdf.append(Token.endDictionary)
-            page.pdf.endobj()
+            pdf.append(">>\n")
+            pdf.append(Token.endDictionary)
+            pdf.endobj()
 
-            objNumber = page.pdf.getObjNumber()
+            objNumber = pdf.getObjNumber()
+
+            pdf.groups.append(self)
+            ocgNumber = pdf.groups.count
+        }
+
+        if components.count > 0 {
             page.append("/OC /OC")
             page.append(ocgNumber)
             page.append(" BDC\n")
