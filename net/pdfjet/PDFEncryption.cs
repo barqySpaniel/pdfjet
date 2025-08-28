@@ -113,6 +113,11 @@ public class PDFEncryption {
         // Calculate the size of K1 *once*, outside the loop
         int k1Size;
         if (isOwnerPassword) {
+            // Add a validation check for the user key
+            if (userKey == null || userKey.Length != 48) {
+                throw new ArgumentException(
+                    "User key must be provided and be 48 bytes long for owner password verification.", nameof(userKey));
+            }
             k1Size = 64 * (inputPassword.Length + K.Length + userKey.Length);
         } else {
             k1Size = 64 * (inputPassword.Length + K.Length);
