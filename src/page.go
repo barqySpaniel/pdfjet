@@ -555,7 +555,7 @@ func (page *Page) SetPenColorRGB(rgbColor [3]float32) {
 	page.appendString(" RG\n")
 }
 
-// GetPenColor returns the current pen color as an RGB float32 array.
+// GetPenColorRGB returns the current pen color as an RGB float32 array.
 // The returned array contains three float32 values representing the
 // red, green, and blue components of the pen color, each in the range
 // [0.0, 1.0].
@@ -564,7 +564,7 @@ func (page *Page) SetPenColorRGB(rgbColor [3]float32) {
 //
 //	The array contains values in the range [0.0, 1.0] corresponding to
 //	the red, green, and blue color components.
-func (page *Page) GetPenColor() [3]float32 {
+func (page *Page) GetPenColorRGB() [3]float32 {
 	return page.penColor
 }
 

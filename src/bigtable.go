@@ -154,7 +154,7 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 		bt.highlight = true
 	}
 
-	original := bt.page.GetPenColor()
+	original := bt.page.GetPenColorRGB()
 	bt.page.SetPenColor(bt.penColor)
 	bt.page.MoveTo(bt.vertLines[0], bt.yText-font.ascent)
 	bt.page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-font.ascent)
@@ -196,7 +196,7 @@ func (bt *BigTable) highlightRow(page *Page, font *Font, color int32) {
 
 func (bt *BigTable) drawTheVerticalLines() {
 	// bt.page.AddArtifactBMC()
-	original := bt.page.GetPenColor()
+	original := bt.page.GetPenColorRGB()
 	bt.page.SetPenColor(bt.penColor)
 	for i := 0; i <= bt.numberOfColumns; i++ {
 		bt.page.DrawLine(
