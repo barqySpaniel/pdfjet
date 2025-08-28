@@ -29,6 +29,12 @@ public class PDFEncryption {
         byte[] userPassBytes = PadPassword(userPassword);
         byte[] ownerPassBytes = PadPassword(ownerPassword);
 
+        // === Generate a random 256-bit (32-byte) file encryption key ===
+        this.key = new byte[32]; // 32 bytes for AES-256
+        using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
+            rng.GetBytes(this.key); // Fills the array with cryptographically strong random bytes
+        }
+
         // === Generate random IV (AES block size = 128-bit) ===
         this.iv = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
