@@ -150,41 +150,24 @@ public class PDFEncryption {
                 Array.Copy(K, 16, tempIV, 0, 16);
                 E = EncryptAlgorithmStep2B(K1, tempKey, tempIV);
 
-                // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
+                // --- Steps (c) & (d): Common to all rounds ---
+                // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
+                // d) Using the hash algorithm determined in step c, take the hash of E.
+                using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
+                    K = hashAlgo.ComputeHash(E);
+                }
+
+                // --- Steps (e) & (f): The Termination Check (For rounds 64+ only) ---
+                // Following 64 rounds (round number 0 to round number 63),
+                // do the following, starting with round number 64:
                 if (round >= 64) {
-                    // Step (e): Check the last byte of E
-                    byte lastByte = E[E.Length - 1];
-                    continueProcessing = (lastByte > (round - 32));
-
-                    // If we need to continue, calculate the new K for the next round
-                    if (continueProcessing) {
-                        // Step (c): Determine next hash algorithm from E
-                        using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
-                            // Step (d): Compute new K value by hashing E
-                            K = hashAlgo.ComputeHash(E);
-                        }
-                    }
-                } else {
-                    // --- Steps (c) & (d) for rounds 0-63 ---
-                    // For the first 64 rounds, we always calculate the new K
-                    // c) Taking the first 16 bytes of E as an unsigned big-endian integer,
-                    //    compute the remainder, modulo 3.
-                    //    If the result is 0, the next hash used is SHA-256,
-                    //    if the result is 1, the next hash used is SHA-384,
-                    //    if the result is 2, the next hash used is SHA-512.
-                    using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
-                        // d) Using the hash algorithm determined in step c, take the hash of E.
-                        //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
-                        K = hashAlgo.ComputeHash(E);
-                    }
-                    // Repeat the process (a-d) with this new value for K.
-                    // Following 64 rounds (round number 0 to round number 63),
-                    // do the following, starting with round number 64:
-
                     // e) Look at the very last byte of E.
                     //    If the value of that byte (taken as an unsigned integer)
                     //    is greater than the round number - 32, repeat steps (a-d) again.
+                    byte lastByte = E[E.Length - 1];
+                    continueProcessing = (lastByte > (round - 32));
                 }
+                // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
 
                 round++; // Increment the round counter
             }
