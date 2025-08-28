@@ -107,7 +107,10 @@ public class PDFEncryption {
         return objNumber;
     }
 
-    private byte[] ComputeHashValue(byte[] inputPassword, bool isOwnerPassword, byte[] userKey) {
+    private byte[] ComputeHashValue(
+            byte[] inputPassword,
+            bool isOwnerPassword,
+            byte[] userPasswordValidationHash) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         int round = 0;
         bool continueProcessing = true;
@@ -116,11 +119,12 @@ public class PDFEncryption {
         int k1Size;
         if (isOwnerPassword) {
             // Add a validation check for the user key
-            if (userKey == null || userKey.Length != 48) {
+            if (userPasswordValidationHash == null || userPasswordValidationHash.Length != 48) {
                 throw new ArgumentException(
-                    "User key must be provided and be 48 bytes long for owner password verification.", nameof(userKey));
+                    "User key must be provided and be 48 bytes long for owner password verification.",
+                    nameof(userPasswordValidationHash));
             }
-            k1Size = 64 * (inputPassword.Length + K.Length + userKey.Length);
+            k1Size = 64 * (inputPassword.Length + K.Length + userPasswordValidationHash.Length);
         } else {
             k1Size = 64 * (inputPassword.Length + K.Length);
         }
@@ -139,7 +143,7 @@ public class PDFEncryption {
                     if (isOwnerPassword) {
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
-                        stream.Write(userKey, 0, userKey.Length);   // The 48-byte user key
+                        stream.Write(userPasswordValidationHash, 0, userPasswordValidationHash.Length); // 48-bytes
                     } else {    // user password
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
