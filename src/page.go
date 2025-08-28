@@ -524,7 +524,12 @@ func (page *Page) SetPenColorWithFloat32Array(rgbColor [3]float32) {
 	page.penColor = rgbColor
 
 	// Proceed with setting the color (example)
-	page.SetPenColorRGB(rgbColor[0], rgbColor[1], rgbColor[2])
+	page.appendFloat32(rgbColor[0])
+	page.appendString(" ")
+	page.appendFloat32(rgbColor[1])
+	page.appendString(" ")
+	page.appendFloat32(rgbColor[2])
+	page.appendString(" RG\n")
 }
 
 // SetPenColorCMYK sets the color for stroking operations using CMYK.
@@ -575,7 +580,12 @@ func (page *Page) SetBrushColorWithFloat32Array(rgbColor [3]float32) {
 	page.brushColor = rgbColor
 
 	// Proceed with setting the color (example)
-	page.SetBrushColorRGB(rgbColor[0], rgbColor[1], rgbColor[2])
+	page.appendFloat32(rgbColor[0])
+	page.appendString(" ")
+	page.appendFloat32(rgbColor[1])
+	page.appendString(" ")
+	page.appendFloat32(rgbColor[2])
+	page.appendString(" rg\n")
 }
 
 // SetBrushColorRGB sets the color for brushColor operations.
