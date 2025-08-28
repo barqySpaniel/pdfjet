@@ -57,8 +57,8 @@ final public class Page {
     float[] bleedBox = null;
     float[] trimBox = null;
     float[] artBox = null;
-    private float[] pen = {0f, 0f, 0f};
-    private float[] brush = {0f, 0f, 0f};
+    private float[] penColor = {0f, 0f, 0f};
+    private float[] brushColor = {0f, 0f, 0f};
     private float penWidth = 0f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
@@ -699,9 +699,13 @@ final public class Page {
      *
      * @param color the color.
      */
-    public void setBrushColor(float[] color) {
-        setBrushColor(color[0], color[1], color[2]);
+    public void setBrushColor(float[] rgbColor) {
+        if (rgbColor != null) {
+            brushColor = rgbColor;
+        }
+        setBrushColor(rgbColor[0], rgbColor[1], rgbColor[2]);
     }
+
 
     /**
      * Returns the brush color.
@@ -709,7 +713,7 @@ final public class Page {
      * @return the brush color.
      */
     public float[] getBrushColor() {
-        return brush;
+        return brushColor;
     }
 
     /**
@@ -724,12 +728,15 @@ final public class Page {
         setPenColor(r, g, b);
     }
 
-    public void setPenColor(float[] color) {
-        setPenColor(color[0], color[1], color[2]);
+    public void setPenColor(float[] rgbColor) {
+        if (rgbColor != null) {
+            penColor = rgbColor;
+        }
+        setPenColor(rgbColor[0], rgbColor[1], rgbColor[2]);
     }
 
     public float[] getPenColor() {
-        return pen;
+        return penColor;
     }
 
     /**
@@ -1503,7 +1510,7 @@ final public class Page {
     public void save() {
         append("q\n");
         savedStates.add(new State(
-                pen, brush, penWidth, lineCapStyle, lineJoinStyle, linePattern));
+                penColor, brushColor, penWidth, lineCapStyle, lineJoinStyle, linePattern));
         savedHeight = height;
     }
 
@@ -1511,8 +1518,8 @@ final public class Page {
         append("Q\n");
         if (savedStates.size() > 0) {
             State savedState = savedStates.remove(savedStates.size() - 1);
-            pen = savedState.getPen();
-            brush = savedState.getBrush();
+            penColor = savedState.getPen();
+            brushColor = savedState.getBrush();
             penWidth = savedState.getPenWidth();
             lineCapStyle = savedState.getLineCapStyle();
             lineJoinStyle = savedState.getLineJoinStyle();

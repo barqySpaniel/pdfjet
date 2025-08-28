@@ -5,7 +5,7 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/color"
-	"github.com/edragoev1/pdfjet/src/corefont"
+	"github.com/edragoev1/pdfjet/src/font"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -14,7 +14,8 @@ import (
 func Example30() {
 	pdf := pdfjet.NewPDFFile("Example_30.pdf")
 
-	font := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
+	// font := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
+	f1 := pdfjet.NewFontFromFile(pdf, font.IBMPlexSans.Regular)
 
 	image1 := pdfjet.NewImageFromFile(pdf, "images/map407.png")
 	image1.SetLocation(10.0, 100.0)
@@ -25,14 +26,14 @@ func Example30() {
 	// Create the first page after all the resources have been added to the PDF.
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
-	textLine := pdfjet.NewTextLine(font, "© OpenStreetMap contributors")
+	textLine := pdfjet.NewTextLine(f1, "© OpenStreetMap contributors")
 	textLine.SetLocation(10.0, 655.0)
 	xy := textLine.DrawOn(page)
 
 	uri := "http://www.openstreetmap.org/copyright"
-	textLine = pdfjet.NewTextLine(font, "http://www.openstreetmap.org/copyright")
+	textLine = pdfjet.NewTextLine(f1, "http://www.openstreetmap.org/copyright")
 	textLine.SetURIAction(&uri)
-	textLine.SetLocation(10.0, xy[1]+font.GetHeight())
+	textLine.SetLocation(10.0, xy[1]+f1.GetHeight())
 	textLine.DrawOn(page)
 
 	group := pdfjet.NewOptionalContentGroup(pdf, "map")
@@ -41,8 +42,8 @@ func Example30() {
 	// group.SetPrintable(true)
 	group.DrawOn(page)
 
-	textBox := pdfjet.NewTextBox(font)
-	textBox.SetText("Hello Blue Layer Text")
+	textBox := pdfjet.NewTextBox(f1)
+	textBox.SetText("Blue Layer Text")
 	textBox.SetLocation(350.0, 130.0)
 
 	line := pdfjet.NewLine(350.0, 150.0, 550.0, 150.0)

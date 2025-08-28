@@ -422,7 +422,14 @@ func (textLine *TextLine) DrawOn(page *Page) []float32 {
 
 	page.SetBrushColor(textLine.color)
 	page.AddBMC(textLine.structureType, textLine.language, textLine.actualText, textLine.altDescription)
-	page.DrawStringUsingColorMap(textLine.font, textLine.fallbackFont, textLine.text, textLine.x, textLine.y, textLine.color, textLine.colorMap)
+	page.DrawStringUsingColorMap(
+		textLine.font,
+		textLine.fallbackFont,
+		textLine.text,
+		textLine.x,
+		textLine.y,
+		textLine.color,
+		textLine.colorMap)
 	page.AddEMC()
 
 	radians := float64(math.Pi) * float64(textLine.degrees) / float64(180.0)
