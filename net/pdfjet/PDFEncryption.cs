@@ -135,7 +135,7 @@ public class PDFEncryption {
                 //    If checking the user password or creating the user key,
                 //    K1 is the concatenation of the input password and K.
                 stream.Position = 0; // Reset the stream
-                for (int j = 0; j < 64; j++) {
+                for (int i = 0; i < 64; i++) {
                     if (isOwnerPassword) {
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
