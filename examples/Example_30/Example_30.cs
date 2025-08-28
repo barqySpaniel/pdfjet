@@ -12,8 +12,8 @@ public class Example_30 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_30.pdf", FileMode.Create)));
 
-        Font font = new Font(pdf, CoreFont.HELVETICA);
-        font.SetSize(12f);
+        Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
 
         Image image1 = new Image(pdf, "images/map407.png");
         image1.SetLocation(10f, 100f);
@@ -23,47 +23,48 @@ public class Example_30 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        TextLine textLine = new TextLine(font);
+        TextLine textLine = new TextLine(f2);
+        textLine.SetFontSize(10f);
         textLine.SetText("© OpenStreetMap contributors");
-        textLine.SetLocation(430f, 655f);
+        textLine.SetLocation(10f, 655f);
         float[] xy = textLine.DrawOn(page);
 
-        textLine = new TextLine(font);
+        textLine = new TextLine(f2);
+        textLine.SetFontSize(10f);
         textLine.SetText("http://www.openstreetmap.org/copyright");
         textLine.SetURIAction("http://www.openstreetmap.org/copyright");
-        textLine.SetLocation(380f, xy[1] + font.GetBodyHeight(font.GetSize()));
+        textLine.SetLocation(10f, xy[1] + f2.GetBodyHeight(f2.GetSize()));
         textLine.DrawOn(page);
 
-        OptionalContentGroup group = new OptionalContentGroup(pdf, "map");
+        OptionalContentGroup group = new OptionalContentGroup(pdf, "Open Street Map");
         group.Add(image1);
+        group.SetVisible(true);
+        group.SetPrintable(true);
         group.DrawOn(page);
 
-        TextBox textBox = new TextBox(font);
-        textBox.SetText("Hello Blue Layer Text");
-        textBox.SetLocation(300f, 200f);
+        TextBox textBox = new TextBox(f1);
+        textLine.SetFontSize(14f);
+        textBox.SetText("Blue Layer Text");
+        textBox.SetLocation(350f, 130f);
 
         Line line = new Line();
-        line.SetPointA(300f, 250f);
-        line.SetPointB(500f, 250f);
+        line.SetPointA(350f, 150f);
+        line.SetPointB(550f, 150f);
         line.SetWidth(2f);
         line.SetColor(Color.blue);
 
-        group = new OptionalContentGroup(pdf, "blue");
+        group = new OptionalContentGroup(pdf, "Blue Layer");
         group.Add(textBox);
         group.Add(line);
         group.DrawOn(page);
 
         line = new Line();
-        line.SetPointA(300f, 260f);
-        line.SetPointB(500f, 260f);
+        line.SetPointA(350f, 160f);
+        line.SetPointB(550f, 160f);
         line.SetWidth(2f);
         line.SetColor(Color.red);
 
-        InitialState state = new InitialState()
-            .SetVisible(true)
-            .SetPrintable(false)
-            .SetExportable(false);
-        group = new OptionalContentGroup(pdf, "barcode", state);
+        group = new OptionalContentGroup(pdf, "Barcode");
         group.Add(image2);
         group.Add(line);
         group.DrawOn(page);

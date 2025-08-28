@@ -34,10 +34,11 @@ public class Example_30 {
         OptionalContentGroup group = new OptionalContentGroup(pdf, "Map");
         group.add(image1);
         group.setVisible(true);
+        group.setPrintable(true);
         group.drawOn(page);
 
         TextBox textBox = new TextBox(font);
-        textBox.setText("Hello Blue Layer Text");
+        textBox.setText("Blue Layer Text");
         textBox.setLocation(300f, 200f);
 
         Line line = new Line();
