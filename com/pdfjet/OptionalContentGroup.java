@@ -37,7 +37,7 @@ public class OptionalContentGroup {
 
     private PDF pdf;
     private String name;
-    private int ocgNumber = -1;
+    private int ocgNumber;
     private List<Drawable> components;
 
     /**
@@ -98,7 +98,7 @@ public class OptionalContentGroup {
      * @param drawable the drawable object
      */
     public void add(Drawable drawable) {
-        if (ocgNumber == -1) {
+        if (components.size() == 0) {
             pdf.groups.add(this);
             ocgNumber = pdf.groups.size();
         }
@@ -112,7 +112,7 @@ public class OptionalContentGroup {
      * @throws Exception if there is a problem
      */
     public void drawOn(Page page) throws Exception {
-        if (ocgNumber != -1) {
+        if (components.size() > 0) {
             page.append("/OC /OC");
             page.append(ocgNumber);
             page.append(" BDC\n");

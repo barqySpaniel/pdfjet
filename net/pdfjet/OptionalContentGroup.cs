@@ -36,7 +36,7 @@ public class OptionalContentGroup {
 
     private PDF pdf;
     private String name;
-    private int ocgNumber = -1;
+    private int ocgNumber;
     private List<IDrawable> components;
 
     public OptionalContentGroup(PDF pdf, String name) :
@@ -79,7 +79,7 @@ public class OptionalContentGroup {
     }
 
     public void Add(IDrawable drawable) {
-        if (ocgNumber == -1) {
+        if (components.Count == 0) {
             pdf.groups.Add(this);
             this.ocgNumber = pdf.groups.Count;
         }
@@ -87,7 +87,7 @@ public class OptionalContentGroup {
     }
 
     public void DrawOn(Page page) {
-        if (ocgNumber != -1) {
+        if (components.Count > 0) {
             page.Append("/OC /OC");
             page.Append(ocgNumber);
             page.Append(" BDC\n");
