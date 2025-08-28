@@ -109,6 +109,7 @@ public class PDFEncryption {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         byte[] K = HashPassword(inputPassword);
         byte[] K1;
+        byte[] E;
         using (MemoryStream stream = new MemoryStream()) {
             // Perform the following steps (a)-(d) 64 times:
             for (int i = 0; i < 64; i++) {
@@ -138,16 +139,18 @@ public class PDFEncryption {
                 Array.Copy(K, 0, tempKey, 0, 16);
                 byte[] tempIV = new byte[16];
                 Array.Copy(K, 16, tempIV, 0, 16);
-                byte[] E = EncryptAlgorithmStep2B(K1, tempKey, tempIV);
+                E = EncryptAlgorithmStep2B(K1, tempKey, tempIV);
 
                 // c) Taking the first 16 bytes of E as an unsigned big-endian integer,
                 //    compute the remainder, modulo 3.
                 //    If the result is 0, the next hash used is SHA-256,
                 //    if the result is 1, the next hash used is SHA-384,
                 //    if the result is 2, the next hash used is SHA-512.
-
-                // d) Using the hash algorithm determined in step c, take the hash of E.
-                //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
+                using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
+                    // d) Using the hash algorithm determined in step c, take the hash of E.
+                    //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
+                    K = hashAlgo.ComputeHash(E);
+                }
             }
 
             // Repeat the process (a-d) with this new value for K.
