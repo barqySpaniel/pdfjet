@@ -55,9 +55,8 @@ public class Page {
     var artBox: [Float]?
     var structures = [StructElem]()
 
-    private var pen: [Float] = [0.0, 0.0, 0.0]
-    private var brush: [Float] = [0.0, 0.0, 0.0]
-
+    private var penColor: [Float] = [0.0, 0.0, 0.0]
+    private var brushColor: [Float] = [0.0, 0.0, 0.0]
     private var penCMYK: [Float] = [0.0, 0.0, 0.0, 1.0]
     private var brushCMYK: [Float] = [0.0, 0.0, 0.0, 1.0]
 
@@ -328,7 +327,7 @@ public class Page {
             _ text: String?,
             _ x: Float,
             _ y: Float,
-            _ brush: Int32,
+            _ textColor: Int32,
             _ colors: [String : Int32]?) {
         if text == nil || text! == "" {
             return
@@ -370,7 +369,7 @@ public class Page {
         append(" Tm\n")
 
         if (colors == nil) {
-            setBrushColor(brush)
+            setBrushColor(textColor)
             if font.isCoreFont {
                 append("[<")
                 drawASCIIString(font, text!)
@@ -381,7 +380,7 @@ public class Page {
                 append("> Tj\n")
             }
         } else {
-            drawColoredString(font, text!, brush, colors!)
+            drawColoredString(font, text!, textColor, colors!)
         }
         append(Token.endText)
     }
@@ -530,23 +529,23 @@ public class Page {
     /// - Parameter b the blue component is Float value from 0.0 to 1.0.
     ///
     public final func setPenColor(_ r: Float, _ g: Float, _ b: Float) {
-        if pen[0] != r || pen[1] != g || pen[2] != b {
-            setColor(r, g, b)
-            append(" RG\n")
-            pen[0] = r
-            pen[1] = g
-            pen[2] = b
-        }
+        append(r)
+        append(Token.space)
+        append(g)
+        append(Token.space)
+        append(b)
+        append(" RG\n")
     }
 
-    public final func setPenColor(_ color: [Float]) {
-        pen[0] = color[0]
-        pen[1] = color[1]
-        pen[2] = color[2]
+    public final func setPenColor(_ rgbColor: [Float]) {
+        // if rgbColor != nil {
+            penColor = rgbColor
+            setPenColor(rgbColor[0], rgbColor[1], rgbColor[2])
+        // }
     }
 
     public final func getPenColor() -> [Float] {
-        return pen
+        return penColor
     }
 
     ///
@@ -559,14 +558,14 @@ public class Page {
     /// - Parameter k the black component is Float value from 0.0 to 1.0.
     ///
     public final func setPenColorCMYK(_ c: Float, _ m: Float, _ y: Float, _ k: Float) {
-        if penCMYK[0] != c || penCMYK[1] != m || penCMYK[2] != y || penCMYK[3] != k {
-            setColorCMYK(c, m, y, k)
-            append(" K\n")
-            penCMYK[0] = c
-            penCMYK[1] = m
-            penCMYK[2] = y
-            penCMYK[3] = k
-        }
+        append(c)
+        append(Token.space)
+        append(m)
+        append(Token.space)
+        append(y)
+        append(Token.space)
+        append(k)
+        append(" K\n")
     }
 
     ///
@@ -578,13 +577,12 @@ public class Page {
     /// - Parameter b the blue component is Float value from 0.0 to 1.0.
     ///
     public final func setBrushColor(_ r: Float, _ g: Float, _ b: Float) {
-        if brush[0] != r || brush[1] != g || brush[2] != b {
-            setColor(r, g, b)
-            append(" rg\n")
-            brush[0] = r
-            brush[1] = g
-            brush[2] = b
-        }
+        append(r)
+        append(Token.space)
+        append(g)
+        append(Token.space)
+        append(b)
+        append(" rg\n")
     }
 
     ///
@@ -597,14 +595,14 @@ public class Page {
     /// - Parameter k the black component is Float value from 0.0 to 1.0.
     ///
     public final func setBrushColorCMYK(_ c: Float, _ m: Float, _ y: Float, _ k: Float) {
-        if brushCMYK[0] != c || brushCMYK[1] != m || brushCMYK[2] != y || brushCMYK[3] != k {
-            setColorCMYK(c, m, y, k)
-            append(" k\n")
-            brushCMYK[0] = c
-            brushCMYK[1] = m
-            brushCMYK[2] = y
-            brushCMYK[3] = k
-        }
+        append(c)
+        append(Token.space)
+        append(m)
+        append(Token.space)
+        append(y)
+        append(Token.space)
+        append(k)
+        append(" k\n")
     }
 
     ///
@@ -613,8 +611,8 @@ public class Page {
     /// - Parameter color the color.
     /// @throws IOException
     ///
-    public func setBrushColor(_ color: [Float]) {
-        setBrushColor(color[0], color[1], color[2])
+    public func setBrushColor(_ rgbColor: [Float]) {
+        setBrushColor(rgbColor[0], rgbColor[1], rgbColor[2])
     }
 
     ///
@@ -623,25 +621,7 @@ public class Page {
     /// - Returns: the brush color.
     ///
     public func getBrushColor() -> [Float] {
-        return brush
-    }
-
-    private func setColor(_ r: Float, _ g: Float, _ b: Float) {
-        append(r)
-        append(Token.space)
-        append(g)
-        append(Token.space)
-        append(b)
-    }
-
-    private func setColorCMYK(_ c: Float, _ m: Float, _ y: Float, _ k: Float) {
-        append(c)
-        append(Token.space)
-        append(m)
-        append(Token.space)
-        append(y)
-        append(Token.space)
-        append(k)
+        return brushColor
     }
 
     ///
@@ -719,9 +699,11 @@ public class Page {
     /// Sets the default line dash pattern - solid line.
     ///
     public func setDefaultLinePattern() {
-        self.linePattern = "[] 0"
-        append(self.linePattern)
-        append(" d\n")
+        if self.linePattern != "[] 0" {
+            self.linePattern = "[] 0"
+            append(self.linePattern)
+            append(" d\n")
+        }
     }
 
     ///
@@ -1341,8 +1323,8 @@ public class Page {
     public func save() {
         append("q\n")
         savedStates.append(State(
-                self.pen,
-                self.brush,
+                self.penColor,
+                self.brushColor,
                 self.penWidth,
                 self.lineCapStyle,
                 self.lineJoinStyle,
@@ -1353,8 +1335,8 @@ public class Page {
         append("Q\n")
         if savedStates.count > 0 {
             let savedState = savedStates.remove(at: savedStates.count - 1)
-            self.pen = savedState.getPen()
-            self.brush = savedState.getBrush()
+            self.penColor = savedState.getPen()
+            self.brushColor = savedState.getBrush()
             self.penWidth = savedState.getPenWidth()
             self.lineCapStyle = savedState.getLineCapStyle()
             self.lineJoinStyle = savedState.getLineJoinStyle()
