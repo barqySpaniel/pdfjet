@@ -87,13 +87,13 @@ func (path *Path) SetPattern(pattern string) {
 	path.pattern = pattern
 }
 
-// SetWidth sets the pen width that will be used to draw the lines and splines that are part of this path.
-// @param width the pen width.
+// SetWidth sets the penColor width that will be used to draw the lines and splines that are part of this path.
+// @param width the penColor width.
 func (path *Path) SetWidth(width float32) {
 	path.width = width
 }
 
-// SetColor sets the pen color that will be used to draw this path.
+// SetColor sets the penColor color that will be used to draw this path.
 // @param color the color is specified as an integer.
 func (path *Path) SetColor(color int32) {
 	path.color = color
@@ -105,7 +105,7 @@ func (path *Path) SetClosePath(closePath bool) {
 	path.closePath = closePath
 }
 
-// SetFillShape sets the fillShape private variable. If fillShape is true - the shape of the path will be filled with the current brush color.
+// SetFillShape sets the fillShape private variable. If fillShape is true - the shape of the path will be filled with the current brushColor color.
 // @param fillShape the fillShape flag.
 func (path *Path) SetFillShape(fillShape bool) {
 	path.fillShape = fillShape
@@ -162,7 +162,7 @@ func (path *Path) ScaleBy(factor float32) {
 	}
 }
 
-// DrawOn draws this path on the page using the current selected color, pen width, line pattern and line join style.
+// DrawOn draws this path on the page using the current selected color, penColor width, line pattern and line join style.
 // @param page the page to draw this path on.
 // @return x and y coordinates of the bottom right corner of this component.
 func (path *Path) DrawOn(page *Page) []float32 {

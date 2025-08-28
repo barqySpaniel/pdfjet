@@ -164,7 +164,7 @@ func (rect *Rect) SetPattern(pattern string) {
 }
 
 // SetFillShape sets the private fillShape variable.
-// If the value of fillShape is true - the rect is filled with the current brush color.
+// If the value of fillShape is true - the rect is filled with the current brushColor color.
 // @param fillShape the value used to set the private fillShape variable.
 func (rect *Rect) SetFillShape(fillShape bool) {
 	rect.fillShape = fillShape

@@ -180,7 +180,7 @@ func (textBlock *TextBlock) SetBorderWidth(borderWidth float32) {
 	textBlock.borderWidth = borderWidth
 }
 
-// Sets the pen color.
+// Sets the penColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBlock *TextBlock) SetBorderColor(borderColor int32) {
 	textBlock.borderColor = borderColor
@@ -192,7 +192,7 @@ func (textBlock *TextBlock) SetTextLineHeight(lineSpacing float32) {
 	textBlock.lineSpacing = lineSpacing
 }
 
-// Sets the brush color.
+// Sets the brushColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBlock *TextBlock) SetTextColor(textColor int32) {
 	textBlock.textColor = textColor
@@ -203,7 +203,7 @@ func (textBlock *TextBlock) SetHighlightColors(keywordHighlightColors map[string
 	textBlock.keywordHighlightColors = keywordHighlightColors
 }
 
-// Sets the brush color.
+// Sets the brushColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBlock *TextBlock) SetTextAlignment(textAlignment int) {
 	textBlock.textAlignment = textAlignment

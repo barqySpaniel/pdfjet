@@ -167,7 +167,7 @@ func (point *Point) GetShape() int {
 }
 
 // SetFillShape sets the private fillShape variable.
-// @param fillShape if true - fill the point with the specified brush color.
+// @param fillShape if true - fill the point with the specified brushColor color.
 func (point *Point) SetFillShape(fillShape bool) {
 	point.fillShape = fillShape
 }
@@ -178,7 +178,7 @@ func (point *Point) GetFillShape() bool {
 	return point.fillShape
 }
 
-// SetColor sets the pen color for this point.
+// SetColor sets the penColor color for this point.
 // @param color the color specified as an integer.
 func (point *Point) SetColor(color int32) *Point {
 	point.color = color

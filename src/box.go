@@ -170,7 +170,7 @@ func (box *Box) SetPattern(pattern string) {
 }
 
 // SetFillShape sets the private fillShape variable.
-// If the value of fillShape is true - the box is filled with the current brush color.
+// If the value of fillShape is true - the box is filled with the current brushColor color.
 // @param fillShape the value used to set the private fillShape variable.
 func (box *Box) SetFillShape(fillShape bool) {
 	box.fillShape = fillShape

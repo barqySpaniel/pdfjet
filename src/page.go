@@ -73,8 +73,8 @@ type Page struct {
 	trimBox       []float32
 	artBox        []float32
 	structures    []*StructElem
-	pen           [3]float32
-	brush         [3]float32
+	penColor      [3]float32
+	brushColor    [3]float32
 	penCMYK       [4]float32
 	brushCMYK     [4]float32
 	penWidth      float32
@@ -253,7 +253,7 @@ func (page *Page) DrawString(font1 *Font, font2 *Font, text string, x, y float32
 }
 
 // DrawStringUsingColorMap draws the text given by the specified string,
-// using the specified main font and the current brush color.
+// using the specified main font and the current brushColor color.
 // If the main font is missing some glyphs - the fallback font is used.
 // The baseline of the leftmost character is at position (x, y) on the page.
 func (page *Page) DrawStringUsingColorMap(
@@ -282,7 +282,7 @@ func (page *Page) DrawStringUsingColorMap(
 }
 
 // drawString draws the text given by the specified string,
-// using the specified font and the current brush color.
+// using the specified font and the current brushColor color.
 // The baseline of the leftmost character is at position (x, y) on the page.
 //
 // @param font the font to use.
@@ -497,7 +497,7 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 }
 
 // SetPenColorRGB sets the color for stroking operations.
-// The pen color is used when drawing lines and splines.
+// The penColor color is used when drawing lines and splines.
 //
 // @param r the red component is float value from 0.0 to 1.0.
 // @param g the green component is float value from 0.0 to 1.0.
@@ -511,12 +511,24 @@ func (page *Page) SetPenColorRGB(r, g, b float32) {
 	page.appendString(" RG\n")
 }
 
-func (page *Page) SetPenColorWithFloat32Array(rgb [3]float32) {
-	page.SetPenColorRGB(rgb[0], rgb[1], rgb[2])
+func (page *Page) SetPenColorWithFloat32Array(rgbColor [3]float32) {
+	// Your exact code for range check
+	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
+		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
+		rgbColor[2] < 0.0 || rgbColor[2] > 1.0 {
+		fmt.Println("Warning: RGB color values must be between 0f and 1f. Ignoring request.")
+		return // Early exit if out of range
+	}
+
+	// Now set the penColor color
+	page.penColor = rgbColor
+
+	// Proceed with setting the color (example)
+	page.SetPenColorRGB(rgbColor[0], rgbColor[1], rgbColor[2])
 }
 
 // SetPenColorCMYK sets the color for stroking operations using CMYK.
-// The pen color is used when drawing lines and splines.
+// The penColor color is used when drawing lines and splines.
 //
 // @param c the cyan component is float value from 0.0 to 1.0.
 // @param m the magenta component is float value from 0.0 to 1.0.
@@ -533,7 +545,7 @@ func (page *Page) SetPenColorCMYK(c, m, y, k float32) {
 	page.appendString(" K\n")
 }
 
-// SetBrushColorCMYK sets the color for brush operations using CMYK.
+// SetBrushColorCMYK sets the color for brushColor operations using CMYK.
 // This is the color used when drawing regular text and filling shapes.
 // @param c the cyan component is float value from 0.0 to 1.0.
 // @param m the magenta component is float value from 0.0 to 1.0.
@@ -554,7 +566,7 @@ func (page *Page) SetBrushColorWithFloat32Array(rgb [3]float32) {
 	page.SetPenColorRGB(rgb[0], rgb[1], rgb[2])
 }
 
-// SetBrushColorRGB sets the color for brush operations.
+// SetBrushColorRGB sets the color for brushColor operations.
 // This is the color used when drawing regular text and filling shapes.
 // @param r the red component is float value from 0.0 to 1.0.
 // @param g the green component is float value from 0.0 to 1.0.
@@ -568,7 +580,7 @@ func (page *Page) SetBrushColorRGB(r, g, b float32) {
 	page.appendString(" rg\n")
 }
 
-// SetPenColor sets the pen color.
+// SetPenColor sets the penColor color.
 // See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
 func (page *Page) SetPenColor(color int32) {
 	r := float32(((color >> 16) & 0xff)) / 255.0
@@ -577,7 +589,7 @@ func (page *Page) SetPenColor(color int32) {
 	page.SetPenColorRGB(r, g, b)
 }
 
-// SetBrushColor sets the brush color.
+// SetBrushColor sets the brushColor color.
 // See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
 func (page *Page) SetBrushColor(color int32) {
 	r := float32(((color >> 16) & 0xff)) / 255.0
@@ -587,13 +599,13 @@ func (page *Page) SetBrushColor(color int32) {
 }
 
 func (page *Page) GetPenColor() [3]float32 {
-	return page.pen
+	return page.penColor
 }
 
-// GetBrushColor returns the brush color.
-// @return the brush color.
+// GetBrushColor returns the brushColor color.
+// @return the brushColor color.
 func (page *Page) GetBrushColor() [3]float32 {
-	return page.brush
+	return page.brushColor
 }
 
 // SetDefaultLineWidth sets the line width to the default.
@@ -640,7 +652,7 @@ func (page *Page) SetDefaultLinePattern() {
 	page.appendString(" d\n")
 }
 
-// SetPenWidth sets the pen width that will be used to draw lines and splines on this page.
+// SetPenWidth sets the penColor width that will be used to draw lines and splines on this page.
 func (page *Page) SetPenWidth(width float32) {
 	if page.penWidth != width {
 		page.penWidth = width
@@ -669,10 +681,10 @@ func (page *Page) SetLineJoinStyle(style int) {
 	}
 }
 
-// MoveTo moves the pen to the point with coordinates (x, y) on the page.
+// MoveTo moves the penColor to the point with coordinates (x, y) on the page.
 //
-// @param x the x coordinate of new pen position.
-// @param y the y coordinate of new pen position.
+// @param x the x coordinate of new penColor position.
+// @param y the y coordinate of new penColor position.
 func (page *Page) MoveTo(x, y float32) {
 	page.appendFloat32(x)
 	page.appendString(" ")
@@ -680,8 +692,8 @@ func (page *Page) MoveTo(x, y float32) {
 	page.appendString(" m\n")
 }
 
-// LineTo draws a line from the current pen position to the point with coordinates (x, y),
-// using the current pen width and stroke color.
+// LineTo draws a line from the current penColor position to the point with coordinates (x, y),
+// using the current penColor width and stroke color.
 // Make sure you call strokePath(), closePath() or fillPath() after the last call to this method.
 func (page *Page) LineTo(x, y float32) {
 	page.appendFloat32(x)
@@ -690,17 +702,17 @@ func (page *Page) LineTo(x, y float32) {
 	page.appendString(" l\n")
 }
 
-// StrokePath draws the path using the current pen color.
+// StrokePath draws the path using the current penColor color.
 func (page *Page) StrokePath() {
 	page.appendString("S\n")
 }
 
-// ClosePath closes the path and draws it using the current pen color.
+// ClosePath closes the path and draws it using the current penColor color.
 func (page *Page) ClosePath() {
 	page.appendString("s\n")
 }
 
-// FillPath closes and fills the path with the current brush color.
+// FillPath closes and fills the path with the current brushColor color.
 func (page *Page) FillPath() {
 	page.appendString("f\n")
 }
@@ -708,7 +720,7 @@ func (page *Page) FillPath() {
 // DrawRect draws the outline of the specified rectangle on the page.
 // The left and right edges of the rectangle are at x and x + w.
 // The top and bottom edges are at y and y + h.
-// The rectangle is drawn using the current pen color.
+// The rectangle is drawn using the current penColor color.
 // @param x the x coordinate of the rectangle to be drawn.
 // @param y the y coordinate of the rectangle to be drawn.
 // @param w the width of the rectangle to be drawn.
@@ -724,7 +736,7 @@ func (page *Page) DrawRect(x, y, w, h float32) {
 // FillRect fills the specified rectangle on the page.
 // The left and right edges of the rectangle are at x and x + w.
 // The top and bottom edges are at y and y + h.
-// The rectangle is drawn using the current pen color.
+// The rectangle is drawn using the current penColor color.
 // @param x the x coordinate of the rectangle to be drawn.
 // @param y the y coordinate of the rectangle to be drawn.
 // @param w the width of the rectangle to be drawn.
@@ -737,7 +749,7 @@ func (page *Page) FillRect(x, y, w, h float32) {
 	page.FillPath()
 }
 
-// DrawPath draws or fills the specified path using the current pen or brush.
+// DrawPath draws or fills the specified path using the current penColor or brushColor.
 // @param path the path.
 // @param operation specifies 'stroke' or 'fill' operation.
 func (page *Page) DrawPath(path []*Point, operation string) {
@@ -768,7 +780,7 @@ func (page *Page) DrawPath(path []*Point, operation string) {
 
 // DrawCircle sdraws a circle on the page.
 //
-// The outline of the circle is drawn using the current pen color.
+// The outline of the circle is drawn using the current penColor color.
 //
 // @param x the x coordinate of the center of the circle to be drawn.
 // @param y the y coordinate of the center of the circle to be drawn.
@@ -777,7 +789,7 @@ func (page *Page) DrawCircle(x, y, r float32) {
 	page.drawEllipse(x, y, r, r, operation.Stroke)
 }
 
-// FillCircle draws the specified circle on the page and fills it with the current brush color.
+// FillCircle draws the specified circle on the page and fills it with the current brushColor color.
 //
 // @param x the x coordinate of the center of the circle to be drawn.
 // @param y the y coordinate of the center of the circle to be drawn.
@@ -787,7 +799,7 @@ func (page *Page) FillCircle(x, y, r float32) {
 	page.drawEllipse(x, y, r, r, operation.Fill)
 }
 
-// DrawEllipse draws an ellipse on the page using the current pen color.
+// DrawEllipse draws an ellipse on the page using the current penColor color.
 // @param x the x coordinate of the center of the ellipse to be drawn.
 // @param y the y coordinate of the center of the ellipse to be drawn.
 // @param r1 the horizontal radius of the ellipse to be drawn.
@@ -796,7 +808,7 @@ func (page *Page) DrawEllipse(x, y, r1, r2 float32) {
 	page.drawEllipse(x, y, r1, r2, operation.Stroke)
 }
 
-// FillEllipse fills an ellipse on the page using the current pen color.
+// FillEllipse fills an ellipse on the page using the current penColor color.
 // @param x the x coordinate of the center of the ellipse to be drawn.
 // @param y the y coordinate of the center of the ellipse to be drawn.
 // @param r1 the horizontal radius of the ellipse to be drawn.
@@ -805,7 +817,7 @@ func (page *Page) FillEllipse(x, y, r1, r2 float32) {
 	page.drawEllipse(x, y, r1, r2, operation.Fill)
 }
 
-// drawEllipse draws an ellipse on the page and fills it using the current brush color.
+// drawEllipse draws an ellipse on the page and fills it using the current brushColor color.
 // @param x the x coordinate of the center of the ellipse to be drawn.
 // @param y the y coordinate of the center of the ellipse to be drawn.
 // @param r1 the horizontal radius of the ellipse to be drawn.
@@ -842,7 +854,7 @@ func (page *Page) drawEllipse(x, y, r1, r2 float32, operation string) {
 	page.appendString("\n")
 }
 
-// DrawPoint draws a point on the page using the current pen color.
+// DrawPoint draws a point on the page using the current penColor color.
 // @param p the point.
 func (page *Page) DrawPoint(p *Point) {
 	if p.shape != shape.Invisible {
@@ -1146,8 +1158,8 @@ func (page *Page) ClipRect(x, y, w, h float32) {
 func (page *Page) Save() {
 	page.appendString("q\n")
 	page.savedStates = append(page.savedStates, NewState(
-		page.pen,
-		page.brush,
+		page.penColor,
+		page.brushColor,
 		page.penWidth,
 		page.lineCapStyle,
 		page.lineJoinStyle,
@@ -1160,8 +1172,8 @@ func (page *Page) Restore() {
 	if len(page.savedStates) > 0 {
 		lastIndex := len(page.savedStates) - 1
 		savedState := page.savedStates[lastIndex]
-		page.pen = savedState.GetPen()
-		page.brush = savedState.GetBrush()
+		page.penColor = savedState.GetPen()
+		page.brushColor = savedState.GetBrush()
 		page.penWidth = savedState.GetPenWidth()
 		page.lineCapStyle = savedState.GetLineCapStyle()
 		page.lineJoinStyle = savedState.GetLineJoinStyle()

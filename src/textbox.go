@@ -261,52 +261,52 @@ func (textBox *TextBox) GetBgColor() int32 {
 	return textBox.background
 }
 
-// Sets the pen and brush colors to the specified color.
+// Sets the penColor and brushColor colors to the specified color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetFgColor(color int32) {
 	textBox.pen = color
 	textBox.brush = color
 }
 
-// SetFgColor sets the pen and brush colors to the specified color using RGB values.
+// SetFgColor sets the penColor and brushColor colors to the specified color using RGB values.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetFgColorRGB(color []int32) {
 	textBox.pen = color[0]<<16 | color[1]<<8 | color[2]
 	textBox.brush = textBox.pen
 }
 
-// Sets the pen color.
+// Sets the penColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetPenColor(color int32) {
 	textBox.pen = color
 }
 
-// SetPenColor sets the pen color using RGB values.
+// SetPenColor sets the penColor color using RGB values.
 // @param color the color specified as an array of int values from 0x00 to 0xFF.
 func (textBox *TextBox) SetPenColorRGB(color []int32) {
 	textBox.pen = color[0]<<16 | color[1]<<8 | color[2]
 }
 
-// GetPenColor returns the pen color as 0xRRGGBB integer.
-// @return int the pen color.
+// GetPenColor returns the penColor color as 0xRRGGBB integer.
+// @return int the penColor color.
 func (textBox *TextBox) GetPenColor() int32 {
 	return textBox.pen
 }
 
-// Sets the brush color.
+// Sets the brushColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetBrushColor(color int32) {
 	textBox.brush = color
 }
 
-// SetBrushColor sets the brush color.
+// SetBrushColor sets the brushColor color.
 // @param color the color specified as an array of int values from 0x00 to 0xFF.
 func (textBox *TextBox) SetBrushColorRGB(color []int32) {
 	textBox.brush = color[0]<<16 | color[1]<<8 | color[2]
 }
 
-// GetBrushColor returns the brush color.
-// @return int the brush color specified as 0xRRGGBB integer.
+// GetBrushColor returns the brushColor color.
+// @return int the brushColor color specified as 0xRRGGBB integer.
 func (textBox *TextBox) GetBrushColor() int32 {
 	return textBox.brush
 }

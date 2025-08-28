@@ -161,7 +161,7 @@ func (textLine *TextLine) SetColor(color int32) *TextLine {
 	return textLine
 }
 
-// SetColorRGB sets the pen color.
+// SetColorRGB sets the penColor color.
 // @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
 // @return this TextLine.
 func (textLine *TextLine) SetColorRGB(color []int32) *TextLine {

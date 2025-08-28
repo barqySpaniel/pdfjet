@@ -301,30 +301,30 @@ func (cell *Cell) GetBgColor() int32 {
 	return cell.background
 }
 
-// SetPenColor sets the pen color.
+// SetPenColor sets the penColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (cell *Cell) SetPenColor(color int32) {
 	cell.pen = color
 }
 
-// GetPenColor returns the pen color.
+// GetPenColor returns the penColor color.
 func (cell *Cell) GetPenColor() int32 {
 	return cell.pen
 }
 
-// SetBrushColor sets the brush color.
+// SetBrushColor sets the brushColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (cell *Cell) SetBrushColor(color int32) {
 	cell.brush = color
 }
 
-// GetBrushColor returns the brush color.
-// @return the brush color.
+// GetBrushColor returns the brushColor color.
+// @return the brushColor color.
 func (cell *Cell) GetBrushColor() int32 {
 	return cell.brush
 }
 
-// SetFgColor sets the pen and brush colors to the specified color.
+// SetFgColor sets the penColor and brushColor colors to the specified color.
 // @param color the color specified as 0xRRGGBB integer.
 func (cell *Cell) SetFgColor(color int32) {
 	cell.pen = color

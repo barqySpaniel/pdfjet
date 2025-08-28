@@ -52,17 +52,17 @@ func NewState(
 	return state
 }
 
-// GetPen returns the pen.
+// GetPen returns the penColor.
 func (state *State) GetPen() [3]float32 {
 	return state.pen
 }
 
-// GetBrush returns the brush.
+// GetBrush returns the brushColor.
 func (state *State) GetBrush() [3]float32 {
 	return state.brush
 }
 
-// GetPenWidth returns the pen width.
+// GetPenWidth returns the penColor width.
 func (state *State) GetPenWidth() float32 {
 	return state.penWidth
 }
