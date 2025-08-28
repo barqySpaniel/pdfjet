@@ -32,9 +32,11 @@ namespace PDFjet.NET {
  * @author Mark Paxton
  */
 public class OptionalContentGroup {
-    internal String name;
-    internal int ocgNumber;
     internal int objNumber;
+
+    private PDF pdf;
+    private String name;
+    private int ocgNumber = -1;
     private List<IDrawable> components;
 
     public OptionalContentGroup(PDF pdf, String name) :
@@ -45,11 +47,9 @@ public class OptionalContentGroup {
     }
 
     public OptionalContentGroup(PDF pdf, String name, InitialState state) {
+        this.pdf = pdf;
         this.name = name;
         this.components = new List<IDrawable>();
-
-        pdf.groups.Add(this);
-        this.ocgNumber = pdf.groups.Count;
 
         pdf.NewObj();
         pdf.Append("<<\n");
@@ -79,11 +79,15 @@ public class OptionalContentGroup {
     }
 
     public void Add(IDrawable drawable) {
+        if (ocgNumber == -1) {
+            pdf.groups.Add(this);
+            this.ocgNumber = pdf.groups.Count;
+        }
         components.Add(drawable);
     }
 
     public void DrawOn(Page page) {
-        if (components.Count > 0) {
+        if (ocgNumber != -1) {
             page.Append("/OC /OC");
             page.Append(ocgNumber);
             page.Append(" BDC\n");

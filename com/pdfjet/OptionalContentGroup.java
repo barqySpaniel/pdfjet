@@ -33,10 +33,11 @@ import java.util.List;
  * @author Mark Paxton
  */
 public class OptionalContentGroup {
-    private PDF pdf;
-    protected String name;
     protected int objNumber;
-    protected int ocgNumber = -1;
+
+    private PDF pdf;
+    private String name;
+    private int ocgNumber = -1;
     private List<Drawable> components;
 
     /**
