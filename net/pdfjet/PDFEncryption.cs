@@ -110,9 +110,19 @@ public class PDFEncryption {
         int round = 0;
         bool continueProcessing = true;
         byte[] K = HashPassword(inputPassword);
+        // Calculate the size of K1 *once*, outside the loop
+        int k1Size;
+        if (isOwnerPassword) {
+            k1Size = 64 * (inputPassword.Length + K.Length + userKey.Length);
+        } else {
+            k1Size = 64 * (inputPassword.Length + K.Length);
+        }
         byte[] K1;
         byte[] E;
-        using (MemoryStream stream = new MemoryStream()) {
+        using (MemoryStream stream = new MemoryStream(k1Size)) {
+            // Ensure the MemoryStream buffer is large enough
+            // stream.SetLength(k1Size); // Or create it with this initial capacity
+
             // Perform the following steps (a)-(d) 64 times:
             while (round < 64 || continueProcessing) {
                 // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
@@ -131,7 +141,7 @@ public class PDFEncryption {
                         stream.Write(K, 0, K.Length);
                     }
                 }
-                K1 = stream.ToArray();
+                K1 = stream.GetBuffer();
 
                 // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
                 //    using the first 16 bytes of K as the key and the second
@@ -143,6 +153,7 @@ public class PDFEncryption {
                 Array.Copy(K, 16, tempIV, 0, 16);
                 E = EncryptAlgorithmStep2B(K1, tempKey, tempIV);
 
+                // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
                 if (round >= 64) {
                     // Step (e): Check the last byte of E
                     byte lastByte = E[E.Length - 1];
@@ -169,27 +180,26 @@ public class PDFEncryption {
                         //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
                         K = hashAlgo.ComputeHash(E);
                     }
+                    // Repeat the process (a-d) with this new value for K.
+                    // Following 64 rounds (round number 0 to round number 63),
+                    // do the following, starting with round number 64:
+
+                    // e) Look at the very last byte of E.
+                    //    If the value of that byte (taken as an unsigned integer)
+                    //    is greater than the round number - 32, repeat steps (a-d) again.
                 }
 
                 round++; // Increment the round counter
             }
-
-            // Repeat the process (a-d) with this new value for K.
-            // Following 64 rounds (round number 0 to round number 63),
-            // do the following, starting with round number 64:
-
-            // e) Look at the very last byte of E.
-            //    If the value of that byte (taken as an unsigned integer)
-            //    is greater than the round number - 32, repeat steps (a-d) again.
-
-            // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
-
-            // NOTE 3
-            // Tests indicate that the total number of rounds will most likely be between 65 and 80.
-            // !! We can print this number to verify we are in this range !!
         }
+        // NOTE 3
+        // Tests indicate that the total number of rounds will most likely be between 65 and 80.
+        // !! We can print this number to verify we are in this range !!
+        Console.WriteLine("Number of rounds: " + round);
 
-        return K;   // TODO:
+        byte[] finalOutput = new byte[32];
+        Array.Copy(K, 0, finalOutput, 0, 32);
+        return finalOutput;
     }
 
     /// <summary>
