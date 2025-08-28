@@ -107,12 +107,14 @@ public class PDFEncryption {
 
     private byte[] ComputeHashValue(byte[] inputPassword, bool isOwnerPassword, byte[] userKey) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
+        int round = 0;
+        bool continueProcessing = true;
         byte[] K = HashPassword(inputPassword);
         byte[] K1;
         byte[] E;
         using (MemoryStream stream = new MemoryStream()) {
             // Perform the following steps (a)-(d) 64 times:
-            for (int i = 0; i < 64; i++) {
+            while (round < 64 || continueProcessing) {
                 // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
                 //    input password, K, the 48-byte user key.
                 //    The 48 byte user key is only used when checking the owner password or creating the owner key.
@@ -141,16 +143,35 @@ public class PDFEncryption {
                 Array.Copy(K, 16, tempIV, 0, 16);
                 E = EncryptAlgorithmStep2B(K1, tempKey, tempIV);
 
-                // c) Taking the first 16 bytes of E as an unsigned big-endian integer,
-                //    compute the remainder, modulo 3.
-                //    If the result is 0, the next hash used is SHA-256,
-                //    if the result is 1, the next hash used is SHA-384,
-                //    if the result is 2, the next hash used is SHA-512.
-                using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
-                    // d) Using the hash algorithm determined in step c, take the hash of E.
-                    //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
-                    K = hashAlgo.ComputeHash(E);
+                if (round >= 64) {
+                    // Step (e): Check the last byte of E
+                    byte lastByte = E[E.Length - 1];
+                    continueProcessing = (lastByte > (round - 32));
+
+                    // If we need to continue, calculate the new K for the next round
+                    if (continueProcessing) {
+                        // Step (c): Determine next hash algorithm from E
+                        using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
+                            // Step (d): Compute new K value by hashing E
+                            K = hashAlgo.ComputeHash(E);
+                        }
+                    }
+                } else {
+                    // --- Steps (c) & (d) for rounds 0-63 ---
+                    // For the first 64 rounds, we always calculate the new K
+                    // c) Taking the first 16 bytes of E as an unsigned big-endian integer,
+                    //    compute the remainder, modulo 3.
+                    //    If the result is 0, the next hash used is SHA-256,
+                    //    if the result is 1, the next hash used is SHA-384,
+                    //    if the result is 2, the next hash used is SHA-512.
+                    using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
+                        // d) Using the hash algorithm determined in step c, take the hash of E.
+                        //    The result is a new value of K, which will be 32, 48, or 64 bytes in length.
+                        K = hashAlgo.ComputeHash(E);
+                    }
                 }
+
+                round++; // Increment the round counter
             }
 
             // Repeat the process (a-d) with this new value for K.
