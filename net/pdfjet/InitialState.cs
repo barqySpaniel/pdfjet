@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class InitialState {
-    public bool visible = true;
+    public bool visible = false;
     public bool printable = false;
     public bool exportable = false;
 

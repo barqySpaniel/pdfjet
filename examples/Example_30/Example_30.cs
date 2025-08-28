@@ -34,12 +34,7 @@ public class Example_30 {
         textLine.SetLocation(380f, xy[1] + font.GetBodyHeight(font.GetSize()));
         textLine.DrawOn(page);
 
-
-        var state = new InitialState()
-            .SetVisible(true)
-            .SetPrintable(true)
-            .SetExportable(false);
-        OptionalContentGroup group = new OptionalContentGroup(pdf, "map", state);
+        OptionalContentGroup group = new OptionalContentGroup(pdf, "map");
         group.Add(image1);
         group.DrawOn(page);
 
@@ -53,7 +48,7 @@ public class Example_30 {
         line.SetWidth(2f);
         line.SetColor(Color.blue);
 
-        group = new OptionalContentGroup(pdf, "blue", state);
+        group = new OptionalContentGroup(pdf, "blue");
         group.Add(textBox);
         group.Add(line);
         group.DrawOn(page);
@@ -64,7 +59,7 @@ public class Example_30 {
         line.SetWidth(2f);
         line.SetColor(Color.red);
 
-        state = new InitialState()
+        InitialState state = new InitialState()
             .SetVisible(true)
             .SetPrintable(false)
             .SetExportable(false);

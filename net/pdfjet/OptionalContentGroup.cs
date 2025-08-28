@@ -37,6 +37,13 @@ public class OptionalContentGroup {
     internal int objNumber;
     private List<IDrawable> components;
 
+    public OptionalContentGroup(PDF pdf, String name) :
+        this(pdf, name, new InitialState()
+            .SetVisible(true)
+            .SetPrintable(true)
+            .SetExportable(true)) {
+    }
+
     public OptionalContentGroup(PDF pdf, String name, InitialState state) {
         this.name = name;
         this.components = new List<IDrawable>();
