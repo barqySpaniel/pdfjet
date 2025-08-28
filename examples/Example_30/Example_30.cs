@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 using PDFjet.NET;
 
 /**
@@ -33,10 +34,13 @@ public class Example_30 {
         textLine.SetLocation(380f, xy[1] + font.GetBodyHeight(font.GetSize()));
         textLine.DrawOn(page);
 
-        OptionalContentGroup group = new OptionalContentGroup(pdf, "Map");
+
+        var state = new InitialState()
+            .SetVisible(true)
+            .SetPrintable(true)
+            .SetExportable(false);
+        OptionalContentGroup group = new OptionalContentGroup(pdf, "map", state);
         group.Add(image1);
-        group.SetVisible(true);
-        group.SetPrintable(true);
         group.DrawOn(page);
 
         TextBox textBox = new TextBox(font);
@@ -49,10 +53,9 @@ public class Example_30 {
         line.SetWidth(2f);
         line.SetColor(Color.blue);
 
-        group = new OptionalContentGroup(pdf, "Blue");
+        group = new OptionalContentGroup(pdf, "blue", state);
         group.Add(textBox);
         group.Add(line);
-        group.SetVisible(true);
         group.DrawOn(page);
 
         line = new Line();
@@ -61,11 +64,13 @@ public class Example_30 {
         line.SetWidth(2f);
         line.SetColor(Color.red);
 
-        group = new OptionalContentGroup(pdf, "Barcode");
+        var state = new InitialState()
+            .SetVisible(true)
+            .SetPrintable(false)
+            .SetExportable(false);
+        group = new OptionalContentGroup(pdf, "barcode", state);
         group.Add(image2);
         group.Add(line);
-        group.SetVisible(true);
-        group.SetPrintable(true);
         group.DrawOn(page);
 
         pdf.Complete();

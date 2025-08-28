@@ -35,12 +35,9 @@ public class OptionalContentGroup {
     internal String name;
     internal int ocgNumber;
     internal int objNumber;
-    internal bool visible = true;
-    internal bool printable;
-    internal bool exportable;
     private List<IDrawable> components;
 
-    public OptionalContentGroup(PDF pdf, String name) {
+    public OptionalContentGroup(PDF pdf, String name, InitialState state) {
         this.name = name;
         this.components = new List<IDrawable>();
 
@@ -52,17 +49,17 @@ public class OptionalContentGroup {
         pdf.Append("/Type /OCG\n");
         pdf.Append("/Name (" + name + ")\n");
         pdf.Append("/Usage <<\n");
-        if (visible) {
+        if (state.visible) {
             pdf.Append("/View << /ViewState /ON >>\n");
         } else {
             pdf.Append("/View << /ViewState /OFF >>\n");
         }
-        if (printable) {
+        if (state.printable) {
             pdf.Append("/Print << /PrintState /ON >>\n");
         } else {
             pdf.Append("/Print << /PrintState /OFF >>\n");
         }
-        if (exportable) {
+        if (state.exportable) {
             pdf.Append("/Export << /ExportState /ON >>\n");
         } else {
             pdf.Append("/Export << /ExportState /OFF >>\n");
@@ -76,18 +73,6 @@ public class OptionalContentGroup {
 
     public void Add(IDrawable drawable) {
         components.Add(drawable);
-    }
-
-    public void SetVisible(bool visible) {
-        this.visible = visible;
-    }
-
-    public void SetPrintable(bool printable) {
-        this.printable = printable;
-    }
-
-    public void SetExportable(bool exportable) {
-        this.exportable = exportable;
     }
 
     public void DrawOn(Page page) {
