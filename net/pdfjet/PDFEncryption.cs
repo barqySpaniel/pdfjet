@@ -50,9 +50,9 @@ public class PDFEncryption {
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
 
-        // 1. Calculate the values first, storing them in well-named variables
-        byte[] ownerPasswordValidationHash = new byte[32]; //ComputeOwnerPasswordHash(ownerPassword, userPassword, permissionFlags);
-        byte[] userPasswordValidationHash = new byte[32]; //= ComputeUserPasswordHash(userPassword, permissionFlags);
+        byte[] userPasswordValidationHash = ComputeHashValue(userPassBytes, false, null);
+Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidationHash.Length);
+        byte[] ownerPasswordValidationHash = new byte[64]; // ComputeHashValue(ownerPassBytes, true, userPasswordValidationHash);
         byte[] ownerEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(ownerPassword, userPassword, permissionFlags);
         byte[] userEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(userPassword, userPassword, permissionFlags);
 
