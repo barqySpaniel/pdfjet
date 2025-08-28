@@ -496,6 +496,29 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 	page.appendString(" gs\n")
 }
 
+// SetPenColor sets the pen color using a packed RGB color integer.
+// The color should be provided in the 0x00RRGGBB format (hexadecimal),
+// where RR, GG, and BB represent the red, green, and blue components
+// of the color, respectively, each in the range 00 to FF (0-255).
+//
+// Parameters:
+//
+//	color: A 32-bit integer representing the color in the format 0x00RRGGBB.
+//	       The method converts this integer into RGB float values between 0.0 and 1.0,
+//	       and sets the pen color accordingly.
+//
+// Notes:
+//   - The color components are extracted by bit-shifting and masking the integer
+//     to separate the red, green, and blue channels. Each component is then scaled
+//     to a float value between 0.0 and 1.0 (by dividing by 255).
+//   - The method calls SetPenColorRGB internally to apply the color using float32 values.
+func (page *Page) SetPenColor(color int32) {
+	r := float32(((color >> 16) & 0xff)) / 255.0
+	g := float32(((color >> 8) & 0xff)) / 255.0
+	b := float32(((color) & 0xff)) / 255.0
+	page.SetPenColorRGB([3]float32{r, g, b})
+}
+
 // SetPenColorRGB sets the pen color using an RGB color array.
 // Each element in the array represents the red, green, and blue components
 // of the color as floating-point values between 0.0 and 1.0.
@@ -532,39 +555,40 @@ func (page *Page) SetPenColorRGB(rgbColor [3]float32) {
 	page.appendString(" RG\n")
 }
 
-// SetPenColorCMYK sets the color for stroking operations using CMYK.
-// The penColor color is used when drawing lines and splines.
+// GetPenColor returns the current pen color as an RGB float32 array.
+// The returned array contains three float32 values representing the
+// red, green, and blue components of the pen color, each in the range
+// [0.0, 1.0].
 //
-// @param c the cyan component is float value from 0.0 to 1.0.
-// @param m the magenta component is float value from 0.0 to 1.0.
-// @param y the yellow component is float value from 0.0 to 1.0.
-// @param k the black component is float value from 0.0 to 1.0.
-func (page *Page) SetPenColorCMYK(c, m, y, k float32) {
-	page.appendFloat32(c)
-	page.appendString(" ")
-	page.appendFloat32(m)
-	page.appendString(" ")
-	page.appendFloat32(y)
-	page.appendString(" ")
-	page.appendFloat32(k)
-	page.appendString(" K\n")
+// @return: A [3]float32 array representing the pen color in RGB format.
+//
+//	The array contains values in the range [0.0, 1.0] corresponding to
+//	the red, green, and blue color components.
+func (page *Page) GetPenColor() [3]float32 {
+	return page.penColor
 }
 
-// SetBrushColorCMYK sets the color for brushColor operations using CMYK.
-// This is the color used when drawing regular text and filling shapes.
-// @param c the cyan component is float value from 0.0 to 1.0.
-// @param m the magenta component is float value from 0.0 to 1.0.
-// @param y the yellow component is float value from 0.0 to 1.0.
-// @param k the black component is float value from 0.0 to 1.0.
-func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
-	page.appendFloat32(c)
-	page.appendString(" ")
-	page.appendFloat32(m)
-	page.appendString(" ")
-	page.appendFloat32(y)
-	page.appendString(" ")
-	page.appendFloat32(k)
-	page.appendString(" k\n")
+// SetBrushColor sets the brush color using a packed RGB color integer.
+// The color should be provided in the 0x00RRGGBB format (hexadecimal),
+// where RR, GG, and BB represent the red, green, and blue components
+// of the color, respectively, each in the range 00 to FF (0-255).
+//
+// Parameters:
+//
+//	color: A 32-bit integer representing the color in the format 0x00RRGGBB.
+//	       The method converts this integer into RGB float values between 0.0 and 1.0,
+//	       and sets the brush color accordingly.
+//
+// Notes:
+//   - The color components are extracted by bit-shifting and masking the integer
+//     to separate the red, green, and blue channels. Each component is then scaled
+//     to a float value between 0.0 and 1.0 (by dividing by 255).
+//   - The method calls SetBrushColorRGB internally to apply the color using float32 values.
+func (page *Page) SetBrushColor(color int32) {
+	r := float32(((color >> 16) & 0xff)) / 255.0
+	g := float32(((color >> 8) & 0xff)) / 255.0
+	b := float32(((color) & 0xff)) / 255.0
+	page.SetBrushColorRGB([3]float32{r, g, b})
 }
 
 // SetBrushColorRGB sets the brush color using an RGB color array.
@@ -603,65 +627,6 @@ func (page *Page) SetBrushColorRGB(rgbColor [3]float32) {
 	page.appendString(" rg\n")
 }
 
-// SetPenColor sets the pen color using a packed RGB color integer.
-// The color should be provided in the 0x00RRGGBB format (hexadecimal),
-// where RR, GG, and BB represent the red, green, and blue components
-// of the color, respectively, each in the range 00 to FF (0-255).
-//
-// Parameters:
-//
-//	color: A 32-bit integer representing the color in the format 0x00RRGGBB.
-//	       The method converts this integer into RGB float values between 0.0 and 1.0,
-//	       and sets the pen color accordingly.
-//
-// Notes:
-//   - The color components are extracted by bit-shifting and masking the integer
-//     to separate the red, green, and blue channels. Each component is then scaled
-//     to a float value between 0.0 and 1.0 (by dividing by 255).
-//   - The method calls SetPenColorRGB internally to apply the color using float32 values.
-func (page *Page) SetPenColor(color int32) {
-	r := float32(((color >> 16) & 0xff)) / 255.0
-	g := float32(((color >> 8) & 0xff)) / 255.0
-	b := float32(((color) & 0xff)) / 255.0
-	page.SetPenColorRGB([3]float32{r, g, b})
-}
-
-// SetBrushColor sets the brush color using a packed RGB color integer.
-// The color should be provided in the 0x00RRGGBB format (hexadecimal),
-// where RR, GG, and BB represent the red, green, and blue components
-// of the color, respectively, each in the range 00 to FF (0-255).
-//
-// Parameters:
-//
-//	color: A 32-bit integer representing the color in the format 0x00RRGGBB.
-//	       The method converts this integer into RGB float values between 0.0 and 1.0,
-//	       and sets the brush color accordingly.
-//
-// Notes:
-//   - The color components are extracted by bit-shifting and masking the integer
-//     to separate the red, green, and blue channels. Each component is then scaled
-//     to a float value between 0.0 and 1.0 (by dividing by 255).
-//   - The method calls SetBrushColorRGB internally to apply the color using float32 values.
-func (page *Page) SetBrushColor(color int32) {
-	r := float32(((color >> 16) & 0xff)) / 255.0
-	g := float32(((color >> 8) & 0xff)) / 255.0
-	b := float32(((color) & 0xff)) / 255.0
-	page.SetBrushColorRGB([3]float32{r, g, b})
-}
-
-// GetPenColor returns the current pen color as an RGB float32 array.
-// The returned array contains three float32 values representing the
-// red, green, and blue components of the pen color, each in the range
-// [0.0, 1.0].
-//
-// @return: A [3]float32 array representing the pen color in RGB format.
-//
-//	The array contains values in the range [0.0, 1.0] corresponding to
-//	the red, green, and blue color components.
-func (page *Page) GetPenColor() [3]float32 {
-	return page.penColor
-}
-
 // GetBrushColor returns the current brush color as an RGB float32 array.
 // The returned array contains three float32 values representing the
 // red, green, and blue components of the brush color, each in the range
@@ -673,6 +638,41 @@ func (page *Page) GetPenColor() [3]float32 {
 //	the red, green, and blue color components.
 func (page *Page) GetBrushColor() [3]float32 {
 	return page.brushColor
+}
+
+// SetPenColorCMYK sets the color for stroking operations using CMYK.
+// The penColor color is used when drawing lines and splines.
+//
+// @param c the cyan component is float value from 0.0 to 1.0.
+// @param m the magenta component is float value from 0.0 to 1.0.
+// @param y the yellow component is float value from 0.0 to 1.0.
+// @param k the black component is float value from 0.0 to 1.0.
+func (page *Page) SetPenColorCMYK(c, m, y, k float32) {
+	page.appendFloat32(c)
+	page.appendString(" ")
+	page.appendFloat32(m)
+	page.appendString(" ")
+	page.appendFloat32(y)
+	page.appendString(" ")
+	page.appendFloat32(k)
+	page.appendString(" K\n")
+}
+
+// SetBrushColorCMYK sets the color for brushColor operations using CMYK.
+// This is the color used when drawing regular text and filling shapes.
+// @param c the cyan component is float value from 0.0 to 1.0.
+// @param m the magenta component is float value from 0.0 to 1.0.
+// @param y the yellow component is float value from 0.0 to 1.0.
+// @param k the black component is float value from 0.0 to 1.0.
+func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
+	page.appendFloat32(c)
+	page.appendString(" ")
+	page.appendFloat32(m)
+	page.appendString(" ")
+	page.appendFloat32(y)
+	page.appendString(" ")
+	page.appendFloat32(k)
+	page.appendString(" k\n")
 }
 
 // SetDefaultLineWidth sets the line width to the default.
