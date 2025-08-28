@@ -670,6 +670,19 @@ public class Page {
     }
 
     /**
+     * Sets the brush color.
+     *
+     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+     * @throws IOException
+     */
+    public void SetBrushColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetBrushColor(r, g, b);
+    }
+
+    /**
      * Sets the color for brush operations.
      * This is the color used when drawing regular text and filling shapes.
      *
@@ -726,6 +739,7 @@ public class Page {
      */
     public void SetBrushColor(float[] rgbColor) {
         if (rgbColor != null) {
+            brushColor = rgbColor;
             SetBrushColor(rgbColor[0], rgbColor[1], rgbColor[2]);
         }
     }
@@ -754,6 +768,7 @@ public class Page {
 
     public void SetPenColor(float[] rgbColor) {
         if (rgbColor != null) {
+            penColor = rgbColor;
             SetPenColor(rgbColor[0], rgbColor[1], rgbColor[2]);
         }
     }
@@ -777,19 +792,6 @@ public class Page {
 
     public float[] GetPenColor() {
         return penColor;
-    }
-
-    /**
-     * Sets the brush color.
-     *
-     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-     * @throws IOException
-     */
-    public void SetBrushColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetBrushColor(r, g, b);
     }
 
     /**
