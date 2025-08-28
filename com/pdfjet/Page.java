@@ -472,12 +472,10 @@ final public class Page {
         for (int i = 0; i < str.length(); i++) {
             int c1 = str.charAt(i);
             if (c1 < font.firstChar || c1 > font.lastChar) {
-                // append(String.format("%02X", 0x20));
-                appendCodePointAsHex(0x20);
+                append(String.format("%02X", 0x20));
                 continue;
             }
-            // append(String.format("%02X", c1));
-            appendCodePointAsHex(c1);
+            append(String.format("%02X", c1));
             if (font.isCoreFont && font.kernPairs && i < (str.length() - 1)) {
                 c1 -= 32;
                 int c2 = str.charAt(i + 1);
@@ -1644,10 +1642,7 @@ final public class Page {
         'A', 'B', 'C', 'D', 'E', 'F'
     };
     private void appendCodePointAsHex(int codePoint) {
-        if (codePoint <= 0xFF) {
-            buf.write(HEX[(codePoint >> 4)  & 0xF]);
-            buf.write(HEX[(codePoint)       & 0xF]);
-        } else if (codePoint <= 0xFFFF) {
+        if (codePoint <= 0xFFFF) {
             // Basic Multilingual Plane (BMP) character
             buf.write(HEX[(codePoint >> 12) & 0xF]);
             buf.write(HEX[(codePoint >> 8)  & 0xF]);

@@ -526,12 +526,10 @@ public class Page {
         for (int i = 0; i < len; i++) {
             int c1 = str[i];
             if (c1 < font.firstChar || c1 > font.lastChar) {
-                // Append(0x20.ToString("X2"));
-                AppendCodePointAsHex(0x20);
+                Append(0x20.ToString("X2"));
                 continue;
             }
-            // Append(c1.ToString("X2"));
-            AppendCodePointAsHex(c1);
+            Append(c1.ToString("X2"));
             if (font.isCoreFont && font.kernPairs && i < (str.Length - 1)) {
                 c1 -= 32;
                 int c2 = str[i + 1];
@@ -1553,10 +1551,7 @@ public class Page {
         (byte)'A', (byte)'B', (byte)'C', (byte)'D', (byte)'E', (byte)'F'
     };
     internal void AppendCodePointAsHex(int codePoint) {
-        if (codePoint <= 0xFF) {
-            buf.WriteByte(HEX[(codePoint >> 4)  & 0xF]);
-            buf.WriteByte(HEX[(codePoint)       & 0xF]);
-        } else if (codePoint <= 0xFFFF) {
+        if (codePoint <= 0xFFFF) {
             // Basic Multilingual Plane (BMP) character
             buf.WriteByte(HEX[(codePoint >> 12) & 0xF]);
             buf.WriteByte(HEX[(codePoint >> 8)  & 0xF]);
