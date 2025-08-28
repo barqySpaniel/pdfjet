@@ -8,9 +8,7 @@ import com.pdfjet.*;
  */
 public class Example_30 {
     public Example_30() throws Exception {
-        PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_30.pdf")));
+        PDF pdf = new PDF(new BufferedOutputStream(new FileOutputStream("Example_30.pdf")));
 
         Font font = new Font(pdf, CoreFont.HELVETICA);
 
@@ -33,7 +31,7 @@ public class Example_30 {
         textLine.setLocation(380f, xy[1] + font.getHeight());
         textLine.drawOn(page);
 
-        OptionalContentGroup group = new OptionalContentGroup("Map");
+        OptionalContentGroup group = new OptionalContentGroup(pdf, "Map");
         group.add(image1);
         group.setVisible(true);
         // group.setPrintable(true);

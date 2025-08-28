@@ -4,7 +4,7 @@ using System.Diagnostics;
 using PDFjet.NET;
 
 /**
- *  Example_30.cs
+ * Example_30.cs
  */
 public class Example_30 {
     public Example_30() {
@@ -33,10 +33,10 @@ public class Example_30 {
         textLine.SetLocation(380f, xy[1] + font.GetBodyHeight(font.GetSize()));
         textLine.DrawOn(page);
 
-        OptionalContentGroup group = new OptionalContentGroup("Map");
+        OptionalContentGroup group = new OptionalContentGroup(pdf, "Map");
         group.Add(image1);
         group.SetVisible(true);
-        // group.SetPrintable(true);
+        group.SetPrintable(true);
         group.DrawOn(page);
 
         TextBox textBox = new TextBox(font);
@@ -49,10 +49,10 @@ public class Example_30 {
         line.SetWidth(2f);
         line.SetColor(Color.blue);
 
-        group = new OptionalContentGroup("Blue");
+        group = new OptionalContentGroup(pdf, "Blue");
         group.Add(textBox);
         group.Add(line);
-        // group.SetVisible(true);
+        group.SetVisible(true);
         group.DrawOn(page);
 
         line = new Line();
@@ -61,7 +61,7 @@ public class Example_30 {
         line.SetWidth(2f);
         line.SetColor(Color.red);
 
-        group = new OptionalContentGroup("Barcode");
+        group = new OptionalContentGroup(pdf, "Barcode");
         group.Add(image2);
         group.Add(line);
         group.SetVisible(true);

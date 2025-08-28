@@ -35,14 +35,43 @@ public class OptionalContentGroup {
     internal String name;
     internal int ocgNumber;
     internal int objNumber;
-    internal bool visible;
+    internal bool visible = true;
     internal bool printable;
     internal bool exportable;
     private List<IDrawable> components;
 
-    public OptionalContentGroup(String name) {
+    public OptionalContentGroup(PDF pdf, String name) {
         this.name = name;
         this.components = new List<IDrawable>();
+
+        pdf.groups.Add(this);
+        this.ocgNumber = pdf.groups.Count;
+
+        pdf.NewObj();
+        pdf.Append("<<\n");
+        pdf.Append("/Type /OCG\n");
+        pdf.Append("/Name (" + name + ")\n");
+        pdf.Append("/Usage <<\n");
+        if (visible) {
+            pdf.Append("/View << /ViewState /ON >>\n");
+        } else {
+            pdf.Append("/View << /ViewState /OFF >>\n");
+        }
+        if (printable) {
+            pdf.Append("/Print << /PrintState /ON >>\n");
+        } else {
+            pdf.Append("/Print << /PrintState /OFF >>\n");
+        }
+        if (exportable) {
+            pdf.Append("/Export << /ExportState /ON >>\n");
+        } else {
+            pdf.Append("/Export << /ExportState /OFF >>\n");
+        }
+        pdf.Append(">>\n");
+        pdf.Append(">>\n");
+        pdf.EndObj();
+
+        objNumber = pdf.GetObjNumber();
     }
 
     public void Add(IDrawable drawable) {
@@ -63,35 +92,6 @@ public class OptionalContentGroup {
 
     public void DrawOn(Page page) {
         if (components.Count > 0) {
-            page.pdf.groups.Add(this);
-            ocgNumber = page.pdf.groups.Count;
-
-            page.pdf.NewObj();
-            page.pdf.Append("<<\n");
-            page.pdf.Append("/Type /OCG\n");
-            page.pdf.Append("/Name (" + name + ")\n");
-            page.pdf.Append("/Usage <<\n");
-            if (visible) {
-                page.pdf.Append("/View << /ViewState /ON >>\n");
-            } else {
-                page.pdf.Append("/View << /ViewState /OFF >>\n");
-            }
-            if (printable) {
-                page.pdf.Append("/Print << /PrintState /ON >>\n");
-            } else {
-                page.pdf.Append("/Print << /PrintState /OFF >>\n");
-            }
-            if (exportable) {
-                page.pdf.Append("/Export << /ExportState /ON >>\n");
-            } else {
-                page.pdf.Append("/Export << /ExportState /OFF >>\n");
-            }
-            page.pdf.Append(">>\n");
-            page.pdf.Append(">>\n");
-            page.pdf.EndObj();
-
-            objNumber = page.pdf.GetObjNumber();
-
             page.Append("/OC /OC");
             page.Append(ocgNumber);
             page.Append(" BDC\n");
