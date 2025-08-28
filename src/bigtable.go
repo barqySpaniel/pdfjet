@@ -159,7 +159,7 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 	bt.page.MoveTo(bt.vertLines[0], bt.yText-font.ascent)
 	bt.page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-font.ascent)
 	bt.page.StrokePath()
-	bt.page.SetPenColorWithFloat32Array(original)
+	bt.page.SetPenColorRGB(original)
 	// bt.page.AddEMC()
 
 	// bt.page.AddBMC("P", bt.language, rowText, rowText)
@@ -191,7 +191,7 @@ func (bt *BigTable) highlightRow(page *Page, font *Font, color int32) {
 	page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText+font.descent)
 	page.LineTo(bt.vertLines[0], bt.yText+font.descent)
 	page.FillPath()
-	page.SetBrushColorWithFloat32Array(original)
+	page.SetBrushColorRGB(original)
 }
 
 func (bt *BigTable) drawTheVerticalLines() {
@@ -208,7 +208,7 @@ func (bt *BigTable) drawTheVerticalLines() {
 	bt.page.MoveTo(bt.vertLines[0], bt.yText-bt.f2.ascent)
 	bt.page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-bt.f2.ascent)
 	bt.page.StrokePath()
-	bt.page.SetPenColorWithFloat32Array(original)
+	bt.page.SetPenColorRGB(original)
 	// bt.page.AddEMC()
 }
 

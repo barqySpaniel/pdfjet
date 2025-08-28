@@ -499,19 +499,8 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 // SetPenColorRGB sets the color for stroking operations.
 // The penColor color is used when drawing lines and splines.
 //
-// @param r the red component is float value from 0.0 to 1.0.
-// @param g the green component is float value from 0.0 to 1.0.
-// @param b the blue component is float value from 0.0 to 1.0.
-func (page *Page) SetPenColorRGB(r, g, b float32) {
-	page.appendFloat32(r)
-	page.appendString(" ")
-	page.appendFloat32(g)
-	page.appendString(" ")
-	page.appendFloat32(b)
-	page.appendString(" RG\n")
-}
-
-func (page *Page) SetPenColorWithFloat32Array(rgbColor [3]float32) {
+// @param rbgColor contains the red, green and blue components. They are values from 0.0 to 1.0
+func (page *Page) SetPenColorRGB(rgbColor [3]float32) {
 	// Your exact code for range check
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
 		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
@@ -567,7 +556,7 @@ func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
 	page.appendString(" k\n")
 }
 
-func (page *Page) SetBrushColorWithFloat32Array(rgbColor [3]float32) {
+func (page *Page) SetBrushColorRGB(rgbColor [3]float32) {
 	// Your exact code for range check
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
 		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
@@ -588,27 +577,13 @@ func (page *Page) SetBrushColorWithFloat32Array(rgbColor [3]float32) {
 	page.appendString(" rg\n")
 }
 
-// SetBrushColorRGB sets the color for brushColor operations.
-// This is the color used when drawing regular text and filling shapes.
-// @param r the red component is float value from 0.0 to 1.0.
-// @param g the green component is float value from 0.0 to 1.0.
-// @param b the blue component is float value from 0.0 to 1.0.
-func (page *Page) SetBrushColorRGB(r, g, b float32) {
-	page.appendFloat32(r)
-	page.appendString(" ")
-	page.appendFloat32(g)
-	page.appendString(" ")
-	page.appendFloat32(b)
-	page.appendString(" rg\n")
-}
-
 // SetPenColor sets the penColor color.
 // See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
 func (page *Page) SetPenColor(color int32) {
 	r := float32(((color >> 16) & 0xff)) / 255.0
 	g := float32(((color >> 8) & 0xff)) / 255.0
 	b := float32(((color) & 0xff)) / 255.0
-	page.SetPenColorRGB(r, g, b)
+	page.SetPenColorRGB([3]float32{r, g, b})
 }
 
 // SetBrushColor sets the brushColor color.
@@ -617,7 +592,7 @@ func (page *Page) SetBrushColor(color int32) {
 	r := float32(((color >> 16) & 0xff)) / 255.0
 	g := float32(((color >> 8) & 0xff)) / 255.0
 	b := float32(((color) & 0xff)) / 255.0
-	page.SetBrushColorRGB(r, g, b)
+	page.SetBrushColorRGB([3]float32{r, g, b})
 }
 
 func (page *Page) GetPenColor() [3]float32 {
