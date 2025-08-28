@@ -36,57 +36,66 @@ public class OptionalContentGroup {
 
     private PDF pdf;
     private String name;
-    private int ocgNumber;
+    private int ocgNumber = -1;
+    private bool visible;
+    private bool printable;
+    private bool exportable;
     private List<IDrawable> components;
 
-    public OptionalContentGroup(PDF pdf, String name) :
-        this(pdf, name, new InitialState()
-            .SetVisible(true)
-            .SetPrintable(true)
-            .SetExportable(true)) {
-    }
-
-    public OptionalContentGroup(PDF pdf, String name, InitialState state) {
+    public OptionalContentGroup(PDF pdf, String name) {
         this.pdf = pdf;
         this.name = name;
         this.components = new List<IDrawable>();
-
-        pdf.NewObj();
-        pdf.Append("<<\n");
-        pdf.Append("/Type /OCG\n");
-        pdf.Append("/Name (" + name + ")\n");
-        pdf.Append("/Usage <<\n");
-        if (state.visible) {
-            pdf.Append("/View << /ViewState /ON >>\n");
-        } else {
-            pdf.Append("/View << /ViewState /OFF >>\n");
-        }
-        if (state.printable) {
-            pdf.Append("/Print << /PrintState /ON >>\n");
-        } else {
-            pdf.Append("/Print << /PrintState /OFF >>\n");
-        }
-        if (state.exportable) {
-            pdf.Append("/Export << /ExportState /ON >>\n");
-        } else {
-            pdf.Append("/Export << /ExportState /OFF >>\n");
-        }
-        pdf.Append(">>\n");
-        pdf.Append(">>\n");
-        pdf.EndObj();
-
-        objNumber = pdf.GetObjNumber();
     }
 
     public void Add(IDrawable drawable) {
-        if (components.Count == 0) {
-            pdf.groups.Add(this);
-            this.ocgNumber = pdf.groups.Count;
-        }
         components.Add(drawable);
     }
 
+    public void SetVisible(bool visible) {
+        this.visible = visible;
+    }
+
+    public void SetPrintable(bool printable) {
+        this.printable = printable;
+    }
+
+    public void SetExportable(bool exportable) {
+        this.exportable = exportable;
+    }
+
     public void DrawOn(Page page) {
+        if (this.ocgNumber == -1) {
+            pdf.NewObj();
+            pdf.Append("<<\n");
+            pdf.Append("/Type /OCG\n");
+            pdf.Append("/Name (" + name + ")\n");
+            pdf.Append("/Usage <<\n");
+            if (visible) {
+                pdf.Append("/View << /ViewState /ON >>\n");
+            } else {
+                pdf.Append("/View << /ViewState /OFF >>\n");
+            }
+            if (printable) {
+                pdf.Append("/Print << /PrintState /ON >>\n");
+            } else {
+                pdf.Append("/Print << /PrintState /OFF >>\n");
+            }
+            if (exportable) {
+                pdf.Append("/Export << /ExportState /ON >>\n");
+            } else {
+                pdf.Append("/Export << /ExportState /OFF >>\n");
+            }
+            pdf.Append(">>\n");
+            pdf.Append(">>\n");
+            pdf.EndObj();
+
+            objNumber = pdf.GetObjNumber();
+
+            this.pdf.groups.Add(this);
+            this.ocgNumber = pdf.groups.Count;
+        }
+
         if (components.Count > 0) {
             page.Append("/OC /OC");
             page.Append(ocgNumber);

@@ -23,15 +23,13 @@ public class Example_30 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        TextLine textLine = new TextLine(f2);
+        TextLine textLine = new TextLine(f2, "© OpenStreetMap contributors");
         textLine.SetFontSize(10f);
-        textLine.SetText("© OpenStreetMap contributors");
         textLine.SetLocation(10f, 655f);
         float[] xy = textLine.DrawOn(page);
 
-        textLine = new TextLine(f2);
+        textLine = new TextLine(f2, "http://www.openstreetmap.org/copyright");
         textLine.SetFontSize(10f);
-        textLine.SetText("http://www.openstreetmap.org/copyright");
         textLine.SetURIAction("http://www.openstreetmap.org/copyright");
         textLine.SetLocation(10f, xy[1] + f2.GetBodyHeight(f2.GetSize()));
         textLine.DrawOn(page);

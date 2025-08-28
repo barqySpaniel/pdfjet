@@ -99,7 +99,6 @@ public class OptionalContentGroup {
      */
     public void drawOn(Page page) throws Exception {
         if (this.ocgNumber == -1) {
-System.out.println("Hello");
             pdf.newobj();
             pdf.append("<<\n");
             pdf.append("/Type /OCG\n");

@@ -10,7 +10,8 @@ public class Example_30 {
     public Example_30() throws Exception {
         PDF pdf = new PDF(new BufferedOutputStream(new FileOutputStream("Example_30.pdf")));
 
-        Font font = new Font(pdf, CoreFont.HELVETICA);
+        Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
 
         Image image1 = new Image(pdf, "images/map407.png");
         image1.setLocation(10f, 100f);
@@ -20,15 +21,13 @@ public class Example_30 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        TextLine textLine = new TextLine(font);
-        textLine.setText("© OpenStreetMap contributors");
-        textLine.setLocation(430f, 655f);
+        TextLine textLine = new TextLine(f2, "© OpenStreetMap contributors");
+        textLine.setLocation(10f, 655f);
         float[] xy = textLine.drawOn(page);
 
-        textLine = new TextLine(font);
-        textLine.setText("http://www.openstreetmap.org/copyright");
+        textLine = new TextLine(f2, "http://www.openstreetmap.org/copyright");
         textLine.setURIAction("http://www.openstreetmap.org/copyright");
-        textLine.setLocation(380f, xy[1] + font.getHeight());
+        textLine.setLocation(10f, xy[1] + f2.getHeight());
         textLine.drawOn(page);
 
         OptionalContentGroup group = new OptionalContentGroup(pdf, "Map");
@@ -37,13 +36,14 @@ public class Example_30 {
         group.setPrintable(true);
         group.drawOn(page);
 
-        TextBox textBox = new TextBox(font);
+        TextBox textBox = new TextBox(f1);
+        textBox.setFontSize(16f);
         textBox.setText("Blue Layer Text");
-        textBox.setLocation(300f, 200f);
+        textBox.setLocation(10f, 130f);
 
         Line line = new Line();
-        line.setPointA(300f, 250f);
-        line.setPointB(500f, 250f);
+        line.setPointA(300f, 150f);
+        line.setPointB(500f, 150f);
         line.setWidth(2f);
         line.setColor(Color.blue);
 
@@ -54,8 +54,8 @@ public class Example_30 {
         group.drawOn(page);
 
         line = new Line();
-        line.setPointA(300f, 260f);
-        line.setPointB(500f, 260f);
+        line.setPointA(300f, 160f);
+        line.setPointB(500f, 160f);
         line.setWidth(2f);
         line.setColor(Color.red);
 
