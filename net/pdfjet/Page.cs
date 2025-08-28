@@ -767,10 +767,24 @@ public class Page {
     }
 
     public void SetPenColor(float[] rgbColor) {
-        if (rgbColor != null) {
-            penColor = rgbColor;
-            SetPenColor(rgbColor[0], rgbColor[1], rgbColor[2]);
+        if (rgbColor == null) {
+            Console.WriteLine("Warning: RGB color is null. Ignoring request.");
+            return; // Early exit if null
         }
+
+        // Your exact code for range check
+        if (rgbColor[0] < 0f || rgbColor[0] > 1f ||
+            rgbColor[1] < 0f || rgbColor[1] > 1f ||
+            rgbColor[2] < 0f || rgbColor[2] > 1f) {
+            Console.WriteLine("Warning: RGB color values must be between 0f and 1f. Ignoring request.");
+            return; // Early exit if out of range
+        }
+
+        // Now set the pen color
+        penColor = rgbColor;
+
+        // Proceed with setting the color (example)
+        SetPenColor(rgbColor[0], rgbColor[1], rgbColor[2]);
     }
 
     /**
