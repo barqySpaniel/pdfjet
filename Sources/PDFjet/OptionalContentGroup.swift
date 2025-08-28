@@ -30,13 +30,14 @@ import Foundation
 ///  @author Mark Paxton
 ///
 public class OptionalContentGroup {
-    var pdf: PDF
-    var name: String?
     var objNumber = 0
-    var ocgNumber = -1
-    var visible: Bool?
-    var printable: Bool?
-    var exportable: Bool?
+
+    private var pdf: PDF
+    private var name: String?
+    private var ocgNumber = -1
+    private var visible: Bool?
+    private var printable: Bool?
+    private var exportable: Bool?
     private var components = [Drawable]()
 
     public init(_ pdf: PDF, _ name: String) {

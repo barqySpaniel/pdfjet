@@ -1,5 +1,7 @@
 package pdfjet
 
+import "github.com/edragoev1/pdfjet/src/token"
+
 /**
  * optionalcontentgroup.go
  *
@@ -29,10 +31,10 @@ SOFTWARE.
 //
 // @author Mark Paxton
 type OptionalContentGroup struct {
+	objNumber  int
 	pdf        *PDF
 	name       string
 	ocgNumber  int
-	objNumber  int
 	visible    bool
 	printable  bool
 	exportable bool
@@ -73,7 +75,7 @@ func (ocg *OptionalContentGroup) SetExportable(exportable bool) {
 func (ocg *OptionalContentGroup) DrawOn(page *Page) {
 	if ocg.ocgNumber == -1 {
 		ocg.pdf.newobj()
-		ocg.pdf.appendString("<<\n")
+		ocg.pdf.appendByteArray(token.BeginDictionary)
 		ocg.pdf.appendString("/Type /OCG\n")
 		ocg.pdf.appendString("/Name (" + ocg.name + ")\n")
 		ocg.pdf.appendString("/Usage <<\n")
@@ -93,7 +95,7 @@ func (ocg *OptionalContentGroup) DrawOn(page *Page) {
 			ocg.pdf.appendString("/Export << /ExportState /OFF >>\n")
 		}
 		ocg.pdf.appendString(">>\n")
-		ocg.pdf.appendString(">>\n")
+		ocg.pdf.appendByteArray(token.EndDictionary)
 		ocg.pdf.endobj()
 
 		ocg.objNumber = ocg.pdf.getObjNumber()
