@@ -29,10 +29,10 @@ SOFTWARE.
 //
 // @author Mark Paxton
 type OptionalContentGroup struct {
-	pdf        PDF
+	pdf        *PDF
 	name       string
-	objNumber  int
 	ocgNumber  int
+	objNumber  int
 	visible    bool
 	printable  bool
 	exportable bool
@@ -40,47 +40,17 @@ type OptionalContentGroup struct {
 }
 
 // NewOptionalContentGroup constructs optional content group.
-func NewOptionalContentGroup(pdf PDF, name string) *OptionalContentGroup {
+func NewOptionalContentGroup(pdf *PDF, name string) *OptionalContentGroup {
 	ocg := new(OptionalContentGroup)
 	ocg.pdf = pdf
 	ocg.name = name
+	ocg.ocgNumber = -1
 	ocg.components = make([]Drawable, 0)
-
-	pdf.newobj()
-	pdf.appendString("<<\n")
-	pdf.appendString("/Type /OCG\n")
-	pdf.appendString("/Name (" + ocg.name + ")\n")
-	pdf.appendString("/Usage <<\n")
-	if ocg.visible {
-		pdf.appendString("/View << /ViewState /ON >>\n")
-	} else {
-		pdf.appendString("/View << /ViewState /OFF >>\n")
-	}
-	if ocg.printable {
-		pdf.appendString("/Print << /PrintState /ON >>\n")
-	} else {
-		pdf.appendString("/Print << /PrintState /OFF >>\n")
-	}
-	if ocg.exportable {
-		pdf.appendString("/Export << /ExportState /ON >>\n")
-	} else {
-		pdf.appendString("/Export << /ExportState /OFF >>\n")
-	}
-	pdf.appendString(">>\n")
-	pdf.appendString(">>\n")
-	pdf.endobj()
-
-	ocg.objNumber = pdf.getObjNumber()
-
 	return ocg
 }
 
 // Add appends drawable component to this optional content group.
 func (ocg *OptionalContentGroup) Add(drawable Drawable) {
-	if len(ocg.components) == 0 {
-		ocg.pdf.groups = append(ocg.pdf.groups, ocg)
-		ocg.ocgNumber = len(ocg.pdf.groups)
-	}
 	ocg.components = append(ocg.components, drawable)
 }
 
@@ -101,6 +71,37 @@ func (ocg *OptionalContentGroup) SetExportable(exportable bool) {
 
 // DrawOn draws the components in the optional content group on the page.
 func (ocg *OptionalContentGroup) DrawOn(page *Page) {
+	if ocg.ocgNumber == -1 {
+		ocg.pdf.newobj()
+		ocg.pdf.appendString("<<\n")
+		ocg.pdf.appendString("/Type /OCG\n")
+		ocg.pdf.appendString("/Name (" + ocg.name + ")\n")
+		ocg.pdf.appendString("/Usage <<\n")
+		if ocg.visible {
+			ocg.pdf.appendString("/View << /ViewState /ON >>\n")
+		} else {
+			ocg.pdf.appendString("/View << /ViewState /OFF >>\n")
+		}
+		if ocg.printable {
+			ocg.pdf.appendString("/Print << /PrintState /ON >>\n")
+		} else {
+			ocg.pdf.appendString("/Print << /PrintState /OFF >>\n")
+		}
+		if ocg.exportable {
+			ocg.pdf.appendString("/Export << /ExportState /ON >>\n")
+		} else {
+			ocg.pdf.appendString("/Export << /ExportState /OFF >>\n")
+		}
+		ocg.pdf.appendString(">>\n")
+		ocg.pdf.appendString(">>\n")
+		ocg.pdf.endobj()
+
+		ocg.objNumber = ocg.pdf.getObjNumber()
+
+		ocg.pdf.groups = append(ocg.pdf.groups, ocg)
+		ocg.ocgNumber = len(ocg.pdf.groups)
+	}
+
 	if len(ocg.components) > 0 {
 		page.appendString("/OC /OC")
 		page.appendInteger(ocg.ocgNumber)

@@ -35,7 +35,7 @@ func Example30() {
 	textLine.SetLocation(380.0, xy[1]+font.GetHeight())
 	textLine.DrawOn(page)
 
-	group := pdfjet.NewOptionalContentGroup("Map")
+	group := pdfjet.NewOptionalContentGroup(pdf, "map")
 	group.Add(image1)
 	group.SetVisible(true)
 	// group.SetPrintable(true)
@@ -49,7 +49,7 @@ func Example30() {
 	line.SetWidth(2.0)
 	line.SetColor(color.Blue)
 
-	group = pdfjet.NewOptionalContentGroup("Blue")
+	group = pdfjet.NewOptionalContentGroup(pdf, "blue")
 	group.Add(textBox)
 	group.Add(line)
 	// group.SetVisible(true)
@@ -59,7 +59,7 @@ func Example30() {
 	line.SetWidth(2.0)
 	line.SetColor(color.Red)
 
-	group = pdfjet.NewOptionalContentGroup("Barcode")
+	group = pdfjet.NewOptionalContentGroup(pdf, "barcode")
 	group.Add(image2)
 	group.Add(line)
 	group.SetVisible(true)
