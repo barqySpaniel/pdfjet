@@ -184,7 +184,7 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 }
 
 func (bt *BigTable) highlightRow(page *Page, font *Font, color int32) {
-	original := page.GetBrushColor()
+	original := page.GetBrushColorRGB()
 	page.SetBrushColor(color)
 	page.MoveTo(bt.vertLines[0], bt.yText-font.ascent)
 	page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-font.ascent)
