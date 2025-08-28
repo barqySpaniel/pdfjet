@@ -64,7 +64,7 @@ public class Example_30 {
         line.SetWidth(2f);
         line.SetColor(Color.red);
 
-        var state = new InitialState()
+        state = new InitialState()
             .SetVisible(true)
             .SetPrintable(false)
             .SetExportable(false);
