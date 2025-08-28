@@ -705,7 +705,6 @@ final public class Page {
             return; // Early exit if null
         }
 
-        // Your exact code for range check
         if (rgbColor[0] < 0f || rgbColor[0] > 1f ||
             rgbColor[1] < 0f || rgbColor[1] > 1f ||
             rgbColor[2] < 0f || rgbColor[2] > 1f) {
@@ -752,7 +751,6 @@ final public class Page {
             return; // Early exit if null
         }
 
-        // Your exact code for range check
         if (rgbColor[0] < 0f || rgbColor[0] > 1f ||
             rgbColor[1] < 0f || rgbColor[1] > 1f ||
             rgbColor[2] < 0f || rgbColor[2] > 1f) {

@@ -537,13 +537,28 @@ public class Page {
         append(" RG\n")
     }
 
+    // setPenColor sets the pen color using an RGB color array.
+    // Each element in the array represents the red, green, and blue components
+    // of the color as floating-point values between 0.0 and 1.0.
+    //
+    // Parameters:
+    //   rgbColor: An optional array of 3 Float values representing the
+    //   red, green, and blue color components respectively. Each value should
+    //   be between 0.0 (no intensity) and 1.0 (full intensity). If the value is
+    //   nil, a warning is printed and the method exits early without modifying the color.
+    //
+    // Notes:
+    //   - The method performs a range check to ensure that each color component
+    //     is within the valid range [0.0, 1.0]. If any component is out of range,
+    //     the method prints a warning and exits early without modifying the color.
+    //   - The method then sets the penColor property and appends the color values
+    //     to the output stream (e.g., for a PDF or graphics context).
     func setPenColor(_ rgbColor: [Float]?) {
         if rgbColor == nil {
             print("Warning: RGB color is null. Ignoring request.")
             return // Early exit if null
         }
 
-        // Your exact code for range check
         if rgbColor![0] < 0.0 || rgbColor![0] > 1.0 ||
            rgbColor![1] < 0.0 || rgbColor![1] > 1.0 ||
            rgbColor![2] < 0.0 || rgbColor![2] > 1.0 {
@@ -624,19 +639,28 @@ public class Page {
         append(" k\n")
     }
 
-    ///
-    /// Sets the color for brush operations.
-    ///
-    /// - Parameter color the color.
-    /// @throws IOException
-    ///
+    // setBrushColor sets the brush color using an RGB color array.
+    // Each element in the array represents the red, green, and blue components
+    // of the color as floating-point values between 0.0 and 1.0.
+    //
+    // Parameters:
+    //   rgbColor: An optional array of 3 Float values representing the
+    //   red, green, and blue color components respectively. Each value should
+    //   be between 0.0 (no intensity) and 1.0 (full intensity). If the value is
+    //   nil, a warning is printed and the method exits early without modifying the color.
+    //
+    // Notes:
+    //   - The method performs a range check to ensure that each color component
+    //     is within the valid range [0.0, 1.0]. If any component is out of range,
+    //     the method prints a warning and exits early without modifying the color.
+    //   - The method then sets the brushColor property and appends the color values
+    //     to the output stream (e.g., for a PDF or graphics context).
     func setBrushColor(_ rgbColor: [Float]?) {
         if rgbColor == nil {
             print("Warning: RGB color is null. Ignoring request.")
             return // Early exit if null
         }
 
-        // Your exact code for range check
         if rgbColor![0] < 0.0 || rgbColor![0] > 1.0 ||
            rgbColor![1] < 0.0 || rgbColor![1] > 1.0 ||
            rgbColor![2] < 0.0 || rgbColor![2] > 1.0 {

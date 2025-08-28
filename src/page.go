@@ -513,7 +513,6 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 //   - The method then sets the penColor and appends the color values to the
 //     appropriate output stream (e.g., for a PDF or graphics context).
 func (page *Page) SetPenColorRGB(rgbColor [3]float32) {
-	// Your exact code for range check
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
 		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
 		rgbColor[2] < 0.0 || rgbColor[2] > 1.0 {
@@ -585,7 +584,6 @@ func (page *Page) SetBrushColorCMYK(c, m, y, k float32) {
 //   - The method then sets the brushColor and appends the color values to the
 //     appropriate output stream (e.g., for a PDF or graphics context).
 func (page *Page) SetBrushColorRGB(rgbColor [3]float32) {
-	// Your exact code for range check
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
 		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
 		rgbColor[2] < 0.0 || rgbColor[2] > 1.0 {
