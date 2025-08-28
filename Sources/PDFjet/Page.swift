@@ -521,14 +521,16 @@ public class Page {
     }
 
     ///
-    /// Sets the color for stroking operations.
-    /// The pen color is used when drawing lines and splines.
+    /// Sets the pen color.
     ///
-    /// - Parameter r the red component is Float value from 0.0 to 1.0.
-    /// - Parameter g the green component is Float value from 0.0 to 1.0.
-    /// - Parameter b the blue component is Float value from 0.0 to 1.0.
+    /// - Parameter color the color.
+    /// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+    /// @throws IOException
     ///
-    public final func setPenColor(_ r: Float, _ g: Float, _ b: Float) {
+    public func setPenColor(_ color: Int32) {
+        let r = Float((color >> 16) & 0xff)/255.0
+        let g = Float((color >>  8) & 0xff)/255.0
+        let b = Float((color)       & 0xff)/255.0
         append(r)
         append(Token.space)
         append(g)
@@ -583,60 +585,22 @@ public class Page {
     }
 
     ///
-    /// Sets the color for stroking operations using CMYK.
-    /// The pen color is used when drawing lines and splines.
+    /// Sets the brush color.
     ///
-    /// - Parameter c the cyan component is Float value from 0.0 to 1.0.
-    /// - Parameter m the magenta component is Float value from 0.0 to 1.0.
-    /// - Parameter y the yellow component is Float value from 0.0 to 1.0.
-    /// - Parameter k the black component is Float value from 0.0 to 1.0.
+    /// - Parameter color the color.
+    /// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+    /// @throws IOException
     ///
-    public final func setPenColorCMYK(_ c: Float, _ m: Float, _ y: Float, _ k: Float) {
-        append(c)
-        append(Token.space)
-        append(m)
-        append(Token.space)
-        append(y)
-        append(Token.space)
-        append(k)
-        append(" K\n")
-    }
-
-    ///
-    /// Sets the color for brush operations.
-    /// This is the color used when drawing regular text and filling shapes.
-    ///
-    /// - Parameter r the red component is Float value from 0.0 to 1.0.
-    /// - Parameter g the green component is Float value from 0.0 to 1.0.
-    /// - Parameter b the blue component is Float value from 0.0 to 1.0.
-    ///
-    public final func setBrushColor(_ r: Float, _ g: Float, _ b: Float) {
+    public func setBrushColor(_ color: Int32) {
+        let r = Float((color >> 16) & 0xff)/255.0
+        let g = Float((color >>  8) & 0xff)/255.0
+        let b = Float((color)       & 0xff)/255.0
         append(r)
         append(Token.space)
         append(g)
         append(Token.space)
         append(b)
         append(" rg\n")
-    }
-
-    ///
-    /// Sets the color for brush operations using CMYK.
-    /// This is the color used when drawing regular text and filling shapes.
-    ///
-    /// - Parameter c the cyan component is Float value from 0.0 to 1.0.
-    /// - Parameter m the magenta component is Float value from 0.0 to 1.0.
-    /// - Parameter y the yellow component is Float value from 0.0 to 1.0.
-    /// - Parameter k the black component is Float value from 0.0 to 1.0.
-    ///
-    public final func setBrushColorCMYK(_ c: Float, _ m: Float, _ y: Float, _ k: Float) {
-        append(c)
-        append(Token.space)
-        append(m)
-        append(Token.space)
-        append(y)
-        append(Token.space)
-        append(k)
-        append(" k\n")
     }
 
     // setBrushColor sets the brush color using an RGB color array.
@@ -690,31 +654,43 @@ public class Page {
     }
 
     ///
-    /// Sets the pen color.
+    /// Sets the color for stroking operations using CMYK.
+    /// The pen color is used when drawing lines and splines.
     ///
-    /// - Parameter color the color.
-    /// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-    /// @throws IOException
+    /// - Parameter c the cyan component is Float value from 0.0 to 1.0.
+    /// - Parameter m the magenta component is Float value from 0.0 to 1.0.
+    /// - Parameter y the yellow component is Float value from 0.0 to 1.0.
+    /// - Parameter k the black component is Float value from 0.0 to 1.0.
     ///
-    public func setPenColor(_ color: Int32) {
-        let r = Float((color >> 16) & 0xff)/255.0
-        let g = Float((color >>  8) & 0xff)/255.0
-        let b = Float((color)       & 0xff)/255.0
-        setPenColor(r, g, b)
+    public final func setPenColorCMYK(_ c: Float, _ m: Float, _ y: Float, _ k: Float) {
+        append(c)
+        append(Token.space)
+        append(m)
+        append(Token.space)
+        append(y)
+        append(Token.space)
+        append(k)
+        append(" K\n")
     }
 
     ///
-    /// Sets the brush color.
+    /// Sets the color for brush operations using CMYK.
+    /// This is the color used when drawing regular text and filling shapes.
     ///
-    /// - Parameter color the color.
-    /// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-    /// @throws IOException
+    /// - Parameter c the cyan component is Float value from 0.0 to 1.0.
+    /// - Parameter m the magenta component is Float value from 0.0 to 1.0.
+    /// - Parameter y the yellow component is Float value from 0.0 to 1.0.
+    /// - Parameter k the black component is Float value from 0.0 to 1.0.
     ///
-    public func setBrushColor(_ color: Int32) {
-        let r = Float((color >> 16) & 0xff)/255.0
-        let g = Float((color >>  8) & 0xff)/255.0
-        let b = Float((color)       & 0xff)/255.0
-        setBrushColor(r, g, b)
+    public final func setBrushColorCMYK(_ c: Float, _ m: Float, _ y: Float, _ k: Float) {
+        append(c)
+        append(Token.space)
+        append(m)
+        append(Token.space)
+        append(y)
+        append(Token.space)
+        append(k)
+        append(" k\n")
     }
 
     ///
