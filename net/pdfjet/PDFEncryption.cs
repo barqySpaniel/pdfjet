@@ -99,6 +99,10 @@ public class PDFEncryption {
         CryptographicOperations.ZeroMemory(ownerPassBytes);
     }
 
+    public int GetObjNumber() {
+        return objNumber;
+    }
+
     private byte[] ComputeHashValue(byte[] inputPassword, bool isOwnerPassword, byte[] userKey) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         int round = 0;
@@ -259,10 +263,6 @@ public class PDFEncryption {
                 return ms.ToArray();
             }
         }
-    }
-
-    public int GetObjNumber() {
-        return objNumber;
     }
 
     // === Helpers ===
