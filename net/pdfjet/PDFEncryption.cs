@@ -50,7 +50,7 @@ public class PDFEncryption {
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
 
-        byte[] userPasswordValidationHash = ComputeHashValue(userPassBytes, false, null);
+        byte[] userPasswordValidationHash = ComputeHashValue(userPassBytes, null);
 Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidationHash.Length);
         byte[] ownerPasswordValidationHash = new byte[64]; // ComputeHashValue(ownerPassBytes, true, userPasswordValidationHash);
         byte[] ownerEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(ownerPassword, userPassword, permissionFlags);
@@ -109,7 +109,6 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
 
     private byte[] ComputeHashValue(
             byte[] inputPassword,
-            bool isOwnerPassword,
             byte[] userPasswordValidationHash) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         int round = 0;
@@ -117,9 +116,9 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         byte[] K = HashPassword(inputPassword);
         // Calculate the size of K1 *once*, outside the loop
         int k1Size;
-        if (isOwnerPassword) {
+        if (userPasswordValidationHash != null) {
             // Add a validation check for the user key
-            if (userPasswordValidationHash == null || userPasswordValidationHash.Length != 48) {
+            if (userPasswordValidationHash.Length != 48) {
                 throw new ArgumentException(
                     "User key must be provided and be 48 bytes long for owner password verification.",
                     nameof(userPasswordValidationHash));
@@ -140,7 +139,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
                 //    K1 is the concatenation of the input password and K.
                 stream.Position = 0; // Reset the stream
                 for (int i = 0; i < 64; i++) {
-                    if (isOwnerPassword) {
+                    if (userPasswordValidationHash != null) {
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
                         stream.Write(userPasswordValidationHash, 0, userPasswordValidationHash.Length); // 48-bytes
