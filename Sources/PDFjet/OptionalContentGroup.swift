@@ -34,7 +34,7 @@ public class OptionalContentGroup {
 
     private var pdf: PDF
     private var name: String?
-    private var ocgNumber = -1
+    private var ocgNumber: Int = -1
     private var visible: Bool?
     private var printable: Bool?
     private var exportable: Bool?
@@ -62,7 +62,7 @@ public class OptionalContentGroup {
     }
 
     public func drawOn(_ page: Page) {
-        if ocgNumber != -1 {
+        if ocgNumber == -1 {
             pdf.newobj()
             pdf.append(Token.beginDictionary)
             pdf.append("/Type /OCG\n")

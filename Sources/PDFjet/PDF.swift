@@ -60,7 +60,7 @@ public class PDF {
     private var uuid: String?
     private var prevPage: Page?
 
-    private var contentStreamsCompression = true
+    private var contentStreamsCompression = false
 
     ///
     /// The default constructor - use when reading PDF files.
