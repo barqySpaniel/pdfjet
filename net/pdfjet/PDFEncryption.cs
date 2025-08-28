@@ -120,9 +120,6 @@ public class PDFEncryption {
         byte[] K1;
         byte[] E;
         using (MemoryStream stream = new MemoryStream(k1Size)) {
-            // Ensure the MemoryStream buffer is large enough
-            // stream.SetLength(k1Size); // Or create it with this initial capacity
-
             // Perform the following steps (a)-(d) 64 times:
             while (round < 64 || continueProcessing) {
                 // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
@@ -141,7 +138,7 @@ public class PDFEncryption {
                         stream.Write(K, 0, K.Length);
                     }
                 }
-                K1 = stream.GetBuffer();
+                K1 = stream.ToArray();
 
                 // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
                 //    using the first 16 bytes of K as the key and the second
