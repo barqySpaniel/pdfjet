@@ -695,13 +695,26 @@ final public class Page {
     }
 
     /**
-     * Sets the color for brush operations.
+     * Sets the brush color.
      *
-     * @param color the color.
+     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+     */
+    public void setBrushColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        setBrushColor(r, g, b);
+    }
+
+    /**
+     * Sets the brush color using an RGB color array.
+     *
+     * @param rgbColor An array of three floats representing the red, green, and blue components of the color.
+     *                 Each value should be between 0.0f and 1.0f. If the array is null or values are out of range,
+     *                 the method logs a warning and does not change the brush color.
      */
     public void setBrushColor(float[] rgbColor) {
         if (rgbColor == null) {
-            System.out.println("Warning: RGB color is null. Ignoring request.");
             return; // Early exit if null
         }
 
@@ -725,29 +738,40 @@ final public class Page {
     }
 
     /**
-     * Returns the brush color.
+     * Gets the current brush color.
      *
-     * @return the brush color.
+     * @return An array of three floats representing the RGB components of the brush color,
+     *         with each value in the range 0.0f to 1.0f.
      */
     public float[] getBrushColor() {
         return brushColor;
     }
 
     /**
-     * Sets the pen color.
+     * Sets the pen color using a packed RGB integer.
+     * The integer should be in the format 0xRRGGBB.
      *
-     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+     * @param color A packed RGB integer where:
+     *              - The 16 most significant bits represent the red component,
+     *              - The next 8 bits represent the green component,
+     *              - The least significant 8 bits represent the blue component.
      */
-    public void setPenColor(int color) {
+     public void setPenColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
         setPenColor(r, g, b);
     }
 
-    public void setPenColor(float[] rgbColor) {
+    /**
+     * Sets the pen color using an RGB array.
+     * The array must contain three float values, representing red, green, and blue components.
+     * Each component should be in the range of 0.0f to 1.0f.
+     *
+     * @param rgbColor An array of three float values for red, green, and blue (0.0f to 1.0f).
+     */
+     public void setPenColor(float[] rgbColor) {
         if (rgbColor == null) {
-            System.out.println("Warning: RGB color is null. Ignoring request.");
             return; // Early exit if null
         }
 
@@ -770,20 +794,14 @@ final public class Page {
         append(" RG\n");
     }
 
+    /**
+     * Retrieves the current pen color.
+     *
+     * @return An array of three floats representing the RGB components of the pen color.
+     *         Each value is in the range of 0.0f to 1.0f.
+     */
     public float[] getPenColor() {
         return penColor;
-    }
-
-    /**
-     * Sets the brush color.
-     *
-     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-     */
-    public void setBrushColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        setBrushColor(r, g, b);
     }
 
     /**
