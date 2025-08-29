@@ -646,7 +646,7 @@ public class Page {
      */
     public void SetPenColor(
             double r, double g, double b) {
-        SetPenColor((float) r, (float) g, (float) b);
+        SetPenColor(new float[] { (float) r, (float) g, (float) b });
     }
 
     /**
@@ -670,19 +670,6 @@ public class Page {
     }
 
     /**
-     * Sets the brush color.
-     *
-     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-     * @throws IOException
-     */
-    public void SetBrushColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetBrushColor(r, g, b);
-    }
-
-    /**
      * Sets the color for brush operations.
      * This is the color used when drawing regular text and filling shapes.
      *
@@ -691,7 +678,7 @@ public class Page {
      * @param b the blue component is float value from 0.0 to 1.0.
      */
     public void SetBrushColor(double r, double g, double b) {
-        SetBrushColor((float) r, (float) g, (float) b);
+        SetBrushColor(new float[] { (float) r, (float) g, (float) b });
     }
 
     /**
@@ -725,6 +712,24 @@ public class Page {
     [Obsolete("This method is now obsolete. Use SetBrushColor(float[] rgbColor) instead.")]
     public void SetBrushColor(float r, float g, float b) {
         SetBrushColor(new float[] {r, g, b}); // Call the second method with an array
+    }
+
+    /**
+     * Sets the brush color.
+     *
+     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+     * @throws IOException
+     */
+    public void SetBrushColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        Append(r);
+        Append(Token.Space);
+        Append(g);
+        Append(Token.Space);
+        Append(b);
+        Append(" rg\n");
     }
 
     /**
@@ -780,7 +785,12 @@ public class Page {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetPenColor(r, g, b);
+        Append(r);
+        Append(Token.Space);
+        Append(g);
+        Append(Token.Space);
+        Append(b);
+        Append(" RG\n");
     }
 
     /// <summary>
@@ -802,17 +812,10 @@ public class Page {
     /// Sets the pen color using an RGB color array.
     /// </summary>
     /// <param name="rgbColor">
-    /// An array of three <see cref="float"/> values representing the red, green, and blue components of the color.
-    /// Each value must be in the range from 0.0f to 1.0f.
+    /// An array of three <see cref="float"/> values for red, green, and blue components (0.0f to 1.0f).
     /// </param>
     /// <remarks>
-    /// This method sets the pen color using an array of RGB values where:
-    /// - <paramref name="rgbColor[0]"/> represents the red component,
-    /// - <paramref name="rgbColor[1]"/> represents the green component,
-    /// - <paramref name="rgbColor[2]"/> represents the blue component.
-    ///
-    /// If the color values are outside the valid range (0.0f to 1.0f), the method logs a warning and returns without changing the color.
-    /// If the array is null, it logs a warning and does not proceed with setting the color.
+    /// Logs a warning and does not set the color if the values are out of range or the array is null.
     /// </remarks>
     public void SetPenColor(float[] rgbColor) {
         if (rgbColor == null) {
@@ -1182,7 +1185,7 @@ public class Page {
         } else {
             // Both brushColor == null and penColor == null
             SetPenWidth(0f);
-            SetPenColor(0f, 0f, 0f);
+            SetPenColor(Color.black);
             Append("S\n");
         }
     }

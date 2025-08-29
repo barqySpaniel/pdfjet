@@ -302,7 +302,7 @@ public class Path : IDrawable {
             page.Append("S\n");
         } else {    // Both brushColor == null and penColor == null
             page.SetPenWidth(0f);
-            page.SetPenColor(0f, 0f, 0f);
+            page.SetPenColor(Color.black);
             page.Append("S\n");
         }
         page.Append("Q\n");
