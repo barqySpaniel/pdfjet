@@ -1044,11 +1044,20 @@ public class Page {
         FillPath();           // close and fill
     }
 
-    /**
-     * Draws or fills the specified path using the current pen or brush.
-     *
-     * @param path list of the path points.
-     */
+    /// <summary>
+    /// Draws the given list of points as a path, using the current pen/brush.
+    /// Control points (<c>isControlPoint == true</c>) form a Bézier curve;
+    /// non‑control points are drawn as straight lines.
+    /// </summary>
+    /// <param name="path">
+    /// List of <see cref="Point"/> objects. Must contain at least two points:
+    /// the first defines the start (via <c>MoveTo</c>), the rest are processed
+    /// sequentially. Control points are appended to the current curve; when a
+    /// regular point follows a curve, the curve is closed with <c>"c\n"</c>.
+    /// </param>
+    /// <exception cref="Exception">
+    /// Thrown when <paramref name="path"/> has fewer than two points.
+    /// </exception>
     public void DrawPath(List<Point> path) {
         if (path.Count < 2) {
             throw new Exception("The Path object must contain at least 2 points");
@@ -1683,14 +1692,14 @@ public class Page {
         }
     }
 
-    public void AddBMC(
+    internal void AddBMC(
             String structure,
             String actualText,
             String altDescription) {
         AddBMC(structure, null, actualText, altDescription);
     }
 
-    public void AddBMC(
+    internal void AddBMC(
             String structure,
             String language,
             String actualText,
@@ -1713,13 +1722,13 @@ public class Page {
         }
     }
 
-    public void AddArtifactBMC() {
+    internal void AddArtifactBMC() {
         if (pdf.compliance == Compliance.PDF_UA_1) {
             Append("/Artifact BMC\n");
         }
     }
 
-    public void AddEMC() {
+    internal void AddEMC() {
         if (pdf.compliance == Compliance.PDF_UA_1) {
             Append("EMC\n");
         }
