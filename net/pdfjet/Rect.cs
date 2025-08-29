@@ -34,7 +34,7 @@ public class Rect  : IDrawable {
 
     private float[] fillColor;
     private float borderWidth;
-    private float[] borderColor;
+    private float[] borderColor = new float[] {0f, 0f, 0f};
     private string borderPattern = "[] 0";
 
     private string uri;

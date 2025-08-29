@@ -56,9 +56,9 @@ public class TextBox : IDrawable {
     internal float margin = 0f;
     internal float lineWidth = 0f;
 
-    private float[] fillColor;
+    private float[] fillColor;  // The background fill color
     private float[] textColor = new float[] {0f, 0f, 0f};
-    private float strokeWidth;
+    private float strokeWidth = 1f;
     private float[] strokeColor;
 
     private uint valign = Align.TOP;
@@ -378,7 +378,7 @@ public class TextBox : IDrawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetTextColor(r, g, b);
+        this.textColor = new float[] {r, g, b};
     }
 
     public void SetTextColor(float r, float g, float b) {
@@ -401,7 +401,7 @@ public class TextBox : IDrawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetStrokeColor(r, g, b);
+        this.strokeColor = new float[] {r, g, b};
     }
 
     public void SetStrokeColor(float r, float g, float b) {

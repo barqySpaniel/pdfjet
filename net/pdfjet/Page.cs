@@ -740,7 +740,6 @@ public class Page {
      */
     public void SetBrushColor(float[] rgbColor) {
         if (rgbColor == null) {
-            Console.WriteLine("Warning: RGB color is null. Ignoring request.");
             return; // Early exit if null
         }
 
@@ -819,7 +818,6 @@ public class Page {
     /// </remarks>
     public void SetPenColor(float[] rgbColor) {
         if (rgbColor == null) {
-            Console.WriteLine("Warning: RGB color is null. Ignoring request.");
             return; // Early exit if null
         }
 

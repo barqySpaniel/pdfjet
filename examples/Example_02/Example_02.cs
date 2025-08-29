@@ -26,11 +26,11 @@ public class Example_02 {
         textBox.SetWidth(415f);
         textBox.DrawOn(page);
 
-        textBox = new TextBox(font2,
-                File.ReadAllText("data/languages/korean.txt"));
-        textBox.SetLocation(50f, 450f);
-        textBox.SetWidth(415f);
-        textBox.DrawOn(page);
+//        textBox = new TextBox(font2,
+//                File.ReadAllText("data/languages/korean.txt"));
+//        textBox.SetLocation(50f, 450f);
+//        textBox.SetWidth(415f);
+//        textBox.DrawOn(page);
 
         pdf.Complete();
     }

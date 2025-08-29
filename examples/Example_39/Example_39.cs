@@ -45,7 +45,7 @@ public class Example_39 {
         point.SetX(0f);
         point.SetY(45f);
         point.SetShape(Point.INVISIBLE);
-        point.SetColor(Color.blue);
+        point.SetStrokeColor(Color.blue);
         point.SetStrokeWidth(20f);
         point.SetText(" Horizontal");
         point.SetTextColor(Color.white);
@@ -63,7 +63,7 @@ public class Example_39 {
         point.SetX(0f);
         point.SetY(35f);
         point.SetShape(Point.INVISIBLE);
-        point.SetColor(Color.gold);
+        point.SetStrokeColor(Color.gold);
         point.SetStrokeWidth(20f);
         point.SetText(" Bar");
         point.SetTextColor(Color.black);
@@ -81,7 +81,7 @@ public class Example_39 {
         point.SetX(0f);
         point.SetY(25f);
         point.SetShape(Point.INVISIBLE);
-        point.SetColor(Color.green);
+        point.SetStrokeColor(Color.green);
         point.SetStrokeWidth(20f);
         point.SetText(" Chart");
         point.SetTextColor(Color.white);
@@ -99,7 +99,7 @@ public class Example_39 {
         point.SetX(0f);
         point.SetY(15f);
         point.SetShape(Point.INVISIBLE);
-        point.SetColor(Color.red);
+        point.SetStrokeColor(Color.red);
         point.SetStrokeWidth(20f);
         point.SetText(" Example");
         point.SetTextColor(Color.white);

@@ -235,15 +235,11 @@ public class Point : IDrawable {
         return r;
     }
 
-    public void SetColor(int color) {
-        SetFillColor(color);
-    }
-
     public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetFillColor(r, g, b);
+        this.fillColor = new float[] {r, g, b};
     }
 
     public void SetFillColor(float r, float g, float b) {
@@ -266,7 +262,8 @@ public class Point : IDrawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        return SetStrokeColor(r, g, b);
+        this.strokeColor = new float[] {r, g, b};
+        return this;
     }
 
     public Point SetStrokeColor(float r, float g, float b) {
