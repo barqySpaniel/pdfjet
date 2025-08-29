@@ -96,7 +96,7 @@ func NewTextBox(font *Font) *TextBox {
 	textBox.width = 300.0
 	textBox.lineHeight = 1.0
 	textBox.margin = 0.0
-	textBox.background = color.White
+	textBox.background = color.Transparent
 	textBox.pen = color.Black
 	textBox.brush = color.Black
 	textBox.properties = 0x00000001
