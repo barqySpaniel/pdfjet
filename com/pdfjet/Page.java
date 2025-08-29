@@ -827,7 +827,7 @@ final public class Page {
      *  @param pattern the line dash pattern.
      */
     public void setLinePattern(String pattern) {
-        append(linePattern);
+        append(pattern);
         append(" d\n");
     }
 
@@ -835,8 +835,8 @@ final public class Page {
      *  Sets the default line dash pattern - solid line.
      */
     public void setDefaultLinePattern() {
-        linePattern = "[] 0";
-        append(linePattern);
+        // TODO:
+        append("[] 0");
         append(" d\n");
     }
 
