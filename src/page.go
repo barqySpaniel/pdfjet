@@ -1028,11 +1028,16 @@ func (page *Page) DrawPoint(p *Point) {
 	}
 }
 
-/**
- *  Sets the text rendering mode.
- *
- *  @param mode the rendering mode.
- */
+// SetTextRenderingMode sets the text rendering mode for the page.
+// The mode determines how text is rendered, and must be an integer value between 0 and 7 (inclusive).
+//
+// Parameters:
+//
+//	mode (int): the text rendering mode to set (0 to 7)
+//
+// Example usage:
+//
+//	page.SetTextRenderingMode(3)
 func (page *Page) SetTextRenderingMode(mode int) {
 	if mode >= 0 && mode <= 7 {
 		page.renderingMode = mode
@@ -1041,8 +1046,17 @@ func (page *Page) SetTextRenderingMode(mode int) {
 	}
 }
 
-// SetTextDirection sets the text direction.
-// @param degrees the angle.
+// SetTextDirection sets the text direction for rendering text on the page.
+// The direction is specified as an angle in degrees (0-360).
+// If the degree value is greater than 360, it will be normalized to the range [0, 360).
+//
+// Parameters:
+//
+//	degrees (int): the angle (in degrees) to set the text direction
+//
+// Example usage:
+//
+//	page.SetTextDirection(90)
 func (page *Page) SetTextDirection(degrees int) {
 	if degrees > 360 {
 		degrees %= 360
