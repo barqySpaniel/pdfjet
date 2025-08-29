@@ -137,7 +137,6 @@ class BMPImage {
         }
 
         deflated = [UInt8]()
-        // LZWEncode(&deflated!, image!)
         FlateEncode(&deflated!, image!)
     }
 
