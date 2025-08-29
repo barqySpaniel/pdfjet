@@ -993,63 +993,55 @@ public class Page {
         Append(" l\n");
     }
 
-    /**
-     *  Draws the path using the current pen color.
-     */
+    /// <summary>
+    /// Strokes the current path using the active pen color.
+    /// </summary>
     public void StrokePath() {
         Append("S\n");
     }
 
-    /**
-     *  Closes the path and draws it using the current pen color.
-     */
+    /// <summary>
+    /// Closes the current path and then strokes it using the active pen color.
+    /// </summary>
     public void ClosePath() {
         Append("s\n");
     }
 
-    /**
-     *  Closes and fills the path with the current brush color.
-     */
+    /// <summary>
+    /// Closes the current path and fills it using the active brush color.
+    /// </summary>
     public void FillPath() {
         Append("f\n");
     }
 
-    /**
-     *  Draws the outline of the specified rectangle on the page.
-     *  The left and right edges of the rectangle are at x and x + w.
-     *  The top and bottom edges are at y and y + h.
-     *  The rectangle is drawn using the current pen color.
-     *
-     *  @param x the x coordinate of the rectangle to be drawn.
-     *  @param y the y coordinate of the rectangle to be drawn.
-     *  @param w the width of the rectangle to be drawn.
-     *  @param h the height of the rectangle to be drawn.
-     */
+    /// <summary>
+    /// Draws the outline of a rectangle using the current pen color.
+    /// </summary>
+    /// <param name="x">X‑coordinate of the lower‑left corner.</param>
+    /// <param name="y">Y‑coordinate of the lower‑left corner.</param>
+    /// <param name="w">Rectangle width.</param>
+    /// <param name="h">Rectangle height.</param>
     public void DrawRect(double x, double y, double w, double h) {
         MoveTo(x, y);
-        LineTo(x+w, y);
-        LineTo(x+w, y+h);
-        LineTo(x, y+h);
-        ClosePath();
+        LineTo(x + w, y);
+        LineTo(x + w, y + h);
+        LineTo(x, y + h);
+        ClosePath();          // close and stroke
     }
 
-    /**
-     *  Fills the specified rectangle on the page.
-     *  The left and right edges of the rectangle are at x and x + w.
-     *  The top and bottom edges are at y and y + h.
-     *  The rectangle is drawn using the current pen color.
-     *
-     *  @param x the x coordinate of the rectangle to be drawn.
-     *  @param y the y coordinate of the rectangle to be drawn.
-     *  @param w the width of the rectangle to be drawn.
-     *  @param h the height of the rectangle to be drawn.
-     */
+    /// <summary>
+    /// Fills a rectangle using the current brush color.
+    /// </summary>
+    /// <param name="x">X‑coordinate of the lower‑left corner.</param>
+    /// <param name="y">Y‑coordinate of the lower‑left corner.</param>
+    /// <param name="w">Rectangle width.</param>
+    /// <param name="h">Rectangle height.</param>
     public void FillRect(double x, double y, double w, double h) {
         MoveTo(x, y);
-        LineTo(x+w, y);
-        LineTo(x+w, y+h);
-        LineTo(x, y+h);
-        FillPath();
+        LineTo(x + w, y);
+        LineTo(x + w, y + h);
+        LineTo(x, y + h);
+        FillPath();           // close and fill
     }
 
     /**
