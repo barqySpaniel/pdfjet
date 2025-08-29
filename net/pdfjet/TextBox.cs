@@ -96,6 +96,7 @@ public class TextBox : IDrawable {
      */
     public TextBox(Font font) {
         this.font = font;
+        this.fontSize = font.size;
     }
 
     /**
@@ -106,6 +107,7 @@ public class TextBox : IDrawable {
      */
     public TextBox(Font font, String text) {
         this.font = font;
+        this.fontSize = font.size;
         this.text = text;
     }
 
@@ -131,6 +133,7 @@ public class TextBox : IDrawable {
      */
     public TextBox(Font font, String text, float width, float height) {
         this.font = font;
+        this.fontSize = font.size;
         this.text = text;
         this.width = width;
         this.height = height;

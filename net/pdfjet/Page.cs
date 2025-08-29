@@ -650,26 +650,6 @@ public class Page {
     }
 
     /**
-     * Sets the color for stroking operations using CMYK.
-     * The pen color is used when drawing lines and splines.
-     *
-     * @param c the cyan component is float value from 0.0f to 1.0f.
-     * @param m the magenta component is float value from 0.0f to 1.0f.
-     * @param y the yellow component is float value from 0.0f to 1.0f.
-     * @param k the black component is float value from 0.0f to 1.0f.
-     */
-    public void SetPenColorCMYK(float c, float m, float y, float k) {
-        Append(c);
-        Append(' ');
-        Append(m);
-        Append(' ');
-        Append(y);
-        Append(' ');
-        Append(k);
-        Append(" K\n");
-    }
-
-    /**
      * Sets the color for brush operations.
      * This is the color used when drawing regular text and filling shapes.
      *
@@ -679,26 +659,6 @@ public class Page {
      */
     public void SetBrushColor(double r, double g, double b) {
         SetBrushColor(new float[] { (float) r, (float) g, (float) b });
-    }
-
-    /**
-     * Sets the color for brush operations using CMYK.
-     * This is the color used when drawing regular text and filling shapes.
-     *
-     * @param c the cyan component is float value from 0.0f to 1.0f.
-     * @param m the magenta component is float value from 0.0f to 1.0f.
-     * @param y the yellow component is float value from 0.0f to 1.0f.
-     * @param k the black component is float value from 0.0f to 1.0f.
-     */
-    public void SetBrushColorCMYK(float c, float m, float y, float k) {
-        Append(c);
-        Append(' ');
-        Append(m);
-        Append(' ');
-        Append(y);
-        Append(' ');
-        Append(k);
-        Append(" k\n");
     }
 
     /**
@@ -751,7 +711,7 @@ public class Page {
         }
 
         // Now set the brush color
-        brushColor = rgbColor;
+        this.brushColor = rgbColor;
 
         // Proceed with setting the color (example)
         Append(rgbColor[0]);
@@ -829,7 +789,7 @@ public class Page {
         }
 
         // Now set the pen color
-        penColor = rgbColor;
+        this.penColor = rgbColor;
 
         // Proceed with setting the color (example)
         Append(rgbColor[0]);
@@ -848,6 +808,48 @@ public class Page {
     /// </returns>
     public float[] GetPenColor() {
         return penColor;
+    }
+
+    /**
+     * Sets the color for brush operations using CMYK.
+     * This is the color used when drawing regular text and filling shapes.
+     *
+     * @param c the cyan component is float value from 0.0f to 1.0f.
+     * @param m the magenta component is float value from 0.0f to 1.0f.
+     * @param y the yellow component is float value from 0.0f to 1.0f.
+     * @param k the black component is float value from 0.0f to 1.0f.
+     */
+    public void SetBrushColorCMYK(float c, float m, float y, float k) {
+        this.brushCMYK = new float[] {c, m, y, k};
+        Append(c);
+        Append(' ');
+        Append(m);
+        Append(' ');
+        Append(y);
+        Append(' ');
+        Append(k);
+        Append(" k\n");
+    }
+
+    /**
+     * Sets the color for stroking operations using CMYK.
+     * The pen color is used when drawing lines and splines.
+     *
+     * @param c the cyan component is float value from 0.0f to 1.0f.
+     * @param m the magenta component is float value from 0.0f to 1.0f.
+     * @param y the yellow component is float value from 0.0f to 1.0f.
+     * @param k the black component is float value from 0.0f to 1.0f.
+     */
+    public void SetPenColorCMYK(float c, float m, float y, float k) {
+        this.penCMYK = new float[] {c, m, y, k};
+        Append(c);
+        Append(' ');
+        Append(m);
+        Append(' ');
+        Append(y);
+        Append(' ');
+        Append(k);
+        Append(" K\n");
     }
 
     /**
@@ -882,6 +884,7 @@ public class Page {
      *  @param pattern the line dash pattern.
      */
     public void SetStrokePattern(String pattern) {
+        this.strokePattern = pattern;
         Append(pattern);
         Append(" d\n");
     }
@@ -909,6 +912,7 @@ public class Page {
      *  @param width the pen width.
      */
     public void SetPenWidth(float width) {
+        this.penWidth = width;
         Append(width);
         Append(" w\n");
     }
@@ -924,7 +928,8 @@ public class Page {
      *  Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
      */
     public void SetLineCapStyle(CapStyle style) {
-        Append((int) style);
+        this.lineCapStyle = style;
+        Append((Int32) style);
         Append(" J\n");
     }
 
@@ -935,7 +940,8 @@ public class Page {
      *  Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
      */
     public void SetLineJoinStyle(JoinStyle style) {
-        Append((int) style);
+        this.lineJoinStyle = style;
+        Append((Int32) style);
         Append(" j\n");
     }
 
