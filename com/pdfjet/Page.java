@@ -605,7 +605,7 @@ final public class Page {
      * @param b the blue component is float value from 0.0 to 1.0.
      */
     public void setPenColor(double r, double g, double b) {
-        setPenColor((float) r, (float) g, (float) b);
+        setPenColor(new float[] {(float)r, (float)g, (float)b});
     }
 
     /**
@@ -617,32 +617,7 @@ final public class Page {
      * @param b the blue component is float value from 0.0f to 1.0f.
      */
     public void setPenColor(float r, float g, float b) {
-        append(r);
-        append(' ');
-        append(g);
-        append(' ');
-        append(b);
-        append(" RG\n");
-    }
-
-    /**
-     * Sets the color for stroking operations using CMYK.
-     * The pen color is used when drawing lines and splines.
-     *
-     * @param c the cyan component is float value from 0.0f to 1.0f.
-     * @param m the magenta component is float value from 0.0f to 1.0f.
-     * @param y the yellow component is float value from 0.0f to 1.0f.
-     * @param k the black component is float value from 0.0f to 1.0f.
-     */
-    public void setPenColorCMYK(float c, float m, float y, float k) {
-        append(c);
-        append(' ');
-        append(m);
-        append(' ');
-        append(y);
-        append(' ');
-        append(k);
-        append(" K\n");
+        setPenColor(new float[] {r, g, b});
     }
 
     /**
@@ -654,7 +629,7 @@ final public class Page {
      * @param b the blue component is float value from 0.0 to 1.0.
      */
     public void setBrushColor(double r, double g, double b) {
-        setBrushColor((float) r, (float) g, (float) b);
+        setBrushColor(new float[] {(float)r, (float)g, (float)b});
     }
 
     /**
@@ -666,32 +641,7 @@ final public class Page {
      * @param b the blue component is float value from 0.0f to 1.0f.
      */
     public void setBrushColor(float r, float g, float b) {
-        append(r);
-        append(' ');
-        append(g);
-        append(' ');
-        append(b);
-        append(" rg\n");
-    }
-
-    /**
-     * Sets the color for brush operations using CMYK.
-     * This is the color used when drawing regular text and filling shapes.
-     *
-     * @param c the cyan component is float value from 0.0f to 1.0f.
-     * @param m the magenta component is float value from 0.0f to 1.0f.
-     * @param y the yellow component is float value from 0.0f to 1.0f.
-     * @param k the black component is float value from 0.0f to 1.0f.
-     */
-    public void setBrushColorCMYK(float c, float m, float y, float k) {
-        append(c);
-        append(' ');
-        append(m);
-        append(' ');
-        append(y);
-        append(' ');
-        append(k);
-        append(" k\n");
+        setBrushColor(new float[] {r, g, b});
     }
 
     /**
@@ -802,6 +752,46 @@ final public class Page {
      */
     public float[] getPenColor() {
         return penColor;
+    }
+
+    /**
+     * Sets the brush color using CMYK components.
+     * This color is applied when drawing regular text and filling shapes.
+     *
+     * @param c Cyan component (0.0f to 1.0f).
+     * @param m Magenta component (0.0f to 1.0f).
+     * @param y Yellow component (0.0f to 1.0f).
+     * @param k Black component (0.0f to 1.0f).
+     */
+    public void setBrushColorCMYK(float c, float m, float y, float k) {
+        append(c);
+        append(' ');
+        append(m);
+        append(' ');
+        append(y);
+        append(' ');
+        append(k);
+        append(" k\n");
+    }
+
+    /**
+     * Sets the pen color using CMYK components.
+     * This color is used for stroking operations such as drawing lines and splines.
+     *
+     * @param c Cyan component (0.0f to 1.0f).
+     * @param m Magenta component (0.0f to 1.0f).
+     * @param y Yellow component (0.0f to 1.0f).
+     * @param k Black component (0.0f to 1.0f).
+     */
+     public void setPenColorCMYK(float c, float m, float y, float k) {
+        append(c);
+        append(' ');
+        append(m);
+        append(' ');
+        append(y);
+        append(' ');
+        append(k);
+        append(" K\n");
     }
 
     /**
