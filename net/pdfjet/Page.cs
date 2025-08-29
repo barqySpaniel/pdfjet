@@ -945,22 +945,25 @@ public class Page {
         Append(" j\n");
     }
 
-    /**
-     *  Moves the pen to the point with coordinates (x, y) on the page.
-     *
-     *  @param x the x coordinate of new pen position.
-     *  @param y the y coordinate of new pen position.
-     */
+    /// <summary>
+    /// Overload that forwards a double‑precision coordinate pair to the
+    /// single‑precision <see cref="MoveTo(float,float)"/> implementation.
+    /// </summary>
+    /// <param name="x">Horizontal coordinate (double).</param>
+    /// <param name="y">Vertical coordinate (double).</param>
     public void MoveTo(double x, double y) {
         MoveTo((float) x, (float) y);
     }
 
-    /**
-     *  Moves the pen to the point with coordinates (x, y) on the page.
-     *
-     *  @param x the x coordinate of new pen position.
-     *  @param y the y coordinate of new pen position.
-     */
+    /// <summary>
+    /// Moves the pen to the absolute point (x, y) on the page.
+    /// </summary>
+    /// <param name="x">Horizontal coordinate of the new position.</param>
+    /// <param name="y">Vertical coordinate (before Y‑axis flip).</param>
+    /// <remarks>
+    /// Converts Y to <c>height - y</c> because the renderer uses a top‑left origin.
+    /// Appends a move‑to command in the form “x y m\n”.
+    /// </remarks>
     public void MoveTo(float x, float y) {
         Append(x);
         Append(' ');
@@ -976,10 +979,11 @@ public class Page {
         LineTo((float) x, (float) y);
     }
 
-    /**
-     *  Draws a line from the current pen position to the point with coordinates (x, y),
-     *  using the current pen width and stroke color.
-     */
+    /// <summary>
+    /// Draws a line from the current pen position to the point with coordinates (x, y),
+    /// </summary>
+    /// <param name="x">The horizontal offset for the line endpoint.</param>
+    /// <param name="y">The vertical offset for the line endpoint (before Y‑axis inversion).</param>
     public void LineTo(float x, float y) {
         Append(x);
         Append(' ');
