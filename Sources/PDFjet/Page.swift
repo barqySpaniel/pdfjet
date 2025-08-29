@@ -520,13 +520,12 @@ public class Page {
         append(" gs\n")
     }
 
-    ///
-    /// Sets the pen color.
-    ///
-    /// - Parameter color the color.
-    /// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-    /// @throws IOException
-    ///
+    // setPenColor sets the pen color using a 24-bit RGB color integer.
+    // - The integer color is expected in the format 0xRRGGBB,
+    //   where R, G, and B are the red, green, and blue components respectively.
+    // - The method converts the integer color to normalized float values
+    //   between 0 and 1 for each RGB component and appends the color
+    //   to the drawing context.
     public func setPenColor(_ color: Int32) {
         let r = Float((color >> 16) & 0xff)/255.0
         let g = Float((color >>  8) & 0xff)/255.0
@@ -580,17 +579,21 @@ public class Page {
         append(" RG\n")
     }
 
+    // getPenColor retrieves the current pen color as an array of float values.
+    // - The returned array contains the normalized RGB values (in the range 0.0 to 1.0)
+    //   representing the current pen color.
+    // - The array format is [r, g, b], where r, g, and b are the red, green, and blue
+    //   components of the pen color respectively.
     public final func getPenColor() -> [Float] {
         return penColor
     }
 
-    ///
-    /// Sets the brush color.
-    ///
-    /// - Parameter color the color.
-    /// See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-    /// @throws IOException
-    ///
+    // setBrushColor sets the brush color using a 24-bit RGB color integer.
+    // - The integer color is expected in the format 0xRRGGBB,
+    //   where R, G, and B are the red, green, and blue components respectively.
+    // - The method converts the integer color to normalized float values
+    //   between 0 and 1 for each RGB component and appends the color
+    //   to the drawing context for brush-related operations.
     public func setBrushColor(_ color: Int32) {
         let r = Float((color >> 16) & 0xff)/255.0
         let g = Float((color >>  8) & 0xff)/255.0
@@ -644,11 +647,11 @@ public class Page {
         append(" rg\n")
     }
 
-    ///
-    /// Returns the brush color.
-    ///
-    /// - Returns: the brush color.
-    ///
+    // getBrushColor retrieves the current brush color as an array of float values.
+    // - The returned array contains the normalized RGB values (in the range 0.0 to 1.0)
+    //   representing the current brush color.
+    // - The array format is [r, g, b], where r, g, and b are the red, green, and blue
+    //   components of the brush color respectively.
     public func getBrushColor() -> [Float] {
         return brushColor
     }
