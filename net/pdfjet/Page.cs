@@ -637,6 +637,18 @@ public class Page {
     }
 
     /**
+     * Sets the color for brush operations.
+     * This is the color used when drawing regular text and filling shapes.
+     *
+     * @param r the red component is float value from 0.0 to 1.0.
+     * @param g the green component is float value from 0.0 to 1.0.
+     * @param b the blue component is float value from 0.0 to 1.0.
+     */
+    public void SetBrushColor(double r, double g, double b) {
+        SetBrushColor(new float[] { (float) r, (float) g, (float) b });
+    }
+
+    /**
      * Sets the color for stroking operations.
      * The pen color is used when drawing lines and splines.
      *
@@ -647,18 +659,6 @@ public class Page {
     public void SetPenColor(
             double r, double g, double b) {
         SetPenColor(new float[] { (float) r, (float) g, (float) b });
-    }
-
-    /**
-     * Sets the color for brush operations.
-     * This is the color used when drawing regular text and filling shapes.
-     *
-     * @param r the red component is float value from 0.0 to 1.0.
-     * @param g the green component is float value from 0.0 to 1.0.
-     * @param b the blue component is float value from 0.0 to 1.0.
-     */
-    public void SetBrushColor(double r, double g, double b) {
-        SetBrushColor(new float[] { (float) r, (float) g, (float) b });
     }
 
     /**
