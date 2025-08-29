@@ -946,8 +946,8 @@ public class Page {
     }
 
     /// <summary>
-    /// Overload that forwards a double‑precision coordinate pair to the
-    /// single‑precision <see cref="MoveTo(float,float)"/> implementation.
+    /// Convenience overload that accepts double‑precision coordinates and
+    /// forwards them to the core <see cref="MoveTo(float,float)"/> method.
     /// </summary>
     /// <param name="x">Horizontal coordinate (double).</param>
     /// <param name="y">Vertical coordinate (double).</param>
@@ -971,10 +971,12 @@ public class Page {
         Append(" m\n");
     }
 
-    /**
-     *  Draws a line from the current pen position to the point with coordinates (x, y),
-     *  using the current pen width and stroke color.
-     */
+    /// <summary>
+    /// Convenience overload that accepts double‑precision coordinates and
+    /// forwards them to the core <see cref="LineTo(float,float)"/> method.
+    /// </summary>
+    /// <param name="x">Horizontal coordinate (double).</param>
+    /// <param name="y">Vertical coordinate (double).</param>
     public void LineTo(double x, double y) {
         LineTo((float) x, (float) y);
     }
