@@ -695,23 +695,6 @@ public class Page {
     }
 
     /**
-     * Sets the color for brush operations.
-     * This is the color used when drawing regular text and filling shapes.
-     *
-     * @param r the red component is float value from 0.0f to 1.0f.
-     * @param g the green component is float value from 0.0f to 1.0f.
-     * @param b the blue component is float value from 0.0f to 1.0f.
-     */
-    public void SetBrushColor(float r, float g, float b) {
-        Append(r);
-        Append(' ');
-        Append(g);
-        Append(' ');
-        Append(b);
-        Append(" rg\n");
-    }
-
-    /**
      * Sets the color for brush operations using CMYK.
      * This is the color used when drawing regular text and filling shapes.
      *
@@ -729,6 +712,19 @@ public class Page {
         Append(' ');
         Append(k);
         Append(" k\n");
+    }
+
+    /**
+     * Sets the color for brush operations.
+     * This is the color used when drawing regular text and filling shapes.
+     *
+     * @param r the red component is float value from 0.0f to 1.0f.
+     * @param g the green component is float value from 0.0f to 1.0f.
+     * @param b the blue component is float value from 0.0f to 1.0f.
+     */
+    [Obsolete("This method is now obsolete. Use SetBrushColor(float[] rgbColor) instead.")]
+    public void SetBrushColor(float r, float g, float b) {
+        SetBrushColor(new float[] {r, g, b}); // Call the second method with an array
     }
 
     /**
@@ -762,21 +758,24 @@ public class Page {
         Append(" rg\n");
     }
 
-    /**
-     * Returns the brush color.
-     *
-     * @return the brush color.
-     */
+    /// <summary>
+    /// Returns the current brush color as an RGB float array.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="float[]"/> containing the red, green, and blue components (0.0f to 1.0f) of the brush color.
+    /// </returns>
     public float[] GetBrushColor() {
         return brushColor;
     }
 
-    /**
-     * Sets the pen color.
-     *
-     * @param color the color. See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-     * @throws IOException
-     */
+    /// <summary>
+    /// Sets the pen color using a packed 0x00RRGGBB integer value.
+    /// </summary>
+    /// <param name="color">
+    /// The color value, where each component (red, green, blue) is packed into a 24-bit integer.
+    /// You can use predefined colors from the <see cref="Color"/> class or define your own.
+    /// </param>
+    /// <exception cref="IOException">
     public void SetPenColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
@@ -784,6 +783,37 @@ public class Page {
         SetPenColor(r, g, b);
     }
 
+    /// <summary>
+    /// Sets the pen color using individual red, green, and blue components.
+    /// </summary>
+    /// <param name="r">The red component as a float value from 0.0f to 1.0f.</param>
+    /// <param name="g">The green component as a float value from 0.0f to 1.0f.</param>
+    /// <param name="b">The blue component as a float value from 0.0f to 1.0f.</param>
+    /// <remarks>
+    /// <b>Deprecated</b>: This method is now obsolete. Use SetPenColor(float[] rgbColor) instead.
+    /// </remarks>
+    [Obsolete("This method is now obsolete. Use SetPenColor(float[] rgbColor) instead.")]
+    public void SetPenColor(float r, float g, float b) {
+        // Call the newer method using an array
+        SetPenColor(new float[] { r, g, b });
+    }
+
+    /// <summary>
+    /// Sets the pen color using an RGB color array.
+    /// </summary>
+    /// <param name="rgbColor">
+    /// An array of three <see cref="float"/> values representing the red, green, and blue components of the color.
+    /// Each value must be in the range from 0.0f to 1.0f.
+    /// </param>
+    /// <remarks>
+    /// This method sets the pen color using an array of RGB values where:
+    /// - <paramref name="rgbColor[0]"/> represents the red component,
+    /// - <paramref name="rgbColor[1]"/> represents the green component,
+    /// - <paramref name="rgbColor[2]"/> represents the blue component.
+    ///
+    /// If the color values are outside the valid range (0.0f to 1.0f), the method logs a warning and returns without changing the color.
+    /// If the array is null, it logs a warning and does not proceed with setting the color.
+    /// </remarks>
     public void SetPenColor(float[] rgbColor) {
         if (rgbColor == null) {
             Console.WriteLine("Warning: RGB color is null. Ignoring request.");
@@ -809,23 +839,12 @@ public class Page {
         Append(" RG\n");
     }
 
-    /**
-     * Sets the color for stroking operations.
-     * The pen color is used when drawing lines and splines.
-     *
-     * @param r the red component is float value from 0.0f to 1.0f.
-     * @param g the green component is float value from 0.0f to 1.0f.
-     * @param b the blue component is float value from 0.0f to 1.0f.
-     */
-    public void SetPenColor(float r, float g, float b) {
-        Append(r);
-        Append(' ');
-        Append(g);
-        Append(' ');
-        Append(b);
-        Append(" RG\n");
-    }
-
+    /// <summary>
+    /// Gets the current pen color as an RGB float array.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="float[]"/> with three elements: red, green, and blue components (0.0f to 1.0f).
+    /// </returns>
     public float[] GetPenColor() {
         return penColor;
     }
