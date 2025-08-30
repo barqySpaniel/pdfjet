@@ -1,5 +1,5 @@
 /**
- * TextCompactTable.cs
+ * TextCompact.cs
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
@@ -22,8 +22,8 @@ namespace PDFjet.NET.PDF417 {
 /// </list>
 /// The table is read‑only and indexed by the ASCII value of the character.
 /// </remarks>
-class TextCompactTable {
-public static readonly int[,] TABLE = {
+class TextCompact {
+public static readonly int[,] Table = {
 {0,26,0x04},    // space
 {1,26,0x04},    // space
 {2,26,0x04},    // space

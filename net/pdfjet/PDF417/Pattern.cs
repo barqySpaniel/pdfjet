@@ -1,5 +1,5 @@
 /**
- * PatternTable.cs
+ * Pattern.cs
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
@@ -21,11 +21,11 @@ namespace PDFjet.NET.PDF417 {
 /// They are pre‑computed to speed up encoding; the encoder simply looks up the row that matches the current data
 /// and emits the three codewords in order.
 /// </remarks>
-class PatternTable {
+class Pattern {
 /// <summary>
 /// Static pattern data: { row‑index, codeA, codeB, codeC }.
 /// </summary>
-public static readonly int[,] TABLE = {
+public static readonly int[,] Table = {
 {0,31111136,51111125,21111155,},
 {1,41111144,61111133,31111163,},
 {2,51111152,41111216,11111246,},

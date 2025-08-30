@@ -79,7 +79,7 @@ public class PDF417 : IDrawable {
             if (k == 4) k = 1;
         }
 
-        int dataLen = (rows * cols) - L5ECC.table.Length;
+        int dataLen = (rows * cols) - L5ECC.Table.Length;
         for (int i = 0; i < dataLen; i++) {
             buffer[i] = 900;    // The default pad codeword
         }
@@ -169,8 +169,8 @@ public class PDF417 : IDrawable {
                 list.Add(26);   // The codeword for space
                 continue;
             }
-            int value = TextCompactTable.TABLE[ch,1];
-            int mode = TextCompactTable.TABLE[ch,2];
+            int value = TextCompact.Table[ch,1];
+            int mode = TextCompact.Table[ch,2];
             if (mode == currentMode) {
                 list.Add(value);
             } else {
@@ -233,7 +233,7 @@ public class PDF417 : IDrawable {
     }
 
     private void addECC(int[] buf) {
-        int[] ecc = new int[L5ECC.table.Length];
+        int[] ecc = new int[L5ECC.Table.Length];
         int t1 = 0;
         int t2 = 0;
         int t3 = 0;
@@ -242,11 +242,11 @@ public class PDF417 : IDrawable {
         for (int i = 0; i < dataLen; i++) {
             t1 = (buf[i] + ecc[ecc.Length - 1]) % 929;
             for (int j = ecc.Length - 1; j > 0; j--) {
-                t2 = (t1 * L5ECC.table[j]) % 929;
+                t2 = (t1 * L5ECC.Table[j]) % 929;
                 t3 = 929 - t2;
                 ecc[j] = (ecc[j - 1] + t3) % 929;
             }
-            t2 = (t1 * L5ECC.table[0]) % 929;
+            t2 = (t1 * L5ECC.Table[0]) % 929;
             t3 = 929 - t2;
             ecc[0] = t3 % 929;
         }
@@ -275,7 +275,7 @@ public class PDF417 : IDrawable {
         int k = 1;  // Cluster index
         for (int i = 0; i < codewords.Length; i++) {
             int row = codewords[i];
-            String symbol = PatternTable.TABLE[row,k].ToString();
+            String symbol = Pattern.Table[row,k].ToString();
             for (int j = 0; j < 8; j++) {
                 int n = symbol[j] - 0x30;
                 if (j%2 == 0) {
