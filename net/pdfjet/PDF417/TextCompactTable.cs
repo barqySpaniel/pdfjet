@@ -7,11 +7,22 @@
 using System;
 
 namespace PDFjet.NET.PDF417 {
+/// <summary>
+/// Holds the compact text lookup table used by the PDF‑417 encoder.
+/// </summary>
+/// <remarks>
+/// Each entry consists of three integer values:
+/// <list type="number">
+///   <item><description><b>ASCII value</b> – the original character code (0‑255).</description></item>
+///   <item><description><b>Base‑30 value</b> – the value after converting the character
+///       to the PDF‑417 “base‑30” alphabet.</description></item>
+///   <item><description><b>Sub‑table selector</b> – a bit‑mask indicating which
+///       sub‑table (Upper, Lower, Mixed, Punctuation, etc.) the character belongs to.
+///       The mask follows the PDF‑417 specification (e.g., 0x04 = Mixed sub‑table).</description></item>
+/// </list>
+/// The table is read‑only and indexed by the ASCII value of the character.
+/// </remarks>
 class TextCompactTable {
-/*
- * The following table contains:
- * ASCII Value, Base 30 Value, Code specifying in what subtable is the character.
- */
 public static readonly int[,] TABLE = {
 {0,26,0x04},    // space
 {1,26,0x04},    // space

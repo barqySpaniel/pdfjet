@@ -6,7 +6,25 @@
  */
 
 namespace PDFjet.NET.PDF417 {
+/// <summary>
+/// PDF‑417 barcode pattern lookup table.
+/// </summary>
+/// <remarks>
+/// Each entry consists of four integers:
+/// <list type="number">
+///   <item><description><b>Row index</b> – the logical row number (0‑based). It is kept only for reference; the encoder usually accesses the table by index.</description></item>
+///   <item><description><b>Codeword A</b> – the first 30‑bit code word for this row (cluster 0).</description></item>
+///   <item><description><b>Codeword B</b> – the second 30‑bit code word (cluster 1).</description></item>
+///   <item><description><b>Codeword C</b> – the third 30‑bit code word (cluster 2).</description></item>
+/// </list>
+/// The three codewords correspond to the three “clusters” defined in the PDF‑417 specification (ISO/IEC 15438).
+/// They are pre‑computed to speed up encoding; the encoder simply looks up the row that matches the current data
+/// and emits the three codewords in order.
+/// </remarks>
 class PatternTable {
+/// <summary>
+/// Static pattern data: { row‑index, codeA, codeB, codeC }.
+/// </summary>
 public static readonly int[,] TABLE = {
 {0,31111136,51111125,21111155,},
 {1,41111144,61111133,31111163,},
