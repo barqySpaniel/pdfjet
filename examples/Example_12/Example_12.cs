@@ -4,6 +4,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 using PDFjet.NET;
+using PDFjet.NET.PDF417;
 
 // Example_12.cs
 public class Example_12 {
@@ -19,10 +20,10 @@ public class Example_12 {
             buf.Append("\r\n"); // CR and LF both required!
         }
 
-        Barcode2D code2D = new Barcode2D(buf.ToString());
-        code2D.SetModuleWidth(0.5f);
-        code2D.SetLocation(100f, 60f);
-        code2D.DrawOn(page);
+        PDF417 barcode = new PDF417(buf.ToString());
+        barcode.SetModuleWidth(0.5f);
+        barcode.SetLocation(100f, 60f);
+        barcode.DrawOn(page);
 
         TextLine text = new TextLine(f1, "PDF417 barcode containing the program that created it.");
         text.SetLocation(100f, 40f);

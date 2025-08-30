@@ -1,5 +1,5 @@
 /**
- * Barcode2D.cs
+ * PDF417.cs
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
@@ -13,7 +13,7 @@ namespace PDFjet.NET.PDF417 {
  *
  *  Please see Example_12.
  */
-public class Barcode2D : IDrawable {
+public class PDF417 : IDrawable {
     private const int ALPHA = 0x08;
     private const int LOWER = 0x04;
     private const int MIXED = 0x02;
@@ -40,7 +40,7 @@ public class Barcode2D : IDrawable {
      *
      *  @param str the specified string.
      */
-    public Barcode2D(String str) {
+    public PDF417(String str) {
         this.str = str;
         this.h1 = 3 * w1;
         this.codewords = new int[rows * (cols + 2)];
@@ -128,7 +128,7 @@ public class Barcode2D : IDrawable {
      *  @param x the x coordinate of the top left corner of the barcode.
      *  @param y the y coordinate of the top left corner of the barcode.
      */
-    public Barcode2D SetLocation(float x, float y) {
+    public PDF417 SetLocation(float x, float y) {
         this.x1 = x;
         this.y1 = y;
         return this;
@@ -275,7 +275,7 @@ public class Barcode2D : IDrawable {
         int k = 1;  // Cluster index
         for (int i = 0; i < codewords.Length; i++) {
             int row = codewords[i];
-            String symbol = PDF417.TABLE[row,k].ToString();
+            String symbol = Pattern.TABLE[row,k].ToString();
             for (int j = 0; j < 8; j++) {
                 int n = symbol[j] - 0x30;
                 if (j%2 == 0) {
@@ -316,5 +316,5 @@ public class Barcode2D : IDrawable {
         page.LineTo(x + w/2, y + h);
         page.StrokePath();
     }
-}   // End of Barcode2D.cs
+}   // End of PDF417.cs
 }   // End of namespace PDFjet.NET
