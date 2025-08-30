@@ -4,7 +4,7 @@ rm -f out/production/examples/*.class
 
 mkdir -p out/production
 
-javac -O -encoding utf-8 -Xlint com/pdfjet/*.java com/pdfjet/qrcode/*.java com/pdfjet/fonts/*.java -d out/production
+javac -O -encoding utf-8 -Xlint com/pdfjet/*.java com/pdfjet/PDF417/*.java com/pdfjet/qrcode/*.java com/pdfjet/fonts/*.java -d out/production
 jar cf PDFjet.jar -C out/production .
 
 for i in $(seq 1 50);
