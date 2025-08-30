@@ -18,6 +18,8 @@ public class PDFEncryption {
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
+        getSalt();
+
         // For AES-256, this is the NEW way (correct)
         // Convert the password strings to UTF-8 bytes directly
         byte[] userPassBytes = Encoding.UTF8.GetBytes(userPassword ?? "");
