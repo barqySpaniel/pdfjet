@@ -12,6 +12,8 @@ import com.pdfjet.*;
 /**
  * Used to create PDF417 barcodes.
  *
+ * TODO: Maintain a minimum quiet zone of 10 modules; many scanners reject symbols with insufficient margin.
+ *
  * Please see Example_12.
  */
 public class PDF417 implements Drawable {
@@ -289,7 +291,7 @@ public class PDF417 implements Drawable {
         int k = 1; // Cluster index
         for (int i = 0; i < codewords.length; i++) {
             int row = codewords[i];
-            String symbol = Integer.toString(PDF417Table.TABLE[row][k]);
+            String symbol = Integer.toString(Pattern.TABLE[row][k]);
             for (int j = 0; j < 8; j++) {
                 int n = symbol.charAt(j) - 0x30;
                 if (j % 2 == 0) {

@@ -1,12 +1,12 @@
 /**
- * PDF417Table.java
+ * Pattern.java
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 package com.pdfjet.PDF417;
 
-class PDF417Table {
+class Pattern {
 public static final int[][] TABLE = {
 {0,31111136,51111125,21111155,},
 {1,41111144,61111133,31111163,},
@@ -938,4 +938,4 @@ public static final int[][] TABLE = {
 {927,23332211,12621122,14512211,},
 {928,21514112,12621221,33611111,},
 };
-}   // End of PDF417Table.java
+}   // End of Pattern.java
