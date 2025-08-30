@@ -3,31 +3,14 @@ package pdfjet
 /**
  * donutchart.go
  *
-©2025 PDFjet Software
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
 
 import (
 	"math"
 
-    "github.com/edragoev1/pdfjet/src/color"
+	"github.com/edragoev1/pdfjet/src/color"
 )
 
 // DonutChart is used for donut chart objects.
@@ -154,17 +137,17 @@ func DrawSlice(
 }
 
 func drawLinePointer(
-        page *Page,
-        perColor int32,
-        xc, yc float32,
-        r1, r2 float32,     // r1 > r2
-        a1, a2 float32) {   // a1 > a2
-    page.SetPenColor(color.Black)
-    angle1 := a1 - 90.0
-    angle2 := a2 - 90.0
-    if (angle2 - angle1) <= 90.0 {
-        page.DrawLine(xc, yc, 500.0, 500.0)
-    }
+	page *Page,
+	perColor int32,
+	xc, yc float32,
+	r1, r2 float32, // r1 > r2
+	a1, a2 float32) { // a1 > a2
+	page.SetPenColor(color.Black)
+	angle1 := a1 - 90.0
+	angle2 := a2 - 90.0
+	if (angle2 - angle1) <= 90.0 {
+		page.DrawLine(xc, yc, 500.0, 500.0)
+	}
 }
 
 // DrawOn draws donut chart on the specified page.
@@ -176,12 +159,12 @@ func (chart *DonutChart) DrawOn(page *Page) {
 			chart.xc, chart.yc,
 			chart.r1, chart.r2,
 			angle, angle+slice.angle)
-/*
-        drawLinePointer(
-            page, slice.color,
-            chart.xc, chart.yc,
-            chart.r1, chart.r2,
-            angle, angle + slice.angle)
-*/
+		/*
+		   drawLinePointer(
+		       page, slice.color,
+		       chart.xc, chart.yc,
+		       chart.r1, chart.r2,
+		       angle, angle + slice.angle)
+		*/
 	}
 }
