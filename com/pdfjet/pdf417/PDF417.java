@@ -87,7 +87,7 @@ public class PDF417 implements Drawable {
             }
         }
 
-        int dataLen = (rows * cols) - ECC_L5.table.length;
+        int dataLen = (rows * cols) - L5ECC.table.length;
         for (int i = 0; i < dataLen; i++) {
             buffer[i] = 900; // The default pad codeword
         }
@@ -242,7 +242,7 @@ public class PDF417 implements Drawable {
     }
 
     private void addECC(int[] buf) {
-        int[] ecc = new int[ECC_L5.table.length];
+        int[] ecc = new int[L5ECC.table.length];
         int t1 = 0;
         int t2 = 0;
         int t3 = 0;
@@ -251,11 +251,11 @@ public class PDF417 implements Drawable {
         for (int i = 0; i < dataLen; i++) {
             t1 = (buf[i] + ecc[ecc.length - 1]) % 929;
             for (int j = ecc.length - 1; j > 0; j--) {
-                t2 = (t1 * ECC_L5.table[j]) % 929;
+                t2 = (t1 * L5ECC.table[j]) % 929;
                 t3 = 929 - t2;
                 ecc[j] = (ecc[j - 1] + t3) % 929;
             }
-            t2 = (t1 * ECC_L5.table[0]) % 929;
+            t2 = (t1 * L5ECC.table[0]) % 929;
             t3 = 929 - t2;
             ecc[0] = t3 % 929;
         }
