@@ -7,6 +7,7 @@ import (
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
+	"github.com/edragoev1/pdfjet/src/pdf417barcode"
 )
 
 // Example12 constructs and draws PDF417 barcode.
@@ -23,10 +24,10 @@ func Example12() {
 		buf.WriteString("\r\n") // CR and LF are both required!
 	}
 
-	code2D := pdfjet.NewBarcode2D(buf.String())
-	code2D.SetModuleWidth(0.5)
-	code2D.SetLocation(100.0, 60.0)
-	code2D.DrawOn(page)
+	barcode := pdfjet.NewPDF417(buf.String())
+	barcode.SetModuleWidth(0.5)
+	barcode.SetLocation(100.0, 60.0)
+	barcode.DrawOn(page)
 
 	textLine := pdfjet.NewTextLine(font,
 		"PDF417 barcode containing the program that created it.")
