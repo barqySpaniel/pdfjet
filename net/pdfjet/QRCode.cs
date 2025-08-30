@@ -1,17 +1,9 @@
 /**
-/**
+ * QRCode.cs
  *
-Copyright 2009 Kazuhiko Arase
-
-URL: http://www.d-project.com/
-
-Licensed under the MIT license:
-  http://www.opensource.org/licenses/mit-license.php
-
-The word "QR Code" is registered trademark of
-DENSO WAVE INCORPORATED
-  http://www.denso-wave.com/qrcode/faqpatent-e.html
-*/
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
 using System;
 using System.Text;
 

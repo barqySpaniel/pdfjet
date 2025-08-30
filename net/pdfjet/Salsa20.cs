@@ -1,14 +1,8 @@
 /**
+ * Salsa20.cs
  *
- * The Salsa20 encryption function was designed and originally implemented
- * by Daniel J. Bernstein:
- *
- * http://cr.yp.to/salsa20.html
- * http://cr.yp.to/snuffle/ip.pdf
- *
- * The following C# implementation encrypts the system time and returns
- * the first 32 characters of the hash.
- *
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
  */
 using System;
 using System.Text;
