@@ -10,7 +10,7 @@ fi
 mkdir -p out/production
 
 # Compile the PDFjet library.
-javac -O -encoding utf-8 -Xlint com/pdfjet/*.java com/pdfjet/qrcode/*.java com/pdfjet/corefonts/*.java com/pdfjet/fonts/*.java -d out/production
+javac -O -encoding utf-8 -Xlint com/pdfjet/*.java com/pdfjet/PDF417/*.java com/pdfjet/qrcode/*.java com/pdfjet/corefonts/*.java com/pdfjet/fonts/*.java -d out/production
 
 # Compile and run the Example_?? program.
 javac -encoding utf-8 -Xlint -cp out/production examples/Example_$1.java -d out/production
