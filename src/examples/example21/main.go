@@ -5,8 +5,8 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/corefont"
-	"github.com/edragoev1/pdfjet/src/dproject"
 	"github.com/edragoev1/pdfjet/src/letter"
+	"github.com/edragoev1/pdfjet/src/qrcode"
 )
 
 // Example21 -- TODO:
