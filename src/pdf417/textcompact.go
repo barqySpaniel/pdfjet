@@ -7,8 +7,16 @@ package pdf417
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-// TEXT_COMPACT_TABLE contains ASCII Value, Base 30 Value and Code specifying in what subtable is the character located.
-var TEXT_COMPACT_TABLE = [][]int{
+// textCompactTable maps an ASCII value (0‑127) to the PDF417 “compact text”
+// encoding.  Each entry contains:
+//
+//	ascii   – the original ASCII code point,
+//	base30  – the value in the Base‑30 alphabet used by PDF417,
+//	subTab  – a bit‑mask indicating which sub‑table the character belongs to.
+//
+// The table is an internal implementation detail of the encoder, so the name
+// starts with a lower‑case letter (unexported) and follows camelCase.
+var textCompactTable = [][]int{
 	{0, 26, 0x04},   // space
 	{1, 26, 0x04},   // space
 	{2, 26, 0x04},   // space

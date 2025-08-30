@@ -139,8 +139,8 @@ func (barcode *PDF417) textToArrayOfIntegers() []int {
 			continue
 		}
 
-		value := TEXT_COMPACT_TABLE[ch][1]
-		mode := TEXT_COMPACT_TABLE[ch][2]
+		value := textCompactTable[ch][1]
+		mode := textCompactTable[ch][2]
 		if mode == currentMode {
 			list = append(list, value)
 		} else {
