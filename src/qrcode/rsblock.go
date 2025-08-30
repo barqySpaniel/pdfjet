@@ -1,4 +1,4 @@
-package dproject
+package qrcode
 
 /**
  *  rsblock.go

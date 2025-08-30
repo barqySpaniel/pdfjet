@@ -1,4 +1,4 @@
-package dproject
+package qrcode
 
 /**
  *  bitbuffer.go

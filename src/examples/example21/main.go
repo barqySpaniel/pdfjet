@@ -23,31 +23,31 @@ func Example21() {
 
 	// Please note:
 	// The higher the error correction level - the shorter the string that you can encode.
-	qr := dproject.NewQRCode(
+	qr := qrcode.NewQRCode(
 		"https://kazuhikoarase.github.io/qrcode-generator/js/demo",
-		dproject.ErrorCorrectLevelL) // Low
+		qrcode.ErrorCorrectLevelL) // Low
 	qr.SetModuleLength(3.0)
 	qr.SetLocation(100.0, 100.0)
 	// qr.SetColor(color.Blue)
 	qr.DrawOn(page)
 
-	qr = dproject.NewQRCode(
+	qr = qrcode.NewQRCode(
 		"https://github.com/kazuhikoarase/qrcode-generator",
-		dproject.ErrorCorrectLevelM) // Medium
+		qrcode.ErrorCorrectLevelM) // Medium
 	qr.SetLocation(400.0, 100.0)
 	qr.SetModuleLength(3.0)
 	qr.DrawOn(page)
 
-	qr = dproject.NewQRCode(
+	qr = qrcode.NewQRCode(
 		"https://github.com/kazuhikoarase/jaconv",
-		dproject.ErrorCorrectLevelQ) // High
+		qrcode.ErrorCorrectLevelQ) // High
 	qr.SetLocation(100.0, 400.0)
 	qr.SetModuleLength(3.0)
 	qr.DrawOn(page)
 
-	qr = dproject.NewQRCode(
+	qr = qrcode.NewQRCode(
 		"https://github.com/kazuhikoarase",
-		dproject.ErrorCorrectLevelH) // Very High
+		qrcode.ErrorCorrectLevelH) // Very High
 	qr.SetLocation(400.0, 400.0)
 	qr.SetModuleLength(3.0)
 	qr.DrawOn(page)

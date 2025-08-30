@@ -1,4 +1,4 @@
-package pdf417barcode
+package pdf417
 
 /**
  * ecclevel1.go

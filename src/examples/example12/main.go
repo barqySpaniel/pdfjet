@@ -24,7 +24,7 @@ func Example12() {
 		buf.WriteString("\r\n") // CR and LF are both required!
 	}
 
-	barcode := pdf417barcode.NewPDF417(buf.String())
+	barcode := pdf417.NewPDF417(buf.String())
 	barcode.SetModuleWidth(0.5)
 	barcode.SetLocation(100.0, 60.0)
 	barcode.DrawOn(page)
