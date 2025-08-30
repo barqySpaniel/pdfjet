@@ -1,12 +1,12 @@
 /**
- * PDF417.cs
+ * PatternTable.cs
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
 namespace PDFjet.NET.PDF417 {
-class Pattern {
+class PatternTable {
 public static readonly int[,] TABLE = {
 {0,31111136,51111125,21111155,},
 {1,41111144,61111133,31111163,},

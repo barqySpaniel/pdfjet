@@ -1,5 +1,5 @@
 /**
- * TextCompact.cs
+ * TextCompactTable.cs
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
@@ -7,7 +7,7 @@
 using System;
 
 namespace PDFjet.NET.PDF417 {
-class TextCompact {
+class TextCompactTable {
 /*
  * The following table contains:
  * ASCII Value, Base 30 Value, Code specifying in what subtable is the character.

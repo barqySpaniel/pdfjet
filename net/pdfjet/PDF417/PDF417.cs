@@ -169,8 +169,8 @@ public class PDF417 : IDrawable {
                 list.Add(26);   // The codeword for space
                 continue;
             }
-            int value = TextCompact.TABLE[ch,1];
-            int mode = TextCompact.TABLE[ch,2];
+            int value = TextCompactTable.TABLE[ch,1];
+            int mode = TextCompactTable.TABLE[ch,2];
             if (mode == currentMode) {
                 list.Add(value);
             } else {
@@ -275,7 +275,7 @@ public class PDF417 : IDrawable {
         int k = 1;  // Cluster index
         for (int i = 0; i < codewords.Length; i++) {
             int row = codewords[i];
-            String symbol = Pattern.TABLE[row,k].ToString();
+            String symbol = PatternTable.TABLE[row,k].ToString();
             for (int j = 0; j < 8; j++) {
                 int n = symbol[j] - 0x30;
                 if (j%2 == 0) {
