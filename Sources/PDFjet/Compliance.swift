@@ -1,7 +1,8 @@
 /**
- *  Used to set PDF/A compliance.
- *  See the constructors in the PDF class.
+ * Compliance.swift
  *
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
  */
 public enum Compliance: Int {
     case PDF_15
