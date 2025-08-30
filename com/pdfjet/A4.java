@@ -12,11 +12,6 @@ package com.pdfjet;
  */
 public class A4 {
     /**
-     * The default constructor.
-     */
-    public A4() {
-    }
-    /**
      * This is a public static variable that specifies that page size in portrait orientation.
      */
     public static final float[] PORTRAIT = new float[] {595.0f, 842.0f};
