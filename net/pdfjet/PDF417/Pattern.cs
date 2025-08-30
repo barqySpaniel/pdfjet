@@ -5,8 +5,8 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-namespace PDFjet.NET {
-class PDF417 {
+namespace PDFjet.NET.PDF417 {
+class Pattern {
 public static readonly int[,] TABLE = {
 {0,31111136,51111125,21111155,},
 {1,41111144,61111133,31111163,},
@@ -938,5 +938,5 @@ public static readonly int[,] TABLE = {
 {927,23332211,12621122,14512211,},
 {928,21514112,12621221,33611111,},
 };
-}   // End of PDF417.cs
+}   // End of Pattern.cs
 }   // End of namespace PDFjet.NET

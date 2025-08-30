@@ -6,7 +6,7 @@
  */
 using System;
 
-namespace PDFjet.NET {
+namespace PDFjet.NET.PDF417 {
 class TextCompact {
 /*
  * The following table contains:
