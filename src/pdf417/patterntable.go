@@ -1,14 +1,15 @@
 package pdf417
 
 /**
- * pattern.go
+ * patternTable.go
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-// PATTERN_TABLE is the PDF417 pattern table.
-var PATTERN_TABLE = [][]int{
+// patternTable is the static PDF‑417 pattern lookup.
+// It is kept private so callers can’t modify it accidentally.
+var patternTable = [][4]int{
 	{0, 31111136, 51111125, 21111155},
 	{1, 41111144, 61111133, 31111163},
 	{2, 51111152, 41111216, 11111246},
@@ -937,4 +938,5 @@ var PATTERN_TABLE = [][]int{
 	{925, 24241211, 13521131, 14512112},
 	{926, 22423112, 12612131, 15421211},
 	{927, 23332211, 12621122, 14512211},
-	{928, 21514112, 12621221, 33611111}}
+	{928, 21514112, 12621221, 33611111},
+}

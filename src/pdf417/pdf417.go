@@ -245,7 +245,7 @@ func (barcode *PDF417) DrawOn(page *pdfjet.Page) []float32 {
 	k := 1 // Cluster index
 	for i := 0; i < len(barcode.codewords); i++ {
 		row := barcode.codewords[i]
-		symbol := strconv.Itoa(PATTERN_TABLE[row][k])
+		symbol := strconv.Itoa(patternTable[row][k])
 		runes := []rune(symbol)
 		for j := 0; j < 8; j++ {
 			n := float32(runes[j] - 0x30)
