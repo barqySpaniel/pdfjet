@@ -1,6 +1,5 @@
 Third Parties
 
-
 This software includes machine extracted font metrics from 14 PostScript(R)
 AFM files that are covered by the following license:
 
