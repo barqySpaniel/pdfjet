@@ -1773,7 +1773,18 @@ public class Page {
         EndTransform();
     }
 
-    public void DrawString(Font font, float fontSize, String str, float x, float y, float dx) {
+    /// <summary>
+    /// Draws each character of <paramref name="str"/> at successive X positions,
+    /// advancing by <paramref name="dx"/> after every glyph.
+    /// </summary>
+    /// <param name="font">Font used for rendering.</param>
+    /// <param name="fontSize">Size of the font.</param>
+    /// <param name="str">Text to draw.</param>
+    /// <param name="x">Starting X coordinate.</param>
+    /// <param name="y">Baseline Y coordinate.</param>
+    /// <param name="dx">Horizontal offset applied after each character.</param>
+    public void DrawString(
+            Font font, float fontSize, String str, float x, float y, float dx) {
         float x1 = x;
         for (int i = 0; i < str.Length; i++) {
             DrawString(font, fontSize, str.Substring(i, 1), x1, y);

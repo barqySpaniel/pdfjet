@@ -173,7 +173,7 @@ public class Font {
 
         // CIDFont Dictionary
         pdf.NewObj();
-        pdf.Append("<<\n");
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /Font\n");
         pdf.Append("/Subtype /CIDFontType0\n");
         pdf.Append("/BaseFont /");
@@ -201,12 +201,12 @@ public class Font {
             throw new Exception("Unsupported font: " + fontName);
         }
         pdf.Append(">>\n");
-        pdf.Append(">>\n");
+        pdf.Append(Token.EndDictionary);
         pdf.EndObj();
 
         // Type0 Font Dictionary
         pdf.NewObj();
-        pdf.Append("<<\n");
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /Font\n");
         pdf.Append("/Subtype /Type0\n");
         pdf.Append("/BaseFont /");
@@ -229,7 +229,7 @@ public class Font {
         pdf.Append("/DescendantFonts [");
         pdf.Append(pdf.GetObjNumber() - 1);
         pdf.Append(" 0 R]\n");
-        pdf.Append(">>\n");
+        pdf.Append(Token.EndDictionary);
         pdf.EndObj();
         objNumber = pdf.GetObjNumber();
 
