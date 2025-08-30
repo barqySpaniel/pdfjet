@@ -1,7 +1,7 @@
 package pdf417
 
 /**
- * textcompact.go
+ * textcompacttable.go
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
