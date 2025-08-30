@@ -86,7 +86,7 @@ func NewPDF417(str string) *PDF417 {
 		}
 	}
 
-	dataLen := (barcode.rows * barcode.cols) - len(ECC5_TABLE)
+	dataLen := (barcode.rows * barcode.cols) - len(ecc5Table)
 	for i := 0; i < dataLen; i++ {
 		buffer[i] = 900 // The default pad codeword
 	}
