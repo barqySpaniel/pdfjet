@@ -1,13 +1,13 @@
 package pdf417
 
 /**
- * textcompacttable.go
+ * textcompact.go
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-// textCompactTable maps an ASCII value (0‑127) to the PDF417 “compact text”
+// textCompact maps an ASCII value (0‑127) to the PDF417 “compact text”
 // encoding.  Each entry contains:
 //
 //	ascii   – the original ASCII code point,
@@ -16,7 +16,7 @@ package pdf417
 //
 // The table is an internal implementation detail of the encoder, so the name
 // starts with a lower‑case letter (unexported) and follows camelCase.
-var textCompactTable = [][3]int{
+var textCompact = [][3]int{
 	{0, 26, 0x04},   // space
 	{1, 26, 0x04},   // space
 	{2, 26, 0x04},   // space
@@ -145,3 +145,17 @@ var textCompactTable = [][3]int{
 	{125, 27, 0x01}, // }
 	{126, 9, 0x01},  // ~
 }
+
+// TextCompact
+// ---------------------------------------------------------------------
+// Public wrapper type
+// ---------------------------------------------------------------------
+type TextCompact struct {
+	Table [][3]int // exported field – callers can read it
+}
+
+// TextCompactInstance
+// ---------------------------------------------------------------------
+// Exported singleton instance
+// ---------------------------------------------------------------------
+var TextCompactInstance = TextCompact{Table: textCompact}
