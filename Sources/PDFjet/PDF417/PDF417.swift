@@ -82,7 +82,7 @@ public class PDF417 : Drawable {
             }
         }
 
-        let dataLen = (rows * cols) - ECC_L5.table.count
+        let dataLen = (rows * cols) - L5ECC.table.count
         for i in 0..<dataLen {
             buffer[i] = 900     // The default pad codeword
         }
@@ -151,8 +151,8 @@ public class PDF417 : Drawable {
                 continue
             }
 
-            let value = TextCompact.TABLE[Int(scalar.value)][1]
-            let mode = TextCompact.TABLE[Int(scalar.value)][2]
+            let value = TextCompact.table[Int(scalar.value)][1]
+            let mode = TextCompact.table[Int(scalar.value)][2]
             if mode == currentMode {
                 list.append(value)
             } else {
@@ -220,7 +220,7 @@ public class PDF417 : Drawable {
     }
 
     private func addECC(_ buf: inout [Int]) {
-        var ecc = [Int](repeating: 0, count: ECC_L5.table.count)
+        var ecc = [Int](repeating: 0, count: L5ECC.table.count)
         var t1 = 0
         var t2 = 0
         var t3 = 0
@@ -230,12 +230,12 @@ public class PDF417 : Drawable {
             t1 = (buf[i] + ecc[ecc.count - 1]) % 929
             var j = ecc.count - 1
             while j > 0 {
-                t2 = (t1 * ECC_L5.table[j]) % 929
+                t2 = (t1 * L5ECC.table[j]) % 929
                 t3 = 929 - t2
                 ecc[j] = (ecc[j - 1] + t3) % 929
                 j -= 1
             }
-            t2 = (t1 * ECC_L5.table[0]) % 929
+            t2 = (t1 * L5ECC.table[0]) % 929
             t3 = 929 - t2
             ecc[0] = t3 % 929
         }
@@ -264,7 +264,7 @@ public class PDF417 : Drawable {
         var k = 1               // Cluster index
         for i in 0..<codewords.count {
             let row = codewords[i]
-            let symbol = String(Pattern.TABLE[row][k])
+            let symbol = String(Pattern.table[row][k])
             for j in 0..<8 {
                 let n = Array(symbol.unicodeScalars)[j].value - 0x30
                 if j%2 == 0 {

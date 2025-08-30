@@ -6,7 +6,7 @@
  */
 
 class Pattern {
-public static let TABLE = [[Int32]](arrayLiteral:
+public static let table = [[Int32]](arrayLiteral:
 [0,31111136,51111125,21111155,],
 [1,41111144,61111133,31111163,],
 [2,51111152,41111216,11111246,],
