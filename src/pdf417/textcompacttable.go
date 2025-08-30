@@ -16,7 +16,7 @@ package pdf417
 //
 // The table is an internal implementation detail of the encoder, so the name
 // starts with a lower‑case letter (unexported) and follows camelCase.
-var textCompactTable = [][]int{
+var textCompactTable = [][3]int{
 	{0, 26, 0x04},   // space
 	{1, 26, 0x04},   // space
 	{2, 26, 0x04},   // space
