@@ -79,7 +79,7 @@ public class PDF417 : IDrawable {
             if (k == 4) k = 1;
         }
 
-        int dataLen = (rows * cols) - ECC_L5.table.Length;
+        int dataLen = (rows * cols) - L5ECC.table.Length;
         for (int i = 0; i < dataLen; i++) {
             buffer[i] = 900;    // The default pad codeword
         }
@@ -233,7 +233,7 @@ public class PDF417 : IDrawable {
     }
 
     private void addECC(int[] buf) {
-        int[] ecc = new int[ECC_L5.table.Length];
+        int[] ecc = new int[L5ECC.table.Length];
         int t1 = 0;
         int t2 = 0;
         int t3 = 0;
@@ -242,11 +242,11 @@ public class PDF417 : IDrawable {
         for (int i = 0; i < dataLen; i++) {
             t1 = (buf[i] + ecc[ecc.Length - 1]) % 929;
             for (int j = ecc.Length - 1; j > 0; j--) {
-                t2 = (t1 * ECC_L5.table[j]) % 929;
+                t2 = (t1 * L5ECC.table[j]) % 929;
                 t3 = 929 - t2;
                 ecc[j] = (ecc[j - 1] + t3) % 929;
             }
-            t2 = (t1 * ECC_L5.table[0]) % 929;
+            t2 = (t1 * L5ECC.table[0]) % 929;
             t3 = 929 - t2;
             ecc[0] = t3 % 929;
         }
