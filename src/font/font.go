@@ -1,5 +1,12 @@
 package font
 
+/**
+ * font.go
+ *
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
+
 // IBMPlex represents the variants for the IBM Plex Sans font family.
 type IBMPlex struct {
 	Bold             string
