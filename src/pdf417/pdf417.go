@@ -204,18 +204,18 @@ func (barcode *PDF417) addData(buf []int, dataLen int) {
 }
 
 func (barcode *PDF417) addECC(buf []int) {
-	ecc := make([]int, len(ECC5_TABLE))
+	ecc := make([]int, len(ecc5Table))
 	t2 := 0
 	t3 := 0
 	dataLen := len(buf) - len(ecc)
 	for i := 0; i < dataLen; i++ {
 		t1 := (buf[i] + ecc[len(ecc)-1]) % 929
 		for j := len(ecc) - 1; j > 0; j-- {
-			t2 := (t1 * ECC5_TABLE[j]) % 929
+			t2 := (t1 * ecc5Table[j]) % 929
 			t3 := 929 - t2
 			ecc[j] = (ecc[j-1] + t3) % 929
 		}
-		t2 = (t1 * ECC5_TABLE[0]) % 929
+		t2 = (t1 * ecc5Table[0]) % 929
 		t3 = 929 - t2
 		ecc[0] = t3 % 929
 	}
