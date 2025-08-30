@@ -1,19 +1,20 @@
 /**
- * Barcode2D.java
+ * PDF417.java
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
-package com.pdfjet;
+package com.pdfjet.PDF417;
 
 import java.util.*;
+import com.pdfjet.*;
 
 /**
- * Used to create PDF417 2D barcodes.
+ * Used to create PDF417 barcodes.
  *
  * Please see Example_12.
  */
-public class Barcode2D implements Drawable {
+public class PDF417 implements Drawable {
     private static final int ALPHA = 0x08;
     private static final int LOWER = 0x04;
     private static final int MIXED = 0x02;
@@ -38,12 +39,12 @@ public class Barcode2D implements Drawable {
     private String str;
 
     /**
-     * Constructor for 2D barcodes.
+     * Constructor for PDF417 barcodes.
      *
      * @param str the specified string.
      * @throws Exception if there are unencodable characters.
      */
-    public Barcode2D(String str) throws Exception {
+    public PDF417(String str) throws Exception {
         this.str = str;
         this.h1 = 3 * w1;
         this.codewords = new int[rows * (cols + 2)];
@@ -130,7 +131,7 @@ public class Barcode2D implements Drawable {
      * @param y the y coordinate of the top left corner of the barcode.
      * @return this Barcode2D object.
      */
-    public Barcode2D setLocation(float x, float y) {
+    public PDF417 setLocation(float x, float y) {
         this.x1 = x;
         this.y1 = y;
         return this;
@@ -143,7 +144,7 @@ public class Barcode2D implements Drawable {
      * @param y the y coordinate of the top left corner of the barcode.
      * @return this Barcode2D object.
      */
-    public Barcode2D setLocation(double x, double y) {
+    public PDF417 setLocation(double x, double y) {
         return setLocation((float) x, (float) y);
     }
 
@@ -288,7 +289,7 @@ public class Barcode2D implements Drawable {
         int k = 1; // Cluster index
         for (int i = 0; i < codewords.length; i++) {
             int row = codewords[i];
-            String symbol = Integer.toString(PDF417.TABLE[row][k]);
+            String symbol = Integer.toString(PDF417Table.TABLE[row][k]);
             for (int j = 0; j < 8; j++) {
                 int n = symbol.charAt(j) - 0x30;
                 if (j % 2 == 0) {
@@ -335,4 +336,4 @@ public class Barcode2D implements Drawable {
         page.strokePath();
         page.addEMC();
     }
-} // End of Barcode2D.java
+} // End of PDF417.java

@@ -3,6 +3,7 @@ package examples;
 import java.io.*;
 import java.util.*;
 import com.pdfjet.*;
+import com.pdfjet.PDF417.*;
 
 /**
  *  Example_12.java
@@ -16,7 +17,7 @@ public class Example_12 {
         // Font font = new Font(pdf, CoreFont.HELVETICA);
         Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
         Page page = new Page(pdf, Letter.PORTRAIT);
- 
+
         List<String> lines = Text.readLines("examples/Example_12.java");
         StringBuilder buf = new StringBuilder();
         for (String line : lines) {
@@ -25,10 +26,10 @@ public class Example_12 {
             buf.append("\r\n");
         }
 
-        Barcode2D code2D = new Barcode2D(buf.toString());
-        code2D.setModuleWidth(0.5f);
-        code2D.setLocation(100f, 60f);
-        code2D.drawOn(page);
+        PDF417 barcode = new PDF417(buf.toString());
+        barcode.setModuleWidth(0.5f);
+        barcode.setLocation(100f, 60f);
+        barcode.drawOn(page);
 
         TextLine text = new TextLine(font,
                 "PDF417 barcode containing the program that created it.");
