@@ -16,11 +16,9 @@
  */
 import Foundation
 
-///
-/// Used to create 2D QR Code barcodes. Please see Example_21.
-///
-/// @author Kazuhiko Arase
-///
+/**
+ * Used to create 2D QR Code barcodes. Please see Example_21.
+ */
 public class QRCode : Drawable {
     private let PAD0: UInt32 = 0xEC
     private let PAD1: UInt32 = 0x11
