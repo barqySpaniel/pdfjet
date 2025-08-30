@@ -86,7 +86,7 @@ func NewPDF417(str string) *PDF417 {
 		}
 	}
 
-	dataLen := (barcode.rows * barcode.cols) - len(ecc5Table)
+	dataLen := (barcode.rows * barcode.cols) - len(l5Table)
 	for i := 0; i < dataLen; i++ {
 		buffer[i] = 900 // The default pad codeword
 	}
@@ -204,18 +204,18 @@ func (barcode *PDF417) addData(buf []int, dataLen int) {
 }
 
 func (barcode *PDF417) addECC(buf []int) {
-	ecc := make([]int, len(ecc5Table))
+	ecc := make([]int, len(l5Table))
 	t2 := 0
 	t3 := 0
 	dataLen := len(buf) - len(ecc)
 	for i := 0; i < dataLen; i++ {
 		t1 := (buf[i] + ecc[len(ecc)-1]) % 929
 		for j := len(ecc) - 1; j > 0; j-- {
-			t2 := (t1 * ecc5Table[j]) % 929
+			t2 := (t1 * l5Table[j]) % 929
 			t3 := 929 - t2
 			ecc[j] = (ecc[j-1] + t3) % 929
 		}
-		t2 = (t1 * ecc5Table[0]) % 929
+		t2 = (t1 * l5Table[0]) % 929
 		t3 = 929 - t2
 		ecc[0] = t3 % 929
 	}
