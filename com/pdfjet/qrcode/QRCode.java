@@ -14,10 +14,11 @@
  *
  *  Modified and adapted for use in PDFjet by PDFjet Software
  */
-package com.pdfjet;
+package com.pdfjet.qrcode;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
+import com.pdfjet.*;
 
 /**
  * Used to create 2D QR Code barcodes. Please see Example_20.
