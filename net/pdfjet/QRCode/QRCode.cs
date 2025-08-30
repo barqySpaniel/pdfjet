@@ -20,7 +20,7 @@ using System.Text;
 /**
  * Used to create 2D QR Code barcodes. Please see Example_20.
  */
-namespace PDFjet.NET {
+namespace PDFjet.NET.QRCode {
 public class QRCode : IDrawable {
     private const int PAD0 = 0xEC;
     private const int PAD1 = 0x11;

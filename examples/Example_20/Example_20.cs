@@ -4,6 +4,7 @@ using System.IO;
 using System.Diagnostics;
 using PDFjet.NET;
 using PDFjet.NET.Fonts;
+using PDFjet.NET.QRCode;
 
 /**
  * Example_20.cs

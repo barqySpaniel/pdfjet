@@ -16,10 +16,7 @@
  */
 using System;
 
-/**
- * QRMath
- */
-namespace PDFjet.NET {
+namespace PDFjet.NET.QRCode {
 public class QRMath {
     private static readonly int[] EXP_TABLE = new int[256];
     private static readonly int[] LOG_TABLE = new int[256];

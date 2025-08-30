@@ -16,7 +16,7 @@
  */
 using System;
 
-namespace PDFjet.NET {
+namespace PDFjet.NET.QRCode {
 public class BitBuffer {
     private byte[] buffer;
     private int length;
