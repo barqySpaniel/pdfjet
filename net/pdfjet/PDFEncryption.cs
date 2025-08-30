@@ -290,5 +290,31 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         }
         return new string(hex);
     }
+
+    private byte[] getSalt() {
+        // 1. User's password (convert to bytes using UTF-8 encoding)
+        string password = "MySecurePassword!123";
+        byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+
+        // 2. Generate a random 16-byte salt (as per PDF 2.0)
+        byte[] salt = RandomNumberGenerator.GetBytes(16);
+        Console.WriteLine($"Generated Salt (Base64): {Convert.ToBase64String(salt)}");
+
+        // 3. Set the high iteration count (PDF 2.0 recommends >= 100,000)
+        int iterations = 100_000;
+
+        // 4. Derive a 32-byte (256-bit) key using PBKDF2 with HMAC-SHA256
+        byte[] aes256Key;
+        using (var derivedBytes = new Rfc2898DeriveBytes(
+            passwordBytes,
+            salt,
+            iterations,
+            HashAlgorithmName.SHA256)) {
+            aes256Key = derivedBytes.GetBytes(32); // 32 bytes = 256 bits
+            Console.WriteLine($"Derived AES-256 Key (Base64): {Convert.ToBase64String(aes256Key)}");
+            Console.WriteLine($"Iterations used: {iterations}");
+        }
+        return aes256Key;
+    }
 }
 }
