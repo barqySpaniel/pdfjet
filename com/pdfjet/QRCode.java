@@ -21,8 +21,6 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Used to create 2D QR Code barcodes. Please see Example_20.
- *
- * @author Kazuhiko Arase
  */
 final public class QRCode implements Drawable {
     private static final int PAD0 = 0xEC;
