@@ -308,10 +308,10 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         // 4. Derive a 32-byte (256-bit) key using PBKDF2 with HMAC-SHA256
         byte[] aes256Key;
         using (var derivedBytes = new Rfc2898DeriveBytes(
-            passwordBytes,
-            salt,
-            iterations,
-            HashAlgorithmName.SHA256)) {
+                passwordBytes,
+                salt,
+                iterations,
+                HashAlgorithmName.SHA256)) {
             aes256Key = derivedBytes.GetBytes(32); // 32 bytes = 256 bits
             Console.WriteLine($"Derived AES-256 Key (Base64): {Convert.ToBase64String(aes256Key)}");
             Console.WriteLine($"Iterations used: {iterations}");
