@@ -15,10 +15,10 @@ public class Example_12 {
             buf.append("\r\n")  // CR and LF both required!
         }
 
-        let code2D = try Barcode2D(buf)
-        code2D.setModuleWidth(0.5)
-        code2D.setLocation(100.0, 60.0)
-        code2D.drawOn(page)
+        let barcode = try PDF417(buf)
+        barcode.setModuleWidth(0.5)
+        barcode.setLocation(100.0, 60.0)
+        barcode.drawOn(page)
 
         let textLine = TextLine(font, "PDF417 barcode containing the program that created it.")
         textLine.setLocation(100.0, 40.0)

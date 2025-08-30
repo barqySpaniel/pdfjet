@@ -5,7 +5,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-class PDF417 {
+class Pattern {
 public static let TABLE = [[Int32]](arrayLiteral:
 [0,31111136,51111125,21111155,],
 [1,41111144,61111133,31111163,],
@@ -937,4 +937,4 @@ public static let TABLE = [[Int32]](arrayLiteral:
 [927,23332211,12621122,14512211,],
 [928,21514112,12621221,33611111,]
 )
-}   // End of PDF417.swift
+}   // End of Pattern.swift

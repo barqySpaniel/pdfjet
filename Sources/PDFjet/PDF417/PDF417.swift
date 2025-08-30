@@ -1,5 +1,5 @@
 /**
- * Barcode2D.swift
+ * PDF417.swift
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
@@ -15,7 +15,7 @@ enum EncodingError: Error {
  *
  *  Please see Example_12.
  */
-public class Barcode2D : Drawable {
+public class PDF417 : Drawable {
     private static let ALPHA = 0x08
     private static let LOWER = 0x04
     private static let MIXED = 0x02
@@ -144,7 +144,7 @@ public class Barcode2D : Drawable {
     private func textToArrayOfIntegers() -> [Int] {
         var list = [Int]()
 
-        var currentMode = Barcode2D.ALPHA
+        var currentMode = PDF417.ALPHA
         for scalar in str.unicodeScalars {
             if scalar == Unicode.Scalar(0x20) {
                 list.append(26)
@@ -156,37 +156,37 @@ public class Barcode2D : Drawable {
             if mode == currentMode {
                 list.append(value)
             } else {
-                if mode == Barcode2D.ALPHA && currentMode == Barcode2D.LOWER {
-                    list.append(Barcode2D.SHIFT_TO_ALPHA)
+                if mode == PDF417.ALPHA && currentMode == PDF417.LOWER {
+                    list.append(PDF417.SHIFT_TO_ALPHA)
                     list.append(value)
-                } else if mode == Barcode2D.ALPHA && currentMode == Barcode2D.MIXED {
-                    list.append(Barcode2D.LATCH_TO_ALPHA)
-                    list.append(value)
-                    currentMode = mode
-                } else if mode == Barcode2D.LOWER && currentMode == Barcode2D.ALPHA {
-                    list.append(Barcode2D.LATCH_TO_LOWER)
+                } else if mode == PDF417.ALPHA && currentMode == PDF417.MIXED {
+                    list.append(PDF417.LATCH_TO_ALPHA)
                     list.append(value)
                     currentMode = mode
-                } else if mode == Barcode2D.LOWER && currentMode == Barcode2D.MIXED {
-                    list.append(Barcode2D.LATCH_TO_LOWER)
+                } else if mode == PDF417.LOWER && currentMode == PDF417.ALPHA {
+                    list.append(PDF417.LATCH_TO_LOWER)
                     list.append(value)
                     currentMode = mode
-                } else if mode == Barcode2D.MIXED && currentMode == Barcode2D.ALPHA {
-                    list.append(Barcode2D.LATCH_TO_MIXED)
+                } else if mode == PDF417.LOWER && currentMode == PDF417.MIXED {
+                    list.append(PDF417.LATCH_TO_LOWER)
                     list.append(value)
                     currentMode = mode
-                } else if mode == Barcode2D.MIXED && currentMode == Barcode2D.LOWER {
-                    list.append(Barcode2D.LATCH_TO_MIXED)
+                } else if mode == PDF417.MIXED && currentMode == PDF417.ALPHA {
+                    list.append(PDF417.LATCH_TO_MIXED)
                     list.append(value)
                     currentMode = mode
-                } else if mode == Barcode2D.PUNCT && currentMode == Barcode2D.ALPHA {
-                    list.append(Barcode2D.SHIFT_TO_PUNCT)
+                } else if mode == PDF417.MIXED && currentMode == PDF417.LOWER {
+                    list.append(PDF417.LATCH_TO_MIXED)
                     list.append(value)
-                } else if mode == Barcode2D.PUNCT && currentMode == Barcode2D.LOWER {
-                    list.append(Barcode2D.SHIFT_TO_PUNCT)
+                    currentMode = mode
+                } else if mode == PDF417.PUNCT && currentMode == PDF417.ALPHA {
+                    list.append(PDF417.SHIFT_TO_PUNCT)
                     list.append(value)
-                } else if mode == Barcode2D.PUNCT && currentMode == Barcode2D.MIXED {
-                    list.append(Barcode2D.SHIFT_TO_PUNCT)
+                } else if mode == PDF417.PUNCT && currentMode == PDF417.LOWER {
+                    list.append(PDF417.SHIFT_TO_PUNCT)
+                    list.append(value)
+                } else if mode == PDF417.PUNCT && currentMode == PDF417.MIXED {
+                    list.append(PDF417.SHIFT_TO_PUNCT)
                     list.append(value)
                 }
             }
@@ -206,7 +206,7 @@ public class Barcode2D : Drawable {
         while i < list.count {
             hi = list[i]
             if i + 1 == list.count {
-                lo = Barcode2D.SHIFT_TO_PUNCT       // Pad
+                lo = PDF417.SHIFT_TO_PUNCT       // Pad
             } else {
                 lo = list[i + 1]
             }
@@ -264,7 +264,7 @@ public class Barcode2D : Drawable {
         var k = 1               // Cluster index
         for i in 0..<codewords.count {
             let row = codewords[i]
-            let symbol = String(PDF417.TABLE[row][k])
+            let symbol = String(Pattern.TABLE[row][k])
             for j in 0..<8 {
                 let n = Array(symbol.unicodeScalars)[j].value - 0x30
                 if j%2 == 0 {
@@ -309,4 +309,4 @@ public class Barcode2D : Drawable {
         page.lineTo(x + w/2, y + h)
         page.strokePath()
     }
-}   // End of Barcode2D.swift
+}   // End of PDF417.swift
