@@ -96,6 +96,9 @@ public class AES {
     /// <param name="iv">128-bit (16-byte) initialization vector</param>
     /// <returns>Encrypted ciphertext</returns>
     internal static byte[] EncryptAes128(byte[] plain, byte[] key, byte[] iv) {
+        if (plain == null || plain.Length == 0) {
+            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
+        }
         if (key == null || key.Length != 16) { // 128 bits = 16 bytes
             throw new ArgumentException("Key must be 128 bits (16 bytes) long.", nameof(key));
         }
@@ -113,6 +116,9 @@ public class AES {
     /// <param name="iv">128-bit (16-byte) initialization vector</param>
     /// <returns>Encrypted ciphertext</returns>
     internal static byte[] EncryptAes256(byte[] plain, byte[] key, byte[] iv) {
+        if (plain == null || plain.Length == 0) {
+            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
+        }
         if (key == null || key.Length != 32) { // 256 bits = 32 bytes
             throw new ArgumentException("Key must be 256 bits (32 bytes) long.", nameof(key));
         }
