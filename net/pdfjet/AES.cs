@@ -6,6 +6,17 @@ using System.Numerics;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
+internal sealed class EncryptedKeyWithSalt {
+    public byte[] DerivedKey;    // The derived AES key (e.g., 256 bits for AES-256)
+    public byte[] Salt;          // The salt used during key derivation
+
+    // Constructor to initialize the data
+    public EncryptedKeyWithSalt(byte[] derivedKey, byte[] salt) {
+        this.DerivedKey = derivedKey;
+        this.Salt = salt;
+    }
+}
+
 internal sealed class EncryptedDataWithIV {
     public byte[] encryptedData;    // The actual encrypted data
     public byte[] iv;               // Initialization vector (IV) used during encryption
@@ -24,31 +35,40 @@ public class AES {
     /// which can then be used for AES encryption (AES-256 in this case).
     /// </summary>
     /// <param name="password">The password input provided by the user. It is used as the basis for the key derivation process.</param>
-    /// <param name="salt">A unique, random salt used to ensure that the same password results in different derived keys each time. This should be securely generated and stored.</param>
     /// <param name="keySize">The size of the derived key in bytes. Default is 32 bytes, which is required for AES-256 encryption (256-bit key).</param>
     /// <param name="iterations">The number of iterations to run the PBKDF2 function. The higher the number, the more secure the derived key will be, but it will also take longer to compute. The minimum recommended value is 100,000 iterations, but you can increase this for stronger security.</param>
-    /// <returns>A byte array containing the derived encryption key. The size of the array is determined by the specified keySize (32 bytes for AES-256).</returns>
-    /// <exception cref="ArgumentNullException">Thrown if the password or salt is null.</exception>
+    /// <returns>Returns an EncryptedKeyWithSalt object containing the derived key and salt. The size of the array is determined by the specified keySize (32 bytes for AES-256).</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the password is null.</exception>
     /// <exception cref="ArgumentException">Thrown if the salt length is less than the recommended minimum size.</exception>
-    internal static byte[] DeriveKeyFromPassword(
+    internal static EncryptedKeyWithSalt DeriveKeyFromPassword(
             string password,
-            byte[] salt,
-            int keySize = 32,           // 32 bytes for AES-256
+            int keySize = 32,           // Default is 32 bytes for AES-256
             int iterations = 100000) {  // Stronger iterations count required by the PDF specification
-        // Ensure password and salt are provided (to prevent errors)
-        if (password == null) throw new ArgumentNullException(nameof(password), "Password cannot be null.");
-        if (salt == null) throw new ArgumentNullException(nameof(salt), "Salt cannot be null.");
 
-        // Ensure the salt length is at least 8 bytes for better security
-        if (salt.Length < 8) {
-            throw new ArgumentException("Salt must be at least 8 bytes long.", nameof(salt));
+        // Ensure password is provided (to prevent errors)
+        if (password == null) {
+            throw new ArgumentNullException(nameof(password), "Password cannot be null.");
         }
+
+        // Generate a random salt (e.g., 16 bytes) for each password to ensure unique key derivation each time
+        // Salt ensures that the same password results in different derived keys.
+        byte[] salt = RandomNumberGenerator.GetBytes(16);  // 16 bytes salt is common for AES-256
 
         // Create a PBKDF2 key derivation function with the specified password,
         // salt, iterations, and SHA-256 hash algorithm
-        using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256)) {
+        using (var pbkdf2 = new Rfc2898DeriveBytes(
+                password,                // User password
+                salt,                    // Random salt for key derivation
+                iterations,              // Number of iterations (higher = more secure but slower)
+                HashAlgorithmName.SHA256)) { // SHA-256 hash function for PBKDF2
+
             // Generate the derived key of the requested size (default is 32 bytes for AES-256)
-            return pbkdf2.GetBytes(keySize);
+            // This key is what will be used for encryption or decryption (AES key)
+            byte[] derivedKey = pbkdf2.GetBytes(keySize);
+
+            // Return both the derived key and the salt wrapped in the EncryptedKeyWithSalt object
+            // This ensures that both the key and salt can be stored together and retrieved for decryption
+            return new EncryptedKeyWithSalt(derivedKey, salt);
         }
     }
 
