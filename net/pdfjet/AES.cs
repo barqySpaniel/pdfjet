@@ -103,7 +103,7 @@ public class AES {
     /// <param name="key">256-bit (32-byte) encryption key</param>
     /// <param name="iv">128-bit (16-byte) initialization vector</param>
     /// <returns>Encrypted ciphertext</returns>
-    internal static byte[] Encrypt(byte[] plain, byte[] key, byte[] iv) {
+    internal static byte[] EncryptAes256(byte[] plain, byte[] key, byte[] iv) {
         if (key == null || key.Length != 32) { // 256 bits = 32 bytes
             throw new ArgumentException("Key must be 256 bits (32 bytes) long.", nameof(key));
         }
