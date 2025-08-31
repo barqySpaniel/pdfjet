@@ -46,6 +46,25 @@ public class AES {
 
 
     /// <summary>
+    /// Generates a cryptographically secure random salt.
+    /// </summary>
+    /// <param name="saltSize">The size of the salt in bytes. Default is 16 bytes (128 bits).</param>
+    /// <returns>A byte array containing the generated salt.</returns>
+    public static byte[] GenerateSalt(int saltSize = 16) {
+        // Ensure the salt size is at least 8 bytes (64 bits) for security
+        if (saltSize < 8) {
+            throw new ArgumentException("Salt size must be at least 8 bytes.");
+        }
+
+        // Create a new instance of RandomNumberGenerator for secure random numbers
+        using (var rng = RandomNumberGenerator.Create()) {
+            byte[] salt = new byte[saltSize];
+            rng.GetBytes(salt);  // Fill the salt array with random bytes
+            return salt;
+        }
+    }
+
+    /// <summary>
     /// Derives an encryption key from a password using the PBKDF2 key derivation function (KDF).
     /// This method is used to securely generate an AES key from a user password,
     /// which can then be used for AES encryption (AES-256 in this case).
