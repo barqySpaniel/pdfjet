@@ -39,7 +39,6 @@ public class AES {
     /// A DerivedKeyWithSalt object containing the derived key and the salt used for derivation.
     /// </returns>
     /// <exception cref="ArgumentNullException">Thrown if the password is null.</exception>
-    /// <exception cref="ArgumentException">Thrown if the salt is too short.</exception>
     internal static DerivedKeyWithSalt DeriveKeyFromPassword(
             string password,
             int keySize = 32,           // Default is 32 bytes for AES-256
