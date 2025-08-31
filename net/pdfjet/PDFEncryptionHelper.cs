@@ -12,33 +12,33 @@ public sealed class PdfKeyMaterial
     public int    Iterations; // PBKDF2 iteration count
 }
 
-public static class PdfEncryptionHelper
-{
+public static class PdfEncryptionHelper {
     /// <summary>
-    /// Derives the encryption material for a PDF 2.0 document.
+    /// Derives the encryption material for a PDF 2.0 document.
     /// The caller supplies only the password (as a byte array);
     /// the method creates its own salt and fills a PdfKeyMaterial instance.
     /// </summary>
     /// <param name="passwordBytes">Password already encoded (e.g., UTF‑8).</param>
-    /// <param name="keySizeBytes">Length of the derived key (default 32 bytes for AES‑256).</param>
+    /// <param name="keySizeBytes">Length of the derived key (default 32 bytes for AES‑256).</param>
     /// <returns>An instance of PdfKeyMaterial containing key, salt, and iteration count.</returns>
     public static PdfKeyMaterial DeriveKeyMaterial(
         byte[] passwordBytes,
-        int keySizeBytes = 32)   // 32 bytes = 256 bits (AES‑256)
+        int keySizeBytes = 32)   // 32 bytes = 256 bits (AES‑256)
     {
-        if (passwordBytes == null)
+        if (passwordBytes == null || passwordBytes.Length != 16) {  // TODO: or 32 ?
             throw new ArgumentNullException(nameof(passwordBytes));
+        }
 
-        // PDF 2.0 recommends at least 100 000 iterations.
-        const int iterations = 100_000;
+        // PDF 2.0 recommends at least 100000 iterations.
+        const int iterations = 100000;
 
         // ---------------------------------------------------------
-        // 1️⃣ Generate a fresh 16‑byte (128‑bit) salt.
+        // 1) Generate a fresh 16‑byte (128‑bit) salt.
         // ---------------------------------------------------------
         byte[] salt = RandomNumberGenerator.GetBytes(16); // secure RNG
 
         // ---------------------------------------------------------
-        // 2️⃣ Run PBKDF2‑HMAC‑SHA‑256.
+        // 2) Run PBKDF2‑HMAC‑SHA‑256.
         // ---------------------------------------------------------
         using var kdf = new Rfc2898DeriveBytes(
             passwordBytes,
@@ -49,7 +49,7 @@ public static class PdfEncryptionHelper
         byte[] key = kdf.GetBytes(keySizeBytes);
 
         // ---------------------------------------------------------
-        // 3️⃣ (Optional) wipe the password buffer now that we’re done.
+        // 3) (Optional) wipe the password buffer now that we’re done.
         // ---------------------------------------------------------
         // Array.Clear(passwordBytes, 0, passwordBytes.Length);
 
