@@ -56,14 +56,14 @@ public class AES {
     /// <returns>The ciphertext result E.</returns>
     internal static byte[] EncryptAlgorithmStep2B(byte[] plain, byte[] key, byte[] iv) {
         // Validate the input parameters
+        if (plain == null || plain.Length == 0) {
+            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
+        }
         if (key == null || key.Length != 16) {
             throw new ArgumentException("Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
         }
         if (iv == null || iv.Length != 16) {
             throw new ArgumentException("IV must be 16 bytes.", nameof(iv));
-        }
-        if (plain == null || plain.Length == 0) {
-            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
         }
 
         try {
