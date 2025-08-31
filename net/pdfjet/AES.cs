@@ -50,33 +50,41 @@ public class AES {
     /// Performs the encryption for Step (b) of Algorithm 2.B.
     /// Encrypts the input data using AES-128-CBC with no padding, using the provided key and IV.
     /// </summary>
-    /// <param name="data">The data to encrypt (the K1 array).</param>
+    /// <param name="plain">The data to encrypt (the K1 array).</param>
     /// <param name="key">The 16-byte AES key.</param>
     /// <param name="iv">The 16-byte initialization vector.</param>
     /// <returns>The ciphertext result E.</returns>
     internal static byte[] EncryptAlgorithmStep2B(byte[] plain, byte[] key, byte[] iv) {
-        // Algorithm 2.B always uses AES-128-CBC to encrypt K1,
-        // regardless of the file key length (AES-128 or AES-256)
-        if (key.Length != 16) throw new ArgumentException(
-            "Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
-        if (iv.Length != 16) throw new ArgumentException(
-            "IV must be 16 bytes.", nameof(iv));
+        // Validate the input parameters
+        if (key == null || key.Length != 16) {
+            throw new ArgumentException("Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
+        }
+        if (iv == null || iv.Length != 16) {
+            throw new ArgumentException("IV must be 16 bytes.", nameof(iv));
+        }
+        if (plain == null || plain.Length == 0) {
+            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
+        }
 
-        using (Aes aes = Aes.Create()) {
-            // Configure EXACTLY as specified for Algorithm 2.B, Step (b)
-            aes.KeySize = 128;              // Must be AES-128
-            aes.Key = key;
-            aes.IV = iv;
-            aes.Mode = CipherMode.CBC;      // Must be CBC mode
-            aes.Padding = PaddingMode.None; // CRITICAL: No padding
+        try {
+            using (Aes aes = Aes.Create()) {
+                // Configure EXACTLY as specified for Algorithm 2.B, Step (b)
+                aes.KeySize = 128;              // AES-128
+                aes.Key = key;
+                aes.IV = iv;
+                aes.Mode = CipherMode.CBC;      // CBC mode
+                aes.Padding = PaddingMode.None; // No padding (CRITICAL)
 
-            using (ICryptoTransform encryptor = aes.CreateEncryptor())
-            using (MemoryStream ms = new MemoryStream())
-            using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
-                cs.Write(plain, 0, plain.Length);
-                cs.FlushFinalBlock();       // Still necessary to process all plain data
-                return ms.ToArray();
+                using (ICryptoTransform encryptor = aes.CreateEncryptor())
+                using (MemoryStream ms = new MemoryStream())
+                using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
+                    cs.Write(plain, 0, plain.Length);
+                    cs.FlushFinalBlock();       // Ensures all data is processed
+                    return ms.ToArray();
+                }
             }
+        } catch (Exception ex) {
+            throw new InvalidOperationException("Encryption failed for Algorithm 2.B, Step (b).", ex);
         }
     }
 
