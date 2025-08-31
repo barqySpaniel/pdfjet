@@ -54,13 +54,12 @@ public class AES {
 
     /// <summary>
     /// Performs the encryption for Step (b) of Algorithm 2.B.
-    /// Encrypts the input data using AES-128-CBC with no padding, using the provided key and IV.
+    /// Encrypts the input data using AES-128-CBC with no padding, using a randomly generated IV.
     /// </summary>
     /// <param name="plain">The data to encrypt (the K1 array).</param>
     /// <param name="key">The 16-byte AES key.</param>
-    /// <param name="iv">The 16-byte initialization vector.</param>
-    /// <returns>The ciphertext result E.</returns>
-    internal static byte[] EncryptAlgorithmStep2B(byte[] plain, byte[] key, byte[] iv) {
+    /// <returns>The encrypted data and the generated IV used for encryption.</returns>
+    internal static EncryptedDataWithIV EncryptAlgorithmStep2B(byte[] plain, byte[] key) {
         // Validate the input parameters
         if (plain == null || plain.Length == 0) {
             throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
@@ -68,11 +67,11 @@ public class AES {
         if (key == null || key.Length != 16) {
             throw new ArgumentException("Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
         }
-        if (iv == null || iv.Length != 16) {
-            throw new ArgumentException("IV must be 16 bytes.", nameof(iv));
-        }
 
         try {
+            // Generate a random 16-byte IV
+            byte[] iv = RandomNumberGenerator.GetBytes(16);
+
             using (Aes aes = Aes.Create()) {
                 // Configure EXACTLY as specified for Algorithm 2.B, Step (b)
                 aes.KeySize = 128;              // AES-128
@@ -86,7 +85,9 @@ public class AES {
                 using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
                     cs.Write(plain, 0, plain.Length);
                     cs.FlushFinalBlock();       // Ensures all data is processed
-                    return ms.ToArray();
+
+                    // Return the encrypted data and the IV as EncryptedDataWithIV
+                    return new EncryptedDataWithIV(ms.ToArray(), iv);
                 }
             }
         } catch (Exception ex) {
