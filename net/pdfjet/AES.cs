@@ -52,6 +52,12 @@ public class AES {
     /// <param name="iv">128-bit (16-byte) initialization vector</param>
     /// <returns>Encrypted ciphertext</returns>
     internal static byte[] EncryptAes128(byte[] plain, byte[] key, byte[] iv) {
+        if (key == null || key.Length != 16) { // 128 bits = 16 bytes
+            throw new ArgumentException("Key must be 128 bits (16 bytes) long.", nameof(key));
+        }
+        if (iv == null || iv.Length != 16) {   // 128 bits = 16 bytes
+            throw new ArgumentException("IV must be 128 bits (16 bytes) long.", nameof(iv));
+        }
         return Encrypt(plain, 128, key, iv);
     }
 
@@ -63,6 +69,12 @@ public class AES {
     /// <param name="iv">128-bit (16-byte) initialization vector</param>
     /// <returns>Encrypted ciphertext</returns>
     internal static byte[] Encrypt(byte[] plain, byte[] key, byte[] iv) {
+        if (key == null || key.Length != 32) { // 256 bits = 32 bytes
+            throw new ArgumentException("Key must be 256 bits (32 bytes) long.", nameof(key));
+        }
+        if (iv == null || iv.Length != 16) {   // 128 bits = 16 bytes
+            throw new ArgumentException("IV must be 128 bits (16 bytes) long.", nameof(iv));
+        }
         return Encrypt(plain, 256, key, iv);
     }
 
@@ -74,7 +86,7 @@ public class AES {
     /// <param name="key">Encryption key (must match keySize length)</param>
     /// <param name="iv">128-bit initialization vector</param>
     /// <returns>Encrypted ciphertext</returns>
-    internal static byte[] Encrypt(byte[] plain, int keySize, byte[] key, byte[] iv) {
+    private static byte[] Encrypt(byte[] plain, int keySize, byte[] key, byte[] iv) {
         using (Aes aes = Aes.Create()) {
             aes.KeySize = keySize;
             aes.Key = key;
