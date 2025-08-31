@@ -6,6 +6,17 @@ using System.Numerics;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
+internal sealed class EncryptedDataWithIV {
+    public byte[] encryptedData;    // The actual encrypted data
+    public byte[] iv;               // Initialization vector (IV) used during encryption
+
+    // Constructor to initialize the data
+    public EncryptedDataWithIV(byte[] encryptedData, byte[] iv) {
+        this.encryptedData = encryptedData;
+        this.iv = iv;
+    }
+}
+
 public class AES {
     /// <summary>
     /// Derives an encryption key from a password using the PBKDF2 key derivation function (KDF).
