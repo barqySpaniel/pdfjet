@@ -256,26 +256,6 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         };
     }
 
-    /// <summary>
-    /// Encrypts data with AES-128-CBC or AES-256-CBC and PKCS#7 padding.
-    /// </summary>
-    public byte[] Encrypt(byte[] plain, int keySize) {
-        using (Aes aes = Aes.Create()) {
-            aes.KeySize = keySize;
-            aes.Key = key;
-            aes.IV = iv;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-
-            using (var ms = new MemoryStream())
-            using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write)) {
-                cs.Write(plain, 0, plain.Length);
-                cs.FlushFinalBlock();
-                return ms.ToArray();
-            }
-        }
-    }
-
     // === Helpers ===
     private byte[] HashPassword(byte[] input) {
         using (SHA256 sha256 = SHA256.Create()) {
