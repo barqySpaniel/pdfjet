@@ -319,6 +319,14 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         return aes256Key;
     }
 
+    //<<
+    //    /Filter /AESDecode
+    //    /V 5
+    //    /R 6
+    //    /Length <Encrypted Data Length>
+    //    /IV <Base64-encoded IV>
+    //    /Data <Encrypted Stream Data>
+    //>>
     // Encrypt a stream and store the IV
     public static Dictionary<string, object> EncryptStreamWithIV(byte[] streamData, byte[] key) {
         // Generate a random 16-byte IV
