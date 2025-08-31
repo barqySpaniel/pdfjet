@@ -5,8 +5,7 @@ using System.Security.Cryptography;
 /// Simple holder for the key‑derivation output required by PDF 2.0.
 /// Uses public fields (no getters/setters) as you requested.
 /// </summary>
-public sealed class PdfKeyMaterial
-{
+public sealed class PdfKeyMaterial {
     public byte[] Key;        // 32‑byte AES‑256 key
     public byte[] Salt;       // 16‑byte random salt
     public int    Iterations; // PBKDF2 iteration count
