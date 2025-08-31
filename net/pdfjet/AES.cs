@@ -45,13 +45,40 @@ public class AES {
 //    }
 
     /// <summary>
-    /// Encrypts data with AES-128-CBC or AES-256-CBC and PKCS#7 padding.
+    /// Encrypts data using AES-128-CBC encryption with PKCS#7 padding.
     /// </summary>
+    /// <param name="plain">Plaintext data to encrypt</param>
+    /// <param name="key">128-bit (16-byte) encryption key</param>
+    /// <param name="iv">128-bit (16-byte) initialization vector</param>
+    /// <returns>Encrypted ciphertext</returns>
+    internal static byte[] EncryptAes128(byte[] plain, byte[] key, byte[] iv) {
+        return Encrypt(plain, 128, key, iv);
+    }
+
+    /// <summary>
+    /// Encrypts data using AES-256-CBC encryption with PKCS#7 padding.
+    /// </summary>
+    /// <param name="plain">Plaintext data to encrypt</param>
+    /// <param name="key">256-bit (32-byte) encryption key</param>
+    /// <param name="iv">128-bit (16-byte) initialization vector</param>
+    /// <returns>Encrypted ciphertext</returns>
+    internal static byte[] Encrypt(byte[] plain, byte[] key, byte[] iv) {
+        return Encrypt(plain, 256, key, iv);
+    }
+
+    /// <summary>
+    /// Encrypts data with AES-CBC and PKCS#7 padding using specified key size.
+    /// </summary>
+    /// <param name="plain">Plaintext data to encrypt</param>
+    /// <param name="keySize">AES key size (128 or 256 bits)</param>
+    /// <param name="key">Encryption key (must match keySize length)</param>
+    /// <param name="iv">128-bit initialization vector</param>
+    /// <returns>Encrypted ciphertext</returns>
     internal static byte[] Encrypt(byte[] plain, int keySize, byte[] key, byte[] iv) {
         using (Aes aes = Aes.Create()) {
-            aes.KeySize = keySize;  // Key Size
-            aes.Key = key;          // Encryption Key
-            aes.IV = iv;            // Initialization Vector
+            aes.KeySize = keySize;
+            aes.Key = key;
+            aes.IV = iv;
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.PKCS7;
 
