@@ -107,23 +107,31 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         return objNumber;
     }
 
+    private byte[] ComputeUserPasswordHash(byte[] userPassword) {
+        return ComputeHashValue(userPassword, null);
+    }
+
+    private byte[] ComputeOwnerPasswordHash(byte[] ownerPassword, byte[] userPasswordHash) {
+        return ComputeHashValue(ownerPassword, userPasswordHash);
+    }
+
     private byte[] ComputeHashValue(
             byte[] inputPassword,
-            byte[] userPasswordValidationHash) {
+            byte[] userPasswordHash) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         int round = 0;
         bool continueProcessing = true;
         byte[] K = HashPassword(inputPassword);
         // Calculate the size of K1 *once*, outside the loop
         int k1Size;
-        if (userPasswordValidationHash != null) {
+        if (userPasswordHash != null) {
             // Add a validation check for the user key
-            if (userPasswordValidationHash.Length != 48) {
+            if (userPasswordHash.Length != 48) {
                 throw new ArgumentException(
                     "User key must be provided and be 48 bytes long for owner password verification.",
-                    nameof(userPasswordValidationHash));
+                    nameof(userPasswordHash));
             }
-            k1Size = 64 * (inputPassword.Length + K.Length + userPasswordValidationHash.Length);
+            k1Size = 64 * (inputPassword.Length + K.Length + userPasswordHash.Length);
         } else {
             k1Size = 64 * (inputPassword.Length + K.Length);
         }
@@ -139,10 +147,10 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
                 //    K1 is the concatenation of the input password and K.
                 stream.Position = 0; // Reset the stream
                 for (int i = 0; i < 64; i++) {
-                    if (userPasswordValidationHash != null) {
+                    if (userPasswordHash != null) {
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
-                        stream.Write(userPasswordValidationHash, 0, userPasswordValidationHash.Length); // 48-bytes
+                        stream.Write(userPasswordHash, 0, userPasswordHash.Length); // 48-bytes
                     } else {    // user password
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
