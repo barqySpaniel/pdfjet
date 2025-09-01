@@ -204,6 +204,44 @@ public class AES {
     }
 
     /// <summary>
+    /// Encrypts the file encryption key (FEK) using AES-256-CBC with a zero IV and no padding.
+    /// </summary>
+    /// <param name="fileEncryptionKey">The 32-byte File Encryption Key (plaintext) to encrypt.</param>
+    /// <param name="keyEncryptionKey">The 32-byte hash used as the Key Encryption Key.</param>
+    /// <returns>The resulting 32-byte UE (User Encryption) key.</returns>
+    public static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] keyEncryptionKey) {
+        // Validate inputs
+        if (fileEncryptionKey == null || fileEncryptionKey.Length != 32) {
+            throw new ArgumentException(
+                "File Encryption Key must be 32 bytes long.", nameof(fileEncryptionKey));
+        }
+        if (keyEncryptionKey == null || keyEncryptionKey.Length != 32) {
+            throw new ArgumentException(
+                "Key Encryption Key must be 32 bytes long.", nameof(keyEncryptionKey));
+        }
+
+        // Create the AES object with the specific parameters
+        using (Aes aes = Aes.Create()) {
+            aes.Key = keyEncryptionKey;
+            aes.KeySize = 256;      // Use AES-256 (32 bytes key)
+            // --- THIS IS THE CRITICAL PART ---
+            // Set the IV to a 16-byte array of zeros.
+            aes.IV = new byte[16];  // new byte[16] initializes all elements to 0.
+            // --------------------------------
+            aes.Mode = CipherMode.CBC;
+            // --- THIS IS THE OTHER CRITICAL PART ---
+            aes.Padding = PaddingMode.None; // No padding because input is exact multiple of block size.
+
+            // Create an encryptor to perform the stream transform.
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+
+            // Encrypt the FEK
+            // The output will be the same length as the input (32 bytes).
+            return encryptor.TransformFinalBlock(fileEncryptionKey, 0, fileEncryptionKey.Length);
+        }
+    }
+
+    /// <summary>
     /// Decrypts data encrypted with AES-CBC and PKCS#7 padding using specified key size.
     /// </summary>
     /// <param name="ciphertext">Encrypted data to decrypt</param>
