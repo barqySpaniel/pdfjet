@@ -78,7 +78,7 @@ public class AES {
     /// <param name="plain">The data to encrypt (the K1 array).</param>
     /// <param name="key">The 16-byte AES key.</param>
     /// <returns>The encrypted data and the generated IV used for encryption.</returns>
-    internal static EncryptedDataWithIV EncryptAlgorithmStep2B(byte[] plain, byte[] key) {
+    internal static EncryptedDataWithIV EncryptAlgorithmStep2B(byte[] plain, byte[] key, byte[] iv) {
         // Validate the input parameters
         if (plain == null || plain.Length == 0) {
             throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
@@ -89,7 +89,7 @@ public class AES {
 
         try {
             // Generate a random 16-byte IV
-            byte[] iv = RandomNumberGenerator.GetBytes(16);
+            // byte[] iv = RandomNumberGenerator.GetBytes(16);
 
             using (Aes aes = Aes.Create()) {
                 // Configure EXACTLY as specified for Algorithm 2.B, Step (b)
