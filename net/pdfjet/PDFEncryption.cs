@@ -56,15 +56,6 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         byte[] ownerEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(ownerPassword, userPassword, permissionFlags);
         byte[] userEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(userPassword, userPassword, permissionFlags);
 
-        // === Owner key (O) ===
-        // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
-        // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
-        // that shall be used in computing the file encryption key and in
-        // determining whether a valid owner password was entered.
-        pdf.Append("/O <");
-        pdf.Append(ToHex(ownerPasswordValidationHash));
-        pdf.Append(">\n");
-
         // === User key (U) ===
         // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
         // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
@@ -74,14 +65,23 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         pdf.Append(ToHex(userPasswordValidationHash));
         pdf.Append(">\n");
 
-        // === Owner Encryption Key (OE) ===
-        pdf.Append("/OE <");
-        pdf.Append(ToHex(ownerEncryptionKey));
-        pdf.Append(">\n");
-
         // === User Encryption Key (UE) ===
         pdf.Append("/UE<");
         pdf.Append(ToHex(userEncryptionKey));
+        pdf.Append(">\n");
+
+        // === Owner key (O) ===
+        // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
+        // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
+        // that shall be used in computing the file encryption key and in
+        // determining whether a valid owner password was entered.
+        pdf.Append("/O <");
+        pdf.Append(ToHex(ownerPasswordValidationHash));
+        pdf.Append(">\n");
+
+        // === Owner Encryption Key (OE) ===
+        pdf.Append("/OE <");
+        pdf.Append(ToHex(ownerEncryptionKey));
         pdf.Append(">\n");
 
         // A set of flags specifying which operations shall be permitted
@@ -295,6 +295,33 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
 //        streamDict["Data"] = encryptedDataWithIV;            // Store encrypted data
 
         return streamDict;
+    }
+
+    // 7.6.4.4.7
+    // Algorithm 8: Computing the encryption dictionary’s U (user password) and
+    // UE (user encryption) values (Security handlers of revision 6)
+    // a) Generate 16 random bytes of data using a strong random number generator. The first 8 bytes are the
+    //    User Validation Salt. The second 8 bytes are the User Key Salt. Compute the 32-byte hash using algorithm
+    //    2.B with an input string consisting of the UTF-8 password concatenated with the User Validation Salt.
+    //    The 48- byte string consisting of the 32-byte hash followed by the User Validation Salt followed by the
+    //    User Key Salt is stored as the U key.
+    //
+    //b) Compute the 32-byte hash using algorithm 2.B with an input string consisting of the UTF-8 password
+    //   concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
+    //   AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
+    //   stored as the UE key.
+    internal byte[] ComputeUandUE() {
+        byte[] randomBytes = new byte[16];
+        using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
+            rng.GetBytes(randomBytes);
+        }
+        byte[] userValidationSalt = new byte[8];
+        byte[] userKeySalt = new byte[8];
+        Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
+        Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
+
+
+        return new byte[] {0, 0};
     }
 }
 }
