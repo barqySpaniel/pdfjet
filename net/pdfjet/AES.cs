@@ -96,7 +96,7 @@ public class AES {
     internal static byte[] EncryptAlgorithm2BStepB(byte[] data, byte[] key, byte[] iv) {
         if (data == null || data.Length == 0) {
             throw new ArgumentException(
-                "Plaintext data cannot be empty for encryption.", nameof(data));
+                "The data cannot be empty for encryption.", nameof(data));
         }
         if (key == null || key.Length != 16) {
             throw new ArgumentException(
@@ -138,7 +138,7 @@ public class AES {
     /// <returns>An EncryptedDataWithIV object containing the encrypted data and generated IV</returns>
     internal static EncryptedDataWithIV EncryptAes128(byte[] data, byte[] key) {
         if (data == null || data.Length == 0) {
-            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(data));
+            throw new ArgumentException("The data cannot be empty for encryption.", nameof(data));
         }
         if (key == null || key.Length != 16) { // 128 bits = 16 bytes
             throw new ArgumentException("Key must be 128 bits (16 bytes) long.", nameof(key));
@@ -162,7 +162,7 @@ public class AES {
     /// <returns>Encrypted ciphertext along with the initialization vector (IV) used for encryption</returns>
     internal static EncryptedDataWithIV EncryptAes256(byte[] data, byte[] key) {
         if (data == null || data.Length == 0) {
-            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(data));
+            throw new ArgumentException("The data cannot be empty for encryption.", nameof(data));
         }
         if (key == null || key.Length != 32) { // 256 bits = 32 bytes
             throw new ArgumentException("Key must be 256 bits (32 bytes) long.", nameof(key));
