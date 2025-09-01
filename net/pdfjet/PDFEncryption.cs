@@ -120,22 +120,28 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
             byte[] userPasswordHash) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         byte[] K = HashPassword(inputPassword);
-        int k1Size; // Calculate the size of K1 *once*, outside the loop
+
+        // Calculate the size of K1 once, outside the loop
+        int k1Size;
         if (userPasswordHash != null) {
-            // Add a validation check for the user key
+            // Validate the user key
             if (userPasswordHash.Length != 48) {
                 throw new ArgumentException(
                     "User key must be provided and be 48 bytes long for owner password verification.",
                     nameof(userPasswordHash));
             }
+            // Correct size calculation for K1 when userPasswordHash is provided
             k1Size = 64 * (inputPassword.Length + K.Length + userPasswordHash.Length);
         } else {
+            // Correct size calculation for K1 when no userPasswordHash is provided
             k1Size = 64 * (inputPassword.Length + K.Length);
         }
+
         byte[] K1;
         byte[] E;
         int round = 0;
         bool continueProcessing = true;
+
         using (MemoryStream stream = new MemoryStream(k1Size)) {
             // Perform the following steps (a)-(d) 64 times:
             while (round < 64 || continueProcessing) {
