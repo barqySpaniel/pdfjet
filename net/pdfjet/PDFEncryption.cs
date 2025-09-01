@@ -6,6 +6,24 @@ using System.Numerics;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
+internal sealed class UserPair {
+    public byte[] U;
+    public byte[] UE;
+    public UserPair(byte[] U, byte[] UE) {
+        this.U = U;
+        this.UE = UE;
+    }
+}
+
+internal sealed class OwnerPair {
+    public byte[] O;
+    public byte[] OE;
+    public OwnerPair(byte[] O, byte[] OE) {
+        this.O = O;
+        this.OE = OE;
+    }
+}
+
 public class PDFEncryption {
     private readonly byte[] key;   // 128-bit AES key
     private readonly byte[] iv;    // 128-bit IV
