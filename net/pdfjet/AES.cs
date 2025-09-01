@@ -202,5 +202,30 @@ public class AES {
             }
         }
     }
+
+    /// <summary>
+    /// Decrypts data encrypted with AES-CBC and PKCS#7 padding using specified key size.
+    /// </summary>
+    /// <param name="ciphertext">Encrypted data to decrypt</param>
+    /// <param name="keySize">AES key size (128 or 256 bits)</param>
+    /// <param name="key">Decryption key (must match keySize length)</param>
+    /// <param name="iv">128-bit initialization vector</param>
+    /// <returns>Decrypted plaintext</returns>
+    private static byte[] Decrypt(byte[] ciphertext, int keySize, byte[] key, byte[] iv) {
+        using (Aes aes = Aes.Create()) {
+            aes.KeySize = keySize;
+            aes.Key = key;
+            aes.IV = iv;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            using (var ms = new MemoryStream())
+            using (var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write)) {
+                cs.Write(ciphertext, 0, ciphertext.Length);
+                cs.FlushFinalBlock();
+                return ms.ToArray();
+            }
+        }
+    }
 }
 }
