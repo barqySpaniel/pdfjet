@@ -75,8 +75,8 @@ public class AES {
     /// Encrypts data using AES-128-CBC (per Algorithm 2.B, Step (b)) with no padding.
     /// The provided IV is used for encryption, and only the resulting ciphertext is returned.
     /// </summary>
-    /// <param name="plain">
-    /// The plaintext data to encrypt (K1 array in Algorithm 2.B).
+    /// <param name="data">
+    /// The data to encrypt (K1 array in Algorithm 2.B).
     /// </param>
     /// <param name="key">
     /// The 16-byte AES key used for encryption (AES-128).
@@ -88,15 +88,15 @@ public class AES {
     /// The encrypted ciphertext as a byte array. IV is not returned.
     /// </returns>
     /// <exception cref="ArgumentException">
-    /// Thrown if the plaintext is null or empty, or if the key is not 16 bytes (AES-128).
+    /// Thrown if the data is null or empty, or if the key is not 16 bytes (AES-128).
     /// </exception>
     /// <exception cref="InvalidOperationException">
     /// Thrown if encryption fails due to an internal error.
     /// </exception>
-    internal static byte[] EncryptAlgorithm2BStepB(byte[] plain, byte[] key, byte[] iv) {
-        if (plain == null || plain.Length == 0) {
+    internal static byte[] EncryptAlgorithm2BStepB(byte[] data, byte[] key, byte[] iv) {
+        if (data == null || data.Length == 0) {
             throw new ArgumentException(
-                "Plaintext data cannot be empty for encryption.", nameof(plain));
+                "Plaintext data cannot be empty for encryption.", nameof(data));
         }
         if (key == null || key.Length != 16) {
             throw new ArgumentException(
@@ -120,7 +120,7 @@ public class AES {
                 using (ICryptoTransform encryptor = aes.CreateEncryptor())
                 using (MemoryStream ms = new MemoryStream())
                 using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
-                    cs.Write(plain, 0, plain.Length);   // Write the plaintext data to the stream
+                    cs.Write(data, 0, data.Length);     // Write the data to the stream
                     cs.FlushFinalBlock();               // Ensure all data is encrypted
                     return ms.ToArray();
                 }
