@@ -72,41 +72,57 @@ public class AES {
     }
 
     /// <summary>
-    /// Performs the encryption for Step (b) of Algorithm 2.B.
-    /// Encrypts the input data using AES-128-CBC with no padding, using a randomly generated IV.
+    /// Encrypts data using AES-128-CBC (per Algorithm 2.B, Step (b)) with no padding.
+    /// The provided IV is used for encryption, and only the resulting ciphertext is returned.
     /// </summary>
-    /// <param name="plain">The data to encrypt (the K1 array).</param>
-    /// <param name="key">The 16-byte AES key.</param>
-    /// <returns>The encrypted data and the generated IV used for encryption.</returns>
-    internal static EncryptedDataWithIV EncryptAlgorithmStep2B(byte[] plain, byte[] key, byte[] iv) {
-        // Validate the input parameters
+    /// <param name="plain">
+    /// The plaintext data to encrypt (K1 array in Algorithm 2.B).
+    /// </param>
+    /// <param name="key">
+    /// The 16-byte AES key used for encryption (AES-128).
+    /// </param>
+    /// <param name="iv">
+    /// The 16-byte initialization vector (IV) used for encryption (provided as input).
+    /// </param>
+    /// <returns>
+    /// The encrypted ciphertext as a byte array. IV is not returned.
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    /// Thrown if the plaintext is null or empty, or if the key is not 16 bytes (AES-128).
+    /// </exception>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown if encryption fails due to an internal error.
+    /// </exception>
+    internal static byte[] EncryptAlgorithm2BStepB(byte[] plain, byte[] key, byte[] iv) {
         if (plain == null || plain.Length == 0) {
-            throw new ArgumentException("Plaintext data cannot be empty for encryption.", nameof(plain));
+            throw new ArgumentException(
+                "Plaintext data cannot be empty for encryption.", nameof(plain));
         }
         if (key == null || key.Length != 16) {
-            throw new ArgumentException("Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
+            throw new ArgumentException(
+                "Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
+        }
+        if (iv == null || iv.Length != 16) {  // Ensure IV is exactly 16 bytes
+            throw new ArgumentException(
+                "IV must be 16 bytes long.", nameof(iv));
         }
 
         try {
-            // Generate a random 16-byte IV
-            // byte[] iv = RandomNumberGenerator.GetBytes(16);
-
             using (Aes aes = Aes.Create()) {
-                // Configure EXACTLY as specified for Algorithm 2.B, Step (b)
-                aes.KeySize = 128;              // AES-128
-                aes.Key = key;
-                aes.IV = iv;
-                aes.Mode = CipherMode.CBC;      // CBC mode
-                aes.Padding = PaddingMode.None; // No padding (CRITICAL)
+                // Algorithm 2.B always uses AES-128-CBC to encrypt K1,
+                // regardless of the file key length (AES-128 or AES-256)
+                aes.KeySize = 128;                      // Use AES-128 (128-bit key)
+                aes.Key = key;                          // Set the encryption key
+                aes.IV = iv;                            // Set the provided initialization vector (IV)
+                aes.Mode = CipherMode.CBC;              // Use CBC mode
+                aes.Padding = PaddingMode.None;         // No padding (CRITICAL for this step)
 
                 using (ICryptoTransform encryptor = aes.CreateEncryptor())
                 using (MemoryStream ms = new MemoryStream())
                 using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
-                    cs.Write(plain, 0, plain.Length);
-                    cs.FlushFinalBlock();       // Ensures all data is processed
-
-                    // Return the encrypted data and the IV as EncryptedDataWithIV
-                    return new EncryptedDataWithIV(ms.ToArray(), iv);
+                    cs.Write(plain, 0, plain.Length);   // Write the plaintext data to the stream
+                    cs.FlushFinalBlock();               // Ensure all data is encrypted
+                    return ms.ToArray();
                 }
             }
         } catch (Exception ex) {

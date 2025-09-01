@@ -160,7 +160,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
                 Array.Copy(K, 0, tempKey, 0, 16);
                 byte[] tempIV = new byte[16];
                 Array.Copy(K, 16, tempIV, 0, 16);
-                E = EncryptAlgorithmStep2B(K1, tempKey, tempIV);
+                E = AES.EncryptAlgorithm2BStepB(K1, tempKey, tempIV);
 
                 // --- Steps (c) & (d): Common to all rounds ---
                 // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
