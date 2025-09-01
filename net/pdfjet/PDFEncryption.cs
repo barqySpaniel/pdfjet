@@ -328,7 +328,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
     //   concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
     //   AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //   stored as the UE key.
-    internal byte[] ComputeUandUE() {
+    internal UserPair ComputeUandUE() {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
@@ -339,7 +339,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
 
 
-        return new byte[] {0, 0};
+        return new UserPair(new byte[] {}, new byte[] {});
     }
 }
 }
