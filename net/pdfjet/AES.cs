@@ -9,8 +9,6 @@ namespace PDFjet.NET {
 internal sealed class DerivedKeyWithSalt {
     public byte[] DerivedKey;    // The derived AES key (e.g., 256 bits for AES-256)
     public byte[] Salt;          // The salt used during key derivation
-
-    // Constructor to initialize the data
     public DerivedKeyWithSalt(byte[] derivedKey, byte[] salt) {
         this.DerivedKey = derivedKey;
         this.Salt = salt;
@@ -20,8 +18,6 @@ internal sealed class DerivedKeyWithSalt {
 internal sealed class EncryptedDataWithIV {
     public byte[] encryptedData;    // The actual encrypted data
     public byte[] iv;               // Initialization vector (IV) used during encryption
-
-    // Constructor to initialize the data
     public EncryptedDataWithIV(byte[] encryptedData, byte[] iv) {
         this.encryptedData = encryptedData;
         this.iv = iv;
@@ -56,10 +52,10 @@ public class AES {
         // Create a PBKDF2 key derivation function with the specified password,
         // salt, iterations, and SHA-256 hash algorithm
         using (var pbkdf2 = new Rfc2898DeriveBytes(
-                password,                // User password
-                salt,                    // Random salt for key derivation
-                iterations,              // Number of iterations (higher = more secure but slower)
-                HashAlgorithmName.SHA256)) { // SHA-256 hash function for PBKDF2
+                password,                       // User password
+                salt,                           // Random salt for key derivation
+                iterations,                     // Number of iterations (higher = more secure but slower)
+                HashAlgorithmName.SHA256)) {    // SHA-256 hash function for PBKDF2
 
             // Generate the derived key of the requested size (default is 32 bytes for AES-256)
             // This key is what will be used for encryption or decryption (AES key)
@@ -223,20 +219,15 @@ public class AES {
         // Create the AES object with the specific parameters
         using (Aes aes = Aes.Create()) {
             aes.Key = keyEncryptionKey;
-            aes.KeySize = 256;      // Use AES-256 (32 bytes key)
-            // --- THIS IS THE CRITICAL PART ---
-            // Set the IV to a 16-byte array of zeros.
-            aes.IV = new byte[16];  // new byte[16] initializes all elements to 0.
-            // --------------------------------
+            aes.KeySize = 256;              // Use AES-256 (32 bytes key)
+            aes.IV = new byte[16];          // new byte[16] initializes all elements to 0.
             aes.Mode = CipherMode.CBC;
-            // --- THIS IS THE OTHER CRITICAL PART ---
             aes.Padding = PaddingMode.None; // No padding because input is exact multiple of block size.
 
             // Create an encryptor to perform the stream transform.
             ICryptoTransform encryptor = aes.CreateEncryptor();
 
-            // Encrypt the FEK
-            // The output will be the same length as the input (32 bytes).
+            // Encrypt the FEK. The output will be the same length as the input (32 bytes).
             return encryptor.TransformFinalBlock(fileEncryptionKey, 0, fileEncryptionKey.Length);
         }
     }
