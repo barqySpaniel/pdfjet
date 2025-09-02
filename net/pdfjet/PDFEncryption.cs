@@ -328,7 +328,9 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
     //   concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
     //   AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //   stored as the UE key.
-    internal UserPair ComputeUserPair(String password, byte[] fileEncryptionKey) {
+    internal UserPair ComputeUserPair(
+            String userPassword,
+            byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
@@ -338,7 +340,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
 
-        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(password);
+        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
 
         // TODO:
         byte[] hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
@@ -349,7 +351,10 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
     }
 
     // TODO:
-    internal OwnerPair ComputeOwnerPair(String password, byte[] fileEncryptionKey) {
+    internal OwnerPair ComputeOwnerPair(
+            String ownerPassword,
+            byte[] userPasswordBytes,
+            byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
@@ -359,7 +364,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
 
-        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(password);
+        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
         // TODO:
         byte[] hash = ComputeUserPasswordHash(Concatenate(ownerPasswordBytes, ownerValidationSalt));
