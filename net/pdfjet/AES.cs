@@ -206,7 +206,7 @@ public class AES {
     /// <summary>
     /// Encrypts the file encryption key (FEK) using AES-256-CBC with a zero IV and no padding.
     /// </summary>
-    /// <param name="fileEncryptionKey">The 32-byte File Encryption Key (plaintext) to encrypt.</param>
+    /// <param name="fileEncryptionKey">The 32-byte File Encryption Key.</param>
     /// <param name="keyEncryptionKey">The 32-byte hash used as the Key Encryption Key.</param>
     /// <returns>The resulting 32-byte UE (User Encryption) key.</returns>
     public static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] keyEncryptionKey) {

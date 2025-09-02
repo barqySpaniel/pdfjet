@@ -328,7 +328,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
     //   concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
     //   AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //   stored as the UE key.
-    internal UserPair ComputeUandUE(String password) {
+    internal UserPair ComputeUserPair(String password, byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
@@ -340,12 +340,31 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
 
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(password);
 
-        byte[] U = new byte[48]; // sswordBytesUserValdationSalt = Concatenate(userPasswordBytes, userValidationSalt);
-
+        byte[] hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
+        byte[] U = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
         byte[] UE = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
 
-
         return new UserPair(new byte[] {}, UE);
+    }
+
+    // TODO:
+    internal OwnerPair ComputeOwnerPair(String password, byte[] fileEncryptionKey) {
+        byte[] randomBytes = new byte[16];
+        using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
+            rng.GetBytes(randomBytes);
+        }
+        byte[] userValidationSalt = new byte[8];
+        byte[] userKeySalt = new byte[8];
+        Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
+        Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
+
+        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(password);
+
+        byte[] hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
+        byte[] U = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
+        byte[] UE = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
+
+        return new OwnerPair(new byte[] {}, UE);
     }
 
     internal byte[] Concatenate(byte[] array1, byte[] array2) {
