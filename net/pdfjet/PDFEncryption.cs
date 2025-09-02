@@ -340,11 +340,12 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
 
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(password);
 
+        // TODO:
         byte[] hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
         byte[] U = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
         byte[] UE = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
 
-        return new UserPair(new byte[] {}, UE);
+        return new UserPair(U, UE);
     }
 
     // TODO:
@@ -353,18 +354,19 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
         }
-        byte[] userValidationSalt = new byte[8];
-        byte[] userKeySalt = new byte[8];
-        Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
-        Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
+        byte[] ownerValidationSalt = new byte[8];
+        byte[] ownerKeySalt = new byte[8];
+        Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
+        Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
 
-        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(password);
+        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(password);
 
-        byte[] hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
-        byte[] U = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
-        byte[] UE = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
+        // TODO:
+        byte[] hash = ComputeUserPasswordHash(Concatenate(ownerPasswordBytes, ownerValidationSalt));
+        byte[] O = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
+        byte[] OE = ComputeUserPasswordHash(Concatenate(ownerPasswordBytes, ownerValidationSalt));
 
-        return new OwnerPair(new byte[] {}, UE);
+        return new OwnerPair(O, OE);
     }
 
     internal byte[] Concatenate(byte[] array1, byte[] array2) {
