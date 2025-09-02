@@ -324,10 +324,10 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
     //    The 48- byte string consisting of the 32-byte hash followed by the User Validation Salt followed by the
     //    User Key Salt is stored as the U key.
     //
-    //b) Compute the 32-byte hash using algorithm 2.B with an input string consisting of the UTF-8 password
-    //   concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
-    //   AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
-    //   stored as the UE key.
+    // b) Compute the 32-byte hash using algorithm 2.B with an input string consisting of the UTF-8 password
+    //    concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
+    //    AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
+    //    stored as the UE key.
     internal UserPair ComputeUserPair(
             String userPassword,
             byte[] fileEncryptionKey) {
@@ -335,11 +335,11 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
         }
+
         byte[] userValidationSalt = new byte[8];
         byte[] userKeySalt = new byte[8];
         Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
-
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
 
         // TODO:
@@ -350,7 +350,21 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         return new UserPair(U, UE);
     }
 
-    // TODO:
+    // 7.6.4.4.8
+    // Algorithm 9: Computing the encryption dictionary’s O (owner password)
+    // and OE (owner encryption) values (Security handlers of revision 6)
+    // a) Generate 16 random bytes of data using a strong random number generator. The first 8 bytes are the
+    //    Owner Validation Salt. The second 8 bytes are the Owner Key Salt. Compute the 32-byte hash using
+    //    algorithm 2.B with an input string consisting of the UTF-8 password concatenated with the Owner
+    //    Validation Salt and then concatenated with the 48-byte U string as generated in Algorithm 8. The 48-byte
+    //    string consisting of the 32-byte hash followed by the Owner Validation Salt followed by the Owner Key
+    //    Salt is stored as the O key.
+    // b) Compute the 32-byte hash using 7.6.4.3.3, "Algorithm 2.B: Computing a hash (revision 6 and later)" with
+    //    an input string consisting of the UTF-8 password concatenated with the Owner Key Salt and then
+    //    concatenated with the 48-byte U string as generated in 7.6.4.4.6, "Algorithm 8: Computing the
+    //    encryption dictionary’s U (user password) and UE (user encryption) values (Security handlers of
+    //    revision 6)". Using this hash as the key, encrypt the file encryption key using AES-256 in CBC mode with
+    //    no padding and an initialization vector of zero. The resulting 32-byte string is stored as the OE key.
     internal OwnerPair ComputeOwnerPair(
             String ownerPassword,
             byte[] userPasswordBytes,
@@ -359,11 +373,11 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
         }
+
         byte[] ownerValidationSalt = new byte[8];
         byte[] ownerKeySalt = new byte[8];
         Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
-
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
         // TODO:
