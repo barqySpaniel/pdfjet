@@ -64,7 +64,7 @@ public class TextBox : IDrawable {
     // bits 24 to 31
     private uint properties = 0x00000001;
     private String language = "en-US";
-    private String altDescription = "";
+    private String altDescription = null;
     private String uri = null;
     private String key = null;
     private String uriLanguage = null;
@@ -792,7 +792,10 @@ public class TextBox : IDrawable {
             float yText,
             float[] color,
             Dictionary<String, Int32> colors) {
-        page.AddBMC(StructElem.P, language, text, altDescription);
+        if (altDescription != null) {
+            page.AddBMC(StructElem.P, language, text, altDescription);
+        }
+
         if (textDirection == Direction.LEFT_TO_RIGHT) {
             page.DrawString(font, fallbackFont, fontSize, text, xText, yText, color, colors);
         } else if (textDirection == Direction.BOTTOM_TO_TOP) {
@@ -803,7 +806,11 @@ public class TextBox : IDrawable {
             page.DrawString(font, fallbackFont, fontSize, text,
                     (yText + width) - (margin + 2*font.GetAscent(fontSize)), xText, color, colors);
         }
-        page.AddEMC();
+
+        if (altDescription != null) {
+            page.AddEMC();
+        }
+
         if (textDirection == Direction.LEFT_TO_RIGHT) {
             float lineLength = font.StringWidth(fallbackFont, text);
             if (GetUnderline()) {
