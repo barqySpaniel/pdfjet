@@ -23,9 +23,8 @@ public class Rect  : IDrawable {
     private string uri;
     private string key;
     private string language = "en-US";
-    private string altDescription = "";
-    private string actualText = "";
-    private string structType = StructElem.P;
+    private string actualText = null;
+    private string altDescription = null;
 
     /**
      * The default constructor.
@@ -115,9 +114,8 @@ public class Rect  : IDrawable {
         this.key = key;
     }
 
-    public Rect SetAltDescription(string altDescription) {
-        this.altDescription = altDescription;
-        return this;
+    public void SetLanguage(String language) {
+        this.language = language;
     }
 
     public Rect SetActualText(String actualText) {
@@ -125,8 +123,8 @@ public class Rect  : IDrawable {
         return this;
     }
 
-    public Rect SetStructType(String structType) {
-        this.structType = structType;
+    public Rect SetAltDescription(string altDescription) {
+        this.altDescription = altDescription;
         return this;
     }
 
@@ -141,7 +139,6 @@ public class Rect  : IDrawable {
 
     public float[] DrawOn(Page page) {
         const float k = 0.55228f;
-        page.AddBMC(this.structType, this.language, this.actualText, this.altDescription);
         page.Append("q\n");
         if (this.r == 0.0f) {
             if (this.fillColor != null) {
@@ -202,7 +199,6 @@ public class Rect  : IDrawable {
             }
         }
         page.Append("Q\n");
-        page.AddEMC();
 
         if (this.uri != null || this.key != null) {
             page.AddAnnotation(new Annotation(

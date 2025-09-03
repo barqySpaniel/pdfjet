@@ -29,9 +29,9 @@ public class Path : IDrawable {
 
     private String uri = null;
     private String key = null;
-    private String language = null;
-    private String actualText = Single.space;
-    private String altDescription = Single.space;
+    private String language = "en-US";
+    private String actualText = null;
+    private String altDescription = null;
 
     /**
      *  The default constructor.
@@ -211,6 +211,30 @@ public class Path : IDrawable {
         this.key = key;
     }
 
+    public void SetLanguage(String language) {
+        this.language = language;
+    }
+
+    /**
+     *  Sets the actual text for this path.
+     *
+     *  @param actualText the actual text for the path.
+     *  @return this Path.
+     */
+    public void SetActualText(String actualText) {
+        this.actualText = actualText;
+    }
+
+    /**
+     *  Sets the alternate description of this path.
+     *
+     *  @param altDescription the alternate description of the path.
+     *  @return this Path.
+     */
+    public void SetAltDescription(String altDescription) {
+        this.altDescription = altDescription;
+    }
+
     /**
      *  Scales the path using the specified factor.
      *
@@ -262,7 +286,10 @@ public class Path : IDrawable {
         float w = xMax - x;
         float h = yMax - y;
 
-        page.AddBMC(StructElem.P, this.language, this.actualText, this.altDescription);
+        if (actualText != null && altDescription != null) {
+            page.AddBMC(StructElem.FIGURE, this.language, this.actualText, this.altDescription);
+        }
+
         page.Append("q\n");
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
@@ -289,7 +316,10 @@ public class Path : IDrawable {
             page.Append("S\n");
         }
         page.Append("Q\n");
-        page.AddEMC();
+
+        if (actualText != null && altDescription != null) {
+            page.AddEMC();
+        }
 
         if (uri != null || key != null) {
             page.AddAnnotation(new Annotation(

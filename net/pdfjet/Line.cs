@@ -23,9 +23,6 @@ public class Line : IDrawable {
     private float width = 0f;
     private String pattern = "[] 0";
     private CapStyle capStyle = CapStyle.BUTT;
-    private String language = null;
-    private String actualText = Single.space;
-    private String altDescription = Single.space;
 
     /**
      * The default constructor.
@@ -267,28 +264,6 @@ public class Line : IDrawable {
     }
 
     /**
-     *  Sets the alternate description of this line.
-     *
-     *  @param altDescription the alternate description of the line.
-     *  @return this Line.
-     */
-    public Line SetAltDescription(String altDescription) {
-        this.altDescription = altDescription;
-        return this;
-    }
-
-    /**
-     *  Sets the actual text for this line.
-     *
-     *  @param actualText the actual text for the line.
-     *  @return this Line.
-     */
-    public Line SetActualText(String actualText) {
-        this.actualText = actualText;
-        return this;
-    }
-
-    /**
      *  Places this line in the specified box at position (0.0f, 0.0f).
      *
      *  @param box the specified box.
@@ -332,7 +307,7 @@ public class Line : IDrawable {
     }
 
     /**
-     *  Scales this line by the spacified factor.
+     *  Scales this line by the specified factor.
      *
      *  @param factor the factor used to scale the line.
      *  @return this Line object.
@@ -342,7 +317,7 @@ public class Line : IDrawable {
     }
 
     /**
-     *  Scales this line by the spacified factor.
+     *  Scales this line by the specified factor.
      *
      *  @param factor the factor used to scale the line.
      *  @return this Line object.
@@ -363,7 +338,6 @@ public class Line : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-        page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n");
         page.SetPenColor(color);
         page.SetPenWidth(width);
@@ -375,7 +349,6 @@ public class Line : IDrawable {
                 x2 + xBox,
                 y2 + yBox);
         page.Append("Q\n");
-        page.AddEMC();
 
         float xMax = Math.Max(x1 + xBox, x2 + xBox);
         float yMax = Math.Max(y1 + yBox, y2 + yBox);
