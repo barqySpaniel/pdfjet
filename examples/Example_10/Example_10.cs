@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Diagnostics;
 using PDFjet.NET;
+using PDFjet.NET.Fonts;
 
 /**
  *  Example_10.cs
@@ -17,8 +18,9 @@ public class Example_10 {
 
         Image image1 = new Image(pdf, "images/sz-map.png");
 
+        // Font f1 = new Font(pdf, IBMPlexSans.Regular);
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        f1.SetSize(10f);
+        f1.SetSize(11f);
 
         Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f2.SetSize(14f);
@@ -27,7 +29,7 @@ public class Example_10 {
         f3.SetSize(12f);
 
         Font f4 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
-        f4.SetSize(10f);
+        f4.SetSize(11f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
@@ -69,7 +71,6 @@ public class Example_10 {
         // p3.SetAlignment(Align.RIGHT);
         p3.SetAlignment(Align.JUSTIFY);
         TextLine text = new TextLine(f1, buf.ToString());
-        text.SetFont(f1);
         p3.Add(text);
 
         buf = new StringBuilder();
