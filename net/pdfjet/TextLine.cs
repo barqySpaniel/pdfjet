@@ -17,7 +17,7 @@ public class TextLine : IDrawable {
 
     internal Font font;
     internal Font fallbackFont;
-    internal float fontSize = 12f;
+    internal float fontSize;
     internal String text;
     internal bool trailingSpace = true;
 
@@ -55,6 +55,7 @@ public class TextLine : IDrawable {
     public TextLine(Font font) {
         this.font = font;
         this.fallbackFont = font;
+        this.fontSize = font.GetSize();
     }
 
     /**
@@ -66,6 +67,7 @@ public class TextLine : IDrawable {
     public TextLine(Font font, String text) {
         this.font = font;
         this.fallbackFont = font;
+        this.fontSize = font.GetSize();
         this.text = text;
         this.altDescription = text;
     }
@@ -281,9 +283,7 @@ public class TextLine : IDrawable {
      *  @return the height.
      */
     public double GetHeight() {
-        float ascent = Math.Max(font.GetAscent(fontSize), fallbackFont.GetAscent(fontSize));
-        float descent = Math.Max(font.GetDescent(fontSize), fallbackFont.GetDescent(fontSize));
-        return ascent + descent;
+        return fontSize;
     }
 
     /**
