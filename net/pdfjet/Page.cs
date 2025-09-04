@@ -673,6 +673,8 @@ public class Page {
         Append(Token.Space);
         Append(b);
         Append(" rg\n");
+        // Set the brush color
+        this.brushColor = new float[] {r, g, b};
     }
 
     /**
@@ -733,6 +735,8 @@ public class Page {
         Append(Token.Space);
         Append(b);
         Append(" RG\n");
+        // Set the pen color
+        this.penColor = new float[] {r, g, b};
     }
 
     /// <summary>
