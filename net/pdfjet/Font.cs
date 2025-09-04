@@ -295,6 +295,10 @@ public class Font {
         return size;
     }
 
+    public String GetName() {
+        return this.name;
+    }
+
     public void SetKernPairs(bool kernPairs) {
         this.kernPairs = kernPairs;
     }
