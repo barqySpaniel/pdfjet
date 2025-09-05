@@ -22,54 +22,53 @@ public class Example_06 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Container container = new Container(190f, 100f);
+        Container flag = new Container(190f, 100f);
+        flag.SetLocation(50f, 50f);
 
-        Rect flag = new Rect();
-        flag.SetLocation(0f, 0f);
-        flag.SetSize(190.0f, 100.0f);
-        flag.SetBorderColor(Color.lightgray);
-        container.Add(flag);
+        Rect border = new Rect();
+        border.SetLocation(0f, 0f);
+        border.SetSize(190.0f, 100.0f);
+        border.SetBorderColor(Color.lightgray);
+        flag.Add(border);
 
         float sw = 7.69f;       // stripe width
         for (int row = 0; row < 7; row++) {
             Line stripe = new Line(0f, sw/2 + 2*row*sw, 190f, sw/2 + 2*row*sw);
             stripe.SetWidth(sw);
             stripe.SetColor(Color.oldgloryred);
-            container.Add(stripe);
+            flag.Add(stripe);
         }
 
         Container union = new Container(76.0f, 53.85f);
         union.SetLocation(0f, 0f);
-        container.Add(union);
-
         Rect rect = new Rect();
         rect.SetLocation(0f, 0f);
         rect.SetSize(76.0f, 53.85f);
         rect.SetFillColor(Color.oldgloryblue);
         union.Add(rect);
+        flag.Add(union);
 
         float h_si = 12.6f;    // horizontal star interval
         float v_si = 10.8f;    // vertical star interval
-        Point star = new Point(h_si/2, v_si/2);
-        star.SetShape(Point.STAR);
-        star.SetRadius(3.0f);
-        star.SetFillColor(Color.white);
-
-        for (int row = 0; row < 6; row++) {
-            for (int col = 0; col < 5; col++) {
-                star.SetLocation(row * h_si, col * v_si);
-                union.Add(star);
-            }
-        }
-
-        star.SetLocation(h_si, v_si);
         for (int row = 0; row < 5; row++) {
-            for (int col = 0; col < 4; col++) {
-                star.SetLocation(row * h_si, col * v_si);
+            for (int col = 0; col < 6; col++) {
+                Point star = new Point(h_si/2 + col * h_si, v_si/2 + row * v_si);
+                star.SetShape(Point.STAR);
+                star.SetRadius(3.0f);
+                star.SetFillColor(Color.white);
                 union.Add(star);
             }
         }
-        container.DrawOn(page);
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 5; col++) {
+                Point star = new Point(h_si + col * h_si, v_si + row * v_si);
+                star.SetShape(Point.STAR);
+                star.SetRadius(3.0f);
+                star.SetFillColor(Color.white);
+                union.Add(star);
+            }
+        }
+        flag.DrawOn(page);
 
         // File attachment functionality
         FileAttachment attachment = new FileAttachment(pdf, file1);
