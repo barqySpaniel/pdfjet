@@ -11,8 +11,6 @@ import Foundation
 ///
 ///
 public class PDF {
-    var metadataObjNumber = 0
-    var outputIntentObjNumber = 0
     var fonts = [Font]()
     var images = [Image]()
     var pages = [Page]()
@@ -25,6 +23,8 @@ public class PDF {
     var extGState = ""
     let floatFormat = "%.2f"
 
+    private var metadataObjNumber = 0
+    private var outputIntentObjNumber = 0
     private var os: BufferedOutputStream?
     private var objOffset = [Int]()
     private var title: String = ""
@@ -40,16 +40,14 @@ public class PDF {
     private var pageLayout: String?
     private var pageMode: String?
     private var language: String = "en-US"
-    private var uuid: String?
+    private var uuid: String = Salsa20().getID()
     private var prevPage: Page?
-
     private var contentStreamsCompression = false
 
     ///
     /// The default constructor - use when reading PDF files.
     ///
     public init() {
-        self.uuid = Salsa20().getID()
     }
 
     ///
@@ -102,7 +100,6 @@ public class PDF {
         os.open()
         self.os = BufferedOutputStream(os)
         self.compliance = compliance
-        self.uuid = Salsa20().getID()
         self.creator = self.producer
 
         let date = Date()
@@ -220,11 +217,11 @@ public class PDF {
             sb.append("</xmp:CreateDate>\n");
 
             sb.append("  <xapMM:DocumentID>uuid:");
-            sb.append(uuid!);
+            sb.append(uuid);
             sb.append("</xapMM:DocumentID>\n");
 
             sb.append("  <xapMM:InstanceID>uuid:");
-            sb.append(uuid!);
+            sb.append(uuid);
             sb.append("</xapMM:InstanceID>\n");
 
             sb.append("</rdf:Description>\n");
@@ -926,9 +923,9 @@ public class PDF {
         append(Token.newline)
 
         append("/ID[<")
-        append(uuid!)
+        append(uuid)
         append("><")
-        append(uuid!)
+        append(uuid)
         append(">]\n")
 
         append("/Info ")

@@ -16,19 +16,19 @@ using System.Reflection;
  */
 namespace PDFjet.NET {
 public class PDF {
-    internal int metadataObjNumber = 0;
-    internal int outputIntentObjNumber = 0;
     internal List<Font> fonts = new List<Font>();
     internal List<Image> images = new List<Image>();
-    internal List<Page> pages = new List<Page>();
-    internal Dictionary<String, Destination> destinations = new Dictionary<String, Destination>();
     internal List<OptionalContentGroup> groups = new List<OptionalContentGroup>();
     internal Dictionary<String, Int32> states = new Dictionary<String, Int32>();
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
     internal Compliance compliance;
     internal Bookmark toc = null;
-    internal String uuid = null;
 
+    private int metadataObjNumber = 0;
+    private int outputIntentObjNumber = 0;
+    private List<Page> pages = new List<Page>();
+    private Dictionary<String, Destination> destinations = new Dictionary<String, Destination>();
+    private String uuid = (new Salsa20()).GetID();
     private Stream os = null;
     private readonly List<Int32> objOffset = new List<Int32>(); // Required by the xref section
     private String title = "";
@@ -55,7 +55,6 @@ public class PDF {
      * The default constructor - use when reading PDF files.
      */
     public PDF() {
-        this.uuid = (new Salsa20()).GetID();
     }
 
     public PDF(Stream os) : this(os, Compliance.PDF_15) {}
@@ -92,7 +91,6 @@ public class PDF {
     public PDF(Stream os, Compliance compliance) {
         this.os = os;
         this.compliance = compliance;
-        this.uuid = (new Salsa20()).GetID();
         this.creator = this.producer;
 
         DateTime date = new DateTime(DateTime.Now.Ticks);

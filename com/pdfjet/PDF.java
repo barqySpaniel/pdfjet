@@ -43,7 +43,7 @@ final public class PDF {
     private String pageLayout = null;
     private String pageMode = null;
     private String language = "en-US";
-    private String uuid = null;
+    private String uuid = (new Salsa20()).getID();
     private final List<String> importedFonts = new ArrayList<String>();
     private String extGState = "";
     private Page prevPage = null;
@@ -53,7 +53,6 @@ final public class PDF {
      * The default constructor - use when reading PDF files.
      */
     public PDF() {
-        this.uuid = (new Salsa20()).getID();
     }
 
     /**
@@ -105,7 +104,6 @@ final public class PDF {
     public PDF(OutputStream os, Compliance compliance) throws Exception {
         this.os = os;
         this.compliance = compliance;
-        this.uuid = (new Salsa20()).getID();
 
         Date date = new Date();
 
