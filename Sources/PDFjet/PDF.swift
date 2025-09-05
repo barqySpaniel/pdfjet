@@ -113,11 +113,11 @@ public class PDF {
 
         append("%PDF-1.7\n")
         append("%")
-        append(UInt8(0x00F2))
-        append(UInt8(0x00F3))
-        append(UInt8(0x00F4))
-        append(UInt8(0x00F5))
-        append(UInt8(0x00F6))
+        append(UInt8(0xF2))
+        append(UInt8(0xF3))
+        append(UInt8(0xF4))
+        append(UInt8(0xF5))
+        append(UInt8(0xF6))
         append(Token.newline)
     }
 

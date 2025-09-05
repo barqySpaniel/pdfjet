@@ -103,11 +103,11 @@ public class PDF {
 
         Append("%PDF-1.7\n");
         Append('%');
-        Append((byte) 0x00F2);
-        Append((byte) 0x00F3);
-        Append((byte) 0x00F4);
-        Append((byte) 0x00F5);
-        Append((byte) 0x00F6);
+        Append((byte) 0xF2);
+        Append((byte) 0xF3);
+        Append((byte) 0xF4);
+        Append((byte) 0xF5);
+        Append((byte) 0xF6);
         Append(Token.Newline);
     }
 

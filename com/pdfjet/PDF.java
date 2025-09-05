@@ -115,11 +115,11 @@ final public class PDF {
 
         append("%PDF-1.7\n");
         append('%');
-        append((byte) 0x00F2);
-        append((byte) 0x00F3);
-        append((byte) 0x00F4);
-        append((byte) 0x00F5);
-        append((byte) 0x00F6);
+        append((byte) 0xF2);
+        append((byte) 0xF3);
+        append((byte) 0xF4);
+        append((byte) 0xF5);
+        append((byte) 0xF6);
         append(Token.NEWLINE);
     }
 
