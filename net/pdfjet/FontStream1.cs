@@ -278,16 +278,16 @@ class FontStream1 {
     internal static void GetFontData(Font font, Stream inputStream) {
         int len = inputStream.ReadByte();
         byte[] fontName = new byte[len];
-        inputStream.Read(fontName, 0, len);
+        ReadFully(inputStream, fontName);
         font.name = System.Text.Encoding.UTF8.GetString(fontName, 0, len);
 
         len = GetInt24(inputStream);
         byte[] fontInfo = new byte[len];
-        inputStream.Read(fontInfo, 0, len);
+        ReadFully(inputStream, fontInfo);
         font.info = System.Text.Encoding.UTF8.GetString(fontInfo, 0, len);
 
         byte[] buf = new byte[GetInt32(inputStream)];
-        inputStream.Read(buf, 0, buf.Length);
+        ReadFully(inputStream, buf);
         MemoryStream stream = new MemoryStream(Decompressor.inflate(buf));
 
         font.unitsPerEm = GetInt32(stream);
@@ -318,6 +318,19 @@ class FontStream1 {
         font.cff = (inputStream.ReadByte() == 'Y') ? true : false;
         font.uncompressedSize = GetInt32(inputStream);
         font.compressedSize = GetInt32(inputStream);
+    }
+
+    internal static void ReadFully(Stream stream, byte[] buffer) {
+        int totalBytesRead = 0;
+        while (totalBytesRead < buffer.Length) {
+            // Read the remaining bytes into the buffer
+            int bytesRead = stream.Read(buffer, totalBytesRead, buffer.Length - totalBytesRead);
+            if (bytesRead == 0) {
+                // End of stream reached
+                break;
+            }
+            totalBytesRead += bytesRead;
+        }
     }
 }   // End of FontStream1.cs
 }   // End of namespace PDFjet.NET

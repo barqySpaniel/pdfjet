@@ -205,7 +205,7 @@ public class BMPImage {
 
     private byte[] GetBytes(System.IO.Stream inputStream, int length) {
         byte[] buf = new byte[length];
-        inputStream.Read(buf, 0, buf.Length);
+        FontStream1.ReadFully(inputStream, buf);
         return buf;
     }
 
