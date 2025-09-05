@@ -113,7 +113,7 @@ public class Example_40 {
         point.SetStrokeWidth(w);
         point.SetText(text);
         // point.SetFontSize(8f);
-        point.SetTextColor(Color.red);
+        point.SetTextColor(Color.white);
         point.SetTextDirection(90);
         path1.Add(point);
 

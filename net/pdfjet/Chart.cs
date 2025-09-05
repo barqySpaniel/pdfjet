@@ -508,7 +508,6 @@ public class Chart : IDrawable {
                 page.DrawPath(points);
                 page.StrokePath();
                 if (point.GetText() != null) {
-                    page.SetBrushColor(point.GetTextColor());
                     page.SetTextDirection(point.GetTextDirection());
                     page.DrawString(
                         f2,
@@ -517,7 +516,7 @@ public class Chart : IDrawable {
                         point.GetText(),
                         point.x + 1.5f*f2.GetDescent(),
                         point.y,
-                        new float[] {1f, 1f, 1f},
+                        point.GetTextColor(),
                         null);
                 }
             }
