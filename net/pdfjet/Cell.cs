@@ -15,7 +15,7 @@ namespace PDFjet.NET {
 public class Cell {
     internal Font font;
     internal Font fallbackFont;
-    internal float fontSize = 12f;
+    internal float fontSize;
     internal String text;
     internal Image image;
     internal Barcode barcode;
@@ -63,6 +63,7 @@ public class Cell {
      */
     public Cell(Font font) {
         this.font = font;
+        this.fontSize = font.GetSize();
         this.fallbackFont = font;
     }
 
@@ -74,6 +75,7 @@ public class Cell {
      */
     public Cell(Font font, String text) {
         this.font = font;
+        this.fontSize = font.GetSize();
         this.fallbackFont = font;
         this.text = text;
     }
@@ -87,6 +89,7 @@ public class Cell {
      */
     public Cell(Font font, Font fallbackFont, String text) {
         this.font = font;
+        this.fontSize = font.GetSize();
         this.fallbackFont = fallbackFont;
         this.text = text;
     }
@@ -98,6 +101,7 @@ public class Cell {
      */
     public void SetFont(Font font) {
         this.font = font;
+        this.fontSize = font.GetSize();
     }
 
     /**
