@@ -22,26 +22,31 @@ public class Example_06 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
+        Container container = new Container(190f, 100f);
+
         Rect flag = new Rect();
-        flag.SetLocation(100.0f, 100.0f);
+        flag.SetLocation(0f, 0f);
         flag.SetSize(190.0f, 100.0f);
-        flag.SetFillColor(Color.white);
-        flag.DrawOn(page);
+        flag.SetBorderColor(Color.lightgray);
+        container.Add(flag);
 
         float sw = 7.69f;       // stripe width
-        Line stripe = new Line(0.0f, sw/2, 190.0f, sw/2);
-        stripe.SetWidth(sw);
-        stripe.SetColor(Color.oldgloryred);
         for (int row = 0; row < 7; row++) {
-            // stripe.PlaceIn(flag, 0.0f, row * 2 * sw);
-            stripe.DrawOn(page);
+            Line stripe = new Line(0f, sw/2 + 2*row*sw, 190f, sw/2 + 2*row*sw);
+            stripe.SetWidth(sw);
+            stripe.SetColor(Color.oldgloryred);
+            container.Add(stripe);
         }
 
-        Rect union = new Rect();
-        union.SetSize(76.0f, 53.85f);
-        union.SetFillColor(Color.oldgloryblue);
-        // union.PlaceIn(flag, 0.0f, 0.0f);
-        union.DrawOn(page);
+        Container union = new Container(76.0f, 53.85f);
+        union.SetLocation(0f, 0f);
+        container.Add(union);
+
+        Rect rect = new Rect();
+        rect.SetLocation(0f, 0f);
+        rect.SetSize(76.0f, 53.85f);
+        rect.SetFillColor(Color.oldgloryblue);
+        union.Add(rect);
 
         float h_si = 12.6f;    // horizontal star interval
         float v_si = 10.8f;    // vertical star interval
@@ -52,19 +57,21 @@ public class Example_06 {
 
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 5; col++) {
-                star.PlaceIn(union, row * h_si, col * v_si);
-                star.DrawOn(page);
+                star.SetLocation(row * h_si, col * v_si);
+                union.Add(star);
             }
         }
 
         star.SetLocation(h_si, v_si);
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 4; col++) {
-                star.PlaceIn(union, row * h_si, col * v_si);
-                star.DrawOn(page);
+                star.SetLocation(row * h_si, col * v_si);
+                union.Add(star);
             }
         }
+        container.DrawOn(page);
 
+        // File attachment functionality
         FileAttachment attachment = new FileAttachment(pdf, file1);
         attachment.SetLocation(100f, 300f);
         attachment.SetIconPushPin();
