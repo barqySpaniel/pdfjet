@@ -49,28 +49,25 @@ public class Example_25 {
         composite.AddComponent(text6);
 
         float[] xy = composite.DrawOn(page);
-/*
+
         Box box = new Box();
         box.SetLocation(xy[0], xy[1]);
         box.SetSize(20f, 20f);
         box.DrawOn(page);
 
-        CompositeTextLine composite2 = new CompositeTextLine(50f, 100f);
-        composite2.SetFontSize(14f);
+        CompositeTextLine composite2 = new CompositeTextLine(50f, 200f);
+        composite2.SetFontSize(24f);
 
         text1 = new TextLine(f1, "SO");
         text2 = new TextLine(f2, "4");
-        text3 = new TextLine(f4, "2-"); // Use bold font here
-
         text2.SetTextEffect(Effect.SUBSCRIPT);
+        text3 = new TextLine(f2, "2-"); // Use bold font here
         text3.SetTextEffect(Effect.SUPERSCRIPT);
 
         composite2.AddComponent(text1);
         composite2.AddComponent(text2);
         composite2.AddComponent(text3);
 
-        composite2.DrawOn(page);
-        composite2.SetLocation(100f, 150f);
         composite2.DrawOn(page);
 
         float[] yy = composite2.GetMinMax();
@@ -80,16 +77,16 @@ public class Example_25 {
         line2.DrawOn(page);
 
         DonutChart chart = new DonutChart(f1, f2, false);
-        chart.SetLocation(300f, 300f);
+        chart.SetLocation(300f, 350f);
         chart.SetR1AndR2(200f, 100f);
         chart.AddSlice(new Slice(10f, Color.red));
         chart.AddSlice(new Slice(20f, Color.green));
         chart.AddSlice(new Slice(30f, Color.blue));
         chart.AddSlice(new Slice(40f, Color.peachpuff));
-//        chart.AddSlice(new Slice(75f, Color.red));
-//        chart.AddSlice(new Slice(25f, Color.blue));
+        // chart.AddSlice(new Slice(75f, Color.red));
+        // chart.AddSlice(new Slice(25f, Color.blue));
         chart.DrawOn(page);
-*/
+
         pdf.Complete();
     }
 

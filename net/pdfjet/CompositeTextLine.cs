@@ -205,39 +205,33 @@ public class CompositeTextLine : IDrawable {
      *  @return the an array containing the vertical coordinates.
      */
     public float[] GetMinMax() {
-        float min = 0f;
-        float max = 0f;
+        float min = this.y;
+        float max = this.y;
         float cur;
 
         foreach (TextLine textLine in textLines) {
+            textLine.SetFontSize(fontSize);
             if (textLine.GetTextEffect() == Effect.SUPERSCRIPT) {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize/2f);
-                }
-                cur = this.y - textLine.font.GetAscent(fontSize) - fontSize * superscriptPosition;
+                cur = this.y - (textLine.font.GetSize() + textLine.font.GetAscent(fontSize*superscriptSizeFactor));
                 if (cur < min)
                     min = cur;
+                textLine.SetFontSize(fontSize*superscriptSizeFactor);
             } else if (textLine.GetTextEffect() == Effect.SUBSCRIPT) {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize/2f);
-                }
-                cur = this.y + textLine.font.GetDescent(fontSize) + fontSize * subscriptPosition;
+                cur = this.y + (textLine.font.GetDescent() + textLine.font.GetDescent(fontSize*subscriptSizeFactor));
                 if (cur > max)
                     max = cur;
+                textLine.SetFontSize(fontSize*subscriptSizeFactor);
             } else {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize);
-                }
-                cur = this.y - textLine.font.GetAscent(fontSize);
+                cur = this.y - textLine.font.GetAscent();
                 if (cur < min)
                     min = cur;
-                cur = this.y + textLine.font.GetDescent(fontSize);
+                cur = this.y + textLine.font.GetDescent();
                 if (cur > max)
                     max = cur;
             }
         }
 
-        return new float[] {this.y + min, this.y + max};
+        return new float[] {min, max};
     }
 
     /**
@@ -260,17 +254,11 @@ public class CompositeTextLine : IDrawable {
 
         foreach (TextLine textLine in textLines) {
             if (textLine.GetTextEffect() == Effect.SUPERSCRIPT) {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize/2f);
-                }
+                textLine.SetFontSize(fontSize*superscriptSizeFactor);
             } else if (textLine.GetTextEffect() == Effect.SUBSCRIPT) {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize/2f);
-                }
+                textLine.SetFontSize(fontSize*subscriptSizeFactor);
             } else {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize);
-                }
+                textLine.SetFontSize(fontSize);
             }
             width += textLine.GetWidth();
         }
@@ -296,24 +284,18 @@ public class CompositeTextLine : IDrawable {
         float textLineX = this.x;
         float textLineY = this.y;
         foreach (TextLine textLine in textLines) {
+            textLine.SetFontSize(fontSize);
             if (textLine.GetTextEffect() == Effect.SUPERSCRIPT) {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize/2f);
-                }
                 textLine.SetLocation(
                         textLineX,
-                        textLineY - textLine.GetFontSize() * superscriptPosition);
+                        textLineY - textLine.font.GetSize());
+                textLine.SetFontSize(fontSize*superscriptSizeFactor);
             } else if (textLine.GetTextEffect() == Effect.SUBSCRIPT) {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize/2f);
-                }
                 textLine.SetLocation(
                         textLineX,
-                        textLineY + textLine.GetFontSize() * subscriptPosition);
+                        textLineY + textLine.font.GetDescent());
+                textLine.SetFontSize(fontSize*superscriptSizeFactor);
             } else {
-                if (fontSize != 0f) {
-                    textLine.SetFontSize(fontSize);
-                }
                 textLine.SetLocation(textLineX, textLineY);
             }
             textLineX += textLine.GetWidth();
