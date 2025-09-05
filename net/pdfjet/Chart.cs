@@ -67,7 +67,7 @@ public class Chart : IDrawable {
 
     private Font f1 = null;
     private Font f2 = null;
-    private float fontSize = 12f;
+    private float fontSize = 8f;
 
     private List<List<Point>> chartData = null;
 
@@ -512,7 +512,7 @@ public class Chart : IDrawable {
                     page.DrawString(
                         f2,
                         null,
-                        10f,
+                        fontSize,
                         point.GetText(),
                         point.x + 1.5f*f2.GetDescent(),
                         point.y,
