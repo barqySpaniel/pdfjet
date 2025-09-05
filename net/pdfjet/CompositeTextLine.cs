@@ -11,7 +11,7 @@ namespace PDFjet.NET {
 /**
  *  This class was designed and implemented by Jon T. Swanson, Ph.D.
  *
- *  Refactored and integrated into the project by Eugene Dragoev - 2 June 2012.
+ *  Refactored and integrated into the project by Evgeni Dragoev - 2025-09-05
  *  Used to create composite text line objects.
  */
 public class CompositeTextLine : IDrawable {
@@ -161,10 +161,6 @@ public class CompositeTextLine : IDrawable {
         SetLocation(x, y);
     }
 
-    public void SetXY(float x, float y) {
-        SetLocation(x, y);
-    }
-
     /**
      *  Loop through all the text lines and reset their location based on
      *  the new location set here.
@@ -251,7 +247,26 @@ public class CompositeTextLine : IDrawable {
      *  @return the width.
      */
     public float GetWidth() {
-        return 200f; // TODO (current[X] - position[X]);
+        float width = 0f;
+
+        foreach (TextLine textLine in textLines) {
+            if (textLine.GetTextEffect() == Effect.SUPERSCRIPT) {
+                if (fontSize != 0f) {
+                    textLine.SetFontSize(fontSize/2f);
+                }
+            } else if (textLine.GetTextEffect() == Effect.SUBSCRIPT) {
+                if (fontSize != 0f) {
+                    textLine.SetFontSize(fontSize/2f);
+                }
+            } else {
+                if (fontSize != 0f) {
+                    textLine.SetFontSize(fontSize);
+                }
+            }
+            width += textLine.GetWidth();
+        }
+
+        return width;
     }
 
     /**
