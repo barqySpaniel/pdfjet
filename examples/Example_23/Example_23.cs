@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Text;
-using PDFjet.NET;
 using System.Reflection;
+using PDFjet.NET;
+using PDFjet.NET.Fonts;
 
 /**
  * Example_23.cs
@@ -13,7 +14,7 @@ public class Example_23 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_23.pdf", FileMode.Create)));
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.SetSize(72f);
 
         Font f2 = new Font(pdf, CoreFont.HELVETICA);
@@ -34,10 +35,10 @@ public class Example_23 {
         TextBox textBox = new TextBox(f1, buf.ToString());
         textBox.SetLocation(x1, y1);
         textBox.SetWidth(500f);
-        // textBox.SetHeight(230f); // Test the appending of "..."
-        textBox.SetMargin(0f);
-        textBox.SetSpacing(0f);
-        textBox.SetTextColor(Color.lightgreen);
+//        textBox.SetMargin(0f);
+//        textBox.SetSpacing(0f);
+        textBox.SetFillColor(Color.lightgreen);
+        textBox.SetTextColor(Color.black);
         float[] xy = textBox.DrawOn(page);
 
         float x2 = x1 + textBox.GetWidth();

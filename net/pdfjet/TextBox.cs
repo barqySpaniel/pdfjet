@@ -352,6 +352,13 @@ public class TextBox : IDrawable {
         return spacing;
     }
 
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.fillColor = new float[] {r, g, b};
+    }
+
     public void SetFillColor(float[] rgbColor) {
         this.fillColor = rgbColor;
     }
