@@ -109,7 +109,7 @@ public class Example_40 {
         point.SetX(x);
         point.SetY(0f);
         point.SetShape(Point.INVISIBLE);
-        point.SetFillColor(fillColor);
+        point.SetStrokeColor(fillColor);
         point.SetStrokeWidth(w);
         point.SetText(text);
         point.SetTextColor(textColor);

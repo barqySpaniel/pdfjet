@@ -506,6 +506,7 @@ public class Chart : IDrawable {
                 page.SetPenWidth(point.strokeWidth);
                 page.SetStrokePattern(point.strokePattern);
                 page.DrawPath(points);
+                page.StrokePath();
                 if (point.GetText() != null) {
                     page.SetBrushColor(point.GetTextColor());
                     page.SetTextDirection(point.GetTextDirection());
