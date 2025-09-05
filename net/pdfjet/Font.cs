@@ -304,6 +304,10 @@ public class Font {
     }
 
     public float StringWidth(String str) {
+        return StringWidth(this.size, str);
+    }
+
+    public float StringWidth(float fontSize, String str) {
         float width = 0.0f;
 
         if (str == null) {
@@ -346,7 +350,7 @@ public class Font {
             }
         }
 
-        return width * size / unitsPerEm;
+        return width * fontSize / unitsPerEm;
     }
 
     public float GetAscent() {
@@ -459,6 +463,10 @@ public class Font {
         this.skew15 = skew15;
     }
 
+
+    public float StringWidth(Font fallbackFont, String str) {
+        return StringWidth(fallbackFont, this.size, str);
+    }
     /**
      * Returns the width of a string drawn using two fonts.
      *
@@ -466,11 +474,11 @@ public class Font {
      * @param str the string.
      * @return the width.
      */
-    public float StringWidth(Font fallbackFont, String str) {
+    public float StringWidth(Font fallbackFont, float fontSize, String str) {
         float width = 0f;
 
         if (this.isCoreFont || this.isCJK || fallbackFont == null || fallbackFont.isCoreFont || fallbackFont.isCJK) {
-            return StringWidth(str);
+            return StringWidth(fontSize, str);
         }
 
         Font activeFont = this;
@@ -478,7 +486,7 @@ public class Font {
         for (int i = 0; i < str.Length; i++) {
             int ch = str[i];
             if (activeFont.unicodeToGID[ch] == 0) {
-                width += activeFont.StringWidth(buf.ToString());
+                width += activeFont.StringWidth(fontSize, buf.ToString());
                 buf.Length = 0;
                 // Switch the active font
                 if (activeFont == this) {
@@ -489,7 +497,7 @@ public class Font {
             }
             buf.Append((char) ch);
         }
-        width += activeFont.StringWidth(buf.ToString());
+        width += activeFont.StringWidth(fontSize, buf.ToString());
 
         return width;
     }

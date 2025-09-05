@@ -163,6 +163,10 @@ public class TextLine : IDrawable {
         return this;
     }
 
+    public float GetFontSize() {
+        return this.fontSize;
+    }
+
     /**
      *  Sets the fallback font.
      *
@@ -255,7 +259,7 @@ public class TextLine : IDrawable {
      * @return the y coordinate of the destination.
      */
     public float GetDestinationY() {
-        return y - font.GetSize();
+        return y - this.fontSize;
     }
 
     /**
@@ -264,7 +268,7 @@ public class TextLine : IDrawable {
      *  @return the width.
      */
     public float GetWidth() {
-        return font.StringWidth(fallbackFont, text);
+        return font.StringWidth(fallbackFont, this.fontSize, text);
     }
 
     /**
@@ -576,7 +580,7 @@ public class TextLine : IDrawable {
         if (underline) {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
-            double lineLength = font.StringWidth(fallbackFont, text);
+            double lineLength = font.StringWidth(fallbackFont, fontSize, text);
             double xAdjust = font.GetUnderlinePosition(fontSize) * Math.Sin(radians) + verticalOffset;
             double yAdjust = font.GetUnderlinePosition(fontSize) * Math.Cos(radians) + verticalOffset;
             double x2 = x + lineLength * Math.Cos(radians);
@@ -591,7 +595,7 @@ public class TextLine : IDrawable {
         if (strikeout) {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
-            double lineLength = font.StringWidth(fallbackFont, text);
+            double lineLength = font.StringWidth(fallbackFont, fontSize, text);
             double xAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Sin(radians);
             double yAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Cos(radians);
             double x2 = x + lineLength * Math.Cos(radians);
@@ -609,7 +613,7 @@ public class TextLine : IDrawable {
                     key,    // The destination name
                     x,
                     y - font.GetAscent(fontSize),
-                    x + font.StringWidth(fallbackFont, text),
+                    x + font.StringWidth(fallbackFont, fontSize, text),
                     y + font.GetDescent(fontSize),
                     uriLanguage,
                     uriActualText,
@@ -617,7 +621,7 @@ public class TextLine : IDrawable {
         }
         page.SetTextDirection(0);
 
-        float len = font.StringWidth(fallbackFont, text);
+        float len = font.StringWidth(fallbackFont, fontSize, text);
         double xMax = Math.Max((double) x, x + len*Math.Cos(radians));
         double yMax = Math.Max((double) y, y - len*Math.Sin(radians));
 
