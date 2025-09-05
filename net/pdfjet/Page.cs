@@ -387,7 +387,7 @@ public class Page {
                 int ch = str[i];
                 if (activeFont.unicodeToGID[ch] == 0) {
                     DrawString(activeFont, fontSize, sb.ToString(), x, y, textColor, colors);
-                    x += activeFont.StringWidth(sb.ToString());
+                    x += activeFont.StringWidth(fontSize, sb.ToString());
                     sb.Length = 0;
                     // Switch the font
                     if (activeFont == font) {

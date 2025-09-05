@@ -15,7 +15,7 @@ public class Example_40 {
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f1.SetItalic(true);
-        f1.SetSize(10f);
+        f1.SetSize(8f);
 
         Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.SetItalic(true);
@@ -112,6 +112,7 @@ public class Example_40 {
         point.SetStrokeColor(fillColor);
         point.SetStrokeWidth(w);
         point.SetText(text);
+        // point.SetFontSize(8f);
         point.SetTextColor(Color.red);
         point.SetTextDirection(90);
         path1.Add(point);

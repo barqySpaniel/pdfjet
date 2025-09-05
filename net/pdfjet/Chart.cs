@@ -510,7 +510,15 @@ public class Chart : IDrawable {
                 if (point.GetText() != null) {
                     page.SetBrushColor(point.GetTextColor());
                     page.SetTextDirection(point.GetTextDirection());
-                    page.DrawString(f2, null, fontSize, point.GetText(), point.x, point.y, new float[] {1f, 1f, 1f}, null);
+                    page.DrawString(
+                        f2,
+                        null,
+                        10f,
+                        point.GetText(),
+                        point.x + 1.5f*f2.GetDescent(),
+                        point.y,
+                        new float[] {1f, 1f, 1f},
+                        null);
                 }
             }
             for (int j = 0; j < points.Count; j++) {
