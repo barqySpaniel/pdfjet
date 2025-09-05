@@ -21,30 +21,24 @@ public class Example_25 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         CompositeTextLine composite = new CompositeTextLine(50f, 50f);
-        // composite.SetFontSize(14f);
+        composite.SetFontSize(24f);
 
         TextLine text1 = new TextLine(f1, "C");
-        text1.SetFontSize(14);
         text1.SetColor(Color.dodgerblue);
 
         TextLine text2 = new TextLine(f2, "6");
-        text2.SetFontSize(8f);
         text2.SetTextEffect(Effect.SUBSCRIPT);
 
         TextLine text3 = new TextLine(f1, "H");
-        text3.SetFontSize(14);
         text3.SetColor(Color.dodgerblue);
 
         TextLine text4 = new TextLine(f2, "12");
-        text4.SetFontSize(8f);
         text4.SetTextEffect(Effect.SUBSCRIPT);
 
         TextLine text5 = new TextLine(f1, "O");
-        text5.SetFontSize(14);
         text5.SetColor(Color.dodgerblue);
 
         TextLine text6 = new TextLine(f2, "6");
-        text6.SetFontSize(8f);
         text6.SetTextEffect(Effect.SUBSCRIPT);
 
         composite.AddComponent(text1);
