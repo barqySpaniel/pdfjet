@@ -142,23 +142,23 @@ public class CompositeTextLine : IDrawable {
      */
     public void AddComponent(TextLine component) {
         if (component.GetTextEffect() == Effect.SUPERSCRIPT) {
-            if (fontSize > 0f) {
-                component.GetFont().SetSize(fontSize * superscriptSizeFactor);
-            }
+//            if (fontSize > 0f) {
+//                component.GetFont().SetSize(fontSize * superscriptSizeFactor);
+//            }
             component.SetLocation(
                     current[X],
-                    current[Y] - fontSize * superscriptPosition);
+                    current[Y] - component.GetFont().GetSize() * superscriptPosition);
         } else if (component.GetTextEffect() == Effect.SUBSCRIPT) {
-            if (fontSize > 0f) {
-                component.GetFont().SetSize(fontSize * subscriptSizeFactor);
-            }
+//            if (fontSize > 0f) {
+//                component.GetFont().SetSize(fontSize * subscriptSizeFactor);
+//            }
             component.SetLocation(
                     current[X],
-                    current[Y] + fontSize * subscriptPosition);
+                    current[Y] + component.GetFont().GetSize() * subscriptPosition);
         } else {
-            if (fontSize > 0f) {
-                component.GetFont().SetSize(fontSize);
-            }
+//            if (fontSize > 0f) {
+//                component.GetFont().SetSize(fontSize);
+//            }
             component.SetLocation(current[X], current[Y]);
         }
         current[X] += component.GetWidth();
@@ -212,11 +212,11 @@ public class CompositeTextLine : IDrawable {
             if (component.GetTextEffect() == Effect.SUPERSCRIPT) {
                 component.SetLocation(
                         current[X],
-                        current[Y] - fontSize * superscriptPosition);
+                        current[Y] - component.GetFont().GetSize() * superscriptPosition);
             } else if (component.GetTextEffect() == Effect.SUBSCRIPT) {
                 component.SetLocation(
                         current[X],
-                        current[Y] + fontSize * subscriptPosition);
+                        current[Y] + component.GetFont().GetSize() * subscriptPosition);
             } else {
                 component.SetLocation(current[X], current[Y]);
             }

@@ -13,10 +13,6 @@ public class Example_25 {
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
         Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f3 = new Font(pdf, CoreFont.HELVETICA);
-        Font f4 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f5 = new Font(pdf, CoreFont.HELVETICA);
-        Font f6 = new Font(pdf, CoreFont.HELVETICA_BOLD);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
@@ -24,18 +20,27 @@ public class Example_25 {
         composite.SetFontSize(14f);
 
         TextLine text1 = new TextLine(f1, "C");
-        TextLine text2 = new TextLine(f2, "6");
-        TextLine text3 = new TextLine(f3, "H");
-        TextLine text4 = new TextLine(f4, "12");
-        TextLine text5 = new TextLine(f5, "O");
-        TextLine text6 = new TextLine(f6, "6");
-
+        // text1.SetFontSize(14);
         text1.SetColor(Color.dodgerblue);
+
+        TextLine text2 = new TextLine(f2, "6");
+        text2.SetFontSize(composite.GetFontSize()*0.5f);
+        text2.SetTextEffect(Effect.SUBSCRIPT);
+
+        TextLine text3 = new TextLine(f1, "H");
+        // text3.SetFontSize(14);
         text3.SetColor(Color.dodgerblue);
+
+        TextLine text4 = new TextLine(f2, "12");
+        text4.SetFontSize(composite.GetFontSize()*0.5f);
+        text4.SetTextEffect(Effect.SUBSCRIPT);
+
+        TextLine text5 = new TextLine(f1, "O");
+        // text5.SetFontSize(14);
         text5.SetColor(Color.dodgerblue);
 
-        text2.SetTextEffect(Effect.SUBSCRIPT);
-        text4.SetTextEffect(Effect.SUBSCRIPT);
+        TextLine text6 = new TextLine(f2, "6");
+        text6.SetFontSize(composite.GetFontSize()*0.5f);
         text6.SetTextEffect(Effect.SUBSCRIPT);
 
         composite.AddComponent(text1);
@@ -46,7 +51,7 @@ public class Example_25 {
         composite.AddComponent(text6);
 
         float[] xy = composite.DrawOn(page);
-
+/*
         Box box = new Box();
         box.SetLocation(xy[0], xy[1]);
         box.SetSize(20f, 20f);
@@ -83,12 +88,10 @@ public class Example_25 {
         chart.AddSlice(new Slice(20f, Color.green));
         chart.AddSlice(new Slice(30f, Color.blue));
         chart.AddSlice(new Slice(40f, Color.peachpuff));
-/* For testing!
-        chart.AddSlice(new Slice(75f, Color.red));
-        chart.AddSlice(new Slice(25f, Color.blue));
-*/
+//        chart.AddSlice(new Slice(75f, Color.red));
+//        chart.AddSlice(new Slice(25f, Color.blue));
         chart.DrawOn(page);
-
+*/
         pdf.Complete();
     }
 
