@@ -434,7 +434,6 @@ public class Chart : IDrawable {
         page.LineTo(x3, y3);
         page.LineTo(x4, y4);
         page.ClosePath();
-        page.StrokePath();
     }
 
     private void DrawInnerBorder(Page page) {
@@ -445,7 +444,6 @@ public class Chart : IDrawable {
         page.LineTo(x7, y7);
         page.LineTo(x8, y8);
         page.ClosePath();
-        page.StrokePath();
     }
 
     private void DrawHorizontalGridLines(Page page) {

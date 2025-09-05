@@ -13,7 +13,7 @@ package com.pdfjet;
  *  Please see Example_05.
  */
 public class Point implements Drawable {
-    /** INVISABLE point */
+    /** INVISIBLE point */
     public static final int INVISIBLE = -1;
 
     /** CIRCLE shaped point */

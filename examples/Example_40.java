@@ -77,9 +77,9 @@ final public class Example_40 {
         x += dx1;
         addVerticalBar(chartData, x, w, 73f, Color.red, " August", Color.white);
         x += dx2;
-        addVerticalBar(chartData, x, w, 31f, Color.green, " Septemeber", Color.white);
+        addVerticalBar(chartData, x, w, 31f, Color.green, " September", Color.white);
         x += dx1;
-        addVerticalBar(chartData, x, w, 73f, Color.red, " Septemeber", Color.white);
+        addVerticalBar(chartData, x, w, 73f, Color.red, " September", Color.white);
         x += dx2;
         addVerticalBar(chartData, x, w, 31f, Color.green, " October", Color.white);
         x += dx1;

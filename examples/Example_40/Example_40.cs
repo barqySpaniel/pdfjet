@@ -75,9 +75,9 @@ public class Example_40 {
         x += dx1;
         AddVerticalBar(chartData, x, w, 73f, Color.red, " August", Color.white);
         x += dx2;
-        AddVerticalBar(chartData, x, w, 31f, Color.green, " Septemeber", Color.white);
+        AddVerticalBar(chartData, x, w, 31f, Color.green, " September", Color.white);
         x += dx1;
-        AddVerticalBar(chartData, x, w, 73f, Color.red, " Septemeber", Color.white);
+        AddVerticalBar(chartData, x, w, 73f, Color.red, " September", Color.white);
         x += dx2;
         AddVerticalBar(chartData, x, w, 31f, Color.green, " October", Color.white);
         x += dx1;
@@ -99,7 +99,7 @@ public class Example_40 {
             float x,
             float w,
             float h,
-            int color,
+            int fillColor,
             String text,
             int textColor) {
         List<Point> path1 = new List<Point>();
@@ -109,7 +109,7 @@ public class Example_40 {
         point.SetX(x);
         point.SetY(0f);
         point.SetShape(Point.INVISIBLE);
-        point.SetFillColor(color);
+        point.SetFillColor(fillColor);
         point.SetStrokeWidth(w);
         point.SetText(text);
         point.SetTextColor(textColor);

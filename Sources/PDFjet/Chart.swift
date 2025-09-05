@@ -400,7 +400,6 @@ public class Chart : Drawable {
         page.lineTo(x3, y3)
         page.lineTo(x4, y4)
         page.closePath()
-        page.strokePath()
     }
 
     private func drawInnerBorder(_ page: Page) {
@@ -411,7 +410,6 @@ public class Chart : Drawable {
         page.lineTo(x7, y7)
         page.lineTo(x8, y8)
         page.closePath()
-        page.strokePath()
     }
 
     private func drawHorizontalGridLines(_ page: Page) {

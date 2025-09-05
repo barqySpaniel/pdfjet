@@ -346,7 +346,6 @@ func (chart *Chart) drawChartBorder(page *Page) {
 	page.LineTo(chart.x3, chart.y3)
 	page.LineTo(chart.x4, chart.y4)
 	page.ClosePath()
-	page.StrokePath()
 }
 
 func (chart *Chart) drawInnerBorder(page *Page) {
@@ -357,7 +356,6 @@ func (chart *Chart) drawInnerBorder(page *Page) {
 	page.LineTo(chart.x7, chart.y7)
 	page.LineTo(chart.x8, chart.y8)
 	page.ClosePath()
-	page.StrokePath()
 }
 
 func (chart *Chart) drawHorizontalGridLines(page *Page) {
