@@ -217,9 +217,9 @@ public class PDFEncryption {
     }
 
     /// <summary>
-    /// Analyzes the first 16 bytes of the ciphertext 'E' to determine the next hash algorithm to use.
+    /// Analyzes the first 16 bytes of the 'E' to determine the next hash algorithm to use.
     /// </summary>
-    /// <param name="E">The ciphertext output from the encryption step.</param>
+    /// <param name="E">The output from the encryption step.</param>
     /// <returns>An instance of the chosen hash algorithm (SHA256, SHA384, or SHA512).</returns>
     private HashAlgorithm DetermineNextHashAlgorithm(byte[] E) {
         if (E.Length < 16) {
@@ -370,11 +370,11 @@ public class PDFEncryption {
             rng.GetBytes(randomBytes);
         }
 
+        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
         byte[] ownerValidationSalt = new byte[8];
         byte[] ownerKeySalt = new byte[8];
         Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
-        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
         byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
