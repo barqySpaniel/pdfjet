@@ -41,8 +41,11 @@ public class PDFEncryption {
             rng.GetBytes(this.fileEncryptionKey); // Fills the array with cryptographically strong random bytes
         }
 
-        UserPair userPair = ComputeUserPair(userPassword, fileEncryptionKey);
-        OwnerPair ownerPair = ComputeOwnerPair(ownerPassword, userPair.U, fileEncryptionKey);
+        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
+        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
+
+        UserPair userPair = ComputeUserPair(userPasswordBytes, fileEncryptionKey);
+        OwnerPair ownerPair = ComputeOwnerPair(ownerPasswordBytes, userPair.U, fileEncryptionKey);
 
         // === Encryption Dictionary ===
         pdf.NewObj();
@@ -314,14 +317,13 @@ Console.WriteLine("k1Size == " + k1Size);
     //    AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //    stored as the UE key.
     internal UserPair ComputeUserPair(
-            String userPassword,
+            byte[] userPasswordBytes,
             byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
         }
 
-        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] userValidationSalt = new byte[8];
         byte[] userKeySalt = new byte[8];
         Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
@@ -356,7 +358,7 @@ Console.WriteLine("hash.Length == " + hash.Length);
     //    revision 6)". Using this hash as the key, encrypt the file encryption key using AES-256 in CBC mode with
     //    no padding and an initialization vector of zero. The resulting 32-byte string is stored as the OE key.
     internal OwnerPair ComputeOwnerPair(
-            String ownerPassword,
+            byte[] ownerPasswordBytes,
             byte[] U,
             byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
@@ -364,7 +366,6 @@ Console.WriteLine("hash.Length == " + hash.Length);
             rng.GetBytes(randomBytes);
         }
 
-        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
         byte[] ownerValidationSalt = new byte[8];
         byte[] ownerKeySalt = new byte[8];
         Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
