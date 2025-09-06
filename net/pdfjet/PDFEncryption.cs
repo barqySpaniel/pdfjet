@@ -150,9 +150,6 @@ public class PDFEncryption {
             k1Size = 64 * (inputPassword.Length + 64 /* K.Length */);
         }
 
-        byte[] K1;
-        byte[] E;
-
         using (MemoryStream stream = new MemoryStream(k1Size)) {
             // Perform the following steps (a)-(d) 64 times or more:
             int round = 0;
@@ -163,7 +160,7 @@ public class PDFEncryption {
                 //    The 48 byte user key is only used when checking the owner password or creating the owner key.
                 //    If checking the user password or creating the user key,
                 //    K1 is the concatenation of the input password and K.
-                K1 = ComputeK1(stream, inputPassword, K, U);
+                byte[] K1 = ComputeK1(stream, inputPassword, K, U);
 
                 // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
                 //    using the first 16 bytes of K as the key and the second
@@ -173,7 +170,7 @@ public class PDFEncryption {
                 Array.Copy(K, 0, tempKey, 0, 16);
                 byte[] tempIV = new byte[16];
                 Array.Copy(K, 16, tempIV, 0, 16);
-                E = AES.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
+                byte[] E = AES.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
 
                 // --- Steps (c) & (d): Common to all rounds ---
                 // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
