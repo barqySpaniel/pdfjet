@@ -57,7 +57,7 @@ public class PDFEncryption {
         pdf.Append("/Filter /Standard\n");
         pdf.Append("/V 5\n");           // Algorithm 2.A / 2.B
         pdf.Append("/R 6\n");           // Security revision 6 (strong password hashing)
-        pdf.Append("/Length 128\n");    // !! Vestigial, required, ignored (must still be present) !!
+        pdf.Append("/Length 256\n");    // Vestigial, required, ignored (must still be present)
         pdf.Append("/CF <<\n");
         pdf.Append("/StdCF <<\n");
         pdf.Append("/CFM /AESV3\n");    // AESV3 = AES-256 in CBC
@@ -67,27 +67,22 @@ public class PDFEncryption {
         pdf.Append(">>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
-
         // === User Key (U) ===
         pdf.Append("/U <");
         pdf.Append(ToHex(userPair.U));
         pdf.Append(">\n");
-
         // === User Encryption Key (UE) ===
         pdf.Append("/UE <");
         pdf.Append(ToHex(userPair.UE));
         pdf.Append(">\n");
-
         // === Owner Key (O) ===
         pdf.Append("/O <");
         pdf.Append(ToHex(ownerPair.O));
         pdf.Append(">\n");
-
         // === Owner Encryption Key (OE) ===
         pdf.Append("/OE <");
         pdf.Append(ToHex(ownerPair.OE));
         pdf.Append(">\n");
-
         // A set of flags specifying which operations shall be permitted
         // when the document is opened with user access (see "Table 22 — User access permissions").
         pdf.Append("/P -3904\n");
