@@ -25,8 +25,8 @@ internal sealed class OwnerPair {
 }
 
 public class PDFEncryption {
-    private readonly byte[] key;   // 128-bit AES key
-    private readonly byte[] iv;    // 128-bit IV
+    private readonly byte[] fileEncryptionKey;
+    private readonly byte[] iv; // 128-bit IV
     private readonly int objNumber;
 
     /// <summary>
@@ -36,15 +36,10 @@ public class PDFEncryption {
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
-        // For AES-256, this is the NEW way (correct)
-        // Convert the password strings to UTF-8 bytes directly
-        byte[] userPassBytes = Encoding.UTF8.GetBytes(userPassword ?? "");
-        byte[] ownerPassBytes = Encoding.UTF8.GetBytes(ownerPassword ?? "");
-
         // === Generate a random 256-bit (32-byte) file encryption key ===
-        this.key = new byte[32]; // 32 bytes for AES-256
+        this.fileEncryptionKey = new byte[32]; // 32 bytes for AES-256
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
-            rng.GetBytes(this.key); // Fills the array with cryptographically strong random bytes
+            rng.GetBytes(this.fileEncryptionKey); // Fills the array with cryptographically strong random bytes
         }
 
         // === Generate random IV (AES block size = 128-bit) ===
@@ -52,6 +47,9 @@ public class PDFEncryption {
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(this.iv);
         }
+
+        UserPair userPair = ComputeUserPair(userPassword, fileEncryptionKey);
+        OwnerPair ownerPair = ComputeOwnerPair(ownerPassword, userPair.U, fileEncryptionKey);
 
         // === Write Encryption Dictionary ===
         pdf.NewObj();
@@ -68,24 +66,18 @@ public class PDFEncryption {
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
 
-        byte[] userPasswordValidationHash = ComputeHashValue(userPassBytes, null);
-Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidationHash.Length);
-        byte[] ownerPasswordValidationHash = new byte[64]; // ComputeHashValue(ownerPassBytes, true, userPasswordValidationHash);
-        byte[] ownerEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(ownerPassword, userPassword, permissionFlags);
-        byte[] userEncryptionKey = new byte[32]; //ComputeEncryptedFileKey(userPassword, userPassword, permissionFlags);
-
         // === User key (U) ===
         // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
         // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
         // that shall be used in determining whether to prompt the user for a password
         // and, if so, whether a valid user or owner password was entered.
         pdf.Append("/U <");
-        pdf.Append(ToHex(userPasswordValidationHash));
+        pdf.Append(ToHex(userPair.U));
         pdf.Append(">\n");
 
         // === User Encryption Key (UE) ===
         pdf.Append("/UE<");
-        pdf.Append(ToHex(userEncryptionKey));
+        pdf.Append(ToHex(userPair.UE));
         pdf.Append(">\n");
 
         // === Owner key (O) ===
@@ -94,12 +86,12 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         // that shall be used in computing the file encryption key and in
         // determining whether a valid owner password was entered.
         pdf.Append("/O <");
-        pdf.Append(ToHex(ownerPasswordValidationHash));
+        pdf.Append(ToHex(ownerPair.O));
         pdf.Append(">\n");
 
         // === Owner Encryption Key (OE) ===
         pdf.Append("/OE <");
-        pdf.Append(ToHex(ownerEncryptionKey));
+        pdf.Append(ToHex(ownerPair.OE));
         pdf.Append(">\n");
 
         // A set of flags specifying which operations shall be permitted
@@ -117,20 +109,12 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         objNumber = pdf.GetObjNumber();
 
         // SECURITY: This is the crucial step. Wipe the padded passwords from memory.
-        CryptographicOperations.ZeroMemory(userPassBytes);
-        CryptographicOperations.ZeroMemory(ownerPassBytes);
+        // CryptographicOperations.ZeroMemory(userPassBytes);
+        // CryptographicOperations.ZeroMemory(ownerPassBytes);
     }
 
     public int GetObjNumber() {
         return objNumber;
-    }
-
-    private byte[] ComputeUserPasswordHash(byte[] userPassword) {
-        return ComputeHashValue(userPassword, null);
-    }
-
-    private byte[] ComputeOwnerPasswordHash(byte[] ownerPassword, byte[] userPasswordHash) {
-        return ComputeHashValue(ownerPassword, userPasswordHash);
     }
 
     /// <summary>
@@ -152,25 +136,25 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
     /// <exception cref="ArgumentException">
     /// Thrown if the `userPasswordHash` is not exactly 48 bytes long when provided.
     /// </exception>
-    private byte[] ComputeHashValue(
+    private byte[] ComputeHash(
             byte[] inputPassword,
-            byte[] userPasswordHash) {
+            byte[] U) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         byte[] K = HashPassword(inputPassword);
 
         // Calculate the size of K1 once, outside the loop
         int k1Size;
-        if (userPasswordHash != null) {
+        if (U != null) {
             // Validate the user key
-            if (userPasswordHash.Length != 48) {
+            if (U.Length != 48) {
                 throw new ArgumentException(
-                    "User key must be provided and be 48 bytes long for owner password verification.",
-                    nameof(userPasswordHash));
+                    "U must be provided and be 48 bytes long for owner password verification.",
+                    nameof(U));
             }
-            // Correct size calculation for K1 when userPasswordHash is provided
-            k1Size = 64 * (inputPassword.Length + K.Length + userPasswordHash.Length);
+            // Correct size calculation for K1 when U is provided
+            k1Size = 64 * (inputPassword.Length + K.Length + U.Length);
         } else {
-            // Correct size calculation for K1 when no userPasswordHash is provided
+            // Correct size calculation for K1 when no U is provided
             k1Size = 64 * (inputPassword.Length + K.Length);
         }
 
@@ -189,10 +173,10 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
                 //    K1 is the concatenation of the input password and K.
                 stream.Position = 0; // Reset the stream
                 for (int i = 0; i < 64; i++) {
-                    if (userPasswordHash != null) {
+                    if (U != null) {
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
-                        stream.Write(userPasswordHash, 0, userPasswordHash.Length); // 48-bytes
+                        stream.Write(U, 0, U.Length); // 48-bytes
                     } else {    // user password
                         stream.Write(inputPassword, 0, inputPassword.Length);
                         stream.Write(K, 0, K.Length);
@@ -342,10 +326,10 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
 
-        byte[] hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
+        byte[] hash = ComputeHash(Concatenate(userPasswordBytes, userValidationSalt), null);
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
 
-        hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userKeySalt));
+        hash = ComputeHash(Concatenate(userPasswordBytes, userKeySalt), null);
         byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new UserPair(U, UE);
@@ -368,7 +352,7 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
     //    no padding and an initialization vector of zero. The resulting 32-byte string is stored as the OE key.
     internal OwnerPair ComputeOwnerPair(
             String ownerPassword,
-            byte[] userPasswordBytes,
+            byte[] U,
             byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
@@ -381,10 +365,11 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        // TODO:
-        byte[] hash = ComputeUserPasswordHash(Concatenate(ownerPasswordBytes, ownerValidationSalt));
-        byte[] O = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
-        byte[] OE = ComputeUserPasswordHash(Concatenate(ownerPasswordBytes, ownerValidationSalt));
+        byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt), U);
+        byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
+
+        hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerKeySalt), U);
+        byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new OwnerPair(O, OE);
     }
