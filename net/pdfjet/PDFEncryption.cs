@@ -67,30 +67,31 @@ public class PDFEncryption {
         pdf.Append(">>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
-        // === User Key (U) ===
-        pdf.Append("/U <");
+
+        pdf.Append("/U <");             // === User Key (U) ===
         pdf.Append(ToHex(userPair.U));
         pdf.Append(">\n");
-        // === User Encryption Key (UE) ===
-        pdf.Append("/UE <");
-        pdf.Append(ToHex(userPair.UE));
-        pdf.Append(">\n");
-        // === Owner Key (O) ===
-        pdf.Append("/O <");
+
+        pdf.Append("/O <");             // === Owner Key (O) ===
         pdf.Append(ToHex(ownerPair.O));
         pdf.Append(">\n");
-        // === Owner Encryption Key (OE) ===
-        pdf.Append("/OE <");
+
+        pdf.Append("/UE <");            // === User Encryption Key (UE) ===
+        pdf.Append(ToHex(userPair.UE));
+        pdf.Append(">\n");
+
+        pdf.Append("/OE <");            // === Owner Encryption Key (OE) ===
         pdf.Append(ToHex(ownerPair.OE));
         pdf.Append(">\n");
+
         // A set of flags specifying which operations shall be permitted
         // when the document is opened with user access (see "Table 22 — User access permissions").
-        pdf.Append("/P -3904\n");
+        pdf.Append("/P 4294967292\n");
 
         // A 16-byte string, encrypted with the file encryption key,
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
-        pdf.Append("/Parms ????\n");    // TODO:
+        pdf.Append("/Perms <065497aaca85a677d5669f0cb68f2cd7>\n");    // TODO:
 
         pdf.Append(Token.EndDictionary);
         pdf.EndObj();
@@ -252,7 +253,7 @@ public class PDFEncryption {
 
     private string ToHex(byte[] bytes) {
         char[] hex = new char[bytes.Length * 2];
-        const string HEX_CHARS = "0123456789ABCDEF";
+        const string HEX_CHARS = "0123456789abcdef";
         for (int i = 0; i < bytes.Length; i++) {
             hex[i * 2]     = HEX_CHARS[bytes[i] >> 4];
             hex[i * 2 + 1] = HEX_CHARS[bytes[i] & 0x0F];
