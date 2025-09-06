@@ -310,11 +310,11 @@ public class PDFEncryption {
             rng.GetBytes(randomBytes);
         }
 
+        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] userValidationSalt = new byte[8];
         byte[] userKeySalt = new byte[8];
         Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
-        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
 
         byte[] hash = ComputeHash(Concatenate(userPasswordBytes, userValidationSalt), null);
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);

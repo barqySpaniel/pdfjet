@@ -175,7 +175,7 @@ public class AES {
     }
 
     /// <summary>
-    /// Encrypts the file encryption key (FEK) using AES-256-CBC with a zero IV and no padding.
+    /// Encrypts the File Encryption Key (FEK) using AES-256-CBC with a zero IV and no padding.
     /// </summary>
     /// <param name="fileEncryptionKey">The 32-byte File Encryption Key.</param>
     /// <param name="keyEncryptionKey">The 32-byte hash used as the Key Encryption Key.</param>
