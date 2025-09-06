@@ -11,3 +11,14 @@ rm -rf bin
 rm -rf obj
 rm -rf .build
 rm -f *.pdf
+
+for i in {1..50}
+do
+    if [ $i -lt 10 ]; then
+        rm -rf examples/Example_0$i/bin
+        rm -rf examples/Example_0$i/obj
+    else
+        rm -rf examples/Example_$i/bin
+        rm -rf examples/Example_$i/obj
+    fi
+done
