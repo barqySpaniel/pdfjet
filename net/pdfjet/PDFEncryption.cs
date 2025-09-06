@@ -35,7 +35,7 @@ public class PDFEncryption {
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
-        // === Generate a random 256-bit (32-byte) file encryption key ===
+        // === Generate a random 256-bit (32-byte) File Encryption Key ===
         this.fileEncryptionKey = new byte[32]; // 32 bytes for AES-256
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(this.fileEncryptionKey); // Fills the array with cryptographically strong random bytes
@@ -356,9 +356,7 @@ public class PDFEncryption {
         byte[] hash = ComputeHash(stream, Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
-        byte[] inputPassword = Concatenate(ownerPasswordBytes, ownerKeySalt, U);
-        hash = ComputeHash(stream, inputPassword, U);
-
+        hash = ComputeHash(stream, Concatenate(ownerPasswordBytes, ownerKeySalt, U), U);
         byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new OwnerPair(O, OE);

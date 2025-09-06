@@ -6,15 +6,6 @@ using System.Numerics;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-internal sealed class DerivedKeyWithSalt {
-    public byte[] DerivedKey;    // The derived AES key (e.g., 256 bits for AES-256)
-    public byte[] Salt;          // The salt used during key derivation
-    public DerivedKeyWithSalt(byte[] derivedKey, byte[] salt) {
-        this.DerivedKey = derivedKey;
-        this.Salt = salt;
-    }
-}
-
 internal sealed class EncryptedDataWithIV {
     public byte[] encryptedData;    // The actual encrypted data
     public byte[] iv;               // Initialization vector (IV) used during encryption
@@ -136,22 +127,22 @@ public class AES {
     /// Encrypts the File Encryption Key (FEK) using AES-256-CBC with a zero IV and no padding.
     /// </summary>
     /// <param name="fileEncryptionKey">The 32-byte File Encryption Key.</param>
-    /// <param name="keyEncryptionKey">The 32-byte hash used as the Key Encryption Key.</param>
+    /// <param name="key">The 32-byte hash used as the encryption key.</param>
     /// <returns>The resulting 32-byte UE (User Encryption) key.</returns>
-    public static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] keyEncryptionKey) {
+    public static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] key) {
         // Validate inputs
         if (fileEncryptionKey == null || fileEncryptionKey.Length != 32) {
             throw new ArgumentException(
                 "File Encryption Key must be 32 bytes long.", nameof(fileEncryptionKey));
         }
-        if (keyEncryptionKey == null || keyEncryptionKey.Length != 32) {
+        if (key == null || key.Length != 32) {
             throw new ArgumentException(
-                "Key Encryption Key must be 32 bytes long.", nameof(keyEncryptionKey));
+                "The encryption key must be 32 bytes long.", nameof(key));
         }
 
         // Create the AES object with the specific parameters
         using (Aes aes = Aes.Create()) {
-            aes.Key = keyEncryptionKey;
+            aes.Key = key;
             aes.KeySize = 256;              // Use AES-256 (32 bytes key)
             aes.IV = new byte[16];          // new byte[16] initializes all elements to 0.
             aes.Mode = CipherMode.CBC;
