@@ -127,31 +127,7 @@ public class AES {
     }
 
     /// <summary>
-    /// Encrypts data using AES-128-CBC encryption with PKCS#7 padding.
-    /// </summary>
-    /// <param name="data">The data to encrypt</param>
-    /// <param name="key">128-bit (16-byte) encryption key</param>
-    /// <returns>An EncryptedDataWithIV object containing the encrypted data and generated IV</returns>
-    internal static EncryptedDataWithIV EncryptAes128(byte[] data, byte[] key) {
-        if (data == null || data.Length == 0) {
-            throw new ArgumentException("The data cannot be empty for encryption.", nameof(data));
-        }
-        if (key == null || key.Length != 16) { // 128 bits = 16 bytes
-            throw new ArgumentException("Key must be 128 bits (16 bytes) long.", nameof(key));
-        }
-
-        // Generate a random 16-byte IV (128 bits)
-        byte[] iv = RandomNumberGenerator.GetBytes(16);
-
-        // Perform encryption
-        byte[] encryptedData = Encrypt(data, 128, key, iv);
-
-        // Return the encrypted data and generated IV wrapped in an EncryptedDataWithIV object
-        return new EncryptedDataWithIV(encryptedData, iv);
-    }
-
-    /// <summary>
-    /// Encrypts data using AES-256-CBC encryption with PKCS#7 padding.
+    /// Encrypts data using AES-256-CBC encryption with PKCS #5 padding.
     /// </summary>
     /// <param name="data">The data to encrypt</param>
     /// <param name="key">256-bit (32-byte) encryption key</param>
@@ -168,28 +144,27 @@ public class AES {
         byte[] iv = RandomNumberGenerator.GetBytes(16);
 
         // Encrypt the data using AES-256-CBC
-        byte[] encryptedData = Encrypt(data, 256, key, iv);
+        byte[] encryptedData = Encrypt(data, key, iv);
 
         // Return the encrypted data and the IV together in an EncryptedDataWithIV object
         return new EncryptedDataWithIV(encryptedData, iv);
     }
 
     /// <summary>
-    /// Encrypts data with AES-CBC and PKCS#7 padding using specified key size.
+    /// Encrypts data with AES-256-CBC and PKCS #5 padding using specified key size.
     /// </summary>
     /// <param name="data">The data to encrypt</param>
-    /// <param name="keySize">AES key size (128 or 256 bits)</param>
-    /// <param name="key">Encryption key (must match keySize length)</param>
+    /// <param name="key">256-bit Encryption Key</param>
     /// <param name="iv">128-bit initialization vector</param>
     /// <returns>Encrypted ciphertext</returns>
-    private static byte[] Encrypt(byte[] data, int keySize, byte[] key, byte[] iv) {
+    private static byte[] Encrypt(byte[] data, byte[] key, byte[] iv) {
         using (Aes aes = Aes.Create()) {
-            aes.KeySize = keySize;
+            aes.KeySize = 256;
             aes.Key = key;
             aes.IV = iv;
             aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-
+            aes.Padding = PaddingMode.PKCS7;    // PKCS #5 and PKCS #7 are considered equivalent,
+                                                // especially in the context of AES encryption.
             using (var ms = new MemoryStream())
             using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write)) {
                 cs.Write(data, 0, data.Length);
@@ -233,21 +208,20 @@ public class AES {
     }
 
     /// <summary>
-    /// Decrypts data encrypted with AES-CBC and PKCS#7 padding using specified key size.
+    /// Decrypts data encrypted with AES-256-CBC and PKCS #5 padding.
     /// </summary>
     /// <param name="ciphertext">Encrypted data to decrypt</param>
-    /// <param name="keySize">AES key size (128 or 256 bits)</param>
-    /// <param name="key">Decryption key (must match keySize length)</param>
-    /// <param name="iv">128-bit initialization vector</param>
+    /// <param name="key">256-bit Decryption Key</param>
+    /// <param name="iv">128-bit Initialization Vector</param>
     /// <returns>Decrypted data</returns>
-    private static byte[] Decrypt(byte[] ciphertext, int keySize, byte[] key, byte[] iv) {
+    private static byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] iv) {
         using (Aes aes = Aes.Create()) {
-            aes.KeySize = keySize;
+            aes.KeySize = 256;
             aes.Key = key;
             aes.IV = iv;
             aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;
-
+            aes.Padding = PaddingMode.PKCS7;    // PKCS #5 and PKCS #7 are considered equivalent,
+                                                // especially in the context of AES encryption.
             using (var ms = new MemoryStream())
             using (var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write)) {
                 cs.Write(ciphertext, 0, ciphertext.Length);
