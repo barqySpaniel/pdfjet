@@ -261,6 +261,24 @@ public class PDFEncryption {
         return new string(hex);
     }
 
+    private static byte[] HexStringToByteArray(string hexString) {
+        if (string.IsNullOrEmpty(hexString))
+            throw new ArgumentException("Hex string cannot be null or empty");
+
+        if (hexString.Length % 2 != 0)
+            throw new ArgumentException("Hex string must have an even length");
+
+        int length = hexString.Length;
+        byte[] byteArray = new byte[length / 2];
+
+        for (int i = 0; i < length; i += 2) {
+            string byteValue = hexString.Substring(i, 2);
+            byteArray[i / 2] = Convert.ToByte(byteValue, 16);
+        }
+
+        return byteArray;
+    }
+
     //<<
     //    /Filter /AESDecode
     //    /V 5
@@ -315,6 +333,9 @@ public class PDFEncryption {
         byte[] userKeySalt = new byte[8];
         Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
+
+        userValidationSalt = HexStringToByteArray("6cab48290d91a5a9");
+        userKeySalt = HexStringToByteArray("c150dfd58a44edea");
 
         byte[] hash = ComputeHash(Concatenate(userPasswordBytes, userValidationSalt), null);
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
