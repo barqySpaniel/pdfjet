@@ -365,10 +365,10 @@ public class PDFEncryption {
         Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt), U);
+        byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
-        hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerKeySalt), U);
+        hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerKeySalt, U), U);
         byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new OwnerPair(O, OE);
