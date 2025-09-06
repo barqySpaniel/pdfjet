@@ -108,7 +108,7 @@ public class PDFEncryption {
     }
 
     /// <summary>
-    /// Computes a hash value based on the provided password and an optional user password hash.
+    /// Computes a hash value based on the provided password and an optional user key.
     /// This method performs the core algorithm for key derivation, iterating 64 times (or more)
     /// to generate a 32-byte hash as a final output. The input password is combined with the SHA-256
     /// hash of the password and the user password hash (if provided) to create a complex keying material.
@@ -141,11 +141,13 @@ public class PDFEncryption {
                     "U must be provided and be 48 bytes long for owner password verification.",
                     nameof(U));
             }
-            // Correct size calculation for K1 when U is provided
-            k1Size = 64 * (inputPassword.Length + K.Length + U.Length);
+            // Correct size calculation for K1 when U is provided.
+            // NOTE: K.Length is initially 32 bytes, however in later rounds
+            // could be up to 64 bytes when SHA-512 is used.
+            k1Size = 64 * (inputPassword.Length + 64 /* K.Length */ + 48 /* U.Length */);
         } else {
             // Correct size calculation for K1 when no U is provided
-            k1Size = 64 * (inputPassword.Length + K.Length);
+            k1Size = 64 * (inputPassword.Length + 64 /* K.Length */);
         }
 
         byte[] K1;
@@ -154,25 +156,14 @@ public class PDFEncryption {
         bool continueProcessing = true;
 
         using (MemoryStream stream = new MemoryStream(k1Size)) {
-            // Perform the following steps (a)-(d) 64 times:
+            // Perform the following steps (a)-(d) 64 times or more:
             while (round < 64 || continueProcessing) {
                 // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
                 //    input password, K, the 48-byte user key.
                 //    The 48 byte user key is only used when checking the owner password or creating the owner key.
                 //    If checking the user password or creating the user key,
                 //    K1 is the concatenation of the input password and K.
-                stream.Position = 0; // Reset the stream
-                for (int i = 0; i < 64; i++) {
-                    if (U != null) {
-                        stream.Write(inputPassword, 0, inputPassword.Length);
-                        stream.Write(K, 0, K.Length);
-                        stream.Write(U, 0, U.Length); // 48-bytes
-                    } else {    // user password
-                        stream.Write(inputPassword, 0, inputPassword.Length);
-                        stream.Write(K, 0, K.Length);
-                    }
-                }
-                K1 = stream.ToArray();
+                K1 = ComputeK1(stream, inputPassword, K, U);
 
                 // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
                 //    using the first 16 bytes of K as the key and the second
@@ -214,6 +205,18 @@ public class PDFEncryption {
         byte[] finalOutput = new byte[32];
         Array.Copy(K, 0, finalOutput, 0, 32);
         return finalOutput;
+    }
+
+    private byte[] ComputeK1(MemoryStream stream, byte[] inputPassword, byte[] K, byte[] U) {
+        stream.Position = 0;    // Reset the stream
+        for (int i = 0; i < 64; i++) {
+            stream.Write(inputPassword, 0, inputPassword.Length);
+            stream.Write(K, 0, K.Length);
+            if (U != null) {
+                stream.Write(U, 0, U.Length);
+            }
+        }
+        return stream.ToArray();    // Return K1
     }
 
     /// <summary>
