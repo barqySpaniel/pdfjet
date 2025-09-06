@@ -136,23 +136,23 @@ public class PDFEncryption {
             }
             // Correct size calculation for K1 when U is provided.
             // NOTE: K.Length is initially 32 bytes, however in later rounds
-            // could be up to 64 bytes when SHA-512 is used.
+            // it could be up to 64 bytes when SHA-512 is used.
+            // 64 * (5 + 8 + 64 + 48)
+Console.WriteLine("inputPassword.Length == " + inputPassword.Length);
             k1Size = 64 * (inputPassword.Length + 64 /* K.Length */ + 48 /* U.Length */);
         } else {
             // Correct size calculation for K1 when no U is provided
             k1Size = 64 * (inputPassword.Length + 64 /* K.Length */);
         }
-
+Console.WriteLine("k1Size == " + k1Size);
         using (MemoryStream stream = new MemoryStream(k1Size)) {
             // Perform the following steps (a)-(d) 64 times or more:
             int round = 0;
             bool continueProcessing = true;
             while (round < 64 || continueProcessing) {
                 // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
-                //    input password, K, the 48-byte user key.
-                //    The 48 byte user key is only used when checking the owner password or creating the owner key.
-                //    If checking the user password or creating the user key,
-                //    K1 is the concatenation of the input password and K.
+                //    inputPassword, K         if U == null
+                //    inputPassword, K, U      if U != null
                 byte[] K1 = ComputeK1(stream, inputPassword, K, U);
 
                 // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
@@ -168,7 +168,7 @@ public class PDFEncryption {
                 // --- Steps (c) & (d): Common to all rounds ---
                 // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
                 // d) Using the hash algorithm determined in step c, take the hash of E.
-                using (HashAlgorithm hashAlgo = DetermineNextHashAlgorithm(E)) {
+                using (HashAlgorithm hashAlgo = NextHashAlgorithm(E)) {
                     K = hashAlgo.ComputeHash(E);
                 }
 
@@ -214,7 +214,7 @@ public class PDFEncryption {
     /// </summary>
     /// <param name="E">The output from the encryption step.</param>
     /// <returns>An instance of the chosen hash algorithm (SHA256, SHA384, or SHA512).</returns>
-    private HashAlgorithm DetermineNextHashAlgorithm(byte[] E) {
+    private HashAlgorithm NextHashAlgorithm(byte[] E) {
         if (E.Length < 16) {
             throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(E));
         }
@@ -331,8 +331,9 @@ public class PDFEncryption {
         userKeySalt = HexStringToByteArray("c150dfd58a44edea");
 
         byte[] hash = ComputeHash(Concatenate(userPasswordBytes, userValidationSalt), null);
+Console.WriteLine("hash.Length == " + hash.Length);
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
-
+Console.WriteLine("hash.Length == " + hash.Length);
         hash = ComputeHash(Concatenate(userPasswordBytes, userKeySalt), null);
         byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
@@ -370,9 +371,13 @@ public class PDFEncryption {
         Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
 
         byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
+Console.WriteLine("hash.Length == " + hash.Length);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
-        hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerKeySalt, U), U);
+        byte[] inputPassword = Concatenate(ownerPasswordBytes, ownerKeySalt, U);
+Console.WriteLine("inputPassword.Length == " + inputPassword.Length);
+        hash = ComputeHash(inputPassword, U);
+
         byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new OwnerPair(O, OE);
