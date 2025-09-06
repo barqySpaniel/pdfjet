@@ -44,8 +44,13 @@ public class PDFEncryption {
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        UserPair userPair = ComputeUserPair(userPasswordBytes, fileEncryptionKey);
-        OwnerPair ownerPair = ComputeOwnerPair(ownerPasswordBytes, userPair.U, fileEncryptionKey);
+        int maxPasswordBytes = Math.Max(userPasswordBytes.Length, ownerPasswordBytes.Length);
+        int k1Size = maxPasswordBytes + 8 + 48 + 64 + 48;      // maxPasswordByte + 168
+        MemoryStream stream = new MemoryStream(k1Size);
+
+
+        UserPair userPair = ComputeUserPair(stream, userPasswordBytes, fileEncryptionKey);
+        OwnerPair ownerPair = ComputeOwnerPair(stream, ownerPasswordBytes, userPair.U, fileEncryptionKey);
 
         // === Encryption Dictionary ===
         pdf.NewObj();
@@ -94,9 +99,10 @@ public class PDFEncryption {
 
         objNumber = pdf.GetObjNumber();
 
-        // SECURITY: This is the crucial step. Wipe the padded passwords from memory.
-        // CryptographicOperations.ZeroMemory(userPassBytes);
-        // CryptographicOperations.ZeroMemory(ownerPassBytes);
+        stream.Dispose();
+
+        CryptographicOperations.ZeroMemory(userPasswordBytes);
+        CryptographicOperations.ZeroMemory(ownerPasswordBytes);
     }
 
     public int GetObjNumber() {
@@ -123,76 +129,55 @@ public class PDFEncryption {
     /// Thrown if the `U` is not exactly 48 bytes long when provided.
     /// </exception>
     private byte[] ComputeHash(
+            MemoryStream stream,
             byte[] inputPassword,
             byte[] U) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
         byte[] K = HashPassword(inputPassword);
 
-        // Calculate the size of K1 once, outside the loop
-        int k1Size;
-        if (U != null) {
-            // Validate the user key
-            if (U.Length != 48) {
-                throw new ArgumentException(
-                    "U must be provided and be 48 bytes long for owner password verification.",
-                    nameof(U));
-            }
-            // Correct size calculation for K1 when U is provided.
-            // NOTE: K.Length is initially 32 bytes, however in later rounds
-            // it could be up to 64 bytes when SHA-512 is used.
-            // 64 * (5 + 8 + 64 + 48)
-Console.WriteLine("inputPassword.Length == " + inputPassword.Length);
-            k1Size = 64 * (inputPassword.Length + 64 /* K.Length */ + 48 /* U.Length */);
-        } else {
-            // Correct size calculation for K1 when no U is provided
-            k1Size = 64 * (inputPassword.Length + 64 /* K.Length */);
-        }
-Console.WriteLine("k1Size == " + k1Size);
-        using (MemoryStream stream = new MemoryStream(k1Size)) {
-            // Perform the following steps (a)-(d) 64 times or more:
-            int round = 0;
-            bool continueProcessing = true;
-            while (round < 64 || continueProcessing) {
-                // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
-                //    inputPassword, K         if U == null
-                //    inputPassword, K, U      if U != null
-                byte[] K1 = ComputeK1(stream, inputPassword, K, U);
+        // Perform the following steps (a)-(d) 64 times or more:
+        int round = 0;
+        bool continueProcessing = true;
+        while (round < 64 || continueProcessing) {
+            // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
+            //    inputPassword, K         if U == null
+            //    inputPassword, K, U      if U != null
+            byte[] K1 = ComputeK1(stream, inputPassword, K, U);
 
-                // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
-                //    using the first 16 bytes of K as the key and the second
-                //    16 bytes of K as the initialization vector.
-                //    The result of this encryption is E.
-                byte[] tempKey = new byte[16];
-                Array.Copy(K, 0, tempKey, 0, 16);
-                byte[] tempIV = new byte[16];
-                Array.Copy(K, 16, tempIV, 0, 16);
-                byte[] E = AES.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
+            // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
+            //    using the first 16 bytes of K as the key and the second
+            //    16 bytes of K as the initialization vector.
+            //    The result of this encryption is E.
+            byte[] tempKey = new byte[16];
+            Array.Copy(K, 0, tempKey, 0, 16);
+            byte[] tempIV = new byte[16];
+            Array.Copy(K, 16, tempIV, 0, 16);
+            byte[] E = AES.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
 
-                // --- Steps (c) & (d): Common to all rounds ---
-                // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
-                // d) Using the hash algorithm determined in step c, take the hash of E.
-                using (HashAlgorithm hashAlgo = NextHashAlgorithm(E)) {
-                    K = hashAlgo.ComputeHash(E);
-                }
-
-                // --- Steps (e) & (f): The Termination Check (For rounds 64+ only) ---
-                // Following 64 rounds (round number 0 to round number 63),
-                // do the following, starting with round number 64:
-                if (round >= 64) {
-                    // e) Look at the very last byte of E.
-                    //    If the value of that byte (taken as an unsigned integer)
-                    //    is greater than the round number - 32, repeat steps (a-d) again.
-                    byte lastByte = E[E.Length - 1];
-                    // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
-                    continueProcessing = (lastByte > (round - 32));
-                }
-
-                round++; // Increment the round counter
+            // --- Steps (c) & (d): Common to all rounds ---
+            // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
+            // d) Using the hash algorithm determined in step c, take the hash of E.
+            using (HashAlgorithm hashAlgo = NextHashAlgorithm(E)) {
+                K = hashAlgo.ComputeHash(E);
             }
 
-            // Tests indicate that the total number of rounds will most likely be between 65 and 80.
-            Console.WriteLine("Number of rounds: " + round);
+            // --- Steps (e) & (f): The Termination Check (For rounds 64+ only) ---
+            // Following 64 rounds (round number 0 to round number 63),
+            // do the following, starting with round number 64:
+            if (round >= 64) {
+                // e) Look at the very last byte of E.
+                //    If the value of that byte (taken as an unsigned integer)
+                //    is greater than the round number - 32, repeat steps (a-d) again.
+                byte lastByte = E[E.Length - 1];
+                // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
+                continueProcessing = (lastByte > (round - 32));
+            }
+
+            round++; // Increment the round counter
         }
+
+        // Tests indicate that the total number of rounds will most likely be between 65 and 80.
+        Console.WriteLine("Number of rounds: " + round);
 
         byte[] finalOutput = new byte[32];
         Array.Copy(K, 0, finalOutput, 0, 32);
@@ -317,6 +302,7 @@ Console.WriteLine("k1Size == " + k1Size);
     //    AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //    stored as the UE key.
     internal UserPair ComputeUserPair(
+            MemoryStream stream,
             byte[] userPasswordBytes,
             byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
@@ -332,11 +318,10 @@ Console.WriteLine("k1Size == " + k1Size);
         userValidationSalt = HexStringToByteArray("6cab48290d91a5a9");
         userKeySalt = HexStringToByteArray("c150dfd58a44edea");
 
-        byte[] hash = ComputeHash(Concatenate(userPasswordBytes, userValidationSalt), null);
-Console.WriteLine("hash.Length == " + hash.Length);
+        byte[] hash = ComputeHash(stream, Concatenate(userPasswordBytes, userValidationSalt), null);
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
-Console.WriteLine("hash.Length == " + hash.Length);
-        hash = ComputeHash(Concatenate(userPasswordBytes, userKeySalt), null);
+
+        hash = ComputeHash(stream, Concatenate(userPasswordBytes, userKeySalt), null);
         byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new UserPair(U, UE);
@@ -358,6 +343,7 @@ Console.WriteLine("hash.Length == " + hash.Length);
     //    revision 6)". Using this hash as the key, encrypt the file encryption key using AES-256 in CBC mode with
     //    no padding and an initialization vector of zero. The resulting 32-byte string is stored as the OE key.
     internal OwnerPair ComputeOwnerPair(
+            MemoryStream stream,
             byte[] ownerPasswordBytes,
             byte[] U,
             byte[] fileEncryptionKey) {
@@ -371,13 +357,11 @@ Console.WriteLine("hash.Length == " + hash.Length);
         Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
         Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
 
-        byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
-Console.WriteLine("hash.Length == " + hash.Length);
+        byte[] hash = ComputeHash(stream, Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
         byte[] inputPassword = Concatenate(ownerPasswordBytes, ownerKeySalt, U);
-Console.WriteLine("inputPassword.Length == " + inputPassword.Length);
-        hash = ComputeHash(inputPassword, U);
+        hash = ComputeHash(stream, inputPassword, U);
 
         byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
