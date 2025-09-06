@@ -25,9 +25,8 @@ internal sealed class OwnerPair {
 }
 
 public class PDFEncryption {
-    private readonly byte[] fileEncryptionKey;
-    private readonly byte[] iv; // 128-bit IV
     private readonly int objNumber;
+    private readonly byte[] fileEncryptionKey;
 
     /// <summary>
     /// Creates a new AES-128 encryption dictionary and adds it to the PDF.
@@ -40,12 +39,6 @@ public class PDFEncryption {
         this.fileEncryptionKey = new byte[32]; // 32 bytes for AES-256
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(this.fileEncryptionKey); // Fills the array with cryptographically strong random bytes
-        }
-
-        // === Generate random IV (AES block size = 128-bit) ===
-        this.iv = new byte[16];
-        using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
-            rng.GetBytes(this.iv);
         }
 
         UserPair userPair = ComputeUserPair(userPassword, fileEncryptionKey);
