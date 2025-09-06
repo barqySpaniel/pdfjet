@@ -51,40 +51,34 @@ public class PDFEncryption {
         UserPair userPair = ComputeUserPair(userPassword, fileEncryptionKey);
         OwnerPair ownerPair = ComputeOwnerPair(ownerPassword, userPair.U, fileEncryptionKey);
 
-        // === Write Encryption Dictionary ===
+        // === Encryption Dictionary ===
         pdf.NewObj();
-        pdf.Append("<<\n");
+        pdf.Append(Token.BeginDictionary);
         pdf.Append("/Filter /Standard\n");
-        pdf.Append("/V 5\n");            // Algorithm 2.A / 2.B
-        pdf.Append("/R 6\n");            // Security revision 6 (strong password hashing)
-        pdf.Append("/Length 128\n");     // !! Vestigial, required, ignored (must still be present) !!
-        pdf.Append("/CF << /StdCF <<\n");
-        pdf.Append("  /CFM /AESV3\n");   // AESV3 = AES-256 in CBC
-        pdf.Append("  /Length 32\n");    // 32 bytes = 256-bit file key
-        pdf.Append("  /AuthEvent /DocOpen\n");
-        pdf.Append(">> >>\n");
+        pdf.Append("/V 5\n");           // Algorithm 2.A / 2.B
+        pdf.Append("/R 6\n");           // Security revision 6 (strong password hashing)
+        pdf.Append("/Length 128\n");    // !! Vestigial, required, ignored (must still be present) !!
+        pdf.Append("/CF <<\n");
+        pdf.Append("/StdCF <<\n");
+        pdf.Append("/CFM /AESV3\n");    // AESV3 = AES-256 in CBC
+        pdf.Append("/Length 32\n");     // 32 bytes = 256-bit file key
+        pdf.Append("/AuthEvent /DocOpen\n");
+        pdf.Append(">>\n");
+        pdf.Append(">>\n");
         pdf.Append("/StmF /StdCF\n");
         pdf.Append("/StrF /StdCF\n");
 
-        // === User key (U) ===
-        // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
-        // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
-        // that shall be used in determining whether to prompt the user for a password
-        // and, if so, whether a valid user or owner password was entered.
+        // === User Key (U) ===
         pdf.Append("/U <");
         pdf.Append(ToHex(userPair.U));
         pdf.Append(">\n");
 
         // === User Encryption Key (UE) ===
-        pdf.Append("/UE<");
+        pdf.Append("/UE <");
         pdf.Append(ToHex(userPair.UE));
         pdf.Append(">\n");
 
-        // === Owner key (O) ===
-        // < 32-byte-hash 8-byte-validation-salt 8-byte-key-salt >
-        // 48 bytes long if the value of R is 6, based on both the owner and user passwords,
-        // that shall be used in computing the file encryption key and in
-        // determining whether a valid owner password was entered.
+        // === Owner Key (O) ===
         pdf.Append("/O <");
         pdf.Append(ToHex(ownerPair.O));
         pdf.Append(">\n");
@@ -101,9 +95,9 @@ public class PDFEncryption {
         // A 16-byte string, encrypted with the file encryption key,
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
-        pdf.Append("/Parms ????\n");
+        pdf.Append("/Parms ????\n");    // TODO:
 
-        pdf.Append(">>\n");
+        pdf.Append(Token.EndDictionary);
         pdf.EndObj();
 
         objNumber = pdf.GetObjNumber();
