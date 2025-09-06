@@ -342,10 +342,11 @@ Console.WriteLine("userPasswordValidationHash.Length == " + userPasswordValidati
         Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
 
-        // TODO:
         byte[] hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
-        byte[] U = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
-        byte[] UE = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userValidationSalt));
+        byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
+
+        hash = ComputeUserPasswordHash(Concatenate(userPasswordBytes, userKeySalt));
+        byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new UserPair(U, UE);
     }
