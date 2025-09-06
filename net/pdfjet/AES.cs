@@ -26,48 +26,6 @@ internal sealed class EncryptedDataWithIV {
 
 public class AES {
     /// <summary>
-    /// Derives an AES key from a user password using the PBKDF2 key derivation function (KDF).
-    /// </summary>
-    /// <param name="password">The user-provided password for key derivation.</param>
-    /// <param name="keySize">The size of the derived key in bytes (32 bytes for AES-256 by default).</param>
-    /// <param name="iterations">The number of PBKDF2 iterations (default 100,000 for stronger security).</param>
-    /// <returns>
-    /// A DerivedKeyWithSalt object containing the derived key and the salt used for derivation.
-    /// </returns>
-    /// <exception cref="ArgumentNullException">Thrown if the password is null.</exception>
-    internal static DerivedKeyWithSalt DeriveKeyFromPassword(
-            string password,
-            int keySize = 32,           // Default is 32 bytes for AES-256
-            int iterations = 100000) {  // Stronger iterations count required by the PDF specification
-
-        // Ensure password is provided (to prevent errors)
-        if (password == null) {
-            throw new ArgumentNullException(nameof(password), "Password cannot be null.");
-        }
-
-        // Generate a random salt (e.g., 16 bytes) for each password to ensure unique key derivation each time
-        // Salt ensures that the same password results in different derived keys.
-        byte[] salt = RandomNumberGenerator.GetBytes(16);  // 16 bytes salt is common for AES-256
-
-        // Create a PBKDF2 key derivation function with the specified password,
-        // salt, iterations, and SHA-256 hash algorithm
-        using (var pbkdf2 = new Rfc2898DeriveBytes(
-                password,                       // User password
-                salt,                           // Random salt for key derivation
-                iterations,                     // Number of iterations (higher = more secure but slower)
-                HashAlgorithmName.SHA256)) {    // SHA-256 hash function for PBKDF2
-
-            // Generate the derived key of the requested size (default is 32 bytes for AES-256)
-            // This key is what will be used for encryption or decryption (AES key)
-            byte[] derivedKey = pbkdf2.GetBytes(keySize);
-
-            // Return both the derived key and the salt wrapped in the DerivedKeyWithSalt object
-            // This ensures that both the key and salt can be stored together and retrieved for decryption
-            return new DerivedKeyWithSalt(derivedKey, salt);
-        }
-    }
-
-    /// <summary>
     /// Encrypts data using AES-128-CBC (per Algorithm 2.B, Step (b)) with no padding.
     /// The provided IV is used for encryption, and only the resulting ciphertext is returned.
     /// </summary>
