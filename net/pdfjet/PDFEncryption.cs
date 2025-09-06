@@ -120,7 +120,7 @@ public class PDFEncryption {
     /// <param name="inputPassword">
     /// The password input (either user or owner password) to be hashed.
     /// </param>
-    /// <param name="userPasswordHash">
+    /// <param name="U">
     /// The 48-byte hash of the user password, required for verifying or creating the owner key.
     /// This is `null` when hashing the user password.
     /// </param>
@@ -128,7 +128,7 @@ public class PDFEncryption {
     /// Returns a 32-byte hash value derived from the input password and the optional user password hash.
     /// </returns>
     /// <exception cref="ArgumentException">
-    /// Thrown if the `userPasswordHash` is not exactly 48 bytes long when provided.
+    /// Thrown if the `U` is not exactly 48 bytes long when provided.
     /// </exception>
     private byte[] ComputeHash(
             byte[] inputPassword,
