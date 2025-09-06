@@ -89,10 +89,10 @@ public class AES {
     /// <exception cref="InvalidOperationException">
     /// Thrown if encryption fails due to an internal error.
     /// </exception>
-    internal static byte[] EncryptAlgorithm2BStepB(byte[] data, byte[] key, byte[] iv) {
-        if (data == null || data.Length == 0) {
+    internal static byte[] EncryptK1(byte[] K1, byte[] key, byte[] iv) {
+        if (K1 == null || K1.Length == 0) {
             throw new ArgumentException(
-                "The data cannot be empty for encryption.", nameof(data));
+                "K1 cannot be empty for encryption.", nameof(K1));
         }
         if (key == null || key.Length != 16) {
             throw new ArgumentException(
@@ -107,17 +107,17 @@ public class AES {
             using (Aes aes = Aes.Create()) {
                 // Algorithm 2.B always uses AES-128-CBC to encrypt K1,
                 // regardless of the file key length (AES-128 or AES-256)
-                aes.KeySize = 128;                      // Use AES-128 (128-bit key)
-                aes.Key = key;                          // Set the encryption key
-                aes.IV = iv;                            // Set the provided initialization vector (IV)
-                aes.Mode = CipherMode.CBC;              // Use CBC mode
-                aes.Padding = PaddingMode.None;         // No padding (CRITICAL for this step)
+                aes.KeySize = 128;                  // Use AES-128 (128-bit key)
+                aes.Key = key;                      // Set the encryption key
+                aes.IV = iv;                        // Set the provided initialization vector (IV)
+                aes.Mode = CipherMode.CBC;          // Use CBC mode
+                aes.Padding = PaddingMode.None;     // No padding (CRITICAL for this step)
 
                 using (ICryptoTransform encryptor = aes.CreateEncryptor())
                 using (MemoryStream ms = new MemoryStream())
                 using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
-                    cs.Write(data, 0, data.Length);     // Write the data to the stream
-                    cs.FlushFinalBlock();               // Ensure all data is encrypted
+                    cs.Write(K1, 0, K1.Length);     // Write the data to the stream
+                    cs.FlushFinalBlock();           // Ensure all data is encrypted
                     return ms.ToArray();
                 }
             }

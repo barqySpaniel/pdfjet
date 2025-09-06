@@ -173,7 +173,7 @@ public class PDFEncryption {
                 Array.Copy(K, 0, tempKey, 0, 16);
                 byte[] tempIV = new byte[16];
                 Array.Copy(K, 16, tempIV, 0, 16);
-                E = AES.EncryptAlgorithm2BStepB(K1, tempKey, tempIV);
+                E = AES.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
 
                 // --- Steps (c) & (d): Common to all rounds ---
                 // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
@@ -190,9 +190,9 @@ public class PDFEncryption {
                     //    If the value of that byte (taken as an unsigned integer)
                     //    is greater than the round number - 32, repeat steps (a-d) again.
                     byte lastByte = E[E.Length - 1];
+                    // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
                     continueProcessing = (lastByte > (round - 32));
                 }
-                // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
 
                 round++; // Increment the round counter
             }
