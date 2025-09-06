@@ -44,10 +44,9 @@ public class PDFEncryption {
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        int maxPasswordBytes = Math.Max(userPasswordBytes.Length, ownerPasswordBytes.Length);
-        int k1Size = maxPasswordBytes + 8 + 48 + 64 + 48;      // maxPasswordByte + 168
+        int k1Size = 64 * (Math.Max(userPasswordBytes.Length, ownerPasswordBytes.Length) + 168);
+Console.WriteLine("k1Size == " + k1Size);
         MemoryStream stream = new MemoryStream(k1Size);
-
 
         UserPair userPair = ComputeUserPair(stream, userPasswordBytes, fileEncryptionKey);
         OwnerPair ownerPair = ComputeOwnerPair(stream, ownerPasswordBytes, userPair.U, fileEncryptionKey);
@@ -185,7 +184,7 @@ public class PDFEncryption {
     }
 
     private byte[] ComputeK1(MemoryStream stream, byte[] inputPassword, byte[] K, byte[] U) {
-        stream.Position = 0;    // Reset the stream
+        stream.Position = 0;        // Reset the stream
         for (int i = 0; i < 64; i++) {
             stream.Write(inputPassword, 0, inputPassword.Length);
             stream.Write(K, 0, K.Length);
@@ -193,7 +192,6 @@ public class PDFEncryption {
                 stream.Write(U, 0, U.Length);
             }
         }
-// Console.WriteLine(stream.Length);
         return stream.ToArray();    // Return K1
     }
 
