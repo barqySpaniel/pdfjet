@@ -219,16 +219,16 @@ public class PDFEncryption {
     /// <summary>
     /// Analyzes the first 16 bytes of the ciphertext 'E' to determine the next hash algorithm to use.
     /// </summary>
-    /// <param name="ciphertextE">The ciphertext output from the encryption step.</param>
+    /// <param name="E">The ciphertext output from the encryption step.</param>
     /// <returns>An instance of the chosen hash algorithm (SHA256, SHA384, or SHA512).</returns>
-    private HashAlgorithm DetermineNextHashAlgorithm(byte[] ciphertextE) {
-        if (ciphertextE.Length < 16) {
-            throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(ciphertextE));
+    private HashAlgorithm DetermineNextHashAlgorithm(byte[] E) {
+        if (E.Length < 16) {
+            throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(E));
         }
 
         // 1. Take the first 16 bytes of E and convert to an unsigned big-endian integer
         BigInteger bigInt = new BigInteger(
-            new ReadOnlySpan<byte>(ciphertextE, 0, 16),
+            new ReadOnlySpan<byte>(E, 0, 16),
                 isUnsigned: true,
                 isBigEndian: true);
 
