@@ -44,9 +44,7 @@ public class PDFEncryption {
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        int k1Size = 64 * (Math.Max(userPasswordBytes.Length, ownerPasswordBytes.Length) + 168);
-Console.WriteLine("k1Size == " + k1Size);
-        MemoryStream stream = new MemoryStream(k1Size);
+        MemoryStream stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
 
         UserPair userPair = ComputeUserPair(stream, userPasswordBytes, fileEncryptionKey);
         OwnerPair ownerPair = ComputeOwnerPair(stream, ownerPasswordBytes, userPair.U, fileEncryptionKey);
