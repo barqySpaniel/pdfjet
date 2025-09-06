@@ -152,11 +152,11 @@ public class PDFEncryption {
 
         byte[] K1;
         byte[] E;
-        int round = 0;
-        bool continueProcessing = true;
 
         using (MemoryStream stream = new MemoryStream(k1Size)) {
             // Perform the following steps (a)-(d) 64 times or more:
+            int round = 0;
+            bool continueProcessing = true;
             while (round < 64 || continueProcessing) {
                 // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
                 //    input password, K, the 48-byte user key.
@@ -196,11 +196,10 @@ public class PDFEncryption {
 
                 round++; // Increment the round counter
             }
+
+            // Tests indicate that the total number of rounds will most likely be between 65 and 80.
+            Console.WriteLine("Number of rounds: " + round);
         }
-        // NOTE 3
-        // Tests indicate that the total number of rounds will most likely be between 65 and 80.
-        // !! We can print this number to verify we are in this range !!
-        Console.WriteLine("Number of rounds: " + round);
 
         byte[] finalOutput = new byte[32];
         Array.Copy(K, 0, finalOutput, 0, 32);
@@ -216,6 +215,7 @@ public class PDFEncryption {
                 stream.Write(U, 0, U.Length);
             }
         }
+// Console.WriteLine(stream.Length);
         return stream.ToArray();    // Return K1
     }
 
