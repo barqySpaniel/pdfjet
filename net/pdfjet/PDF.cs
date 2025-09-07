@@ -380,20 +380,28 @@ public class PDF {
         // Add the info object
         NewObj();
         Append(Token.BeginDictionary);
-        Append("/Title (");
-        Append(title);
-        Append(")\n");
-        Append("/Author (");
-        Append(author);
-        Append(")\n");
-        Append("/Subject (");
-        Append(subject);
-        Append(")\n");
+        if (!String.IsNullOrEmpty(title)) {
+            Append("/Title (");
+            Append(title);
+            Append(")\n");
+        }
+        if (!String.IsNullOrEmpty(author)) {
+            Append("/Author (");
+            Append(author);
+            Append(")\n");
+        }
+        if (!String.IsNullOrEmpty(subject)) {
+            Append("/Subject (");
+            Append(subject);
+            Append(")\n");
+        }
+        if (!String.IsNullOrEmpty(creator)) {
+            Append("/Creator (");
+            Append(creator);
+            Append(")\n");
+        }
         Append("/Producer (");
         Append(producer);
-        Append(")\n");
-        Append("/Creator (");
-        Append(creator);
         Append(")\n");
         Append("/CreationDate (D:");
         Append(creationDate.Substring(0, creationDate.Length - 1)); // Remove the 'Z'
