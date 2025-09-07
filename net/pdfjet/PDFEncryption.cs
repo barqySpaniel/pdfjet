@@ -251,34 +251,6 @@ public class PDFEncryption {
         return byteArray;
     }
 
-    //<<
-    //    /Filter /AESDecode
-    //    /V 5
-    //    /R 6
-    //    /Length <Encrypted Data Length>
-    //    /IV <Base64-encoded IV>
-    //    /Data <Encrypted Stream Data>
-    //>>
-    // Encrypt a stream and store the IV
-    public static Dictionary<string, object> EncryptStreamWithIV(byte[] streamData, byte[] key) {
-//        // Generate a random 16-byte IV
-//        // byte[] iv = RandomNumberGenerator.GetBytes(16);
-//
-//        // Encrypt the data with AES-256-CBC
-//        EncryptedDataWithIV encryptedDataWithIV = AES.EncryptAes256(streamData, key);
-
-        // Store the IV and encrypted data in the stream dictionary
-        var streamDict = new Dictionary<string, object>();
-//        streamDict["Filter"] = "/AESDecode";
-//        streamDict["V"] = 5;  // PDF 2.0 version for AES-256 encryption
-//        streamDict["R"] = 6;  // Revision for AES encryption
-//        streamDict["Length"] = encryptedDataWithIV.encryptedData.Length;
-//        streamDict["IV"] = Convert.ToBase64String(encryptedDataWithIV.IV);  // Store IV as Base64 string
-//        streamDict["Data"] = encryptedDataWithIV;            // Store encrypted data
-
-        return streamDict;
-    }
-
     // 7.6.4.4.7
     // Algorithm 8: Computing the encryption dictionary’s U (user password) and
     // UE (user encryption) values (Security handlers of revision 6)
