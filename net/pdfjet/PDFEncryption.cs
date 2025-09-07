@@ -156,15 +156,15 @@ public class PDFEncryption {
             //    16 bytes of K as the initialization vector.
             //    The result of this encryption is E.
             byte[] tempKey = new byte[16];
-            Array.Copy(K, 0, tempKey, 0, 16);
+            Buffer.BlockCopy(K, 0, tempKey, 0, 16);
             byte[] tempIV = new byte[16];
-            Array.Copy(K, 16, tempIV, 0, 16);
+            Buffer.BlockCopy(K, 16, tempIV, 0, 16);
             byte[] E = AES.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
 
             // --- Steps (c) & (d): Common to all rounds ---
             // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
-            // d) Using the hash algorithm determined in step c, take the hash of E.
             int algorithm = NextHashAlgorithm(E);
+            // d) Using the hash algorithm determined in step c, take the hash of E.
             if (algorithm == 0) {
                 K = sha256.ComputeHash(E);
             } else if (algorithm == 1) {
@@ -178,10 +178,9 @@ public class PDFEncryption {
             // do the following, starting with round number 64:
             if (round >= 64) {
                 // e) Look at the very last byte of E.
-                //    If the value of that byte (taken as an unsigned integer)
-                //    is greater than the round number - 32, repeat steps (a-d) again.
                 byte lastByte = E[E.Length - 1];
-                // f) Repeat from steps (a-e) until the value of the last byte is ≤ (round number) - 32.
+                // f) If the value of that byte (taken as an unsigned integer)
+                //    is greater than (round - 32), continue processing. If not, we are done.
                 continueProcessing = (lastByte > (round - 32));
             }
 
@@ -192,7 +191,7 @@ public class PDFEncryption {
         Console.WriteLine("Number of rounds: " + round);
 
         byte[] finalOutput = new byte[32];
-        Array.Copy(K, 0, finalOutput, 0, 32);
+        Buffer.BlockCopy(K, 0, finalOutput, 0, 32);
         return finalOutput;
     }
 
