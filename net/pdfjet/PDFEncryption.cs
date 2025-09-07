@@ -68,7 +68,7 @@ public class PDFEncryption {
         pdf.Append("/Filter /Standard\n");
         pdf.Append("/V 5\n");           // Algorithm 2.A / 2.B
         pdf.Append("/R 6\n");           // Security revision 6 (strong password hashing)
-        pdf.Append("/Length 256\n");    // Vestigial, required, ignored (must still be present)
+        // pdf.Append("/Length 256\n");    // Vestigial, required, ignored (must still be present)
         pdf.Append("/CF <<\n");
         pdf.Append("/StdCF <<\n");
         pdf.Append("/CFM /AESV3\n");    // AESV3 = AES-256 in CBC
@@ -103,6 +103,7 @@ public class PDFEncryption {
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
         pdf.Append("/Perms <065497aaca85a677d5669f0cb68f2cd7>\n");    // TODO:
+        pdf.Append("/EncryptMetadata false\n");
 
         pdf.Append(Token.EndDictionary);
         pdf.EndObj();
@@ -186,9 +187,6 @@ public class PDFEncryption {
                 break;
             }
         }
-
-        // Tests indicate that the total number of rounds will most likely be between 65 and 80.
-        Console.WriteLine("Number of rounds: " + round);
 
         byte[] finalOutput = new byte[32];
         Buffer.BlockCopy(K, 0, finalOutput, 0, 32);
