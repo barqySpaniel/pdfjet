@@ -367,26 +367,26 @@ public class PDFEncryption {
         byte[] result = new byte[array1.Length + array2.Length];
 
         // Copy the first array into the result
-        Array.Copy(array1, 0, result, 0, array1.Length);
+        Buffer.BlockCopy(array1, 0, result, 0, array1.Length);
 
         // Copy the second array into the result, starting after the first array's data
-        Array.Copy(array2, 0, result, array1.Length, array2.Length);
+        Buffer.BlockCopy(array2, 0, result, array1.Length, array2.Length);
 
         return result;
     }
 
     internal byte[] Concatenate(byte[] array1, byte[] array2, byte[] array3) {
-        // Create a new array with the combined length of both arrays
+        // Create a new array with the combined length all three arrays
         byte[] result = new byte[array1.Length + array2.Length + array3.Length];
 
         // Copy the first array into the result
-        Array.Copy(array1, 0, result, 0, array1.Length);
+        Buffer.BlockCopy(array1, 0, result, 0, array1.Length);
 
         // Copy the second array into the result, starting after the first array's data
-        Array.Copy(array2, 0, result, array1.Length, array2.Length);
+        Buffer.BlockCopy(array2, 0, result, array1.Length, array2.Length);
 
         // Copy the third array into the result, starting after the first array's data
-        Array.Copy(array3, 0, result, array1.Length + array2.Length, array3.Length);
+        Buffer.BlockCopy(array3, 0, result, array1.Length + array2.Length, array3.Length);
 
         return result;
     }
