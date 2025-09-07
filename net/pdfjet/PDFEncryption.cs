@@ -144,9 +144,10 @@ public class PDFEncryption {
     /// </exception>
     private byte[] ComputeHash(
             byte[] inputPassword,
+            byte[] salt,
             byte[] U) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
-        byte[] K = sha256.ComputeHash(inputPassword);
+        byte[] K = sha256.ComputeHash(Concatenate(inputPassword, salt, U));
 
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
@@ -184,7 +185,6 @@ public class PDFEncryption {
             if (round >= 64 && E[E.Length - 1] <= (round - 32)) {
                 break;
             }
-            // round++;
         }
 
         // Tests indicate that the total number of rounds will most likely be between 65 and 80.
@@ -310,10 +310,10 @@ public class PDFEncryption {
         userValidationSalt = HexStringToByteArray("6cab48290d91a5a9");
         userKeySalt = HexStringToByteArray("c150dfd58a44edea");
 
-        byte[] hash = ComputeHash(Concatenate(userPasswordBytes, userValidationSalt), new byte[] {});
+        byte[] hash = ComputeHash(userPasswordBytes, userValidationSalt, new byte[] {});
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
 
-        hash = ComputeHash(Concatenate(userPasswordBytes, userKeySalt), new byte[] {});
+        hash = ComputeHash(userPasswordBytes, userKeySalt, new byte[] {});
         byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new UserPair(U, UE);
@@ -348,26 +348,13 @@ public class PDFEncryption {
         Buffer.BlockCopy(randomBytes, 0, ownerValidationSalt, 0, 8);
         Buffer.BlockCopy(randomBytes, 8, ownerKeySalt, 0, 8);
 
-        byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
+        byte[] hash = ComputeHash(ownerPasswordBytes, ownerValidationSalt, U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
-        hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerKeySalt, U), U);
+        hash = ComputeHash(ownerPasswordBytes, ownerKeySalt, U);
         byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new OwnerPair(O, OE);
-    }
-
-    internal byte[] Concatenate(byte[] array1, byte[] array2) {
-        // Create a new array with the combined length of both arrays
-        byte[] result = new byte[array1.Length + array2.Length];
-
-        // Copy the first array into the result
-        Buffer.BlockCopy(array1, 0, result, 0, array1.Length);
-
-        // Copy the second array into the result, starting after the first array's data
-        Buffer.BlockCopy(array2, 0, result, array1.Length, array2.Length);
-
-        return result;
     }
 
     internal byte[] Concatenate(byte[] array1, byte[] array2, byte[] array3) {
@@ -385,5 +372,5 @@ public class PDFEncryption {
 
         return result;
     }
-}
-}
+}   // End of PDFEncryption.cs
+}   // End of namespace PDFjet.NET
