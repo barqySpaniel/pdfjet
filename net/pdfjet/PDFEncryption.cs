@@ -153,7 +153,6 @@ public class PDFEncryption {
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
         while (true) {
-            round++;
             // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
             //    inputPassword, K, U
             byte[] K1 = ComputeK1(inputPassword, K, U);
@@ -186,6 +185,8 @@ public class PDFEncryption {
             if (round >= 64 && E[E.Length - 1] <= (round - 32)) {
                 break;
             }
+
+            round++;
         }
 
         byte[] finalOutput = new byte[32];
