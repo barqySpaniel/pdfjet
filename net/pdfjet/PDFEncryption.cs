@@ -307,8 +307,8 @@ public class PDFEncryption {
 
         byte[] userValidationSalt = new byte[8];
         byte[] userKeySalt = new byte[8];
-        Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
-        Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
+        Buffer.BlockCopy(randomBytes, 0, userValidationSalt, 0, 8);
+        Buffer.BlockCopy(randomBytes, 8, userKeySalt, 0, 8);
 
         userValidationSalt = HexStringToByteArray("6cab48290d91a5a9");
         userKeySalt = HexStringToByteArray("c150dfd58a44edea");
@@ -349,8 +349,8 @@ public class PDFEncryption {
 
         byte[] ownerValidationSalt = new byte[8];
         byte[] ownerKeySalt = new byte[8];
-        Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
-        Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
+        Buffer.BlockCopy(randomBytes, 0, ownerValidationSalt, 0, 8);
+        Buffer.BlockCopy(randomBytes, 8, ownerKeySalt, 0, 8);
 
         byte[] hash = ComputeHash(stream, Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
