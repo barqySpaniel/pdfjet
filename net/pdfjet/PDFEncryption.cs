@@ -144,8 +144,8 @@ public class PDFEncryption {
 
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
-        bool continueProcessing = true;
-        while (round < 64 || continueProcessing) {
+        while (true) {
+            round++;
             // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
             //    inputPassword, K         if U == null
             //    inputPassword, K, U      if U != null
@@ -176,15 +176,10 @@ public class PDFEncryption {
             // --- Steps (e) & (f): The Termination Check (For rounds 64+ only) ---
             // Following 64 rounds (round number 0 to round number 63),
             // do the following, starting with round number 64:
-            if (round >= 64) {
-                // e) Look at the very last byte of E.
-                byte lastByte = E[E.Length - 1];
-                // f) If the value of that byte (taken as an unsigned integer)
-                //    is greater than (round - 32), continue processing. If not, we are done.
-                continueProcessing = (lastByte > (round - 32));
+            if (round >= 64 && E[E.Length - 1] <= (round - 32)) {
+                break;
             }
-
-            round++; // Increment the round counter
+            // round++;
         }
 
         // Tests indicate that the total number of rounds will most likely be between 65 and 80.
@@ -216,15 +211,19 @@ public class PDFEncryption {
         if (E.Length < 16) {
             throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(E));
         }
-
-        // 1. Take the first 16 bytes of E and convert to an unsigned big-endian integer
-        BigInteger bigInt = new BigInteger(
-            new ReadOnlySpan<byte>(E, 0, 16),
-                isUnsigned: true,
-                isBigEndian: true);
-
-        // 2. Compute the remainder, modulo 3
-        return (int) (bigInt % 3);
+        int sum = 0;
+        for (int i = 0; i < 16; i++) {
+            sum += E[i];
+        }
+        return sum % 3;
+//        // 1. Take the first 16 bytes of E and convert to an unsigned big-endian integer
+//        BigInteger bigInt = new BigInteger(
+//            new ReadOnlySpan<byte>(E, 0, 16),
+//                isUnsigned: true,
+//                isBigEndian: true);
+//
+//        // 2. Compute the remainder, modulo 3
+//        return (int) (bigInt % 3);
     }
 
     private string ToHex(byte[] bytes) {

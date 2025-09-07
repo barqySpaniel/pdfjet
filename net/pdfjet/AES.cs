@@ -17,60 +17,35 @@ internal sealed class EncryptedDataWithIV {
 
 public class AES {
     /// <summary>
-    /// Encrypts data using AES-128-CBC (per Algorithm 2.B, Step (b)) with no padding.
-    /// The provided IV is used for encryption, and only the resulting ciphertext is returned.
+    /// Encrypts <paramref name="K1"/> with AES‑128‑CBC, **no padding**.
     /// </summary>
-    /// <param name="K1">
-    /// The data to encrypt (K1 array in Algorithm 2.B).
-    /// </param>
-    /// <param name="key">
-    /// The 16-byte AES key used for encryption (AES-128).
-    /// </param>
-    /// <param name="iv">
-    /// The 16-byte initialization vector (IV) used for encryption (provided as input).
-    /// </param>
-    /// <returns>
-    /// The encrypted ciphertext as a byte array. IV is not returned.
-    /// </returns>
-    /// <exception cref="ArgumentException">
-    /// Thrown if the data is null or empty, or if the key is not 16 bytes (AES-128).
-    /// </exception>
-    /// <exception cref="InvalidOperationException">
-    /// Thrown if encryption fails due to an internal error.
-    /// </exception>
+    /// <param name="K1">Plain‑text to encrypt (must be a multiple of 16 bytes).</param>
+    /// <param name="key">Exactly 16 bytes – the AES‑128 key.</param>
+    /// <param name="iv">Exactly 16 bytes – the initialization vector.</param>
+    /// <returns>The ciphertext.</returns>
+    /// <exception cref="ArgumentException">If any argument is null or has an invalid length.</exception>
     internal static byte[] EncryptK1(byte[] K1, byte[] key, byte[] iv) {
-        if (K1 == null || K1.Length == 0) {
-            throw new ArgumentException(
-                "K1 cannot be empty for encryption.", nameof(K1));
-        }
-        if (key == null || key.Length != 16) {
-            throw new ArgumentException(
-                "Key must be 16 bytes for AES-128-CBC (per Algorithm 2.B).", nameof(key));
-        }
-        if (iv == null || iv.Length != 16) {  // Ensure IV is exactly 16 bytes
-            throw new ArgumentException(
-                "IV must be 16 bytes long.", nameof(iv));
-        }
+        // ---------- basic argument validation ----------
+        if (K1 == null || K1.Length == 0)
+            throw new ArgumentException("K1 cannot be null or empty.", nameof(K1));
 
-        try {
-            using (Aes aes = Aes.Create()) {
-                // Algorithm 2.B always uses AES-128-CBC to encrypt K1
-                aes.KeySize = 128;                  // Use AES-128 (16 bytes key)
-                aes.Key = key;                      // Set the encryption key
-                aes.IV = iv;                        // Set the initialization vector (IV)
-                aes.Mode = CipherMode.CBC;          // Use CBC mode
-                aes.Padding = PaddingMode.None;     // No padding (CRITICAL for this step)
+        if (key == null || key.Length != 16)
+            throw new ArgumentException("Key must be exactly 16 bytes (AES‑128).", nameof(key));
 
-                using (MemoryStream ms = new MemoryStream())
-                using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write)) {
-                    cs.Write(K1, 0, K1.Length);     // Write the data to the stream
-                    cs.FlushFinalBlock();           // Ensure all data is encrypted
-                    return ms.ToArray();
-                }
-            }
-        } catch (Exception ex) {
-            throw new InvalidOperationException("Encryption failed for Algorithm 2.B, Step (b).", ex);
-        }
+        if (iv == null || iv.Length != 16)
+            throw new ArgumentException("IV must be exactly 16 bytes.", nameof(iv));
+
+        // ---------- AES‑128‑CBC, no padding ----------
+        using var aes = Aes.Create();       // defaults: CBC, PKCS7, 256‑bit key
+        aes.Key = key;                      // automatically sets KeySize = 128
+        aes.IV = iv;
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.None;     // critical for Algorithm 2.B
+
+        // ---------- encrypt in one shot ----------
+        // TransformFinalBlock allocates the output array for us.
+        using var encryptor = aes.CreateEncryptor();
+        return encryptor.TransformFinalBlock(K1, 0, K1.Length);
     }
 
     /// <summary>
@@ -106,7 +81,7 @@ public class AES {
     /// <returns>Encrypted ciphertext</returns>
     private static byte[] Encrypt(byte[] data, byte[] key, byte[] iv) {
         using (Aes aes = Aes.Create()) {
-            aes.KeySize = 256;
+            // aes.KeySize = 256;
             aes.Key = key;
             aes.IV = iv;
             aes.Mode = CipherMode.CBC;
@@ -140,7 +115,7 @@ public class AES {
 
         // Create the AES object with the specific parameters
         using (Aes aes = Aes.Create()) {
-            aes.KeySize = 256;              // Use AES-256 (32 bytes key)
+            // aes.KeySize = 256;              // Use AES-256 (32 bytes key)
             aes.Key = key;
             aes.IV = new byte[16];          // new byte[16] initializes all elements to 0.
             aes.Mode = CipherMode.CBC;
@@ -163,7 +138,7 @@ public class AES {
     /// <returns>Decrypted data</returns>
     private static byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] iv) {
         using (Aes aes = Aes.Create()) {
-            aes.KeySize = 256;
+            // aes.KeySize = 256;
             aes.Key = key;
             aes.IV = iv;
             aes.Mode = CipherMode.CBC;
