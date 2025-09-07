@@ -27,6 +27,9 @@ internal sealed class OwnerPair {
 public class PDFEncryption {
     private readonly int objNumber;
     private readonly byte[] fileEncryptionKey;
+    private readonly SHA256 sha256;
+    private readonly SHA384 sha384;
+    private readonly SHA512 sha512;
 
     /// <summary>
     /// Creates a new AES-128 encryption dictionary and adds it to the PDF.
@@ -41,10 +44,13 @@ public class PDFEncryption {
             rng.GetBytes(this.fileEncryptionKey); // Fills the array with cryptographically strong random bytes
         }
 
-        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
-        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
+        sha256 = SHA256.Create();
+        sha384 = SHA384.Create();
+        sha512 = SHA512.Create();
 
         MemoryStream stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
+        byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
+        byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
         UserPair userPair = ComputeUserPair(stream, userPasswordBytes, fileEncryptionKey);
         OwnerPair ownerPair = ComputeOwnerPair(stream, ownerPasswordBytes, userPair.U, fileEncryptionKey);
@@ -97,6 +103,10 @@ public class PDFEncryption {
         objNumber = pdf.GetObjNumber();
 
         stream.Dispose();
+
+        sha256.Dispose();
+        sha384.Dispose();
+        sha512.Dispose();
 
         CryptographicOperations.ZeroMemory(userPasswordBytes);
         CryptographicOperations.ZeroMemory(ownerPasswordBytes);

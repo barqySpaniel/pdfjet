@@ -54,11 +54,10 @@ public class AES {
 
         try {
             using (Aes aes = Aes.Create()) {
-                // Algorithm 2.B always uses AES-128-CBC to encrypt K1,
-                // regardless of the file key length (AES-128 or AES-256)
-                aes.KeySize = 128;                  // Use AES-128 (128-bit key)
+                // Algorithm 2.B always uses AES-128-CBC to encrypt K1
+                aes.KeySize = 128;                  // Use AES-128 (16 bytes key)
                 aes.Key = key;                      // Set the encryption key
-                aes.IV = iv;                        // Set the provided initialization vector (IV)
+                aes.IV = iv;                        // Set the initialization vector (IV)
                 aes.Mode = CipherMode.CBC;          // Use CBC mode
                 aes.Padding = PaddingMode.None;     // No padding (CRITICAL for this step)
 
