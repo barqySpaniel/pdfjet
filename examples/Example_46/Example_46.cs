@@ -11,8 +11,7 @@ public class Example_46 {
     public Example_46() {
         PDF pdf = new PDF(new BufferedStream(
             new FileStream("Example_46.pdf", FileMode.Create)));
-        pdf.SetCompliance(Compliance.PDF_UA_1);
-
+        // pdf.SetCompliance(Compliance.PDF_UA_1);
         // pdf.SetEncryption(new PDFEncryption(pdf, "hello", "world"));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
