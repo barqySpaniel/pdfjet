@@ -34,7 +34,7 @@ final public class PDF {
     private String author = "";
     private String subject = "";
     private String keywords = "";
-    private final String producer = "PDFjet v8.0.4";
+    private final String producer = "PDFjet v8.5.0";
     private String creator = producer;
     private String createDate;      // XMP metadata
     private String creationDate;    // PDF Info Object

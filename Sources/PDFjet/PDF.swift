@@ -31,7 +31,7 @@ public class PDF {
     private var author: String = ""
     private var subject: String = ""
     private var keywords: String = ""
-    private var producer = "PDFjet v8.0.4"
+    private var producer = "PDFjet v8.5.0"
     private var creator: String?
     private var createDate: String?
     private var creationDate: String?

@@ -31,11 +31,11 @@ public class PDF {
     private String uuid = (new Salsa20()).GetID();
     private Stream os = null;
     private readonly List<Int32> objOffset = new List<Int32>(); // Required by the xref section
-    private String title = "";
-    private String author = "";
-    private String subject = "";
-    private String keywords = "";
-    private String producer = "PDFjet v8.0.4";
+    private String producer = "PDFjet v8.5.0";
+    private String title;
+    private String author;
+    private String subject;
+    private String keywords;
     private String creator;
     private String createDate;      // XMP metadata
     private String creationDate;    // PDF Info Object
@@ -91,7 +91,6 @@ public class PDF {
     public PDF(Stream os, Compliance compliance) {
         this.os = os;
         this.compliance = compliance;
-        this.creator = this.producer;
 
         DateTime date = new DateTime(DateTime.Now.Ticks);
 
@@ -182,25 +181,35 @@ public class PDF {
             sb.Append(producer);
             sb.Append("</pdf:Producer>\n");
 
-            sb.Append("  <pdf:Keywords>");
-            sb.Append(keywords);
-            sb.Append("</pdf:Keywords>\n");
+            if (!String.IsNullOrEmpty(title)) {
+                sb.Append("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">");
+                sb.Append(title);
+                sb.Append("</rdf:li></rdf:Alt></dc:title>\n");
+            }
 
-            sb.Append("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">");
-            sb.Append(title);
-            sb.Append("</rdf:li></rdf:Alt></dc:title>\n");
+            if (!String.IsNullOrEmpty(author)) {
+                sb.Append("  <dc:creator><rdf:Seq><rdf:li>");
+                sb.Append(author);
+                sb.Append("</rdf:li></rdf:Seq></dc:creator>\n");
+            }
 
-            sb.Append("  <dc:creator><rdf:Seq><rdf:li>");
-            sb.Append(author);
-            sb.Append("</rdf:li></rdf:Seq></dc:creator>\n");
+            if (!String.IsNullOrEmpty(subject)) {
+                sb.Append("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">");
+                sb.Append(subject);
+                sb.Append("</rdf:li></rdf:Alt></dc:description>\n");
+            }
 
-            sb.Append("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">");
-            sb.Append(subject);
-            sb.Append("</rdf:li></rdf:Alt></dc:description>\n");
+            if (!String.IsNullOrEmpty(keywords)) {
+                sb.Append("  <pdf:Keywords>");
+                sb.Append(keywords);
+                sb.Append("</pdf:Keywords>\n");
+            }
 
-            sb.Append("  <xmp:CreatorTool>");
-            sb.Append(creator);
-            sb.Append("</xmp:CreatorTool>\n");
+            if (!String.IsNullOrEmpty(creator)) {
+                sb.Append("  <xmp:CreatorTool>");
+                sb.Append(creator);
+                sb.Append("</xmp:CreatorTool>\n");
+            }
 
             sb.Append("  <xmp:CreateDate>");
             sb.Append(createDate + "-05:00");       // Append the time zone.
@@ -380,29 +389,40 @@ public class PDF {
         // Add the info object
         NewObj();
         Append(Token.BeginDictionary);
+        Append("/Producer (");
+        Append(producer);
+        Append(")\n");
+
         if (!String.IsNullOrEmpty(title)) {
             Append("/Title (");
             Append(title);
             Append(")\n");
         }
+
         if (!String.IsNullOrEmpty(author)) {
             Append("/Author (");
             Append(author);
             Append(")\n");
         }
+
         if (!String.IsNullOrEmpty(subject)) {
             Append("/Subject (");
             Append(subject);
             Append(")\n");
         }
+
+        if (!String.IsNullOrEmpty(keywords)) {
+            Append("/Keywords (");
+            Append(keywords);
+            Append(")\n");
+        }
+
         if (!String.IsNullOrEmpty(creator)) {
             Append("/Creator (");
             Append(creator);
             Append(")\n");
         }
-        Append("/Producer (");
-        Append(producer);
-        Append(")\n");
+
         Append("/CreationDate (D:");
         Append(creationDate.Substring(0, creationDate.Length - 1)); // Remove the 'Z'
         Append("-05'00')\n");
