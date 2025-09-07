@@ -77,7 +77,7 @@ public class AES {
     /// </summary>
     /// <param name="data">Plain‑text to encrypt.</param>
     /// <param name="key">
-    /// 32‑byte (256‑bit) encryption key. The method will throw if the length is not 32.
+    /// 32‑byte (256‑bit) encryption key. The method will throw exception if the length is not 32.
     /// </param>
     /// <param name="iv">
     /// 16‑byte (128‑bit) initialization vector. The method will throw if the length is not 16.
@@ -105,60 +105,62 @@ public class AES {
     }
 
     /// <summary>
-    /// Encrypts the File Encryption Key (FEK) using AES-256-CBC with a zero IV and no padding.
+    /// Encrypts a 32‑byte File Encryption Key (FEK) with AES‑256‑CBC,
+    /// using a zero IV and no padding.
     /// </summary>
-    /// <param name="fileEncryptionKey">The 32-byte File Encryption Key.</param>
-    /// <param name="key">The 32-byte hash used as the encryption key.</param>
-    /// <returns>The resulting 32-byte UE (User Encryption) key.</returns>
+    /// <param name="fileEncryptionKey">
+    /// 32‑byte FEK to encrypt.
+    /// </param>
+    /// <param name="key">
+    /// 32‑byte key (hash) used for AES‑256 encryption.
+    /// </param>
+    /// <returns>The encrypted 32‑byte File Encryption Key.</returns>
     public static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] key) {
-        // Validate inputs
-        if (fileEncryptionKey == null || fileEncryptionKey.Length != 32) {
-            throw new ArgumentException(
-                "File Encryption Key must be 32 bytes long.", nameof(fileEncryptionKey));
-        }
-        if (key == null || key.Length != 32) {
-            throw new ArgumentException(
-                "The encryption key must be 32 bytes long.", nameof(key));
-        }
+        // Validate inputs (must be exactly 32 bytes)
+        if (fileEncryptionKey == null || fileEncryptionKey.Length != 32)
+            throw new ArgumentException("File Encryption Key must be 32 bytes long.", nameof(fileEncryptionKey));
+        if (key == null || key.Length != 32)
+            throw new ArgumentException("The encryption key must be 32 bytes long.", nameof(key));
 
-        // Create the AES object with the specific parameters
-        using (Aes aes = Aes.Create()) {
-            // aes.KeySize = 256;              // Use AES-256 (32 bytes key)
-            aes.Key = key;
-            aes.IV = new byte[16];          // new byte[16] initializes all elements to 0.
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.None; // No padding because input is exact multiple of block size.
+        // Set up AES‑256 with a zero IV and no padding
+        using var aes = Aes.Create();
+        aes.Key = key;                 // 256‑bit key
+        aes.IV = new byte[16];         // all‑zero IV
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.None;
 
-            // Create an encryptor to perform the stream transform.
-            ICryptoTransform encryptor = aes.CreateEncryptor();
-
-            // Encrypt the FEK. The output will be the same length as the input (32 bytes).
-            return encryptor.TransformFinalBlock(fileEncryptionKey, 0, fileEncryptionKey.Length);
-        }
+        // Perform the encryption in one block
+        using var encryptor = aes.CreateEncryptor();
+        return encryptor.TransformFinalBlock(fileEncryptionKey, 0, fileEncryptionKey.Length);
     }
 
     /// <summary>
-    /// Decrypts data encrypted with AES-256-CBC and PKCS #5 padding.
+    /// Decrypts AES‑256‑CBC data that was padded with PKCS#5/PKCS#7.
     /// </summary>
-    /// <param name="ciphertext">Encrypted data to decrypt</param>
-    /// <param name="key">256-bit Decryption Key</param>
-    /// <param name="iv">128-bit Initialization Vector</param>
-    /// <returns>Decrypted data</returns>
+    /// <param name="ciphertext">The encrypted byte array.</param>
+    /// <param name="key">
+    /// 32‑byte (256‑bit) decryption key. Must match the key used for encryption.
+    /// </param>
+    /// <param name="iv">
+    /// 16‑byte (128‑bit) initialization vector. Must match the IV used for encryption.
+    /// </param>
+    /// <returns>The plaintext bytes.</returns>
     private static byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] iv) {
-        using (Aes aes = Aes.Create()) {
-            // aes.KeySize = 256;
-            aes.Key = key;
-            aes.IV = iv;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;    // PKCS #5 and PKCS #7 are considered equivalent,
-                                                // especially in the context of AES encryption.
-            using (var ms = new MemoryStream())
-            using (var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write)) {
-                cs.Write(ciphertext, 0, ciphertext.Length);
-                cs.FlushFinalBlock();
-                return ms.ToArray();
-            }
-        }
+        // Configure AES‑256‑CBC with PKCS#7 padding (PKCS#5 is a subset of PKCS#7)
+        using var aes = Aes.Create();
+        aes.Key = key;                     // 256‑bit key
+        aes.IV = iv;                       // 128‑bit IV
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.PKCS7;   // PKCS#5 ≡ PKCS#7 for block sizes ≤ 8 bytes
+
+        // Stream‑based decryption: write ciphertext into a CryptoStream,
+        // which writes the decrypted bytes into a MemoryStream.
+        using var ms = new MemoryStream();
+        using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write);
+        cs.Write(ciphertext, 0, ciphertext.Length);
+        cs.FlushFinalBlock();              // finalize padding removal
+
+        return ms.ToArray();               // retrieve plaintext
     }
 }
-}
+}   // End of namespace PDFjet.NET
