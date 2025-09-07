@@ -73,27 +73,35 @@ public class AES {
     }
 
     /// <summary>
-    /// Encrypts data with AES-256-CBC and PKCS #5 padding using specified key size.
+    /// Encrypts <paramref name="data"/> with AES‑256‑CBC and PKCS#7 padding.
     /// </summary>
-    /// <param name="data">The data to encrypt</param>
-    /// <param name="key">256-bit Encryption Key</param>
-    /// <param name="iv">128-bit initialization vector</param>
-    /// <returns>Encrypted ciphertext</returns>
+    /// <param name="data">Plain‑text to encrypt.</param>
+    /// <param name="key">
+    /// 32‑byte (256‑bit) encryption key. The method will throw if the length is not 32.
+    /// </param>
+    /// <param name="iv">
+    /// 16‑byte (128‑bit) initialization vector. The method will throw if the length is not 16.
+    /// </param>
+    /// <returns>Cipher‑text.</returns>
+    /// <exception cref="ArgumentException">Invalid key or IV length.</exception>
     private static byte[] Encrypt(byte[] data, byte[] key, byte[] iv) {
-        using (Aes aes = Aes.Create()) {
-            // aes.KeySize = 256;
-            aes.Key = key;
-            aes.IV = iv;
-            aes.Mode = CipherMode.CBC;
-            aes.Padding = PaddingMode.PKCS7;    // PKCS #5 and PKCS #7 are considered equivalent,
-                                                // especially in the context of AES encryption.
-            using (var ms = new MemoryStream())
-            using (var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write)) {
-                cs.Write(data, 0, data.Length);
-                cs.FlushFinalBlock();
-                return ms.ToArray();
-            }
-        }
+        // ----- basic argument validation -------------------------------------------------
+        if (key == null || key.Length != 32)
+            throw new ArgumentException("Key must be exactly 32 bytes (AES‑256).", nameof(key));
+
+        if (iv == null || iv.Length != 16)
+            throw new ArgumentException("IV must be exactly 16 bytes.", nameof(iv));
+
+        // ----- configure AES -------------------------------------------------------------
+        using var aes = Aes.Create();       // defaults: CBC, PKCS7, 256‑bit key
+        aes.Key = key;                      // automatically sets KeySize = 256
+        aes.IV = iv;
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.PKCS7;    // PKCS#5 ≡ PKCS#7 for AES block size
+
+        // ----- encrypt in one shot (no streams needed) ---------------------------------
+        using var encryptor = aes.CreateEncryptor();
+        return encryptor.TransformFinalBlock(data, 0, data.Length);
     }
 
     /// <summary>
