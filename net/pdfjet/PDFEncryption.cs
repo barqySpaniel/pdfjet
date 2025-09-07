@@ -30,6 +30,7 @@ public class PDFEncryption {
     private readonly SHA256 sha256;
     private readonly SHA384 sha384;
     private readonly SHA512 sha512;
+    private MemoryStream stream;
 
     /// <summary>
     /// Creates a new AES-128 encryption dictionary and adds it to the PDF.
@@ -48,12 +49,12 @@ public class PDFEncryption {
         sha384 = SHA384.Create();
         sha512 = SHA512.Create();
 
-        MemoryStream stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
+        stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        UserPair userPair = ComputeUserPair(stream, userPasswordBytes, fileEncryptionKey);
-        OwnerPair ownerPair = ComputeOwnerPair(stream, ownerPasswordBytes, userPair.U, fileEncryptionKey);
+        UserPair userPair = ComputeUserPair(userPasswordBytes, fileEncryptionKey);
+        OwnerPair ownerPair = ComputeOwnerPair(ownerPasswordBytes, userPair.U, fileEncryptionKey);
 
         // === Encryption Dictionary ===
         pdf.NewObj();
@@ -136,7 +137,6 @@ public class PDFEncryption {
     /// Thrown if the `U` is not exactly 48 bytes long when provided.
     /// </exception>
     private byte[] ComputeHash(
-            MemoryStream stream,
             byte[] inputPassword,
             byte[] U) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
@@ -145,10 +145,10 @@ public class PDFEncryption {
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
         while (true) {
-            // round++;
+            round++;
             // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
             //    inputPassword, K, U
-            byte[] K1 = ComputeK1(stream, inputPassword, K, U);
+            byte[] K1 = ComputeK1(inputPassword, K, U);
 
             // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
             //    using the first 16 bytes of K as the key and the second
@@ -178,7 +178,7 @@ public class PDFEncryption {
             if (round >= 64 && E[E.Length - 1] <= (round - 32)) {
                 break;
             }
-            round++;
+            // round++;
         }
 
         // Tests indicate that the total number of rounds will most likely be between 65 and 80.
@@ -189,7 +189,7 @@ public class PDFEncryption {
         return finalOutput;
     }
 
-    private byte[] ComputeK1(MemoryStream stream, byte[] inputPassword, byte[] K, byte[] U) {
+    private byte[] ComputeK1(byte[] inputPassword, byte[] K, byte[] U) {
         stream.SetLength(0);        // Reset the stream
         for (int i = 0; i < 64; i++) {
             stream.Write(inputPassword, 0, inputPassword.Length);
@@ -210,7 +210,8 @@ public class PDFEncryption {
         }
         // PDF 2.0 specification states:
         // "Taking the first 16 bytes of E as an unsigned big-endian integer, compute the remainder, modulo 3."
-        // The sum of all bytes mod 3 is equivalent to taking the modulo 3 of the whole number.
+        // DeepSeek and Lumo confirm this statement is correct:
+        // "The sum of all bytes mod 3 is equivalent to taking the modulo 3 of the whole number."
         int sum = 0;
         for (int i = 0; i < 16; i++) {
             sum += E[i];
@@ -288,7 +289,6 @@ public class PDFEncryption {
     //    AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //    stored as the UE key.
     internal UserPair ComputeUserPair(
-            MemoryStream stream,
             byte[] userPasswordBytes,
             byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
@@ -304,10 +304,10 @@ public class PDFEncryption {
         userValidationSalt = HexStringToByteArray("6cab48290d91a5a9");
         userKeySalt = HexStringToByteArray("c150dfd58a44edea");
 
-        byte[] hash = ComputeHash(stream, Concatenate(userPasswordBytes, userValidationSalt), new byte[] {});
+        byte[] hash = ComputeHash(Concatenate(userPasswordBytes, userValidationSalt), new byte[] {});
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
 
-        hash = ComputeHash(stream, Concatenate(userPasswordBytes, userKeySalt), new byte[] {});
+        hash = ComputeHash(Concatenate(userPasswordBytes, userKeySalt), new byte[] {});
         byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new UserPair(U, UE);
@@ -329,7 +329,6 @@ public class PDFEncryption {
     //    revision 6)". Using this hash as the key, encrypt the file encryption key using AES-256 in CBC mode with
     //    no padding and an initialization vector of zero. The resulting 32-byte string is stored as the OE key.
     internal OwnerPair ComputeOwnerPair(
-            MemoryStream stream,
             byte[] ownerPasswordBytes,
             byte[] U,
             byte[] fileEncryptionKey) {
@@ -343,10 +342,10 @@ public class PDFEncryption {
         Buffer.BlockCopy(randomBytes, 0, ownerValidationSalt, 0, 8);
         Buffer.BlockCopy(randomBytes, 8, ownerKeySalt, 0, 8);
 
-        byte[] hash = ComputeHash(stream, Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
+        byte[] hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerValidationSalt, U), U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
-        hash = ComputeHash(stream, Concatenate(ownerPasswordBytes, ownerKeySalt, U), U);
+        hash = ComputeHash(Concatenate(ownerPasswordBytes, ownerKeySalt, U), U);
         byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new OwnerPair(O, OE);
