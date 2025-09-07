@@ -145,10 +145,9 @@ public class PDFEncryption {
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
         while (true) {
-            round++;
+            // round++;
             // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
-            //    inputPassword, K         if U == null
-            //    inputPassword, K, U      if U != null
+            //    inputPassword, K, U
             byte[] K1 = ComputeK1(stream, inputPassword, K, U);
 
             // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
@@ -179,7 +178,7 @@ public class PDFEncryption {
             if (round >= 64 && E[E.Length - 1] <= (round - 32)) {
                 break;
             }
-            // round++;
+            round++;
         }
 
         // Tests indicate that the total number of rounds will most likely be between 65 and 80.
@@ -195,9 +194,7 @@ public class PDFEncryption {
         for (int i = 0; i < 64; i++) {
             stream.Write(inputPassword, 0, inputPassword.Length);
             stream.Write(K, 0, K.Length);
-            if (U != null) {
-                stream.Write(U, 0, U.Length);
-            }
+            stream.Write(U, 0, U.Length);
         }
         return stream.ToArray();    // Return K1
     }
@@ -211,19 +208,14 @@ public class PDFEncryption {
         if (E.Length < 16) {
             throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(E));
         }
+        // PDF 2.0 specification states:
+        // "Taking the first 16 bytes of E as an unsigned big-endian integer, compute the remainder, modulo 3."
+        // The sum of all bytes mod 3 is equivalent to taking the modulo 3 of the whole number.
         int sum = 0;
         for (int i = 0; i < 16; i++) {
             sum += E[i];
         }
         return sum % 3;
-//        // 1. Take the first 16 bytes of E and convert to an unsigned big-endian integer
-//        BigInteger bigInt = new BigInteger(
-//            new ReadOnlySpan<byte>(E, 0, 16),
-//                isUnsigned: true,
-//                isBigEndian: true);
-//
-//        // 2. Compute the remainder, modulo 3
-//        return (int) (bigInt % 3);
     }
 
     private string ToHex(byte[] bytes) {
@@ -312,10 +304,10 @@ public class PDFEncryption {
         userValidationSalt = HexStringToByteArray("6cab48290d91a5a9");
         userKeySalt = HexStringToByteArray("c150dfd58a44edea");
 
-        byte[] hash = ComputeHash(stream, Concatenate(userPasswordBytes, userValidationSalt), null);
+        byte[] hash = ComputeHash(stream, Concatenate(userPasswordBytes, userValidationSalt), new byte[] {});
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
 
-        hash = ComputeHash(stream, Concatenate(userPasswordBytes, userKeySalt), null);
+        hash = ComputeHash(stream, Concatenate(userPasswordBytes, userKeySalt), new byte[] {});
         byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
         return new UserPair(U, UE);
