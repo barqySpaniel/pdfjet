@@ -307,9 +307,6 @@ public class PDFEncryption {
         Buffer.BlockCopy(randomBytes, 0, userValidationSalt, 0, 8);
         Buffer.BlockCopy(randomBytes, 8, userKeySalt, 0, 8);
 
-        userValidationSalt = HexStringToByteArray("6cab48290d91a5a9");
-        userKeySalt = HexStringToByteArray("c150dfd58a44edea");
-
         byte[] hash = ComputeHash(userPasswordBytes, userValidationSalt, new byte[] {});
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
 
