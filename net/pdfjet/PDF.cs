@@ -984,7 +984,8 @@ public class PDF {
             }
         }
 
-        int infoObjNumber = AddInfoObject();
+        // TODO:
+        // int infoObjNumber = AddInfoObject();
         int rootObjNumber = AddRootObject(structTreeRootObjNumber, outlineDictNum);
 
         int startxref = byteCount;
@@ -1016,9 +1017,10 @@ public class PDF {
         Append(uuid);
         Append(">]\n");
 
-        Append("/Info ");
-        Append(infoObjNumber);
-        Append(" 0 R\n");
+// TODO:
+//        Append("/Info ");
+//        Append(infoObjNumber);
+//        Append(" 0 R\n");
 
         if (pdfEncryption != null) {
             Append("/Encrypt ");
