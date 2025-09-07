@@ -20,7 +20,7 @@ public class AES {
     /// Encrypts data using AES-128-CBC (per Algorithm 2.B, Step (b)) with no padding.
     /// The provided IV is used for encryption, and only the resulting ciphertext is returned.
     /// </summary>
-    /// <param name="data">
+    /// <param name="K1">
     /// The data to encrypt (K1 array in Algorithm 2.B).
     /// </param>
     /// <param name="key">
@@ -61,9 +61,8 @@ public class AES {
                 aes.Mode = CipherMode.CBC;          // Use CBC mode
                 aes.Padding = PaddingMode.None;     // No padding (CRITICAL for this step)
 
-                using (ICryptoTransform encryptor = aes.CreateEncryptor())
                 using (MemoryStream ms = new MemoryStream())
-                using (CryptoStream cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write)) {
+                using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write)) {
                     cs.Write(K1, 0, K1.Length);     // Write the data to the stream
                     cs.FlushFinalBlock();           // Ensure all data is encrypted
                     return ms.ToArray();

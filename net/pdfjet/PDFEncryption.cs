@@ -197,7 +197,7 @@ public class PDFEncryption {
     }
 
     private byte[] ComputeK1(MemoryStream stream, byte[] inputPassword, byte[] K, byte[] U) {
-        stream.Position = 0;        // Reset the stream
+        stream.SetLength(0);        // Reset the stream
         for (int i = 0; i < 64; i++) {
             stream.Write(inputPassword, 0, inputPassword.Length);
             stream.Write(K, 0, K.Length);
