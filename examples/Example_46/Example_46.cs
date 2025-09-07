@@ -13,7 +13,7 @@ public class Example_46 {
             new FileStream("Example_46.pdf", FileMode.Create)));
         pdf.SetCompliance(Compliance.PDF_UA_1);
 
-        pdf.SetEncryption(new PDFEncryption(pdf, "hello", "hello"));
+        pdf.SetEncryption(new PDFEncryption(pdf, "hello", "world"));
 
         Font f1 = new Font(pdf, IBMPlexSans.Bold);
         f1.SetSize(14f);
