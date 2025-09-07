@@ -164,8 +164,13 @@ public class PDFEncryption {
             // --- Steps (c) & (d): Common to all rounds ---
             // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
             // d) Using the hash algorithm determined in step c, take the hash of E.
-            using (HashAlgorithm hashAlgo = NextHashAlgorithm(E)) {
-                K = hashAlgo.ComputeHash(E);
+            int algorithm = NextHashAlgorithm(E);
+            if (algorithm == 0) {
+                K = sha256.ComputeHash(E);
+            } else if (algorithm == 1) {
+                K = sha384.ComputeHash(E);
+            } else if (algorithm == 2) {
+                K = sha512.ComputeHash(E);
             }
 
             // --- Steps (e) & (f): The Termination Check (For rounds 64+ only) ---
@@ -207,8 +212,8 @@ public class PDFEncryption {
     /// Analyzes the first 16 bytes of the 'E' to determine the next hash algorithm to use.
     /// </summary>
     /// <param name="E">The output from the encryption step.</param>
-    /// <returns>An instance of the chosen hash algorithm (SHA256, SHA384, or SHA512).</returns>
-    private HashAlgorithm NextHashAlgorithm(byte[] E) {
+    /// <returns>The number of the chosen hash algorithm (0 -> SHA256, 1 -> SHA384, or 2 -> SHA512).</returns>
+    private int NextHashAlgorithm(byte[] E) {
         if (E.Length < 16) {
             throw new ArgumentException("The input array must be at least 16 bytes long.", nameof(E));
         }
@@ -220,15 +225,7 @@ public class PDFEncryption {
                 isBigEndian: true);
 
         // 2. Compute the remainder, modulo 3
-        int remainder = (int)(bigInt % 3);
-
-        // 3. Return the right hash algorithm
-        return remainder switch {
-            0 => SHA256.Create(),
-            1 => SHA384.Create(),
-            2 => SHA512.Create(),
-            _ => throw new InvalidOperationException() // Required by the compiler
-        };
+        return (int) (bigInt % 3);
     }
 
     private string ToHex(byte[] bytes) {
