@@ -6,19 +6,19 @@ using System.Numerics;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-internal sealed class UserPair {
+internal sealed class User {
     public byte[] U;
     public byte[] UE;
-    public UserPair(byte[] U, byte[] UE) {
+    public User(byte[] U, byte[] UE) {
         this.U = U;
         this.UE = UE;
     }
 }
 
-internal sealed class OwnerPair {
+internal sealed class Owner {
     public byte[] O;
     public byte[] OE;
-    public OwnerPair(byte[] O, byte[] OE) {
+    public Owner(byte[] O, byte[] OE) {
         this.O = O;
         this.OE = OE;
     }
@@ -59,8 +59,8 @@ public class PDFEncryption {
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        UserPair userPair = ComputeUserPair(userPasswordBytes, fileEncryptionKey);
-        OwnerPair ownerPair = ComputeOwnerPair(ownerPasswordBytes, userPair.U, fileEncryptionKey);
+        User user = ComputeUserPair(userPasswordBytes, fileEncryptionKey);
+        Owner owner = ComputeOwnerPair(ownerPasswordBytes, user.U, fileEncryptionKey);
 
         // === Encryption Dictionary ===
         pdf.NewObj();
@@ -80,24 +80,24 @@ public class PDFEncryption {
         pdf.Append("/StrF /StdCF\n");
 
         pdf.Append("/U <");             // === User Key (U) ===
-        pdf.Append(ToHex(userPair.U));
+        pdf.Append(ToHex(user.U));
         pdf.Append(">\n");
 
         pdf.Append("/O <");             // === Owner Key (O) ===
-        pdf.Append(ToHex(ownerPair.O));
+        pdf.Append(ToHex(owner.O));
         pdf.Append(">\n");
 
         pdf.Append("/UE <");            // === User Encryption Key (UE) ===
-        pdf.Append(ToHex(userPair.UE));
+        pdf.Append(ToHex(user.UE));
         pdf.Append(">\n");
 
         pdf.Append("/OE <");            // === Owner Encryption Key (OE) ===
-        pdf.Append(ToHex(ownerPair.OE));
+        pdf.Append(ToHex(owner.OE));
         pdf.Append(">\n");
 
         // A set of flags specifying which operations shall be permitted
         // when the document is opened with user access (see "Table 22 — User access permissions").
-        pdf.Append("/P 4294967292\n");
+        pdf.Append("/P -3904\n");
 
         // A 16-byte string, encrypted with the file encryption key,
         // that contains an encrypted copy of the permissions flags.
@@ -265,7 +265,7 @@ public class PDFEncryption {
     //    concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
     //    AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //    stored as the UE key.
-    internal UserPair ComputeUserPair(
+    internal User ComputeUserPair(
             byte[] userPasswordBytes,
             byte[] fileEncryptionKey) {
         byte[] randomBytes = new byte[16];
@@ -284,7 +284,7 @@ public class PDFEncryption {
         hash = ComputeHash(userPasswordBytes, userKeySalt, new byte[] {});
         byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
-        return new UserPair(U, UE);
+        return new User(U, UE);
     }
 
     // 7.6.4.4.8
@@ -302,7 +302,7 @@ public class PDFEncryption {
     //    encryption dictionary’s U (user password) and UE (user encryption) values (Security handlers of
     //    revision 6)". Using this hash as the key, encrypt the file encryption key using AES-256 in CBC mode with
     //    no padding and an initialization vector of zero. The resulting 32-byte string is stored as the OE key.
-    internal OwnerPair ComputeOwnerPair(
+    internal Owner ComputeOwnerPair(
             byte[] ownerPasswordBytes,
             byte[] U,
             byte[] fileEncryptionKey) {
@@ -322,7 +322,7 @@ public class PDFEncryption {
         hash = ComputeHash(ownerPasswordBytes, ownerKeySalt, U);
         byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
 
-        return new OwnerPair(O, OE);
+        return new Owner(O, OE);
     }
 
     internal byte[] Concatenate(byte[] array1, byte[] array2, byte[] array3) {
