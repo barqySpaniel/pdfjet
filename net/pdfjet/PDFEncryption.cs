@@ -50,6 +50,12 @@ public class PDFEncryption {
         sha512 = SHA512.Create();
 
         stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
+        if (userPassword.Length > 127) {
+            userPassword = userPassword.Substring(0, 127);
+        }
+        if (ownerPassword.Length > 127) {
+            ownerPassword = ownerPassword.Substring(0, 127);
+        }
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
