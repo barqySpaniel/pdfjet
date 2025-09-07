@@ -140,7 +140,7 @@ public class PDFEncryption {
             byte[] inputPassword,
             byte[] U) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
-        byte[] K = HashPassword(inputPassword);
+        byte[] K = sha256.ComputeHash(inputPassword);
 
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
@@ -229,13 +229,6 @@ public class PDFEncryption {
             2 => SHA512.Create(),
             _ => throw new InvalidOperationException() // Required by the compiler
         };
-    }
-
-    // === Helpers ===
-    private byte[] HashPassword(byte[] input) {
-        using (SHA256 sha256 = SHA256.Create()) {
-            return sha256.ComputeHash(input);
-        }
     }
 
     private string ToHex(byte[] bytes) {
