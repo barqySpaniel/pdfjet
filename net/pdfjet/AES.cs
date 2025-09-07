@@ -140,8 +140,8 @@ public class AES {
 
         // Create the AES object with the specific parameters
         using (Aes aes = Aes.Create()) {
-            aes.Key = key;
             aes.KeySize = 256;              // Use AES-256 (32 bytes key)
+            aes.Key = key;
             aes.IV = new byte[16];          // new byte[16] initializes all elements to 0.
             aes.Mode = CipherMode.CBC;
             aes.Padding = PaddingMode.None; // No padding because input is exact multiple of block size.
