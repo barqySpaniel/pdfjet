@@ -234,21 +234,14 @@ public class PDFEncryption {
         return new string(hex);
     }
 
+    // Used for testing ...
     private static byte[] HexStringToByteArray(string hexString) {
-        if (string.IsNullOrEmpty(hexString))
-            throw new ArgumentException("Hex string cannot be null or empty");
-
-        if (hexString.Length % 2 != 0)
-            throw new ArgumentException("Hex string must have an even length");
-
         int length = hexString.Length;
         byte[] byteArray = new byte[length / 2];
-
         for (int i = 0; i < length; i += 2) {
             string byteValue = hexString.Substring(i, 2);
             byteArray[i / 2] = Convert.ToByte(byteValue, 16);
         }
-
         return byteArray;
     }
 
