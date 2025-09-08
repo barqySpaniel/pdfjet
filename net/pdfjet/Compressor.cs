@@ -8,8 +8,8 @@ using System.IO;
 
 namespace PDFjet.NET {
 class Compressor {
-    internal static byte[] deflate(byte[] data) {
-        MemoryStream buf = new MemoryStream();
+    internal static byte[] Deflate(byte[] data) {
+        using var buf = new MemoryStream();
         DeflaterOutputStream dos = new DeflaterOutputStream(buf);
         dos.Write(data, 0, data.Length);
         return buf.ToArray();

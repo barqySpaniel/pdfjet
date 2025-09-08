@@ -138,7 +138,7 @@ public class PNGImage {
             }
         }
 
-        deflatedImageData = Compressor.deflate(imageData);
+        deflatedImageData = Compressor.Deflate(imageData);
     }
 
     public int GetWidth() {
@@ -299,7 +299,7 @@ public class PNGImage {
             idata[j++] = image[i++];
             alpha[k++] = image[i++];
         }
-        deflatedAlphaData = Compressor.deflate(alpha);
+        deflatedAlphaData = Compressor.Deflate(alpha);
 
         return idata;
     }
@@ -338,7 +338,7 @@ public class PNGImage {
         ApplyFilters(filters, image, this.w, this.h, 3);
 
         if (tRNS != null) {
-            deflatedAlphaData = Compressor.deflate(alpha);
+            deflatedAlphaData = Compressor.Deflate(alpha);
         }
 
         return image;

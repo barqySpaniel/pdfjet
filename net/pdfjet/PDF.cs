@@ -790,17 +790,12 @@ public class PDF {
 
     private void AddPageContent(Page page) {
         if (contentStreamsCompression) {
-            MemoryStream ms = new MemoryStream();
-            DeflaterOutputStream dos = new DeflaterOutputStream(ms);
-            byte[] buf = page.buf.ToArray();
-            dos.Write(buf, 0, buf.Length);
-            page.buf = null;    // Release the page content memory!
-
+            byte[] buf1 = Compressor.Deflate(page.buf.ToArray());
             byte[] buf2 = null;
             if (encryption != null) {
-                buf2 = Encryption.AES256.Encrypt(ms.ToArray(), encryption.GetKey());
+                buf2 = Encryption.AES256.Encrypt(buf1, encryption.GetKey());
             } else {
-                buf2 = ms.ToArray();
+                buf2 = buf1;
             }
 
             NewObj();
