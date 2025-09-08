@@ -5,7 +5,7 @@ using System.Text;
 using System.Numerics;
 using System.Collections.Generic;
 
-namespace PDFjet.NET {
+namespace PDFjet.NET.Encryption {
 public class AES256 {
     /// <summary>
     /// Encrypts a 32‑byte File Encryption Key (FEK) with AES‑256‑CBC,

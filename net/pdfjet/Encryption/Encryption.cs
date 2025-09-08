@@ -5,7 +5,7 @@ using System.Text;
 using System.Numerics;
 using System.Collections.Generic;
 
-namespace PDFjet.NET {
+namespace PDFjet.NET.Encryption {
 internal sealed class User {
     public byte[] U;
     public byte[] UE;
@@ -116,15 +116,14 @@ public class Encryption {
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
         byte[] perms = new byte[16];    // TODO: Fill in the perms array
-        perms[0] = (byte) '?';
-        perms[1] = (byte) '?';
-        perms[2] = (byte) '?';
-        perms[3] = (byte) '?';
-        perms[4] = (byte) '?';
-        perms[5] = (byte) '?';
-        perms[6] = (byte) '?';
-        perms[7] = (byte) '?';
-
+        perms[0]  = (byte) '?';
+        perms[1]  = (byte) '?';
+        perms[2]  = (byte) '?';
+        perms[3]  = (byte) '?';
+        perms[4]  = (byte) '?';
+        perms[5]  = (byte) '?';
+        perms[6]  = (byte) '?';
+        perms[7]  = (byte) '?';
         perms[8]  = (byte) 'F';    // for EncryptMetadata false and 'T' for true
         perms[9]  = (byte) 'a';
         perms[10] = (byte) 'd';

@@ -49,7 +49,7 @@ public class PDF {
     private String extGState = "";
     private Page prevPage = null;
     private bool contentStreamsCompression = true;
-    private Encryption encryption = null;
+    private Encryption.Encryption encryption = null;
 
     /**
      * The default constructor - use when reading PDF files.
@@ -114,7 +114,7 @@ public class PDF {
         this.compliance = compliance;
     }
 
-    public void SetEncryption(Encryption encryption) {
+    public void SetEncryption(Encryption.Encryption encryption) {
         this.encryption = encryption;
     }
 
@@ -798,7 +798,7 @@ public class PDF {
 
             byte[] buf2 = null;
             if (encryption != null) {
-                buf2 = AES256.Encrypt(ms.ToArray(), encryption.GetKey());
+                buf2 = Encryption.AES256.Encrypt(ms.ToArray(), encryption.GetKey());
             } else {
                 buf2 = ms.ToArray();
             }

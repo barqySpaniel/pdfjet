@@ -1,6 +1,6 @@
 using System;
 
-namespace PDFjet.NET {
+namespace PDFjet.NET.Encryption {
     /// <summary>
     /// Represents the user access permissions for an encrypted PDF document as defined in
     /// ISO 32000-2 (PDF 2.0) Table 22. Permissions are stored as flags in a 32-bit integer.
