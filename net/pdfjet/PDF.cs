@@ -49,7 +49,7 @@ public class PDF {
     private String extGState = "";
     private Page prevPage = null;
     private bool contentStreamsCompression = true;
-    private PDFEncryption pdfEncryption = null;
+    private PDFEncryption encryption = null;
 
     /**
      * The default constructor - use when reading PDF files.
@@ -793,8 +793,8 @@ public class PDF {
             page.buf = null;    // Release the page content memory!
 
             byte[] buf2 = null;
-            if (pdfEncryption != null) {
-                buf2 = AES.EncryptAes256(ms.ToArray(), pdfEncryption.GetKey());
+            if (encryption != null) {
+                buf2 = AES.EncryptAes256(ms.ToArray(), encryption.GetKey());
             } else {
                 buf2 = ms.ToArray();
             }
@@ -1029,9 +1029,9 @@ public class PDF {
 //        Append(infoObjNumber);
 //        Append(" 0 R\n");
 
-        if (pdfEncryption != null) {
+        if (encryption != null) {
             Append("/Encrypt ");
-            Append(pdfEncryption.GetObjNumber());
+            Append(encryption.GetObjNumber());
             Append(" 0 R\n");
         }
 
@@ -1764,8 +1764,8 @@ public class PDF {
         }
     }
 
-    public void SetEncryption(PDFEncryption pdfEncryption) {
-        this.pdfEncryption = pdfEncryption;
+    public void SetEncryption(PDFEncryption encryption) {
+        this.encryption = encryption;
     }
 }   // End of PDF.cs
 }   // End of namespace PDFjet.NET

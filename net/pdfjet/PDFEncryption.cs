@@ -112,11 +112,13 @@ public class PDFEncryption {
         pdf.Append(permissions.RawValue);
         pdf.Append("\n");
 
-        // TODO:
         // A 16-byte string, encrypted with the file encryption key,
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
-        pdf.Append("/Perms <065497aaca85a677d5669f0cb68f2cd7>\n");
+        byte[] perms = new byte[16];    // TODO: Fill in the perms array
+        pdf.Append("/Perms <");
+        pdf.Append(AES.EncryptAes256(perms, GetKey()));
+        pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);
         pdf.EndObj();
