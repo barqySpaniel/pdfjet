@@ -135,7 +135,7 @@ public class Encryption {
         perms[15] = (byte) '-';
 
         pdf.Append("/Perms <");
-        // pdf.Append(AES.EncryptAes256(ToHexByteArray(perms), GetKey()));
+        pdf.Append(ToHex(AES.EncryptAes256(perms, GetKey())));
         pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);
@@ -255,16 +255,6 @@ public class Encryption {
         }
         return new string(hex);
     }
-
-//    private byte[] ToHexByteArray(byte[] bytes) {
-//        char[] hex = new char[bytes.Length * 2];
-//        const string HEX_CHARS = "0123456789abcdef";
-//        for (int i = 0; i < bytes.Length; i++) {
-//            hex[i * 2]     = HEX_CHARS[bytes[i] >> 4];
-//            hex[i * 2 + 1] = HEX_CHARS[bytes[i] & 0x0F];
-//        }
-//        return hex;
-//    }
 
     // 7.6.4.4.7
     // Algorithm 8: Computing the encryption dictionary’s U (user password) and
