@@ -48,8 +48,8 @@ public class PDFEncryption {
         sha256 = SHA256.Create();
         sha384 = SHA384.Create();
         sha512 = SHA512.Create();
-
         stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
+
         if (userPassword.Length > 127) {
             userPassword = userPassword.Substring(0, 127);
         }
@@ -61,6 +61,14 @@ public class PDFEncryption {
 
         User user = ComputeUserPair(userPasswordBytes, fileEncryptionKey);
         Owner owner = ComputeOwnerPair(ownerPasswordBytes, user.U, fileEncryptionKey);
+
+        CryptographicOperations.ZeroMemory(userPasswordBytes);
+        CryptographicOperations.ZeroMemory(ownerPasswordBytes);
+
+        stream.Dispose();
+        sha256.Dispose();
+        sha384.Dispose();
+        sha512.Dispose();
 
         // === Encryption Dictionary ===
         pdf.NewObj();
@@ -109,15 +117,6 @@ public class PDFEncryption {
         pdf.EndObj();
 
         objNumber = pdf.GetObjNumber();
-
-        stream.Dispose();
-
-        sha256.Dispose();
-        sha384.Dispose();
-        sha512.Dispose();
-
-        CryptographicOperations.ZeroMemory(userPasswordBytes);
-        CryptographicOperations.ZeroMemory(ownerPasswordBytes);
     }
 
     public int GetObjNumber() {

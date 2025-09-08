@@ -103,7 +103,6 @@ func NewPDF(w *bufio.Writer) *PDF {
 	pdf.contentStreamsCompression = true
 	pdf.writer = w
 	pdf.producer = "PDFjet v8.5.0"
-	pdf.creator = pdf.producer
 	pdf.language = "en-US"
 
 	pdf.destinations = make(map[string]*Destination)
@@ -210,25 +209,35 @@ func (pdf *PDF) addMetadataObject(notice string, fontMetadataObject bool) int {
 		sb.WriteString(pdf.producer)
 		sb.WriteString("</pdf:Producer>\n")
 
-		sb.WriteString("  <pdf:Keywords>")
-		sb.WriteString(pdf.keywords)
-		sb.WriteString("</pdf:Keywords>\n")
+		if pdf.title != "" {
+			sb.WriteString("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">")
+			sb.WriteString(pdf.title)
+			sb.WriteString("</rdf:li></rdf:Alt></dc:title>\n")
+		}
 
-		sb.WriteString("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">")
-		sb.WriteString(pdf.title)
-		sb.WriteString("</rdf:li></rdf:Alt></dc:title>\n")
+		if pdf.author != "" {
+			sb.WriteString("  <dc:creator><rdf:Seq><rdf:li>")
+			sb.WriteString(pdf.author)
+			sb.WriteString("</rdf:li></rdf:Seq></dc:creator>\n")
+		}
 
-		sb.WriteString("  <dc:creator><rdf:Seq><rdf:li>")
-		sb.WriteString(pdf.author)
-		sb.WriteString("</rdf:li></rdf:Seq></dc:creator>\n")
+		if pdf.subject != "" {
+			sb.WriteString("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">")
+			sb.WriteString(pdf.subject)
+			sb.WriteString("</rdf:li></rdf:Alt></dc:description>\n")
+		}
 
-		sb.WriteString("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">")
-		sb.WriteString(pdf.subject)
-		sb.WriteString("</rdf:li></rdf:Alt></dc:description>\n")
+		if pdf.keywords != "" {
+			sb.WriteString("  <pdf:Keywords>")
+			sb.WriteString(pdf.keywords)
+			sb.WriteString("</pdf:Keywords>\n")
+		}
 
-		sb.WriteString("  <xmp:CreatorTool>")
-		sb.WriteString(pdf.creator)
-		sb.WriteString("</xmp:CreatorTool>\n")
+		if pdf.creator != "" {
+			sb.WriteString("  <xmp:CreatorTool>")
+			sb.WriteString(pdf.creator)
+			sb.WriteString("</xmp:CreatorTool>\n")
+		}
 
 		sb.WriteString("  <xmp:CreateDate>")
 		sb.WriteString(pdf.createDate + "-05:00") // Append the time zone.
@@ -920,7 +929,8 @@ func (pdf *PDF) Complete() {
 		}
 	}
 
-	infoObjNumber := pdf.addInfoObject()
+	// TODO:
+	//	infoObjNumber := pdf.addInfoObject()
 	rootObjNumber := pdf.addRootObject(structTreeRootObjNumber, outlineDictNum)
 
 	startxref := pdf.byteCount
@@ -951,9 +961,10 @@ func (pdf *PDF) Complete() {
 	pdf.appendString(pdf.uuid)
 	pdf.appendString(">]\n")
 
-	pdf.appendString("/Info ")
-	pdf.appendInteger(infoObjNumber)
-	pdf.appendString(" 0 R\n")
+	// TODO:
+	//pdf.appendString("/Info ")
+	//pdf.appendInteger(infoObjNumber)
+	//pdf.appendString(" 0 R\n")
 
 	pdf.appendString("/Root ")
 	pdf.appendInteger(rootObjNumber)
