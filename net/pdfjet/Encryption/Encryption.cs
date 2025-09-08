@@ -119,21 +119,9 @@ public class Encryption {
         pdf.Append(permissions.RawValue);
         pdf.Append("\n");
 
-        uint pValue = (uint)permissions.RawValue;
-
         // Create the unencrypted block per Algorithm 10
-        byte[] unencryptedPermsBlock = CreateUnencryptedPermsBlock(pValue);
-
-        // Encrypt the entire block with AES-256-ECB
-        byte[] encryptedPermsBlock = AES256.EncryptECB(unencryptedPermsBlock, fileEncryptionKey);
-
-        // A 16-byte string, encrypted with the file encryption key,
-        // that contains an encrypted copy of the permissions flags.
-        // For more information, see 7.6.4.4, "Password algorithms".
-        byte[] perms = new byte[16];
-        // Bytes 0-7: encrypted permissions
-        Buffer.BlockCopy(encryptedPermsBlock, 0, perms, 0, 8);
-        perms[8]  = (byte) 'F';    // for EncryptMetadata false and 'T' for true
+        byte[] perms = CreateUnencryptedPermsBlock(permissions.RawValue);
+        perms[8]  = (byte) 'F'; // for EncryptMetadata false and 'T' for true
         perms[9]  = (byte) 'a';
         perms[10] = (byte) 'd';
         perms[11] = (byte) 'b';
@@ -142,8 +130,13 @@ public class Encryption {
         perms[14] = (byte) '-';
         perms[15] = (byte) '-';
 
+        // A 16-byte string, encrypted with the file encryption key,
+        // that contains an encrypted copy of the permissions flags.
+        // For more information, see 7.6.4.4, "Password algorithms".
+        byte[] encryptedPermsBlock = AES256.EncryptECB(perms, fileEncryptionKey);
+
         pdf.Append("/Perms <");
-        pdf.Append(ToHex(AES256.Encrypt(perms, GetKey())));
+        pdf.Append(ToHex(encryptedPermsBlock));
         pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);
@@ -350,8 +343,7 @@ public class Encryption {
 
     internal static byte[] CreateUnencryptedPermsBlock(uint permissionsValue) {
         // Step a: Extend the 32-bit permission to 64 bits with upper 32 bits set to 1
-        uint unsignedPValue = (uint)permissionsValue;
-        ulong extendedPermissions = 0xFFFF_FFFF_0000_0000UL | unsignedPValue;
+        ulong extendedPermissions = 0xFFFF_FFFF_0000_0000UL | permissionsValue;
 
         // Step b: Get the 8 bytes of the permission in little-endian order
         byte[] permsBlock = new byte[16];
