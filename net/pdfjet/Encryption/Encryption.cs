@@ -115,8 +115,8 @@ public class Encryption {
 
         // A set of flags specifying which operations shall be permitted
         // when the document is opened with user access (see "Table 22 — User access permissions").
-        pdf.Append("/P -");
-        pdf.Append(permissions.RawValue);
+        pdf.Append("/P ");
+        pdf.Append(permissions.RawValue.ToString());
         pdf.Append("\n");
 
         // Create the unencrypted block per Algorithm 10
