@@ -198,10 +198,10 @@ public class PDFEncryption {
         return finalOutput;
     }
 
-    private byte[] ComputeK1(byte[] inputPassword, byte[] K, byte[] U) {
+    private byte[] ComputeK1(byte[] password, byte[] K, byte[] U) {
         stream.SetLength(0);        // Reset the stream
         for (int i = 0; i < 64; i++) {
-            stream.Write(inputPassword, 0, inputPassword.Length);
+            stream.Write(password, 0, password.Length);
             stream.Write(K, 0, K.Length);
             stream.Write(U, 0, U.Length);
         }
@@ -236,17 +236,6 @@ public class PDFEncryption {
             hex[i * 2 + 1] = HEX_CHARS[bytes[i] & 0x0F];
         }
         return new string(hex);
-    }
-
-    // Used for testing ...
-    private static byte[] HexStringToByteArray(string hexString) {
-        int length = hexString.Length;
-        byte[] byteArray = new byte[length / 2];
-        for (int i = 0; i < length; i += 2) {
-            string byteValue = hexString.Substring(i, 2);
-            byteArray[i / 2] = Convert.ToByte(byteValue, 16);
-        }
-        return byteArray;
     }
 
     // 7.6.4.4.7
