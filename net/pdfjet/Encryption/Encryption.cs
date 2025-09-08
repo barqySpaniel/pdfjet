@@ -1,3 +1,9 @@
+/**
+ * Encryption.cs
+ *
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -36,9 +42,10 @@ public class Encryption {
     /// Creates a new encryption dictionary and adds it to the PDF.
     /// </summary>
     /// <param name="pdf">The parent PDF document.</param>
+// TODO:
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
-    public Encryption(PDF pdf, Passwords passwords, AccessPermissions permissions) {
+    public Encryption(PDF pdf, Passwords passwords, Permissions permissions) {
         // === Generate a random 256-bit (32-byte) File Encryption Key ===
         this.fileEncryptionKey = new byte[32]; // 32 bytes for AES-256
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {

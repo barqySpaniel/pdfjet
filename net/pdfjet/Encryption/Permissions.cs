@@ -1,3 +1,9 @@
+/**
+ * Permissions.cs
+ *
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
 using System;
 
 namespace PDFjet.NET.Encryption {
@@ -6,7 +12,7 @@ namespace PDFjet.NET.Encryption {
     /// ISO 32000-2 (PDF 2.0) Table 22. Permissions are stored as flags in a 32-bit integer.
     /// </summary>
     [Flags]
-    public enum UserAccessPermissions {
+    public enum UserAccess {
         /// <summary>
         /// No permissions are granted. This is the default state.
         /// Reserved bits (0-2, 13-31) must be zero.
@@ -78,7 +84,7 @@ namespace PDFjet.NET.Encryption {
     /// ISO 32000-2, Table 22. Provides a type-safe interface to manipulate and query
     /// the permissions flags.
     /// </summary>
-    public class AccessPermissions {
+    public class Permissions {
         private uint _permissionsFlags;
 
         /// <summary>
@@ -88,39 +94,39 @@ namespace PDFjet.NET.Encryption {
         private const uint ValidBitsMask = 0b1_1111_1111_1000; // Hex: 0xFFF8
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccessPermissions"/> class
+        /// Initializes a new instance of the <see cref="Permissions"/> class
         /// with no permissions granted.
         /// </summary>
-        public AccessPermissions() {
+        public Permissions() {
             _permissionsFlags = 0;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccessPermissions"/> class
+        /// Initializes a new instance of the <see cref="Permissions"/> class
         /// from the raw 32-bit integer value found in the PDF encryption dictionary's /P key.
         /// Invalid bits (outside positions 3-12) are masked out to ensure compliance.
         /// </summary>
         /// <param name="rawFlags">The raw integer value.</param>
-        public AccessPermissions(int rawFlags) : this((uint)rawFlags) {
+        public Permissions(int rawFlags) : this((uint)rawFlags) {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccessPermissions"/> class
+        /// Initializes a new instance of the <see cref="Permissions"/> class
         /// from the raw 32-bit integer value found in the PDF encryption dictionary's /P key.
         /// Invalid bits (outside positions 3-12) are masked out to ensure compliance.
         /// </summary>
         /// <param name="rawFlags">The raw integer value.</param>
-        public AccessPermissions(uint rawFlags) {
+        public Permissions(uint rawFlags) {
             _permissionsFlags = rawFlags & ValidBitsMask;
         }
 
         /// <summary>
-        /// Gets or sets the permissions using the type-safe <see cref="UserAccessPermissions"/> enum.
+        /// Gets or sets the permissions using the type-safe <see cref="UserAccess"/> enum.
         /// The getter returns the enum representation of the current flags.
         /// The setter applies the enum value, automatically masking any invalid bits.
         /// </summary>
-        public UserAccessPermissions Permissions {
-            get => (UserAccessPermissions)_permissionsFlags;
+        public UserAccess Access {
+            get => (UserAccess)_permissionsFlags;
             set => _permissionsFlags = (uint)value & ValidBitsMask;
         }
 
@@ -135,50 +141,50 @@ namespace PDFjet.NET.Encryption {
         /// Gets a value indicating whether the user can print the document
         /// (possibly at low quality, unless <see cref="CanPrintHighQuality"/> is true).
         /// </summary>
-        public bool CanPrint => Permissions.HasFlag(UserAccessPermissions.Print);
+        public bool CanPrint => Access.HasFlag(UserAccess.Print);
 
         /// <summary>
         /// Gets a value indicating whether the user can modify the document's contents.
         /// </summary>
-        public bool CanModifyContents => Permissions.HasFlag(UserAccessPermissions.ModifyContents);
+        public bool CanModifyContents => Access.HasFlag(UserAccess.ModifyContents);
 
         /// <summary>
         /// Gets a value indicating whether the user can copy or extract content.
         /// </summary>
-        public bool CanCopyContents => Permissions.HasFlag(UserAccessPermissions.CopyContents);
+        public bool CanCopyContents => Access.HasFlag(UserAccess.CopyContents);
 
         /// <summary>
         /// Gets a value indicating whether the user can add or modify annotations and form fields.
         /// This is primarily for legacy PDF support.
         /// </summary>
-        public bool CanModifyAnnotations => Permissions.HasFlag(UserAccessPermissions.ModifyAnnotations);
+        public bool CanModifyAnnotations => Access.HasFlag(UserAccess.ModifyAnnotations);
 
         /// <summary>
         /// Gets a value indicating whether the user can fill interactive form fields.
         /// </summary>
-        public bool CanFillFormFields => Permissions.HasFlag(UserAccessPermissions.FillFormFields);
+        public bool CanFillFormFields => Access.HasFlag(UserAccess.FillFormFields);
 
         /// <summary>
         /// Gets a value indicating whether the user can extract content for accessibility.
         /// </summary>
-        public bool CanExtractForAccessibility => Permissions.HasFlag(UserAccessPermissions.ExtractContentsForAccessibility);
+        public bool CanExtractForAccessibility => Access.HasFlag(UserAccess.ExtractContentsForAccessibility);
 
         /// <summary>
         /// Gets a value indicating whether the user can assemble the document (manipulate pages).
         /// </summary>
-        public bool CanAssembleDocument => Permissions.HasFlag(UserAccessPermissions.AssembleDocument);
+        public bool CanAssembleDocument => Access.HasFlag(UserAccess.AssembleDocument);
 
         /// <summary>
         /// Gets a value indicating whether the user can print the document at high quality.
         /// </summary>
-        public bool CanPrintHighQuality => Permissions.HasFlag(UserAccessPermissions.PrintHighQuality);
+        public bool CanPrintHighQuality => Access.HasFlag(UserAccess.PrintHighQuality);
 
         /// <summary>
         /// Sets or clears the specified permissions.
         /// </summary>
-        /// <param name="permissions">The permissions to modify.</param>
+        /// <param name="permissions">The permissions to modify (from the <see cref="UserAccess"/> enum).</param>
         /// <param name="grant">True to grant the permissions; false to revoke them.</param>
-        public void SetPermissions(UserAccessPermissions permissions, bool grant = true) {
+        public void SetPermissions(UserAccess permissions, bool grant = true) {
             if (grant) {
                 _permissionsFlags |= (uint)permissions;
             } else {
@@ -193,7 +199,7 @@ namespace PDFjet.NET.Encryption {
         /// </summary>
         /// <returns>A string representation of the current permissions.</returns>
         public override string ToString() {
-            return $"Permissions: {Permissions} (Raw Value: {RawValue})";
+            return $"Permissions: {Access} (Raw Value: {RawValue})";
         }
     }
 }
