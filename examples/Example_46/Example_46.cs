@@ -23,8 +23,7 @@ public class Example_46 {
             UserAccess.PrintHighQuality |    // this document with high quality
             UserAccess.ModifyContents |
             UserAccess.CopyContents |
-            UserAccess.AssembleDocument,
-            true);
+            UserAccess.AssembleDocument);
 
         pdf.SetEncryption(new Encryption(pdf, passwords, permissions));
 
