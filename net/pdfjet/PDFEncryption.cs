@@ -25,7 +25,7 @@ internal sealed class Owner {
 }
 
 public class PDFEncryption {
-    internal readonly byte[] fileEncryptionKey;
+    private readonly byte[] fileEncryptionKey;
     private readonly int objNumber;
     private readonly SHA256 sha256;
     private readonly SHA384 sha384;
@@ -119,6 +119,10 @@ public class PDFEncryption {
         pdf.EndObj();
 
         objNumber = pdf.GetObjNumber();
+    }
+
+    public byte[] GetKey() {
+        return fileEncryptionKey;
     }
 
     public int GetObjNumber() {

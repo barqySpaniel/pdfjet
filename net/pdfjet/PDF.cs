@@ -794,7 +794,7 @@ public class PDF {
 
             byte[] buf2 = null;
             if (pdfEncryption != null) {
-                buf2 = AES.EncryptAes256(baos.ToArray(), pdfEncryption.fileEncryptionKey);
+                buf2 = AES.EncryptAes256(baos.ToArray(), pdfEncryption.GetKey());
             } else {
                 buf2 = baos.ToArray();
             }
