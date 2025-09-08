@@ -187,7 +187,7 @@ public class Encryption {
             Buffer.BlockCopy(K, 0, tempKey, 0, 16);
             byte[] tempIV = new byte[16];
             Buffer.BlockCopy(K, 16, tempIV, 0, 16);
-            byte[] E = AES256.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
+            byte[] E = AES128.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
 
             // --- Steps (c) & (d): Common to all rounds ---
             // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
