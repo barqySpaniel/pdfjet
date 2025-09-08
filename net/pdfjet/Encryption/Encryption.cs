@@ -119,18 +119,20 @@ public class Encryption {
         pdf.Append(permissions.RawValue);
         pdf.Append("\n");
 
+        uint pValue = (uint)permissions.RawValue;
+
+        // Create the unencrypted block per Algorithm 10
+        byte[] unencryptedPermsBlock = CreateUnencryptedPermsBlock(pValue);
+
+        // Encrypt the entire block with AES-256-ECB
+        byte[] encryptedPermsBlock = AES256.EncryptECB(unencryptedPermsBlock, fileEncryptionKey);
+
         // A 16-byte string, encrypted with the file encryption key,
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
-        byte[] perms = new byte[16];    // TODO: Fill in the perms array
-        perms[0]  = (byte) '?';
-        perms[1]  = (byte) '?';
-        perms[2]  = (byte) '?';
-        perms[3]  = (byte) '?';
-        perms[4]  = (byte) '?';
-        perms[5]  = (byte) '?';
-        perms[6]  = (byte) '?';
-        perms[7]  = (byte) '?';
+        byte[] perms = new byte[16];
+        // Bytes 0-7: encrypted permissions
+        Buffer.BlockCopy(encryptedPermsBlock, 0, perms, 0, 8);
         perms[8]  = (byte) 'F';    // for EncryptMetadata false and 'T' for true
         perms[9]  = (byte) 'a';
         perms[10] = (byte) 'd';
@@ -344,6 +346,20 @@ public class Encryption {
         Buffer.BlockCopy(array3, 0, result, array1.Length + array2.Length, array3.Length);
 
         return result;
+    }
+
+    internal static byte[] CreateUnencryptedPermsBlock(uint permissionsValue) {
+        // Step a: Extend the 32-bit permission to 64 bits with upper 32 bits set to 1
+        uint unsignedPValue = (uint)permissionsValue;
+        ulong extendedPermissions = 0xFFFF_FFFF_0000_0000UL | unsignedPValue;
+
+        // Step b: Get the 8 bytes of the permission in little-endian order
+        byte[] permsBlock = new byte[16];
+        byte[] permissionBytes = BitConverter.GetBytes(extendedPermissions);
+        Buffer.BlockCopy(permissionBytes, 0, permsBlock, 0, 8);
+
+        // Bytes 8-15 remain 0 for now (will be filled with validation code)
+        return permsBlock;
     }
 }   // End of PDFEncryption.cs
 }   // End of namespace PDFjet.NET
