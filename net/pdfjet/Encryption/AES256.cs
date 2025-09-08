@@ -69,5 +69,16 @@ public class AES256 {
         cs.FlushFinalBlock();
         return ms.ToArray();
     }
+
+    // Required when encrypting the Perms (permissions)
+    internal static byte[] EncryptECB(byte[] data, byte[] key) {
+        using var aes = Aes.Create();
+        aes.Key = key;
+        aes.Mode = CipherMode.ECB;      // Critical: Use ECB mode, not CBC
+        aes.Padding = PaddingMode.None; // Critical: No padding for this operation
+
+        using var encryptor = aes.CreateEncryptor();
+        return encryptor.TransformFinalBlock(data, 0, data.Length);
+    }
 }
 }   // End of namespace PDFjet.NET
