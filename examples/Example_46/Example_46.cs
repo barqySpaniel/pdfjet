@@ -19,11 +19,11 @@ public class Example_46 {
 
         var permissions = new AccessPermissions();
         permissions.SetPermissions(
-            UserAccessPermissions.Print |
+            UserAccessPermissions.Print |               // Set both to allow the user to print
+            UserAccessPermissions.PrintHighQuality |    // this document with high quality
             UserAccessPermissions.ModifyContents |
             UserAccessPermissions.CopyContents |
-            UserAccessPermissions.AssembleDocument |
-            UserAccessPermissions.PrintHighQuality,
+            UserAccessPermissions.AssembleDocument,
             true);
 
         pdf.SetEncryption(new PDFEncryption(pdf, passwords, permissions));
