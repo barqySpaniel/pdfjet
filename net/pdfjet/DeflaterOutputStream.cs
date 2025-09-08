@@ -9,7 +9,7 @@ using System.IO.Compression;
 
 namespace PDFjet.NET {
 public class DeflaterOutputStream {
-    private MemoryStream buf1 = null;
+    private readonly MemoryStream buf1 = null;
     private MemoryStream buf2 = null;
     private DeflateStream ds1 = null;
     private const uint prime = 65521;
@@ -25,7 +25,6 @@ public class DeflaterOutputStream {
     public void Write(byte[] buffer, int off, int len) {
         // Compress the data in the buffer
         ds1.Write(buffer, off, len);
-        ds1.Dispose();
         buf2.WriteTo(buf1);
 
         // Calculate the Adler-32 checksum
@@ -36,6 +35,8 @@ public class DeflaterOutputStream {
             s2 = (s2 + s1) % prime;
         }
         appendAdler((s2 << 16) + s1);
+
+        ds1.Dispose();
     }
 
     private void appendAdler(ulong adler) {
