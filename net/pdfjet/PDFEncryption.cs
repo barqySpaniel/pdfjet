@@ -61,8 +61,8 @@ public class PDFEncryption {
         byte[] userPasswordBytes = Encoding.UTF8.GetBytes(userPassword);
         byte[] ownerPasswordBytes = Encoding.UTF8.GetBytes(ownerPassword);
 
-        User user = ComputeUserPair(userPasswordBytes, fileEncryptionKey);
-        Owner owner = ComputeOwnerPair(ownerPasswordBytes, user.U, fileEncryptionKey);
+        User user = ComputeUserPair(userPasswordBytes);
+        Owner owner = ComputeOwnerPair(ownerPasswordBytes, user.U);
 
         CryptographicOperations.ZeroMemory(userPasswordBytes);
         CryptographicOperations.ZeroMemory(ownerPasswordBytes);
@@ -251,9 +251,7 @@ public class PDFEncryption {
     //    concatenated with the User Key Salt. Using this hash as the key, encrypt the file encryption key using
     //    AES-256 in CBC mode with no padding and an initialization vector of zero. The resulting 32-byte string is
     //    stored as the UE key.
-    internal User ComputeUserPair(
-            byte[] userPasswordBytes,
-            byte[] fileEncryptionKey) {
+    internal User ComputeUserPair(byte[] userPasswordBytes) {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
@@ -288,10 +286,7 @@ public class PDFEncryption {
     //    encryption dictionary’s U (user password) and UE (user encryption) values (Security handlers of
     //    revision 6)". Using this hash as the key, encrypt the file encryption key using AES-256 in CBC mode with
     //    no padding and an initialization vector of zero. The resulting 32-byte string is stored as the OE key.
-    internal Owner ComputeOwnerPair(
-            byte[] ownerPasswordBytes,
-            byte[] U,
-            byte[] fileEncryptionKey) {
+    internal Owner ComputeOwnerPair(byte[] ownerPasswordBytes, byte[] U) {
         byte[] randomBytes = new byte[16];
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
             rng.GetBytes(randomBytes);
