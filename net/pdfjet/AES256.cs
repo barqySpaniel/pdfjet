@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-public class AES {
+public class AES256 {
     /// <summary>
     /// Encrypts <paramref name="K1"/> with AES‑128‑CBC, **no padding**.
     /// </summary>

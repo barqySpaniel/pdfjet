@@ -135,7 +135,7 @@ public class Encryption {
         perms[15] = (byte) '-';
 
         pdf.Append("/Perms <");
-        pdf.Append(ToHex(AES.EncryptAes256(perms, GetKey())));
+        pdf.Append(ToHex(AES256.EncryptAes256(perms, GetKey())));
         pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);
@@ -187,7 +187,7 @@ public class Encryption {
             Buffer.BlockCopy(K, 0, tempKey, 0, 16);
             byte[] tempIV = new byte[16];
             Buffer.BlockCopy(K, 16, tempIV, 0, 16);
-            byte[] E = AES.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
+            byte[] E = AES256.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
 
             // --- Steps (c) & (d): Common to all rounds ---
             // c) Taking the first 16 bytes of E as an unsigned big-endian integer...
@@ -284,7 +284,7 @@ public class Encryption {
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
 
         hash = ComputeHash(userPasswordBytes, userKeySalt, new byte[] {});
-        byte[] UE = AES.EncryptWithZeroIV(fileEncryptionKey, hash);
+        byte[] UE = AES256.EncryptWithZeroIV(fileEncryptionKey, hash);
 
         return new User(U, UE);
     }
@@ -319,7 +319,7 @@ public class Encryption {
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
         hash = ComputeHash(ownerPasswordBytes, ownerKeySalt, U);
-        byte[] OE = AES.EncryptWithZeroIV(fileEncryptionKey, hash);
+        byte[] OE = AES256.EncryptWithZeroIV(fileEncryptionKey, hash);
 
         return new Owner(O, OE);
     }
