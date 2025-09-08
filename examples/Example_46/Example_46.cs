@@ -26,7 +26,7 @@ public class Example_46 {
             UserAccessPermissions.AssembleDocument,
             true);
 
-        pdf.SetEncryption(new PDFEncryption(pdf, passwords, permissions));
+        pdf.SetEncryption(new Encryption(pdf, passwords, permissions));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
         f1.SetSize(36f);
