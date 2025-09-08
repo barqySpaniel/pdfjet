@@ -12,7 +12,7 @@ public class Passwords {
         this.userPassword = userPassword;
     }
 
-    public void SetOwnerrPassword(String ownerPassword) {
+    public void SetOwnerPassword(String ownerPassword) {
         this.ownerPassword = ownerPassword;
     }
 
