@@ -134,7 +134,7 @@ public class PDFEncryption {
     /// to generate a 32-byte hash as a final output. The input password is combined with the SHA-256
     /// hash of the password and the user password hash (if provided) to create a complex keying material.
     /// </summary>
-    /// <param name="inputPassword">
+    /// <param name="password">
     /// The password input (either user or owner password) to be hashed.
     /// </param>
     /// <param name="U">
@@ -148,18 +148,18 @@ public class PDFEncryption {
     /// Thrown if the `U` is not exactly 48 bytes long when provided.
     /// </exception>
     private byte[] ComputeHash(
-            byte[] inputPassword,
+            byte[] password,
             byte[] salt,
             byte[] U) {
         // Take the SHA-256 hash of the original input to the algorithm and name the resulting 32 bytes, K.
-        byte[] K = sha256.ComputeHash(Concatenate(inputPassword, salt, U));
+        byte[] K = sha256.ComputeHash(Concatenate(password, salt, U));
 
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
         while (true) {
             // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
-            //    inputPassword, K, U
-            byte[] K1 = ComputeK1(inputPassword, K, U);
+            //    password, K, U
+            byte[] K1 = ComputeK1(password, K, U);
 
             // b) Encrypt K1 with the AES-128 (CBC, no padding) algorithm,
             //    using the first 16 bytes of K as the key and the second
