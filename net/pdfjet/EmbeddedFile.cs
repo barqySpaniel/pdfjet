@@ -26,10 +26,7 @@ public class EmbeddedFile {
         byte[] buf = Content.GetFromStream(stream);
 
         if (compress == Compress.YES) {
-            MemoryStream baos = new MemoryStream();
-            DeflaterOutputStream dos = new DeflaterOutputStream(baos);
-            dos.Write(buf, 0, buf.Length);
-            buf = baos.ToArray();
+            buf = Compressor.Deflate(buf);
         }
 
         pdf.NewObj();

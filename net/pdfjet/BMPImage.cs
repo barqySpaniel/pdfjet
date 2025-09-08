@@ -117,10 +117,7 @@ public class BMPImage {
                     " : BMP parse error: imagedata not correct");
         }
 
-        MemoryStream data2 = new MemoryStream(32768);
-        DeflaterOutputStream dos = new DeflaterOutputStream(data2);
-        dos.Write(image, 0, image.Length);
-        deflated = data2.ToArray();
+        deflated = Compressor.Deflate(image);
     }
 
     // 5 + 6 + 5 in B G R format 2 bytes to 3 bytes
