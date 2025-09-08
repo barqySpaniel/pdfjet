@@ -792,15 +792,22 @@ public class PDF {
             dos.Write(buf, 0, buf.Length);
             page.buf = null;    // Release the page content memory!
 
+            byte[] buf2 = null;
+            if (pdfEncryption != null) {
+                buf2 = AES.EncryptAes256(baos.ToArray(), pdfEncryption.fileEncryptionKey);
+            } else {
+                buf2 = baos.ToArray();
+            }
+
             NewObj();
             Append(Token.BeginDictionary);
             Append("/Filter /FlateDecode\n");
             Append("/Length ");
-            Append(baos.Length);
+            Append(buf2.Length);
             Append(Token.Newline);
             Append(Token.EndDictionary);
             Append(Token.Stream);
-            Append(baos);
+            Append(buf2);
             Append(Token.EndStream);
             EndObj();
             page.contents.Add(GetObjNumber());

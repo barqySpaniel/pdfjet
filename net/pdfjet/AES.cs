@@ -54,23 +54,23 @@ public class AES {
     /// <param name="data">The data to encrypt</param>
     /// <param name="key">256-bit (32-byte) encryption key</param>
     /// <returns>Encrypted ciphertext along with the initialization vector (IV) used for encryption</returns>
-    internal static EncryptedDataWithIV EncryptAes256(byte[] data, byte[] key) {
-        if (data == null || data.Length == 0) {
-            throw new ArgumentException("The data cannot be empty for encryption.", nameof(data));
-        }
-        if (key == null || key.Length != 32) { // 256 bits = 32 bytes
-            throw new ArgumentException("Key must be 256 bits (32 bytes) long.", nameof(key));
-        }
-
-        // Generate a random 16-byte IV for AES-256
-        byte[] iv = RandomNumberGenerator.GetBytes(16);
-
-        // Encrypt the data using AES-256-CBC
-        byte[] encryptedData = Encrypt(data, key, iv);
-
-        // Return the encrypted data and the IV together in an EncryptedDataWithIV object
-        return new EncryptedDataWithIV(encryptedData, iv);
-    }
+//    internal static EncryptedDataWithIV EncryptAes256(byte[] data, byte[] key) {
+//        if (data == null || data.Length == 0) {
+//            throw new ArgumentException("The data cannot be empty for encryption.", nameof(data));
+//        }
+//        if (key == null || key.Length != 32) { // 256 bits = 32 bytes
+//            throw new ArgumentException("Key must be 256 bits (32 bytes) long.", nameof(key));
+//        }
+//
+//        // Generate a random 16-byte IV for AES-256
+//        byte[] iv = RandomNumberGenerator.GetBytes(16);
+//
+//        // Encrypt the data using AES-256-CBC
+//        byte[] encryptedData = Encrypt(data, key, iv);
+//
+//        // Return the encrypted data and the IV together in an EncryptedDataWithIV object
+//        return new EncryptedDataWithIV(encryptedData, iv);
+//    }
 
     /// <summary>
     /// Encrypts <paramref name="data"/> with AES‑256‑CBC and PKCS#7 padding.
@@ -132,6 +132,25 @@ public class AES {
         // Perform the encryption in one block
         using var encryptor = aes.CreateEncryptor();
         return encryptor.TransformFinalBlock(fileEncryptionKey, 0, fileEncryptionKey.Length);
+    }
+
+    internal static byte[] EncryptAes256(byte[] data, byte[] key) {
+        // Generate a random 16-byte IV for AES-256
+        byte[] iv = RandomNumberGenerator.GetBytes(16);
+
+        // Configure AES‑256‑CBC with PKCS#7 padding (PKCS#5 is a subset of PKCS#7)
+        using var aes = Aes.Create();
+        aes.Key = key;                     // 256‑bit key
+        aes.IV = iv;                       // 128‑bit IV
+        aes.Mode = CipherMode.CBC;
+        aes.Padding = PaddingMode.PKCS7;   // PKCS#5 ≡ PKCS#7 for block sizes ≤ 8 bytes
+
+        using var ms = new MemoryStream();
+        ms.Write(iv, 0, 16);
+        using var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
+        cs.Write(data, 0, data.Length);
+        cs.FlushFinalBlock();              // finalize padding removal
+        return ms.ToArray();               // retrieve plaintext
     }
 
     /// <summary>

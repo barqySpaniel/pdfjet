@@ -25,8 +25,8 @@ internal sealed class Owner {
 }
 
 public class PDFEncryption {
+    internal readonly byte[] fileEncryptionKey;
     private readonly int objNumber;
-    private readonly byte[] fileEncryptionKey;
     private readonly SHA256 sha256;
     private readonly SHA384 sha384;
     private readonly SHA512 sha512;
