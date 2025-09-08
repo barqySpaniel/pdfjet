@@ -16,8 +16,17 @@ public class Example_46 {
         var passwords = new Passwords();
         passwords.SetUserPassword("hello");
         passwords.SetOwnerPassword("world");
+
         var permissions = new AccessPermissions();
-        pdf.SetEncryption(new PDFEncryption(pdf, passwords));
+        permissions.SetPermissions(
+            UserAccessPermissions.Print |
+            UserAccessPermissions.ModifyContents |
+            UserAccessPermissions.CopyContents |
+            UserAccessPermissions.AssembleDocument |
+            UserAccessPermissions.PrintHighQuality,
+            true);
+
+        pdf.SetEncryption(new PDFEncryption(pdf, passwords, permissions));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
         f1.SetSize(36f);

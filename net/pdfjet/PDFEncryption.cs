@@ -38,7 +38,7 @@ public class PDFEncryption {
     /// <param name="pdf">The parent PDF document.</param>
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
-    public PDFEncryption(PDF pdf, Passwords passwords) {
+    public PDFEncryption(PDF pdf, Passwords passwords, AccessPermissions permissions) {
         // === Generate a random 256-bit (32-byte) File Encryption Key ===
         this.fileEncryptionKey = new byte[32]; // 32 bytes for AES-256
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
