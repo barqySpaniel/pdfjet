@@ -49,30 +49,6 @@ public class AES {
     }
 
     /// <summary>
-    /// Encrypts data using AES-256-CBC encryption with PKCS #5 padding.
-    /// </summary>
-    /// <param name="data">The data to encrypt</param>
-    /// <param name="key">256-bit (32-byte) encryption key</param>
-    /// <returns>Encrypted ciphertext along with the initialization vector (IV) used for encryption</returns>
-//    internal static EncryptedDataWithIV EncryptAes256(byte[] data, byte[] key) {
-//        if (data == null || data.Length == 0) {
-//            throw new ArgumentException("The data cannot be empty for encryption.", nameof(data));
-//        }
-//        if (key == null || key.Length != 32) { // 256 bits = 32 bytes
-//            throw new ArgumentException("Key must be 256 bits (32 bytes) long.", nameof(key));
-//        }
-//
-//        // Generate a random 16-byte IV for AES-256
-//        byte[] iv = RandomNumberGenerator.GetBytes(16);
-//
-//        // Encrypt the data using AES-256-CBC
-//        byte[] encryptedData = Encrypt(data, key, iv);
-//
-//        // Return the encrypted data and the IV together in an EncryptedDataWithIV object
-//        return new EncryptedDataWithIV(encryptedData, iv);
-//    }
-
-    /// <summary>
     /// Encrypts <paramref name="data"/> with AES‑256‑CBC and PKCS#7 padding.
     /// </summary>
     /// <param name="data">Plain‑text to encrypt.</param>
@@ -115,7 +91,7 @@ public class AES {
     /// 32‑byte key (hash) used for AES‑256 encryption.
     /// </param>
     /// <returns>The encrypted 32‑byte File Encryption Key.</returns>
-    public static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] key) {
+    internal static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] key) {
         // Validate inputs (must be exactly 32 bytes)
         if (fileEncryptionKey == null || fileEncryptionKey.Length != 32)
             throw new ArgumentException("File Encryption Key must be 32 bytes long.", nameof(fileEncryptionKey));
@@ -140,46 +116,19 @@ public class AES {
 
         // Configure AES‑256‑CBC with PKCS#7 padding (PKCS#5 is a subset of PKCS#7)
         using var aes = Aes.Create();
-        aes.Key = key;                     // 256‑bit key
-        aes.IV = iv;                       // 128‑bit IV
+        aes.Key = key;                  // 32 bytes key (AES-256)
+        aes.IV = iv;                    // 16 bytes IV
         aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.PKCS7;   // PKCS#5 ≡ PKCS#7 for block sizes ≤ 8 bytes
+        aes.Padding = PaddingMode.PKCS7;
 
         using var ms = new MemoryStream();
         ms.Write(iv, 0, 16);
-        using var cs = new CryptoStream(ms, aes.CreateEncryptor(), CryptoStreamMode.Write);
+
+        using var encryptor = aes.CreateEncryptor();
+        using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
         cs.Write(data, 0, data.Length);
-        cs.FlushFinalBlock();              // finalize padding removal
-        return ms.ToArray();               // retrieve plaintext
-    }
-
-    /// <summary>
-    /// Decrypts AES‑256‑CBC data that was padded with PKCS#5/PKCS#7.
-    /// </summary>
-    /// <param name="ciphertext">The encrypted byte array.</param>
-    /// <param name="key">
-    /// 32‑byte (256‑bit) decryption key. Must match the key used for encryption.
-    /// </param>
-    /// <param name="iv">
-    /// 16‑byte (128‑bit) initialization vector. Must match the IV used for encryption.
-    /// </param>
-    /// <returns>The plaintext bytes.</returns>
-    private static byte[] Decrypt(byte[] ciphertext, byte[] key, byte[] iv) {
-        // Configure AES‑256‑CBC with PKCS#7 padding (PKCS#5 is a subset of PKCS#7)
-        using var aes = Aes.Create();
-        aes.Key = key;                     // 256‑bit key
-        aes.IV = iv;                       // 128‑bit IV
-        aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.PKCS7;   // PKCS#5 ≡ PKCS#7 for block sizes ≤ 8 bytes
-
-        // Stream‑based decryption: write ciphertext into a CryptoStream,
-        // which writes the decrypted bytes into a MemoryStream.
-        using var ms = new MemoryStream();
-        using var cs = new CryptoStream(ms, aes.CreateDecryptor(), CryptoStreamMode.Write);
-        cs.Write(ciphertext, 0, ciphertext.Length);
-        cs.FlushFinalBlock();              // finalize padding removal
-
-        return ms.ToArray();               // retrieve plaintext
+        cs.FlushFinalBlock();
+        return ms.ToArray();
     }
 }
 }   // End of namespace PDFjet.NET
