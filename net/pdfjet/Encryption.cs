@@ -24,7 +24,7 @@ internal sealed class Owner {
     }
 }
 
-public class PDFEncryption {
+public class Encryption {
     private readonly byte[] fileEncryptionKey;
     private readonly int objNumber;
     private readonly SHA256 sha256;
@@ -38,7 +38,7 @@ public class PDFEncryption {
     /// <param name="pdf">The parent PDF document.</param>
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
-    public PDFEncryption(PDF pdf, Passwords passwords, AccessPermissions permissions) {
+    public Encryption(PDF pdf, Passwords passwords, AccessPermissions permissions) {
         // === Generate a random 256-bit (32-byte) File Encryption Key ===
         this.fileEncryptionKey = new byte[32]; // 32 bytes for AES-256
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
@@ -116,26 +116,26 @@ public class PDFEncryption {
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
         byte[] perms = new byte[16];    // TODO: Fill in the perms array
-        perms[0] = '?';
-        perms[1] = '?';
-        perms[2] = '?';
-        perms[3] = '?';
-        perms[4] = '?';
-        perms[5] = '?';
-        perms[6] = '?';
-        perms[7] = '?';
+        perms[0] = (byte) '?';
+        perms[1] = (byte) '?';
+        perms[2] = (byte) '?';
+        perms[3] = (byte) '?';
+        perms[4] = (byte) '?';
+        perms[5] = (byte) '?';
+        perms[6] = (byte) '?';
+        perms[7] = (byte) '?';
 
-        perms[8]  = 'F';    // for EncryptMetadata false and 'T' for true
-        perms[9]  = 'a';
-        perms[10] = 'd';
-        perms[11] = 'b';
-        perms[12] = '-';
-        perms[13] = '-';
-        perms[14] = '-';
-        perms[15] = '-';
+        perms[8]  = (byte) 'F';    // for EncryptMetadata false and 'T' for true
+        perms[9]  = (byte) 'a';
+        perms[10] = (byte) 'd';
+        perms[11] = (byte) 'b';
+        perms[12] = (byte) '-';
+        perms[13] = (byte) '-';
+        perms[14] = (byte) '-';
+        perms[15] = (byte) '-';
 
         pdf.Append("/Perms <");
-        pdf.Append(AES.EncryptAes256(perms, GetKey()));
+        // pdf.Append(AES.EncryptAes256(ToHexByteArray(perms), GetKey()));
         pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);
@@ -256,6 +256,16 @@ public class PDFEncryption {
         return new string(hex);
     }
 
+//    private byte[] ToHexByteArray(byte[] bytes) {
+//        char[] hex = new char[bytes.Length * 2];
+//        const string HEX_CHARS = "0123456789abcdef";
+//        for (int i = 0; i < bytes.Length; i++) {
+//            hex[i * 2]     = HEX_CHARS[bytes[i] >> 4];
+//            hex[i * 2 + 1] = HEX_CHARS[bytes[i] & 0x0F];
+//        }
+//        return hex;
+//    }
+
     // 7.6.4.4.7
     // Algorithm 8: Computing the encryption dictionary’s U (user password) and
     // UE (user encryption) values (Security handlers of revision 6)
@@ -284,7 +294,7 @@ public class PDFEncryption {
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
 
         hash = ComputeHash(userPasswordBytes, userKeySalt, new byte[] {});
-        byte[] UE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
+        byte[] UE = AES.EncryptWithZeroIV(fileEncryptionKey, hash);
 
         return new User(U, UE);
     }
@@ -319,7 +329,7 @@ public class PDFEncryption {
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
         hash = ComputeHash(ownerPasswordBytes, ownerKeySalt, U);
-        byte[] OE = AES.EncryptKeyWithZeroIV(fileEncryptionKey, hash);
+        byte[] OE = AES.EncryptWithZeroIV(fileEncryptionKey, hash);
 
         return new Owner(O, OE);
     }

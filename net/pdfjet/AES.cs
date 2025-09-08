@@ -50,7 +50,7 @@ public class AES {
     /// 32‑byte key (hash) used for AES‑256 encryption.
     /// </param>
     /// <returns>The encrypted 32‑byte File Encryption Key.</returns>
-    internal static byte[] EncryptKeyWithZeroIV(byte[] fileEncryptionKey, byte[] key) {
+    internal static byte[] EncryptWithZeroIV(byte[] fileEncryptionKey, byte[] key) {
         // Validate inputs (must be exactly 32 bytes)
         if (fileEncryptionKey == null || fileEncryptionKey.Length != 32)
             throw new ArgumentException("File Encryption Key must be 32 bytes long.", nameof(fileEncryptionKey));
