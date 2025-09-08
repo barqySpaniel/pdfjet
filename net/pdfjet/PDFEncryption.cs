@@ -116,6 +116,24 @@ public class PDFEncryption {
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
         byte[] perms = new byte[16];    // TODO: Fill in the perms array
+        perms[0] = '?';
+        perms[1] = '?';
+        perms[2] = '?';
+        perms[3] = '?';
+        perms[4] = '?';
+        perms[5] = '?';
+        perms[6] = '?';
+        perms[7] = '?';
+
+        perms[8]  = 'F';    // for EncryptMetadata false and 'T' for true
+        perms[9]  = 'a';
+        perms[10] = 'd';
+        perms[11] = 'b';
+        perms[12] = '-';
+        perms[13] = '-';
+        perms[14] = '-';
+        perms[15] = '-';
+
         pdf.Append("/Perms <");
         pdf.Append(AES.EncryptAes256(perms, GetKey()));
         pdf.Append(">\n");
