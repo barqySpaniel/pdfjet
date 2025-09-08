@@ -48,7 +48,7 @@ public class PDF {
     private List<String> importedFonts = new List<String>();
     private String extGState = "";
     private Page prevPage = null;
-    private bool contentStreamsCompression = true;
+    private bool contentStreamsCompression = false;
     private Encryption.Encryption encryption = null;
 
     /**
@@ -811,14 +811,22 @@ public class PDF {
             EndObj();
             page.contents.Add(GetObjNumber());
         } else {    // No compression. Used for diagnostics
+            byte[] buf1 = page.buf.ToArray();
+            byte[] buf2 = null;
+            if (encryption != null) {
+                buf2 = Encryption.AES256.Encrypt(buf1, encryption.GetKey());
+            } else {
+                buf2 = buf1;
+            }
+
             NewObj();
             Append(Token.BeginDictionary);
             Append("/Length ");
-            Append(page.buf.Length);
+            Append(buf2.Length);
             Append(Token.Newline);
             Append(Token.EndDictionary);
             Append(Token.Stream);
-            Append(page.buf);
+            Append(buf2);
             Append(Token.EndStream);
             EndObj();
             page.buf = null;    // Release the page content memory!

@@ -50,18 +50,15 @@ public class AES256 {
     /// <param name="key">The 32-byte encryption key for AES-256.</param>
     /// <returns>A byte array containing the IV prepended to the AES-256-CBC encrypted data.</returns>
     internal static byte[] Encrypt(byte[] data, byte[] key) {
-        // Generate a random 16-byte IV for AES-256
-        byte[] iv = RandomNumberGenerator.GetBytes(16);
-
         // Configure AES‑256‑CBC with PKCS#7 padding (PKCS#5 is a subset of PKCS#7)
         using var aes = Aes.Create();
         aes.Key = key;                  // 32 bytes key (AES-256)
-        aes.IV = iv;                    // 16 bytes IV
         aes.Mode = CipherMode.CBC;
         aes.Padding = PaddingMode.PKCS7;
+        aes.GenerateIV();               // !!! Generate a random IV here !!!
 
         using var ms = new MemoryStream();
-        ms.Write(iv, 0, 16);
+        ms.Write(aes.IV, 0, 16);
 
         using var encryptor = aes.CreateEncryptor();
         using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
