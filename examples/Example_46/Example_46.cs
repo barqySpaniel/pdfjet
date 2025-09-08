@@ -12,7 +12,12 @@ public class Example_46 {
         PDF pdf = new PDF(new BufferedStream(
             new FileStream("Example_46.pdf", FileMode.Create)));
         // pdf.SetCompliance(Compliance.PDF_UA_1);
-        pdf.SetEncryption(new PDFEncryption(pdf, "hello", "world"));
+
+        var passwords = new Passwords();
+        passwords.SetUserPassword("hello");
+        passwords.SetOwnerPassword("world");
+        var permissions = new AccessPermissions();
+        pdf.SetEncryption(new PDFEncryption(pdf, passwords));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
         f1.SetSize(36f);
