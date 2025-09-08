@@ -6,15 +6,6 @@ using System.Numerics;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-internal sealed class EncryptedDataWithIV {
-    public byte[] encryptedData;    // The actual encrypted data
-    public byte[] iv;               // Initialization vector (IV) used during encryption
-    public EncryptedDataWithIV(byte[] encryptedData, byte[] iv) {
-        this.encryptedData = encryptedData;
-        this.iv = iv;
-    }
-}
-
 public class AES {
     /// <summary>
     /// Encrypts <paramref name="K1"/> with AES‑128‑CBC, **no padding**.
@@ -46,38 +37,6 @@ public class AES {
         // TransformFinalBlock allocates the output array for us.
         using var encryptor = aes.CreateEncryptor();
         return encryptor.TransformFinalBlock(K1, 0, K1.Length);
-    }
-
-    /// <summary>
-    /// Encrypts <paramref name="data"/> with AES‑256‑CBC and PKCS#7 padding.
-    /// </summary>
-    /// <param name="data">Plain‑text to encrypt.</param>
-    /// <param name="key">
-    /// 32‑byte (256‑bit) encryption key. The method will throw exception if the length is not 32.
-    /// </param>
-    /// <param name="iv">
-    /// 16‑byte (128‑bit) initialization vector. The method will throw if the length is not 16.
-    /// </param>
-    /// <returns>Cipher‑text.</returns>
-    /// <exception cref="ArgumentException">Invalid key or IV length.</exception>
-    private static byte[] Encrypt(byte[] data, byte[] key, byte[] iv) {
-        // ----- basic argument validation -------------------------------------------------
-        if (key == null || key.Length != 32)
-            throw new ArgumentException("Key must be exactly 32 bytes (AES‑256).", nameof(key));
-
-        if (iv == null || iv.Length != 16)
-            throw new ArgumentException("IV must be exactly 16 bytes.", nameof(iv));
-
-        // ----- configure AES -------------------------------------------------------------
-        using var aes = Aes.Create();       // defaults: CBC, PKCS7, 256‑bit key
-        aes.Key = key;                      // automatically sets KeySize = 256
-        aes.IV = iv;
-        aes.Mode = CipherMode.CBC;
-        aes.Padding = PaddingMode.PKCS7;    // PKCS#5 ≡ PKCS#7 for AES block size
-
-        // ----- encrypt in one shot (no streams needed) ---------------------------------
-        using var encryptor = aes.CreateEncryptor();
-        return encryptor.TransformFinalBlock(data, 0, data.Length);
     }
 
     /// <summary>
