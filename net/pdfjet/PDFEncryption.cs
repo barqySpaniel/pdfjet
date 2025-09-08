@@ -33,7 +33,7 @@ public class PDFEncryption {
     private MemoryStream stream;
 
     /// <summary>
-    /// Creates a new AES-128 encryption dictionary and adds it to the PDF.
+    /// Creates a new encryption dictionary and adds it to the PDF.
     /// </summary>
     /// <param name="pdf">The parent PDF document.</param>
     /// <param name="userPassword">The user password string.</param>
@@ -45,10 +45,10 @@ public class PDFEncryption {
             rng.GetBytes(this.fileEncryptionKey); // Fills the array with cryptographically strong random bytes
         }
 
+        stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
         sha256 = SHA256.Create();
         sha384 = SHA384.Create();
         sha512 = SHA512.Create();
-        stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
 
         String userPassword = passwords.GetUserPassword();
         if (userPassword.Length > 127) {
@@ -104,15 +104,19 @@ public class PDFEncryption {
         pdf.Append(ToHex(owner.OE));
         pdf.Append(">\n");
 
+        pdf.Append("/EncryptMetadata false\n");
+
         // A set of flags specifying which operations shall be permitted
         // when the document is opened with user access (see "Table 22 — User access permissions").
-        pdf.Append("/P -3904\n");
+        pdf.Append("/P -");
+        pdf.Append(permissions.RawValue);
+        pdf.Append("\n");
 
+        // TODO:
         // A 16-byte string, encrypted with the file encryption key,
         // that contains an encrypted copy of the permissions flags.
         // For more information, see 7.6.4.4, "Password algorithms".
-        pdf.Append("/Perms <065497aaca85a677d5669f0cb68f2cd7>\n");    // TODO:
-        pdf.Append("/EncryptMetadata false\n");
+        pdf.Append("/Perms <065497aaca85a677d5669f0cb68f2cd7>\n");
 
         pdf.Append(Token.EndDictionary);
         pdf.EndObj();
