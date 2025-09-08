@@ -133,24 +133,18 @@ public class PDFEncryption {
     }
 
     /// <summary>
-    /// Computes a hash value based on the provided password and an optional user key.
-    /// This method performs the core algorithm for key derivation, iterating 64 times (or more)
-    /// to generate a 32-byte hash as a final output. The input password is combined with the SHA-256
-    /// hash of the password and the user password hash (if provided) to create a complex keying material.
+    /// Computes a hash value based on the provided password, salt and an user key U.
     /// </summary>
     /// <param name="password">
-    /// The password input (either user or owner password) to be hashed.
+    /// The password (either user or owner password) to be hashed.
     /// </param>
     /// <param name="U">
-    /// The 48-byte hash of the user password, required for verifying or creating the owner key.
-    /// This is `null` when hashing the user password.
+    /// The 48-byte user key, required for verifying or creating the owner key.
+    /// Provide an empty byte array when hashing the user password.
     /// </param>
     /// <returns>
-    /// Returns a 32-byte hash value derived from the input password and the optional user password hash.
+    /// Returns a 32-byte hash value derived from the password, salt and user key U.
     /// </returns>
-    /// <exception cref="ArgumentException">
-    /// Thrown if the `U` is not exactly 48 bytes long when provided.
-    /// </exception>
     private byte[] ComputeHash(
             byte[] password,
             byte[] salt,
