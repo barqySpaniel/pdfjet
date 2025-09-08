@@ -38,7 +38,7 @@ public class PDFEncryption {
     /// <param name="pdf">The parent PDF document.</param>
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
-    public PDFEncryption(PDF pdf, string userPassword, string ownerPassword) {
+    public PDFEncryption(PDF pdf, Passwords passwords) {
         // === Generate a random 256-bit (32-byte) File Encryption Key ===
         this.fileEncryptionKey = new byte[32]; // 32 bytes for AES-256
         using (RandomNumberGenerator rng = RandomNumberGenerator.Create()) {
@@ -50,9 +50,11 @@ public class PDFEncryption {
         sha512 = SHA512.Create();
         stream = new MemoryStream((int) Math.Pow(2, 15));  // 32 KB buffer
 
+        String userPassword = passwords.GetUserPassword();
         if (userPassword.Length > 127) {
             userPassword = userPassword.Substring(0, 127);
         }
+        String ownerPassword = passwords.GetOwnerPassword();
         if (ownerPassword.Length > 127) {
             ownerPassword = ownerPassword.Substring(0, 127);
         }
