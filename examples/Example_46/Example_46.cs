@@ -17,13 +17,13 @@ public class Example_46 {
         passwords.SetUserPassword("hello");
         passwords.SetOwnerPassword("world");
 
-        var permissions = new AccessPermissions();
+        var permissions = new Permissions();
         permissions.SetPermissions(
-            UserAccessPermissions.Print |               // Set both to allow the user to print
-            UserAccessPermissions.PrintHighQuality |    // this document with high quality
-            UserAccessPermissions.ModifyContents |
-            UserAccessPermissions.CopyContents |
-            UserAccessPermissions.AssembleDocument,
+            UserAccess.Print |               // Set both to allow the user to print
+            UserAccess.PrintHighQuality |    // this document with high quality
+            UserAccess.ModifyContents |
+            UserAccess.CopyContents |
+            UserAccess.AssembleDocument,
             true);
 
         pdf.SetEncryption(new Encryption(pdf, passwords, permissions));
