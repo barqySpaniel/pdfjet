@@ -48,7 +48,7 @@ public class PDF {
     private List<String> importedFonts = new List<String>();
     private String extGState = "";
     private Page prevPage = null;
-    private bool contentStreamsCompression = false;
+    private bool contentStreamsCompression = true;
     private Encryption.Encryption encryption = null;
 
     /**
