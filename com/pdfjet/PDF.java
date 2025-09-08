@@ -30,12 +30,12 @@ final public class PDF {
     private final Map<String, Destination> destinations = new HashMap<String, Destination>();
     private OutputStream os = null;
     private final List<Integer> objOffset = new ArrayList<Integer>();
-    private String title = "";
-    private String author = "";
-    private String subject = "";
-    private String keywords = "";
     private final String producer = "PDFjet v8.5.0";
-    private String creator = producer;
+    private String title;
+    private String author;
+    private String subject;
+    private String keywords;
+    private String creator;
     private String createDate;      // XMP metadata
     private String creationDate;    // PDF Info Object
     private Integer byteCount = (Integer) 0;
@@ -199,29 +199,35 @@ final public class PDF {
             sb.append(producer);
             sb.append("</pdf:Producer>\n");
 
-            sb.append("  <pdf:Keywords>");
-            sb.append(keywords);
-            sb.append("</pdf:Keywords>\n");
+            if (title != null) {
+                sb.append("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">");
+                sb.append(title);
+                sb.append("</rdf:li></rdf:Alt></dc:title>\n");
+            }
 
-            sb.append("  <dc:title>\n");
-            sb.append("    <rdf:Alt>\n");
-            sb.append("      <rdf:li xml:lang=\"x-default\">");
-            sb.append(title);
-            sb.append("</rdf:li>\n");
-            sb.append("    </rdf:Alt>\n");
-            sb.append("  </dc:title>\n");
+            if (author != null) {
+                sb.append("  <dc:creator><rdf:Seq><rdf:li>");
+                sb.append(author);
+                sb.append("</rdf:li></rdf:Seq></dc:creator>\n");
+            }
 
-            sb.append("  <dc:creator><rdf:Seq><rdf:li>");
-            sb.append(author);
-            sb.append("</rdf:li></rdf:Seq></dc:creator>\n");
+            if (subject != null) {
+                sb.append("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">");
+                sb.append(subject);
+                sb.append("</rdf:li></rdf:Alt></dc:description>\n");
+            }
 
-            sb.append("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">");
-            sb.append(subject);
-            sb.append("</rdf:li></rdf:Alt></dc:description>\n");
+            if (keywords != null) {
+                sb.append("  <pdf:Keywords>");
+                sb.append(keywords);
+                sb.append("</pdf:Keywords>\n");
+            }
 
-            sb.append("  <xmp:CreatorTool>");
-            sb.append(creator);
-            sb.append("</xmp:CreatorTool>\n");
+            if (creator != null) {
+                sb.append("  <xmp:CreatorTool>");
+                sb.append(creator);
+                sb.append("</xmp:CreatorTool>\n");
+            }
 
             sb.append("  <xmp:CreateDate>");
             sb.append(createDate + "-05:00");       // Append the time zone.
@@ -937,7 +943,8 @@ final public class PDF {
             }
         }
 
-        int infoObjNumber = addInfoObject();
+        // TODO:
+        // int infoObjNumber = addInfoObject();
         int rootObjNumber = addRootObject(structTreeRootObjNumber, outlineDictNum);
 
         int startxref = byteCount;
@@ -968,9 +975,10 @@ final public class PDF {
         append(uuid);
         append(">]\n");
 
-        append("/Info ");
-        append(infoObjNumber);
-        append(" 0 R\n");
+// TODO:
+//         append("/Info ");
+//         append(infoObjNumber);
+//         append(" 0 R\n");
 
         append("/Root ");
         append(rootObjNumber);

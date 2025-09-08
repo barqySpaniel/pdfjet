@@ -181,31 +181,31 @@ public class PDF {
             sb.Append(producer);
             sb.Append("</pdf:Producer>\n");
 
-            if (!String.IsNullOrEmpty(title)) {
+            if (title != null) {
                 sb.Append("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">");
                 sb.Append(title);
                 sb.Append("</rdf:li></rdf:Alt></dc:title>\n");
             }
 
-            if (!String.IsNullOrEmpty(author)) {
+            if (author != null) {
                 sb.Append("  <dc:creator><rdf:Seq><rdf:li>");
                 sb.Append(author);
                 sb.Append("</rdf:li></rdf:Seq></dc:creator>\n");
             }
 
-            if (!String.IsNullOrEmpty(subject)) {
+            if (subject != null) {
                 sb.Append("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">");
                 sb.Append(subject);
                 sb.Append("</rdf:li></rdf:Alt></dc:description>\n");
             }
 
-            if (!String.IsNullOrEmpty(keywords)) {
+            if (keywords != null) {
                 sb.Append("  <pdf:Keywords>");
                 sb.Append(keywords);
                 sb.Append("</pdf:Keywords>\n");
             }
 
-            if (!String.IsNullOrEmpty(creator)) {
+            if (creator != null) {
                 sb.Append("  <xmp:CreatorTool>");
                 sb.Append(creator);
                 sb.Append("</xmp:CreatorTool>\n");
