@@ -19,7 +19,6 @@ public class AES256 {
     /// </param>
     /// <returns>The encrypted 32‑byte File Encryption Key.</returns>
     internal static byte[] EncryptWithZeroIV(byte[] fileEncryptionKey, byte[] key) {
-        // Validate inputs (must be exactly 32 bytes)
         if (fileEncryptionKey == null || fileEncryptionKey.Length != 32)
             throw new ArgumentException("File Encryption Key must be 32 bytes long.", nameof(fileEncryptionKey));
         if (key == null || key.Length != 32)
@@ -27,8 +26,8 @@ public class AES256 {
 
         // Set up AES‑256 with a zero IV and no padding
         using var aes = Aes.Create();
-        aes.Key = key;                 // 256‑bit key
-        aes.IV = new byte[16];         // all‑zero IV
+        aes.Key = key;                 // 32 bytes key (AES-256)
+        aes.IV = new byte[16];         // 16 bytes all‑zero IV
         aes.Mode = CipherMode.CBC;
         aes.Padding = PaddingMode.None;
 
@@ -37,6 +36,13 @@ public class AES256 {
         return encryptor.TransformFinalBlock(fileEncryptionKey, 0, fileEncryptionKey.Length);
     }
 
+    /// <summary>
+    /// Encrypts the provided data using AES-256 in CBC mode with a randomly generated IV.
+    /// The resulting byte array is structured as: [16-byte IV][encrypted data].
+    /// </summary>
+    /// <param name="data">The data to be encrypted.</param>
+    /// <param name="key">The 32-byte encryption key for AES-256.</param>
+    /// <returns>A byte array containing the IV prepended to the AES-256-CBC encrypted data.</returns>
     internal static byte[] Encrypt(byte[] data, byte[] key) {
         // Generate a random 16-byte IV for AES-256
         byte[] iv = RandomNumberGenerator.GetBytes(16);
