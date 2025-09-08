@@ -10,30 +10,30 @@ using System.Text;
 
 namespace PDFjet.NET {
 public class OTF {
-    public String fontName;
-    public String fontInfo;
-    public readonly MemoryStream baos;
-    public readonly byte[] buf;
-    public int unitsPerEm;
-    public short bBoxLLx;
-    public short bBoxLLy;
-    public short bBoxURx;
-    public short bBoxURy;
-    public short ascent;
-    public short descent;
-    public int firstChar;
-    public int lastChar;
-    public int capHeight;
-    public long postVersion;
-    public long italicAngle;
-    public short underlinePosition;
-    public short underlineThickness;
-    public int[] advanceWidth;
-    public readonly int[] unicodeToGID = new int[0x10000];
+    internal String fontName;
+    internal String fontInfo;
+    internal readonly byte[] buf;
+    internal readonly byte[] compressed;
+    internal int unitsPerEm;
+    internal short bBoxLLx;
+    internal short bBoxLLy;
+    internal short bBoxURx;
+    internal short bBoxURy;
+    internal short ascent;
+    internal short descent;
+    internal int firstChar;
+    internal int lastChar;
+    internal int capHeight;
+    internal long postVersion;
+    internal long italicAngle;
+    internal short underlinePosition;
+    internal short underlineThickness;
+    internal int[] advanceWidth;
+    internal readonly int[] unicodeToGID = new int[0x10000];
+    internal bool cff = false;
 
-    public bool cff = false;
-    public int cffOff;
-    public int cffLen;
+    private int cffOff;
+    private int cffLen;
     private int index = 0;
 
     public OTF(Stream stream) {
@@ -82,12 +82,10 @@ public class OTF {
         // This table must be processed last
         Cmap(cmapTable);
 
-        baos = new MemoryStream();
-        DeflaterOutputStream dos = new DeflaterOutputStream(baos);
         if (cff) {
-            dos.Write(buf, cffOff, cffLen);
+            compressed = Compressor.Deflate(buf, cffOff, cffLen);
         } else {
-            dos.Write(buf, 0, buf.Length);
+            compressed = Compressor.Deflate(buf);
         }
     }
 

@@ -19,7 +19,8 @@ public class Example_10 {
         Image image1 = new Image(pdf, "images/sz-map.png");
 
         // Font f1 = new Font(pdf, IBMPlexSans.Regular);
-        Font f1 = new Font(pdf, CoreFont.HELVETICA);
+        // Font f1 = new Font(pdf, CoreFont.HELVETICA);
+        Font f1 = new Font(pdf, "data/SourceSansPro-Regular.otf"); // Used for testing OTF CFF support
         f1.SetSize(11f);
 
         Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);

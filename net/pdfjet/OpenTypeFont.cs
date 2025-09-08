@@ -77,7 +77,7 @@ class OpenTypeFont {
         pdf.Append("/Filter /FlateDecode\n");
 
         pdf.Append("/Length ");
-        pdf.Append(otf.baos.Length);
+        pdf.Append(otf.compressed.Length);
         pdf.Append("\n");
 
         if (!otf.cff) {
@@ -94,7 +94,7 @@ class OpenTypeFont {
 
         pdf.Append(">>\n");
         pdf.Append("stream\n");
-        pdf.Append(otf.baos);
+        pdf.Append(otf.compressed);
         pdf.Append("\nendstream\n");
         pdf.EndObj();
 
