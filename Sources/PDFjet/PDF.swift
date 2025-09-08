@@ -27,11 +27,11 @@ public class PDF {
     private var outputIntentObjNumber = 0
     private var os: BufferedOutputStream?
     private var objOffset = [Int]()
-    private var title: String = ""
-    private var author: String = ""
-    private var subject: String = ""
-    private var keywords: String = ""
     private var producer = "PDFjet v8.5.0"
+    private var title: String?
+    private var author: String?
+    private var subject: String?
+    private var keywords: String?
     private var creator: String?
     private var createDate: String?
     private var creationDate: String?
@@ -100,7 +100,6 @@ public class PDF {
         os.open()
         self.os = BufferedOutputStream(os)
         self.compliance = compliance
-        self.creator = self.producer
 
         let date = Date()
         let dateFormatter1 = DateFormatter()
@@ -192,25 +191,35 @@ public class PDF {
             sb.append(producer);
             sb.append("</pdf:Producer>\n");
 
-            sb.append("  <pdf:Keywords>");
-            sb.append(keywords);
-            sb.append("</pdf:Keywords>\n");
+            if title != nil {
+                sb.append("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">");
+                sb.append(title!);
+                sb.append("</rdf:li></rdf:Alt></dc:title>\n");
+            }
 
-            sb.append("  <dc:title><rdf:Alt><rdf:li xml:lang=\"x-default\">");
-            sb.append(title);
-            sb.append("</rdf:li></rdf:Alt></dc:title>\n");
+            if author != nil {
+                sb.append("  <dc:creator><rdf:Seq><rdf:li>");
+                sb.append(author!);
+                sb.append("</rdf:li></rdf:Seq></dc:creator>\n");
+            }
 
-            sb.append("  <dc:creator><rdf:Seq><rdf:li>");
-            sb.append(author);
-            sb.append("</rdf:li></rdf:Seq></dc:creator>\n");
+            if subject != nil {
+                sb.append("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">");
+                sb.append(subject!);
+                sb.append("</rdf:li></rdf:Alt></dc:description>\n");
+            }
 
-            sb.append("  <dc:description><rdf:Alt><rdf:li xml:lang=\"x-default\">");
-            sb.append(subject);
-            sb.append("</rdf:li></rdf:Alt></dc:description>\n");
+            if keywords != nil {
+                sb.append("  <pdf:Keywords>");
+                sb.append(keywords!);
+                sb.append("</pdf:Keywords>\n");
+            }
 
-            sb.append("  <xmp:CreatorTool>");
-            sb.append(creator!);
-            sb.append("</xmp:CreatorTool>\n");
+            if creator != nil {
+                sb.append("  <xmp:CreatorTool>");
+                sb.append(creator!);
+                sb.append("</xmp:CreatorTool>\n");
+            }
 
             sb.append("  <xmp:CreateDate>");
             sb.append(createDate! + "-05:00");      // Append the time zone.
@@ -387,21 +396,23 @@ public class PDF {
         // Add the info object
         newobj()
         append(Token.beginDictionary)
-        append("/Title (")
-        append(title)
-        append(")\n")
-        append("/Author (")
-        append(author)
-        append(")\n")
-        append("/Subject (")
-        append(subject)
-        append(")\n")
         append("/Producer (")
         append(producer)
+        append(")\n")
+
+        append("/Title (")
+        append(title!)
+        append(")\n")
+        append("/Author (")
+        append(author!)
+        append(")\n")
+        append("/Subject (")
+        append(subject!)
         append(")\n")
         append("/Creator (")
         append(creator!)
         append(")\n")
+
         append("/CreationDate (D:")
         append(self.creationDate!)
         append("-05'00')\n");
@@ -896,7 +907,9 @@ public class PDF {
                 i += 1
             }
         }
-        let infoObjNumber = addInfoObject()
+
+// TODO:
+//        let infoObjNumber = addInfoObject()
         let rootObjNumber = addRootObject(structTreeRootObjNumber, outlineDictNum)
 
         let startxref = byteCount
@@ -928,9 +941,10 @@ public class PDF {
         append(uuid)
         append(">]\n")
 
-        append("/Info ")
-        append(infoObjNumber)
-        append(Token.objRef)
+// TODO:
+//        append("/Info ")
+//        append(infoObjNumber)
+//        append(Token.objRef)
 
         append("/Root ")
         append(rootObjNumber)
