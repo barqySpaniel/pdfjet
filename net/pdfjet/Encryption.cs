@@ -135,7 +135,7 @@ public class Encryption {
         perms[15] = (byte) '-';
 
         pdf.Append("/Perms <");
-        pdf.Append(ToHex(AES256.EncryptAes256(perms, GetKey())));
+        pdf.Append(ToHex(AES256.Encrypt(perms, GetKey())));
         pdf.Append(">\n");
 
         pdf.Append(Token.EndDictionary);

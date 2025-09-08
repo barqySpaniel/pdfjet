@@ -69,7 +69,7 @@ public class AES256 {
         return encryptor.TransformFinalBlock(fileEncryptionKey, 0, fileEncryptionKey.Length);
     }
 
-    internal static byte[] EncryptAes256(byte[] data, byte[] key) {
+    internal static byte[] Encrypt(byte[] data, byte[] key) {
         // Generate a random 16-byte IV for AES-256
         byte[] iv = RandomNumberGenerator.GetBytes(16);
 
