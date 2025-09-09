@@ -143,7 +143,7 @@ public class PDF {
             sb.Append("<xmpRights:UsageTerms>\n");
             sb.Append("<rdf:Alt>\n");
             sb.Append("<rdf:li xml:lang=\"x-default\">\n");
-            sb.Append(Encoding.UTF8.GetBytes(notice));
+            sb.Append(notice);
             sb.Append("</rdf:li>\n");
             sb.Append("</rdf:Alt>\n");
             sb.Append("</xmpRights:UsageTerms>\n");
