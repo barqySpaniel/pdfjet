@@ -781,13 +781,19 @@ public class PDF {
         Append(Token.BeginDictionary);
         Append("/Type /Annot\n");
         if (annot.fileAttachment != null) {
+            byte[] title = Encoding.UTF8.GetBytes(annot.fileAttachment.title);
+            byte[] contents = Encoding.UTF8.GetBytes(annot.fileAttachment.contents);
+            if (encryption != null) {
+                title = Encryption.AES256.Encrypt(title, encryption.GetKey());
+                contents = Encryption.AES256.Encrypt(contents, encryption.GetKey());
+            }
             Append("/Subtype /FileAttachment\n");
-            Append("/T (");
-            Append(annot.fileAttachment.title);
-            Append(")\n");
-            Append("/Contents (");
-            Append(annot.fileAttachment.contents);
-            Append(")\n");
+            Append("/T <");
+            Append(FontStream1.ToHexString(title));
+            Append(">\n");
+            Append("/Contents <");
+            Append(FontStream1.ToHexString(contents));
+            Append(">\n");
             Append("/FS ");
             Append(annot.fileAttachment.embeddedFile.objNumber);
             Append(" 0 R\n");
@@ -811,9 +817,9 @@ public class PDF {
             Append("/F 4\n");
             Append("/A <<\n");
             Append("/S /URI\n");
-            Append("/URI (");
-            Append(annot.uri);
-            Append(")\n");
+            Append("/URI <");
+            Append(ToHex(annot.uri));
+            Append(">\n");
             Append(">>\n");
         } else if (annot.key != null) {
             Destination destination = destinations[annot.key];
