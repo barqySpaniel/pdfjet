@@ -27,8 +27,8 @@ public class Box : IDrawable {
     private String uri = null;
     private String key = null;
     private String language = null;
-    private String actualText = Single.space;
-    private String altDescription = Single.space;
+    private String actualText = null;
+    private String altDescription = null;
 
     /**
      *  The default constructor.
