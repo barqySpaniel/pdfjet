@@ -32,8 +32,8 @@ public class AES256 {
 
         // Set up AES‑256 with a zero IV and no padding
         using var aes = Aes.Create();
-        aes.Key = key;                 // 32 bytes key (AES-256)
-        aes.IV = new byte[16];         // 16 bytes all‑zero IV
+        aes.Key = key;                          // 32 bytes key (AES-256)
+        aes.IV = new byte[aes.BlockSize / 8];   // 16 bytes all‑zero IV
         aes.Mode = CipherMode.CBC;
         aes.Padding = PaddingMode.None;
 
@@ -58,7 +58,7 @@ public class AES256 {
         aes.GenerateIV();               // !!! Generate a random IV here !!!
 
         using var ms = new MemoryStream();
-        ms.Write(aes.IV, 0, 16);
+        ms.Write(aes.IV, 0, aes.IV.Length);
 
         using var encryptor = aes.CreateEncryptor();
         using var cs = new CryptoStream(ms, encryptor, CryptoStreamMode.Write);
@@ -71,8 +71,9 @@ public class AES256 {
     internal static byte[] EncryptECB(byte[] data, byte[] key) {
         using var aes = Aes.Create();
         aes.Key = key;
-        aes.Mode = CipherMode.ECB;      // Critical: Use ECB mode, not CBC
-        aes.Padding = PaddingMode.None; // Critical: No padding for this operation
+        aes.IV = new byte[aes.BlockSize / 8];   // 16 bytes all‑zero IV
+        aes.Mode = CipherMode.ECB;              // Critical: Use ECB mode, not CBC
+        aes.Padding = PaddingMode.None;         // Critical: No padding for this operation
 
         using var encryptor = aes.CreateEncryptor();
         return encryptor.TransformFinalBlock(data, 0, data.Length);

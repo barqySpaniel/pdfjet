@@ -176,6 +176,7 @@ public class Encryption {
         // Perform the following steps (a)-(d) 64 times or more:
         int round = 0;
         while (true) {
+            round++;    // !!! This appears not to match the specification, but it works !!!
             // a) Make a new string, K1, consisting of 64 repetitions of the sequence:
             //    password, K, U
             byte[] K1 = ComputeK1(password, K, U);
@@ -185,9 +186,9 @@ public class Encryption {
             //    16 bytes of K as the initialization vector.
             //    The result of this encryption is E.
             byte[] tempKey = new byte[16];
-            Buffer.BlockCopy(K, 0, tempKey, 0, 16);
+            Array.Copy(K, 0, tempKey, 0, 16);
             byte[] tempIV = new byte[16];
-            Buffer.BlockCopy(K, 16, tempIV, 0, 16);
+            Array.Copy(K, 16, tempIV, 0, 16);
             byte[] E = AES128.EncryptK1(K1, tempKey, tempIV); // Algorithm 2.B, Step (b)
 
             // --- Steps (c) & (d): Common to all rounds ---
@@ -208,12 +209,10 @@ public class Encryption {
             if (round >= 64 && E[E.Length - 1] <= (round - 32)) {
                 break;
             }
-
-            round++;
         }
 
         byte[] finalOutput = new byte[32];
-        Buffer.BlockCopy(K, 0, finalOutput, 0, 32);
+        Array.Copy(K, 0, finalOutput, 0, 32);
         return finalOutput;
     }
 
@@ -278,8 +277,8 @@ public class Encryption {
 
         byte[] userValidationSalt = new byte[8];
         byte[] userKeySalt = new byte[8];
-        Buffer.BlockCopy(randomBytes, 0, userValidationSalt, 0, 8);
-        Buffer.BlockCopy(randomBytes, 8, userKeySalt, 0, 8);
+        Array.Copy(randomBytes, 0, userValidationSalt, 0, 8);
+        Array.Copy(randomBytes, 8, userKeySalt, 0, 8);
 
         byte[] hash = ComputeHash(userPasswordBytes, userValidationSalt, new byte[] {});
         byte[] U = Concatenate(hash, userValidationSalt, userKeySalt);
@@ -313,8 +312,8 @@ public class Encryption {
 
         byte[] ownerValidationSalt = new byte[8];
         byte[] ownerKeySalt = new byte[8];
-        Buffer.BlockCopy(randomBytes, 0, ownerValidationSalt, 0, 8);
-        Buffer.BlockCopy(randomBytes, 8, ownerKeySalt, 0, 8);
+        Array.Copy(randomBytes, 0, ownerValidationSalt, 0, 8);
+        Array.Copy(randomBytes, 8, ownerKeySalt, 0, 8);
 
         byte[] hash = ComputeHash(ownerPasswordBytes, ownerValidationSalt, U);
         byte[] O = Concatenate(hash, ownerValidationSalt, ownerKeySalt);
@@ -330,13 +329,13 @@ public class Encryption {
         byte[] result = new byte[array1.Length + array2.Length + array3.Length];
 
         // Copy the first array into the result
-        Buffer.BlockCopy(array1, 0, result, 0, array1.Length);
+        Array.Copy(array1, 0, result, 0, array1.Length);
 
         // Copy the second array into the result, starting after the first array's data
-        Buffer.BlockCopy(array2, 0, result, array1.Length, array2.Length);
+        Array.Copy(array2, 0, result, array1.Length, array2.Length);
 
         // Copy the third array into the result, starting after the first array's data
-        Buffer.BlockCopy(array3, 0, result, array1.Length + array2.Length, array3.Length);
+        Array.Copy(array3, 0, result, array1.Length + array2.Length, array3.Length);
 
         return result;
     }
@@ -348,7 +347,7 @@ public class Encryption {
         // Step b: Get the 8 bytes of the permission in little-endian order
         byte[] permsBlock = new byte[16];
         byte[] permissionBytes = BitConverter.GetBytes(extendedPermissions);
-        Buffer.BlockCopy(permissionBytes, 0, permsBlock, 0, 8);
+        Array.Copy(permissionBytes, 0, permsBlock, 0, 8);
 
         // Bytes 8-15 remain 0 for now (will be filled with validation code)
         return permsBlock;
