@@ -29,6 +29,10 @@ public class EmbeddedFile {
             buf = Compressor.Deflate(buf);
         }
 
+        if (pdf.encryption != null) {
+            buf = Encryption.AES256.Encrypt(buf, pdf.encryption.GetKey());
+        }
+
         pdf.NewObj();
         pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /EmbeddedFile\n");
