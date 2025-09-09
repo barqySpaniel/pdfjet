@@ -23,6 +23,7 @@ public class PDF {
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
     internal Compliance compliance;
     internal Bookmark toc = null;
+    internal Encryption.Encryption encryption = null;
 
     private int metadataObjNumber = 0;
     private int outputIntentObjNumber = 0;
@@ -44,12 +45,10 @@ public class PDF {
     private String pageLayout = null;
     private String pageMode = null;
     private String language = "en-US";
-
     private List<String> importedFonts = new List<String>();
     private String extGState = "";
     private Page prevPage = null;
     private bool contentStreamsCompression = true;
-    private Encryption.Encryption encryption = null;
 
     /**
      * The default constructor - use when reading PDF files.
@@ -790,43 +789,37 @@ public class PDF {
 
     private void AddPageContent(Page page) {
         if (contentStreamsCompression) {
-            byte[] buf1 = Compressor.Deflate(page.buf.ToArray());
-            byte[] buf2 = null;
+            byte[] buf = Compressor.Deflate(page.buf.ToArray());
             if (encryption != null) {
-                buf2 = Encryption.AES256.Encrypt(buf1, encryption.GetKey());
-            } else {
-                buf2 = buf1;
+                buf = Encryption.AES256.Encrypt(buf, encryption.GetKey());
             }
 
             NewObj();
             Append(Token.BeginDictionary);
             Append("/Filter /FlateDecode\n");
             Append("/Length ");
-            Append(buf2.Length);
+            Append(buf.Length);
             Append(Token.Newline);
             Append(Token.EndDictionary);
             Append(Token.Stream);
-            Append(buf2);
+            Append(buf);
             Append(Token.EndStream);
             EndObj();
             page.contents.Add(GetObjNumber());
         } else {    // No compression. Used for diagnostics
-            byte[] buf1 = page.buf.ToArray();
-            byte[] buf2 = null;
+            byte[] buf = page.buf.ToArray();
             if (encryption != null) {
-                buf2 = Encryption.AES256.Encrypt(buf1, encryption.GetKey());
-            } else {
-                buf2 = buf1;
+                buf = Encryption.AES256.Encrypt(buf, encryption.GetKey());
             }
 
             NewObj();
             Append(Token.BeginDictionary);
             Append("/Length ");
-            Append(buf2.Length);
+            Append(buf.Length);
             Append(Token.Newline);
             Append(Token.EndDictionary);
             Append(Token.Stream);
-            Append(buf2);
+            Append(buf);
             Append(Token.EndStream);
             EndObj();
             page.buf = null;    // Release the page content memory!
