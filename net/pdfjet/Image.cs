@@ -462,12 +462,17 @@ public class Image : IDrawable {
             // If the image was created with Photoshop - invert the colors:
             pdf.Append("/Decode [1.0 0.0 1.0 0.0 1.0 0.0 1.0 0.0]\n");
         }
+
+        byte[] buf = data;
+        if (pdf.encryption != null) {
+            buf = Encryption.AES256.Encrypt(data, pdf.encryption.GetKey());
+        }
         pdf.Append("/Length ");
-        pdf.Append(data.Length);
+        pdf.Append(buf.Length);
         pdf.Append('\n');
         pdf.Append(">>\n");
         pdf.Append("stream\n");
-        pdf.Append(data, 0, data.Length);
+        pdf.Append(buf);
         pdf.Append("\nendstream\n");
         pdf.EndObj();
         pdf.images.Add(this);

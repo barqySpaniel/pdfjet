@@ -34,11 +34,17 @@ public class Example_46 {
         // Font f1 = new Font(pdf, "data/SourceSansPro-Regular.otf");
         f1.SetSize(36f);
 
+        Image image = new Image(pdf, "images/ee-map.png");
+
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         TextLine textLine = new TextLine(f1, "Hello, World!");
         textLine.SetLocation(100f, 100f);
         textLine.DrawOn(page);
+
+        image.SetLocation(100, 150);
+        image.ScaleBy(.5f);
+        image.DrawOn(page);
 
         pdf.Complete();
     }
