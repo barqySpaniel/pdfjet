@@ -36,6 +36,8 @@ public class Example_46 {
 
         Image image = new Image(pdf, "images/ee-map.png");
 
+        EmbeddedFile file1 = new EmbeddedFile(pdf, "images/linux-logo.png", Compress.NO);
+
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         TextLine textLine = new TextLine(f1, "Hello, World!");
@@ -45,6 +47,16 @@ public class Example_46 {
         image.SetLocation(100, 150);
         image.ScaleBy(.5f);
         image.DrawOn(page);
+
+        // File attachment functionality
+        FileAttachment attachment = new FileAttachment(pdf, file1);
+        attachment.SetLocation(100f, 550f);
+        attachment.SetIconPushPin();
+        attachment.SetIconSize(24f);
+        attachment.SetTitle("Attached File: " + file1.GetFileName());
+        attachment.SetDescription(
+                "Right mouse click on the icon to save the attached file.");
+        attachment.DrawOn(page);
 
         pdf.Complete();
     }
