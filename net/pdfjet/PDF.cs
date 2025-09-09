@@ -84,6 +84,10 @@ public class PDF {
     // xref table
     // Trailer
     public PDF(Stream os) {
+        SetOutputStream(os);
+    }
+
+    public void SetOutputStream(Stream os) {
         this.os = os;
 
         DateTime date = new DateTime(DateTime.Now.Ticks);
@@ -98,6 +102,10 @@ public class PDF {
         Append((byte) 0xF5);
         Append((byte) 0xF6);
         Append(Token.Newline);
+    }
+
+    public Stream GetOutputStream() {
+        return this.os;
     }
 
     public void SetCompliance(Compliance compliance) {
