@@ -902,6 +902,9 @@ public class PDF {
     }
 
     public void AddPage(Page page) {
+        if (page == null || page.buf == null) {
+            return;
+        }
         pages.Add(page);
         if (prevPage != null) {
             AddPageContent(prevPage);
