@@ -822,8 +822,12 @@ public class PDF {
             Append("/F 4\n");
             Append("/A <<\n");
             Append("/S /URI\n");
+            byte[] uri = Encoding.UTF8.GetBytes(annot.uri);
+            if (encryption != null) {
+                uri = Encryption.AES256.Encrypt(uri, encryption.GetKey());
+            }
             Append("/URI <");
-            Append(ToHex(annot.uri));
+            Append(Util.ToHexString(uri));
             Append(">\n");
             Append(">>\n");
         } else if (annot.key != null) {

@@ -6,6 +6,7 @@
  */
 using System;
 using System.IO;
+using System.Text;
 
 namespace PDFjet.NET {
 /**
@@ -51,9 +52,15 @@ public class EmbeddedFile {
         pdf.NewObj();
         pdf.Append(Token.BeginDictionary);
         pdf.Append("/Type /Filespec\n");
-        pdf.Append("/F (");
-        pdf.Append(fileName);
-        pdf.Append(")\n");
+
+        byte[] fileNameBytes = Encoding.UTF8.GetBytes(fileName);
+        if (pdf.encryption != null) {
+            fileNameBytes = Encryption.AES256.Encrypt(fileNameBytes, pdf.encryption.GetKey());
+        }
+        pdf.Append("/F <");
+        pdf.Append(Util.ToHexString(fileNameBytes));
+        pdf.Append(">\n");
+
         pdf.Append("/EF <</F ");
         pdf.Append(pdf.GetObjNumber() - 1);
         pdf.Append(" 0 R>>\n");
