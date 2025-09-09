@@ -211,12 +211,10 @@ class OpenTypeFont {
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Length ");
-        // pdf.Append(sb.Length);
         pdf.Append(buf2.Length);
         pdf.Append("\n");
         pdf.Append(">>\n");
         pdf.Append("stream\n");
-        // pdf.Append(sb.ToString());
         pdf.Append(buf2);
         pdf.Append("\nendstream\n");
         pdf.EndObj();
