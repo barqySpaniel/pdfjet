@@ -37,7 +37,6 @@ final public class PDF {
     private String keywords;
     private String creator;
     private String createDate;      // XMP metadata
-    private String creationDate;    // PDF Info Object
     private Integer byteCount = (Integer) 0;
     private int pagesObjNumber = 0;
     private String pageLayout = null;
@@ -88,7 +87,6 @@ final public class PDF {
     // ...
     // StructElemN
     // StructTreeRoot
-    // Info
     // Root
     // xref table
     // Trailer
@@ -106,12 +104,8 @@ final public class PDF {
         this.compliance = compliance;
 
         Date date = new Date();
-
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         createDate = sdf1.format(date);     // XMP metadata
-
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
-        creationDate = sdf2.format(date);   // PDF info object
 
         append("%PDF-1.7\n");
         append('%');
@@ -394,33 +388,6 @@ final public class PDF {
         append("/Count ");
         append(pages.size());
         append(Token.NEWLINE);
-        append(Token.END_DICTIONARY);
-        endobj();
-        return getObjNumber();
-    }
-
-    private int addInfoObject() throws Exception {
-        // Add the info object
-        newobj();
-        append(Token.BEGIN_DICTIONARY);
-        append("/Title (");
-        append(title);
-        append(")\n");
-        append("/Author (");
-        append(author);
-        append(")\n");
-        append("/Subject (");
-        append(subject);
-        append(")\n");
-        append("/Producer (");
-        append(producer);
-        append(")\n");
-        append("/Creator (");
-        append(creator);
-        append(")\n");
-        append("/CreationDate (D:");
-        append(creationDate);
-        append("-05'00')\n"); // TODO
         append(Token.END_DICTIONARY);
         endobj();
         return getObjNumber();
@@ -943,10 +910,7 @@ final public class PDF {
             }
         }
 
-        // TODO:
-        // int infoObjNumber = addInfoObject();
         int rootObjNumber = addRootObject(structTreeRootObjNumber, outlineDictNum);
-
         int startxref = byteCount;
 
         // Create the xref table
@@ -974,11 +938,6 @@ final public class PDF {
         append("><");
         append(uuid);
         append(">]\n");
-
-// TODO:
-//         append("/Info ");
-//         append(infoObjNumber);
-//         append(" 0 R\n");
 
         append("/Root ");
         append(rootObjNumber);

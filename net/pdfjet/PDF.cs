@@ -39,7 +39,6 @@ public class PDF {
     private String keywords;
     private String creator;
     private String createDate;      // XMP metadata
-    private String creationDate;    // PDF Info Object
     private int byteCount = 0;
     private int pagesObjNumber = 0;
     private String pageLayout = null;
@@ -83,7 +82,6 @@ public class PDF {
     // ...
     // StructElemN
     // StructTreeRoot
-    // Info
     // Root
     // xref table
     // Trailer
@@ -92,12 +90,8 @@ public class PDF {
         this.compliance = compliance;
 
         DateTime date = new DateTime(DateTime.Now.Ticks);
-
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         createDate = sdf1.Format(date);     // XMP metadata
-
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMddHHmmss");
-        creationDate = sdf2.Format(date);   // PDF Info Object
 
         Append("%PDF-1.7\n");
         Append('%');
@@ -383,52 +377,6 @@ public class PDF {
         Append("/Count ");
         Append(pages.Count);
         Append(Token.Newline);
-        Append(Token.EndDictionary);
-        EndObj();
-        return GetObjNumber();
-    }
-
-    private int AddInfoObject() {
-        // Add the info object
-        NewObj();
-        Append(Token.BeginDictionary);
-        Append("/Producer (");
-        Append(producer);
-        Append(")\n");
-
-        if (!String.IsNullOrEmpty(title)) {
-            Append("/Title (");
-            Append(title);
-            Append(")\n");
-        }
-
-        if (!String.IsNullOrEmpty(author)) {
-            Append("/Author (");
-            Append(author);
-            Append(")\n");
-        }
-
-        if (!String.IsNullOrEmpty(subject)) {
-            Append("/Subject (");
-            Append(subject);
-            Append(")\n");
-        }
-
-        if (!String.IsNullOrEmpty(keywords)) {
-            Append("/Keywords (");
-            Append(keywords);
-            Append(")\n");
-        }
-
-        if (!String.IsNullOrEmpty(creator)) {
-            Append("/Creator (");
-            Append(creator);
-            Append(")\n");
-        }
-
-        Append("/CreationDate (D:");
-        Append(creationDate.Substring(0, creationDate.Length - 1)); // Remove the 'Z'
-        Append("-05'00')\n");
         Append(Token.EndDictionary);
         EndObj();
         return GetObjNumber();
@@ -991,10 +939,7 @@ public class PDF {
             }
         }
 
-        // TODO:
-        // int infoObjNumber = AddInfoObject();
         int rootObjNumber = AddRootObject(structTreeRootObjNumber, outlineDictNum);
-
         int startxref = byteCount;
 
         // Create the xref table
@@ -1023,11 +968,6 @@ public class PDF {
         Append("><");
         Append(uuid);
         Append(">]\n");
-
-// TODO:
-//        Append("/Info ");
-//        Append(infoObjNumber);
-//        Append(" 0 R\n");
 
         if (encryption != null) {
             Append("/Encrypt ");
