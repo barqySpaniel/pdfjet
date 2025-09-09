@@ -301,15 +301,5 @@ class OpenTypeFont {
         sb.Append("endbfchar\n");
         list.Clear();
     }
-
-//    internal static string ToHexString(byte[] data) {
-//        // Returns a hex string *without* the surrounding <>.
-//        // Example:  new byte[]{0x41,0x42} → "4142"
-//        var sb = new StringBuilder(data.Length * 2);
-//        foreach (byte b in data) {
-//            sb.AppendFormat("{0:x2}", b);
-//        }
-//        return sb.ToString();
-//    }
 }   // End of OpenTypeFont.cs
 }   // End of namespace PDFjet.NET
