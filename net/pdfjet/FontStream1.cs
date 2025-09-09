@@ -242,7 +242,19 @@ class FontStream1 {
         pdf.Append("/BaseFont /");
         pdf.Append(font.name);
         pdf.Append('\n');
-        pdf.Append("/CIDSystemInfo <</Registry (Adobe) /Ordering (Identity) /Supplement 0>>\n");
+
+        byte[] registry = Encoding.UTF8.GetBytes("Adobe");
+        byte[] ordering = Encoding.UTF8.GetBytes("Identity");
+        if (pdf.encryption != null) {
+            registry = Encryption.AES256.Encrypt(registry, pdf.encryption.GetKey());
+            ordering = Encryption.AES256.Encrypt(ordering, pdf.encryption.GetKey());
+        }
+        pdf.Append("/CIDSystemInfo <</Registry <");
+        pdf.Append(ToHexString(registry));
+        pdf.Append("> /Ordering <");
+        pdf.Append(ToHexString(ordering));
+        pdf.Append("> /Supplement 0>>\n");
+
         pdf.Append("/FontDescriptor ");
         pdf.Append(font.fontDescriptorObjNumber);
         pdf.Append(" 0 R\n");
