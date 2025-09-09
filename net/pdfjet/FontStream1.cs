@@ -250,9 +250,9 @@ class FontStream1 {
             ordering = Encryption.AES256.Encrypt(ordering, pdf.encryption.GetKey());
         }
         pdf.Append("/CIDSystemInfo <</Registry <");
-        pdf.Append(ToHexString(registry));
+        pdf.Append(Util.ToHexString(registry));
         pdf.Append("> /Ordering <");
-        pdf.Append(ToHexString(ordering));
+        pdf.Append(Util.ToHexString(ordering));
         pdf.Append("> /Supplement 0>>\n");
 
         pdf.Append("/FontDescriptor ");
@@ -370,14 +370,6 @@ class FontStream1 {
             }
             totalBytesRead += bytesRead;
         }
-    }
-
-    internal static string ToHexString(byte[] data) {
-        var sb = new StringBuilder(data.Length * 2);
-        foreach (byte b in data) {
-            sb.AppendFormat("{0:x2}", b);
-        }
-        return sb.ToString();
     }
 }   // End of FontStream1.cs
 }   // End of namespace PDFjet.NET

@@ -252,9 +252,9 @@ class OpenTypeFont {
             ordering = Encryption.AES256.Encrypt(ordering, pdf.encryption.GetKey());
         }
         pdf.Append("/CIDSystemInfo <</Registry <");
-        pdf.Append(FontStream1.ToHexString(registry));
+        pdf.Append(Util.ToHexString(registry));
         pdf.Append("> /Ordering <");
-        pdf.Append(FontStream1.ToHexString(ordering));
+        pdf.Append(Util.ToHexString(ordering));
         pdf.Append("> /Supplement 0>>\n");
 
         pdf.Append("/FontDescriptor ");

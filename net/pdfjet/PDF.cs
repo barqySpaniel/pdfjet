@@ -789,10 +789,10 @@ public class PDF {
             }
             Append("/Subtype /FileAttachment\n");
             Append("/T <");
-            Append(FontStream1.ToHexString(title));
+            Append(Util.ToHexString(title));
             Append(">\n");
             Append("/Contents <");
-            Append(FontStream1.ToHexString(contents));
+            Append(Util.ToHexString(contents));
             Append(">\n");
             Append("/FS ");
             Append(annot.fileAttachment.embeddedFile.objNumber);
