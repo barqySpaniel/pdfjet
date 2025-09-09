@@ -411,12 +411,17 @@ public class Image : IDrawable {
         pdf.Append("/BitsPerComponent ");
         pdf.Append(bitsPerComponent);
         pdf.Append('\n');
+
+        byte[] buf = data;
+        if (pdf.encryption != null) {
+            buf = Encryption.AES256.Encrypt(data, pdf.encryption.GetKey());
+        }
         pdf.Append("/Length ");
-        pdf.Append(data.Length);
+        pdf.Append(buf.Length);
         pdf.Append('\n');
         pdf.Append(">>\n");
         pdf.Append("stream\n");
-        pdf.Append(data, 0, data.Length);
+        pdf.Append(buf);
         pdf.Append("\nendstream\n");
         pdf.EndObj();
         objNumber = pdf.GetObjNumber();
@@ -478,21 +483,7 @@ public class Image : IDrawable {
         pdf.images.Add(this);
         objNumber = pdf.GetObjNumber();
     }
-/*
-    private int GetInt(Stream inputStream) {
-        byte[] buf = new byte[4];
-        inputStream.Read(buf, 0, 4);
-        int val = 0;
-        val |= buf[0] & 0xff;
-        val <<= 8;
-        val |= buf[1] & 0xff;
-        val <<= 8;
-        val |= buf[2] & 0xff;
-        val <<= 8;
-        val |= buf[3] & 0xff;
-        return val;
-    }
-*/
+
     private void AddSoftMask(
             List<PDFobj> objects,
             byte[] data,
