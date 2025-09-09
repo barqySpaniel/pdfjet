@@ -74,11 +74,13 @@ class OpenTypeFont {
         if (otf.cff) {
             pdf.Append("/Subtype /CIDFontType0C\n");
         }
-        pdf.Append("/Filter /FlateDecode\n");
 
-        pdf.Append("/Length ");
-        pdf.Append(otf.compressed.Length);
-        pdf.Append("\n");
+        byte[] buf = otf.compressed;
+        if (pdf.encryption != null) {
+            buf = Encryption.AES256.Encrypt(buf, pdf.encryption.GetKey());
+        }
+
+        pdf.Append("/Filter /FlateDecode\n");
 
         if (!otf.cff) {
             pdf.Append("/Length1 ");
@@ -92,9 +94,12 @@ class OpenTypeFont {
             pdf.Append(" 0 R\n");
         }
 
+        pdf.Append("/Length ");
+        pdf.Append(buf.Length);
+        pdf.Append("\n");
         pdf.Append(">>\n");
         pdf.Append("stream\n");
-        pdf.Append(otf.compressed);
+        pdf.Append(buf);
         pdf.Append("\nendstream\n");
         pdf.EndObj();
 
