@@ -81,7 +81,6 @@ class OpenTypeFont {
         }
 
         pdf.Append("/Filter /FlateDecode\n");
-
         if (!otf.cff) {
             pdf.Append("/Length1 ");
             pdf.Append(otf.buf.Length);
@@ -302,7 +301,7 @@ class OpenTypeFont {
         list.Clear();
     }
 
-    static string ToHexString(byte[] data) {
+    internal static string ToHexString(byte[] data) {
         // Returns a hex string *without* the surrounding <>.
         // Example:  new byte[]{0x41,0x42} → "4142"
         var sb = new StringBuilder(data.Length * 2);

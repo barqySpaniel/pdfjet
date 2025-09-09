@@ -43,7 +43,7 @@ class FontStream1 {
         pdf.fonts.Add(font);
     }
 
-    private static void EmbedFontFile(PDF pdf, Font font, Stream inputStream) {
+    private static void EmbedFontFile(PDF pdf, Font font, Stream stream) {
         // Check if the font file is already embedded
         foreach (Font f in pdf.fonts) {
             if (f.fileObjNumber != 0 && f.name.Equals(font.name)) {
@@ -63,10 +63,9 @@ class FontStream1 {
         if (font.cff) {
             pdf.Append("/Subtype /CIDFontType0C\n");
         }
+
+
         pdf.Append("/Filter /FlateDecode\n");
-        pdf.Append("/Length ");
-        pdf.Append(font.compressedSize);
-        pdf.Append(Token.Newline);
 
         if (!font.cff) {
             pdf.Append("/Length1 ");
@@ -74,14 +73,37 @@ class FontStream1 {
             pdf.Append(Token.Newline);
         }
 
+        byte[] encrypted = null;
+        if (pdf.encryption != null) {
+            MemoryStream ms = new MemoryStream();
+            byte[] buf = new byte[4096];
+            int len;
+            while ((len = stream.Read(buf, 0, buf.Length)) > 0) {
+                ms.Write(buf, 0, len);
+            }
+            stream.Dispose();
+            encrypted = Encryption.AES256.Encrypt(ms.ToArray(), pdf.encryption.GetKey());
+        }
+
+        pdf.Append("/Length ");
+        if (pdf.encryption != null) {
+            pdf.Append(encrypted.Length);
+        } else {
+            pdf.Append(font.compressedSize);
+        }
+        pdf.Append(Token.Newline);
         pdf.Append(Token.EndDictionary);
         pdf.Append(Token.Stream);
-        byte[] buf = new byte[4096];
-        int len;
-        while ((len = inputStream.Read(buf, 0, buf.Length)) > 0) {
-            pdf.Append(buf, 0, len);
+        if (pdf.encryption != null) {
+            pdf.Append(encrypted);
+        } else {
+            byte[] buf = new byte[4096];
+            int len;
+            while ((len = stream.Read(buf, 0, buf.Length)) > 0) {
+                pdf.Append(buf, 0, len);
+            }
+            stream.Dispose();
         }
-        inputStream.Dispose();
         pdf.Append(Token.EndStream);
         pdf.EndObj();
 
@@ -182,14 +204,19 @@ class FontStream1 {
         sb.Append("CMapName currentdict /CMap defineresource pop\n");
         sb.Append("end\nend");
 
+        byte[] buf2 = Encoding.UTF8.GetBytes(sb.ToString());
+        if (pdf.encryption != null) {
+            buf2 = Encryption.AES256.Encrypt(buf2, pdf.encryption.GetKey());
+        }
+
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Length ");
-        pdf.Append(sb.Length);
+        pdf.Append(buf2.Length);
         pdf.Append("\n");
         pdf.Append(">>\n");
         pdf.Append("stream\n");
-        pdf.Append(sb.ToString());
+        pdf.Append(buf2);
         pdf.Append("\nendstream\n");
         pdf.EndObj();
 
@@ -331,6 +358,14 @@ class FontStream1 {
             }
             totalBytesRead += bytesRead;
         }
+    }
+
+    internal static string ToHexString(byte[] data) {
+        var sb = new StringBuilder(data.Length * 2);
+        foreach (byte b in data) {
+            sb.AppendFormat("{0:x2}", b);
+        }
+        return sb.ToString();
     }
 }   // End of FontStream1.cs
 }   // End of namespace PDFjet.NET

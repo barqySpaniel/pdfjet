@@ -29,8 +29,8 @@ public class Example_46 {
         pdf.SetEncryption(new Encryption(pdf, passwords, permissions));
 
         // Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        // Font f1 = new Font(pdf, IBMPlexSans.Regular);
-        Font f1 = new Font(pdf, "data/SourceSansPro-Regular.otf");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        // Font f1 = new Font(pdf, "data/SourceSansPro-Regular.otf");
         f1.SetSize(36f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
