@@ -21,7 +21,7 @@ public class PDF {
     internal List<OptionalContentGroup> groups = new List<OptionalContentGroup>();
     internal Dictionary<String, Int32> states = new Dictionary<String, Int32>();
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
-    internal Compliance compliance;
+    internal Compliance compliance = Compliance.PDF_1_7;
     internal Bookmark toc = null;
     internal Encryption.Encryption encryption = null;
 
@@ -55,8 +55,6 @@ public class PDF {
     public PDF() {
     }
 
-    public PDF(Stream os) : this(os, Compliance.PDF_15) {}
-
     // Here is the layout of the PDF document:
     //
     // Metadata Object
@@ -85,9 +83,8 @@ public class PDF {
     // Root
     // xref table
     // Trailer
-    public PDF(Stream os, Compliance compliance) {
+    public PDF(Stream os) {
         this.os = os;
-        this.compliance = compliance;
 
         DateTime date = new DateTime(DateTime.Now.Ticks);
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -367,7 +364,7 @@ public class PDF {
         Append("/Kids [\n");
         for (int i = 0; i < pages.Count; i++) {
             Page page = pages[i];
-            if (compliance != Compliance.PDF_15) {
+            if (compliance != Compliance.PDF_1_7) {
                 page.SetStructElementsPageObjNumber(page.objNumber);
             }
             Append(page.objNumber);
@@ -588,7 +585,7 @@ public class PDF {
         Append(Token.BeginDictionary);
         Append("/Type /Catalog\n");
 
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_1_7) {
             Append("/Lang (");
             Append(this.language);
             Append(")\n");
@@ -619,7 +616,7 @@ public class PDF {
         Append(pagesObjNumber);
         Append(" 0 R\n");
 
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_1_7) {
             Append("/Metadata ");
             Append(metadataObjNumber);
             Append(" 0 R\n");
@@ -723,7 +720,7 @@ public class PDF {
                 Append("]\n");
             }
 
-            if (compliance != Compliance.PDF_15) {
+            if (compliance != Compliance.PDF_1_7) {
                 Append("/Tabs /S\n");
                 Append("/StructParents ");
                 Append(i);
@@ -920,7 +917,7 @@ public class PDF {
         if (prevPage != null) {
             AddPageContent(prevPage);
         }
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_1_7) {
             metadataObjNumber = AddMetadataObject("", false);
             outputIntentObjNumber = AddOutputIntentObject();
         }
@@ -931,7 +928,7 @@ public class PDF {
         }
 
         int structTreeRootObjNumber = 0;
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_1_7) {
             AddStructElementObjects();
             structTreeRootObjNumber = AddStructTreeRootObject();
             AddNumsParentTree();
