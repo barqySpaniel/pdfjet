@@ -9,7 +9,6 @@ import Foundation
 ///
 /// Used to create PDF objects that represent PDF documents.
 ///
-///
 public class PDF {
     var fonts = [Font]()
     var images = [Image]()
@@ -34,7 +33,6 @@ public class PDF {
     private var keywords: String?
     private var creator: String?
     private var createDate: String?
-    private var creationDate: String?
     private var byteCount = 0
     private var pagesObjNumber = 0
     private var pageLayout: String?
@@ -84,7 +82,6 @@ public class PDF {
     /// ...
     /// StructElemN
     /// StructTreeRoot
-    /// Info
     /// Root
     /// xref table
     /// Trailer
@@ -105,10 +102,6 @@ public class PDF {
         let dateFormatter1 = DateFormatter()
         dateFormatter1.dateFormat = "yyyy-MM-dd'T'hh:mm:ss"
         self.createDate = dateFormatter1.string(from: date)
-
-        let dateFormatter2 = DateFormatter()
-        dateFormatter2.dateFormat = "yyyyMMddhhmmss"
-        self.creationDate = dateFormatter2.string(from: date)
 
         append("%PDF-1.7\n")
         append("%")
@@ -387,35 +380,6 @@ public class PDF {
         append("/Count ")
         append(pages.count)
         append(Token.newline)
-        append(Token.endDictionary)
-        endobj()
-        return getObjNumber()
-    }
-
-    private func addInfoObject() -> Int {
-        // Add the info object
-        newobj()
-        append(Token.beginDictionary)
-        append("/Producer (")
-        append(producer)
-        append(")\n")
-
-        append("/Title (")
-        append(title!)
-        append(")\n")
-        append("/Author (")
-        append(author!)
-        append(")\n")
-        append("/Subject (")
-        append(subject!)
-        append(")\n")
-        append("/Creator (")
-        append(creator!)
-        append(")\n")
-
-        append("/CreationDate (D:")
-        append(self.creationDate!)
-        append("-05'00')\n");
         append(Token.endDictionary)
         endobj()
         return getObjNumber()
@@ -908,11 +872,9 @@ public class PDF {
             }
         }
 
-// TODO:
-//        let infoObjNumber = addInfoObject()
         let rootObjNumber = addRootObject(structTreeRootObjNumber, outlineDictNum)
-
         let startxref = byteCount
+
         // Create the xref table
         append("xref\n")
         append("0 ")
@@ -940,11 +902,6 @@ public class PDF {
         append("><")
         append(uuid)
         append(">]\n")
-
-// TODO:
-//        append("/Info ")
-//        append(infoObjNumber)
-//        append(Token.objRef)
 
         append("/Root ")
         append(rootObjNumber)
