@@ -525,7 +525,7 @@ public class PDF {
         'A', 'B', 'C', 'D', 'E', 'F'
     };
 
-    private string ToHexOriginal(String str) {
+    internal string ToHexOriginal(String str) {
         if (string.IsNullOrEmpty(str)) {
             return "";
         }
@@ -558,7 +558,7 @@ public class PDF {
         return buf.ToString();
     }
 
-    private static string ToHex(string str) {
+    internal static string ToHex(string str) {
         if (string.IsNullOrEmpty(str)) {
             return string.Empty;
         }

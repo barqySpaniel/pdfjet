@@ -203,14 +203,21 @@ class OpenTypeFont {
         sb.Append("CMapName currentdict /CMap defineresource pop\n");
         sb.Append("end\nend");
 
+        byte[] buf2 = Encoding.UTF8.GetBytes(sb.ToString());
+        if (pdf.encryption != null) {
+            buf2 = Encryption.AES256.Encrypt(buf2, pdf.encryption.GetKey());
+        }
+
         pdf.NewObj();
         pdf.Append("<<\n");
         pdf.Append("/Length ");
-        pdf.Append(sb.Length);
+        // pdf.Append(sb.Length);
+        pdf.Append(buf2.Length);
         pdf.Append("\n");
         pdf.Append(">>\n");
         pdf.Append("stream\n");
-        pdf.Append(sb.ToString());
+        // pdf.Append(sb.ToString());
+        pdf.Append(buf2);
         pdf.Append("\nendstream\n");
         pdf.EndObj();
 
@@ -236,10 +243,22 @@ class OpenTypeFont {
         } else {
             pdf.Append("/Subtype /CIDFontType2\n");
         }
+
+        byte[] registry = Encoding.UTF8.GetBytes("Adobe");
+        byte[] ordering = Encoding.UTF8.GetBytes("Identity");
+        if (pdf.encryption != null) {
+            registry = Encryption.AES256.Encrypt(registry, pdf.encryption.GetKey());
+            ordering = Encryption.AES256.Encrypt(ordering, pdf.encryption.GetKey());
+        }
+
         pdf.Append("/BaseFont /");
         pdf.Append(otf.fontName);
         pdf.Append('\n');
-        pdf.Append("/CIDSystemInfo <</Registry (Adobe) /Ordering (Identity) /Supplement 0>>\n");
+        pdf.Append("/CIDSystemInfo <</Registry <");
+        pdf.Append(ToHexString(registry));
+        pdf.Append("> /Ordering <");
+        pdf.Append(ToHexString(ordering));
+        pdf.Append("> /Supplement 0>>\n");
         pdf.Append("/FontDescriptor ");
         pdf.Append(font.fontDescriptorObjNumber);
         pdf.Append(" 0 R\n");
@@ -283,6 +302,16 @@ class OpenTypeFont {
         }
         sb.Append("endbfchar\n");
         list.Clear();
+    }
+
+    static string ToHexString(byte[] data) {
+        // Returns a hex string *without* the surrounding <>.
+        // Example:  new byte[]{0x41,0x42} → "4142"
+        var sb = new StringBuilder(data.Length * 2);
+        foreach (byte b in data) {
+            sb.AppendFormat("{0:x2}", b);
+        }
+        return sb.ToString();
     }
 }   // End of OpenTypeFont.cs
 }   // End of namespace PDFjet.NET
