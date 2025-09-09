@@ -86,7 +86,6 @@ type PDF struct {
 // ...
 // StructElemN
 // StructTreeRoot
-// Info
 // Root
 // xref table
 // Trailer
@@ -110,11 +109,6 @@ func NewPDF(w *bufio.Writer) *PDF {
 
 	// createDate format: "yyyy-MM-ddTHH:mm:ss"
 	pdf.createDate = time.Now().Format(time.RFC3339)[0:19]
-
-	// creationDate format: "yyyyMMddHHmmss"
-	pdf.creationDate =
-		strings.ReplaceAll(pdf.createDate[:10], "-", "") +
-			strings.ReplaceAll(pdf.createDate[11:], ":", "")
 
 	pdf.states = make(map[string]int)
 
@@ -403,33 +397,6 @@ func (pdf *PDF) addPagesObject() int {
 	pdf.appendInteger(len(pdf.pages))
 	pdf.appendByte('\n')
 	pdf.appendByteArray(token.EndDictionary)
-	pdf.endobj()
-	return pdf.getObjNumber()
-}
-
-func (pdf *PDF) addInfoObject() int {
-	// Add the info object
-	pdf.newobj()
-	pdf.appendString("<<\n")
-	pdf.appendString("/Title (")
-	pdf.appendString(pdf.title)
-	pdf.appendString(")\n")
-	pdf.appendString("/Author (")
-	pdf.appendString(pdf.author)
-	pdf.appendString(")\n")
-	pdf.appendString("/Subject (")
-	pdf.appendString(pdf.subject)
-	pdf.appendString(")\n")
-	pdf.appendString("/Producer (")
-	pdf.appendString(pdf.producer)
-	pdf.appendString(")\n")
-	pdf.appendString("/Creator (")
-	pdf.appendString(pdf.creator)
-	pdf.appendString(")\n")
-	pdf.appendString("/CreationDate (D:")
-	pdf.appendString(pdf.creationDate)
-	pdf.appendString("-05'00')\n")
-	pdf.appendString(">>\n")
 	pdf.endobj()
 	return pdf.getObjNumber()
 }
@@ -929,10 +896,7 @@ func (pdf *PDF) Complete() {
 		}
 	}
 
-	// TODO:
-	//	infoObjNumber := pdf.addInfoObject()
 	rootObjNumber := pdf.addRootObject(structTreeRootObjNumber, outlineDictNum)
-
 	startxref := pdf.byteCount
 
 	// Create the xref table
@@ -960,11 +924,6 @@ func (pdf *PDF) Complete() {
 	pdf.appendString("><")
 	pdf.appendString(pdf.uuid)
 	pdf.appendString(">]\n")
-
-	// TODO:
-	//pdf.appendString("/Info ")
-	//pdf.appendInteger(infoObjNumber)
-	//pdf.appendString(" 0 R\n")
 
 	pdf.appendString("/Root ")
 	pdf.appendInteger(rootObjNumber)
