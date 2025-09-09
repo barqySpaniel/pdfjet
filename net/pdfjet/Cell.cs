@@ -247,6 +247,10 @@ public class Cell {
         this.topPadding = padding;
     }
 
+    public float GetTopPadding() {
+        return this.topPadding;
+    }
+
     /**
      *  Sets the bottom padding of this cell.
      *
@@ -254,6 +258,10 @@ public class Cell {
      */
     public void SetBottomPadding(float padding) {
         this.bottomPadding = padding;
+    }
+
+    public float GetBottomPadding() {
+        return this.bottomPadding;
     }
 
     /**

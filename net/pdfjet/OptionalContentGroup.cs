@@ -34,6 +34,10 @@ public class OptionalContentGroup {
         this.components = new List<IDrawable>();
     }
 
+    public String GetName() {
+        return this.name;
+    }
+
     public void Add(IDrawable drawable) {
         components.Add(drawable);
     }
