@@ -282,7 +282,7 @@ public class PDF {
         Append(Token.BeginDictionary);
         Append("/Type /OutputIntent\n");
         Append("/S /GTS_PDFA1\n");
-        Append("/OutputCondition (sRGB IEC61966-2.1)\n");
+        Append("/OutputCondition (sRGB IEC61966-2.1)\n");           // TODO: Encryption
         Append("/OutputConditionIdentifier (sRGB IEC61966-2.1)\n");
         Append("/Info (sRGB IEC61966-2.1)\n");
         Append("/DestOutputProfile ");
@@ -594,7 +594,7 @@ public class PDF {
         Append("/Type /Catalog\n");
 
         if (compliance != Compliance.PDF_1_7) {
-            Append("/Lang (");
+            Append("/Lang (");          // TODO: Encryption
             Append(this.language);
             Append(")\n");
 
@@ -901,7 +901,7 @@ public class PDF {
             Append(" ] >>\n");
             Append("]\n");
 
-            Append("/Order [[ ()");
+            Append("/Order [[ ()");     // TODO: ??
             Append(buf.ToString());
             Append(" ]]\n");
 
@@ -981,7 +981,7 @@ public class PDF {
         Append(rootObjNumber + 1);
         Append('\n');
 
-        Append("/ID[<");
+        Append("/ID[<");        // TODO: Check PDF spec!
         Append(uuid);
         Append("><");
         Append(uuid);
@@ -1441,7 +1441,7 @@ public class PDF {
 
         NewObj();
         Append(Token.BeginDictionary);
-        Append("/Title <");
+        Append("/Title <");             // TODO:
         Append(ToHex(bm1.GetTitle()));
         Append(">\n");
         Append("/Parent ");
