@@ -600,9 +600,13 @@ public class PDF {
         Append("/Type /Catalog\n");
 
         if (compliance != Compliance.PDF_1_7) {
-            Append("/Lang (");          // TODO: Encryption
-            Append(this.language);
-            Append(")\n");
+            byte[] languageBytes = Encoding.UTF8.GetBytes(this.language);
+            if (encryption != null) {
+                languageBytes = Encryption.AES256.Encrypt(languageBytes, encryption.GetKey());
+            }
+            Append("/Lang <");
+            Append(Util.ToHexString(languageBytes));
+            Append(">\n");
 
             Append("/StructTreeRoot ");
             Append(structTreeRootObjNumber);
