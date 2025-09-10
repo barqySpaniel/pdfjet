@@ -1008,7 +1008,7 @@ public class PDF {
         Append(rootObjNumber + 1);
         Append('\n');
 
-        Append("/ID[<");        // TODO: Check PDF spec!
+        Append("/ID[<");    // Do not need to be encrypted!
         Append(uuid);
         Append("><");
         Append(uuid);
