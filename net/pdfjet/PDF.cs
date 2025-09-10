@@ -277,14 +277,24 @@ public class PDF {
         Append(Token.EndStream);
         EndObj();
 
+        byte[] identifierBytes = Encoding.UTF8.GetBytes("sRGB IEC61966-2.1");
+        if (encryption != null) {
+            identifierBytes = Encryption.AES256.Encrypt(identifierBytes, encryption.GetKey());
+        }
         // OutputIntent object
         NewObj();
         Append(Token.BeginDictionary);
         Append("/Type /OutputIntent\n");
         Append("/S /GTS_PDFA1\n");
-        Append("/OutputCondition (sRGB IEC61966-2.1)\n");           // TODO: Encryption
-        Append("/OutputConditionIdentifier (sRGB IEC61966-2.1)\n");
-        Append("/Info (sRGB IEC61966-2.1)\n");
+        Append("/OutputCondition <");
+        Append(identifierBytes);
+        Append(">\n");
+        Append("/OutputConditionIdentifier <");
+        Append(identifierBytes);
+        Append(">\n");
+        Append("/Info <");
+        Append(identifierBytes);
+        Append(">\n");
         Append("/DestOutputProfile ");
         Append(GetObjNumber() - 1);
         Append(Token.ObjRef);
