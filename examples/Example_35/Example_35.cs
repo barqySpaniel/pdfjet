@@ -58,8 +58,9 @@ public class Example_35 {
         xObject.AddFontResource(f1);
         xObject.DrawText(f1, 14f, 25f, 25f, "Hello, World!");
         xObject.Complete();
-        xObject.SetLocation(0f, 0f);
+        xObject.SetLocation(50f, 50f);
         // xObject.SetRotationClockwise(45);
+        xObject.SetRotation(15);
         xObject.DrawOn(page);
         // container.Add(xObject);
 
