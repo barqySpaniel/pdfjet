@@ -49,7 +49,6 @@ public class Example_35 {
 
         XObject xObject = new XObject(pdf, 400f, 400f);
         xObject.SetStrokeColor(Color.darkgreen);
-        // xObject.SetStrokeColor(new float[] {0f, 1f, 0f});
         xObject.SetStrokeWidth(2f);
         xObject.MoveTo(0f, 0f);
         xObject.LineTo(400f, 0f);
@@ -57,15 +56,16 @@ public class Example_35 {
         xObject.LineTo(0f, 400f);
         xObject.ClosePath();
         xObject.AddFontResource(f1);
-        TextParameters parameters = new TextParameters()
+
+        var parameters = new TextParameters()
             .SetFont(f1)
             .SetFontSize(14f)
             .SetLocation(25f, 25f)
             .SetText("Hello, World!");
         xObject.DrawText(parameters);
+
         xObject.Complete();
         xObject.SetLocation(50f, 50f);
-        // xObject.SetRotationClockwise(45);
         xObject.DrawOn(page);
         xObject.SetRotation(15);
         xObject.DrawOn(page);
