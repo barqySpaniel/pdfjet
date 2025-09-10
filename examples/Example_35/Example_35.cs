@@ -60,8 +60,9 @@ public class Example_35 {
         Parameters parameters = new Parameters()
             .SetFont(f1)
             .SetFontSize(14f)
-            .SetLocation(25f, 25f);
-        xObject.DrawText(parameters, "Hello, World!");
+            .SetLocation(25f, 25f)
+            .SetText("Hello, World!");
+        xObject.DrawText(parameters);
         xObject.Complete();
         xObject.SetLocation(50f, 50f);
         // xObject.SetRotationClockwise(45);
