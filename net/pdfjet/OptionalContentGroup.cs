@@ -8,6 +8,7 @@
  *  Modified and adapted for use in PDFjet by Evgeni Dragoev
  */
 using System;
+using System.Text;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
@@ -59,7 +60,13 @@ public class OptionalContentGroup {
             pdf.NewObj();
             pdf.Append(Token.BeginDictionary);
             pdf.Append("/Type /OCG\n");
-            pdf.Append("/Name (" + name + ")\n");           // TODO:
+            byte[] nameBytes = Encoding.UTF8.GetBytes(name);
+            if (pdf.encryption != null) {
+                nameBytes = Encryption.AES256.Encrypt(nameBytes, pdf.encryption.GetKey());
+            }
+            pdf.Append("/Name <");
+            pdf.Append(Util.ToHexString(nameBytes));
+            pdf.Append(">\n");
             pdf.Append("/Usage <<\n");
             if (visible) {
                 pdf.Append("/View << /ViewState /ON >>\n");
