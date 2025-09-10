@@ -102,14 +102,14 @@ public class XObject : IDrawable {
     public void MoveTo(float x, float y) {
         Append(x);
         Append(" ");
-        Append(height - y);
+        Append(y);
         Append(" m\n");
     }
 
     public void LineTo(float x, float y) {
         Append(x);
         Append(" ");
-        Append(height - y);
+        Append(y);
         Append(" l\n");
     }
 
