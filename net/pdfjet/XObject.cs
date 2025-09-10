@@ -162,7 +162,7 @@ public class XObject : IDrawable {
         Append(height - y);
         Append(" Td\n");
         Append("<");
-        Append(PDF.ToHex(text));
+        DrawText(f1, text);
         Append("> Tj\n");
         Append("ET\n");
     }
@@ -226,6 +226,31 @@ public class XObject : IDrawable {
         pdf.EndObj();
         pdf.xObjects.Add(this);
         objNumber = pdf.GetObjNumber();
+    }
+
+    private void DrawText(Font font, String str) {
+        int i = 0;
+        while (i < str.Length) {
+            int codePoint = char.ConvertToUtf32(str, i);
+            if (codePoint != 0xFEFF) {                  // BOM
+                if (codePoint < font.firstChar || codePoint > font.lastChar) {
+                    AppendCodePointAsHex(font.unicodeToGID[0x0020]); // Space fallback
+                } else {
+                    AppendCodePointAsHex(font.unicodeToGID[codePoint]);
+                }
+            }
+            i += char.IsHighSurrogate(str[i]) ? 2 : 1;  // Proper surrogate handling
+        }
+    }
+
+    private void AppendCodePointAsHex(int codePoint) {
+        if (codePoint <= 0xFFFF) {
+            // Basic Multilingual Plane (BMP) character
+            buf.WriteByte(Page.HEX[(codePoint >> 12) & 0xF]);
+            buf.WriteByte(Page.HEX[(codePoint >> 8)  & 0xF]);
+            buf.WriteByte(Page.HEX[(codePoint >> 4)  & 0xF]);
+            buf.WriteByte(Page.HEX[(codePoint)       & 0xF]);
+        }
     }
 
     public float[] DrawOn(Page page) {
