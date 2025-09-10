@@ -10,7 +10,9 @@ using System.Text;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-public class XObject : IDrawable {
+internal class XObject : IDrawable {
+    internal int objNumber;
+
     private PDF pdf;
     private float x;
     private float y;
@@ -18,7 +20,6 @@ public class XObject : IDrawable {
     private float height;
     private MemoryStream buf;
     private float rotateDegrees = 0f;
-    private int objNumber;
 
     public XObject(PDF pdf, float width, float height) {
         this.pdf = pdf;
@@ -144,42 +145,42 @@ public class XObject : IDrawable {
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
         page.Append("q\n"); // Save the graphics state
 
-        float drawX = this.x;
-        float drawY = (page.height - this.height) - this.y;
-
-        // 5. POSITION: move to desired location on page
-        page.Append("1 0 0 1 ");
-        page.Append(drawX);
-        page.Append(' ');
-        page.Append(drawY);
-        page.Append(" cm\n");
-
-        // 4. MOVE BACK: after rotation
-        page.Append("1 0 0 1 ");
-        page.Append(width/2);
-        page.Append(' ');
-        page.Append(height/2);
-        page.Append(" cm\n");
-
-        // 3. ROTATE: rotate around origin
-        double radians = rotateDegrees * (Math.PI / 180);
-        float cos = (float)Math.Cos(radians);
-        float sin = (float)Math.Sin(radians);
-        page.Append(FastFloat.ToByteArray(cos));
-        page.Append(' ');
-        page.Append(FastFloat.ToByteArray(sin));
-        page.Append(' ');
-        page.Append(FastFloat.ToByteArray(-sin));
-        page.Append(' ');
-        page.Append(FastFloat.ToByteArray(cos));
-        page.Append(" 0 0 cm\n");
-
-        // 2. MOVE: move the center of the object to origin
-        page.Append("1 0 0 1 ");
-        page.Append(-width/2);
-        page.Append(' ');
-        page.Append(-height/2);
-        page.Append(" cm\n");
+//        float drawX = this.x;
+//        float drawY = (page.height - this.height) - this.y;
+//
+//        // 5. POSITION: move to desired location on page
+//        page.Append("1 0 0 1 ");
+//        page.Append(drawX);
+//        page.Append(' ');
+//        page.Append(drawY);
+//        page.Append(" cm\n");
+//
+//        // 4. MOVE BACK: after rotation
+//        page.Append("1 0 0 1 ");
+//        page.Append(width/2);
+//        page.Append(' ');
+//        page.Append(height/2);
+//        page.Append(" cm\n");
+//
+//        // 3. ROTATE: rotate around origin
+//        double radians = rotateDegrees * (Math.PI / 180);
+//        float cos = (float)Math.Cos(radians);
+//        float sin = (float)Math.Sin(radians);
+//        page.Append(FastFloat.ToByteArray(cos));
+//        page.Append(' ');
+//        page.Append(FastFloat.ToByteArray(sin));
+//        page.Append(' ');
+//        page.Append(FastFloat.ToByteArray(-sin));
+//        page.Append(' ');
+//        page.Append(FastFloat.ToByteArray(cos));
+//        page.Append(" 0 0 cm\n");
+//
+//        // 2. MOVE: move the center of the object to origin
+//        page.Append("1 0 0 1 ");
+//        page.Append(-width/2);
+//        page.Append(' ');
+//        page.Append(-height/2);
+//        page.Append(" cm\n");
 
         // 1. DRAW: draw the object
         page.Append("/Fm");

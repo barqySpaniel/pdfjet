@@ -332,15 +332,22 @@ public class PDF {
             Append(Token.EndDictionary);
         }
 
-        // Check if we have ANY XObjects at all
-        if (images.Count > 0) {
+        // Check if we have ANY XObjects
+        if (images.Count > 0 || xObjects.Count > 0) {
             Append("/XObject <<\n"); // Write the key and open the dictionary ONCE
             // Add all Images to the same dictionary
             foreach (Image image in images) {
                 Append("/Im");
                 Append(image.objNumber);
-                Append(" ");
+                Append(' ');
                 Append(image.objNumber);
+                Append(" 0 R\n");
+            }
+            foreach (XObject xObject in xObjects) {
+                Append("/Fm");
+                Append(xObject.objNumber);
+                Append(' ');
+                Append(xObject.objNumber);
                 Append(" 0 R\n");
             }
             Append(">>\n"); // Close the dictionary
