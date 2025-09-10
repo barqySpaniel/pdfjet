@@ -895,12 +895,15 @@ public class PDF {
 
     private void AddOCProperties() {
         if (groups.Count > 0) {
+            List<OCG> list = new List<OCG>();
             StringBuilder buf = new StringBuilder();
             foreach (OptionalContentGroup ocg in this.groups) {
                 buf.Append(' ');
                 buf.Append(ocg.objNumber);
                 buf.Append(" 0 R");
+                list.Add(new OCG(ocg.objNumber, ocg.name));
             }
+            list.Sort((x, y) => x.name.CompareTo(y.name));
 
             Append("/OCProperties\n");
             Append("<<\n");
@@ -921,9 +924,13 @@ public class PDF {
             Append(" ] >>\n");
             Append("]\n");
 
-            Append("/Order [[ ()");     // TODO: ??
-            Append(buf.ToString());
-            Append(" ]]\n");
+            Append("/Order [[");
+            foreach (OCG ocg in list) {
+                Append(' ');
+                Append(ocg.objNumber);
+                Append(" 0 R ");
+            }
+            Append("]]\n");
 
             Append(">>\n");
             Append(">>\n");

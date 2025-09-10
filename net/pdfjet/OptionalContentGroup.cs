@@ -18,11 +18,11 @@ namespace PDFjet.NET {
  * @author Mark Paxton
  */
 public class OptionalContentGroup {
+    internal PDF pdf;
     internal int objNumber;
+    internal String name;
+    internal int ocgNumber = -1;
 
-    private PDF pdf;
-    private String name;
-    private int ocgNumber = -1;
     private bool visible;
     private bool printable;
     private bool exportable;
@@ -59,7 +59,7 @@ public class OptionalContentGroup {
             pdf.NewObj();
             pdf.Append(Token.BeginDictionary);
             pdf.Append("/Type /OCG\n");
-            pdf.Append("/Name (" + name + ")\n");
+            pdf.Append("/Name (" + name + ")\n");           // TODO:
             pdf.Append("/Usage <<\n");
             if (visible) {
                 pdf.Append("/View << /ViewState /ON >>\n");
