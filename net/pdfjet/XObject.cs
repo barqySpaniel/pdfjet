@@ -14,6 +14,7 @@ public class XObject : IDrawable {
     internal int objNumber;
 
     private PDF pdf;
+    private Page page;
     private float x;
     private float y;
     private float width;
@@ -24,8 +25,9 @@ public class XObject : IDrawable {
     private MemoryStream buf;
     private float rotateDegrees = 0f;
 
-    public XObject(PDF pdf, float width, float height) {
+    public XObject(PDF pdf, Page page, float width, float height) {
         this.pdf = pdf;
+        this.page = page;
         this.width = width;
         this.height = height;
         this.buf = new MemoryStream();
@@ -102,14 +104,14 @@ public class XObject : IDrawable {
     public void MoveTo(float x, float y) {
         Append(x);
         Append(" ");
-        Append(y);
+        Append(height - y);
         Append(" m\n");
     }
 
     public void LineTo(float x, float y) {
         Append(x);
         Append(" ");
-        Append(y);
+        Append(height - y);
         Append(" l\n");
     }
 
@@ -189,7 +191,7 @@ public class XObject : IDrawable {
 
     public float[] DrawOn(Page page) {
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
-        page.Append("q\n"); // Save the graphics state
+        // page.Append("q\n"); // Save the graphics state
 
 //        float drawX = this.x;
 //        float drawY = (page.height - this.height) - this.y;
@@ -233,7 +235,7 @@ public class XObject : IDrawable {
         page.Append(objNumber);
         page.Append(" Do\n");
 
-        page.Append("Q\n"); // Restore the graphics state
+        // page.Append("Q\n"); // Restore the graphics state
         // page.AddEMC();
 
         return new float[] { this.x + width, this.y + height };
