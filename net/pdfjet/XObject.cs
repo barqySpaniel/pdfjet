@@ -148,20 +148,28 @@ public class XObject : IDrawable {
         Append("f\n");
     }
 
-    public void SetRotateDegreesCW(float degrees) {
-        this.rotateDegrees = -degrees;
+    /// <summary>
+    /// Sets the rotation angle.
+    /// </summary>
+    /// <param name="degrees">The rotation angle in degrees.</param>
+    public void SetRotation(double degrees) {
+        this.rotateDegrees = (float)degrees;
     }
 
-    public void SetRotateDegreesCW(double degrees) {
-        this.rotateDegrees = (float) -degrees;
+    /// <summary>
+    /// Sets clockwise rotation.
+    /// </summary>
+    /// <param name="degrees">The rotation angle in degrees (clockwise).</param>
+    public void SetRotationClockwise(double degrees) {
+        this.rotateDegrees = (float)-degrees;
     }
 
-    public void SetRotateDegreesCCW(float degrees) {
-        this.rotateDegrees = degrees;
-    }
-
-    public void SetRotateDegreesCCW(double degrees) {
-        this.rotateDegrees = (float) degrees;
+    /// <summary>
+    /// Sets counter-clockwise rotation.
+    /// </summary>
+    /// <param name="degrees">The rotation angle in degrees (counter-clockwise).</param>
+    public void SetRotationCounterClockwise(double degrees) {
+        this.rotateDegrees = (float)degrees;
     }
 
     public void Complete() {
@@ -191,51 +199,51 @@ public class XObject : IDrawable {
 
     public float[] DrawOn(Page page) {
         // page.AddBMC(StructElem.P, language, actualText, altDescription);
-        // page.Append("q\n"); // Save the graphics state
+        page.Append("q\n"); // Save the graphics state
 
-//        float drawX = this.x;
-//        float drawY = (page.height - this.height) - this.y;
-//
-//        // 5. POSITION: move to desired location on page
-//        page.Append("1 0 0 1 ");
-//        page.Append(drawX);
-//        page.Append(' ');
-//        page.Append(drawY);
-//        page.Append(" cm\n");
-//
-//        // 4. MOVE BACK: after rotation
-//        page.Append("1 0 0 1 ");
-//        page.Append(width/2);
-//        page.Append(' ');
-//        page.Append(height/2);
-//        page.Append(" cm\n");
-//
-//        // 3. ROTATE: rotate around origin
-//        double radians = rotateDegrees * (Math.PI / 180);
-//        float cos = (float)Math.Cos(radians);
-//        float sin = (float)Math.Sin(radians);
-//        page.Append(FastFloat.ToByteArray(cos));
-//        page.Append(' ');
-//        page.Append(FastFloat.ToByteArray(sin));
-//        page.Append(' ');
-//        page.Append(FastFloat.ToByteArray(-sin));
-//        page.Append(' ');
-//        page.Append(FastFloat.ToByteArray(cos));
-//        page.Append(" 0 0 cm\n");
-//
-//        // 2. MOVE: move the center of the object to origin
-//        page.Append("1 0 0 1 ");
-//        page.Append(-width/2);
-//        page.Append(' ');
-//        page.Append(-height/2);
-//        page.Append(" cm\n");
+        float drawX = this.x;
+        float drawY = (page.height - this.height) - this.y;
+
+        // 5. POSITION: move to desired location on page
+        page.Append("1 0 0 1 ");
+        page.Append(drawX);
+        page.Append(' ');
+        page.Append(drawY);
+        page.Append(" cm\n");
+
+        // 4. MOVE BACK: after rotation
+        page.Append("1 0 0 1 ");
+        page.Append(width/2);
+        page.Append(' ');
+        page.Append(height/2);
+        page.Append(" cm\n");
+
+        // 3. ROTATE: rotate around origin
+        double radians = rotateDegrees * (Math.PI / 180);
+        float cos = (float)Math.Cos(radians);
+        float sin = (float)Math.Sin(radians);
+        page.Append(FastFloat.ToByteArray(cos));
+        page.Append(' ');
+        page.Append(FastFloat.ToByteArray(sin));
+        page.Append(' ');
+        page.Append(FastFloat.ToByteArray(-sin));
+        page.Append(' ');
+        page.Append(FastFloat.ToByteArray(cos));
+        page.Append(" 0 0 cm\n");
+
+        // 2. MOVE: move the center of the object to origin
+        page.Append("1 0 0 1 ");
+        page.Append(-width/2);
+        page.Append(' ');
+        page.Append(-height/2);
+        page.Append(" cm\n");
 
         // 1. DRAW: draw the object
         page.Append("/Fm");
         page.Append(objNumber);
         page.Append(" Do\n");
 
-        // page.Append("Q\n"); // Restore the graphics state
+        page.Append("Q\n"); // Restore the graphics state
         // page.AddEMC();
 
         return new float[] { this.x + width, this.y + height };
