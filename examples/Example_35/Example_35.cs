@@ -57,7 +57,7 @@ public class Example_35 {
         xObject.LineTo(0f, 400f);
         xObject.ClosePath();
         xObject.AddFontResource(f1);
-        Parameters parameters = new Parameters()
+        TextParameters parameters = new TextParameters()
             .SetFont(f1)
             .SetFontSize(14f)
             .SetLocation(25f, 25f)

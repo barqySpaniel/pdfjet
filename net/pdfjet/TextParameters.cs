@@ -2,7 +2,7 @@ using System;
 using System.Text;
 
 namespace PDFjet.NET {
-public class Parameters {
+public class TextParameters {
     internal Font font;
     internal float fontSize;
     internal float x;
@@ -10,34 +10,34 @@ public class Parameters {
     internal String text;
 
     // Constructor to initialize with default values (optional)
-    public Parameters() {
+    public TextParameters() {
         this.fontSize = 12f;    // Default font size
         this.x = 0f;            // Default X
         this.y = 0f;            // Default Y
     }
 
     // Method to set the font
-    public Parameters SetFont(Font font) {
+    public TextParameters SetFont(Font font) {
         this.font = font;
         return this;
     }
 
     // Method to set the font size
-    public Parameters SetFontSize(float fontSize) {
+    public TextParameters SetFontSize(float fontSize) {
         this.fontSize = fontSize;
         return this;
     }
 
     // Method to set the location (X, Y)
-    public Parameters SetLocation(float x, float y) {
+    public TextParameters SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
         return this;
     }
 
-    public Parameters SetText(String text) {
+    public TextParameters SetText(String text) {
         this.text = text;
         return this;
     }
-}   // End of TextParams.cs
+}   // End of TextParameters.cs
 }   // End of namespace PDFjet.NET
