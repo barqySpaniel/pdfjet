@@ -60,8 +60,14 @@ public class XObject : IDrawable {
         buf.Write(bytes, 0, bytes.Length);
     }
 
-    public void SetFillColor(float[] fillColor) {
-        this.fillColor = fillColor;
+    public void SetFillColor(float[] rgbColor) {
+        Append(rgbColor[0]);
+        Append(" ");
+        Append(rgbColor[1]);
+        Append(" ");
+        Append(rgbColor[2]);
+        Append(" rg\n");
+        this.fillColor = rgbColor;
     }
 
     public void SetFillColor(int color) {
@@ -77,8 +83,14 @@ public class XObject : IDrawable {
         this.fillColor = new float[] {r, g, b};
     }
 
-    public void SetStrokeColor(float[] strokeColor) {
-        this.strokeColor = strokeColor;
+    public void SetStrokeColor(float[] rgbColor) {
+        Append(rgbColor[0]);
+        Append(" ");
+        Append(rgbColor[1]);
+        Append(" ");
+        Append(rgbColor[2]);
+        Append(" RG\n");
+        this.strokeColor = rgbColor;
     }
 
     public void SetStrokeColor(int color) {
@@ -94,13 +106,10 @@ public class XObject : IDrawable {
         this.fillColor = new float[] {r, g, b};
     }
 
-    public void SetStrokeColor(float strokeWidth) {
-        this.strokeWidth = strokeWidth;
-    }
-
     public void SetStrokeWidth(float width) {
         Append(width);
         Append(" w\n");
+        this.strokeWidth = width;
     }
 
     public void MoveTo(float x, float y) {
