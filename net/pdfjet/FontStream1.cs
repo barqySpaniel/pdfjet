@@ -63,10 +63,7 @@ class FontStream1 {
         if (font.cff) {
             pdf.Append("/Subtype /CIDFontType0C\n");
         }
-
-
         pdf.Append("/Filter /FlateDecode\n");
-
         if (!font.cff) {
             pdf.Append("/Length1 ");
             pdf.Append(font.uncompressedSize);
