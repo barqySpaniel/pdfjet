@@ -64,6 +64,9 @@ public class Example_35 {
             .SetText("Hello, World!");
         xObject.DrawText(parameters);
 
+        // Should we have this method too for advanced users?
+        // xObject.DrawText(f1, 14f, 25f, 50f, "Hello, World");
+
         xObject.Complete();
         xObject.SetLocation(50f, 50f);
         xObject.DrawOn(page);
