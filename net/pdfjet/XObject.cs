@@ -10,7 +10,7 @@ using System.Text;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-internal class XObject : IDrawable {
+public class XObject : IDrawable {
     internal int objNumber;
 
     private PDF pdf;
@@ -18,6 +18,9 @@ internal class XObject : IDrawable {
     private float y;
     private float width;
     private float height;
+    private float[] fillColor;
+    private float[] strokeColor;
+    private float strokeWidth = 1f;
     private MemoryStream buf;
     private float rotateDegrees = 0f;
 
@@ -51,6 +54,49 @@ internal class XObject : IDrawable {
     private void Append(String str) {
         byte[] bytes = Encoding.UTF8.GetBytes(str);
         buf.Write(bytes, 0, bytes.Length);
+    }
+
+    public void SetFillColor(float[] fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        Append(r);
+        Append(" ");
+        Append(g);
+        Append(" ");
+        Append(b);
+        Append(" rg\n");
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void SetStrokeColor(float[] strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+
+    public void SetStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        Append(r);
+        Append(" ");
+        Append(g);
+        Append(" ");
+        Append(b);
+        Append(" RG\n");
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void SetStrokeColor(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
+
+    public void SetStrokeWidth(float width) {
+        Append(width);
+        Append(" w\n");
     }
 
     public void MoveTo(float x, float y) {
