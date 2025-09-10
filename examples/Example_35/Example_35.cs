@@ -47,13 +47,14 @@ public class Example_35 {
         rect.SetFillColor(Color.gray);
         container.Add(rect);
 
-        XObject xObject = new XObject(pdf, 400f, 400f);
+        XObject xObject = new XObject(pdf, page, 400f, 400f);
+        xObject.SetLocation(0f, 0f);
         xObject.SetStrokeColor(Color.darkgreen);
-        xObject.SetStrokeWidth(5f);
+        xObject.SetStrokeWidth(2f);
         xObject.MoveTo(0f, 0f);
-        xObject.LineTo(0f, 400f);
-        xObject.LineTo(400f, 400f);
         xObject.LineTo(400f, 0f);
+        xObject.LineTo(400f, 400f);
+        xObject.LineTo(0f, 400f);
         xObject.ClosePath();
         xObject.Complete();
         xObject.DrawOn(page);
