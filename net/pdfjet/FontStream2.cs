@@ -87,7 +87,7 @@ class FontStream2 {
     private static void EmbedFontFile(
             List<PDFobj> objects,
             Font font,
-            Stream inputStream) {
+            Stream stream) {
         int metadataObjNumber = AddMetadataObject(objects, font);
 
         PDFobj obj = new PDFobj();
@@ -111,10 +111,10 @@ class FontStream2 {
         MemoryStream buf2 = new MemoryStream();
         byte[] buf = new byte[4096];
         int len;
-        while ((len = inputStream.Read(buf, 0, buf.Length)) > 0) {
+        while ((len = stream.Read(buf, 0, buf.Length)) > 0) {
             buf2.Write(buf, 0, len);
         }
-        inputStream.Close();
+        stream.Close();
         obj.SetStream(buf2.ToArray());
         obj.number = objects.Count + 1;
         objects.Add(obj);
