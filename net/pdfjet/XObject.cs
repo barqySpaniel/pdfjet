@@ -228,29 +228,23 @@ public class XObject : IDrawable {
         objNumber = pdf.GetObjNumber();
     }
 
-    private void DrawText(Font font, String str) {
-        int i = 0;
-        while (i < str.Length) {
-            int codePoint = char.ConvertToUtf32(str, i);
-            if (codePoint != 0xFEFF) {                  // BOM
-                if (codePoint < font.firstChar || codePoint > font.lastChar) {
-                    AppendCodePointAsHex(font.unicodeToGID[0x0020]); // Space fallback
-                } else {
-                    AppendCodePointAsHex(font.unicodeToGID[codePoint]);
-                }
+    private void DrawText(Font font, string str) {
+        foreach (char c in str) {
+            int codePoint = c;
+            if (codePoint != 0xFEFF) {          // Skip BOM
+                int gid = (codePoint < font.firstChar || codePoint > font.lastChar)
+                    ? font.unicodeToGID[0x0020] // Use space fallback if outside the font's supported range
+                    : font.unicodeToGID[codePoint];
+                AppendCodePointAsHex(gid);
             }
-            i += char.IsHighSurrogate(str[i]) ? 2 : 1;  // Proper surrogate handling
         }
     }
 
     private void AppendCodePointAsHex(int codePoint) {
-        if (codePoint <= 0xFFFF) {
-            // Basic Multilingual Plane (BMP) character
-            buf.WriteByte(Page.HEX[(codePoint >> 12) & 0xF]);
-            buf.WriteByte(Page.HEX[(codePoint >> 8)  & 0xF]);
-            buf.WriteByte(Page.HEX[(codePoint >> 4)  & 0xF]);
-            buf.WriteByte(Page.HEX[(codePoint)       & 0xF]);
-        }
+        buf.WriteByte(Page.HEX[(codePoint >> 12) & 0xF]);
+        buf.WriteByte(Page.HEX[(codePoint >> 8)  & 0xF]);
+        buf.WriteByte(Page.HEX[(codePoint >> 4)  & 0xF]);
+        buf.WriteByte(Page.HEX[codePoint & 0xF]);
     }
 
     public float[] DrawOn(Page page) {
