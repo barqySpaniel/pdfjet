@@ -15,8 +15,8 @@ public class Example_35 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        Font font = new Font(pdf, IBMPlexSans.Regular);
-        font.SetSize(14f);
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        f1.SetSize(14f);
 
 /*
         Rect rect = new Rect(0f, 0f, 300f, 300f);
@@ -24,7 +24,7 @@ public class Example_35 {
         rect.SetBorderColor(Color.blue);
         rect.SetBorderWidth(2f);
 
-        TextLine text = new TextLine(font, "Yahoo!");
+        TextLine text = new TextLine(f1, "Yahoo!");
         text.SetLocation(25f, 25f);
         text.SetFontSize(16f);
         text.SetTextColor(Color.blue);
@@ -47,22 +47,24 @@ public class Example_35 {
         rect.SetFillColor(Color.gray);
         container.Add(rect);
 
-        XObject xObject = new XObject(pdf, page, 400f, 400f);
-        xObject.SetLocation(100f, 100f);
+        XObject xObject = new XObject(pdf, 400f, 400f);
         xObject.SetStrokeColor(Color.darkgreen);
-        xObject.SetStrokeWidth(20f);
+        xObject.SetStrokeWidth(2f);
         xObject.MoveTo(0f, 0f);
         xObject.LineTo(400f, 0f);
         xObject.LineTo(400f, 400f);
         xObject.LineTo(0f, 400f);
         xObject.ClosePath();
+        xObject.AddFontResource(f1);
+        xObject.DrawText(f1, 12f, 20f, 20f, "Hello, World!");
         xObject.Complete();
-        xObject.SetRotationClockwise(45);
+        xObject.SetLocation(0f, 0f);
+        // xObject.SetRotationClockwise(45);
         xObject.DrawOn(page);
         // container.Add(xObject);
 
         // Add a text line to container
-        TextLine title = new TextLine(font, "Container");
+        TextLine title = new TextLine(f1, "Container");
         title.SetLocation(150f, 20f);
         container.Add(title);
 
@@ -76,7 +78,7 @@ public class Example_35 {
         innerRect.SetFillColor(Color.blue);
         nested1.Add(innerRect);
 
-        TextLine innerText = new TextLine(font, "Nested 1");
+        TextLine innerText = new TextLine(f1, "Nested 1");
         innerText.SetLocation(50f, 100f);
         nested1.Add(innerText);
 
@@ -91,7 +93,7 @@ public class Example_35 {
         smallRect.SetFillColor(Color.red);
         nested2.Add(smallRect);
 
-        TextLine smallText = new TextLine(font, "Nested 2");
+        TextLine smallText = new TextLine(f1, "Nested 2");
         smallText.SetLocation(10f, 50f);
         nested2.Add(smallText);
 

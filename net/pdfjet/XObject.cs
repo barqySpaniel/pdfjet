@@ -150,6 +150,23 @@ public class XObject : IDrawable {
         Append("f\n");
     }
 
+    public void DrawText(Font f1, float fontSize, float x, float y, String text) {
+        Append("BT\n");
+        Append("/F");
+        Append(f1.objNumber);
+        Append(" ");
+        Append(fontSize);
+        Append(" Tf\n");
+        Append(x);
+        Append(" ");
+        Append(height - y);
+        Append(" Td\n");
+        Append("<");
+        Append(PDF.ToHex(text));
+        Append("> Tj\n");
+        Append("ET\n");
+    }
+
     /// <summary>
     /// Sets the rotation angle.
     /// </summary>
@@ -186,7 +203,19 @@ public class XObject : IDrawable {
         pdf.Append(FastFloat.ToByteArray(height));
         pdf.Append("]\n");
 
-        pdf.Append("/Resources <<>>\n");    // Must be here even if empty!!
+        pdf.Append("/Resources <<\n");
+        if (fonts.Count > 0) {
+            pdf.Append("/Font <<\n");
+            foreach (Font font in fonts) {
+                pdf.Append("/F");
+                pdf.Append(font.objNumber);
+                pdf.Append(" ");
+                pdf.Append(font.objNumber);
+                pdf.Append(" 0 R\n");
+            }
+            pdf.Append(">>\n");
+        }
+        pdf.Append(">>\n");
         pdf.Append("/Length ");
         pdf.Append(buf.Length);
         pdf.Append(Token.Newline);
