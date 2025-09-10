@@ -56,7 +56,7 @@ public class Example_35 {
         xObject.LineTo(0f, 400f);
         xObject.ClosePath();
         xObject.AddFontResource(f1);
-        xObject.DrawText(f1, 12f, 20f, 20f, "Hello, World!");
+        xObject.DrawText(f1, 14f, 25f, 25f, "Hello, World!");
         xObject.Complete();
         xObject.SetLocation(0f, 0f);
         // xObject.SetRotationClockwise(45);
