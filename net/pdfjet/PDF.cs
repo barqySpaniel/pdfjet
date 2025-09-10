@@ -20,6 +20,7 @@ public class PDF {
     internal List<Image> images = new List<Image>();
     internal List<OptionalContentGroup> groups = new List<OptionalContentGroup>();
     internal Dictionary<String, Int32> states = new Dictionary<String, Int32>();
+    internal List<XObject> xObjects = new List<XObject>();
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
     internal Compliance compliance = Compliance.PDF_1_7;
     internal Bookmark toc = null;
