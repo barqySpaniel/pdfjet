@@ -451,20 +451,26 @@ public class PDF {
                     Append("\n");
                 }
 
-                Append("/Lang (");
-                if (element.language != null) {
-                    Append(element.language);
-                } else {
-                    Append(this.language);
+                String language = element.language != null ? element.language : this.language;
+                byte[] languageBytes = Encoding.UTF8.GetBytes(language);
+                byte[] actualTextBytes = Encoding.UTF8.GetBytes(element.actualText);
+                byte[] altDescriptionBytes = Encoding.UTF8.GetBytes(element.altDescription);
+                if (encryption != null) {
+                    languageBytes = Encryption.AES256.Encrypt(languageBytes, encryption.GetKey());
+                    actualTextBytes = Encryption.AES256.Encrypt(actualTextBytes, encryption.GetKey());
+                    altDescriptionBytes = Encryption.AES256.Encrypt(altDescriptionBytes, encryption.GetKey());
                 }
-                Append(")\n");
+
+                Append("/Lang <");
+                Append(Util.ToHexString(languageBytes));
+                Append(">\n");
 
                 Append("/ActualText <");
-                Append(ToHex(element.actualText));
+                Append(Util.ToHexString(actualTextBytes));
                 Append(">\n");
 
                 Append("/Alt <");
-                Append(ToHex(element.altDescription));
+                Append(Util.ToHexString(altDescriptionBytes));
                 Append(">\n");
 
                 Append(">>\n");
@@ -1439,10 +1445,15 @@ public class PDF {
             count = (-1) * GetNumOfChildren(0, bm1);
         }
 
+        byte[] title = Encoding.UTF8.GetBytes(bm1.GetTitle());
+        if (encryption != null) {
+            title = Encryption.AES256.Encrypt(title, encryption.GetKey());
+        }
+
         NewObj();
         Append(Token.BeginDictionary);
-        Append("/Title <");             // TODO:
-        Append(ToHex(bm1.GetTitle()));
+        Append("/Title <");
+        Append(Util.ToHexString(title));
         Append(">\n");
         Append("/Parent ");
         Append(parent);
