@@ -159,7 +159,7 @@ public class XObject : IDrawable {
         Append("f\n");
     }
 
-    public void DrawText(TextParams parameters, String text) {
+    public void DrawText(Parameters parameters, String text) {
         Append("BT\n");
         Append("/F");
         Append(parameters.font.objNumber);

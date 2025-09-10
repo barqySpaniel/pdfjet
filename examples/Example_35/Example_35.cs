@@ -57,11 +57,11 @@ public class Example_35 {
         xObject.LineTo(0f, 400f);
         xObject.ClosePath();
         xObject.AddFontResource(f1);
-        TextParams params = new TextParams();
-        params.SetFont(f1);
-        params.SetFontSize(14f);
-        params.SetLocation(25f, 25f);
-        xObject.DrawText(params, "Hello, World!");
+        Parameters parameters = new Parameters()
+            .SetFont(f1)
+            .SetFontSize(14f)
+            .SetLocation(25f, 25f);
+        xObject.DrawText(parameters, "Hello, World!");
         xObject.Complete();
         xObject.SetLocation(50f, 50f);
         // xObject.SetRotationClockwise(45);
