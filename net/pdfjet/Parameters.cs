@@ -7,6 +7,7 @@ public class Parameters {
     internal float fontSize;
     internal float x;
     internal float y;
+    internal String text;
 
     // Constructor to initialize with default values (optional)
     public Parameters() {
@@ -31,6 +32,11 @@ public class Parameters {
     public Parameters SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
+        return this;
+    }
+
+    public Parameters SetText(String text) {
+        this.text = text;
         return this;
     }
 }   // End of TextParams.cs
