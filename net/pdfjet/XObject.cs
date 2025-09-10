@@ -42,6 +42,63 @@ public class XObject : IDrawable {
         this.y = (float)y;
     }
 
+    private void Append(float value) {
+        byte[] bytes = FastFloat.ToByteArray(value);
+        buf.Write(bytes, 0, bytes.Length);
+    }
+
+    private void Append(String str) {
+        byte[] bytes = Encoding.UTF8.GetBytes(str);
+        buf.Write(bytes, 0, bytes.Length);
+    }
+
+    public void MoveTo(float x, float y) {
+        Append(x);
+        Append(" ");
+        Append(height - y);
+        Append(" m\n");
+    }
+
+    public void LineTo(float x, float y) {
+        Append(x);
+        Append(" ");
+        Append(height - y);
+        Append(" l\n");
+    }
+
+    public void CurveTo(
+            float x1,
+            float y1,
+            float x2,
+            float y2,
+            float x3,
+            float y3) {
+        Append(x1);
+        Append(" ");
+        Append(height - y1);
+        Append(" ");
+        Append(x2);
+        Append(" ");
+        Append(height - y2);
+        Append(" ");
+        Append(x3);
+        Append(" ");
+        Append(height - y3);
+        Append(" c\n");
+    }
+
+    public void StrokePath() {
+        Append("S\n");
+    }
+
+    public void ClosePath() {
+        Append("s\n");
+    }
+
+    public void FillPath() {
+        Append("f\n");
+    }
+
     public void SetRotateDegreesCW(float degrees) {
         this.rotateDegrees = -degrees;
     }
