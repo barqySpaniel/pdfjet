@@ -21,15 +21,14 @@ public class XObject : IDrawable {
     private float[] fillColor;
     private float[] strokeColor;
     private float strokeWidth = 1f;
-    private MemoryStream buf;
     private float rotateDegrees = 0f;
-    private List<Font> fonts;
+    private MemoryStream buf = new MemoryStream();
+    private List<Font> fonts = new List<Font>();
 
     public XObject(PDF pdf, float width, float height) {
         this.pdf = pdf;
         this.width = width;
         this.height = height;
-        this.buf = new MemoryStream();
     }
 
     public void AddFontResource(Font font) {
