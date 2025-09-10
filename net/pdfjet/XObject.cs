@@ -14,7 +14,6 @@ public class XObject : IDrawable {
     internal int objNumber;
 
     private PDF pdf;
-    private Page page;
     private float x;
     private float y;
     private float width;
@@ -24,13 +23,17 @@ public class XObject : IDrawable {
     private float strokeWidth = 1f;
     private MemoryStream buf;
     private float rotateDegrees = 0f;
+    private List<Font> fonts;
 
-    public XObject(PDF pdf, Page page, float width, float height) {
+    public XObject(PDF pdf, float width, float height) {
         this.pdf = pdf;
-        this.page = page;
         this.width = width;
         this.height = height;
         this.buf = new MemoryStream();
+    }
+
+    public void AddFontResource(Font font) {
+        fonts.Add(font);
     }
 
     public void SetPosition(float x, float y) {
