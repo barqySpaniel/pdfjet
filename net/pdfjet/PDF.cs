@@ -288,13 +288,13 @@ public class PDF {
         Append("/Type /OutputIntent\n");
         Append("/S /GTS_PDFA1\n");
         Append("/OutputCondition <");
-        Append(identifierBytes);
+        Append(Util.ToHexString(identifierBytes));
         Append(">\n");
         Append("/OutputConditionIdentifier <");
-        Append(identifierBytes);
+        Append(Util.ToHexString(identifierBytes));
         Append(">\n");
         Append("/Info <");
-        Append(identifierBytes);
+        Append(Util.ToHexString(identifierBytes));
         Append(">\n");
         Append("/DestOutputProfile ");
         Append(GetObjNumber() - 1);
