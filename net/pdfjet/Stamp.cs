@@ -226,6 +226,15 @@ public class Stamp : IDrawable {
     /// Sets the rotation angle.
     /// </summary>
     /// <param name="degrees">The rotation angle in degrees.</param>
+    public Stamp Rotate(double degrees) {
+        this.rotateDegrees = (float)degrees;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the rotation angle.
+    /// </summary>
+    /// <param name="degrees">The rotation angle in degrees.</param>
     public Stamp SetRotation(double degrees) {
         this.rotateDegrees = (float)degrees;
         return this;

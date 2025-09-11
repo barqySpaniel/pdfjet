@@ -85,8 +85,11 @@ public class Example_35 {
 
         stamp.SetLocation(50f, 50f).DrawOn(page);
 
-        // Rotate the stamp and draw it again
-        stamp.SetRotationCounterClockwise(15).DrawOn(page);
+        // Rotate the stamp counter clockwise and draw it again
+        stamp.Rotate(15).DrawOn(page);
+
+        // Rotate the stamp clockwise and draw it again
+        stamp.Rotate(-15).DrawOn(page);
 
         // Add a text line to container
         TextLine title = new TextLine(f1, "Container");
