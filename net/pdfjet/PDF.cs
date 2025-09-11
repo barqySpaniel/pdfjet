@@ -774,6 +774,7 @@ public class PDF {
             if (encryption != null) {
                 buf = Encryption.AES256.Encrypt(buf, encryption.GetKey());
             }
+            page.buf.Dispose();
 
             NewObj();
             Append(Token.BeginDictionary);
@@ -792,6 +793,7 @@ public class PDF {
             if (encryption != null) {
                 buf = Encryption.AES256.Encrypt(buf, encryption.GetKey());
             }
+            page.buf.Dispose();
 
             NewObj();
             Append(Token.BeginDictionary);
