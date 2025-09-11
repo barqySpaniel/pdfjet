@@ -66,11 +66,11 @@ public class Example_35 {
         var parameters = new TextParameters()
             .SetFont(f1)
             .SetFontSize(14f)
-            .SetLocation(25f, 25f)
+            .SetTextLocation(25f, 25f)
             .SetText("Hello, World!");
         stamp.DrawText(parameters);
 
-        parameters.SetFont(f2).SetLocation(25f, 50f);
+        parameters.SetFont(f2).SetTextLocation(25f, 50f);
         stamp.SetFillColor(Color.darkgreen);
         stamp.DrawText(parameters);
 

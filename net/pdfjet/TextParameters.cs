@@ -29,7 +29,7 @@ public class TextParameters {
     }
 
     // Method to set the location (X, Y)
-    public TextParameters SetLocation(float x, float y) {
+    public TextParameters SetTextLocation(float x, float y) {
         this.x = x;
         this.y = y;
         return this;
