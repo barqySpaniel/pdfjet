@@ -51,18 +51,22 @@ public class Example_35 {
         container.Add(rect);
 
         var stamp = new Stamp(pdf, 400f, 400f).AddFont(f1).AddFont(f2);
-        stamp.SetStrokeColor(Color.red);
-        stamp.SetStrokeWidth(4f);
-        stamp.MoveTo(0f, 0f);
-        stamp.LineTo(400f, 0f);
-        stamp.LineTo(400f, 400f);
-        stamp.LineTo(0f, 400f);
-        stamp.ClosePath();
 
-        stamp.SetStrokeColor(Color.blue);
-        stamp.SetStrokeWidth(1f);
-        stamp.DrawRect(10f, 10f, 380f, 380f);
+        // Draw path ...
+        stamp.SetStrokeColor(Color.red)
+            .SetStrokeWidth(4f)
+            .MoveTo(0f, 0f)
+            .LineTo(400f, 0f)
+            .LineTo(400f, 400f)
+            .LineTo(0f, 400f)
+            .ClosePath();
 
+        // Draw Rectangle
+        stamp.SetStrokeColor(Color.blue)
+            .SetStrokeWidth(1f)
+            .DrawRect(10f, 10f, 380f, 380f);
+
+        // Draw some text
         var parameters = new TextParameters()
             .SetFont(f1)
             .SetFontSize(14f)
@@ -70,16 +74,16 @@ public class Example_35 {
             .SetText("Hello, World!");
         stamp.DrawText(parameters);
 
+        // Change some parameters and draw the text again
         parameters.SetFont(f2).SetTextLocation(25f, 50f);
-        stamp.SetFillColor(Color.darkgreen);
-        stamp.DrawText(parameters);
+        stamp.SetFillColor(Color.darkgreen).DrawText(parameters);
 
-        stamp.Complete();
+        stamp.Complete();   // The stamp is complete!
 
-        stamp.SetLocation(50f, 50f);
-        stamp.DrawOn(page);
-        stamp.SetRotation(15);
-        stamp.DrawOn(page);
+        stamp.SetLocation(50f, 50f).DrawOn(page);
+
+        // Rotate the stamp and draw it again
+        stamp.SetRotationCounterClockwise(15).DrawOn(page);
 
         // Add a text line to container
         TextLine title = new TextLine(f1, "Container");
