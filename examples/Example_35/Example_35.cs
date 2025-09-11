@@ -50,7 +50,7 @@ public class Example_35 {
         rect.SetFillColor(Color.gray);
         container.Add(rect);
 
-        var stamp = new Stamp(pdf, 400f, 400f).AddFont(f1).AddFont(f2);
+        var stamp = new Stamp(pdf).WithSize(400f, 400f).WithFont(f1).WithFont(f2);
 
         // Draw path ...
         stamp.SetStrokeColor(Color.red)

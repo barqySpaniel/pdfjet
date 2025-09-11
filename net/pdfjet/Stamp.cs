@@ -25,13 +25,17 @@ public class Stamp : IDrawable {
     private MemoryStream buf = new MemoryStream();
     private List<Font> fonts = new List<Font>();
 
-    public Stamp(PDF pdf, float width, float height) {
+    public Stamp(PDF pdf) {
         this.pdf = pdf;
-        this.width = width;
-        this.height = height;
     }
 
-    public Stamp AddFont(Font font) {
+    public Stamp WithSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+        return this;
+    }
+
+    public Stamp WithFont(Font font) {
         fonts.Add(font);
         return this;
     }
