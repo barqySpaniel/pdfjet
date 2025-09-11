@@ -18,6 +18,9 @@ public class Example_35 {
         Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.SetSize(14f);
 
+        Font f2 = new Font(pdf, IBMPlexSans.Bold);
+        f2.SetSize(14f);
+
 /*
         Rect rect = new Rect(0f, 0f, 300f, 300f);
         rect.SetLocation(0f, 0f);
@@ -47,15 +50,18 @@ public class Example_35 {
         rect.SetFillColor(Color.gray);
         container.Add(rect);
 
-        Stamp stamp = new Stamp(pdf, 400f, 400f);
-        stamp.SetStrokeColor(Color.darkgreen);
-        stamp.SetStrokeWidth(2f);
+        var stamp = new Stamp(pdf, 400f, 400f).AddFont(f1).AddFont(f2);
+        stamp.SetStrokeColor(Color.red);
+        stamp.SetStrokeWidth(4f);
         stamp.MoveTo(0f, 0f);
         stamp.LineTo(400f, 0f);
         stamp.LineTo(400f, 400f);
         stamp.LineTo(0f, 400f);
         stamp.ClosePath();
-        stamp.AddFontResource(f1);
+
+        stamp.SetStrokeColor(Color.blue);
+        stamp.SetStrokeWidth(1f);
+        stamp.DrawRect(10f, 10f, 380f, 380f);
 
         var parameters = new TextParameters()
             .SetFont(f1)
@@ -64,10 +70,12 @@ public class Example_35 {
             .SetText("Hello, World!");
         stamp.DrawText(parameters);
 
-        // Should we have this method too for advanced users?
-        // stamp.DrawText(f1, 14f, 25f, 50f, "Hello, World");
+        parameters.SetFont(f2).SetLocation(25f, 50f);
+        stamp.SetTextColor(Color.darkgreen);
+        stamp.DrawText(parameters);
 
         stamp.Complete();
+
         stamp.SetLocation(50f, 50f);
         stamp.DrawOn(page);
         stamp.SetRotation(15);

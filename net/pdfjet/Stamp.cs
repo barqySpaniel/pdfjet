@@ -18,7 +18,7 @@ public class Stamp : IDrawable {
     private float y;
     private float width;
     private float height;
-    private float[] fillColor;
+    private float[] textColor;
     private float[] strokeColor;
     private float strokeWidth = 1f;
     private float rotateDegrees = 0f;
@@ -31,8 +31,9 @@ public class Stamp : IDrawable {
         this.height = height;
     }
 
-    public void AddFontResource(Font font) {
+    public Stamp AddFont(Font font) {
         fonts.Add(font);
+        return this;
     }
 
     public void SetPosition(float x, float y) {
@@ -60,17 +61,17 @@ public class Stamp : IDrawable {
         buf.Write(bytes, 0, bytes.Length);
     }
 
-    public void SetFillColor(float[] rgbColor) {
+    public void SetTextColor(float[] rgbColor) {
         Append(rgbColor[0]);
         Append(" ");
         Append(rgbColor[1]);
         Append(" ");
         Append(rgbColor[2]);
         Append(" rg\n");
-        this.fillColor = rgbColor;
+        this.textColor = rgbColor;
     }
 
-    public void SetFillColor(int color) {
+    public void SetTextColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
@@ -80,7 +81,7 @@ public class Stamp : IDrawable {
         Append(" ");
         Append(b);
         Append(" rg\n");
-        this.fillColor = new float[] {r, g, b};
+        this.textColor = new float[] {r, g, b};
     }
 
     public void SetStrokeColor(float[] rgbColor) {
@@ -103,7 +104,7 @@ public class Stamp : IDrawable {
         Append(" ");
         Append(b);
         Append(" RG\n");
-        this.fillColor = new float[] {r, g, b};
+        this.textColor = new float[] {r, g, b};
     }
 
     public void SetStrokeWidth(float width) {
@@ -157,6 +158,15 @@ public class Stamp : IDrawable {
 
     public void FillPath() {
         Append("f\n");
+    }
+
+    public Stamp DrawRect(float x, float y, float w, float h) {
+        MoveTo(x, y);
+        LineTo(x + w, y);
+        LineTo(x + w, y + h);
+        LineTo(x, y + h);
+        ClosePath();
+        return this;
     }
 
     public void DrawText(TextParameters parameters) {
@@ -257,7 +267,7 @@ public class Stamp : IDrawable {
     }
 
     public float[] DrawOn(Page page) {
-        // page.AddBMC(StructElem.P, language, actualText, altDescription);
+        // page.AddBMC(StructElem.Figure, language, actualText, altDescription);
         page.Append("q\n"); // Save the graphics state
 
         float drawX = this.x;
