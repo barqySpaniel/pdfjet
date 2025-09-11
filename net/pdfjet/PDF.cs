@@ -20,7 +20,7 @@ public class PDF {
     internal List<Image> images = new List<Image>();
     internal List<OptionalContentGroup> groups = new List<OptionalContentGroup>();
     internal Dictionary<String, Int32> states = new Dictionary<String, Int32>();
-    internal List<XObject> xObjects = new List<XObject>();
+    internal List<Stamp> stamps = new List<Stamp>();
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
     internal Compliance compliance = Compliance.PDF_1_7;
     internal Bookmark toc = null;
@@ -332,8 +332,8 @@ public class PDF {
             Append(Token.EndDictionary);
         }
 
-        // Check if we have ANY XObjects
-        if (images.Count > 0 || xObjects.Count > 0) {
+        // Check if we have any XObjects
+        if (images.Count > 0 || stamps.Count > 0) {
             Append("/XObject <<\n"); // Write the key and open the dictionary ONCE
             // Add all Images to the same dictionary
             foreach (Image image in images) {
@@ -343,11 +343,11 @@ public class PDF {
                 Append(image.objNumber);
                 Append(" 0 R\n");
             }
-            foreach (XObject xObject in xObjects) {
+            foreach (Stamp stamp in stamps) {
                 Append("/Fm");
-                Append(xObject.objNumber);
+                Append(stamp.objNumber);
                 Append(' ');
-                Append(xObject.objNumber);
+                Append(stamp.objNumber);
                 Append(" 0 R\n");
             }
             Append(">>\n"); // Close the dictionary

@@ -1,5 +1,5 @@
 /**
- * XObject.cs
+ * Stamp.cs
  *
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
@@ -10,7 +10,7 @@ using System.Text;
 using System.Collections.Generic;
 
 namespace PDFjet.NET {
-public class XObject : IDrawable {
+public class Stamp : IDrawable {
     internal int objNumber;
 
     private PDF pdf;
@@ -25,7 +25,7 @@ public class XObject : IDrawable {
     private MemoryStream buf = new MemoryStream();
     private List<Font> fonts = new List<Font>();
 
-    public XObject(PDF pdf, float width, float height) {
+    public Stamp(PDF pdf, float width, float height) {
         this.pdf = pdf;
         this.width = width;
         this.height = height;
@@ -233,7 +233,7 @@ public class XObject : IDrawable {
         pdf.Append(buf.ToArray());
         pdf.Append(Token.EndStream);
         pdf.EndObj();
-        pdf.xObjects.Add(this);
+        pdf.stamps.Add(this);
         objNumber = pdf.GetObjNumber();
     }
 

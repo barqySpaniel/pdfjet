@@ -47,31 +47,31 @@ public class Example_35 {
         rect.SetFillColor(Color.gray);
         container.Add(rect);
 
-        XObject xObject = new XObject(pdf, 400f, 400f);
-        xObject.SetStrokeColor(Color.darkgreen);
-        xObject.SetStrokeWidth(2f);
-        xObject.MoveTo(0f, 0f);
-        xObject.LineTo(400f, 0f);
-        xObject.LineTo(400f, 400f);
-        xObject.LineTo(0f, 400f);
-        xObject.ClosePath();
-        xObject.AddFontResource(f1);
+        Stamp stamp = new Stamp(pdf, 400f, 400f);
+        stamp.SetStrokeColor(Color.darkgreen);
+        stamp.SetStrokeWidth(2f);
+        stamp.MoveTo(0f, 0f);
+        stamp.LineTo(400f, 0f);
+        stamp.LineTo(400f, 400f);
+        stamp.LineTo(0f, 400f);
+        stamp.ClosePath();
+        stamp.AddFontResource(f1);
 
         var parameters = new TextParameters()
             .SetFont(f1)
             .SetFontSize(14f)
             .SetLocation(25f, 25f)
             .SetText("Hello, World!");
-        xObject.DrawText(parameters);
+        stamp.DrawText(parameters);
 
         // Should we have this method too for advanced users?
-        // xObject.DrawText(f1, 14f, 25f, 50f, "Hello, World");
+        // stamp.DrawText(f1, 14f, 25f, 50f, "Hello, World");
 
-        xObject.Complete();
-        xObject.SetLocation(50f, 50f);
-        xObject.DrawOn(page);
-        xObject.SetRotation(15);
-        xObject.DrawOn(page);
+        stamp.Complete();
+        stamp.SetLocation(50f, 50f);
+        stamp.DrawOn(page);
+        stamp.SetRotation(15);
+        stamp.DrawOn(page);
 
         // Add a text line to container
         TextLine title = new TextLine(f1, "Container");
