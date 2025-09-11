@@ -42,38 +42,38 @@ public class Example_32 {
 
         List<List<Cell>> tableData = new List<List<Cell>>();
         List<Cell> row = new List<Cell>();
-        row.Add(new Cell(font, "Hello"));
-        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "View Panel").SetColSpan(2));
+        row.Add(new Cell(font, ""));
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font, "Hello"));
-        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "ROTATION:"));
+        row.Add(new Cell(font, "0.0"));
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font, "Hello"));
-        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "X:"));
+        row.Add(new Cell(font, "0"));
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font, "Hello"));
-        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Y:"));
+        row.Add(new Cell(font, "0"));
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font, "Hello"));
-        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "OBJECT:"));
+        row.Add(new Cell(font, "-"));
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font, "Hello"));
-        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "LON:"));
+        row.Add(new Cell(font, "73°58′59″W"));
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font, "Hello"));
-        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "LAT:"));
+        row.Add(new Cell(font, "40°45′11″N"));
         tableData.Add(row);
 
         Table table = new Table();

@@ -22,7 +22,7 @@ public class Cell {
     internal TextBox textBox;
     internal Point point;
     internal CompositeTextLine compositeTextLine;
-    internal float width = 50f;     // TODO: Rename to cellWidth
+    internal float width = 75f;     // TODO: Rename to cellWidth
     internal float topPadding = 2f;
     internal float bottomPadding = 2f;
     internal float leftPadding = 2f;
@@ -416,9 +416,10 @@ public class Cell {
      *
      *  @param colspan the specified column span value.
      */
-    public void SetColSpan(int colspan) {
+    public Cell SetColSpan(int colspan) {
         this.properties &= 0x00FF0000;
         this.properties |= ((uint) (colspan & 0x0000FFFF));
+        return this;
     }
 
     /**
