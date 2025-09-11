@@ -40,6 +40,47 @@ public class Example_32 {
             }
         }
 
+        List<List<Cell>> tableData = new List<List<Cell>>();
+        List<Cell> row = new List<Cell>();
+        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Hello"));
+        tableData.Add(row);
+
+        row = new List<Cell>();
+        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Hello"));
+        tableData.Add(row);
+
+        row = new List<Cell>();
+        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Hello"));
+        tableData.Add(row);
+
+        row = new List<Cell>();
+        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Hello"));
+        tableData.Add(row);
+
+        row = new List<Cell>();
+        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Hello"));
+        tableData.Add(row);
+
+        row = new List<Cell>();
+        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Hello"));
+        tableData.Add(row);
+
+        row = new List<Cell>();
+        row.Add(new Cell(font, "Hello"));
+        row.Add(new Cell(font, "Hello"));
+        tableData.Add(row);
+
+        Table table = new Table();
+        table.SetData(tableData);
+        table.SetLocation(450f, 500f);
+        table.DrawOn(page);
+
         pdf.Complete();
     }
 
