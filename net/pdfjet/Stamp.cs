@@ -182,6 +182,15 @@ public class Stamp : IDrawable {
         return this;
     }
 
+    public Stamp FillRect(float x, float y, float w, float h) {
+        MoveTo(x, y);
+        LineTo(x + w, y);
+        LineTo(x + w, y + h);
+        LineTo(x, y + h);
+        FillPath();
+        return this;
+    }
+
     public Stamp DrawText(TextParameters parameters) {
         Append("BT\n");
         Append("/F");

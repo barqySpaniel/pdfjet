@@ -66,6 +66,9 @@ public class Example_35 {
             .SetStrokeWidth(1f)
             .DrawRect(10f, 10f, 380f, 380f);
 
+        // Fill Rectangle
+        stamp.SetFillColor(Color.green).FillRect(10f, 10f, 20f, 20f);
+
         // Draw some text
         var parameters = new TextParameters()
             .SetFont(f1)
