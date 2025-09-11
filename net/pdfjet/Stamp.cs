@@ -41,14 +41,16 @@ public class Stamp : IDrawable {
         this.y = y;
     }
 
-    public void SetLocation(float x, float y) {
+    public Stamp SetLocation(float x, float y) {
         this.x = x;
         this.y = y;
+        return this;
     }
 
-    public void SetLocation(double x, double y) {
+    public Stamp SetLocation(double x, double y) {
         this.x = (float)x;
         this.y = (float)y;
+        return this;
     }
 
     private void Append(float value) {
@@ -61,7 +63,7 @@ public class Stamp : IDrawable {
         buf.Write(bytes, 0, bytes.Length);
     }
 
-    public void SetFillColor(float[] rgbColor) {
+    public Stamp SetFillColor(float[] rgbColor) {
         Append(rgbColor[0]);
         Append(" ");
         Append(rgbColor[1]);
@@ -69,9 +71,10 @@ public class Stamp : IDrawable {
         Append(rgbColor[2]);
         Append(" rg\n");
         this.fillColor = rgbColor;
+        return this;
     }
 
-    public void SetFillColor(int color) {
+    public Stamp SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
@@ -82,9 +85,10 @@ public class Stamp : IDrawable {
         Append(b);
         Append(" rg\n");
         this.fillColor = new float[] {r, g, b};
+        return this;
     }
 
-    public void SetStrokeColor(float[] rgbColor) {
+    public Stamp SetStrokeColor(float[] rgbColor) {
         Append(rgbColor[0]);
         Append(" ");
         Append(rgbColor[1]);
@@ -92,9 +96,10 @@ public class Stamp : IDrawable {
         Append(rgbColor[2]);
         Append(" RG\n");
         this.strokeColor = rgbColor;
+        return this;
     }
 
-    public void SetStrokeColor(int color) {
+    public Stamp SetStrokeColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
@@ -105,29 +110,33 @@ public class Stamp : IDrawable {
         Append(b);
         Append(" RG\n");
         this.fillColor = new float[] {r, g, b};
+        return this;
     }
 
-    public void SetStrokeWidth(float width) {
+    public Stamp SetStrokeWidth(float width) {
         Append(width);
         Append(" w\n");
         this.strokeWidth = width;
+        return this;
     }
 
-    public void MoveTo(float x, float y) {
+    public Stamp MoveTo(float x, float y) {
         Append(x);
         Append(" ");
         Append(height - y);
         Append(" m\n");
+        return this;
     }
 
-    public void LineTo(float x, float y) {
+    public Stamp LineTo(float x, float y) {
         Append(x);
         Append(" ");
         Append(height - y);
         Append(" l\n");
+        return this;
     }
 
-    public void CurveTo(
+    public Stamp CurveTo(
             float x1,
             float y1,
             float x2,
@@ -146,18 +155,22 @@ public class Stamp : IDrawable {
         Append(" ");
         Append(height - y3);
         Append(" c\n");
+        return this;
     }
 
-    public void StrokePath() {
+    public Stamp StrokePath() {
         Append("S\n");
+        return this;
     }
 
-    public void ClosePath() {
+    public Stamp ClosePath() {
         Append("s\n");
+        return this;
     }
 
-    public void FillPath() {
+    public Stamp FillPath() {
         Append("f\n");
+        return this;
     }
 
     public Stamp DrawRect(float x, float y, float w, float h) {
@@ -169,7 +182,7 @@ public class Stamp : IDrawable {
         return this;
     }
 
-    public void DrawText(TextParameters parameters) {
+    public Stamp DrawText(TextParameters parameters) {
         Append("BT\n");
         Append("/F");
         Append(parameters.font.objNumber);
@@ -184,30 +197,34 @@ public class Stamp : IDrawable {
         DrawText(parameters.font, parameters.text);
         Append("> Tj\n");
         Append("ET\n");
+        return this;
     }
 
     /// <summary>
     /// Sets the rotation angle.
     /// </summary>
     /// <param name="degrees">The rotation angle in degrees.</param>
-    public void SetRotation(double degrees) {
+    public Stamp SetRotation(double degrees) {
         this.rotateDegrees = (float)degrees;
+        return this;
     }
 
     /// <summary>
     /// Sets clockwise rotation.
     /// </summary>
     /// <param name="degrees">The rotation angle in degrees (clockwise).</param>
-    public void SetRotationClockwise(double degrees) {
+    public Stamp SetRotationClockwise(double degrees) {
         this.rotateDegrees = (float)-degrees;
+        return this;
     }
 
     /// <summary>
     /// Sets counter-clockwise rotation.
     /// </summary>
     /// <param name="degrees">The rotation angle in degrees (counter-clockwise).</param>
-    public void SetRotationCounterClockwise(double degrees) {
+    public Stamp SetRotationCounterClockwise(double degrees) {
         this.rotateDegrees = (float)degrees;
+        return this;
     }
 
     public void Complete() {
