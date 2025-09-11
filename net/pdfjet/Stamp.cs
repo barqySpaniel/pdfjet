@@ -18,7 +18,7 @@ public class Stamp : IDrawable {
     private float y;
     private float width;
     private float height;
-    private float[] textColor;
+    private float[] fillColor;
     private float[] strokeColor;
     private float strokeWidth = 1f;
     private float rotateDegrees = 0f;
@@ -61,17 +61,17 @@ public class Stamp : IDrawable {
         buf.Write(bytes, 0, bytes.Length);
     }
 
-    public void SetTextColor(float[] rgbColor) {
+    public void SetFillColor(float[] rgbColor) {
         Append(rgbColor[0]);
         Append(" ");
         Append(rgbColor[1]);
         Append(" ");
         Append(rgbColor[2]);
         Append(" rg\n");
-        this.textColor = rgbColor;
+        this.fillColor = rgbColor;
     }
 
-    public void SetTextColor(int color) {
+    public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
@@ -81,7 +81,7 @@ public class Stamp : IDrawable {
         Append(" ");
         Append(b);
         Append(" rg\n");
-        this.textColor = new float[] {r, g, b};
+        this.fillColor = new float[] {r, g, b};
     }
 
     public void SetStrokeColor(float[] rgbColor) {
@@ -104,7 +104,7 @@ public class Stamp : IDrawable {
         Append(" ");
         Append(b);
         Append(" RG\n");
-        this.textColor = new float[] {r, g, b};
+        this.fillColor = new float[] {r, g, b};
     }
 
     public void SetStrokeWidth(float width) {

@@ -71,7 +71,7 @@ public class Example_35 {
         stamp.DrawText(parameters);
 
         parameters.SetFont(f2).SetLocation(25f, 50f);
-        stamp.SetTextColor(Color.darkgreen);
+        stamp.SetFillColor(Color.darkgreen);
         stamp.DrawText(parameters);
 
         stamp.Complete();
