@@ -173,6 +173,11 @@ public class Stamp : IDrawable {
         return this;
     }
 
+    // TODO:
+    public Stamp Rectangle() {
+        return this;
+    }
+
     public Stamp DrawRect(float x, float y, float w, float h) {
         MoveTo(x, y);
         LineTo(x + w, y);
@@ -192,18 +197,22 @@ public class Stamp : IDrawable {
     }
 
     public Stamp DrawText(TextParameters parameters) {
+        return DrawText(parameters.font, parameters.fontSize, parameters.x, parameters.y, parameters.text);
+    }
+
+    public Stamp DrawText(Font font, float fontSize, float x, float y, String text) {
         Append("BT\n");
         Append("/F");
-        Append(parameters.font.objNumber);
+        Append(font.objNumber);
         Append(" ");
-        Append(parameters.fontSize);
+        Append(fontSize);
         Append(" Tf\n");
-        Append(parameters.x);
+        Append(x);
         Append(" ");
-        Append(height - parameters.y);
+        Append(height - y);
         Append(" Td\n");
         Append("<");
-        DrawText(parameters.font, parameters.text);
+        DrawText(font, text);
         Append("> Tj\n");
         Append("ET\n");
         return this;
