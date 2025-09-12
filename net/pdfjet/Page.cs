@@ -1078,7 +1078,7 @@ public class Page {
      * @param list the list of points that define the bezier curve.
      */
     public void DrawBezierCurve(List<Point> list) {
-        DrawBezierCurve(list, Operation.STROKE);
+        DrawBezierCurve(list, PathOperator.Stroke);
     }
 
     /**
@@ -1088,7 +1088,7 @@ public class Page {
      * @param list the list of points that define the bezier curve.
      * @param operation must be Operation.STROKE or Operation.FILL.
      */
-    public void DrawBezierCurve(List<Point> list, char operation) {
+    public void DrawBezierCurve(List<Point> list, String pathOperator) {
         Point point = list[0];
         MoveTo(point.x, point.y);
         for (int i = 1; i < list.Count; i++) {
@@ -1098,7 +1098,7 @@ public class Page {
                 Append("c\n");
             }
         }
-        Append(operation);
+        Append(pathOperator);
         Append('\n');
     }
 
