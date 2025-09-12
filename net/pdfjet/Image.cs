@@ -358,7 +358,8 @@ public class Image : IDrawable {
         }
 
         if (uri != null || key != null) {
-            page.AddAnnotation(new Annotation(
+            if (!String.IsNullOrEmpty(actualText) && !String.IsNullOrEmpty(altDescription)) {
+                page.AddAnnotation(new Annotation(
                     uri,
                     key,    // The destination name
                     x,
@@ -368,6 +369,7 @@ public class Image : IDrawable {
                     language,
                     actualText,
                     altDescription));
+            }
         }
 
         return new float[] {x + w, y + h};
