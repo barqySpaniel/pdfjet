@@ -180,7 +180,14 @@ public class Rect  : IDrawable {
                 new Point((this.x + this.r) - this.r * k, this.y, true),
                 new Point((this.x + this.r), this.y, false)
             };
-            page.DrawPath(points);
+            if (fillColor != null && borderColor == null) {
+                page.DrawPath(points, PathOperator.Fill);
+            } else if (fillColor == null && borderColor != null) {
+                page.DrawPath(points, PathOperator.Stroke);
+            } else if (fillColor != null && borderColor != null) {
+                page.DrawPath(points, PathOperator.FillAndStroke);
+            }
+
             if (borderColor != null && borderPattern != null) {
                 page.SetStrokePattern(borderPattern);
             }

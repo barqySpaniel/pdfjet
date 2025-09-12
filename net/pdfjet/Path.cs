@@ -294,26 +294,21 @@ public class Path : IDrawable {
         float centerX = x + w/2;
         float centerY = (page.height - y) - h/2;
         page.RotateAroundCenter(centerX, centerY, rotateDegrees);
-        page.DrawPath(points);
         if (strokeColor != null && strokePattern != null) {
             page.SetStrokePattern(strokePattern);
         }
-        if (fillColor != null && strokeColor != null) {
+        if (fillColor != null && strokeColor == null) {
             page.SetBrushColor(fillColor);
-            page.SetPenWidth(strokeWidth);
-            page.SetPenColor(strokeColor);
-            page.Append("B\n");
-        } else if (fillColor != null && strokeColor == null) {
-            page.SetBrushColor(fillColor);
-            page.Append("f\n");
+            page.DrawPath(points, PathOperator.Fill);
         } else if (fillColor == null && strokeColor != null) {
-            page.SetPenWidth(strokeWidth);
             page.SetPenColor(strokeColor);
-            page.Append("S\n");
-        } else {    // Both brushColor == null and penColor == null
-            page.SetPenWidth(0f);
-            page.SetPenColor(Color.black);
-            page.Append("S\n");
+            page.SetPenWidth(strokeWidth);
+            page.DrawPath(points, PathOperator.Stroke);
+        } else if (fillColor != null && strokeColor != null) {
+            page.SetBrushColor(fillColor);
+            page.SetPenColor(strokeColor);
+            page.SetPenWidth(strokeWidth);
+            page.DrawPath(points, PathOperator.FillAndStroke);
         }
         page.Append("Q\n");
 

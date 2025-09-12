@@ -7,7 +7,6 @@
 
 /**
  *  Used to specify the 'stroke', 'close' and 'fill' operations.
- *
  */
 namespace PDFjet.NET {
 public class Operation {

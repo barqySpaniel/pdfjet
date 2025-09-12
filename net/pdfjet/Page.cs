@@ -1045,7 +1045,7 @@ public class Page {
     /// <exception cref="Exception">
     /// Thrown when <paramref name="path"/> has fewer than two points.
     /// </exception>
-    public void DrawPath(List<Point> path) {
+    public void DrawPath(List<Point> path, string pathOperator) {
         if (path.Count < 2) {
             throw new Exception("The Path object must contain at least 2 points");
         }
@@ -1067,6 +1067,8 @@ public class Page {
                 }
             }
         }
+        Append(pathOperator);
+        Append('\n');
     }
 
     /**
@@ -1204,16 +1206,14 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
-                DrawPath(list);
-                FillPath();
+                DrawPath(list, PathOperator.Fill);
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
-                DrawPath(list);
-                FillPath();
+                DrawPath(list, PathOperator.Fill);
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 DrawLine(p.x, p.y - p.r, p.x, p.y + p.r);
@@ -1223,32 +1223,28 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list);
-                FillPath();
+                DrawPath(list, PathOperator.Fill);
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list);
-                FillPath();
+                DrawPath(list, PathOperator.Fill);
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
-                DrawPath(list);
-                FillPath();
+                DrawPath(list, PathOperator.Fill);
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list);
-                FillPath();
+                DrawPath(list, PathOperator.Fill);
             } else if (p.shape == Point.H_DASH) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
             } else if (p.shape == Point.V_DASH) {
@@ -1276,8 +1272,7 @@ public class Page {
                 list.Add(new Point(p.x + a, p.y - b));
                 list.Add(new Point(p.x - c, p.y + d));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list);
-                FillPath();
+                DrawPath(list, PathOperator.Fill);
             }
         }
     }
@@ -1457,31 +1452,37 @@ public class Page {
             float[] strokeColor) {
         // The best 4-spline magic number
         float m4 = 0.55228f;
-        List<Point> list = new List<Point>();
+        List<Point> points = new List<Point>();
 
         // Starting point
-        list.Add(new Point(x + w - r1, y));
-        list.Add(new Point(x + w - r1 + m4*r1, y, Point.CONTROL_POINT));
-        list.Add(new Point(x + w, y + r2 - m4*r2, Point.CONTROL_POINT));
-        list.Add(new Point(x + w, y + r2));
+        points.Add(new Point(x + w - r1, y));
+        points.Add(new Point(x + w - r1 + m4*r1, y, Point.CONTROL_POINT));
+        points.Add(new Point(x + w, y + r2 - m4*r2, Point.CONTROL_POINT));
+        points.Add(new Point(x + w, y + r2));
 
-        list.Add(new Point(x + w, y + h - r2));
-        list.Add(new Point(x + w, y + h - r2 + m4*r2, Point.CONTROL_POINT));
-        list.Add(new Point(x + w - m4*r1, y + h, Point.CONTROL_POINT));
-        list.Add(new Point(x + w - r1, y + h));
+        points.Add(new Point(x + w, y + h - r2));
+        points.Add(new Point(x + w, y + h - r2 + m4*r2, Point.CONTROL_POINT));
+        points.Add(new Point(x + w - m4*r1, y + h, Point.CONTROL_POINT));
+        points.Add(new Point(x + w - r1, y + h));
 
-        list.Add(new Point(x + r1, y + h));
-        list.Add(new Point(x + r1 - m4*r1, y + h, Point.CONTROL_POINT));
-        list.Add(new Point(x, y + h - m4*r2, Point.CONTROL_POINT));
-        list.Add(new Point(x, y + h - r2));
+        points.Add(new Point(x + r1, y + h));
+        points.Add(new Point(x + r1 - m4*r1, y + h, Point.CONTROL_POINT));
+        points.Add(new Point(x, y + h - m4*r2, Point.CONTROL_POINT));
+        points.Add(new Point(x, y + h - r2));
 
-        list.Add(new Point(x, y + r2));
-        list.Add(new Point(x, y + r2 - m4*r2, Point.CONTROL_POINT));
-        list.Add(new Point(x + m4*r1, y, Point.CONTROL_POINT));
-        list.Add(new Point(x + r1, y));
-        list.Add(new Point(x + w - r1, y));
+        points.Add(new Point(x, y + r2));
+        points.Add(new Point(x, y + r2 - m4*r2, Point.CONTROL_POINT));
+        points.Add(new Point(x + m4*r1, y, Point.CONTROL_POINT));
+        points.Add(new Point(x + r1, y));
+        points.Add(new Point(x + w - r1, y));
 
-        DrawPath(list);
+        if (fillColor != null && strokeColor == null) {
+            DrawPath(points, PathOperator.Fill);
+        } else if (fillColor == null && strokeColor != null) {
+            DrawPath(points, PathOperator.Stroke);
+        } else if (fillColor != null && strokeColor != null) {
+            DrawPath(points, PathOperator.FillAndStroke);
+        }
     }
 
     /**
