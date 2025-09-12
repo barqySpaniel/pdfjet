@@ -873,7 +873,7 @@ public class Page {
     ///
     public func drawPath(
             _ path: [Point],
-            _ operation: String) {
+            _ pathOperator: PathOperator) {
         if path.count < 2 {
             // Swift.print("The Path object must contain at least 2 points")
         }
@@ -895,7 +895,7 @@ public class Page {
                 }
             }
         }
-        append(operation)
+        append(pathOperator.rawValue)
         append("\n")
     }
 
@@ -912,7 +912,7 @@ public class Page {
             _ x: Float,
             _ y: Float,
             _ r: Float) {
-        drawEllipse(x, y, r, r, Operation.STROKE)
+        drawEllipse(x, y, r, r, PathOperator.stroke)
     }
 
     ///
@@ -927,8 +927,8 @@ public class Page {
             _ x: Float,
             _ y: Float,
             _ r: Float,
-            _ operation: String) {
-        drawEllipse(x, y, r, r, operation)
+            _ pathOperator: PathOperator) {
+        drawEllipse(x, y, r, r, pathOperator)
     }
 
     ///
@@ -944,7 +944,7 @@ public class Page {
             _ y: Float,
             _ r1: Float,
             _ r2: Float) {
-        drawEllipse(x, y, r1, r2, Operation.STROKE)
+        drawEllipse(x, y, r1, r2, PathOperator.stroke)
     }
 
     ///
@@ -960,7 +960,7 @@ public class Page {
             _ y: Float,
             _ r1: Float,
             _ r2: Float) {
-        drawEllipse(x, y, r1, r2, Operation.FILL)
+        drawEllipse(x, y, r1, r2, PathOperator.fill)
     }
 
     ///
@@ -977,7 +977,7 @@ public class Page {
             _ y: Float,
             _ r1: Float,
             _ r2: Float,
-            _ operation: String) {
+            _ pathOperator: PathOperator) {
         // The best 4-spline magic number
         let m4: Float = 0.551784
 
@@ -1004,7 +1004,7 @@ public class Page {
         appendPointXY(x, y - r2)
         append("c\n")
 
-        append(operation)
+        append(pathOperator.rawValue)
         append("\n")
     }
 
@@ -1018,9 +1018,9 @@ public class Page {
             var list: [Point]
             if p.shape == Point.CIRCLE {
                 if p.fillShape {
-                    drawCircle(p.x, p.y, p.r, "f")
+                    drawCircle(p.x, p.y, p.r, PathOperator.fill)
                 } else {
-                    drawCircle(p.x, p.y, p.r, "S")
+                    drawCircle(p.x, p.y, p.r, PathOperator.stroke)
                 }
             } else if p.shape == Point.DIAMOND {
                 list = [Point]()
@@ -1029,9 +1029,9 @@ public class Page {
                 list.append(Point(p.x, p.y + p.r))
                 list.append(Point(p.x - p.r, p.y))
                 if p.fillShape {
-                    drawPath(list, "f")
+                    drawPath(list, PathOperator.fill)
                 } else {
-                    drawPath(list, "s")
+                    drawPath(list, PathOperator.closeAndStroke)
                 }
             } else if p.shape == Point.BOX {
                 list = [Point]()
@@ -1040,9 +1040,9 @@ public class Page {
                 list.append(Point(p.x + p.r, p.y + p.r))
                 list.append(Point(p.x - p.r, p.y + p.r))
                 if p.fillShape {
-                    drawPath(list, "f")
+                    drawPath(list, PathOperator.fill)
                 } else {
-                    drawPath(list, "s")
+                    drawPath(list, PathOperator.closeAndStroke)
                 }
             } else if p.shape == Point.PLUS {
                 drawLine(p.x - p.r, p.y, p.x + p.r, p.y)
@@ -1053,9 +1053,9 @@ public class Page {
                 list.append(Point(p.x + p.r, p.y + p.r))
                 list.append(Point(p.x - p.r, p.y + p.r))
                 if p.fillShape {
-                    drawPath(list, "f")
+                    drawPath(list, PathOperator.fill)
                 } else {
-                    drawPath(list, "s")
+                    drawPath(list, PathOperator.closeAndStroke)
                 }
             } else if p.shape == Point.DOWN_ARROW {
                 list = [Point]()
@@ -1063,9 +1063,9 @@ public class Page {
                 list.append(Point(p.x + p.r, p.y - p.r))
                 list.append(Point(p.x, p.y + p.r))
                 if p.fillShape {
-                    drawPath(list, "f")
+                    drawPath(list, PathOperator.fill)
                 } else {
-                    drawPath(list, "s")
+                    drawPath(list, PathOperator.closeAndStroke)
                 }
             } else if p.shape == Point.LEFT_ARROW {
                 list = [Point]()
@@ -1073,9 +1073,9 @@ public class Page {
                 list.append(Point(p.x - p.r, p.y))
                 list.append(Point(p.x + p.r, p.y - p.r))
                 if p.fillShape {
-                    drawPath(list, "f")
+                    drawPath(list, PathOperator.fill)
                 } else {
-                    drawPath(list, "s")
+                    drawPath(list, PathOperator.closeAndStroke)
                 }
             } else if p.shape == Point.RIGHT_ARROW {
                 list = [Point]()
@@ -1083,9 +1083,9 @@ public class Page {
                 list.append(Point(p.x + p.r, p.y))
                 list.append(Point(p.x - p.r, p.y + p.r))
                 if p.fillShape {
-                    drawPath(list, "f")
+                    drawPath(list, PathOperator.fill)
                 } else {
-                    drawPath(list, "s")
+                    drawPath(list, PathOperator.closeAndStroke)
                 }
             } else if p.shape == Point.H_DASH {
                 drawLine(p.x - p.r, p.y, p.x + p.r, p.y)
@@ -1114,9 +1114,9 @@ public class Page {
                 list.append(Point(p.x + a, p.y - b))
                 list.append(Point(p.x - c, p.y + d))
                 if p.fillShape {
-                    drawPath(list, "f")
+                    drawPath(list, PathOperator.fill)
                 } else {
-                    drawPath(list, "s")
+                    drawPath(list, PathOperator.closeAndStroke)
                 }
             }
         }
@@ -1298,7 +1298,7 @@ public class Page {
             _ h: Float,
             _ r1: Float,
             _ r2: Float,
-            _ operation: String) {
+            _ pathOperator: PathOperator) {
         // The best 4-spline magic number
         let m4: Float = 0.55228
         var list = [Point]()
@@ -1324,7 +1324,7 @@ public class Page {
         list.append(Point(x + r1, y))
         list.append(Point(x + w - r1, y))
 
-        drawPath(list, operation)
+        drawPath(list, pathOperator)
     }
 
     ///

@@ -93,7 +93,7 @@ public class Rect : Drawable {
     public func setPosition(_ x: Float, _ y: Float) {
         setLocation(x, y)
     }
-    
+
     /**
      * Sets the size of this rect.
      * - Parameters:
@@ -270,7 +270,7 @@ public class Rect : Drawable {
             points.append(Point((self.x + self.r) - self.r * k, self.y, true))
             points.append(Point(self.x + self.r, self.y, false))
 
-            page!.drawPath(points, Operation.STROKE)
+            page!.drawPath(points, PathOperator.stroke)
         }
         page!.addEMC()
 

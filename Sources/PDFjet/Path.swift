@@ -210,7 +210,7 @@ public class Path : Drawable {
 
         if fillShape {
             page!.setBrushColor(self.color)
-            page!.drawPath(points!, Operation.FILL)
+            page!.drawPath(points!, PathOperator.fill)
         } else {
             page!.setPenWidth(self.width)
             page!.setPenColor(self.color)
@@ -218,9 +218,9 @@ public class Path : Drawable {
             page!.setLineCapStyle(self.lineCapStyle)
             page!.setLineJoinStyle(self.lineJoinStyle)
             if closePath {
-                page!.drawPath(points!, Operation.CLOSE)
+                page!.drawPath(points!, PathOperator.closeAndStroke)
             } else {
-                page!.drawPath(points!, Operation.STROKE)
+                page!.drawPath(points!, PathOperator.stroke)
             }
         }
 

@@ -478,7 +478,7 @@ public class Chart : Drawable {
                     page.setPenColor(point.color)
                     page.setPenWidth(point.lineWidth)
                     page.setLinePattern(point.linePattern)
-                    page.drawPath(points, Operation.STROKE)
+                    page.drawPath(points, PathOperator.stroke)
                     if point.getText() != nil {
                         page.setBrushColor(point.getTextColor())
                         page.setTextDirection(point.getTextDirection())
