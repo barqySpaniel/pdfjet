@@ -469,27 +469,29 @@ public class PDF {
                     Append("\n");
                 }
 
-                String language = element.language != null ? element.language : this.language;
-                byte[] languageBytes = Encoding.UTF8.GetBytes(language);
-                byte[] actualTextBytes = Encoding.UTF8.GetBytes(element.actualText);
-                byte[] altDescriptionBytes = Encoding.UTF8.GetBytes(element.altDescription);
-                if (encryption != null) {
-                    languageBytes = Encryption.AES256.Encrypt(languageBytes, encryption.GetKey());
-                    actualTextBytes = Encryption.AES256.Encrypt(actualTextBytes, encryption.GetKey());
-                    altDescriptionBytes = Encryption.AES256.Encrypt(altDescriptionBytes, encryption.GetKey());
+                if (!String.IsNullOrEmpty(element.actualText) && !String.IsNullOrEmpty(element.altDescription)) {
+                    String language = element.language != null ? element.language : this.language;
+                    byte[] languageBytes = Encoding.UTF8.GetBytes(language);
+                    byte[] actualTextBytes = Encoding.UTF8.GetBytes(element.actualText);
+                    byte[] altDescriptionBytes = Encoding.UTF8.GetBytes(element.altDescription);
+                    if (encryption != null) {
+                        languageBytes = Encryption.AES256.Encrypt(languageBytes, encryption.GetKey());
+                        actualTextBytes = Encryption.AES256.Encrypt(actualTextBytes, encryption.GetKey());
+                        altDescriptionBytes = Encryption.AES256.Encrypt(altDescriptionBytes, encryption.GetKey());
+                    }
+
+                    Append("/Lang <");
+                    Append(Util.ToHexString(languageBytes));
+                    Append(">\n");
+
+                    Append("/ActualText <");
+                    Append(Util.ToHexString(actualTextBytes));
+                    Append(">\n");
+
+                    Append("/Alt <");
+                    Append(Util.ToHexString(altDescriptionBytes));
+                    Append(">\n");
                 }
-
-                Append("/Lang <");
-                Append(Util.ToHexString(languageBytes));
-                Append(">\n");
-
-                Append("/ActualText <");
-                Append(Util.ToHexString(actualTextBytes));
-                Append(">\n");
-
-                Append("/Alt <");
-                Append(Util.ToHexString(altDescriptionBytes));
-                Append(">\n");
 
                 Append(">>\n");
                 EndObj();

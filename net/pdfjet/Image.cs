@@ -27,8 +27,8 @@ public class Image : IDrawable {
 
     private float degrees = 0;
     private String language = null;
-    private String altDescription = Single.space;
-    private String actualText = Single.space;
+    private String altDescription = null;
+    private String actualText = null;
 
     /**
      *  Convenience constructor for the Image class.
@@ -342,7 +342,9 @@ public class Image : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-        page.AddBMC(StructElem.P, language, actualText, altDescription);
+        if (!String.IsNullOrEmpty(actualText) && !String.IsNullOrEmpty(altDescription)) {
+            page.AddBMC(StructElem.P, language, actualText, altDescription);
+        }
         page.Append("q\n");
 
         page.ScaleAndRotate(x, y, w, h, degrees);
@@ -351,7 +353,9 @@ public class Image : IDrawable {
         page.Append(" Do\n");
 
         page.Append("Q\n");
-        page.AddEMC();
+        if (!String.IsNullOrEmpty(actualText) && !String.IsNullOrEmpty(altDescription)) {
+            page.AddEMC();
+        }
 
         if (uri != null || key != null) {
             page.AddAnnotation(new Annotation(
