@@ -1012,7 +1012,7 @@ final public class Page {
      *  @throws Exception  If an input or output exception occurred
      */
     public void drawPath(
-            List<Point> path, char operation) throws Exception {
+            List<Point> path, String pathOperator) throws Exception {
         if (path.size() < 2) {
             throw new Exception(
                     "The Path object must contain at least 2 points");
@@ -1035,7 +1035,7 @@ final public class Page {
                 }
             }
         }
-        append(operation);
+        append(pathOperator);
         append('\n');
     }
 
@@ -1052,7 +1052,7 @@ final public class Page {
             double x,
             double y,
             double r) {
-        drawEllipse((float) x, (float) y, (float) r, (float) r, Operation.STROKE);
+        drawEllipse((float) x, (float) y, (float) r, (float) r, PathOperator.STROKE);
     }
 
     /**
@@ -1067,7 +1067,7 @@ final public class Page {
             float x,
             float y,
             float r) {
-        drawEllipse(x, y, r, r, Operation.STROKE);
+        drawEllipse(x, y, r, r, PathOperator.STROKE);
     }
 
     /**
@@ -1076,14 +1076,14 @@ final public class Page {
      *  @param x the x coordinate of the center of the circle to be drawn.
      *  @param y the y coordinate of the center of the circle to be drawn.
      *  @param r the radius of the circle to be drawn.
-     *  @param operation must be Operation.STROKE, Operation.CLOSE or Operation.FILL.
+     *  @param operation must be PathOperator.STROKE, PathOperator.CLOSE_AND_STROKE or PathOperator.FILL.
      */
     public void drawCircle(
             double x,
             double y,
             double r,
-            char operation) {
-        drawEllipse((float) x, (float) y, (float) r, (float) r, operation);
+            String pathOperator) {
+        drawEllipse((float) x, (float) y, (float) r, (float) r, pathOperator);
     }
 
     /**
@@ -1092,14 +1092,14 @@ final public class Page {
      *  @param x the x coordinate of the center of the circle to be drawn.
      *  @param y the y coordinate of the center of the circle to be drawn.
      *  @param r the radius of the circle to be drawn.
-     *  @param operation must be Operation.STROKE, Operation.CLOSE or Operation.FILL.
+     *  @param pathOperator must be PathOperator.STROKE, PathOperator.CLOSE_AND_STROKE or PathOperator.FILL.
      */
     public void drawCircle(
             float x,
             float y,
             float r,
-            char operation) {
-        drawEllipse(x, y, r, r, operation);
+            String pathOperator) {
+        drawEllipse(x, y, r, r, pathOperator);
     }
 
     /**
@@ -1115,7 +1115,7 @@ final public class Page {
             double y,
             double r1,
             double r2) {
-        drawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.STROKE);
+        drawEllipse((float) x, (float) y, (float) r1, (float) r2, PathOperator.STROKE);
     }
 
     /**
@@ -1131,7 +1131,7 @@ final public class Page {
             float y,
             float r1,
             float r2) {
-        drawEllipse(x, y, r1, r2, Operation.STROKE);
+        drawEllipse(x, y, r1, r2, PathOperator.STROKE);
     }
 
     /**
@@ -1147,7 +1147,7 @@ final public class Page {
             double y,
             double r1,
             double r2) {
-        drawEllipse((float) x, (float) y, (float) r1, (float) r2, Operation.FILL);
+        drawEllipse((float) x, (float) y, (float) r1, (float) r2, PathOperator.FILL);
     }
 
     /**
@@ -1163,7 +1163,7 @@ final public class Page {
             float y,
             float r1,
             float r2) {
-        drawEllipse(x, y, r1, r2, Operation.FILL);
+        drawEllipse(x, y, r1, r2, PathOperator.FILL);
     }
 
     /**
@@ -1180,7 +1180,7 @@ final public class Page {
             float y,
             float r1,
             float r2,
-            char operation) {
+            String pathOperator) {
         // The best 4-spline magic number
         float m4 = 0.55228f;
         // Starting point
@@ -1206,7 +1206,7 @@ final public class Page {
         appendPointXY(x, y - r2);
         append("c\n");
 
-        append(operation);
+        append(pathOperator);
         append('\n');
     }
 
@@ -1221,9 +1221,9 @@ final public class Page {
             List<Point> list;
             if (p.shape == Point.CIRCLE) {
                 if (p.fillShape) {
-                    drawCircle(p.x, p.y, p.r, 'f');
+                    drawCircle(p.x, p.y, p.r, PathOperator.FILL);
                 } else {
-                    drawCircle(p.x, p.y, p.r, 'S');
+                    drawCircle(p.x, p.y, p.r, PathOperator.STROKE);
                 }
             } else if (p.shape == Point.DIAMOND) {
                 list = new ArrayList<Point>();
@@ -1232,9 +1232,9 @@ final public class Page {
                 list.add(new Point(p.x, p.y + p.r));
                 list.add(new Point(p.x - p.r, p.y));
                 if (p.fillShape) {
-                    drawPath(list, 'f');
+                    drawPath(list, PathOperator.FILL);
                 } else {
-                    drawPath(list, 's');
+                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
                 }
             } else if (p.shape == Point.BOX) {
                 list = new ArrayList<Point>();
@@ -1243,9 +1243,9 @@ final public class Page {
                 list.add(new Point(p.x + p.r, p.y + p.r));
                 list.add(new Point(p.x - p.r, p.y + p.r));
                 if (p.fillShape) {
-                    drawPath(list, 'f');
+                    drawPath(list, PathOperator.FILL);
                 } else {
-                    drawPath(list, 's');
+                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
                 }
             } else if (p.shape == Point.PLUS) {
                 drawLine(p.x - p.r, p.y, p.x + p.r, p.y);
@@ -1256,9 +1256,9 @@ final public class Page {
                 list.add(new Point(p.x + p.r, p.y + p.r));
                 list.add(new Point(p.x - p.r, p.y + p.r));
                 if (p.fillShape) {
-                    drawPath(list, 'f');
+                    drawPath(list, PathOperator.FILL);
                 } else {
-                    drawPath(list, 's');
+                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
                 }
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new ArrayList<Point>();
@@ -1266,9 +1266,9 @@ final public class Page {
                 list.add(new Point(p.x + p.r, p.y - p.r));
                 list.add(new Point(p.x, p.y + p.r));
                 if (p.fillShape) {
-                    drawPath(list, 'f');
+                    drawPath(list, PathOperator.FILL);
                 } else {
-                    drawPath(list, 's');
+                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
                 }
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new ArrayList<Point>();
@@ -1276,9 +1276,9 @@ final public class Page {
                 list.add(new Point(p.x - p.r, p.y));
                 list.add(new Point(p.x + p.r, p.y - p.r));
                 if (p.fillShape) {
-                    drawPath(list, 'f');
+                    drawPath(list, PathOperator.FILL);
                 } else {
-                    drawPath(list, 's');
+                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
                 }
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new ArrayList<Point>();
@@ -1286,9 +1286,9 @@ final public class Page {
                 list.add(new Point(p.x + p.r, p.y));
                 list.add(new Point(p.x - p.r, p.y + p.r));
                 if (p.fillShape) {
-                    drawPath(list, 'f');
+                    drawPath(list, PathOperator.FILL);
                 } else {
-                    drawPath(list, 's');
+                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
                 }
             } else if (p.shape == Point.H_DASH) {
                 drawLine(p.x - p.r, p.y, p.x + p.r, p.y);
@@ -1317,9 +1317,9 @@ final public class Page {
                 list.add(new Point(p.x + a, p.y - b));
                 list.add(new Point(p.x - c, p.y + d));
                 if (p.fillShape) {
-                    drawPath(list, 'f');
+                    drawPath(list, PathOperator.FILL);
                 } else {
-                    drawPath(list, 's');
+                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
                 }
             }
         }
@@ -1486,7 +1486,7 @@ final public class Page {
     // Dominique Andre Gunia <contact@dgunia.de>
     // <<
     public void drawRectRoundCorners(
-            float x, float y, float w, float h, float r1, float r2, char operation)
+            float x, float y, float w, float h, float r1, float r2, String pathOperator)
         throws Exception {
         // The best 4-spline magic number
         float m4 = 0.55228f;
@@ -1514,7 +1514,7 @@ final public class Page {
         list.add(new Point(x + r1, y));
         list.add(new Point(x + w - r1, y));
 
-        drawPath(list, operation);
+        drawPath(list, pathOperator);
     }
 
     /**

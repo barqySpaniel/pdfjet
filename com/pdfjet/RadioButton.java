@@ -157,7 +157,7 @@ public class RadioButton implements Drawable {
         page.drawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r1);
 
         if (this.selected) {
-            page.drawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r2, Operation.FILL);
+            page.drawCircle(x + r1 + penWidth, yBox + r1 + penWidth, r2, PathOperator.FILL);
         }
 
         if (uri != null) {

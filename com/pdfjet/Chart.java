@@ -534,7 +534,7 @@ public class Chart implements Drawable {
                 page.setPenColor(point.color);
                 page.setPenWidth(point.lineWidth);
                 page.setLinePattern(point.linePattern);
-                page.drawPath(points, Operation.STROKE);
+                page.drawPath(points, PathOperator.STROKE);
                 if (point.getText() != null) {
                     page.setBrushColor(point.getTextColor());
                     page.setTextDirection(point.getTextDirection());

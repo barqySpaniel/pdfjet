@@ -1,3 +1,5 @@
+package com.pdfjet;
+
 public class PathOperator {
     public static final String STROKE = "S";                                // Stroke the path
     public static final String CLOSE_AND_STROKE = "s";                      // Close and then stroke the path

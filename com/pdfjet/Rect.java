@@ -241,7 +241,7 @@ public class Rect {
             points.add(new Point(this.x, (this.y + this.r) - this.r * k, true));
             points.add(new Point((this.x + this.r) - this.r * k, this.y, true));
             points.add(new Point((this.x + this.r), this.y, false));
-            page.drawPath(points, Operation.STROKE);
+            page.drawPath(points, PathOperator.STROKE);
         }
         page.restoreGraphicsState();
         page.addEMC();

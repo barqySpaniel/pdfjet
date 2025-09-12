@@ -275,7 +275,7 @@ public class Path implements Drawable {
 
         if (fillShape) {
             page.setBrushColor(color);
-            page.drawPath(points, Operation.FILL);
+            page.drawPath(points, PathOperator.FILL);
         } else {
             page.setPenWidth(width);
             page.setPenColor(color);
@@ -283,9 +283,9 @@ public class Path implements Drawable {
             page.setLineCapStyle(lineCapStyle);
             page.setLineJoinStyle(lineJoinStyle);
             if (closePath) {
-                page.drawPath(points, Operation.CLOSE);
+                page.drawPath(points, PathOperator.CLOSE_AND_STROKE);
             } else {
-                page.drawPath(points, Operation.STROKE);
+                page.drawPath(points, PathOperator.STROKE);
             }
         }
 
