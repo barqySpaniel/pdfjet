@@ -1,7 +1,7 @@
-package operation
+package operator
 
 /**
- * operation.go
+ * operator.go
  *
 ©2025 PDFjet Software
 
@@ -24,11 +24,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-type Operation string
-
-// Constants used to specify the 'stroke', 'close' and 'fill' operations.
+// Constants used to specify the 'Stroke', 'CloseAndStroke', 'Fill' and more operators.
 const (
-	Stroke = "S"
-	Close  = "s"
-	Fill   = "f"
+	Stroke                        = "S"  // Stroke the path
+	CloseAndStroke                = "s"  // Close and then stroke the path
+	Fill                          = "f"  // Close and fill the path
+	FillAndStroke                 = "b"  // Close, fill and then stroke the path
+	FillUsingEvenOddRule          = "f*" // Like 'f' but using even odd rule
+	FillUsingEvenOddRuleAndStroke = "b*" // Like 'b' but using even odd rule
 )

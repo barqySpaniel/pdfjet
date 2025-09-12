@@ -12,7 +12,7 @@ import (
 	"math"
 
 	"github.com/edragoev1/pdfjet/src/color"
-	"github.com/edragoev1/pdfjet/src/operation"
+	"github.com/edragoev1/pdfjet/src/operator"
 	"github.com/edragoev1/pdfjet/src/shape"
 )
 
@@ -93,7 +93,7 @@ func (chart *Chart) SetYAxisTitle(title string) {
 	chart.yAxisTitle = title
 }
 
-// SetData sets the data that will be used to draw chart chart.
+// SetData sets the data that will be used to draw chart.
 func (chart *Chart) SetData(chartData [][]*Point) {
 	chart.chartData = chartData
 }
@@ -103,13 +103,13 @@ func (chart *Chart) GetData() [][]*Point {
 	return chart.chartData
 }
 
-// SetLocation sets the location of chart chart on the page.
+// SetLocation sets the location of chart on the page.
 func (chart *Chart) SetLocation(x, y float32) {
 	chart.x1 = x
 	chart.y1 = y
 }
 
-// SetSize sets the size of chart chart.
+// SetSize sets the size of chart.
 func (chart *Chart) SetSize(w, h float32) {
 	chart.w = w
 	chart.h = h
@@ -128,14 +128,14 @@ func (chart *Chart) SetMaximumFractionDigits(maxFractionDigits int) {
 // Slope calculates the slope of a trend line given a list of points.
 // See Example_09.
 func (chart *Chart) Slope(points []*Point) float32 {
-	return (chart.covar(points) / chart.devsq(points) * float32(len(points)-1))
+	return chart.covar(points) / chart.devsq(points) * float32(len(points)-1)
 }
 
 // Intercept calculates the intercept of a trend line given a list of points.
 // See Example_09.
 func (chart *Chart) Intercept(points []*Point, slope float32) float32 {
 	_mean := chart.mean(points)
-	return (_mean[1] - slope*_mean[0])
+	return _mean[1] - slope*_mean[0]
 }
 
 // SetDrawXAxisLines -- TODO:
@@ -163,8 +163,8 @@ func (chart *Chart) SetXYChart(xyChart bool) {
 	chart.xyChart = xyChart
 }
 
-// DrawOn draws chart chart on the specified page.
-// @param page the page to draw chart chart on.
+// DrawOn draws chart on the specified page.
+// @param page the page to draw chart on.
 func (chart *Chart) DrawOn(page *Page) {
 	chart.x2 = chart.x1 + chart.w
 	chart.y2 = chart.y1
@@ -418,7 +418,7 @@ func (chart *Chart) drawPathsAndPoints(page *Page, chartData [][]*Point) {
 			page.SetPenColor(point.color)
 			page.SetPenWidth(point.lineWidth)
 			page.SetLinePattern(point.linePattern)
-			page.DrawPath(points, operation.Stroke)
+			page.DrawPath(points, operator.Stroke)
 			if point.GetText() != "" {
 				page.SetBrushColor(point.GetTextColor())
 				page.SetTextDirection(point.GetTextDirection())
@@ -542,7 +542,7 @@ func (chart *Chart) covar(points []*Point) float32 {
 	for _, point := range points {
 		covariance += (point.x - _mean[0]) * (point.y - _mean[1])
 	}
-	return (covariance / float32((len(points) - 1)))
+	return covariance / float32((len(points) - 1))
 }
 
 // devsq returns the sum of squares of deviations.
