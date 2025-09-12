@@ -131,6 +131,26 @@ public class Example_35 {
         // Draw the entire hierarchy on the page
         container.DrawOn(page);
 
+
+        var container5 = new Container(200f, 20f);
+        var rect5 = new Rect(0f, 0f, 200f, 20f);
+        container5.Add(rect5);
+
+        var rect6 = new Rect(0f, 0f, 10f, 10f);
+        rect6.SetFillColor(Color.blue);
+        container5.Add(rect6);
+
+        var rect7 = new Rect(190f, 10f, 10f, 10f);
+        rect7.SetBorderColor(Color.red);
+        rect7.SetBorderWidth(2f);
+        container5.Add(rect7);
+
+        container5.SetLocation(50f, 600f);
+        container5.DrawOn(page);
+
+        container5.SetRotation(-90);
+        container5.DrawOn(page);
+
         pdf.Complete();
     }
 
