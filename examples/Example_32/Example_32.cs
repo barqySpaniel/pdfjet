@@ -50,7 +50,8 @@ public class Example_32 {
 
 
         row = new List<Cell>();
-        textBox = new TextBox(font, "ROTATION:").SetTextAlignment(Align.RIGHT);
+        textBox = new TextBox(font, "ROTATION:  Hello, World! This is a Rotation test.")
+            .SetHeight(0f).SetMargin(0f).SetTextAlignment(Align.RIGHT);
         row.Add(new Cell(font).SetTextBox(textBox));
         textBox = new TextBox(font, "0.0");
         row.Add(new Cell(font).SetTextBox(textBox));

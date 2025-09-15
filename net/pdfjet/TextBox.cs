@@ -249,8 +249,9 @@ public class TextBox : IDrawable {
      *
      *  @param height the specified height.
      */
-    public void SetHeight(double height) {
+    public TextBox SetHeight(double height) {
         this.height = (float) height;
+        return this;
     }
 
     /**
@@ -258,8 +259,9 @@ public class TextBox : IDrawable {
      *
      *  @param height the specified height.
      */
-    public void SetHeight(float height) {
+    public TextBox SetHeight(float height) {
         this.height = height;
+        return this;
     }
 
     /**
@@ -276,8 +278,9 @@ public class TextBox : IDrawable {
      *
      *  @param margin the margin between the text and the box
      */
-    public void SetMargin(double margin) {
+    public TextBox SetMargin(double margin) {
         this.margin = (float) margin;
+        return this;
     }
 
     /**
@@ -285,8 +288,9 @@ public class TextBox : IDrawable {
      *
      *  @param margin the margin between the text and the box
      */
-    public void SetMargin(float margin) {
+    public TextBox SetMargin(float margin) {
         this.margin = margin;
+        return this;
     }
 
     /**
