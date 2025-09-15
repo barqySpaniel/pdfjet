@@ -472,9 +472,10 @@ public class TextBox : IDrawable {
      *  @param alignment the alignment code.
      *  Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
      */
-    public void SetTextAlignment(uint alignment) {
+    public TextBox SetTextAlignment(uint alignment) {
         this.properties &= 0x00CFFFFF;
         this.properties |= (alignment & 0x00300000);
+        return this;
     }
 
     /**

@@ -41,19 +41,26 @@ public class Example_32 {
         }
 
         List<List<Cell>> tableData = new List<List<Cell>>();
+
         List<Cell> row = new List<Cell>();
-        row.Add(new Cell(font, "View Panel").SetColSpan(2));
+        TextBox textBox = new TextBox(font, "View Panel:");
+        row.Add(new Cell(font).SetColSpan(2).SetTextBox(textBox));
         row.Add(new Cell(font, ""));
         tableData.Add(row);
 
+
         row = new List<Cell>();
-        row.Add(new Cell(font, "ROTATION:").SetTextAlignment(Align.RIGHT));
-        row.Add(new Cell(font, "0.0"));
+        textBox = new TextBox(font, "ROTATION:").SetTextAlignment(Align.RIGHT);
+        row.Add(new Cell(font).SetTextBox(textBox));
+        textBox = new TextBox(font, "0.0");
+        row.Add(new Cell(font).SetTextBox(textBox));
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font, "X:").SetTextAlignment(Align.RIGHT));
-        row.Add(new Cell(font, "0"));
+        textBox = new TextBox(font, "X:").SetTextAlignment(Align.RIGHT);
+        row.Add(new Cell(font).SetTextBox(textBox));
+        textBox = new TextBox(font, "0");
+        row.Add(new Cell(font).SetTextBox(textBox));
         tableData.Add(row);
 
         row = new List<Cell>();
@@ -78,7 +85,7 @@ public class Example_32 {
 
         Table table = new Table();
         table.SetData(tableData);
-        table.SetLocation(450f, 500f);
+        table.SetLocation(450f, 450f);
         table.DrawOn(page);
 
         pdf.Complete();

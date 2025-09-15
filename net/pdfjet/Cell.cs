@@ -209,8 +209,9 @@ public class Cell {
         return this.compositeTextLine;
     }
 
-    public void SetTextBox(TextBox textBox) {
+    public Cell SetTextBox(TextBox textBox) {
         this.textBox = textBox;
+        return this;
     }
 
     public void SetBackgroundColor(float[] rgbColor) {
