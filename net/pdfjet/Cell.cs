@@ -244,8 +244,9 @@ public class Cell {
      *
      *  @param padding the top padding.
      */
-    public void SetTopPadding(float padding) {
+    public Cell SetTopPadding(float padding) {
         this.topPadding = padding;
+        return this;
     }
 
     public float GetTopPadding() {
@@ -257,8 +258,9 @@ public class Cell {
      *
      *  @param padding the bottom padding.
      */
-    public void SetBottomPadding(float padding) {
+    public Cell SetBottomPadding(float padding) {
         this.bottomPadding = padding;
+        return this;
     }
 
     public float GetBottomPadding() {
@@ -270,8 +272,9 @@ public class Cell {
      *
      *  @param padding the left padding.
      */
-    public void SetLeftPadding(float padding) {
+    public Cell SetLeftPadding(float padding) {
         this.leftPadding = padding;
+        return this;
     }
 
     /**
@@ -279,8 +282,9 @@ public class Cell {
      *
      *  @param padding the right padding.
      */
-    public void SetRightPadding(float padding) {
+    public Cell SetRightPadding(float padding) {
         this.rightPadding = padding;
+        return this;
     }
 
     /**
@@ -288,11 +292,12 @@ public class Cell {
      *
      *  @param padding the right padding.
      */
-    public void SetPadding(float padding) {
+    public Cell SetPadding(float padding) {
         this.topPadding = padding;
         this.bottomPadding = padding;
         this.leftPadding = padding;
         this.rightPadding = padding;
+        return this;
     }
 
     /**
@@ -554,7 +559,7 @@ public class Cell {
         }
 
         if (textBox != null) {
-            textBox.SetLocation(x + leftPadding, y + topPadding);
+            textBox.SetPosition(x + leftPadding, y + topPadding);
             textBox.SetWidth(w - (leftPadding + rightPadding));
             textBox.DrawOn(page);
         } else if (image != null) {

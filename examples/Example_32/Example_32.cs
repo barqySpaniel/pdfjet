@@ -48,11 +48,10 @@ public class Example_32 {
         row.Add(new Cell(font, ""));
         tableData.Add(row);
 
-
         row = new List<Cell>();
         textBox = new TextBox(font, "ROTATION:  Hello, World! This is a Rotation test.")
             .SetHeight(0f).SetMargin(0f).SetTextAlignment(Align.RIGHT);
-        row.Add(new Cell(font).SetTextBox(textBox));
+        row.Add(new Cell(font).SetTopPadding(15f).SetBottomPadding(15f).SetTextBox(textBox));
         textBox = new TextBox(font, "0.0");
         row.Add(new Cell(font).SetTextBox(textBox));
         tableData.Add(row);
