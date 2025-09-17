@@ -64,6 +64,7 @@ public class Point implements Drawable {
     protected int shape = Point.CIRCLE;
     protected int color = Color.black;
     protected int align = Align.RIGHT;
+
     protected float lineWidth = 0f;
     protected String linePattern = "[] 0";
     protected boolean fillShape = false;
