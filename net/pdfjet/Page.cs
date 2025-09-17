@@ -1119,8 +1119,8 @@ public class Page {
         DrawArc(x, y, rx, ry, 0f, 360f);
     }
 
-    internal void DrawCircle(float x, float y, float r) {
-        DrawEllipse(x, y, r, r);
+    internal void DrawCircle(float x, float y, float r, string pathOperator) {
+        DrawEllipse(x, y, r, r, pathOperator);
     }
 
     /**
@@ -1137,10 +1137,7 @@ public class Page {
             float y,
             float r1,
             float r2,
-            float[] brushColor,
-            float penWidth,
-            float[] penColor,
-            String pattern) {
+            string pathOperator) {
         // The best 4-spline magic number
         float m4 = 0.55228f;
         // Starting point
@@ -1166,28 +1163,8 @@ public class Page {
         AppendPointXY(x, y - r2);
         Append("c\n");
 
-        if (brushColor != null) {
-            SetBrushColor(brushColor);
-        }
-        if (penColor != null) {
-            SetPenWidth(penWidth);
-            SetPenColor(penColor);
-        }
-        if (pattern != null) {
-            SetStrokePattern(pattern);
-        }
-        if (brushColor != null && penColor != null) {
-            Append("B\n");
-        } else if (brushColor != null && penColor == null) {
-            Append("f\n");
-        } else if (brushColor == null && penColor != null) {
-            Append("S\n");
-        } else {
-            // Both brushColor == null and penColor == null
-            SetPenWidth(0f);
-            SetPenColor(Color.black);
-            Append("S\n");
-        }
+        Append(pathOperator);
+        Append('\n');
     }
 
     /**
@@ -1199,21 +1176,21 @@ public class Page {
         if (p.shape != Point.INVISIBLE) {
             List<Point> list;
             if (p.shape == Point.CIRCLE) {
-                DrawCircle(p.x, p.y, p.r);
+                DrawCircle(p.x, p.y, p.r, p.GetPathOperator());
             } else if (p.shape == Point.DIAMOND) {
                 list = new List<Point>();
                 list.Add(new Point(p.x, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
-                DrawPath(list, PathOperator.Fill);
+                DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
-                DrawPath(list, PathOperator.Fill);
+                DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 DrawLine(p.x, p.y - p.r, p.x, p.y + p.r);
@@ -1223,28 +1200,28 @@ public class Page {
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list, PathOperator.Fill);
+                DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list, PathOperator.Fill);
+                DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x + p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y));
                 list.Add(new Point(p.x + p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y + p.r));
-                DrawPath(list, PathOperator.Fill);
+                DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new List<Point>();
                 list.Add(new Point(p.x - p.r, p.y - p.r));
                 list.Add(new Point(p.x + p.r, p.y));
                 list.Add(new Point(p.x - p.r, p.y + p.r));
                 list.Add(new Point(p.x - p.r, p.y - p.r));
-                DrawPath(list, PathOperator.Fill);
+                DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.H_DASH) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
             } else if (p.shape == Point.V_DASH) {
@@ -1272,7 +1249,7 @@ public class Page {
                 list.Add(new Point(p.x + a, p.y - b));
                 list.Add(new Point(p.x - c, p.y + d));
                 list.Add(new Point(p.x, p.y - p.r));
-                DrawPath(list, PathOperator.Fill);
+                DrawPath(list, p.GetPathOperator());
             }
         }
     }

@@ -41,7 +41,8 @@ public class Point : IDrawable {
     internal float[] fillColor;
     internal float strokeWidth;
     internal float[] strokeColor;
-    internal String strokePattern = "[] 0";
+    internal string strokePattern = "[] 0";
+    internal string pathOperator = PathOperator.Stroke;
 
     internal Alignment alignment = Alignment.RIGHT;
 
@@ -350,6 +351,14 @@ public class Point : IDrawable {
      */
     public String GetStrokePattern() {
         return strokePattern;
+    }
+
+    public void SetPathOperator(string pathOperator) {
+        this.pathOperator = pathOperator;
+    }
+
+    public string GetPathOperator() {
+        return this.pathOperator;
     }
 
     /**

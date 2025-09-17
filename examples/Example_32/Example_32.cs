@@ -27,6 +27,25 @@ public class Example_32 {
         colors["Designs"] = Color.green;
 
         Page page = new Page(pdf, Letter.PORTRAIT);
+
+        var point = new Point(350f, 75f);
+        point.SetRadius(25f);
+        point.SetFillColor(Color.limegreen);
+        point.SetStrokeColor(Color.black);
+        point.SetStrokeWidth(2f);
+        point.SetShape(Point.CIRCLE);
+        point.SetPathOperator(PathOperator.FillAndStroke);
+        point.DrawOn(page);
+
+        point.SetShape(Point.DIAMOND);
+        point.SetLocation(450f, 75f);
+        point.DrawOn(page);
+
+        point.SetShape(Point.BOX);
+        point.SetLocation(550f, 75f);
+        point.SetPathOperator(PathOperator.Fill);
+        point.DrawOn(page);
+
         float x = 50f;
         float y = 50f;
         float leading = font.GetBodyHeight(font.GetSize());
