@@ -1186,10 +1186,10 @@ public class Page {
                 DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
-                list.Add(new Point(p.x - p.r, p.y - p.r));
-                list.Add(new Point(p.x + p.r, p.y - p.r));
-                list.Add(new Point(p.x + p.r, p.y + p.r));
-                list.Add(new Point(p.x - p.r, p.y + p.r));
+                list.Add(new Point(p.x - p.r*0.886, p.y - p.r*0.886));
+                list.Add(new Point(p.x + p.r*0.886, p.y - p.r*0.886));
+                list.Add(new Point(p.x + p.r*0.886, p.y + p.r*0.886));
+                list.Add(new Point(p.x - p.r*0.886, p.y + p.r*0.886));
                 DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.PLUS) {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
