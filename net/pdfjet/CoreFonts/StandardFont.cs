@@ -3,6 +3,20 @@ using PDFjet.NET.CoreFonts;
 
 namespace PDFjet.NET {
 class StandardFont {
+    public static readonly int COURIER = 1;
+    public static readonly int COURIER_BOLD = 2;
+    public static readonly int COURIER_OBLIQUE = 3;
+    public static readonly int COURIER_BOLD_OBLIQUE = 4;
+    public static readonly int HELVETICA = 5;
+    public static readonly int HELVETICA_BOLD = 6;
+    public static readonly int HELVETICA_OBLIQUE = 7;
+    public static readonly int HELVETICA_BOLD_OBLIQUE = 8;
+    public static readonly int TIMES_ROMAN = 9;
+    public static readonly int TIMES_BOLD = 10;
+    public static readonly int TIMES_ITALIC = 11;
+    public static readonly int TIMES_BOLD_ITALIC = 12;
+    public static readonly int SYMBOL = 13;
+    public static readonly int ZAPF_DINGBATS = 14;
 
     internal String name;
     internal int bBoxLLx;
