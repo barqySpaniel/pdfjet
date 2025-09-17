@@ -153,7 +153,7 @@ public class Page {
         return obj;
     }
 
-    public Font AddResource(CoreFont coreFont, List<PDFobj> objects) {
+    public Font AddResource(int coreFont, List<PDFobj> objects) {
         return pageObj.AddResource(coreFont, objects);
     }
 

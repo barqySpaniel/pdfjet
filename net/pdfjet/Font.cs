@@ -74,8 +74,8 @@ public class Font {
      *  @param pdf the PDF to add this font to.
      *  @param coreFont the core font. Must be one the names defined in the CoreFont class.
      */
-    public Font(PDF pdf, CoreFont coreFont) {
-        StandardFont font = StandardFont.GetInstance(coreFont);
+    public Font(PDF pdf, int coreFont) {
+        CoreFont font = new CoreFont(coreFont);
         this.isCoreFont = true;
         this.name = font.name;
         this.bBoxLLx = font.bBoxLLx;
@@ -107,8 +107,8 @@ public class Font {
     }
 
     // Used by PDFobj
-    internal Font(CoreFont coreFont) {
-        StandardFont font = StandardFont.GetInstance(coreFont);
+    internal Font(int coreFont) {
+        CoreFont font = new CoreFont(coreFont);
         this.isCoreFont = true;
         this.name = font.name;
         this.bBoxLLx = font.bBoxLLx;

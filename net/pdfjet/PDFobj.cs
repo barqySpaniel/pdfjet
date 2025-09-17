@@ -220,7 +220,7 @@ public class PDFobj {
         return null;
     }
 
-    public Font AddResource(CoreFont coreFont, List<PDFobj> objects) {
+    public Font AddResource(int coreFont, List<PDFobj> objects) {
         Font font = new Font(coreFont);
         font.fontID = font.name.Replace('-', '_').ToUpper();
 
