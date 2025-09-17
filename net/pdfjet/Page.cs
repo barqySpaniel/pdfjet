@@ -1179,10 +1179,10 @@ public class Page {
                 DrawCircle(p.x, p.y, p.r, p.GetPathOperator());
             } else if (p.shape == Point.DIAMOND) {
                 list = new List<Point>();
-                list.Add(new Point(p.x, p.y - p.r));
-                list.Add(new Point(p.x + p.r, p.y));
-                list.Add(new Point(p.x, p.y + p.r));
-                list.Add(new Point(p.x - p.r, p.y));
+                list.Add(new Point(p.x, p.y - p.r*1.2));
+                list.Add(new Point(p.x + p.r*1.2, p.y));
+                list.Add(new Point(p.x, p.y + p.r*1.2));
+                list.Add(new Point(p.x - p.r*1.2, p.y));
                 DrawPath(list, p.GetPathOperator());
             } else if (p.shape == Point.BOX) {
                 list = new List<Point>();
