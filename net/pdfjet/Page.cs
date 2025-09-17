@@ -1235,20 +1235,14 @@ public class Page {
                 DrawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 DrawLine(p.x, p.y - p.r, p.x, p.y + p.r);
             } else if (p.shape == Point.STAR) {
-                float angle = (float) Math.PI / 10;
-                float sin18 = (float) Math.Sin(angle);
-                float cos18 = (float) Math.Cos(angle);
-                float a = p.r * cos18;
-                float b = p.r * sin18;
-                float c = 2 * a * sin18;
-                float d = 2 * a * cos18 - p.r;
                 list = new List<Point>();
-                list.Add(new Point(p.x, p.y - p.r));
-                list.Add(new Point(p.x + c, p.y + d));
-                list.Add(new Point(p.x - a, p.y - b));
-                list.Add(new Point(p.x + a, p.y - b));
-                list.Add(new Point(p.x - c, p.y + d));
-                list.Add(new Point(p.x, p.y - p.r));
+                for (int i = 0; i < 10; i++) {
+                    double theta = i * 36 * (Math.PI / 180.0);
+                    double radius = (i % 2 == 0) ? p.r*1.147f : p.r*0.38196f*1.147f;
+                    double x = p.x + radius * Math.Sin(theta);
+                    double y = p.y - radius * Math.Cos(theta);  // minus because y grows down
+                    list.Add(new Point(x, y));
+                }
                 DrawPath(list, p.GetPathOperator());
             }
         }

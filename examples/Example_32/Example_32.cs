@@ -42,9 +42,10 @@ public class Example_32 {
         point.SetPathOperator(PathOperator.CloseAndStroke);
         point.DrawOn(page);
 
-        point.SetShape(Point.BOX);
+        point.SetShape(Point.STAR);
+        point.SetFillColor(Color.lightblue);
         point.SetLocation(550f, 75f);
-        point.SetPathOperator(PathOperator.Fill);
+        point.SetPathOperator(PathOperator.FillAndStroke);
         point.DrawOn(page);
 
         float x = 50f;
