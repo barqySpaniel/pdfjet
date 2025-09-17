@@ -42,7 +42,7 @@ public class Point : IDrawable {
     internal float strokeWidth;
     internal float[] strokeColor;
     internal string strokePattern = "[] 0";
-    internal string pathOperator = PathOperator.Stroke;
+    internal string pathOperator = PathOperator.CloseAndStroke;
 
     internal Alignment alignment = Alignment.RIGHT;
 

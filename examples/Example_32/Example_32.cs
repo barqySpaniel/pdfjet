@@ -39,6 +39,7 @@ public class Example_32 {
 
         point.SetShape(Point.DIAMOND);
         point.SetLocation(450f, 75f);
+        point.SetPathOperator(PathOperator.CloseAndStroke);
         point.DrawOn(page);
 
         point.SetShape(Point.BOX);
