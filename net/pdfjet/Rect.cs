@@ -162,23 +162,23 @@ public class Rect  : IDrawable {
             }
         } else {
             List<Point> points = new List<Point> {
-                new Point((this.x + this.r), this.y, false),
-                new Point((this.x + this.w) - this.r, this.y, false),
-                new Point((this.x + this.w - this.r) + this.r * k, this.y, true),
-                new Point((this.x + this.w), (this.y + this.r) - this.r * k, true),
-                new Point((this.x + this.w), (this.y + this.r), false),
-                new Point((this.x + this.w), (this.y + this.h) - this.r, false),
-                new Point((this.x + this.w), ((this.y + this.h) - this.r) + this.r * k, true),
-                new Point(((this.x + this.w) - this.r) + this.r * k, (this.y + this.h), true),
-                new Point(((this.x + this.w) - this.r), (this.y + this.h), false),
-                new Point((this.x + this.r), (this.y + this.h), false),
-                new Point(((this.x + this.r) - this.r * k), (this.y + this.h), true),
-                new Point(this.x, ((this.y + this.h) - this.r) + this.r * k, true),
-                new Point(this.x, (this.y + this.h) - this.r, false),
-                new Point(this.x, (this.y + this.r), false),
-                new Point(this.x, (this.y + this.r) - this.r * k, true),
-                new Point((this.x + this.r) - this.r * k, this.y, true),
-                new Point((this.x + this.r), this.y, false)
+                new Point((this.x + this.r), this.y),
+                new Point((this.x + this.w) - this.r, this.y),
+                new Point((this.x + this.w - this.r) + this.r * k, this.y, Point.ControlPointC),
+                new Point((this.x + this.w), (this.y + this.r) - this.r * k, Point.ControlPointC),
+                new Point((this.x + this.w), (this.y + this.r)),
+                new Point((this.x + this.w), (this.y + this.h) - this.r),
+                new Point((this.x + this.w), ((this.y + this.h) - this.r) + this.r * k, Point.ControlPointC),
+                new Point(((this.x + this.w) - this.r) + this.r * k, (this.y + this.h), Point.ControlPointC),
+                new Point(((this.x + this.w) - this.r), (this.y + this.h)),
+                new Point((this.x + this.r), (this.y + this.h)),
+                new Point(((this.x + this.r) - this.r * k), (this.y + this.h), Point.ControlPointC),
+                new Point(this.x, ((this.y + this.h) - this.r) + this.r * k, Point.ControlPointC),
+                new Point(this.x, (this.y + this.h) - this.r),
+                new Point(this.x, (this.y + this.r)),
+                new Point(this.x, (this.y + this.r) - this.r * k, Point.ControlPointC),
+                new Point((this.x + this.r) - this.r * k, this.y, Point.ControlPointC),
+                new Point((this.x + this.r), this.y)
             };
             if (fillColor != null && borderColor == null) {
                 page.DrawPath(points, PathOperator.Fill);

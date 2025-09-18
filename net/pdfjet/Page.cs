@@ -1051,17 +1051,18 @@ public class Page {
         }
         Point point = path[0];
         MoveTo(point.x, point.y);
-        bool curve = false;
+        char controlPoint = '\0';
         for (int i = 1; i < path.Count; i++) {
             point = path[i];
-            if (point.isControlPoint) {
-                curve = true;
+            if (point.controlPoint != '\0') {
+                controlPoint = point.controlPoint;
                 Append(point);
             } else {
-                if (curve) {
-                    curve = false;
+                if (controlPoint != '\0') {
                     Append(point);
-                    Append("c\n");
+                    Append(controlPoint);
+                    Append('\n');
+                    controlPoint = '\0';
                 } else {
                     LineTo(point.x, point.y);
                 }

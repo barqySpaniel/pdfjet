@@ -29,7 +29,16 @@ public class Point : IDrawable {
     public static readonly int LEFT_ARROW = 11;
     public static readonly int RIGHT_ARROW = 12;
 
-    public static bool CONTROL_POINT = true;
+    public static char CONTROL_POINT = 'c';
+
+    // For the c operator we have both control points
+    public static char ControlPointC = 'c';
+
+    // For the v operator, the first control point shall coincide with initial point of the curve.
+    public static char ControlPointV = 'v';
+
+    // For the y operator, the second control point shall coincide with final point of the curve.
+    public static char ControlPointY = 'y';
 
     internal float x;
     internal float y;
@@ -46,7 +55,7 @@ public class Point : IDrawable {
 
     internal Alignment alignment = Alignment.RIGHT;
 
-    internal bool isControlPoint = false;
+    internal char controlPoint = '\0';
     internal bool drawPath = false;
 
     private String text;
@@ -87,7 +96,7 @@ public class Point : IDrawable {
      *  @param y the y coordinate of this point when drawn on the page.
      *  @param isControlPoint true if this point is one of the points specifying a curve.
      */
-    public Point(double x, double y, bool isControlPoint) : this((float) x, (float) y, isControlPoint) {
+    public Point(double x, double y, char isControlPoint) : this((float) x, (float) y, isControlPoint) {
     }
 
     /**
@@ -97,10 +106,10 @@ public class Point : IDrawable {
      *  @param y the y coordinate of this point when drawn on the page.
      *  @param isControlPoint true if this point is one of the points specifying a curve.
      */
-    public Point(float x, float y, bool isControlPoint) {
+    public Point(float x, float y, char controlPoint) {
         this.x = x;
         this.y = y;
-        this.isControlPoint = isControlPoint;
+        this.controlPoint = controlPoint;
     }
 
     /**

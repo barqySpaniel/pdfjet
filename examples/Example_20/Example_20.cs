@@ -96,6 +96,22 @@ class Example_20 {
         point.SetLocation(350f, 350f);
         point.DrawOn(page);
 
+        path = new PDFjet.NET.Path();
+        path.Add(new Point(50f, 700f));
+        path.Add(new Point(50f, 500f, Point.ControlPointV));
+        path.Add(new Point(250f, 700f));
+        path.SetStrokeColor(Color.black);
+        path.SetStrokeWidth(3f);
+        path.DrawOn(page);
+
+        path = new PDFjet.NET.Path();
+        path.Add(new Point(50f, 700f));
+        path.Add(new Point(250f, 500f, Point.ControlPointY));
+        path.Add(new Point(250f, 700f));
+        path.SetStrokeColor(Color.blue);
+        path.SetStrokeWidth(3f);
+        path.DrawOn(page);
+
         page = new Page(pdf, Letter.PORTRAIT);
 
         TextLine line = new TextLine(f1, "Hello, World!");
