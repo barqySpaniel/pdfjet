@@ -42,8 +42,8 @@ public class Point : IDrawable {
 
     internal float x;
     internal float y;
-    private float xBox;
-    private float yBox;
+//    private float xBox;
+//    private float yBox;
     internal float r = 2f;
     internal int shape = Point.CIRCLE;
 
@@ -510,13 +510,13 @@ public class Point : IDrawable {
      *  @param xOffset the x offset from the top left corner of the box.
      *  @param yOffset the y offset from the top left corner of the box.
      */
-    public void PlaceIn(
-            Rect rect,
-            float xOffset,
-            float yOffset) {
-        xBox = rect.x + xOffset;
-        yBox = rect.y + yOffset;
-    }
+//    public void PlaceIn(
+//            Rect rect,
+//            float xOffset,
+//            float yOffset) {
+//        xBox = rect.x + xOffset;
+//        yBox = rect.y + yOffset;
+//    }
 
     /**
      *  Draws this point on the specified page.
@@ -526,14 +526,33 @@ public class Point : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
-        x += xBox;
-        y += yBox;
-        page.SetBrushColor(fillColor);
+        page.Append("q\n");
+//        x += xBox;
+//        y += yBox;
+        if (fillColor != null && strokeColor != null) {
+            page.SetBrushColor(fillColor);
+            page.SetPenColor(strokeColor);
+            page.SetPenWidth(strokeWidth);
+            this.pathOperator = PathOperator.FillAndStroke;
+        } else if (fillColor != null && strokeColor == null) {
+            page.SetBrushColor(fillColor);
+            page.Append("f\n");
+            this.pathOperator = PathOperator.Fill;
+        } else if (fillColor == null && strokeColor != null) {
+            page.SetPenColor(strokeColor);
+            page.SetPenWidth(strokeWidth);
+            this.pathOperator = PathOperator.CloseAndStroke;
+        } else {
+            page.SetPenColor(Color.black);
+            this.pathOperator = PathOperator.CloseAndStroke;
+        }
         page.DrawPoint(this);
-        x -= xBox;
-        y -= yBox;
+//        x -= xBox;
+//        y -= yBox;
+        page.Append("Q\n");
 
-        return new float[] {x + xBox +  r, y + yBox + r};
+        // return new float[] {x + xBox +  r, y + yBox + r};
+        return new float[] {x + r, y + r};
     }
 }   // End of Point.cs
 }   // End of namespace PDFjet.NET

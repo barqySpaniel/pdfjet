@@ -32,20 +32,20 @@ public class Example_32 {
         point.SetRadius(25f);
         point.SetFillColor(Color.limegreen);
         point.SetStrokeColor(Color.black);
-        point.SetStrokeWidth(2f);
+        point.SetStrokeWidth(1f);
         point.SetShape(Point.CIRCLE);
-        point.SetPathOperator(PathOperator.FillAndStroke);
         point.DrawOn(page);
 
+        point = new Point(450f, 75f);
+        point.SetRadius(25f);
         point.SetShape(Point.DIAMOND);
-        point.SetLocation(450f, 75f);
-        point.SetPathOperator(PathOperator.CloseAndStroke);
+        point.SetStrokeColor(Color.blue);
         point.DrawOn(page);
 
+        point = new Point(550f, 75f);
+        point.SetRadius(25f);
         point.SetShape(Point.STAR);
         point.SetFillColor(Color.lightblue);
-        point.SetLocation(550f, 75f);
-        point.SetPathOperator(PathOperator.FillAndStroke);
         point.DrawOn(page);
 
         float x = 50f;
