@@ -536,7 +536,6 @@ public class Point : IDrawable {
             this.pathOperator = PathOperator.FillAndStroke;
         } else if (fillColor != null && strokeColor == null) {
             page.SetBrushColor(fillColor);
-            page.Append("f\n");
             this.pathOperator = PathOperator.Fill;
         } else if (fillColor == null && strokeColor != null) {
             page.SetPenColor(strokeColor);
