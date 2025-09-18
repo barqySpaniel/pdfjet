@@ -29,16 +29,16 @@ public class Point : IDrawable {
     public static readonly int LEFT_ARROW = 11;
     public static readonly int RIGHT_ARROW = 12;
 
-    public static char CONTROL_POINT = 'c';
+    public static readonly char CONTROL_POINT = 'c';
 
     // For the c operator we have both control points
-    public static char ControlPointC = 'c';
+    public static readonly char ControlPointC = 'c';
 
     // For the v operator, the first control point shall coincide with initial point of the curve.
-    public static char ControlPointV = 'v';
+    public static readonly char ControlPointV = 'v';
 
     // For the y operator, the second control point shall coincide with final point of the curve.
-    public static char ControlPointY = 'y';
+    public static readonly char ControlPointY = 'y';
 
     internal float x;
     internal float y;
