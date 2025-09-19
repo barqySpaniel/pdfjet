@@ -49,7 +49,7 @@ public class Point : IDrawable {
     internal float strokeWidth = 1f;
     internal float[] strokeColor = null;
     internal string strokePattern = "[] 0";
-    internal string pathOperator = null;
+    internal string pathOperator = PathOperator.CloseAndStroke;
 
     internal Alignment alignment = Alignment.RIGHT;
 
@@ -491,25 +491,14 @@ public class Point : IDrawable {
             page.SetBrushColor(fillColor);
             page.SetPenColor(strokeColor);
             page.SetPenWidth(strokeWidth);
-            if (pathOperator == null) {
-                this.pathOperator = PathOperator.FillAndStroke;
-            }
+            this.pathOperator = PathOperator.FillAndStroke;
         } else if (fillColor != null && strokeColor == null) {
             page.SetBrushColor(fillColor);
-            if (pathOperator == null) {
-                this.pathOperator = PathOperator.Fill;
-            }
+            this.pathOperator = PathOperator.Fill;
         } else if (fillColor == null && strokeColor != null) {
             page.SetPenColor(strokeColor);
             page.SetPenWidth(strokeWidth);
-            if (pathOperator == null) {
-                this.pathOperator = PathOperator.CloseAndStroke;
-            }
-        } else {
-            page.SetPenColor(Color.black);
-            if (pathOperator == null) {
-                this.pathOperator = PathOperator.CloseAndStroke;
-            }
+            this.pathOperator = PathOperator.CloseAndStroke;
         }
         page.DrawPoint(this);
         page.Append("Q\n");
