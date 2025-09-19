@@ -8,9 +8,8 @@ using PDFjet.NET;
  */
 public class Example_02 {
     public Example_02() {
-        PDF pdf = new PDF(
-                new BufferedStream(
-                        new FileStream("Example_02.pdf", FileMode.Create)));
+        PDF pdf = new PDF(new BufferedStream(
+                new FileStream("Example_02.pdf", FileMode.Create)));
 
         Font font1 = new Font(pdf, "fonts/NotoSansJP/NotoSansJP-Regular.ttf.stream");
         font1.SetSize(12f);
