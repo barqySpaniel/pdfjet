@@ -45,11 +45,11 @@ public class Point : IDrawable {
     internal float r = 2f;
     internal int shape = Point.CIRCLE;
 
-    internal float[] fillColor;
-    internal float strokeWidth;
-    internal float[] strokeColor;
+    internal float[] fillColor = null;
+    internal float strokeWidth = 1f;
+    internal float[] strokeColor = null;
     internal string strokePattern = "[] 0";
-    internal string pathOperator = PathOperator.CloseAndStroke;
+    internal string pathOperator = null;
 
     internal Alignment alignment = Alignment.RIGHT;
 
@@ -491,17 +491,25 @@ public class Point : IDrawable {
             page.SetBrushColor(fillColor);
             page.SetPenColor(strokeColor);
             page.SetPenWidth(strokeWidth);
-            this.pathOperator = PathOperator.FillAndStroke;
+            if (pathOperator == null) {
+                this.pathOperator = PathOperator.FillAndStroke;
+            }
         } else if (fillColor != null && strokeColor == null) {
             page.SetBrushColor(fillColor);
-            this.pathOperator = PathOperator.Fill;
+            if (pathOperator == null) {
+                this.pathOperator = PathOperator.Fill;
+            }
         } else if (fillColor == null && strokeColor != null) {
             page.SetPenColor(strokeColor);
             page.SetPenWidth(strokeWidth);
-            this.pathOperator = PathOperator.CloseAndStroke;
+            if (pathOperator == null) {
+                this.pathOperator = PathOperator.CloseAndStroke;
+            }
         } else {
             page.SetPenColor(Color.black);
-            this.pathOperator = PathOperator.CloseAndStroke;
+            if (pathOperator == null) {
+                this.pathOperator = PathOperator.CloseAndStroke;
+            }
         }
         page.DrawPoint(this);
         page.Append("Q\n");
