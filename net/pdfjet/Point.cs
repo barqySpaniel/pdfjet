@@ -42,8 +42,6 @@ public class Point : IDrawable {
 
     internal float x;
     internal float y;
-//    private float xBox;
-//    private float yBox;
     internal float r = 2f;
     internal int shape = Point.CIRCLE;
 
@@ -481,44 +479,6 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Places this point in the specified box at position (0f, 0f).
-     *
-     *  @param box the specified box.
-     */
-    public void PlaceIn(Rect rect) {
-        PlaceIn(rect, 0f, 0f);
-    }
-
-    /**
-     *  Places this point in the specified box.
-     *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     */
-    public void PlaceIn(
-            Rect rect,
-            double xOffset,
-            double yOffset) {
-        PlaceIn(rect, (float) xOffset, (float) yOffset);
-    }
-
-    /**
-     *  Places this point in the specified box.
-     *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     */
-//    public void PlaceIn(
-//            Rect rect,
-//            float xOffset,
-//            float yOffset) {
-//        xBox = rect.x + xOffset;
-//        yBox = rect.y + yOffset;
-//    }
-
-    /**
      *  Draws this point on the specified page.
      *
      *  @param page the page to draw on.
@@ -527,8 +487,6 @@ public class Point : IDrawable {
      */
     public float[] DrawOn(Page page) {
         page.Append("q\n");
-//        x += xBox;
-//        y += yBox;
         if (fillColor != null && strokeColor != null) {
             page.SetBrushColor(fillColor);
             page.SetPenColor(strokeColor);
@@ -546,11 +504,8 @@ public class Point : IDrawable {
             this.pathOperator = PathOperator.CloseAndStroke;
         }
         page.DrawPoint(this);
-//        x -= xBox;
-//        y -= yBox;
         page.Append("Q\n");
 
-        // return new float[] {x + xBox +  r, y + yBox + r};
         return new float[] {x + r, y + r};
     }
 }   // End of Point.cs
