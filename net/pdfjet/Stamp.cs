@@ -313,9 +313,9 @@ public class Stamp : IDrawable {
 
     private void Append(Point point) {
         Append(point.x);
-        Append(' ');
+        Append(" ");
         Append(height - point.y);
-        Append(' ');
+        Append(" ");
     }
 
     public void DrawPath(List<Point> path, string pathOperator) {
