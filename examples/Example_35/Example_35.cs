@@ -53,18 +53,28 @@ public class Example_35 {
         var stamp = new Stamp(pdf).WithSize(400f, 400f).WithFont(f1).WithFont(f2);
 
         // Draw path ...
-        stamp.SetStrokeColor(Color.red)
+        stamp.SetFillColor(Color.lightblue)
+            .SetStrokeColor(Color.red)
             .SetStrokeWidth(4f)
             .MoveTo(0f, 0f)
             .LineTo(400f, 0f)
             .LineTo(400f, 400f)
             .LineTo(0f, 400f)
+            .FillPath()
             .ClosePath();
 
         // Draw Rectangle
         stamp.SetStrokeColor(Color.blue)
             .SetStrokeWidth(1f)
             .DrawRect(10f, 10f, 380f, 380f);
+
+//        stamp.Rectangle()
+//            .Location(10f, 10f)
+//            .Size(380f, 380f)
+//            .FillColor(Color.lightblue)
+//            .StrokeColor(Color.blue)
+//            .StrokeWidth(1f)
+//            .Draw();
 
         // Fill Rectangle
         stamp.SetFillColor(Color.green).FillRect(10f, 10f, 20f, 20f);

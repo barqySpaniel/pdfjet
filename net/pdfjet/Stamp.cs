@@ -182,6 +182,10 @@ public class Stamp : IDrawable {
         return this;
     }
 
+    public Stamp Draw() {
+        return this;
+    }
+
     public Stamp DrawRect(float x, float y, float w, float h) {
         MoveTo(x, y);
         LineTo(x + w, y);
@@ -305,6 +309,40 @@ public class Stamp : IDrawable {
                 AppendCodePointAsHex(gid);
             }
         }
+    }
+
+    private void Append(Point point) {
+        Append(point.x);
+        Append(' ');
+        Append(height - point.y);
+        Append(' ');
+    }
+
+    public void DrawPath(List<Point> path, string pathOperator) {
+        if (path.Count < 2) {
+            throw new Exception("The Path object must contain at least 2 points");
+        }
+        Point point = path[0];
+        MoveTo(point.x, point.y);
+        char controlPoint = '\0';
+        for (int i = 1; i < path.Count; i++) {
+            point = path[i];
+            if (point.controlPoint != '\0') {
+                controlPoint = point.controlPoint;
+                Append(point);
+            } else {
+                if (controlPoint != '\0') {
+                    Append(point);
+                    Append(controlPoint);
+                    Append('\n');
+                    controlPoint = '\0';
+                } else {
+                    LineTo(point.x, point.y);
+                }
+            }
+        }
+        Append(pathOperator);
+        Append('\n');
     }
 
     private void AppendCodePointAsHex(int codePoint) {
