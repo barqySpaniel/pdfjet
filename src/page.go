@@ -1188,23 +1188,23 @@ func (page *Page) DrawRectRoundCorners(x, y, w, h, r1, r2 float32, operation str
 
 	// Starting point
 	list = append(list, NewPoint(x+w-r1, y))
-	list = append(list, NewControlPoint(x+w-r1+m4*r1, y))
-	list = append(list, NewControlPoint(x+w, y+r2-m4*r2))
+	list = append(list, NewControlPointC(x+w-r1+m4*r1, y))
+	list = append(list, NewControlPointC(x+w, y+r2-m4*r2))
 	list = append(list, NewPoint(x+w, y+r2))
 
 	list = append(list, NewPoint(x+w, y+h-r2))
-	list = append(list, NewControlPoint(x+w, y+h-r2+m4*r2))
-	list = append(list, NewControlPoint(x+w-m4*r1, y+h))
+	list = append(list, NewControlPointC(x+w, y+h-r2+m4*r2))
+	list = append(list, NewControlPointC(x+w-m4*r1, y+h))
 	list = append(list, NewPoint(x+w-r1, y+h))
 
 	list = append(list, NewPoint(x+r1, y+h))
-	list = append(list, NewControlPoint(x+r1-m4*r1, y+h))
-	list = append(list, NewControlPoint(x, y+h-m4*r2))
+	list = append(list, NewControlPointC(x+r1-m4*r1, y+h))
+	list = append(list, NewControlPointC(x, y+h-m4*r2))
 	list = append(list, NewPoint(x, y+h-r2))
 
 	list = append(list, NewPoint(x, y+r2))
-	list = append(list, NewControlPoint(x, y+r2-m4*r2))
-	list = append(list, NewControlPoint(x+m4*r1, y))
+	list = append(list, NewControlPointC(x, y+r2-m4*r2))
+	list = append(list, NewControlPointC(x+m4*r1, y))
 	list = append(list, NewPoint(x+r1, y))
 	list = append(list, NewPoint(x+w-r1, y))
 

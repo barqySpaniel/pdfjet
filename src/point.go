@@ -56,20 +56,27 @@ func NewPoint(x, y float32) *Point {
 // NewControlPoint constructor for creating control point objects.
 // @param x the x coordinate of this point when drawn on the page.
 // @param y the y coordinate of this point when drawn on the page.
-// @param isControlPoint true if this point is one of the points specifying a curve.
 func NewControlPoint(x, y float32) *Point {
 	point := NewPoint(x, y)
 	point.controlPoint = "c"
 	return point
 }
 
-// NewPathPoint constructor for creating control point objects.
-// @param x the x coordinate of this point when drawn on the page.
-// @param y the y coordinate of this point when drawn on the page.
-// @param c if true this is one of control points specifying a curve.
-func NewPathPoint(x, y float32, controlPoint string) *Point {
+func NewControlPointC(x, y float32) *Point {
 	point := NewPoint(x, y)
-	point.controlPoint = controlPoint
+	point.controlPoint = "c"
+	return point
+}
+
+func NewControlPointV(x, y float32) *Point {
+	point := NewPoint(x, y)
+	point.controlPoint = "v"
+	return point
+}
+
+func NewControlPointY(x, y float32) *Point {
+	point := NewPoint(x, y)
+	point.controlPoint = "y"
 	return point
 }
 
