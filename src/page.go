@@ -799,9 +799,14 @@ func (page *Page) FillRect(x, y, w, h float32) {
 	page.FillPath()
 }
 
-// DrawPath draws or fills the specified path using the current penColor or brushColor.
-// @param path the path.
-// @param pathOperator specifies path operator.
+// DrawPath draws a path consisting of multiple points using the specified path operator.
+// The path can include both straight lines and Bézier curves defined by control points.
+//
+// path: A slice of Points that defines the path. Must contain at least 2 points.
+// pathOperator: The PDF path painting operator to apply (e.g., "S" for stroke, "f" for fill).
+//
+// The method starts at the first point and processes subsequent points as either
+// line segments or curve control points based on their controlPoint field.
 func (page *Page) DrawPath(path []*Point, pathOperator string) {
 	if len(path) < 2 {
 		log.Fatal("The Path object must contain at least 2 points.")
