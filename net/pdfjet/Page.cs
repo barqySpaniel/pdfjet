@@ -1032,19 +1032,64 @@ public class Page {
     }
 
     /// <summary>
-    /// Draws the given list of points as a path, using the current pen/brush.
-    /// Control points (<c>isControlPoint == true</c>) form a Bézier curve;
-    /// non‑control points are drawn as straight lines.
+    /// Draws a path consisting of multiple points using the specified path operator.
+    /// Supports both straight line segments and Bézier curve segments with control points.
     /// </summary>
-    /// <param name="path">
-    /// List of <see cref="Point"/> objects. Must contain at least two points:
-    /// the first defines the start (via <c>MoveTo</c>), the rest are processed
-    /// sequentially. Control points are appended to the current curve; when a
-    /// regular point follows a curve, the curve is closed with <c>"c\n"</c>.
-    /// </param>
-    /// <exception cref="Exception">
-    /// Thrown when <paramref name="path"/> has fewer than two points.
-    /// </exception>
+    /// <param name="path">The list of points defining the path. The first point sets the starting position,
+    /// subsequent points define line segments or curve control points. Must contain at least 2 points.</param>
+    /// <param name="pathOperator">The path painting operator to apply (e.g., "S" for stroke, "f" for fill).
+    /// Use constants from the PathOperator class for standard operators.</param>
+    /// <exception cref="Exception">Thrown when the path contains fewer than 2 points.</exception>
+    /// <remarks>
+    /// <para>
+    /// The method processes points as follows:
+    /// <list type="bullet">
+    /// <item>Starts with MoveTo() to position at the first point</item>
+    /// <item>For each subsequent point:
+    /// <list type="bullet">
+    /// <item>If the point has a controlPoint set: stores it for curve definition</item>
+    /// <item>If the point has no controlPoint:
+    /// <list type="bullet">
+    /// <item>If previous point had controlPoint: completes curve definition</item>
+    /// <item>Otherwise: creates straight line segment using LineTo()</item>
+    /// </list>
+    /// </item>
+    /// </list>
+    /// </item>
+    /// <item>Applies the specified path operator at the end</item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// This method supports both simple polygonal paths and complex paths with Bézier curves.
+    /// Control points should have their controlPoint property set to indicate curve type
+    /// (e.g., 'C' for cubic Bézier, 'Q' for quadratic Bézier).
+    /// </para>
+    /// </remarks>
+    /// <example>
+    /// <code>
+    /// // Drawing a rectangle with straight lines
+    /// List&lt;Point&gt; rect = new List&lt;Point&gt; {
+    ///     new Point(100, 100),
+    ///     new Point(200, 100),
+    ///     new Point(200, 200),
+    ///     new Point(100, 200)
+    /// };
+    /// DrawPath(rect, PathOperator.STROKE);
+    /// </code>
+    ///
+    /// <code>
+    /// // Drawing a cubic Bézier curve
+    /// List&lt;Point&gt; curve = new List&lt;Point&gt; {
+    ///     new Point(100, 100),           // Start point
+    ///     new Point(150, 50, Point.ControlPointC),    // First control point
+    ///     new Point(250, 150, Point.ControlPointC),   // Second control point
+    ///     new Point(300, 100)            // End point
+    /// };
+    /// DrawPath(curve, PathOperator.STROKE);
+    /// </code>
+    /// </example>
+    /// <see also cref="Point"/>
+    /// <see also cref="PathOperator"/>
     public void DrawPath(List<Point> path, string pathOperator) {
         if (path.Count < 2) {
             throw new Exception("The Path object must contain at least 2 points");
