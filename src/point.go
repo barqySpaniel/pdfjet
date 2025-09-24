@@ -53,27 +53,36 @@ func NewPoint(x, y float32) *Point {
 	return point
 }
 
-// NewControlPoint constructor for creating control point objects.
-// @param x the x coordinate of this point when drawn on the page.
-// @param y the y coordinate of this point when drawn on the page.
+// NewControlPoint creates a "c" type control point for cubic Bézier curves.
+// @param x the x coordinate of this point.
+// @param y the y coordinate of this point.
 func NewControlPoint(x, y float32) *Point {
 	point := NewPoint(x, y)
 	point.controlPoint = "c"
 	return point
 }
 
+// NewControlPointC creates a "c" type control point for cubic Bézier curves.
+// @param x the x coordinate of this point.
+// @param y the y coordinate of this point.
 func NewControlPointC(x, y float32) *Point {
 	point := NewPoint(x, y)
 	point.controlPoint = "c"
 	return point
 }
 
+// NewControlPointV creates a "v" type control point for cubic Bézier curves.
+// @param x the x coordinate of this point.
+// @param y the y coordinate of this point.
 func NewControlPointV(x, y float32) *Point {
 	point := NewPoint(x, y)
 	point.controlPoint = "v"
 	return point
 }
 
+// NewControlPointY creates a "y" type control point for cubic Bézier curves.
+// @param x the x coordinate of this point.
+// @param y the y coordinate of this point.
 func NewControlPointY(x, y float32) *Point {
 	point := NewPoint(x, y)
 	point.controlPoint = "y"
