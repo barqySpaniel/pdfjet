@@ -1005,13 +1005,34 @@ final public class Page {
     }
 
     /**
-     *  Draws or fills the specified path using the current pen or brush.
+     * Draws a path consisting of multiple points using the specified path operator.
+     * The path can include straight line segments and Bézier curve segments controlled by control points.
      *
-     *  @param path the path.
-     *  @param operation specifies 'stroke' or 'fill' operation.
-     *  @throws Exception  If an input or output exception occurred
+     * @param path the list of points defining the path. Must contain at least 2 points.
+     * @param pathOperator the path painting operator to apply (e.g., PathOperator.STROKE, PathOperator.FILL)
+     * @throws Exception if the path contains fewer than 2 points
+     *
+     * @example
+     * <pre>
+     * {@code
+     * List<Point> path = new ArrayList<>();
+     * path.add(new Point(100, 100));
+     * path.add(new Point(200, 100));
+     * path.add(new Point(200, 200));
+     * path.add(new Point(100, 200));
+     *
+     * drawPath(path, PathOperator.FILL_AND_STROKE);
+     * }
+     * </pre>
+     *
+     * @note The method handles both straight line segments and Bézier curves:
+     * - Straight lines: consecutive points without control points
+     * - Bézier curves: points with control points ('C' for cubic, 'Q' for quadratic, etc.)
+     *
+     * @see Point
+     * @see PathOperator
      */
-    public void drawPath(List<Point> path, String pathOperator) throws Exception {
+     public void drawPath(List<Point> path, String pathOperator) throws Exception {
         if (path.size() < 2) {
             throw new Exception("The Path object must contain at least 2 points");
         }
