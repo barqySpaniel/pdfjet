@@ -352,5 +352,5 @@ public class Encryption {
         // Bytes 8-15 remain 0 for now (will be filled with validation code)
         return permsBlock;
     }
-}   // End of PDFEncryption.cs
+}   // End of Encryption.cs
 }   // End of namespace PDFjet.NET
