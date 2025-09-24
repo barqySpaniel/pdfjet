@@ -80,8 +80,8 @@ final public class Font {
      *                 class.
      * @throws Exception If an input or output exception occurred
      */
-    public Font(PDF pdf, CoreFont coreFont) throws Exception {
-        StandardFont font = new StandardFont(coreFont);
+    public Font(PDF pdf, int coreFont) throws Exception {
+        CoreFont font = new CoreFont(coreFont);
         this.isCoreFont = true;
         this.name = font.name;
         this.bBoxLLx = font.bBoxLLx;
@@ -113,8 +113,8 @@ final public class Font {
     }
 
     // Used by PDFobj
-    protected Font(CoreFont coreFont) {
-        StandardFont font = new StandardFont(coreFont);
+    protected Font(int coreFont) {
+        CoreFont font = new CoreFont(coreFont);
         this.isCoreFont = true;
         this.name = font.name;
         this.bBoxLLx = font.bBoxLLx;

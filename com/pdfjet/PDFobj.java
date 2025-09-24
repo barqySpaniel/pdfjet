@@ -236,7 +236,7 @@ public class PDFobj {
      * @param objects the objects list.
      * @return the font object.
      */
-    public Font addResource(CoreFont coreFont, List<PDFobj> objects) {
+    public Font addResource(int coreFont, List<PDFobj> objects) {
         Font font = new Font(coreFont);
         font.fontID = font.name.replace('-', '_').toUpperCase();
 

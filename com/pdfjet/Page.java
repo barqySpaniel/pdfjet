@@ -161,7 +161,7 @@ final public class Page {
      * @param objects the objects list.
      * @return the font object.
      */
-    public Font addResource(CoreFont coreFont, List<PDFobj> objects) {
+    public Font addResource(int coreFont, List<PDFobj> objects) {
         return pageObj.addResource(coreFont, objects);
     }
 
