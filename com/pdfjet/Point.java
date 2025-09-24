@@ -56,7 +56,16 @@ public class Point implements Drawable {
     public static final int RIGHT_ARROW = 12;
 
     /** Bezier Control Point */
-    public static final boolean CONTROL_POINT = true;
+    public static final char CONTROL_POINT = 'c';
+
+    // For the c operator we have both control points
+    public static final char CONTROL_POINT_C = 'c';
+
+    // For the v operator, the first control point shall coincide with initial point of the curve.
+    public static final char CONTROL_POINT_V = 'v';
+
+    // For the y operator, the second control point shall coincide with final point of the curve.
+    public static final char CONTROL_POINT_Y = 'y';
 
     protected float x;
     protected float y;
@@ -68,7 +77,8 @@ public class Point implements Drawable {
     protected float lineWidth = 0f;
     protected String linePattern = "[] 0";
     protected boolean fillShape = false;
-    protected boolean isControlPoint = false;
+
+    protected char controlPoint = '\0';
     protected boolean drawPath = false;
 
     private String text;
@@ -112,8 +122,8 @@ public class Point implements Drawable {
      *  @param y the y coordinate of this point when drawn on the page.
      *  @param isControlPoint true if this point is one of the points specifying a curve.
      */
-    public Point(double x, double y, boolean isControlPoint) {
-        this((float) x, (float) y, isControlPoint);
+    public Point(double x, double y, char controlPoint) {
+        this((float) x, (float) y, controlPoint);
     }
 
     /**
@@ -123,10 +133,10 @@ public class Point implements Drawable {
      *  @param y the y coordinate of this point when drawn on the page.
      *  @param isControlPoint true if this point is one of the points specifying a curve.
      */
-    public Point(float x, float y, boolean isControlPoint) {
+    public Point(float x, float y, char controlPoint) {
         this.x = x;
         this.y = y;
-        this.isControlPoint = isControlPoint;
+        this.controlPoint = controlPoint;
     }
 
     /**

@@ -94,7 +94,7 @@ public class Point : IDrawable {
      *  @param y the y coordinate of this point when drawn on the page.
      *  @param isControlPoint true if this point is one of the points specifying a curve.
      */
-    public Point(double x, double y, char isControlPoint) : this((float) x, (float) y, isControlPoint) {
+    public Point(double x, double y, char controlPoint) : this((float) x, (float) y, controlPoint) {
     }
 
     /**

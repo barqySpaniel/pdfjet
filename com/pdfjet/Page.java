@@ -1011,25 +1011,24 @@ final public class Page {
      *  @param operation specifies 'stroke' or 'fill' operation.
      *  @throws Exception  If an input or output exception occurred
      */
-    public void drawPath(
-            List<Point> path, String pathOperator) throws Exception {
+    public void drawPath(List<Point> path, String pathOperator) throws Exception {
         if (path.size() < 2) {
-            throw new Exception(
-                    "The Path object must contain at least 2 points");
+            throw new Exception("The Path object must contain at least 2 points");
         }
         Point point = path.get(0);
         moveTo(point.x, point.y);
-        boolean curve = false;
+        char controlPoint = '\0';
         for (int i = 1; i < path.size(); i++) {
             point = path.get(i);
-            if (point.isControlPoint) {
-                curve = true;
+            if (point.controlPoint != '\0') {
+                controlPoint = point.controlPoint;
                 append(point);
             } else {
-                if (curve) {
-                    curve = false;
+                if (controlPoint != '\0') {
                     append(point);
-                    append("c\n");
+                    append(controlPoint);
+                    append('\n');
+                    controlPoint = '\0';
                 } else {
                     lineTo(point.x, point.y);
                 }

@@ -224,23 +224,23 @@ public class Rect {
             }
         } else {
             List<Point> points = new ArrayList<>();
-            points.add(new Point((this.x + this.r), this.y, false));
-            points.add(new Point((this.x + this.w) - this.r, this.y, false));
-            points.add(new Point((this.x + this.w - this.r) + this.r * k, this.y, true));
-            points.add(new Point((this.x + this.w), (this.y + this.r) - this.r * k, true));
-            points.add(new Point((this.x + this.w), (this.y + this.r), false));
-            points.add(new Point((this.x + this.w), (this.y + this.h) - this.r, false));
-            points.add(new Point((this.x + this.w), ((this.y + this.h) - this.r) + this.r * k, true));
-            points.add(new Point(((this.x + this.w) - this.r) + this.r * k, (this.y + this.h), true));
-            points.add(new Point(((this.x + this.w) - this.r), (this.y + this.h), false));
-            points.add(new Point((this.x + this.r), (this.y + this.h), false));
-            points.add(new Point(((this.x + this.r) - this.r * k), (this.y + this.h), true));
-            points.add(new Point(this.x, ((this.y + this.h) - this.r) + this.r * k, true));
-            points.add(new Point(this.x, (this.y + this.h) - this.r, false));
-            points.add(new Point(this.x, (this.y + this.r), false));
-            points.add(new Point(this.x, (this.y + this.r) - this.r * k, true));
-            points.add(new Point((this.x + this.r) - this.r * k, this.y, true));
-            points.add(new Point((this.x + this.r), this.y, false));
+            points.add(new Point((this.x + this.r), this.y));
+            points.add(new Point((this.x + this.w) - this.r, this.y));
+            points.add(new Point((this.x + this.w - this.r) + this.r * k, this.y, Point.CONTROL_POINT_C));
+            points.add(new Point((this.x + this.w), (this.y + this.r) - this.r * k, Point.CONTROL_POINT_C));
+            points.add(new Point((this.x + this.w), (this.y + this.r)));
+            points.add(new Point((this.x + this.w), (this.y + this.h) - this.r));
+            points.add(new Point((this.x + this.w), ((this.y + this.h) - this.r) + this.r * k, Point.CONTROL_POINT_C));
+            points.add(new Point(((this.x + this.w) - this.r) + this.r * k, (this.y + this.h), Point.CONTROL_POINT_C));
+            points.add(new Point(((this.x + this.w) - this.r), (this.y + this.h)));
+            points.add(new Point((this.x + this.r), (this.y + this.h)));
+            points.add(new Point(((this.x + this.r) - this.r * k), (this.y + this.h), Point.CONTROL_POINT_C));
+            points.add(new Point(this.x, ((this.y + this.h) - this.r) + this.r * k, Point.CONTROL_POINT_C));
+            points.add(new Point(this.x, (this.y + this.h) - this.r));
+            points.add(new Point(this.x, (this.y + this.r)));
+            points.add(new Point(this.x, (this.y + this.r) - this.r * k, Point.CONTROL_POINT_C));
+            points.add(new Point((this.x + this.r) - this.r * k, this.y, Point.CONTROL_POINT_C));
+            points.add(new Point((this.x + this.r), this.y));
             page.drawPath(points, PathOperator.STROKE);
         }
         page.restoreGraphicsState();
