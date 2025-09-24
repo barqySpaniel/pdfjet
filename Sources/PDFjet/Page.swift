@@ -140,7 +140,7 @@ public class Page {
         self.init(pdf, pageSize, true)
     }
 
-    public func addResource(_ coreFont: CoreFont, _ objects: inout [PDFobj]) -> Font {
+    public func addResource(_ coreFont: Int, _ objects: inout [PDFobj]) -> Font {
         return pageObj!.addResource(coreFont, &objects)
     }
 

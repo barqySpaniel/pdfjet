@@ -140,8 +140,8 @@ public final class PDFobj {
                 } else {
                     numbers.append(Int(dict[i])!)
                 }
-                break
 
+                break
             }
             i += 1
         }
@@ -212,7 +212,7 @@ public final class PDFobj {
     }
 
     final func addResource(
-            _ coreFont: CoreFont,
+            _ coreFont: Int,
             _ objects: inout [PDFobj]) -> Font {
         let font = Font(coreFont)
         font.fontID = font.name.replacingOccurrences(of: "-", with: "_").uppercased()

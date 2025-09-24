@@ -72,8 +72,8 @@ public class Font {
     /// @param pdf the PDF to add this font to.
     /// @param coreFont the core font. Must be one the names defined in the CoreFont class.
     ///
-    public init(_ pdf: PDF, _ coreFont: CoreFont) {
-        let font = StandardFont.getInstance(coreFont)
+    public init(_ pdf: PDF, _ coreFont: Int) {
+        let font = CoreFont(coreFont)
         self.isCoreFont = true
         self.name = font.name!
         self.bBoxLLx = font.bBoxLLx!
@@ -105,8 +105,8 @@ public class Font {
     }
 
     // Used by PDFobj
-    init(_ coreFont: CoreFont) {
-        let font = StandardFont.getInstance(coreFont)
+    init(_ coreFont: Int) {
+        let font = CoreFont(coreFont)
         self.isCoreFont = true
         self.name = font.name!
         self.bBoxLLx = font.bBoxLLx!
@@ -404,7 +404,7 @@ public class Font {
     public func getBodyHeight() -> Float {
         return self.bodyHeight
     }
-    
+
     public func getUnderlineThickness() -> Int16 {
         return self.fontUnderlineThickness
     }
