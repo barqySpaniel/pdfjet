@@ -808,17 +808,18 @@ func (page *Page) DrawPath(path []*Point, pathOperator string) {
 	}
 	point := path[0]
 	page.MoveTo(point.x, point.y)
-	var curve bool = false
+	var controlPoint string = ""
 	for i := 1; i < len(path); i++ {
 		point = path[i]
-		if point.isControlPoint {
-			curve = true
+		if point.controlPoint != "" {
+			controlPoint = point.controlPoint
 			page.appendPoint(point)
 		} else {
-			if curve {
-				curve = false
+			if controlPoint != "" {
 				page.appendPoint(point)
-				page.appendString("c\n")
+				page.appendString(controlPoint)
+				page.appendString("\n")
+				controlPoint = ""
 			} else {
 				page.LineTo(point.x, point.y)
 			}

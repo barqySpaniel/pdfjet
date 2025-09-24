@@ -18,22 +18,22 @@ import (
 // we are talking about the coordinates of the center of the point.
 // Please see Example_05.
 type Point struct {
-	x, y           float32
-	r              float32
-	shape          int
-	color          int32
-	align          int
-	lineWidth      float32
-	linePattern    string
-	fillShape      bool
-	isControlPoint bool
-	drawPath       bool
-	text           string
-	textColor      int32
-	textDirection  int
-	uri, key       *string
-	xBox           float32
-	yBox           float32
+	x, y          float32
+	r             float32
+	shape         int
+	color         int32
+	align         int
+	lineWidth     float32
+	linePattern   string
+	fillShape     bool
+	controlPoint  string
+	drawPath      bool
+	text          string
+	textColor     int32
+	textDirection int
+	uri, key      *string
+	xBox          float32
+	yBox          float32
 }
 
 // NewPoint constructor for creating point objects.
@@ -41,7 +41,7 @@ type Point struct {
 // @param y the y coordinate of this point when drawn on the page.
 func NewPoint(x, y float32) *Point {
 	point := new(Point)
-	point.isControlPoint = false
+	point.controlPoint = ""
 	point.x = x
 	point.y = y
 	point.r = 2.0
@@ -59,7 +59,7 @@ func NewPoint(x, y float32) *Point {
 // @param isControlPoint true if this point is one of the points specifying a curve.
 func NewControlPoint(x, y float32) *Point {
 	point := NewPoint(x, y)
-	point.isControlPoint = true
+	point.controlPoint = "c"
 	return point
 }
 
@@ -67,9 +67,9 @@ func NewControlPoint(x, y float32) *Point {
 // @param x the x coordinate of this point when drawn on the page.
 // @param y the y coordinate of this point when drawn on the page.
 // @param c if true this is one of control points specifying a curve.
-func NewPathPoint(x, y float32, c bool) *Point {
+func NewPathPoint(x, y float32, controlPoint string) *Point {
 	point := NewPoint(x, y)
-	point.isControlPoint = c
+	point.controlPoint = controlPoint
 	return point
 }
 
