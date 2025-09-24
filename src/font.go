@@ -18,7 +18,7 @@ import (
 )
 
 // Font is used to create font objects.
-// The font objects must added to the PDF before they can be used to draw text.
+// The font objects must be added to the PDF before they can be used to draw text.
 type Font struct {
 	name      string
 	info      string
@@ -135,7 +135,7 @@ func NewCoreFont(pdf *PDF, coreFont *corefont.CoreFont) *Font {
 }
 
 // NewCoreFontForPDFobj is the constructor used by PDFobj
-// Core font should be interface!
+// Core font should be an interface!
 func NewCoreFontForPDFobj(coreFont *corefont.CoreFont) *Font {
 	font := new(Font)
 	font.isCoreFont = true
