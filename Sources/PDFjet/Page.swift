@@ -1305,23 +1305,23 @@ public class Page {
         var list = [Point]()
         // Starting point
         list.append(Point(x + w - r1, y))
-        list.append(Point(x + w - r1 + m4*r1, y, Point.CONTROL_POINT))
-        list.append(Point(x + w, y + r2 - m4*r2, Point.CONTROL_POINT))
+        list.append(Point(x + w - r1 + m4*r1, y, Point.controlPointC))
+        list.append(Point(x + w, y + r2 - m4*r2, Point.controlPointC))
         list.append(Point(x + w, y + r2))
 
         list.append(Point(x + w, y + h - r2))
-        list.append(Point(x + w, y + h - r2 + m4*r2, Point.CONTROL_POINT))
-        list.append(Point(x + w - m4*r1, y + h, Point.CONTROL_POINT))
+        list.append(Point(x + w, y + h - r2 + m4*r2, Point.controlPointC))
+        list.append(Point(x + w - m4*r1, y + h, Point.controlPointC))
         list.append(Point(x + w - r1, y + h))
 
         list.append(Point(x + r1, y + h))
-        list.append(Point(x + r1 - m4*r1, y + h, Point.CONTROL_POINT))
-        list.append(Point(x, y + h - m4*r2, Point.CONTROL_POINT))
+        list.append(Point(x + r1 - m4*r1, y + h, Point.controlPointC))
+        list.append(Point(x, y + h - m4*r2, Point.controlPointC))
         list.append(Point(x, y + h - r2))
 
         list.append(Point(x, y + r2))
-        list.append(Point(x, y + r2 - m4*r2, Point.CONTROL_POINT))
-        list.append(Point(x + m4*r1, y, Point.CONTROL_POINT))
+        list.append(Point(x, y + r2 - m4*r2, Point.controlPointC))
+        list.append(Point(x + m4*r1, y, Point.controlPointC))
         list.append(Point(x + r1, y))
         list.append(Point(x + w - r1, y))
 
