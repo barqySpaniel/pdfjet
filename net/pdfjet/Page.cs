@@ -1454,6 +1454,10 @@ public class Page {
         Append(" Tf\n");
     }
 
+    public Font GetTextFont() {
+        return this.font;
+    }
+
     // Code provided by:
     // Dominique Andre Gunia <contact@dgunia.de>
     // <<
