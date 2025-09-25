@@ -28,7 +28,6 @@ public class Point : Drawable {
     public static let LEFT_ARROW: Int = 11
     public static let RIGHT_ARROW: Int = 12
 
-    public static let CONTROL_POINT: String = "c"
     public static let controlPointC: String = "c"
     public static let controlPointV: String = "v"
     public static let controlPointY: String = "y"

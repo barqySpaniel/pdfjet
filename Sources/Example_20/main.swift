@@ -44,8 +44,8 @@ public class Example_20 {
         path.add(Point(15.5,  4.5))
 
         path.add(Point(18.0,  3.5))
-        path.add(Point(15.5, 13.5, Point.CONTROL_POINT))
-        path.add(Point(15.5, 13.5, Point.CONTROL_POINT))
+        path.add(Point(15.5, 13.5, Point.controlPointC))
+        path.add(Point(15.5, 13.5, Point.controlPointC))
         path.add(Point(20.5,  7.5))
 
         path.add(Point(21.0,  9.5))
@@ -66,8 +66,8 @@ public class Example_20 {
         path.add(Point( 5.0,  9.5))
 
         path.add(Point( 5.5,  7.5))
-        path.add(Point(10.5, 13.5, Point.CONTROL_POINT))
-        path.add(Point(10.5, 13.5, Point.CONTROL_POINT))
+        path.add(Point(10.5, 13.5, Point.controlPointC))
+        path.add(Point(10.5, 13.5, Point.controlPointC))
         path.add(Point( 8.0,  3.5))
 
         path.add(Point(10.5,  4.5))
