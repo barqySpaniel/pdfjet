@@ -1146,15 +1146,13 @@ func (page *Page) DrawArc(
 	return []float32{x1, y1, x2, y2, x3, y3}
 }
 
-/**
- *  Draws a bezier curve starting from the current point.
- *  <strong>Please note:</strong> You must call the fillPath, closePath or strokePath method after the last bezierCurveTo call.
- *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
- *
- *  @param p1 first control point
- *  @param p2 second control point
- *  @param p3 end point
- */
+// BezierCurveTo draw a Bézier curve starting from the current point.
+// <strong>Please note:</strong> You must call the fillPath, closePath or strokePath method after the last bezierCurveTo call.
+// <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
+//
+// @param p1 first control point
+// @param p2 second control point
+// @param p3 end point
 func (page *Page) BezierCurveTo(p1, p2, p3 *Point) {
 	page.appendPoint(p1)
 	page.appendPoint(p2)
@@ -1175,6 +1173,10 @@ func (page *Page) SetTextFont(font *Font) {
 	page.appendByte(token.Space)
 	page.appendFloat32(font.size)
 	page.appendString(" Tf\n")
+}
+
+func (page *Page) GetTextFont() *Font {
+	return page.font
 }
 
 // DrawRectRoundCorners draws rectangle with rounded corners.
@@ -1211,7 +1213,7 @@ func (page *Page) DrawRectRoundCorners(x, y, w, h, r1, r2 float32, operation str
 	page.DrawPath(list, operation)
 }
 
-// clipPath clips the path.
+// ClipPath clips the path.
 func (page *Page) ClipPath() {
 	page.appendString("W\n")
 	page.appendString("n\n") // Close the path without painting it.
