@@ -1289,6 +1289,10 @@ public class Page {
         append(" Tf\n")
     }
 
+    public func getTextFont() -> Font? {
+        return self.font
+    }
+
     // Original code provided by:
     // Dominique Andre Gunia <contact@dgunia.de>
     // >>
