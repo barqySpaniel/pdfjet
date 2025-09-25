@@ -879,17 +879,18 @@ public class Page {
         }
         var point = path[0]
         moveTo(point.x, point.y)
-        var curve: Bool = false
+        var controlPoint: String = ""
         for i in 1..<path.count {
             point = path[i]
-            if point.isControlPoint {
-                curve = true
+            if point.controlPoint != "" {
+    			controlPoint = point.controlPoint
                 append(point)
             } else {
-                if curve {
-                    curve = false
-                    append(point)
-                    append("c\n")
+                if controlPoint != "" {
+    				append(point)
+	    			append(controlPoint)
+    				append("\n")
+	    			controlPoint = ""
                 } else {
                     lineTo(point.x, point.y)
                 }

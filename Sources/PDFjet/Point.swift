@@ -28,7 +28,10 @@ public class Point : Drawable {
     public static let LEFT_ARROW: Int = 11
     public static let RIGHT_ARROW: Int = 12
 
-    public static let CONTROL_POINT: Bool = true
+    public static let CONTROL_POINT: String = "c"
+    public static let CONTROL_POINT_C: String = "c"
+    public static let CONTROL_POINT_V: String = "v"
+    public static let CONTROL_POINT_Y: String = "y"
 
     var x: Float = 0.0
     var y: Float = 0.0
@@ -39,7 +42,8 @@ public class Point : Drawable {
     var lineWidth: Float = 0.0
     var linePattern: String = "[] 0"
     var fillShape = false
-    var isControlPoint = false
+
+    var controlPoint: String = ""
     var drawPath = false
 
     private var text: String?
@@ -73,10 +77,10 @@ public class Point : Drawable {
     public init(
             _ x: Float,
             _ y: Float,
-            _ isControlPoint: Bool) {
+            _ controlPoint: String) {
         self.x = x
         self.y = y
-        self.isControlPoint = isControlPoint
+        self.controlPoint = controlPoint
     }
 
     public func setPosition(_ x: Float, _ y: Float) {
