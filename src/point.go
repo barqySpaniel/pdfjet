@@ -53,15 +53,6 @@ func NewPoint(x, y float32) *Point {
 	return point
 }
 
-// NewControlPoint creates a "c" type control point for cubic Bézier curves.
-// @param x the x coordinate of this point.
-// @param y the y coordinate of this point.
-func NewControlPoint(x, y float32) *Point {
-	point := NewPoint(x, y)
-	point.controlPoint = "c"
-	return point
-}
-
 // NewControlPointC creates a "c" type control point for cubic Bézier curves.
 // @param x the x coordinate of this point.
 // @param y the y coordinate of this point.

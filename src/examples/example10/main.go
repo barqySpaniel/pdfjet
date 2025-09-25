@@ -30,8 +30,8 @@ func Example10() {
 	path.Add(pdfjet.NewPoint(15.5, 4.5))
 
 	path.Add(pdfjet.NewPoint(18.0, 3.5))
-	path.Add(pdfjet.NewControlPoint(15.5, 13.5))
-	path.Add(pdfjet.NewControlPoint(15.5, 13.5))
+	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
+	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
 	path.Add(pdfjet.NewPoint(20.5, 7.5))
 
 	path.Add(pdfjet.NewPoint(21.0, 9.5))
@@ -52,8 +52,8 @@ func Example10() {
 	path.Add(pdfjet.NewPoint(5.0, 9.5))
 
 	path.Add(pdfjet.NewPoint(5.5, 7.5))
-	path.Add(pdfjet.NewControlPoint(10.5, 13.5))
-	path.Add(pdfjet.NewControlPoint(10.5, 13.5))
+	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
+	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
 	path.Add(pdfjet.NewPoint(8.0, 3.5))
 
 	path.Add(pdfjet.NewPoint(10.5, 4.5))
