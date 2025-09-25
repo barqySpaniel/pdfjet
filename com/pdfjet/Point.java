@@ -74,9 +74,11 @@ public class Point implements Drawable {
     protected int color = Color.black;
     protected int align = Align.RIGHT;
 
-    protected float lineWidth = 0f;
-    protected String linePattern = "[] 0";
-    protected boolean fillShape = false;
+    protected float[] fillColor = null;
+    protected float strokeWidth = 1f;
+    protected float[] strokeColor = null;
+    protected String strokePattern = "[] 0";
+    protected String pathOperator = PathOperator.CLOSE_AND_STROKE;
 
     protected char controlPoint = '\0';
     protected boolean drawPath = false;
@@ -85,8 +87,6 @@ public class Point implements Drawable {
     private int textColor;
     private int textDirection;
     private String uri;
-    private float xBox;
-    private float yBox;
 
     /**
      *  The default constructor.
@@ -319,24 +319,6 @@ public class Point implements Drawable {
     }
 
     /**
-     *  Sets the private fillShape variable.
-     *
-     *  @param fillShape if true - fill the point with the specified brush color.
-     */
-    public void setFillShape(boolean fillShape) {
-        this.fillShape = fillShape;
-    }
-
-    /**
-     *  Returns the value of the fillShape private variable.
-     *
-     *  @return the value of the private fillShape variable.
-     */
-    public boolean getFillShape() {
-        return this.fillShape;
-    }
-
-    /**
      *  Sets the pen color for this point.
      *
      *  @param color the color specified as an integer.
@@ -359,19 +341,19 @@ public class Point implements Drawable {
     /**
      *  Sets the width of the lines of this point.
      *
-     *  @param lineWidth the line width.
+     *  @param strokeWidth the line width.
      */
-    public void setLineWidth(double lineWidth) {
-        this.lineWidth = (float) lineWidth;
+    public void setStrokeWidth(double strokeWidth) {
+        this.strokeWidth = (float) strokeWidth;
     }
 
     /**
      *  Sets the width of the lines of this point.
      *
-     *  @param lineWidth the line width.
+     *  @param strokeWidth the line width.
      */
-    public void setLineWidth(float lineWidth) {
-        this.lineWidth = lineWidth;
+    public void setStrokeWidth(float strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
 
     /**
@@ -379,8 +361,8 @@ public class Point implements Drawable {
      *
      *  @return the width of the lines used to draw this point.
      */
-    public float getLineWidth() {
-        return lineWidth;
+    public float getStrokeWidth() {
+        return strokeWidth;
     }
 
     /**
@@ -405,10 +387,10 @@ public class Point implements Drawable {
      *      "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
      *  </pre>
      *
-     *  @param linePattern the line dash pattern.
+     *  @param strokePattern the line dash pattern.
      */
-    public void setLinePattern(String linePattern) {
-        this.linePattern = linePattern;
+    public void setStrokePattern(String strokePattern) {
+        this.strokePattern = strokePattern;
     }
 
     /**
@@ -416,8 +398,16 @@ public class Point implements Drawable {
      *
      *  @return the line dash pattern.
      */
-    public String getLinePattern() {
-        return linePattern;
+    public String getStrokePattern() {
+        return strokePattern;
+    }
+
+    public void setPathOperator(String pathOperator) {
+        this.pathOperator = pathOperator;
+    }
+
+    public String getPathOperator() {
+        return this.pathOperator;
     }
 
     /**
@@ -521,44 +511,6 @@ public class Point implements Drawable {
     }
 
     /**
-     *  Places this point in the specified box at position (0f, 0f).
-     *
-     *  @param box the specified box.
-     */
-    public void placeIn(Box box) {
-        placeIn(box, 0f, 0f);
-    }
-
-    /**
-     *  Places this point in the specified box.
-     *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     */
-    public void placeIn(
-            Box box,
-            double xOffset,
-            double yOffset) {
-        placeIn(box, (float) xOffset, (float) yOffset);
-    }
-
-    /**
-     *  Places this point in the specified box.
-     *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     */
-    public void placeIn(
-            Box box,
-            float xOffset,
-            float yOffset) {
-        xBox = box.x + xOffset;
-        yBox = box.y + yOffset;
-    }
-
-    /**
      *  Draws this point on the specified page.
      *
      *  @param page the page to draw this point on.
@@ -566,21 +518,23 @@ public class Point implements Drawable {
      *  @throws Exception  If an input or output exception occurred
      */
     public float[] drawOn(Page page) throws Exception {
-        page.setPenWidth(lineWidth);
-        page.setLinePattern(linePattern);
-
-        if (fillShape) {
-            page.setBrushColor(color);
-        } else {
-            page.setPenColor(color);
+        page.append("q\n");
+        if (fillColor != null && strokeColor != null) {
+            page.setBrushColor(fillColor);
+            page.setPenColor(strokeColor);
+            page.setPenWidth(strokeWidth);
+            this.pathOperator = PathOperator.FILL_AND_STROKE;
+        } else if (fillColor != null && strokeColor == null) {
+            page.setBrushColor(fillColor);
+            this.pathOperator = PathOperator.FILL;
+        } else if (fillColor == null && strokeColor != null) {
+            page.setPenColor(strokeColor);
+            page.setPenWidth(strokeWidth);
+            this.pathOperator = PathOperator.CLOSE_AND_STROKE;
         }
-
-        x += xBox;
-        y += yBox;
         page.drawPoint(this);
-        x -= xBox;
-        y -= yBox;
+        page.append("Q\n");
 
-        return new float[] {x + xBox + r, y + yBox + r};
+        return new float[] {x + r, y + r};
     }
 }   // End of Point.java

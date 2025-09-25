@@ -40,13 +40,17 @@ final public class Page {
     float[] bleedBox = null;
     float[] trimBox = null;
     float[] artBox = null;
-    private float[] penColor = {0f, 0f, 0f};
+
+    private Font font;
     private float[] brushColor = {0f, 0f, 0f};
-    private float penWidth = 0f;
+    private float[] penColor = {0f, 0f, 0f};
+    private float penWidth = 0.6f;
+    private float[] penCMYK = {0f, 0f, 0f, 1f};
+    private float[] brushCMYK = {0f, 0f, 0f, 1f};
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
-    private String linePattern = "[] 0";
-    private Font font;
+    private String strokePattern = "[] 0";
+
     private final List<State> savedStates = new ArrayList<State>();
     private int mcid = 0;
 
@@ -559,27 +563,6 @@ final public class Page {
     }
 
     /**
-     *  Sets the graphics state. Please see Example_31.
-     *
-     *  @param gs the graphics state to use.
-     */
-    public void setGraphicsState(GraphicsState gs) {
-        String state = "/CA " +
-                gs.getAlphaStroking() +
-                " " +
-                "/ca " +
-                gs.getAlphaNonStroking();
-        Integer n = pdf.states.get(state);
-        if (n == null) {
-            n = pdf.states.size() + 1;
-            pdf.states.put(state, n);
-        }
-        append("/GS");
-        append(n);
-        append(" gs\n");
-    }
-
-    /**
      * Sets the color for stroking operations.
      * The pen color is used when drawing lines and splines.
      *
@@ -809,7 +792,8 @@ final public class Page {
      *
      *  @param pattern the line dash pattern.
      */
-    public void setLinePattern(String pattern) {
+    public void setStrokePattern(String pattern) {
+        this.strokePattern = pattern;
         append(pattern);
         append(" d\n");
     }
@@ -818,7 +802,6 @@ final public class Page {
      *  Sets the default line dash pattern - solid line.
      */
     public void setDefaultLinePattern() {
-        // TODO:
         append("[] 0");
         append(" d\n");
     }
@@ -1237,36 +1220,24 @@ final public class Page {
      *  @throws Exception  If an input or output exception occurred
      */
     public void drawPoint(Point p) throws Exception {
-        if (p.shape != Point.INVISIBLE)  {
+        if (p.shape != Point.INVISIBLE) {
             List<Point> list;
             if (p.shape == Point.CIRCLE) {
-                if (p.fillShape) {
-                    drawCircle(p.x, p.y, p.r, PathOperator.FILL);
-                } else {
-                    drawCircle(p.x, p.y, p.r, PathOperator.STROKE);
-                }
+                drawCircle(p.x, p.y, p.r, p.getPathOperator());
             } else if (p.shape == Point.DIAMOND) {
                 list = new ArrayList<Point>();
-                list.add(new Point(p.x, p.y - p.r));
-                list.add(new Point(p.x + p.r, p.y));
-                list.add(new Point(p.x, p.y + p.r));
-                list.add(new Point(p.x - p.r, p.y));
-                if (p.fillShape) {
-                    drawPath(list, PathOperator.FILL);
-                } else {
-                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
-                }
+                list.add(new Point(p.x, p.y - p.r*1.2));
+                list.add(new Point(p.x + p.r*1.2, p.y));
+                list.add(new Point(p.x, p.y + p.r*1.2));
+                list.add(new Point(p.x - p.r*1.2, p.y));
+                drawPath(list, p.getPathOperator());
             } else if (p.shape == Point.BOX) {
                 list = new ArrayList<Point>();
-                list.add(new Point(p.x - p.r, p.y - p.r));
-                list.add(new Point(p.x + p.r, p.y - p.r));
-                list.add(new Point(p.x + p.r, p.y + p.r));
-                list.add(new Point(p.x - p.r, p.y + p.r));
-                if (p.fillShape) {
-                    drawPath(list, PathOperator.FILL);
-                } else {
-                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
-                }
+                list.add(new Point(p.x - p.r*0.886, p.y - p.r*0.886));
+                list.add(new Point(p.x + p.r*0.886, p.y - p.r*0.886));
+                list.add(new Point(p.x + p.r*0.886, p.y + p.r*0.886));
+                list.add(new Point(p.x - p.r*0.886, p.y + p.r*0.886));
+                drawPath(list, p.getPathOperator());
             } else if (p.shape == Point.PLUS) {
                 drawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 drawLine(p.x, p.y - p.r, p.x, p.y + p.r);
@@ -1275,41 +1246,29 @@ final public class Page {
                 list.add(new Point(p.x, p.y - p.r));
                 list.add(new Point(p.x + p.r, p.y + p.r));
                 list.add(new Point(p.x - p.r, p.y + p.r));
-                if (p.fillShape) {
-                    drawPath(list, PathOperator.FILL);
-                } else {
-                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
-                }
+                list.add(new Point(p.x, p.y - p.r));
+                drawPath(list, p.getPathOperator());
             } else if (p.shape == Point.DOWN_ARROW) {
                 list = new ArrayList<Point>();
                 list.add(new Point(p.x - p.r, p.y - p.r));
                 list.add(new Point(p.x + p.r, p.y - p.r));
                 list.add(new Point(p.x, p.y + p.r));
-                if (p.fillShape) {
-                    drawPath(list, PathOperator.FILL);
-                } else {
-                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
-                }
+                list.add(new Point(p.x - p.r, p.y - p.r));
+                drawPath(list, p.getPathOperator());
             } else if (p.shape == Point.LEFT_ARROW) {
                 list = new ArrayList<Point>();
                 list.add(new Point(p.x + p.r, p.y + p.r));
                 list.add(new Point(p.x - p.r, p.y));
                 list.add(new Point(p.x + p.r, p.y - p.r));
-                if (p.fillShape) {
-                    drawPath(list, PathOperator.FILL);
-                } else {
-                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
-                }
+                list.add(new Point(p.x + p.r, p.y + p.r));
+                drawPath(list, p.getPathOperator());
             } else if (p.shape == Point.RIGHT_ARROW) {
                 list = new ArrayList<Point>();
                 list.add(new Point(p.x - p.r, p.y - p.r));
                 list.add(new Point(p.x + p.r, p.y));
                 list.add(new Point(p.x - p.r, p.y + p.r));
-                if (p.fillShape) {
-                    drawPath(list, PathOperator.FILL);
-                } else {
-                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
-                }
+                list.add(new Point(p.x - p.r, p.y - p.r));
+                drawPath(list, p.getPathOperator());
             } else if (p.shape == Point.H_DASH) {
                 drawLine(p.x - p.r, p.y, p.x + p.r, p.y);
             } else if (p.shape == Point.V_DASH) {
@@ -1323,24 +1282,15 @@ final public class Page {
                 drawLine(p.x - p.r, p.y, p.x + p.r, p.y);
                 drawLine(p.x, p.y - p.r, p.x, p.y + p.r);
             } else if (p.shape == Point.STAR) {
-                float angle = (float) Math.PI / 10;
-                float sin18 = (float) Math.sin(angle);
-                float cos18 = (float) Math.cos(angle);
-                float a = p.r * cos18;
-                float b = p.r * sin18;
-                float c = 2 * a * sin18;
-                float d = 2 * a * cos18 - p.r;
                 list = new ArrayList<Point>();
-                list.add(new Point(p.x, p.y - p.r));
-                list.add(new Point(p.x + c, p.y + d));
-                list.add(new Point(p.x - a, p.y - b));
-                list.add(new Point(p.x + a, p.y - b));
-                list.add(new Point(p.x - c, p.y + d));
-                if (p.fillShape) {
-                    drawPath(list, PathOperator.FILL);
-                } else {
-                    drawPath(list, PathOperator.CLOSE_AND_STROKE);
+                for (int i = 0; i < 10; i++) {
+                    double theta = i * 36 * (Math.PI / 180.0);
+                    double radius = (i % 2 == 0) ? p.r*1.147f : p.r*0.38196f*1.147f;
+                    double x = p.x + radius * Math.sin(theta);
+                    double y = p.y - radius * Math.cos(theta);  // minus because y grows down
+                    list.add(new Point(x, y));
                 }
+                drawPath(list, p.getPathOperator());
             }
         }
     }
@@ -1553,37 +1503,62 @@ final public class Page {
         clipPath();
     }
 
+    @Deprecated
     public void save() {
-        append("q\n");
-        savedStates.add(new State(
-                penColor, brushColor, penWidth, lineCapStyle, lineJoinStyle, linePattern));
-        savedHeight = height;
+        saveGraphicsState();
     }
 
+    @Deprecated
     public void restore() {
+        restoreGraphicsState();
+    }
+
+    /**
+     *  Saves the graphics state. Please see Example_31.
+     */
+    public void saveGraphicsState() {
+        append("q\n");
+        savedStates.add(new State(
+                brushColor, penColor, penWidth, lineCapStyle, lineJoinStyle, strokePattern));
+    }
+
+    /**
+     *  Sets the graphics state. Please see Example_31.
+     *
+     *  @param gs the graphics state to use.
+     */
+    public void setGraphicsState(GraphicsState gs) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("/CA ");
+        sb.append(gs.getAlphaStroking());
+        sb.append(" ");
+        sb.append("/ca ");
+        sb.append(gs.getAlphaNonStroking());
+        String state = buf.toString();
+        Integer n = pdf.states.get(state);
+        if (n == null) {
+            n = pdf.states.size() + 1;
+            pdf.states.put(state, n);
+        }
+        append("/GS");
+        append(n);
+        append(" gs\n");
+    }
+
+    /**
+     *  Restores the graphics state. Please see Example_31.
+     */
+    public void restoreGraphicsState() {
         append("Q\n");
         if (savedStates.size() > 0) {
             State savedState = savedStates.remove(savedStates.size() - 1);
-            penColor = savedState.getPen();
-            brushColor = savedState.getBrush();
+            brushColor = savedState.getBrushColor();
+            penColor = savedState.getPenColor();
             penWidth = savedState.getPenWidth();
             lineCapStyle = savedState.getLineCapStyle();
             lineJoinStyle = savedState.getLineJoinStyle();
-            linePattern = savedState.getLinePattern();
+            strokePattern = savedState.getStrokePattern();
         }
-        if (savedHeight != Float.MAX_VALUE) {
-            height = savedHeight;
-            savedHeight = Float.MAX_VALUE;
-        }
-    }
-    // <<
-
-    void saveGraphicsState() {
-        append("q\n");
-    }
-
-    void restoreGraphicsState() {
-        append("Q\n");
     }
 
     /**

@@ -51,22 +51,6 @@ public class Example_06 {
         star.setShape(Point.STAR);
         star.setRadius(3.0f);
         star.setColor(Color.white);
-        star.setFillShape(true);
-
-        for (int row = 0; row < 6; row++) {
-            for (int col = 0; col < 5; col++) {
-                star.placeIn(union, row * h_si, col * v_si);
-                star.drawOn(page);
-            }
-        }
-
-        star.setLocation(h_si, v_si);
-        for (int row = 0; row < 5; row++) {
-            for (int col = 0; col < 4; col++) {
-                star.placeIn(union, row * h_si, col * v_si);
-                star.drawOn(page);
-            }
-        }
 
         FileAttachment attachment = new FileAttachment(pdf, file1);
         attachment.setLocation(100f, 300f);

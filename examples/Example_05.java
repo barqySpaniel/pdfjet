@@ -55,7 +55,6 @@ public class Example_05 {
 
         Point point = new Point(300f, 300f);
         point.setShape(Point.CIRCLE);
-        point.setFillShape(true);
         point.setColor(Color.blue);
         point.setRadius(37f);
         point.drawOn(page);

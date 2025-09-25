@@ -211,7 +211,7 @@ public class Rect {
         page.setBrushColor(this.borderColor);
         page.setPenColor(this.borderColor);
         page.setPenWidth(this.width);
-        page.setLinePattern(this.pattern);
+        page.setStrokePattern(this.pattern);
         if (this.r == 0.0f) {
             page.moveTo(this.x, this.y);
             page.lineTo(this.x + this.w, this.y);

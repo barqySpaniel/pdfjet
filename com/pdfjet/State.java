@@ -7,34 +7,34 @@
 package com.pdfjet;
 
 class State {
-    private float[] pen;
-    private float[] brush;
+    private float[] brushColor;
+    private float[] penColor;
     private float penWidth;
     private CapStyle lineCapStyle;
     private JoinStyle lineJoinStyle;
-    private String linePattern;
+    private String strokePattern;
 
     public State(
-            float[] pen,
-            float[] brush,
+            float[] brushColor,
+            float[] penColor,
             float penWidth,
             CapStyle lineCapStyle,
             JoinStyle lineJoinStyle,
-            String linePattern) {
-        this.pen = new float[] { pen[0], pen[1], pen[2] };
-        this.brush = new float[] { brush[0], brush[1], brush[2] };
+            String strokePattern) {
+        this.brushColor = new float[] { brushColor[0], brushColor[1], brushColor[2] }; // TODO: Is this needed?
+        this.penColor = new float[] { penColor[0], penColor[1], penColor[2] };         // Creating new objects?
         this.penWidth = penWidth;
         this.lineCapStyle = lineCapStyle;
         this.lineJoinStyle = lineJoinStyle;
-        this.linePattern = linePattern;
+        this.strokePattern = strokePattern;
     }
 
-    public float[] getPen() {
-        return pen;
+    public float[] getBrushColor() {
+        return brushColor;
     }
 
-    public float[] getBrush() {
-        return brush;
+    public float[] getPenColor() {
+        return penColor;
     }
 
     public float getPenWidth() {
@@ -49,7 +49,8 @@ class State {
         return lineJoinStyle;
     }
 
-    public String getLinePattern() {
-        return linePattern;
+    public String getStrokePattern() {
+        return strokePattern;
     }
 }   // End of State.java
+

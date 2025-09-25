@@ -107,12 +107,10 @@ public class Example_23 {
 
         Point p1 = new Point(x1, y1);
         p1.setRadius(5f);
-        p1.setFillShape(true);
         p1.drawOn(page);
 
         Point p2 = new Point(x2, y2);
         p2.setRadius(5f);
-        p2.setFillShape(true);
         p2.drawOn(page);
 
         f2.setSize(24f);

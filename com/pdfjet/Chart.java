@@ -348,7 +348,7 @@ public class Chart implements Drawable {
                 if (xyChart) {
                     point.x = x5 + (point.x - xMin) * (x6 - x5) / (xMax - xMin);
                     point.y = y8 - (point.y - yMin) * (y8 - y5) / (yMax - yMin);
-                    point.lineWidth *= (x6 - x5) / w;
+                    point.strokeWidth *= (x6 - x5) / w;
                 } else {
                     point.x = x5 + point.x * (x6 - x5) / w;
                     point.y = y8 - (point.y - yMin) * (y8 - y5) / (yMax - yMin);
@@ -478,7 +478,7 @@ public class Chart implements Drawable {
     private void drawHorizontalGridLines(Page page) {
         page.setPenWidth(hGridLineWidth);
         page.setPenColor(Color.black);
-        page.setLinePattern(hGridLinePattern);
+        page.setStrokePattern(hGridLinePattern);
         float x = x8;
         float y = y8;
         float step = (y8 - y5) / yAxisGridLines;
@@ -491,7 +491,7 @@ public class Chart implements Drawable {
     private void drawVerticalGridLines(Page page) {
         page.setPenWidth(vGridLineWidth);
         page.setPenColor(Color.black);
-        page.setLinePattern(vGridLinePattern);
+        page.setStrokePattern(vGridLinePattern);
         float x = x5;
         float y = y5;
         float step = (x6 - x5) / xAxisGridLines;
@@ -532,8 +532,8 @@ public class Chart implements Drawable {
             Point point = points.get(0);
             if (point.drawPath) {
                 page.setPenColor(point.color);
-                page.setPenWidth(point.lineWidth);
-                page.setLinePattern(point.linePattern);
+                page.setPenWidth(point.strokeWidth);
+                page.setStrokePattern(point.strokePattern);
                 page.drawPath(points, PathOperator.STROKE);
                 if (point.getText() != null) {
                     page.setBrushColor(point.getTextColor());
@@ -544,8 +544,8 @@ public class Chart implements Drawable {
             for (int j = 0; j < points.size(); j++) {
                 point = points.get(j);
                 if (point.getShape() != Point.INVISIBLE) {
-                    page.setPenWidth(point.lineWidth);
-                    page.setLinePattern(point.linePattern);
+                    page.setPenWidth(point.strokeWidth);
+                    page.setStrokePattern(point.strokePattern);
                     page.setPenColor(point.color);
                     page.setBrushColor(point.color);
                     page.drawPoint(point);

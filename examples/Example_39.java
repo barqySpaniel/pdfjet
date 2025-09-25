@@ -19,7 +19,7 @@ final public class Example_39 {
         Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f2.setItalic(true);
         f2.setSize(8f);
-        
+
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Chart chart = new Chart(f1, f2);
@@ -44,7 +44,7 @@ final public class Example_39 {
         point.setY(45f);
         point.setShape(Point.INVISIBLE);
         point.setColor(Color.blue);
-        point.setLineWidth(20f);
+        point.setStrokeWidth(20f);
         point.setText(" Horizontal");
         point.setTextColor(Color.white);
         path1.add(point);
@@ -62,7 +62,7 @@ final public class Example_39 {
         point.setY(35f);
         point.setShape(Point.INVISIBLE);
         point.setColor(Color.gold);
-        point.setLineWidth(20f);
+        point.setStrokeWidth(20f);
         point.setText(" Bar");
         point.setTextColor(Color.black);
         path2.add(point);
@@ -80,7 +80,7 @@ final public class Example_39 {
         point.setY(25f);
         point.setShape(Point.INVISIBLE);
         point.setColor(Color.green);
-        point.setLineWidth(20f);
+        point.setStrokeWidth(20f);
         point.setText(" Chart");
         point.setTextColor(Color.white);
         path3.add(point);
@@ -98,7 +98,7 @@ final public class Example_39 {
         point.setY(15f);
         point.setShape(Point.INVISIBLE);
         point.setColor(Color.red);
-        point.setLineWidth(20f);
+        point.setStrokeWidth(20f);
         point.setText(" Example");
         point.setTextColor(Color.white);
         path4.add(point);
