@@ -134,11 +134,15 @@ namespace PDFjet.NET {
             float r = ((color >> 16) & 0xff)/255f;
             float g = ((color >>  8) & 0xff)/255f;
             float b = ((color)       & 0xff)/255f;
-            SetFillColor(r, g, b);
+            this.fillColor = new float[] {r, g, b};
         }
 
-        public void SetFillColor(float r, float g, float b) {
-            this.fillColor = new float[] {r, g, b};
+        public void SetFillColor(float[] rgbColor) {
+            this.fillColor = rgbColor;
+        }
+
+        public void SetBackgroundColor(float[] rgbColor) {
+            this.fillColor = rgbColor;
         }
 
         public void SetBorderColor(int color) {
@@ -149,11 +153,11 @@ namespace PDFjet.NET {
             float r = ((color >> 16) & 0xff)/255f;
             float g = ((color >>  8) & 0xff)/255f;
             float b = ((color)       & 0xff)/255f;
-            SetBorderColor(r, g, b);
+            this.borderColor = new float[] {r, g, b};
         }
 
-        public void SetBorderColor(float r, float g, float b) {
-            this.borderColor = new float[] {r, g, b};
+        public void SetBorderColor(float[] rgbColor) {
+            this.borderColor = rgbColor;
         }
 
         public void SetLineSpacing(float textLineHeight) {
