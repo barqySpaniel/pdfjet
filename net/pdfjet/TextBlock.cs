@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace PDFjet.NET {
-    public class TextBlock {
+    public class TextBlock : IDrawable {
         private float x;
         private float y;
         private float width;
@@ -51,6 +51,27 @@ namespace PDFjet.NET {
             this.height = 500.0f;
             this.textContent = textContent;
             this.textColor = new float[] {0f, 0f, 0f};      // Black color
+        }
+
+        /**
+         *  Sets the position where this text box will be drawn on the page.
+         *
+         *  @param x the x coordinate of the top left corner of the text box.
+         *  @param y the y coordinate of the top left corner of the text box.
+         */
+        public void SetPosition(double x, double y) {
+            SetPosition((float) x, (float) y);
+        }
+
+        /**
+         *  Sets the position where this text box will be drawn on the page.
+         *
+         *  @param x the x coordinate of the top left corner of the text box.
+         *  @param y the y coordinate of the top left corner of the text box.
+         */
+        public void SetPosition(float x, float y) {
+            this.x = x;
+            this.y = y;
         }
 
         public void SetFont(Font font) {
