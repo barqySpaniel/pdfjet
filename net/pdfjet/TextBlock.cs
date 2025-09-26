@@ -83,15 +83,9 @@ namespace PDFjet.NET {
             this.fallbackFont = font;
         }
 
-        public void SetTextFontSize(float size) {
-            this.fontSize = size;
+        public void SetFontSize(float fontSize) {
+            this.fontSize = fontSize;
         }
-
-//        public void SetFallbackFontSize(float size) {
-//            if (this.fallbackFont != null) {
-//                this.fallbackFont.SetSize(size);
-//            }
-//        }
 
         public void SetText(string text) {
             this.textContent = text;
