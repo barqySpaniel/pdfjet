@@ -4,8 +4,7 @@
  * Copyright (c) 2025 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
-
-package encryption;
+package com.pdfjet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,6 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import com.pdfjet.*;
 
 public class Encryption {
     private final byte[] fileEncryptionKey;
@@ -85,8 +85,8 @@ public class Encryption {
         }
 
         // === Encryption Dictionary ===
-        pdf.newObj();
-        pdf.append(Token.beginDictionary);
+        pdf.newobj();
+        pdf.append(Token.BEGIN_DICTIONARY);
         pdf.append("/Filter /Standard\n");
         pdf.append("/V 5\n");           // Algorithm 2.A / 2.B
         pdf.append("/R 6\n");           // Security revision 6 (strong password hashing)
@@ -141,8 +141,8 @@ public class Encryption {
         pdf.append(toHex(encryptedPermsBlock));
         pdf.append(">\n");
 
-        pdf.append(Token.endDictionary);
-        pdf.endObj();
+        pdf.append(Token.END_DICTIONARY);
+        pdf.endobj();
 
         objNumber = pdf.getObjNumber();
     }

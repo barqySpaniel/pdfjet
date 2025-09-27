@@ -23,6 +23,7 @@ final public class PDF {
     List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
     Map<String, Integer> states = new HashMap<String, Integer>();
     List<StructElem> structElements = new ArrayList<StructElem>();
+    Encryption encryption = null;
 
     private int metadataObjNumber = 0;
     private int outputIntentObjNumber = 0;
@@ -706,6 +707,11 @@ final public class PDF {
             dos.finish();
             deflater.end();
             page.buf = null;    // Release the page content memory!
+
+            buf = baos.toByteArray();
+            if (encryption != null) {
+                buf = AES256.encrypt(buf, encryption.getKey());
+            }
 
             newobj();
             append(Token.BEGIN_DICTIONARY);
