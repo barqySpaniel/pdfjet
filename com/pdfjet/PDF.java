@@ -708,10 +708,10 @@ final public class PDF {
             deflater.end();
             page.buf = null;    // Release the page content memory!
 
-            buf = baos.toByteArray();
-            if (encryption != null) {
-                buf = AES256.encrypt(buf, encryption.getKey());
-            }
+//             buf = baos.toByteArray();
+//             if (encryption != null) {
+//                 buf = AES256.encrypt(buf, encryption.getKey());
+//             }
 
             newobj();
             append(Token.BEGIN_DICTIONARY);
