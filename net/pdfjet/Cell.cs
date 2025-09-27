@@ -20,6 +20,7 @@ public class Cell {
     internal Image image;
     internal Barcode barcode;
     internal TextBox textBox;
+    internal TextBlock textBlock;
     internal Point point;
     internal CompositeTextLine compositeTextLine;
     internal float width = 75f;     // TODO: Rename to cellWidth
@@ -214,6 +215,11 @@ public class Cell {
         return this;
     }
 
+    public Cell SetTextBlock(TextBlock textBlock) {
+        this.textBlock = textBlock;
+        return this;
+    }
+
     public void SetBackgroundColor(float[] rgbColor) {
         this.backgroundColor = rgbColor;
     }
@@ -227,6 +233,8 @@ public class Cell {
         this.width = (float) width;
         if (textBox != null) {
             textBox.SetWidth(this.width - (this.leftPadding + this.rightPadding));
+        } else if (textBlock != null) {
+            textBlock.SetWidth(this.width - (this.leftPadding + this.rightPadding));
         }
     }
 
@@ -310,6 +318,9 @@ public class Cell {
         if (textBox != null) {
             textBox.SetWidth(width);
             cellHeight = (textBox.DrawOn(null)[1] - textBox.y) + topPadding + bottomPadding;
+        } else if (textBlock != null) {
+            textBlock.SetWidth(width);
+            cellHeight = (textBlock.DrawOn(null)[1] - textBlock.y) + topPadding + bottomPadding;
         } else if (image != null) {
             cellHeight = image.GetHeight() + topPadding + bottomPadding;
         } else if (barcode != null) {
@@ -562,6 +573,10 @@ public class Cell {
             textBox.SetPosition(x + leftPadding, y + topPadding);
             textBox.SetWidth(w - (leftPadding + rightPadding));
             textBox.DrawOn(page);
+        } else if (textBlock != null) {
+            textBlock.SetPosition(x + leftPadding, y + topPadding);
+            textBlock.SetWidth(w - (leftPadding + rightPadding));
+            textBlock.DrawOn(page);
         } else if (image != null) {
             if (GetTextAlignment() == Align.LEFT) {
                 image.SetLocation(x + leftPadding, y + topPadding);
@@ -780,6 +795,10 @@ public class Cell {
 
     public TextBox GetTextBox() {
         return this.textBox;
+    }
+
+    public TextBlock GetTextBlock() {
+        return this.textBlock;
     }
 }   // End of Cell.cs
 }   // End of namespace PDFjet.NET

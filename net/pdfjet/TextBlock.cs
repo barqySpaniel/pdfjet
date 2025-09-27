@@ -10,8 +10,8 @@ using System.Text;
 
 namespace PDFjet.NET {
     public class TextBlock : IDrawable {
-        private float x;
-        private float y;
+        internal float x;
+        internal float y;
         private float width;
         private float height;
         private Font font;
