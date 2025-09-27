@@ -16,7 +16,7 @@
  */
 using System.Collections.Generic;
 
-namespace PDFjet.NET.QRCode {
+namespace PDFjet.NET {
 class RSBlock {
     private int totalCount;
     private int dataCount;

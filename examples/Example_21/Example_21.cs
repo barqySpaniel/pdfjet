@@ -3,7 +3,6 @@ using System.IO;
 using System.Diagnostics;
 
 using PDFjet.NET;
-using PDFjet.NET.QRCode;
 
 /**
  *  Example_21.cs

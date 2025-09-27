@@ -15,7 +15,7 @@
  *  Modified and adapted for use in PDFjet by PDFjet Software
  */
 
-namespace PDFjet.NET.QRCode {
+namespace PDFjet.NET {
 public class MaskPattern {
     public const int PATTERN000 = 0;
     public const int PATTERN001 = 1;

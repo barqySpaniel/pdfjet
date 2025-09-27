@@ -19,7 +19,7 @@ using System;
 /**
  * Used to specify the error correction level for QR Codes.
  */
-namespace PDFjet.NET.QRCode {
+namespace PDFjet.NET {
 public class ErrorCorrectLevel {
     public const int L = 1;
     public const int M = 0;

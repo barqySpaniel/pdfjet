@@ -16,7 +16,7 @@
  */
 using System;
 
-namespace PDFjet.NET.QRCode {
+namespace PDFjet.NET {
 public class Polynomial {
     private int[] num;
 
