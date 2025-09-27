@@ -168,8 +168,9 @@ namespace PDFjet.NET {
             this.textColor = textColor;
         }
 
-        public void SetTextAlignment(Alignment textAlignment) {
+        public TextBlock SetTextAlignment(Alignment textAlignment) {
             this.textAlignment = textAlignment;
+            return this;
         }
 
         public TextBlock SetURIAction(string uri) {
@@ -287,17 +288,20 @@ namespace PDFjet.NET {
         }
 
         public float[] DrawOn(Page page) {
+            float ascent = this.font.GetAscent(fontSize);
+            float descent = this.font.GetDescent(fontSize);
+            float leading = (ascent + descent) * this.lineSpacing;
+
+            TextLineWithOffset[] textLines = GetTextLinesWithOffsets();
             if (page == null) {
-                throw new ArgumentException("A valid Page object is required.");
+                return new float[] {
+                    this.width,
+                    textLines.Length * leading + 2 * this.textPadding
+                };
             }
 
             page.Append("q\n");
             page.SetPenWidth(this.borderWidth);
-
-            float ascent = this.font.GetAscent(fontSize);
-            float descent = this.font.GetDescent(fontSize);
-            float leading = (ascent + descent) * this.lineSpacing;
-            TextLineWithOffset[] textLines = GetTextLinesWithOffsets();
             if (textAlignment == Alignment.RIGHT) {
                 RightAlignText(textLines);
             } else if (textAlignment == Alignment.CENTER) {

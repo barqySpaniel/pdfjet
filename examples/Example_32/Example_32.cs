@@ -70,9 +70,11 @@ public class Example_32 {
         tableData.Add(row);
 
         row = new List<Cell>();
-        textBox = new TextBox(font,
-            "ROTATION:  Hello, World! This is a Rotation test.").SetTextAlignment(Align.RIGHT);
-        row.Add(new Cell(font).SetTextBox(textBox));
+        TextBlock textBlock = new TextBlock(font,
+            "ROTATION:  Hello, World! This is a Rotation test.").SetTextAlignment(Alignment.RIGHT);
+        textBlock.SetFontSize(10f);
+        row.Add(new Cell(font).SetTextBlock(textBlock));
+
         textBox = new TextBox(font, "0.0");
         row.Add(new Cell(font).SetTextBox(textBox));
         tableData.Add(row);
