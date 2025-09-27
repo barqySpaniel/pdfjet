@@ -5,7 +5,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-namespace PDFjet.NET.PDF417 {
+namespace PDFjet.NET {
 /// <summary>
 /// PDF‑417 barcode pattern lookup table.
 /// </summary>

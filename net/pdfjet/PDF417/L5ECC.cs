@@ -5,7 +5,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-namespace PDFjet.NET.PDF417 {
+namespace PDFjet.NET {
 class L5ECC {
 public static readonly int[] Table = {
 539,422,  6, 93,862,771,453,106,610,287,107,505,733,877,381,612,

@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PDFjet.NET.PDF417 {
+namespace PDFjet.NET {
 /**
  *  Used to create PDF417 2D barcodes.
  *

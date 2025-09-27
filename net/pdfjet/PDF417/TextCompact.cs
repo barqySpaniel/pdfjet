@@ -6,7 +6,7 @@
  */
 using System;
 
-namespace PDFjet.NET.PDF417 {
+namespace PDFjet.NET {
 /// <summary>
 /// Holds the compact text lookup table used by the PDF‑417 encoder.
 /// </summary>

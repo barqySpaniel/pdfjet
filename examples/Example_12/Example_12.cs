@@ -4,7 +4,6 @@ using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 using PDFjet.NET;
-using PDFjet.NET.PDF417;
 
 // Example_12.cs
 public class Example_12 {
