@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using PDFjet.NET;
 using PDFjet.NET.Fonts;
-using PDFjet.NET.Encryption;
 
 /**
  *  Example_46.cs

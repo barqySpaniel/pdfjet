@@ -420,7 +420,7 @@ public class Image : IDrawable {
 
         byte[] buf = data;
         if (pdf.encryption != null) {
-            buf = Encryption.AES256.Encrypt(data, pdf.encryption.GetKey());
+            buf = AES256.Encrypt(data, pdf.encryption.GetKey());
         }
         pdf.Append("/Length ");
         pdf.Append(buf.Length);
@@ -476,7 +476,7 @@ public class Image : IDrawable {
 
         byte[] buf = data;
         if (pdf.encryption != null) {
-            buf = Encryption.AES256.Encrypt(data, pdf.encryption.GetKey());
+            buf = AES256.Encrypt(data, pdf.encryption.GetKey());
         }
         pdf.Append("/Length ");
         pdf.Append(buf.Length);

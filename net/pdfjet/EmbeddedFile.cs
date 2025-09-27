@@ -31,7 +31,7 @@ public class EmbeddedFile {
         }
 
         if (pdf.encryption != null) {
-            buf = Encryption.AES256.Encrypt(buf, pdf.encryption.GetKey());
+            buf = AES256.Encrypt(buf, pdf.encryption.GetKey());
         }
 
         pdf.NewObj();
@@ -55,7 +55,7 @@ public class EmbeddedFile {
 
         byte[] fileNameBytes = Encoding.UTF8.GetBytes(fileName);
         if (pdf.encryption != null) {
-            fileNameBytes = Encryption.AES256.Encrypt(fileNameBytes, pdf.encryption.GetKey());
+            fileNameBytes = AES256.Encrypt(fileNameBytes, pdf.encryption.GetKey());
         }
         pdf.Append("/F <");
         pdf.Append(Util.ToHexString(fileNameBytes));

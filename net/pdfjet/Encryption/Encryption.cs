@@ -11,7 +11,7 @@ using System.Text;
 using System.Numerics;
 using System.Collections.Generic;
 
-namespace PDFjet.NET.Encryption {
+namespace PDFjet.NET {
 internal sealed class User {
     public byte[] U;
     public byte[] UE;

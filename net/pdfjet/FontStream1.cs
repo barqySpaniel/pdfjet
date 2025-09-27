@@ -79,7 +79,7 @@ class FontStream1 {
                 ms.Write(buf, 0, len);
             }
             stream.Dispose();
-            encrypted = Encryption.AES256.Encrypt(ms.ToArray(), pdf.encryption.GetKey());
+            encrypted = AES256.Encrypt(ms.ToArray(), pdf.encryption.GetKey());
         }
 
         pdf.Append("/Length ");
@@ -203,7 +203,7 @@ class FontStream1 {
 
         byte[] buf2 = Encoding.UTF8.GetBytes(sb.ToString());
         if (pdf.encryption != null) {
-            buf2 = Encryption.AES256.Encrypt(buf2, pdf.encryption.GetKey());
+            buf2 = AES256.Encrypt(buf2, pdf.encryption.GetKey());
         }
 
         pdf.NewObj();
@@ -243,8 +243,8 @@ class FontStream1 {
         byte[] registry = Encoding.UTF8.GetBytes("Adobe");
         byte[] ordering = Encoding.UTF8.GetBytes("Identity");
         if (pdf.encryption != null) {
-            registry = Encryption.AES256.Encrypt(registry, pdf.encryption.GetKey());
-            ordering = Encryption.AES256.Encrypt(ordering, pdf.encryption.GetKey());
+            registry = AES256.Encrypt(registry, pdf.encryption.GetKey());
+            ordering = AES256.Encrypt(ordering, pdf.encryption.GetKey());
         }
         pdf.Append("/CIDSystemInfo <</Registry <");
         pdf.Append(Util.ToHexString(registry));

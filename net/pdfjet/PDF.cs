@@ -24,7 +24,7 @@ public class PDF {
     internal static readonly CultureInfo culture_en_us = new CultureInfo("en-US");
     internal Compliance compliance = Compliance.PDF_1_7;
     internal Bookmark toc = null;
-    internal Encryption.Encryption encryption = null;
+    internal Encryption encryption = null;
 
     private int metadataObjNumber = 0;
     private int outputIntentObjNumber = 0;
@@ -113,7 +113,7 @@ public class PDF {
         this.compliance = compliance;
     }
 
-    public void SetEncryption(Encryption.Encryption encryption) {
+    public void SetEncryption(Encryption encryption) {
         this.encryption = encryption;
     }
 
@@ -280,7 +280,7 @@ public class PDF {
 
         byte[] identifierBytes = Encoding.UTF8.GetBytes("sRGB IEC61966-2.1");
         if (encryption != null) {
-            identifierBytes = Encryption.AES256.Encrypt(identifierBytes, encryption.GetKey());
+            identifierBytes = AES256.Encrypt(identifierBytes, encryption.GetKey());
         }
         // OutputIntent object
         NewObj();
@@ -475,9 +475,9 @@ public class PDF {
                     byte[] actualTextBytes = Encoding.UTF8.GetBytes(element.actualText);
                     byte[] altDescriptionBytes = Encoding.UTF8.GetBytes(element.altDescription);
                     if (encryption != null) {
-                        languageBytes = Encryption.AES256.Encrypt(languageBytes, encryption.GetKey());
-                        actualTextBytes = Encryption.AES256.Encrypt(actualTextBytes, encryption.GetKey());
-                        altDescriptionBytes = Encryption.AES256.Encrypt(altDescriptionBytes, encryption.GetKey());
+                        languageBytes = AES256.Encrypt(languageBytes, encryption.GetKey());
+                        actualTextBytes = AES256.Encrypt(actualTextBytes, encryption.GetKey());
+                        altDescriptionBytes = AES256.Encrypt(altDescriptionBytes, encryption.GetKey());
                     }
 
                     Append("/Lang <");
@@ -622,7 +622,7 @@ public class PDF {
         if (compliance != Compliance.PDF_1_7) {
             byte[] languageBytes = Encoding.UTF8.GetBytes(this.language);
             if (encryption != null) {
-                languageBytes = Encryption.AES256.Encrypt(languageBytes, encryption.GetKey());
+                languageBytes = AES256.Encrypt(languageBytes, encryption.GetKey());
             }
             Append("/Lang <");
             Append(Util.ToHexString(languageBytes));
@@ -774,7 +774,7 @@ public class PDF {
         if (contentStreamsCompression) {
             byte[] buf = Compressor.Deflate(page.buf.ToArray());
             if (encryption != null) {
-                buf = Encryption.AES256.Encrypt(buf, encryption.GetKey());
+                buf = AES256.Encrypt(buf, encryption.GetKey());
             }
             page.buf.Dispose();
 
@@ -793,7 +793,7 @@ public class PDF {
         } else {    // No compression. Used for diagnostics
             byte[] buf = page.buf.ToArray();
             if (encryption != null) {
-                buf = Encryption.AES256.Encrypt(buf, encryption.GetKey());
+                buf = AES256.Encrypt(buf, encryption.GetKey());
             }
             page.buf.Dispose();
 
@@ -821,8 +821,8 @@ public class PDF {
             byte[] title = Encoding.UTF8.GetBytes(annot.fileAttachment.title);
             byte[] contents = Encoding.UTF8.GetBytes(annot.fileAttachment.contents);
             if (encryption != null) {
-                title = Encryption.AES256.Encrypt(title, encryption.GetKey());
-                contents = Encryption.AES256.Encrypt(contents, encryption.GetKey());
+                title = AES256.Encrypt(title, encryption.GetKey());
+                contents = AES256.Encrypt(contents, encryption.GetKey());
             }
             Append("/Subtype /FileAttachment\n");
             Append("/T <");
@@ -856,7 +856,7 @@ public class PDF {
             Append("/S /URI\n");
             byte[] uri = Encoding.UTF8.GetBytes(annot.uri);
             if (encryption != null) {
-                uri = Encryption.AES256.Encrypt(uri, encryption.GetKey());
+                uri = AES256.Encrypt(uri, encryption.GetKey());
             }
             Append("/URI <");
             Append(Util.ToHexString(uri));
@@ -1480,7 +1480,7 @@ public class PDF {
 
         byte[] title = Encoding.UTF8.GetBytes(bm1.GetTitle());
         if (encryption != null) {
-            title = Encryption.AES256.Encrypt(title, encryption.GetKey());
+            title = AES256.Encrypt(title, encryption.GetKey());
         }
 
         NewObj();

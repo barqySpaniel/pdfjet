@@ -6,7 +6,7 @@
  */
 using System;
 
-namespace PDFjet.NET.Encryption {
+namespace PDFjet.NET {
 public class Passwords {
     private String userPassword;
     private String ownerPassword;

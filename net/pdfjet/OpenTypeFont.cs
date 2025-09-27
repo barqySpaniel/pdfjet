@@ -90,7 +90,7 @@ class OpenTypeFont {
 
         byte[] buf = otf.compressed;
         if (pdf.encryption != null) {
-            buf = Encryption.AES256.Encrypt(buf, pdf.encryption.GetKey());
+            buf = AES256.Encrypt(buf, pdf.encryption.GetKey());
         }
 
         pdf.Append("/Length ");
@@ -204,7 +204,7 @@ class OpenTypeFont {
 
         byte[] buf2 = Encoding.UTF8.GetBytes(sb.ToString());
         if (pdf.encryption != null) {
-            buf2 = Encryption.AES256.Encrypt(buf2, pdf.encryption.GetKey());
+            buf2 = AES256.Encrypt(buf2, pdf.encryption.GetKey());
         }
 
         pdf.NewObj();
@@ -248,8 +248,8 @@ class OpenTypeFont {
         byte[] registry = Encoding.UTF8.GetBytes("Adobe");
         byte[] ordering = Encoding.UTF8.GetBytes("Identity");
         if (pdf.encryption != null) {
-            registry = Encryption.AES256.Encrypt(registry, pdf.encryption.GetKey());
-            ordering = Encryption.AES256.Encrypt(ordering, pdf.encryption.GetKey());
+            registry = AES256.Encrypt(registry, pdf.encryption.GetKey());
+            ordering = AES256.Encrypt(ordering, pdf.encryption.GetKey());
         }
         pdf.Append("/CIDSystemInfo <</Registry <");
         pdf.Append(Util.ToHexString(registry));

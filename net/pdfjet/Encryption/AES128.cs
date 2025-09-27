@@ -11,7 +11,7 @@ using System.Text;
 using System.Numerics;
 using System.Collections.Generic;
 
-namespace PDFjet.NET.Encryption {
+namespace PDFjet.NET {
 public class AES128 {
     /// <summary>
     /// Encrypts <paramref name="K1"/> with AES‑128‑CBC, **no padding**.
