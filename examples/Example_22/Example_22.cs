@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using PDFjet.NET;
-using PDFjet.NET.Fonts;
 
 /**
  *  Example_22.cs

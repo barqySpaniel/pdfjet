@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using PDFjet.NET;
-using PDFjet.NET.Fonts;
 
 /**
  *  Example_36.cs - Demonstrates creation and placement of Form XObjects.

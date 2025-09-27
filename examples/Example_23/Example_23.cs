@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Reflection;
 using PDFjet.NET;
-using PDFjet.NET.Fonts;
 
 /**
  * Example_23.cs

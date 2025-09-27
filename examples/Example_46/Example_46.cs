@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using PDFjet.NET;
-using PDFjet.NET.Fonts;
 
 /**
  *  Example_46.cs
