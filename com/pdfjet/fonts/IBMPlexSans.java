@@ -1,4 +1,4 @@
-package com.pdfjet.fonts;
+package com.pdfjet;
 
 public class IBMPlexSans {
 	public static final String Bold             = "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream";

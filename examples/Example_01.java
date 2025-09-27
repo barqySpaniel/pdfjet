@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.pdfjet.*;
-import com.pdfjet.fonts.*;
 
 /**
  *  Example_01.java
- *  
+ *
  *  A simple example demonstrating how to create a PDF with multilingual text
  *  (English, Greek, and Bulgarian) using PDFjet.
  */
@@ -19,7 +18,7 @@ public class Example_01 {
     public Example_01() throws Exception {
         // Create a new PDF document and set output stream to a file
         PDF pdf = new PDF(new BufferedOutputStream(new FileOutputStream("Example_01.pdf")));
-        
+
         // Set PDF/UA compliance (required for accessibility)
         pdf.setCompliance(Compliance.PDF_UA_1);
         // pdf.setCompliance(Compliance.PDF_A_1A);

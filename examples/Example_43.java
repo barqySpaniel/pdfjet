@@ -3,7 +3,6 @@ package examples;
 import java.io.*;
 import java.util.*;
 import com.pdfjet.*;
-import com.pdfjet.fonts.*;
 
 /**
  * Example_43.java
