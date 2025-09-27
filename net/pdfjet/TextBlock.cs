@@ -44,6 +44,7 @@ namespace PDFjet.NET {
 
         public TextBlock(Font font, string textContent) {
             this.font = font;
+            this.fontSize = font.size;
             this.fallbackFont = font;
             this.x = 0.0f;
             this.y = 0.0f;
