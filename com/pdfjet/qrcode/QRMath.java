@@ -14,7 +14,7 @@
  *
  *  Modified and adapted for use in PDFjet by PDFjet Software
  */
-package com.pdfjet.qrcode;
+package com.pdfjet;
 
 class QRMath {
     private static final int[] EXP_TABLE = new int[256];

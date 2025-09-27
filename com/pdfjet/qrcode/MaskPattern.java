@@ -14,7 +14,7 @@
  *
  *  Modified and adapted for use in PDFjet by PDFjet Software
  */
-package com.pdfjet.qrcode;
+package com.pdfjet;
 
 interface MaskPattern {
     public static final int PATTERN000 = 0;

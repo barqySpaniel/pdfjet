@@ -14,7 +14,7 @@
  *
  *  Modified and adapted for use in PDFjet by PDFjet Software
  */
-package com.pdfjet.qrcode;
+package com.pdfjet;
 
 class Polynomial {
     private final int[] num;

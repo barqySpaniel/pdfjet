@@ -2,7 +2,6 @@ package examples;
 
 import java.io.*;
 import com.pdfjet.*;
-import com.pdfjet.qrcode.*;
 
 /**
  *  Example_21.java
@@ -23,7 +22,7 @@ public class Example_21 {
 
         // Please note:
         // The higher the error correction level - the shorter the string that you can encode.
-        com.pdfjet.qrcode.QRCode qr = new com.pdfjet.qrcode.QRCode(
+        QRCode qr = new QRCode(
                 "https://kazuhikoarase.github.io/qrcode-generator/js/demo",
                 ErrorCorrectLevel.L);   // Low
         qr.setModuleLength(3f);

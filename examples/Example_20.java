@@ -3,7 +3,6 @@ package examples;
 import java.io.*;
 import java.util.*;
 import com.pdfjet.*;
-import com.pdfjet.qrcode.*;
 
 /**
  *  Example_20.java
