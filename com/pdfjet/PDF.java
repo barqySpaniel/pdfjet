@@ -127,6 +127,10 @@ final public class PDF {
         this.compliance = compliance;
     }
 
+    public void setEncryption(Encryption encryption) {
+        this.encryption = encryption;
+    }
+
     void newobj() throws IOException {
         objOffset.add(byteCount);
         append(objOffset.size());
