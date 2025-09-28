@@ -712,32 +712,37 @@ final public class PDF {
             deflater.end();
             page.buf = null;    // Release the page content memory!
 
-//             buf = baos.toByteArray();
-//             if (encryption != null) {
-//                 buf = AES256.encrypt(buf, encryption.getKey());
-//             }
+            buf = baos.toByteArray();
+            if (encryption != null) {
+                buf = AES256.encrypt(buf, encryption.getKey());
+            }
 
             newobj();
             append(Token.BEGIN_DICTIONARY);
             append("/Filter /FlateDecode\n");
             append(Token.LENGTH);
-            append(baos.size());
+            append(buf.length);
             append(Token.NEWLINE);
             append(Token.END_DICTIONARY);
             append(Token.STREAM);
-            append(baos);
+            append(buf);
             append(Token.END_STREAM);
             endobj();
             page.contents.add(getObjNumber());
         } else {    // No compression. Used for diagnostics
+            byte[] buf = page.buf.toByteArray();
+            if (encryption != null) {
+                buf = AES256.encrypt(buf, encryption.getKey());
+            }
+
             newobj();
             append(Token.BEGIN_DICTIONARY);
             append(Token.LENGTH);
-            append(page.buf.size());
+            append(buf.length);
             append(Token.NEWLINE);
             append(Token.END_DICTIONARY);
             append(Token.STREAM);
-            append(page.buf);
+            append(buf);
             append(Token.END_STREAM);
             endobj();
             page.buf = null;    // Release the page content memory!
@@ -948,6 +953,12 @@ final public class PDF {
         append("><");
         append(uuid);
         append(">]\n");
+
+        if (encryption != null) {
+            append("/Encrypt ");
+            append(encryption.getObjNumber());
+            append(" 0 R\n");
+        }
 
         append("/Root ");
         append(rootObjNumber);
