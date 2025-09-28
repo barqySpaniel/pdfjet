@@ -11,6 +11,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.security.GeneralSecurityException;
 
 public class AES256 {
     /**
@@ -43,7 +44,7 @@ public class AES256 {
 
             // Perform the encryption in one block
             return cipher.doFinal(fileEncryptionKey);
-        } catch (Exception e) {
+        } catch (GeneralSecurityException e) {
             throw new RuntimeException("AES encryption failed", e);
         }
     }
@@ -84,13 +85,13 @@ public class AES256 {
             System.arraycopy(encryptedData, 0, result, iv.length, encryptedData.length);
 
             return result;
-        } catch (Exception e) {
+        } catch (GeneralSecurityException e) {
             throw new RuntimeException("AES encryption failed", e);
         }
     }
 
     /**
-     * Encrypts data using AES-256 in ECB mode with zero IV and no padding.
+     * Encrypts data using AES-256 in ECB mode with no padding.
      * Required when encrypting the Perms (permissions).
      *
      * @param data The data to be encrypted.
@@ -111,7 +112,7 @@ public class AES256 {
             cipher.init(Cipher.ENCRYPT_MODE, keySpec);
 
             return cipher.doFinal(data);
-        } catch (Exception e) {
+        } catch (GeneralSecurityException e) {
             throw new RuntimeException("AES ECB encryption failed", e);
         }
     }

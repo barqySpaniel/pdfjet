@@ -47,7 +47,7 @@ final public class PDF {
     private final List<String> importedFonts = new ArrayList<String>();
     private String extGState = "";
     private Page prevPage = null;
-    private boolean contentStreamsCompression = true;
+    private boolean contentStreamsCompression = false;
 
     /**
      * The default constructor - use when reading PDF files.

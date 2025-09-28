@@ -9,6 +9,7 @@ package com.pdfjet;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.GeneralSecurityException;
 
 public class AES128 {
     /**
@@ -44,7 +45,7 @@ public class AES128 {
 
             // ---------- encrypt in one shot ----------
             return cipher.doFinal(K1);
-        } catch (Exception e) {
+        } catch (GeneralSecurityException e) {
             throw new RuntimeException("AES-128 encryption failed", e);
         }
     }
