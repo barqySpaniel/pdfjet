@@ -250,13 +250,13 @@ namespace PDFjet.NET {
                     continue;
                 }
 
-                if (this.font.StringWidth(this.fallbackFont, line) <= textAreaWidth) {
+                if (this.font.StringWidth(fallbackFont, fontSize, line) <= textAreaWidth) {
                     textLines.Add(new TextLineWithOffset(line, 0f));
                 } else {
                     if (TextIsCJK(line)) {
                         StringBuilder sb = new StringBuilder();
                         foreach (char ch in line.ToCharArray()) {
-                            if (this.font.StringWidth(this.fallbackFont, sb.ToString() + ch) <= textAreaWidth) {
+                            if (this.font.StringWidth(fallbackFont, fontSize, sb.ToString() + ch) <= textAreaWidth) {
                                 sb.Append(ch);
                             } else {
                                 textLines.Add(new TextLineWithOffset(sb.ToString(), 0f));
@@ -271,7 +271,7 @@ namespace PDFjet.NET {
                         StringBuilder sb = new StringBuilder();
                         string[] tokens = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (string token in tokens) {
-                            if (this.font.StringWidth(this.fallbackFont, sb.ToString() + token) <= textAreaWidth) {
+                            if (this.font.StringWidth(fallbackFont, fontSize, sb.ToString() + token) <= textAreaWidth) {
                                 sb.Append(token).Append(" ");
                             } else {
                                 textLines.Add(new TextLineWithOffset(sb.ToString().Trim(), 0f));
@@ -291,13 +291,15 @@ namespace PDFjet.NET {
 
         private void RightAlignText(TextLineWithOffset[] textLines) {
             foreach (TextLineWithOffset textLineWithOffset in textLines) {
-                textLineWithOffset.xOffset = this.width - font.StringWidth(textLineWithOffset.textLine);
+                textLineWithOffset.xOffset =
+                    this.width - font.StringWidth(fallbackFont, fontSize, textLineWithOffset.textLine);
             }
         }
 
         private void CenterText(TextLineWithOffset[] textLines) {
             foreach (TextLineWithOffset textLineWithOffset in textLines) {
-                textLineWithOffset.xOffset = (this.width - font.StringWidth(textLineWithOffset.textLine)) / 2f;
+                textLineWithOffset.xOffset =
+                    (this.width - font.StringWidth(fallbackFont, fontSize, textLineWithOffset.textLine)) / 2f;
             }
         }
 
