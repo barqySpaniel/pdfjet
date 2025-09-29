@@ -14,7 +14,7 @@ public class Example_32 {
                 new FileStream("Example_32.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream");
-        font.SetSize(10f);
+        font.SetSize(8f);
 
         Dictionary<String, Int32> colors = new Dictionary<String, Int32>();
         colors["new"] = Color.red;
@@ -72,7 +72,7 @@ public class Example_32 {
 
         row = new List<Cell>();
         TextBlock textBlock = new TextBlock(font,
-            "ROTATION:  Hello, World! This is a Rotation test.").SetTextAlignment(Alignment.RIGHT);
+            "ROTATION:  Hello, World! This is a Rotation test.").SetFontSize(10f).SetTextAlignment(Alignment.RIGHT);
         row.Add(new Cell(font).SetTextBlock(textBlock));
 
         textBox = new TextBox(font, "0.0");
