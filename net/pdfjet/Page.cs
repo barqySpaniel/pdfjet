@@ -567,9 +567,15 @@ public class Page {
 
             if (highlightColors == null) {
                 SetBrushColor(color);
-                Append("<");
-                DrawUnicodeString(font, textLine.textLine);
-                Append("> Tj\n");
+                if (font.isCoreFont) {
+                    Append("[<");
+                    DrawASCIIString(font, textLine.textLine);
+                    Append(">] TJ\n");
+                } else {
+                    Append("<");
+                    DrawUnicodeString(font, textLine.textLine);
+                    Append("> Tj\n");
+                }
             } else {
                 DrawColoredString(font, textLine.textLine, color, highlightColors);
             }
