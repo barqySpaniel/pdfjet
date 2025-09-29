@@ -62,7 +62,12 @@ func NewTableFromFile(f1, f2 *Font, fileName string) *Table {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer f.Close()
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}(f)
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -475,8 +480,8 @@ func (table *Table) SetCellBordersColor(color int32) {
 	}
 }
 
-// SetCellBordersWidth sets the width of the cell border lines.
-// @param width the width of the border lines.
+// SetCellBordersWidth sets the width of the cell borders.
+// @param width the width of the borders.
 func (table *Table) SetCellBordersWidth(width float32) {
 	for _, row := range table.tableData {
 		for _, cell := range row {
@@ -500,7 +505,9 @@ func (table *Table) setRightBorderOnLastColumn() {
 			cell = row[i]
 			i += cell.GetColSpan()
 		}
-		cell.SetBorder(border.Right, true)
+		if cell != nil {
+			cell.SetBorder(border.Right, true)
+		}
 	}
 }
 
