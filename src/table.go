@@ -352,8 +352,8 @@ func (table *Table) DrawOnPages(pdf *PDF, pages *[]*Page, pageSize [2]float32) [
 }
 
 /**
- *  Draws table table on the specified page.
- *  @param page the page to draw table table on.
+ *  drawHeaderRows draws table on the specified page.
+ *  @param page the page to draw table on.
  *  @return Point the point on the page where to draw the next component.
  */
 func (table *Table) drawHeaderRows(page *Page, pageNumber int) [2]float32 {
@@ -366,21 +366,19 @@ func (table *Table) drawHeaderRows(page *Page, pageNumber int) [2]float32 {
 	for i := 0; i < table.numOfHeaderRows; i++ {
 		row := table.tableData[i]
 		h := table.getMaxCellHeight(row)
-		for j := 0; j < len(row); j++ {
+		for j := 0; j < len(row); {
 			cell := row[j]
-			w := cell.GetWidth()
 			colspan := cell.GetColSpan()
-			for k := 1; k < colspan; k++ {
-				j++
+			w := float32(0.0)
+			for k := 0; k < colspan; k++ {
 				w += row[j].width
+				j++
 			}
-			if table != nil {
-				page.SetBrushColor(cell.GetBrushColor())
-				if i == (table.numOfHeaderRows - 1) {
-					cell.SetBorder(border.Bottom, true)
-				}
-				cell.DrawOn(page, x, y, w, h)
+			page.SetBrushColor(cell.GetBrushColor())
+			if i == (table.numOfHeaderRows - 1) {
+				cell.SetBorder(border.Bottom, true)
 			}
+			cell.DrawOn(page, x, y, w, h)
 			x += w
 		}
 		x = table.x1
@@ -399,13 +397,13 @@ func (table *Table) drawTableRows(page *Page, xy [2]float32) [2]float32 {
 		if page != nil && (y+h) > (page.height-table.bottomMargin) {
 			return [2]float32{x, y}
 		}
-		for i := 0; i < len(row); i++ {
+		for i := 0; i < len(row); {
 			cell := row[i]
-			w := cell.GetWidth()
 			colspan := cell.GetColSpan()
-			for j := 1; j < colspan; j++ {
-				i++
+			w := float32(0.0)
+			for j := 0; j < colspan; j++ {
 				w += row[i].GetWidth()
+				i++
 			}
 			if page != nil {
 				page.SetBrushColor(cell.GetBrushColor())
