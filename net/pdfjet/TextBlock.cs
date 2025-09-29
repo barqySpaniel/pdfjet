@@ -105,14 +105,35 @@ namespace PDFjet.NET {
             this.y = y;
         }
 
-        public void SetSize(float w, float h) {
-            this.width = w;
-            this.height = h;
+        public void SetSize(float width, float height) {
+            this.width = width;
+            this.height = height;
         }
 
-        public void SetWidth(float w) {
-            this.width = w;
+        public void SetWidth(double width) {
+            this.width = (float) width;
             this.height = 0.0f;
+        }
+
+        public void SetWidth(float width) {
+            this.width = width;
+            this.height = 0.0f;
+        }
+
+        public float GetWidth() {
+            return this.width;
+        }
+
+        public void SetHeight(double height) {
+            this.height = (float) height;
+        }
+
+        public void SetHeight(float height) {
+            this.height = height;
+        }
+
+        public float GetHeight() {
+            return this.height;
         }
 
         public void SetBorderCornerRadius(float borderCornerRadius) {
