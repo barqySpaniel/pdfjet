@@ -734,6 +734,7 @@ final public class PDF {
             if (encryption != null) {
                 buf = AES256.encrypt(buf, encryption.getKey());
             }
+            page.buf = null;    // Release the page content memory!
 
             newobj();
             append(Token.BEGIN_DICTIONARY);

@@ -435,9 +435,15 @@ public class Page {
 
             if highlightColors.count == 0 {
                 setBrushColor(textColor)
-                append("<")
-                drawUnicodeString(font, textLine.textLine)
-                append("> Tj\n")
+                if font.isCoreFont {
+                    append("[<")
+                    drawASCIIString(font, textLine.textLine)
+                    append(">] TJ\n")
+                } else {
+                    append("<")
+                    drawUnicodeString(font, textLine.textLine)
+                    append("> Tj\n")
+                }
             } else {
                 drawColoredString(font, textLine.textLine, textColor, highlightColors)
             }
