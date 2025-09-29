@@ -476,13 +476,13 @@ public class Table {
         for (int i = 0; i < numOfHeaderRows; i++) {
             List<Cell> row = tableData.get(i);
             float h = getMaxCellHeight(row);
-            for (int j = 0; j < row.size(); j++) {
+            int j = 0;
+            while (j < row.size()) {
                 Cell cell = row.get(j);
-                float w = cell.getWidth();
                 int colspan = cell.getColSpan();
-                for (int k = 1; k < colspan; k++) {
-                    j++;
-                    w += row.get(j).getWidth();
+                float w = 0f;
+                for (int k = 0; k < colspan; k++) {
+                    w += row.get(j++).getWidth();
                 }
                 if (page != null) {
                     page.setBrushColor(cell.getBrushColor());
@@ -509,13 +509,13 @@ public class Table {
             if (page != null && (y + h) > (page.height - bottomMargin)) {
                 return new float[] {x, y};
             }
-            for (int i = 0; i < row.size(); i++) {
+            int i = 0;
+            while (i < row.size()) {
                 Cell cell = row.get(i);
-                float w = cell.getWidth();
                 int colspan = cell.getColSpan();
-                for (int j = 1; j < colspan; j++) {
-                    i++;
-                    w += row.get(i).getWidth();
+                float w = 0f;
+                for (int j = 0; j < colspan; j++) {
+                    w += row.get(i++).getWidth();
                 }
                 if (page != null) {
                     page.setBrushColor(cell.getBrushColor());
