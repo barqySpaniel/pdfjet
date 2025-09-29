@@ -37,6 +37,8 @@ public class Cell {
     internal float[] strokeColor;
     internal String strokePattern = "[] 0";    // Solid
 
+    internal int colspan = 1;
+
     // Cell properties
     // Colspan:
     // bits 0 to 15
@@ -434,8 +436,9 @@ public class Cell {
      *  @param colspan the specified column span value.
      */
     public Cell SetColSpan(int colspan) {
-        this.properties &= 0x00FF0000;
-        this.properties |= ((uint) (colspan & 0x0000FFFF));
+        this.colspan = colspan;
+//        this.properties &= 0x00FF0000;
+//        this.properties |= ((uint) (colspan & 0x0000FFFF));
         return this;
     }
 
@@ -444,8 +447,9 @@ public class Cell {
      *
      *  @return the column span value.
      */
-    public uint GetColSpan() {
-        return (this.properties & 0x0000FFFF);
+    public int GetColSpan() {
+        // return (this.properties & 0x0000FFFF);
+        return this.colspan;
     }
 
     /**

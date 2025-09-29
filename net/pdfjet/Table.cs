@@ -459,13 +459,13 @@ public class Table {
         for (int i = 0; i < numOfHeaderRows; i++) {
             List<Cell> row = tableData[i];
             float h = GetMaxCellHeight(row);
-            for (int j = 0; j < row.Count; j++) {
+            int j = 0;
+            while (j < row.Count) {
                 Cell cell = row[j];
-                float w = cell.GetWidth();
-                uint colspan = cell.GetColSpan();
-                for (int k = 1; k < colspan; k++) {
-                    j++;
-                    w += row[j].GetWidth();
+                int colspan = cell.GetColSpan();
+                float w = 0f;
+                for (int k = 0; k < colspan; k++) {
+                    w += row[j++].GetWidth();
                 }
                 if (page != null) {
                     // page.SetBrushColor(cell.GetFillColor());
@@ -492,13 +492,13 @@ public class Table {
             if (page != null && (y + h) > (page.height - bottomMargin)) {
                 return new float[] {x, y};
             }
-            for (int i = 0; i < row.Count; i++) {
+            int i = 0;
+            while (i < row.Count) {
                 Cell cell = row[i];
-                float w = cell.GetWidth();
-                int colspan = (int) cell.GetColSpan();
-                for (int j = 1; j < colspan; j++) {
-                    i++;
-                    w += row[i].GetWidth();
+                int colspan = cell.GetColSpan();
+                float w = 0f;
+                for (int j = 0; j < colspan; j++) {
+                    w += row[i++].GetWidth();
                 }
                 if (page != null) {
                     // page.SetBrushColor(cell.GetFillColor());
