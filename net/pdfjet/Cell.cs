@@ -369,11 +369,23 @@ public class Cell {
         SetBackgroundColor(color);
     }
 
+    public void SetFillColor(int color) {
+        SetBackgroundColor(color);
+    }
+
     public void SetBackgroundColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
         backgroundColor = new float[] {r, g, b};
+    }
+
+    public float[] GetFillColor() {
+        return this.backgroundColor;
+    }
+
+    public float[] GetBackgroundColor() {
+        return this.backgroundColor;
     }
 
     public void SetTextColor(int color) {

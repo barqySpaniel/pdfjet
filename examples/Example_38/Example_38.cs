@@ -240,6 +240,7 @@ public class Example_38 {
         cell.SetText(text);
         cell.SetBorder(Border.TOP, topBorder);
         cell.SetBorder(Border.BOTTOM, bottomBorder);
+        cell.SetBackgroundColor(Color.lightblue);
         cell.SetTextAlignment(Align.CENTER);
         cell.SetTextColor(Color.black);
         cell.SetLineWidth(1f);
