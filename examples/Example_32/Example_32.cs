@@ -106,6 +106,13 @@ public class Example_32 {
         row.Add(new Cell(font, "40°45′11″N"));
         tableData.Add(row);
 
+        row = new List<Cell>();
+        row.Add(new Cell(font,
+            "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape, and algebra is the study of generalizations of arithmetic operations.")
+            .SetColSpan(2));
+        row.Add(new Cell(font, ""));
+        tableData.Add(row);
+
         Table table = new Table();
         table.SetData(tableData);
         table.SetLocation(450f, 450f);
