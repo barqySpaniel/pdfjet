@@ -429,11 +429,11 @@ public class Table {
             var j = 0
             while j < row.count {
                 let cell = row[j]
-                var w = row[j].getWidth()
-                let colspan = row[j].getColSpan()
-                for _ in 1..<colspan {
-                    j += 1
+                let colspan = cell.getColSpan()
+                var w: Float = 0.0
+                for _ in 0..<colspan {
                     w += row[j].width
+                    j += 1
                 }
                 if page != nil {
                     page!.setBrushColor(cell.getBrushColor())
@@ -443,7 +443,6 @@ public class Table {
                     cell.drawOn(page!, x, y, w, h)
                 }
                 x += w
-                j += 1
             }
             x = x1
             y += h
@@ -464,18 +463,17 @@ public class Table {
             var i = 0
             while i < row.count {
                 let cell = row[i]
-                var w = cell.getWidth()
                 let colspan = cell.getColSpan()
-                for _ in 1..<colspan {
-                    i += 1
+                var w: Float = 0.0
+                for _ in 0..<colspan {
                     w += row[i].getWidth()
+                    i += 1
                 }
                 if page != nil {
                     page!.setBrushColor(cell.getBrushColor())
                     cell.drawOn(page!, x, y, w, h)
                 }
                 x += w
-                i += 1
             }
             x = x1
             y += h
