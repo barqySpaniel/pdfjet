@@ -391,9 +391,15 @@ func (page *Page) drawTextBlock(
 
 		if highlightColors == nil {
 			page.SetBrushColor(textColor)
-			page.appendString("<")
-			page.drawUnicodeString(page.font, textLine.textLine)
-			page.appendString("> Tj\n")
+			if font.isCoreFont {
+				page.appendString("[<")
+				page.drawASCIIString(font, textLine.textLine)
+				page.appendString(">] TJ\n")
+			} else {
+				page.appendString("<")
+				page.drawUnicodeString(page.font, textLine.textLine)
+				page.appendString("> Tj\n")
+			}
 		} else {
 			page.drawColoredString(page.font, textLine.textLine, textColor, highlightColors)
 		}
