@@ -49,7 +49,7 @@ namespace PDFjet.NET {
             this.x = 0.0f;
             this.y = 0.0f;
             this.width = 500.0f;
-            this.height = 500.0f;
+            this.height = 0.0f;
             this.textContent = textContent;
             this.textColor = new float[] {0f, 0f, 0f};      // Black color
         }
@@ -112,12 +112,10 @@ namespace PDFjet.NET {
 
         public void SetWidth(double width) {
             this.width = (float) width;
-            this.height = 0.0f;
         }
 
         public void SetWidth(float width) {
             this.width = width;
-            this.height = 0.0f;
         }
 
         public float GetWidth() {
