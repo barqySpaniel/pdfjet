@@ -936,13 +936,13 @@ public class PDF {
             Append(" ] >>\n");
             Append("]\n");
 
-            Append("/Order [[");
+            Append("/Order [");
             foreach (OCG ocg in list) {
                 Append(' ');
                 Append(ocg.objNumber);
                 Append(" 0 R ");
             }
-            Append("]]\n");
+            Append("]\n");
 
             Append(">>\n");
             Append(">>\n");
