@@ -847,7 +847,7 @@ final public class PDF {
                 buf.append(" 0 R");
                 list.add(new OCG(ocg.objNumber, ocg.name));
             }
-            // list.sort((x, y) => x.name.CompareTo(y.name));
+            list.sort((x, y) -> x.name.compareTo(y.name));
 
             append("/OCProperties\n");
             append(Token.BEGIN_DICTIONARY);
@@ -868,9 +868,13 @@ final public class PDF {
             append(" ] >>\n");
             append("]\n");
 
-            append("/Order [[ ()");
-            append(buf.toString());
-            append(" ]]\n");
+            append("/Order [");
+            for (OCG ocg : list) {
+                append(' ');
+                append(ocg.objNumber);
+                append(" 0 R ");
+            }
+            append("]\n");
 
             append(Token.END_DICTIONARY);
             append(Token.END_DICTIONARY);
