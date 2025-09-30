@@ -586,6 +586,7 @@ public class Page {
             }
         }
         Append("ET\n");
+
 /* TODO: Enable later!
         xText = x;
         yText = y;
