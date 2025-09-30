@@ -107,9 +107,10 @@ public class Example_32 {
         tableData.Add(row);
 
         row = new List<Cell>();
-        row.Add(new Cell(font,
+        textBlock = new TextBlock(font,
             "Calculus is the mathematical study of continuous change, in the same way that geometry is the study of shape, and algebra is the study of generalizations of arithmetic operations.")
-            .SetColSpan(2));
+            .SetFontSize(10f);
+        row.Add(new Cell(font).SetTextBlock(textBlock).SetColSpan(2));
         row.Add(new Cell(font, ""));
         tableData.Add(row);
 
