@@ -47,7 +47,7 @@ public class Example_30 {
         group = OptionalContentGroup(pdf, "Blue Layer")
         group.add(textBox)
         group.add(line)
-        // group.setVisible(true)
+        group.setVisible(true)
         group.drawOn(page)
 
         line = Line()
@@ -60,7 +60,6 @@ public class Example_30 {
         group = OptionalContentGroup(pdf, "Barcode")
         group.add(image2)
         group.add(line)
-        group.setVisible(true)
         group.setPrintable(true)
         group.drawOn(page)
 

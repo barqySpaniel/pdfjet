@@ -39,7 +39,7 @@ func Example30() {
 	group := pdfjet.NewOptionalContentGroup(pdf, "map")
 	group.Add(image1)
 	group.SetVisible(true)
-	// group.SetPrintable(true)
+	group.SetPrintable(true)
 	group.DrawOn(page)
 
 	textBox := pdfjet.NewTextBox(f1)
@@ -53,7 +53,7 @@ func Example30() {
 	group = pdfjet.NewOptionalContentGroup(pdf, "blue")
 	group.Add(textBox)
 	group.Add(line)
-	// group.SetVisible(true)
+	group.SetVisible(true)
 	group.DrawOn(page)
 
 	line = pdfjet.NewLine(350.0, 160.0, 550.0, 160.0)
@@ -63,7 +63,6 @@ func Example30() {
 	group = pdfjet.NewOptionalContentGroup(pdf, "barcode")
 	group.Add(image2)
 	group.Add(line)
-	group.SetVisible(true)
 	group.SetPrintable(true)
 	group.DrawOn(page)
 
