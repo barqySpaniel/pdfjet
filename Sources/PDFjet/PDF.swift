@@ -42,6 +42,12 @@ public class PDF {
     private var prevPage: Page?
     private var contentStreamsCompression = false
 
+    // The OCG type that will be stored in the list/array.
+    struct OCG {
+        let objNumber: Int
+        let name: String
+    }
+
     ///
     /// The default constructor - use when reading PDF files.
     ///
@@ -792,11 +798,13 @@ public class PDF {
     }
 
     private func addOCProperties() {
+        var list = [OCG]()
         var buf = String()
         for ocg in self.groups {
             buf.append(" ")
             buf.append(String(ocg.objNumber))
             buf.append(" 0 R")
+            list.append(OCG(objNumber: ocg.objNumber, name: ocg.name!))
         }
 
         append("/OCProperties\n")

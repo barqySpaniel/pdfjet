@@ -17,9 +17,9 @@ import Foundation
 ///
 public class OptionalContentGroup {
     var objNumber = 0
+    var name: String?
 
     private var pdf: PDF
-    private var name: String?
     private var ocgNumber: Int = -1
     private var visible: Bool?
     private var printable: Bool?
