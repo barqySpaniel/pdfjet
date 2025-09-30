@@ -7,8 +7,7 @@
 using System;
 
 /**
- *  Used to attach file objects.
- *
+ * Used to attach file objects.
  */
 namespace PDFjet.NET {
 public class FileAttachment : IDrawable {
