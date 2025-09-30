@@ -4,8 +4,8 @@ namespace PDFjet.NET {
     internal class TextLineWithOffset {
         internal String textLine;   // A single line of text
         internal float xOffset;     // The horizontal offset (from the X coordinate)
-        internal bool underline;
-        internal bool strikeout;
+        internal bool underline = false;
+        internal bool strikeout = false;
 
         // Constructor with clear parameter names
         internal TextLineWithOffset(String textLine, float xOffset) {

@@ -587,17 +587,18 @@ public class Page {
         }
         Append("ET\n");
 
-/* TODO: Enable later!
         xText = x;
         yText = y;
         foreach (TextLineWithOffset textLine in textLines) {
-            MoveTo(xText + textLine.xOffset,
-                yText + font.GetBodyHeight(fontSize));
-            LineTo(xText + textLine.xOffset + font.StringWidth(fontSize, textLine.textLine),
-                yText + font.GetBodyHeight(fontSize));
+            if (textLine.underline) {
+                MoveTo(xText + textLine.xOffset,
+                    yText + font.GetBodyHeight(fontSize));
+                LineTo(xText + textLine.xOffset + font.StringWidth(fontSize, textLine.textLine),
+                    yText + font.GetBodyHeight(fontSize));
+            }
             yText += leading;
         }
-*/
+
         return textLines.Length * leading;
     }
 
