@@ -60,6 +60,12 @@ type PDF struct {
 	contentStreamsCompression bool
 }
 
+// OCG holds an object number and a name.
+type OCG struct {
+	objNumber int
+	name      string
+}
+
 // NewPDF the constructor.
 // Here is the layout of the PDF document:
 //
@@ -820,12 +826,20 @@ func (pdf *PDF) addAnnotDictionaries() {
 
 func (pdf *PDF) addOCProperties() {
 	if len(pdf.groups) > 0 {
+		var list []OCG
 		var buf strings.Builder
 		for _, ocg := range pdf.groups {
 			buf.WriteString(" ")
 			buf.WriteString(strconv.Itoa(ocg.objNumber))
 			buf.WriteString(" 0 R")
+			list = append(list, OCG{
+				objNumber: ocg.objNumber,
+				name:      ocg.name,
+			})
 		}
+		sort.Slice(list, func(i, j int) bool {
+			return list[i].name < list[j].name
+		})
 
 		pdf.appendString("/OCProperties\n")
 		pdf.appendString("<<\n")
@@ -846,9 +860,13 @@ func (pdf *PDF) addOCProperties() {
 		pdf.appendString(" ] >>\n")
 		pdf.appendString("]\n")
 
-		pdf.appendString("/Order [[ ()")
-		pdf.appendString(buf.String())
-		pdf.appendString(" ]]\n")
+		pdf.appendString("/Order [")
+		for _, ocg := range list {
+			pdf.appendString(" ")
+			pdf.appendInteger(ocg.objNumber)
+			pdf.appendString(" 0 R ")
+		}
+		pdf.appendString("]\n")
 
 		pdf.appendString(">>\n")
 		pdf.appendString(">>\n")
