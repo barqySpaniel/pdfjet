@@ -20,9 +20,9 @@ import java.util.List;
  */
 public class OptionalContentGroup {
     protected int objNumber;
+    protected String name;
 
     private PDF pdf;
-    private String name;
     private int ocgNumber = -1;
     private boolean visible;
     private boolean printable;

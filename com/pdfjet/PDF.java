@@ -839,12 +839,15 @@ final public class PDF {
 
     private void addOCProperties() throws Exception {
         if (!groups.isEmpty()) {
+            List<OCG> list = new ArrayList<OCG>();
             StringBuilder buf = new StringBuilder();
             for (OptionalContentGroup ocg : this.groups) {
                 buf.append(' ');
                 buf.append(ocg.objNumber);
                 buf.append(" 0 R");
+                list.add(new OCG(ocg.objNumber, ocg.name));
             }
+            // list.sort((x, y) => x.name.CompareTo(y.name));
 
             append("/OCProperties\n");
             append(Token.BEGIN_DICTIONARY);
