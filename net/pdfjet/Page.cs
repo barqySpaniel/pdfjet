@@ -547,7 +547,6 @@ public class Page {
 
         Append("BT\n");
         SetTextFont(font, fontSize);
-
         float xText = x;
         float yText = y;
         foreach (TextLineWithOffset textLine in textLines) {
@@ -586,9 +585,18 @@ public class Page {
                 xText += leading;
             }
         }
-
         Append("ET\n");
-
+/* TODO: Enable later!
+        xText = x;
+        yText = y;
+        foreach (TextLineWithOffset textLine in textLines) {
+            MoveTo(xText + textLine.xOffset,
+                yText + font.GetBodyHeight(fontSize));
+            LineTo(xText + textLine.xOffset + font.StringWidth(fontSize, textLine.textLine),
+                yText + font.GetBodyHeight(fontSize));
+            yText += leading;
+        }
+*/
         return textLines.Length * leading;
     }
 
