@@ -806,6 +806,7 @@ public class PDF {
             buf.append(" 0 R")
             list.append(OCG(objNumber: ocg.objNumber, name: ocg.name!))
         }
+        list.sort { $0.name < $1.name }
 
         append("/OCProperties\n")
         append(Token.beginDictionary)
@@ -826,9 +827,13 @@ public class PDF {
         append(" ] >>\n")
         append("]\n")
 
-        append("/Order [[ ()")
-        append(buf)
-        append(" ]]\n")
+        append("/Order [")
+        for ocg in list {
+            append(" ")
+            append(ocg.objNumber)
+            append(" 0 R ")
+        }
+        append("]\n")
 
         append(Token.endDictionary)
         append(Token.endDictionary)
