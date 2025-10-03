@@ -572,6 +572,14 @@ public class Cell {
         this.uri = uri;
     }
 
+    public float GetLeftPadding() {
+        return this.leftPadding;
+    }
+
+    public float GetRightPadding() {
+        return this.rightPadding;
+    }
+
     /**
      *  Draws the point, text and borders of this cell.
      */
