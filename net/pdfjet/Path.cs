@@ -33,6 +33,8 @@ public class Path : IDrawable {
     private String actualText = null;
     private String altDescription = null;
 
+    private bool closePath = false;
+
     /**
      *  The default constructor.
      */
@@ -259,6 +261,10 @@ public class Path : IDrawable {
         return this;
     }
 
+    public void SetClosePath() {
+        closePath = true;
+    }
+
     /**
      *  Draws this path on the page using the current selected color, pen width, line pattern and line join style.
      *
@@ -267,6 +273,10 @@ public class Path : IDrawable {
      *  @throws Exception
      */
     public float[] DrawOn(Page page) {
+        if (closePath == true) {
+            this.Add(new Point(this.points[0].x, this.points[0].y));
+        }
+
         foreach (Point point in points) {
             point.x += this.x;
             point.y += this.y;

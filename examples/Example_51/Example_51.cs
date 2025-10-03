@@ -24,7 +24,7 @@ public class Example_51 {
         Container container = new Container(400f, 400f);
         container.Add(image);
         container.Add(textBlock);
-        container.SetLocation(100f, 100f);
+        // container.SetLocation(100f, 100f);
 
         TextLine textLine = new TextLine(f1, "This is a test!!");
         textLine.SetLocation(400f, 400f);
