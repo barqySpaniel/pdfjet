@@ -22,7 +22,6 @@ public class OptionalContentGroup {
     internal PDF pdf;
     internal int objNumber;
     internal String name;
-    internal bool locked;
     internal int ocgNumber = -1;
 
     private bool visible;
@@ -42,14 +41,6 @@ public class OptionalContentGroup {
 
     public void Add(IDrawable drawable) {
         components.Add(drawable);
-    }
-
-    public void SetLocked(bool locked) {
-        this.locked = locked;
-    }
-
-    public bool GetLocked() {
-        return this.locked;
     }
 
     public void SetVisible(bool visible) {

@@ -36,7 +36,6 @@ public class Example_30 {
 
         OptionalContentGroup group = new OptionalContentGroup(pdf, "Open Street Map");
         group.Add(image1);
-        group.SetLocked(true);
         group.SetVisible(true);
         group.SetPrintable(false);
         group.DrawOn(page);

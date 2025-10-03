@@ -913,7 +913,7 @@ public class PDF {
                 buf.Append(' ');
                 buf.Append(ocg.objNumber);
                 buf.Append(" 0 R");
-                list.Add(new OCG(ocg.objNumber, ocg.name, ocg.locked));
+                list.Add(new OCG(ocg.objNumber, ocg.name));
             }
             list.Sort((x, y) => x.name.CompareTo(y.name));
 
@@ -938,11 +938,9 @@ public class PDF {
 
             Append("/Order [");
             foreach (OCG ocg in list) {
-                if (!ocg.locked) {
-                    Append(' ');
-                    Append(ocg.objNumber);
-                    Append(" 0 R ");
-                }
+                Append(' ');
+                Append(ocg.objNumber);
+                Append(" 0 R ");
             }
             Append("]\n");
 
