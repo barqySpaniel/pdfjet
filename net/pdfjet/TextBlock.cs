@@ -331,6 +331,17 @@ namespace PDFjet.NET {
                 CenterText(textLines);
             }
 
+            Rect rect = new Rect(
+                this.x,
+                this.y,
+                this.width,
+                textLines.Length * leading + 2 * this.textPadding);
+            rect.SetFillColor(this.fillColor);
+            rect.SetBorderWidth(this.borderWidth);
+            rect.SetBorderColor(this.borderColor);
+            rect.SetCornerRadius(this.borderCornerRadius);
+            rect.DrawOn(page);
+
             page.AddBMC(StructElem.P, this.language, this.textContent, null);
             float textBlockHeight = page.DrawTextBlock(
                 this.font,
@@ -344,12 +355,12 @@ namespace PDFjet.NET {
                 this.keywordHighlightColors);
             page.AddEMC();
 
-            Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
-            rect.SetFillColor(this.fillColor);
-            rect.SetBorderWidth(this.borderWidth);
-            rect.SetBorderColor(this.borderColor);
-            rect.SetCornerRadius(this.borderCornerRadius);
-            rect.DrawOn(page);
+//            Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
+//            rect.SetFillColor(this.fillColor);
+//            rect.SetBorderWidth(this.borderWidth);
+//            rect.SetBorderColor(this.borderColor);
+//            rect.SetCornerRadius(this.borderCornerRadius);
+//            rect.DrawOn(page);
             page.Append("Q\n");
 
             return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
