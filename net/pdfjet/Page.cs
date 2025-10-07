@@ -531,7 +531,7 @@ public class Page {
         }
     }
 
-    internal float DrawTextBlock(
+    internal void DrawTextBlock(
             Font font,
             float fontSize,
             TextLineWithOffset[] textLines,
@@ -541,10 +541,6 @@ public class Page {
             Direction direction,
             float[] color,
             Dictionary<String, Int32> highlightColors) {
-        if (textLines == null || textLines.Length == 0) {
-            return textLines.Length * leading;
-        }
-
         Append("BT\n");
         SetTextFont(font, fontSize);
         float xText = x;
@@ -598,8 +594,6 @@ public class Page {
             }
             yText += leading;
         }
-
-        return textLines.Length * leading;
     }
 
     internal void DrawUnicodeString(Font font, String str) {

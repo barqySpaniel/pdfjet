@@ -343,7 +343,7 @@ namespace PDFjet.NET {
             rect.DrawOn(page);
 
             page.AddBMC(StructElem.P, this.language, this.textContent, null);
-            float textBlockHeight = page.DrawTextBlock(
+            page.DrawTextBlock(
                 this.font,
                 this.fontSize,
                 textLines,
@@ -354,16 +354,11 @@ namespace PDFjet.NET {
                 this.textColor,
                 this.keywordHighlightColors);
             page.AddEMC();
-
-//            Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
-//            rect.SetFillColor(this.fillColor);
-//            rect.SetBorderWidth(this.borderWidth);
-//            rect.SetBorderColor(this.borderColor);
-//            rect.SetCornerRadius(this.borderCornerRadius);
-//            rect.DrawOn(page);
             page.Append("Q\n");
 
-            return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
+            return new float[] {
+                this.x + this.width, this.y + textLines.Length * leading + 2 * this.textPadding
+            };
         }
     }
 }
