@@ -199,6 +199,10 @@ namespace PDFjet.NET {
             return this;
         }
 
+        public float[] GetBackgroundColor() {
+            return this.fillColor;
+        }
+
         public void SetTextDirection(Direction textDirection) {
             this.textDirection = textDirection;
         }
