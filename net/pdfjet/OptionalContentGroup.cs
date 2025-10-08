@@ -55,6 +55,11 @@ public class OptionalContentGroup {
         this.exportable = exportable;
     }
 
+    // Added by request from Planet Associates
+    public void Clear() {
+        this.components.Clear();
+    }
+
     public void DrawOn(Page page) {
         if (this.ocgNumber == -1) {
             pdf.NewObj();
