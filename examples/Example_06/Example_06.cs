@@ -74,7 +74,7 @@ public class Example_06 {
         FileAttachment attachment = new FileAttachment(pdf, file1);
         attachment.SetLocation(100f, 300f);
         attachment.SetIconPushPin();
-        attachment.SetIconSize(24f);
+        attachment.SetIconSize(18f);
         attachment.SetTitle("Attached File: " + file1.GetFileName());
         attachment.SetDescription(
                 "Right mouse click on the icon to save the attached file.");
@@ -83,7 +83,7 @@ public class Example_06 {
         attachment = new FileAttachment(pdf, file2);
         attachment.SetLocation(200f, 300f);
         attachment.SetIconPaperclip();
-        attachment.SetIconSize(24f);
+        attachment.SetIconSize(18f);
         attachment.SetTitle("Attached File: " + file2.GetFileName());
         attachment.SetDescription(
                 "Right mouse click on the icon to save the attached file.");
