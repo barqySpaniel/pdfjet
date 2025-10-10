@@ -817,6 +817,9 @@ public class PDF {
         annot.objNumber = GetObjNumber();
         Append(Token.BeginDictionary);
         Append("/Type /Annot\n");
+        Append("/Subtype /");
+        Append(annot.annotationType);
+        Append("\n");
         if (annot.fileAttachment != null) {
             byte[] title = Encoding.UTF8.GetBytes(annot.fileAttachment.title);
             byte[] contents = Encoding.UTF8.GetBytes(annot.fileAttachment.contents);
@@ -824,7 +827,6 @@ public class PDF {
                 title = AES256.Encrypt(title, encryption.GetKey());
                 contents = AES256.Encrypt(contents, encryption.GetKey());
             }
-            Append("/Subtype /FileAttachment\n");
             Append("/T <");
             Append(Util.ToHexString(title));
             Append(">\n");
@@ -837,8 +839,6 @@ public class PDF {
             Append("/Name /");
             Append(annot.fileAttachment.icon);
             Append("\n");
-        } else {
-            Append("/Subtype /Link\n");
         }
         Append("/Rect [");
         Append(annot.x1);
