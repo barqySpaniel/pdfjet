@@ -12,6 +12,12 @@ using System;
  */
 namespace PDFjet.NET {
 internal class Annotation {
+    public static readonly String Link = "Link";
+    public static readonly String FileAttachment = "FileAttachment";
+    public static readonly String Polygon = "Polygon";
+    public static readonly String Popup = "Popup";
+    public static readonly String Square = "Square";
+
     internal int objNumber;
     internal String annotationType = null;
     internal String uri = null;
