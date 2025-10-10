@@ -786,7 +786,7 @@ public class Cell {
             float w = (compositeTextLine != null) ?
                     compositeTextLine.GetWidth() : font.StringWidth(text);
             page.AddAnnotation(new Annotation(
-                    "Link",
+                    Annotation.Link,
                     uri,
                     null,
                     xText,

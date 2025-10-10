@@ -609,7 +609,7 @@ public class TextLine : IDrawable {
 
         if (uri != null || key != null) {
             page.AddAnnotation(new Annotation(
-                    "Link",
+                    Annotation.Link,
                     uri,
                     key,    // The destination name
                     x,
