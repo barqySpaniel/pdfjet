@@ -641,6 +641,7 @@ public class Cell {
             page.SetBrushColor(point.GetFillColor());
             if (point.GetURIAction() != null) {
                 page.AddAnnotation(new Annotation(
+                        "Link",
                         point.GetURIAction(),
                         null,
                         point.x - point.r,
@@ -785,6 +786,7 @@ public class Cell {
             float w = (compositeTextLine != null) ?
                     compositeTextLine.GetWidth() : font.StringWidth(text);
             page.AddAnnotation(new Annotation(
+                    "Link",
                     uri,
                     null,
                     xText,

@@ -13,6 +13,7 @@ using System;
 namespace PDFjet.NET {
 internal class Annotation {
     internal int objNumber;
+    internal String annotationType = null;
     internal String uri = null;
     internal String key = null;
     internal float x1 = 0f;
@@ -27,6 +28,7 @@ internal class Annotation {
     /**
      *  This class is used to create annotation objects.
      *
+     *  @param annotationType the annotation type.
      *  @param uri the URI string.
      *  @param key the destination name.
      *  @param x1 the x coordinate of the top left corner.
@@ -36,6 +38,7 @@ internal class Annotation {
      *
      */
     internal Annotation(
+            String annotationType,
             String uri,
             String key,
             float x1,
@@ -45,6 +48,7 @@ internal class Annotation {
             String language,
             String actualText,
             String altDescription) {
+        this.annotationType = annotationType;
         this.uri = uri;
         this.key = key;
         this.x1 = x1;

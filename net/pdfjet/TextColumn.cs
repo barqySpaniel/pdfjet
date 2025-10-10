@@ -313,6 +313,7 @@ public class TextColumn : IDrawable {
 
                 if (textLine.GetGoToAction() != null) {
                     page.AddAnnotation(new Annotation(
+                            "Link",
                             null,                       // The URI
                             textLine.GetGoToAction(),   // The destination name
                             x,
@@ -381,6 +382,7 @@ public class TextColumn : IDrawable {
 
             if (textLine.GetGoToAction() != null) {
                 page.AddAnnotation(new Annotation(
+                        "Link",
                         null,                       // The URI
                         textLine.GetGoToAction(),   // The destination name
                         x,

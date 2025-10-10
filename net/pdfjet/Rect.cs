@@ -209,6 +209,7 @@ public class Rect  : IDrawable {
 
         if (this.uri != null || this.key != null) {
             page.AddAnnotation(new Annotation(
+                "Link",
                 this.uri,
                 this.key,
                 this.x,
