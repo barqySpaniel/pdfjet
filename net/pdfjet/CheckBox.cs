@@ -227,7 +227,7 @@ public class CheckBox : IDrawable {
 
         if (uri != null) {
             page.AddAnnotation(new Annotation(
-                    "Link",
+                    Annotation.Link,
                     uri,
                     null,
                     x + 3f*w/2f,

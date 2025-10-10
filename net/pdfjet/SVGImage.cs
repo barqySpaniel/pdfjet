@@ -293,7 +293,7 @@ public class SVGImage {
         page.AddEMC();
         if (uri != null || key != null) {
             page.AddAnnotation(new Annotation(
-                    "Link",
+                    Annotation.Link,
                     uri,
                     key,    // The destination name
                     x,

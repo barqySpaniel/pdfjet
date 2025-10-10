@@ -360,7 +360,7 @@ public class Image : IDrawable {
         if (uri != null || key != null) {
             if (!String.IsNullOrEmpty(actualText) && !String.IsNullOrEmpty(altDescription)) {
                 page.AddAnnotation(new Annotation(
-                    "Link",
+                    Annotation.Link,
                     uri,
                     key,    // The destination name
                     x,

@@ -777,7 +777,7 @@ public class TextBox : IDrawable {
             DrawBorders(page);
             if (textDirection == Direction.LEFT_TO_RIGHT && (uri != null || key != null)) {
                 page.AddAnnotation(new Annotation(
-                        "Link",
+                        Annotation.Link,
                         uri,
                         key,    // The destination name
                         x,

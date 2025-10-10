@@ -641,7 +641,7 @@ public class Cell {
             page.SetBrushColor(point.GetFillColor());
             if (point.GetURIAction() != null) {
                 page.AddAnnotation(new Annotation(
-                        "Link",
+                        Annotation.Link,
                         point.GetURIAction(),
                         null,
                         point.x - point.r,

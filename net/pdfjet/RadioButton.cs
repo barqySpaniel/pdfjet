@@ -168,7 +168,7 @@ public class RadioButton : IDrawable {
 
         if (uri != null) {
             page.AddAnnotation(new Annotation(
-                    "Link",
+                    Annotation.Link,
                     uri,
                     null,
                     x + 3*r1,
