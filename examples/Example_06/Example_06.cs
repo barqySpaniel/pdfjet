@@ -17,6 +17,8 @@ public class Example_06 {
         pdf.SetKeywords("Hello World This is a test");
         pdf.SetCreator("Application Name");
 
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+
         EmbeddedFile file1 = new EmbeddedFile(pdf, "images/linux-logo.png", Compress.NO);
         EmbeddedFile file2 = new EmbeddedFile(pdf, "examples/Example_02/Example_02.cs", Compress.YES);
 
@@ -88,6 +90,11 @@ public class Example_06 {
         attachment.SetDescription(
                 "Right mouse click on the icon to save the attached file.");
         attachment.DrawOn(page);
+
+        TextLine textLine = new TextLine(f1, "pdfjet.com");
+        textLine.SetLocation(50f, 400f);
+        textLine.SetURIAction("https://pdfjet.com");
+        textLine.DrawOn(page);
 
         pdf.Complete();
     }
