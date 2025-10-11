@@ -849,6 +849,19 @@ public class PDF {
         Append(' ');
         Append(annot.y2);
         Append("]\n");
+
+        if (annot.annotationType.Equals(Annotation.Popup)) {
+            Append("/T (Hello)\n");
+            Append("/Subj (World)\n");
+            // Append("/Border [1 1 1]\n");
+        } else if (annot.annotationType.Equals(Annotation.Polygon)) {
+
+        } else if (annot.annotationType.Equals(Annotation.Square)) {
+
+        } else if (annot.annotationType.Equals(Annotation.Link)) {
+
+        }
+
         Append("/Border [0 0 0]\n");
         if (annot.uri != null) {
             Append("/F 4\n");
