@@ -858,6 +858,8 @@ public class PDF {
 
         } else if (annot.annotationType.Equals(Annotation.Square)) {
             Append("/IC [0 0 1]\n");
+            Append("/T (Hello, World!)\n");
+            Append("/Contents (The quick brown fox ate the lazy mouse.)\n");
         } else if (annot.annotationType.Equals(Annotation.Link)) {
 
         }
