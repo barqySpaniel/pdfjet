@@ -49,6 +49,13 @@ public class PolygonAnnotation : IDrawable {
         this.fillColor = fillColor;
     }
 
+    public void SetFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        SetFillColor(new float[] {r, g, b});
+    }
+
     public void SetTitle(String title) {
         this.title = title;
     }
