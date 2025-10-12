@@ -893,15 +893,24 @@ public class PDF {
             Append(' ');
             Append(annot.fillColor[2]);
             Append("]\n");
-            Append("/T (");
-            Append(annot.title);
-            Append(")\n");
-            Append("/Contents (");
-            Append(annot.contents);
-            Append(")\n");
+
+            byte[] title = Encoding.UTF8.GetBytes(annot.title);
+            if (encryption != null) {
+                title = AES256.Encrypt(title, encryption.GetKey());
+            }
+            Append("/T <");
+            Append(Util.ToHexString(title));
+            Append(">\n");
+
+            byte[] contents = Encoding.UTF8.GetBytes(annot.contents);
+            if (encryption != null) {
+                contents = AES256.Encrypt(contents, encryption.GetKey());
+            }
+            Append("/Contents <");
+            Append(Util.ToHexString(contents));
+            Append(">\n");
         } else if (annot.annotationType.Equals(Annotation.Popup)) {
-            Append("/T (Hello)\n");
-            Append("/Subj (World)\n");
+            // TODO:
         } else if (annot.annotationType.Equals(Annotation.Square)) {
             Append("/IC [");
             Append(annot.fillColor[0]);
@@ -910,12 +919,22 @@ public class PDF {
             Append(' ');
             Append(annot.fillColor[2]);
             Append("]\n");
-            Append("/T (");
-            Append(annot.title);
-            Append(")\n");
-            Append("/Contents (");
-            Append(annot.contents);
-            Append(")\n");
+
+            byte[] title = Encoding.UTF8.GetBytes(annot.title);
+            if (encryption != null) {
+                title = AES256.Encrypt(title, encryption.GetKey());
+            }
+            Append("/T <");
+            Append(Util.ToHexString(title));
+            Append(">\n");
+
+            byte[] contents = Encoding.UTF8.GetBytes(annot.contents);
+            if (encryption != null) {
+                contents = AES256.Encrypt(contents, encryption.GetKey());
+            }
+            Append("/Contents <");
+            Append(Util.ToHexString(contents));
+            Append(">\n");
         }
 
         if (index != -1) {
