@@ -20,13 +20,13 @@ internal class Annotation {
 
     internal int objNumber;
     internal String annotationType = null;
-    internal String uri = null;
-    internal String key = null;
     internal float x1 = 0f;
     internal float y1 = 0f;
     internal float x2 = 0f;
     internal float y2 = 0f;
     internal float[] vertices = null;
+    internal String uri = null;
+    internal String key = null;
     internal String language = null;
     internal String actualText = null;
     internal String altDescription = null;
@@ -36,13 +36,13 @@ internal class Annotation {
      *  This class is used to create annotation objects.
      *
      *  @param annotationType the annotation type.
-     *  @param uri the URI string.
-     *  @param key the destination name.
      *  @param x1 the x coordinate of the top left corner.
      *  @param y1 the y coordinate of the top left corner.
      *  @param x2 the x coordinate of the bottom right corner.
      *  @param y2 the y coordinate of the bottom right corner.
      *  @param vertices the polygon annotation vertices.
+     *  @param uri the URI string.
+     *  @param key the destination name.
      */
     internal Annotation(
             String annotationType,

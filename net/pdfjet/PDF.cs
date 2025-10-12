@@ -878,7 +878,14 @@ public class PDF {
                 }
             }
         } else if (annot.annotationType.Equals(Annotation.Polygon)) {
-            Append("/Vertices [50 550 100 550 100 600 50 550]\n");
+            Append("/Vertices [ ");
+            for (int i = 0; i < annot.vertices.Length; i += 2) {
+                Append(annot.x1 + annot.vertices[i]);
+                Append(" ");
+                Append(annot.y1 - annot.vertices[i + 1]);
+                Append(" ");
+            }
+            Append("]\n");
             Append("/IC [1 0 0]\n");
         } else if (annot.annotationType.Equals(Annotation.Popup)) {
             Append("/T (Hello)\n");

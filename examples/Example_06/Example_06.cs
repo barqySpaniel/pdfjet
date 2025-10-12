@@ -102,10 +102,9 @@ public class Example_06 {
         squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
-        polygonAnnotation.SetLocation(50f, 600f);
-        // polygonAnnotation.SetSize(50f, 50f);
+        polygonAnnotation.SetLocation(100f, 500f);
+        polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 50f, 50f, 0f, 0f});
         polygonAnnotation.DrawOn(page);
-
 
         pdf.Complete();
     }
