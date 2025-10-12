@@ -20,7 +20,7 @@ public class SquareAnnotation : IDrawable {
     private float y = 0f;
     private float w = 0f;
     private float h = 0f;
-    private float[] fillColor = null;
+    private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
 
     public SquareAnnotation() {
     }

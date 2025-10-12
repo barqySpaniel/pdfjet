@@ -21,7 +21,7 @@ public class PolygonAnnotation : IDrawable {
     private float w = 0f;
     private float h = 0f;
     private float[] vertices = null;
-    private float[] fillColor = null;
+    private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
 
     public PolygonAnnotation() {
     }

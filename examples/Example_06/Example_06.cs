@@ -99,7 +99,7 @@ public class Example_06 {
         SquareAnnotation squareAnnotation = new SquareAnnotation();
         squareAnnotation.SetLocation(50f, 500f);
         squareAnnotation.SetSize(50f, 50f);
-        squareAnnotation.SetFillColor(new float[] {0f, 1f, 0f});
+        squareAnnotation.SetFillColor(new float[] {0f, 0f, 1f});
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
         squareAnnotation.DrawOn(page);
