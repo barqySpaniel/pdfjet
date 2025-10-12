@@ -96,10 +96,10 @@ public class Example_06 {
         textLine.SetURIAction("https://pdfjet.com");
         textLine.DrawOn(page);
 
-        PopupAnnotation popupAnnotation = new PopupAnnotation();
-        popupAnnotation.SetLocation(50f, 500f);
-        popupAnnotation.SetSize(50f, 50f);
-        popupAnnotation.DrawOn(page);
+        SquareAnnotation squareAnnotation = new SquareAnnotation();
+        squareAnnotation.SetLocation(50f, 500f);
+        squareAnnotation.SetSize(50f, 50f);
+        squareAnnotation.DrawOn(page);
 
         pdf.Complete();
     }

@@ -857,12 +857,13 @@ public class PDF {
         } else if (annot.annotationType.Equals(Annotation.Polygon)) {
 
         } else if (annot.annotationType.Equals(Annotation.Square)) {
-
+            Append("/IC [0 0 1]\n");
         } else if (annot.annotationType.Equals(Annotation.Link)) {
 
         }
 
         Append("/Border [0 0 0]\n");
+        // Append("/Border [1 1 1]\n");
         if (annot.uri != null) {
             Append("/F 4\n");
             Append("/A <<\n");
