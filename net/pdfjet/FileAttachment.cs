@@ -62,6 +62,7 @@ public class FileAttachment : IDrawable {
                 x + h,
                 y + h,
                 null,   // Vertices
+                null,   // Fill Color
                 null,   // Title
                 null,   // Contents
                 null,

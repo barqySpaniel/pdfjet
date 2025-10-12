@@ -299,6 +299,7 @@ public class SVGImage {
                     x + w,
                     y + h,
                     null,   // Vertices
+                    null,   // Fill Color
                     null,   // Title
                     null,   // Contents
                     uri,

@@ -7,8 +7,7 @@
 using System;
 
 /**
- *  Used to create PDF annotation objects.
- *
+ * Used to create PDF annotation objects.
  */
 namespace PDFjet.NET {
 internal class Annotation {
@@ -25,6 +24,7 @@ internal class Annotation {
     internal float x2 = 0f;
     internal float y2 = 0f;
     internal float[] vertices = null;
+    internal float[] fillColor = null;
     internal String title = null;
     internal String contents = null;
     internal String uri = null;
@@ -53,6 +53,7 @@ internal class Annotation {
             float x2,
             float y2,
             float[] vertices,
+            float[] fillColor,
             String title,
             String contents,
             String uri,
@@ -66,6 +67,7 @@ internal class Annotation {
         this.x2 = x2;
         this.y2 = y2;
         this.vertices = vertices;
+        this.fillColor = fillColor;
         this.title = title;
         this.contents = contents;
         this.uri = uri;

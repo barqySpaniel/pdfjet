@@ -215,6 +215,7 @@ public class Rect  : IDrawable {
                 this.x + this.w,
                 this.y + this.h,
                 null,       // Vertices
+                null,       // Fill Color
                 null,       // Title
                 null,       // Contents
                 this.uri,

@@ -20,6 +20,7 @@ public class SquareAnnotation : IDrawable {
     private float y = 0f;
     private float w = 0f;
     private float h = 0f;
+    private float[] fillColor = null;
 
     public SquareAnnotation() {
     }
@@ -39,6 +40,10 @@ public class SquareAnnotation : IDrawable {
         this.h = h;
     }
 
+    public void SetFillColor(float[] fillColor) {
+        this.fillColor = fillColor;
+    }
+
     public void SetTitle(String title) {
         this.title = title;
     }
@@ -55,6 +60,7 @@ public class SquareAnnotation : IDrawable {
                 x + w,
                 y + h,
                 null,       // Vertices
+                fillColor,  // Fill Color
                 title,      // Title
                 contents,   // Contents
                 uri,        //

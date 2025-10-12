@@ -233,6 +233,7 @@ public class CheckBox : IDrawable {
                     x + 3f*w/2f + font.StringWidth(label),
                     y + font.GetBodyHeight(fontSize),
                     null,       // Vertices
+                    null,       // Fill Color
                     null,       // Title
                     null,       // Contents
                     uri,

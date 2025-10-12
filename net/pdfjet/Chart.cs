@@ -332,6 +332,7 @@ public class Chart : IDrawable {
                             point.x + point.r,
                             point.y + point.r,
                             null,   // Vertices
+                            null,   // Fill Color
                             null,   // Title
                             null,   // Contents
                             point.GetURIAction(),

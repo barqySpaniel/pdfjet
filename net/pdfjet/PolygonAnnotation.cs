@@ -21,6 +21,7 @@ public class PolygonAnnotation : IDrawable {
     private float w = 0f;
     private float h = 0f;
     private float[] vertices = null;
+    private float[] fillColor = null;
 
     public PolygonAnnotation() {
     }
@@ -44,6 +45,10 @@ public class PolygonAnnotation : IDrawable {
         this.vertices = vertices;
     }
 
+    public void SetFillColor(float[] fillColor) {
+        this.fillColor = fillColor;
+    }
+
     public void SetTitle(String title) {
         this.title = title;
     }
@@ -60,6 +65,7 @@ public class PolygonAnnotation : IDrawable {
                 x + w,
                 y + h,
                 vertices,   // Vertices
+                fillColor,  // Fill Color
                 title,      // Title
                 contents,   // Contents
                 uri,

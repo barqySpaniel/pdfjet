@@ -366,6 +366,7 @@ public class Image : IDrawable {
                     x + w,
                     y + h,
                     null,   // Vertices
+                    null,   // Fill Color
                     null,   // Title
                     null,   // Contents
                     uri,
