@@ -44,8 +44,10 @@ public class SquareAnnotation : IDrawable {
                 y,
                 x + w,
                 y + h,
-                null,
-                uri,
+                null,   // Vertices
+                null,   // Title
+                null,   // Contents
+                uri,    //
                 key,    // The destination name
                 language,
                 actualText,

@@ -298,7 +298,9 @@ public class SVGImage {
                     y,
                     x + w,
                     y + h,
-                    null,
+                    null,   // Vertices
+                    null,   // Title
+                    null,   // Contents
                     uri,
                     key,    // The destination name
                     language,

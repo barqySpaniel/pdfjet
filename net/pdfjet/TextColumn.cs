@@ -318,7 +318,9 @@ public class TextColumn : IDrawable {
                             y - textLine.font.GetAscent(),
                             x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
                             y + textLine.font.GetDescent(),
-                            null,
+                            null,   // Vertices
+                            null,   // Title
+                            null,   // Contents
                             null,                       // The URI
                             textLine.GetGoToAction(),   // The destination name
                             null,
@@ -388,7 +390,9 @@ public class TextColumn : IDrawable {
                         y - textLine.font.GetAscent(),
                         x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
                         y + textLine.font.GetDescent(),
-                        null,
+                        null,                       // Vertices
+                        null,                       // Title
+                        null,                       // Contents
                         null,                       // The URI
                         textLine.GetGoToAction(),   // The destination name
                         null,

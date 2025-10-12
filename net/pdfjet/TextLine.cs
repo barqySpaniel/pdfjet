@@ -614,7 +614,9 @@ public class TextLine : IDrawable {
                     y - font.GetAscent(fontSize),
                     x + font.StringWidth(fallbackFont, fontSize, text),
                     y + font.GetDescent(fontSize),
-                    null,
+                    null,   // Vertices
+                    null,   // Title
+                    null,   // Contents
                     uri,
                     key,    // The destination name
                     uriLanguage,

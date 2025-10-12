@@ -782,7 +782,9 @@ public class TextBox : IDrawable {
                         y,
                         x + width,
                         y + height,
-                        null,
+                        null,   // Vertices
+                        null,   // Title
+                        null,   // Contents
                         uri,
                         key,    // The destination name
                         uriLanguage,

@@ -50,6 +50,8 @@ public class PolygonAnnotation : IDrawable {
                 x + w,
                 y + h,
                 vertices,
+                null,   // Title
+                null,   // Contents
                 uri,
                 key,    // The destination name
                 language,

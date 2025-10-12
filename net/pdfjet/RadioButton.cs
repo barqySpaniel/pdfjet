@@ -173,7 +173,9 @@ public class RadioButton : IDrawable {
                     y,
                     x + 3*r1 + font.StringWidth(label),
                     y + font.GetBodyHeight(fontSize),
-                    null,
+                    null,   // Vertices
+                    null,   // Title
+                    null,   // Contents
                     uri,
                     null,
                     language,
