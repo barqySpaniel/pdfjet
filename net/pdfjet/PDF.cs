@@ -887,6 +887,8 @@ public class PDF {
             }
             Append("]\n");
             Append("/IC [1 0 0]\n");
+            Append("/T (This is a test!)\n");
+            Append("/Contents (The quick brown fox jumped over the lazy dog.)\n");
         } else if (annot.annotationType.Equals(Annotation.Popup)) {
             Append("/T (Hello)\n");
             Append("/Subj (World)\n");
