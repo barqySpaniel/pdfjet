@@ -881,9 +881,9 @@ public class PDF {
             Append("/Vertices [ ");
             for (int i = 0; i < annot.vertices.Length; i += 2) {
                 Append(annot.x1 + annot.vertices[i]);
-                Append(" ");
+                Append(' ');
                 Append(annot.y1 - annot.vertices[i + 1]);
-                Append(" ");
+                Append(' ');
             }
             Append("]\n");
             Append("/IC [1 0 0]\n");
