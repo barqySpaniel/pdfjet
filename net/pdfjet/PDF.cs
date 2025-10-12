@@ -878,7 +878,8 @@ public class PDF {
                 }
             }
         } else if (annot.annotationType.Equals(Annotation.Polygon)) {
-
+            Append("/Vertices [50 550 100 550 100 600 50 550]\n");
+            Append("/IC [1 0 0]\n");
         } else if (annot.annotationType.Equals(Annotation.Popup)) {
             Append("/T (Hello)\n");
             Append("/Subj (World)\n");

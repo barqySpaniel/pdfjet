@@ -101,6 +101,12 @@ public class Example_06 {
         squareAnnotation.SetSize(50f, 50f);
         squareAnnotation.DrawOn(page);
 
+        PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
+        // polygonAnnotation.SetLocation(50f, 500f);
+        // polygonAnnotation.SetSize(50f, 50f);
+        polygonAnnotation.DrawOn(page);
+
+
         pdf.Complete();
     }
 
