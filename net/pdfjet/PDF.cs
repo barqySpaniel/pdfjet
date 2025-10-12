@@ -820,6 +820,18 @@ public class PDF {
         Append("/Subtype /");
         Append(annot.annotationType);
         Append("\n");
+
+        Append("/Rect [");
+        Append(annot.x1);
+        Append(' ');
+        Append(annot.y1);
+        Append(' ');
+        Append(annot.x2);
+        Append(' ');
+        Append(annot.y2);
+        Append("]\n");
+        Append("/Border [0 0 0]\n");
+
         if (annot.fileAttachment != null) {
             byte[] title = Encoding.UTF8.GetBytes(annot.fileAttachment.title);
             byte[] contents = Encoding.UTF8.GetBytes(annot.fileAttachment.contents);
@@ -840,15 +852,6 @@ public class PDF {
             Append(annot.fileAttachment.icon);
             Append("\n");
         }
-        Append("/Rect [");
-        Append(annot.x1);
-        Append(' ');
-        Append(annot.y1);
-        Append(' ');
-        Append(annot.x2);
-        Append(' ');
-        Append(annot.y2);
-        Append("]\n");
 
         if (annot.annotationType.Equals(Annotation.Popup)) {
             Append("/T (Hello)\n");
@@ -864,8 +867,6 @@ public class PDF {
 
         }
 
-        Append("/Border [0 0 0]\n");
-        // Append("/Border [1 1 1]\n");
         if (annot.uri != null) {
             Append("/F 4\n");
             Append("/A <<\n");
