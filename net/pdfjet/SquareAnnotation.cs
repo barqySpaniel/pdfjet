@@ -50,7 +50,7 @@ public class SquareAnnotation : IDrawable {
                 language,
                 actualText,
                 altDescription));
-        return new float[] {0f, 0f};
+        return new float[] {x + w, y + h};
     }
 }
 }

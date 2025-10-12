@@ -55,7 +55,7 @@ public class PolygonAnnotation : IDrawable {
                 language,
                 actualText,
                 altDescription));
-        return new float[] {0f, 0f};
+        return new float[] {0f, 0f};    // TODO:
     }
 }
 }
