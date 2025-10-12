@@ -8,6 +8,8 @@ using System;
 
 namespace PDFjet.NET {
 public class SquareAnnotation : IDrawable {
+    internal String title = null;
+    internal String contents = null;
     internal String uri = null;
     internal String key = null;
     internal String language = null;
@@ -37,6 +39,14 @@ public class SquareAnnotation : IDrawable {
         this.h = h;
     }
 
+    public void SetTitle(String title) {
+        this.title = title;
+    }
+
+    public void SetContents(String contents) {
+        this.contents = contents;
+    }
+
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 Annotation.Square,
@@ -44,11 +54,11 @@ public class SquareAnnotation : IDrawable {
                 y,
                 x + w,
                 y + h,
-                null,   // Vertices
-                null,   // Title
-                null,   // Contents
-                uri,    //
-                key,    // The destination name
+                null,       // Vertices
+                title,      // Title
+                contents,   // Contents
+                uri,        //
+                key,        // The destination name
                 language,
                 actualText,
                 altDescription));

@@ -99,6 +99,8 @@ public class Example_06 {
         SquareAnnotation squareAnnotation = new SquareAnnotation();
         squareAnnotation.SetLocation(50f, 500f);
         squareAnnotation.SetSize(50f, 50f);
+        squareAnnotation.SetTitle("Hello, World! This is test ...");
+        squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
         squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();

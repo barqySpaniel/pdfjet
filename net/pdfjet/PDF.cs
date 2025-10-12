@@ -894,8 +894,12 @@ public class PDF {
             Append("/Subj (World)\n");
         } else if (annot.annotationType.Equals(Annotation.Square)) {
             Append("/IC [0 0 1]\n");
-            Append("/T (Hello, World!)\n");
-            Append("/Contents (The quick brown fox ate the lazy mouse.)\n");
+            Append("/T (");
+            Append(annot.title);
+            Append(")\n");
+            Append("/Contents (");
+            Append(annot.contents);
+            Append(")\n");
         }
 
         if (index != -1) {
