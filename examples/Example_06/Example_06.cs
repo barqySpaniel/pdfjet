@@ -99,6 +99,7 @@ public class Example_06 {
         SquareAnnotation squareAnnotation = new SquareAnnotation();
         squareAnnotation.SetLocation(50f, 500f);
         squareAnnotation.SetSize(50f, 50f);
+        squareAnnotation.SetFillColor(new float[] {0f, 1f, 0f});
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
         squareAnnotation.DrawOn(page);
@@ -106,6 +107,7 @@ public class Example_06 {
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
         polygonAnnotation.SetLocation(100f, 500f);
         polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 50f, 50f, 0f, 0f});
+        polygonAnnotation.SetFillColor(new float[] {1f, 0f, 0f});
         polygonAnnotation.SetTitle("This is a test ...");
         polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
         polygonAnnotation.DrawOn(page);

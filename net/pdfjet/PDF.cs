@@ -886,7 +886,13 @@ public class PDF {
                 Append(' ');
             }
             Append("]\n");
-            Append("/IC [1 0 0]\n");
+            Append("/IC [");
+            Append(annot.fillColor[0]);
+            Append(' ');
+            Append(annot.fillColor[1]);
+            Append(' ');
+            Append(annot.fillColor[2]);
+            Append("]\n");
             Append("/T (");
             Append(annot.title);
             Append(")\n");
@@ -897,7 +903,13 @@ public class PDF {
             Append("/T (Hello)\n");
             Append("/Subj (World)\n");
         } else if (annot.annotationType.Equals(Annotation.Square)) {
-            Append("/IC [0 0 1]\n");
+            Append("/IC [");
+            Append(annot.fillColor[0]);
+            Append(' ');
+            Append(annot.fillColor[1]);
+            Append(' ');
+            Append(annot.fillColor[2]);
+            Append("]\n");
             Append("/T (");
             Append(annot.title);
             Append(")\n");
