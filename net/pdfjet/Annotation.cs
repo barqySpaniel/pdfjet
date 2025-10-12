@@ -26,6 +26,7 @@ internal class Annotation {
     internal float y1 = 0f;
     internal float x2 = 0f;
     internal float y2 = 0f;
+    internal float[] vertices = null;
     internal String language = null;
     internal String actualText = null;
     internal String altDescription = null;
@@ -41,26 +42,28 @@ internal class Annotation {
      *  @param y1 the y coordinate of the top left corner.
      *  @param x2 the x coordinate of the bottom right corner.
      *  @param y2 the y coordinate of the bottom right corner.
-     *
+     *  @param vertices the polygon annotation vertices.
      */
     internal Annotation(
             String annotationType,
-            String uri,
-            String key,
             float x1,
             float y1,
             float x2,
             float y2,
+            float[] vertices,
+            String uri,
+            String key,
             String language,
             String actualText,
             String altDescription) {
         this.annotationType = annotationType;
-        this.uri = uri;
-        this.key = key;
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.vertices = vertices;
+        this.uri = uri;
+        this.key = key;
         this.language = language;
         this.actualText = (actualText == null) ? uri : actualText;
         this.altDescription = (altDescription == null) ? uri : altDescription;

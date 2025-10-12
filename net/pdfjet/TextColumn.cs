@@ -314,12 +314,13 @@ public class TextColumn : IDrawable {
                 if (textLine.GetGoToAction() != null) {
                     page.AddAnnotation(new Annotation(
                             Annotation.Link,
-                            null,                       // The URI
-                            textLine.GetGoToAction(),   // The destination name
                             x,
                             y - textLine.font.GetAscent(),
                             x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
                             y + textLine.font.GetDescent(),
+                            null,
+                            null,                       // The URI
+                            textLine.GetGoToAction(),   // The destination name
                             null,
                             null,
                             null));
@@ -383,12 +384,13 @@ public class TextColumn : IDrawable {
             if (textLine.GetGoToAction() != null) {
                 page.AddAnnotation(new Annotation(
                         Annotation.Link,
-                        null,                       // The URI
-                        textLine.GetGoToAction(),   // The destination name
                         x,
                         y - textLine.font.GetAscent(),
                         x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
                         y + textLine.font.GetDescent(),
+                        null,
+                        null,                       // The URI
+                        textLine.GetGoToAction(),   // The destination name
                         null,
                         null,
                         null));

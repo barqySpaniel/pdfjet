@@ -40,12 +40,13 @@ public class PopupAnnotation : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 Annotation.Popup,
-                uri,
-                key,    // The destination name
                 x,
                 y,
                 x + w,
                 y + h,
+                null,
+                uri,
+                key,    // The destination name
                 language,
                 actualText,
                 altDescription));

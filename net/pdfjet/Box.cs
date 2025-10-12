@@ -305,12 +305,13 @@ public class Box : IDrawable {
         if (uri != null || key != null) {
             page.AddAnnotation(new Annotation(
                     Annotation.Link,
-                    uri,
-                    key,    // The destination name
                     x,
                     y,
                     x + w,
                     y + h,
+                    null,
+                    uri,
+                    key,    // The destination name
                     language,
                     actualText,
                     altDescription));

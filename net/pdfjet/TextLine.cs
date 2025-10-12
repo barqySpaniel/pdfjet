@@ -610,12 +610,13 @@ public class TextLine : IDrawable {
         if (uri != null || key != null) {
             page.AddAnnotation(new Annotation(
                     Annotation.Link,
-                    uri,
-                    key,    // The destination name
                     x,
                     y - font.GetAscent(fontSize),
                     x + font.StringWidth(fallbackFont, fontSize, text),
                     y + font.GetDescent(fontSize),
+                    null,
+                    uri,
+                    key,    // The destination name
                     uriLanguage,
                     uriActualText,
                     uriAltDescription));

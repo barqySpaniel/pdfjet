@@ -327,12 +327,13 @@ public class Chart : IDrawable {
                 if (point.GetURIAction() != null) {
                     page.AddAnnotation(new Annotation(
                             Annotation.Link,
-                            point.GetURIAction(),
-                            null,
                             point.x - point.r,
                             point.y - point.r,
                             point.x + point.r,
                             point.y + point.r,
+                            null,
+                            point.GetURIAction(),
+                            null,
                             null,
                             null,
                             null));

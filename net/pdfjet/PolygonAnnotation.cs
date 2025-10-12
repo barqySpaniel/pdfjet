@@ -18,6 +18,7 @@ public class PolygonAnnotation : IDrawable {
     private float y = 0f;
     private float w = 0f;
     private float h = 0f;
+    private float[] vertices = null;
 
     public PolygonAnnotation() {
     }
@@ -37,15 +38,20 @@ public class PolygonAnnotation : IDrawable {
         this.h = h;
     }
 
+    public void SetVertices(float[] vertices) {
+        this.vertices = vertices;
+    }
+
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 Annotation.Polygon,
-                uri,
-                key,    // The destination name
                 x,
                 y,
                 x + w,
                 y + h,
+                vertices,
+                uri,
+                key,    // The destination name
                 language,
                 actualText,
                 altDescription));

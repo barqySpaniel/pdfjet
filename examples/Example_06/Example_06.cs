@@ -102,7 +102,7 @@ public class Example_06 {
         squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
-        // polygonAnnotation.SetLocation(50f, 500f);
+        polygonAnnotation.SetLocation(50f, 600f);
         // polygonAnnotation.SetSize(50f, 50f);
         polygonAnnotation.DrawOn(page);
 

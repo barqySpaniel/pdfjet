@@ -228,12 +228,13 @@ public class CheckBox : IDrawable {
         if (uri != null) {
             page.AddAnnotation(new Annotation(
                     Annotation.Link,
-                    uri,
-                    null,
                     x + 3f*w/2f,
                     y,
                     x + 3f*w/2f + font.StringWidth(label),
                     y + font.GetBodyHeight(fontSize),
+                    null,
+                    uri,
+                    null,
                     language,
                     actualText,
                     altDescription));

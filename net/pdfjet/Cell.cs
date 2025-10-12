@@ -642,12 +642,13 @@ public class Cell {
             if (point.GetURIAction() != null) {
                 page.AddAnnotation(new Annotation(
                         Annotation.Link,
-                        point.GetURIAction(),
-                        null,
                         point.x - point.r,
                         point.y - point.r,
                         point.x + point.r,
                         point.y + point.r,
+                        null,
+                        point.GetURIAction(),
+                        null,
                         null,
                         null,
                         null));
@@ -787,12 +788,13 @@ public class Cell {
                     compositeTextLine.GetWidth() : font.StringWidth(text);
             page.AddAnnotation(new Annotation(
                     Annotation.Link,
-                    uri,
-                    null,
                     xText,
                     (page.height - yText) - font.GetAscent(fontSize),
                     xText + w,
                     (page.height - yText) + font.GetDescent(fontSize),
+                    null,
+                    uri,
+                    null,
                     null,
                     null,
                     null));

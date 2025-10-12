@@ -778,12 +778,13 @@ public class TextBox : IDrawable {
             if (textDirection == Direction.LEFT_TO_RIGHT && (uri != null || key != null)) {
                 page.AddAnnotation(new Annotation(
                         Annotation.Link,
-                        uri,
-                        key,    // The destination name
                         x,
                         y,
                         x + width,
                         y + height,
+                        null,
+                        uri,
+                        key,    // The destination name
                         uriLanguage,
                         uriActualText,
                         uriAltDescription));

@@ -57,12 +57,13 @@ public class FileAttachment : IDrawable {
     public float[] DrawOn(Page page) {
         Annotation annotation = new Annotation(
                 Annotation.FileAttachment,
-                null,
-                null,
                 x,
                 y,
                 x + h,
                 y + h,
+                null,
+                null,
+                null,
                 null,
                 null,
                 null);
