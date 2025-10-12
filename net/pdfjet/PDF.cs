@@ -832,7 +832,7 @@ public class PDF {
         Append("]\n");
         Append("/Border [0 0 0]\n");
 
-        if (annot.fileAttachment != null) {
+        if (annot.annotationType.Equals(Annotation.FileAttachment)) {
             byte[] title = Encoding.UTF8.GetBytes(annot.fileAttachment.title);
             byte[] contents = Encoding.UTF8.GetBytes(annot.fileAttachment.contents);
             if (encryption != null) {
@@ -851,47 +851,43 @@ public class PDF {
             Append("/Name /");
             Append(annot.fileAttachment.icon);
             Append("\n");
-        }
-
-        if (annot.annotationType.Equals(Annotation.Popup)) {
-            Append("/T (Hello)\n");
-            Append("/Subj (World)\n");
-            // Append("/Border [1 1 1]\n");
+        } else if (annot.annotationType.Equals(Annotation.Link)) {
+            if (annot.uri != null) {
+                Append("/F 4\n");
+                Append("/A <<\n");
+                Append("/S /URI\n");
+                byte[] uri = Encoding.UTF8.GetBytes(annot.uri);
+                if (encryption != null) {
+                    uri = AES256.Encrypt(uri, encryption.GetKey());
+                }
+                Append("/URI <");
+                Append(Util.ToHexString(uri));
+                Append(">\n");
+                Append(">>\n");
+            } else if (annot.key != null) {
+                Destination destination = destinations[annot.key];
+                if (destination != null) {
+                    Append("/F 4\n");
+                    Append("/Dest [");
+                    Append(destination.pageObjNumber);
+                    Append(" 0 R /XYZ ");
+                    Append(destination.xPosition);
+                    Append(" ");
+                    Append(destination.yPosition);
+                    Append(" 0]\n");
+                }
+            }
         } else if (annot.annotationType.Equals(Annotation.Polygon)) {
 
+        } else if (annot.annotationType.Equals(Annotation.Popup)) {
+            Append("/T (Hello)\n");
+            Append("/Subj (World)\n");
         } else if (annot.annotationType.Equals(Annotation.Square)) {
             Append("/IC [0 0 1]\n");
             Append("/T (Hello, World!)\n");
             Append("/Contents (The quick brown fox ate the lazy mouse.)\n");
-        } else if (annot.annotationType.Equals(Annotation.Link)) {
-
         }
 
-        if (annot.uri != null) {
-            Append("/F 4\n");
-            Append("/A <<\n");
-            Append("/S /URI\n");
-            byte[] uri = Encoding.UTF8.GetBytes(annot.uri);
-            if (encryption != null) {
-                uri = AES256.Encrypt(uri, encryption.GetKey());
-            }
-            Append("/URI <");
-            Append(Util.ToHexString(uri));
-            Append(">\n");
-            Append(">>\n");
-        } else if (annot.key != null) {
-            Destination destination = destinations[annot.key];
-            if (destination != null) {
-                Append("/F 4\n");
-                Append("/Dest [");
-                Append(destination.pageObjNumber);
-                Append(" 0 R /XYZ ");
-                Append(destination.xPosition);
-                Append(" ");
-                Append(destination.yPosition);
-                Append(" 0]\n");
-            }
-        }
         if (index != -1) {
             Append("/StructParent ");
             Append(index++);
