@@ -8,6 +8,8 @@ using System;
 
 namespace PDFjet.NET {
 public class PolygonAnnotation : IDrawable {
+    internal String title = null;
+    internal String contents = null;
     internal String uri = null;
     internal String key = null;
     internal String language = null;
@@ -42,6 +44,14 @@ public class PolygonAnnotation : IDrawable {
         this.vertices = vertices;
     }
 
+    public void SetTitle(String title) {
+        this.title = title;
+    }
+
+    public void SetContents(String contents) {
+        this.contents = contents;
+    }
+
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 Annotation.Polygon,
@@ -49,11 +59,11 @@ public class PolygonAnnotation : IDrawable {
                 y,
                 x + w,
                 y + h,
-                vertices,
-                null,   // Title
-                null,   // Contents
+                vertices,   // Vertices
+                title,      // Title
+                contents,   // Contents
                 uri,
-                key,    // The destination name
+                key,        // The destination name
                 language,
                 actualText,
                 altDescription));
