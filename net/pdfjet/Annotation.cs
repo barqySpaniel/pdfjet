@@ -16,6 +16,7 @@ internal class Annotation {
     public static readonly String Polygon = "Polygon";
     public static readonly String Popup = "Popup";
     public static readonly String Square = "Square";
+    public static readonly String Text = "Text";
 
     internal int objNumber;
     internal String annotationType = null;
