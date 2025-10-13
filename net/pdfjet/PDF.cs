@@ -950,6 +950,28 @@ public class PDF {
                 Append(Util.ToHexString(contents));
                 Append(">\n");
             }
+        } else if (annot.annotationType.Equals(Annotation.Text)) {
+            Append("/Name /Comment\n");
+
+            if (annot.title != null) {
+                byte[] title = Encoding.UTF8.GetBytes(annot.title);
+                if (encryption != null) {
+                    title = AES256.Encrypt(title, encryption.GetKey());
+                }
+                Append("/T <");
+                Append(Util.ToHexString(title));
+                Append(">\n");
+            }
+
+            if (annot.contents != null) {
+                byte[] contents = Encoding.UTF8.GetBytes(annot.contents);
+                if (encryption != null) {
+                    contents = AES256.Encrypt(contents, encryption.GetKey());
+                }
+                Append("/Contents <");
+                Append(Util.ToHexString(contents));
+                Append(">\n");
+            }
         } else if (annot.annotationType.Equals(Annotation.Popup)) {
             // TODO:
         }

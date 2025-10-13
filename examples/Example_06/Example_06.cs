@@ -112,6 +112,14 @@ public class Example_06 {
         polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
         polygonAnnotation.DrawOn(page);
 
+        TextAnnotation textAnnotation = new TextAnnotation();
+        textAnnotation.SetLocation(150f, 500f);
+        textAnnotation.SetSize(20f, 20f);
+        textAnnotation.SetFillColor(Color.green);
+        textAnnotation.SetTitle("Hello");
+        textAnnotation.SetContents("World");
+        textAnnotation.DrawOn(page);
+
         pdf.Complete();
     }
 
