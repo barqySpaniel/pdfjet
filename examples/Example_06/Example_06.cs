@@ -105,9 +105,10 @@ public class Example_06 {
         squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
-        polygonAnnotation.SetLocation(100f, 500f);
+        polygonAnnotation.SetLocation(75f, 500f);
         polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 50f, 50f, 0f, 0f});
         polygonAnnotation.SetFillColor(Color.red);
+        polygonAnnotation.SetTransparency(0.5f);
         polygonAnnotation.SetTitle("This is a test ...");
         polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
         polygonAnnotation.DrawOn(page);

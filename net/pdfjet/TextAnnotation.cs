@@ -68,6 +68,7 @@ public class TextAnnotation : IDrawable {
                 y + h,
                 null,       // Vertices
                 fillColor,  // Fill Color
+                0f,         // Transparency
                 title,      // Title
                 contents,   // Contents
                 uri,        //

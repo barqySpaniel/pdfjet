@@ -784,6 +784,7 @@ public class TextBox : IDrawable {
                         y + height,
                         null,   // Vertices
                         null,   // Fill Color
+                        0f,     // Transparency
                         null,   // Title
                         null,   // Contents
                         uri,

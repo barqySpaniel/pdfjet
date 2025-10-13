@@ -21,6 +21,7 @@ public class SquareAnnotation : IDrawable {
     private float w = 0f;
     private float h = 0f;
     private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
+    private float transparency = 1f;
 
     public SquareAnnotation() {
     }
@@ -51,6 +52,10 @@ public class SquareAnnotation : IDrawable {
         SetFillColor(new float[] {r, g, b});
     }
 
+    public void SetTransparency(float transparency) {
+        this.transparency = transparency;
+    }
+
     public void SetTitle(String title) {
         this.title = title;
     }
@@ -66,12 +71,13 @@ public class SquareAnnotation : IDrawable {
                 y,
                 x + w,
                 y + h,
-                null,       // Vertices
-                fillColor,  // Fill Color
-                title,      // Title
-                contents,   // Contents
-                uri,        //
-                key,        // The destination name
+                null,           // Vertices
+                fillColor,      // Fill Color
+                transparency,   // Transparency
+                title,          // Title
+                contents,       // Contents
+                uri,            //
+                key,            // The destination name
                 language,
                 actualText,
                 altDescription));

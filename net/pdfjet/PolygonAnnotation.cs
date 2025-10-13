@@ -22,6 +22,7 @@ public class PolygonAnnotation : IDrawable {
     private float h = 0f;
     private float[] vertices = null;
     private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
+    private float transparency = 1f;
 
     public PolygonAnnotation() {
     }
@@ -56,6 +57,10 @@ public class PolygonAnnotation : IDrawable {
         SetFillColor(new float[] {r, g, b});
     }
 
+    public void SetTransparency(float transparency) {
+        this.transparency = transparency;
+    }
+
     public void SetTitle(String title) {
         this.title = title;
     }
@@ -71,12 +76,13 @@ public class PolygonAnnotation : IDrawable {
                 y,
                 x + w,
                 y + h,
-                vertices,   // Vertices
-                fillColor,  // Fill Color
-                title,      // Title
-                contents,   // Contents
+                vertices,       // Vertices
+                fillColor,      // Fill Color
+                transparency,   // Transparency
+                title,          // Title
+                contents,       // Contents
                 uri,
-                key,        // The destination name
+                key,            // The destination name
                 language,
                 actualText,
                 altDescription));

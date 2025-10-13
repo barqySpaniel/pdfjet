@@ -648,6 +648,7 @@ public class Cell {
                         point.y + point.r,
                         null,   // Vertices
                         null,   // Fill Color
+                        0f,     // Transparency
                         null,   // Title
                         null,   // Contents
                         point.GetURIAction(),
@@ -797,6 +798,7 @@ public class Cell {
                     (page.height - yText) + font.GetDescent(fontSize),
                     null,       // Vertices
                     null,       // Fill Color
+                    0f,         // Transparency
                     null,       // Title
                     null,       // Contents
                     uri,

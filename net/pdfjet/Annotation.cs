@@ -26,6 +26,7 @@ internal class Annotation {
     internal float y2 = 0f;
     internal float[] vertices = null;
     internal float[] fillColor = null;
+    internal float transparency = 0f;
     internal String title = null;
     internal String contents = null;
     internal String uri = null;
@@ -55,6 +56,7 @@ internal class Annotation {
             float y2,
             float[] vertices,
             float[] fillColor,
+            float transparency,
             String title,
             String contents,
             String uri,
@@ -69,6 +71,7 @@ internal class Annotation {
         this.y2 = y2;
         this.vertices = vertices;
         this.fillColor = fillColor;
+        this.transparency = transparency;
         this.title = title;
         this.contents = contents;
         this.uri = uri;

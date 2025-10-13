@@ -903,6 +903,10 @@ public class PDF {
             Append(annot.fillColor[2]);
             Append("]\n");
 
+            Append("/CA ");
+            Append(annot.transparency);
+            Append("\n");
+
             if (annot.title != null) {
                 byte[] title = Encoding.UTF8.GetBytes(annot.title);
                 if (encryption != null) {
@@ -930,6 +934,10 @@ public class PDF {
             Append(' ');
             Append(annot.fillColor[2]);
             Append("]\n");
+
+            Append("/CA ");
+            Append(annot.transparency);
+            Append("\n");
 
             if (annot.title != null) {
                 byte[] title = Encoding.UTF8.GetBytes(annot.title);

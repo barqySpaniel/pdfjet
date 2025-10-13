@@ -320,6 +320,7 @@ public class TextColumn : IDrawable {
                             y + textLine.font.GetDescent(),
                             null,                       // Vertices
                             null,                       // Fill Color
+                            0f,                         // Transparency
                             null,                       // Title
                             null,                       // Contents
                             null,                       // The URI
@@ -393,6 +394,7 @@ public class TextColumn : IDrawable {
                         y + textLine.font.GetDescent(),
                         null,                       // Vertices
                         null,                       // Fill Color
+                        0f,                         // Transparency
                         null,                       // Title
                         null,                       // Contents
                         null,                       // The URI

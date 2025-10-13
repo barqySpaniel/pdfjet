@@ -616,6 +616,7 @@ public class TextLine : IDrawable {
                     y + font.GetDescent(fontSize),
                     null,   // Vertices
                     null,   // Fill Color
+                    0f,     // Transparency
                     null,   // Title
                     null,   // Contents
                     uri,
