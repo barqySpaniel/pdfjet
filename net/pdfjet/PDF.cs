@@ -894,6 +894,7 @@ public class PDF {
                 Append(' ');
             }
             Append("]\n");
+
             Append("/IC [");
             Append(annot.fillColor[0]);
             Append(' ');
