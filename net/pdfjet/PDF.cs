@@ -833,24 +833,32 @@ public class PDF {
         Append("/Border [0 0 0]\n");
 
         if (annot.annotationType.Equals(Annotation.FileAttachment)) {
-            byte[] title = Encoding.UTF8.GetBytes(annot.fileAttachment.title);
-            byte[] contents = Encoding.UTF8.GetBytes(annot.fileAttachment.contents);
-            if (encryption != null) {
-                title = AES256.Encrypt(title, encryption.GetKey());
-                contents = AES256.Encrypt(contents, encryption.GetKey());
-            }
-            Append("/T <");
-            Append(Util.ToHexString(title));
-            Append(">\n");
-            Append("/Contents <");
-            Append(Util.ToHexString(contents));
-            Append(">\n");
             Append("/FS ");
             Append(annot.fileAttachment.embeddedFile.objNumber);
             Append(" 0 R\n");
             Append("/Name /");
             Append(annot.fileAttachment.icon);
             Append("\n");
+
+            if (annot.fileAttachment.title != null) {
+                byte[] title = Encoding.UTF8.GetBytes(annot.fileAttachment.title);
+                if (encryption != null) {
+                    title = AES256.Encrypt(title, encryption.GetKey());
+                }
+                Append("/T <");
+                Append(Util.ToHexString(title));
+                Append(">\n");
+            }
+
+            if (annot.fileAttachment.contents != null) {
+                byte[] contents = Encoding.UTF8.GetBytes(annot.fileAttachment.contents);
+                if (encryption != null) {
+                    contents = AES256.Encrypt(contents, encryption.GetKey());
+                }
+                Append("/Contents <");
+                Append(Util.ToHexString(contents));
+                Append(">\n");
+            }
         } else if (annot.annotationType.Equals(Annotation.Link)) {
             if (annot.uri != null) {
                 Append("/F 4\n");
@@ -894,23 +902,25 @@ public class PDF {
             Append(annot.fillColor[2]);
             Append("]\n");
 
-            byte[] title = Encoding.UTF8.GetBytes(annot.title);
-            if (encryption != null) {
-                title = AES256.Encrypt(title, encryption.GetKey());
+            if (annot.title != null) {
+                byte[] title = Encoding.UTF8.GetBytes(annot.title);
+                if (encryption != null) {
+                    title = AES256.Encrypt(title, encryption.GetKey());
+                }
+                Append("/T <");
+                Append(Util.ToHexString(title));
+                Append(">\n");
             }
-            Append("/T <");
-            Append(Util.ToHexString(title));
-            Append(">\n");
 
-            byte[] contents = Encoding.UTF8.GetBytes(annot.contents);
-            if (encryption != null) {
-                contents = AES256.Encrypt(contents, encryption.GetKey());
+            if (annot.contents != null) {
+                byte[] contents = Encoding.UTF8.GetBytes(annot.contents);
+                if (encryption != null) {
+                    contents = AES256.Encrypt(contents, encryption.GetKey());
+                }
+                Append("/Contents <");
+                Append(Util.ToHexString(contents));
+                Append(">\n");
             }
-            Append("/Contents <");
-            Append(Util.ToHexString(contents));
-            Append(">\n");
-        } else if (annot.annotationType.Equals(Annotation.Popup)) {
-            // TODO:
         } else if (annot.annotationType.Equals(Annotation.Square)) {
             Append("/IC [");
             Append(annot.fillColor[0]);
@@ -920,21 +930,27 @@ public class PDF {
             Append(annot.fillColor[2]);
             Append("]\n");
 
-            byte[] title = Encoding.UTF8.GetBytes(annot.title);
-            if (encryption != null) {
-                title = AES256.Encrypt(title, encryption.GetKey());
+            if (annot.title != null) {
+                byte[] title = Encoding.UTF8.GetBytes(annot.title);
+                if (encryption != null) {
+                    title = AES256.Encrypt(title, encryption.GetKey());
+                }
+                Append("/T <");
+                Append(Util.ToHexString(title));
+                Append(">\n");
             }
-            Append("/T <");
-            Append(Util.ToHexString(title));
-            Append(">\n");
 
-            byte[] contents = Encoding.UTF8.GetBytes(annot.contents);
-            if (encryption != null) {
-                contents = AES256.Encrypt(contents, encryption.GetKey());
+            if (annot.contents != null) {
+                byte[] contents = Encoding.UTF8.GetBytes(annot.contents);
+                if (encryption != null) {
+                    contents = AES256.Encrypt(contents, encryption.GetKey());
+                }
+                Append("/Contents <");
+                Append(Util.ToHexString(contents));
+                Append(">\n");
             }
-            Append("/Contents <");
-            Append(Util.ToHexString(contents));
-            Append(">\n");
+        } else if (annot.annotationType.Equals(Annotation.Popup)) {
+            // TODO:
         }
 
         if (index != -1) {
