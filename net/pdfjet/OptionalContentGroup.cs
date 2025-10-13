@@ -60,6 +60,10 @@ public class OptionalContentGroup {
         this.components.Clear();
     }
 
+    public List<IDrawable> GetComponents() {
+        return components;
+    }
+
     public void DrawOn(Page page) {
         if (this.ocgNumber == -1) {
             pdf.NewObj();
