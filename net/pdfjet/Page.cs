@@ -314,6 +314,10 @@ public class Page {
         return height;
     }
 
+    public String GetStrokePattern() {
+        return this.strokePattern;
+    }
+
     /**
      *  Draws a line on the page, using the current color, between the points (x1, y1) and (x2, y2).
      *
@@ -541,6 +545,10 @@ public class Page {
             Direction direction,
             float[] color,
             Dictionary<String, Int32> highlightColors) {
+        if (textLines == null || textLines.Length == 0) {
+            return;
+        }
+
         Append("BT\n");
         SetTextFont(font, fontSize);
         float xText = x;
