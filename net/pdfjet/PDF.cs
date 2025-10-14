@@ -727,6 +727,12 @@ public class PDF {
             Append(page.height);
             Append("]\n");
 
+            if (page.rotateDegrees != 0f) {
+                Append("/Rotate ");
+                Append(page.rotateDegrees);
+                Append("\n");
+            }
+
             if (page.cropBox != null) {
                 AddPageBox("CropBox", page, page.cropBox);
             }

@@ -49,6 +49,8 @@ public class Page {
     internal JoinStyle lineJoinStyle = JoinStyle.MITER;
     internal String strokePattern = "[] 0";
 
+    internal float rotateDegrees = 0f;
+
     internal float[] cropBox;
     internal float[] bleedBox;
     internal float[] trimBox;
@@ -284,6 +286,15 @@ public class Page {
                 (this.height - (float) (offset * Math.Sin(angle))));
         watermark.SetTextDirection((int) (angle * (180.0 / Math.PI)));
         watermark.DrawOn(this);
+    }
+
+    public void RotateBy(double rotateDegrees) {
+        if (rotateDegrees == 0 ||
+            rotateDegrees == 90 ||
+            rotateDegrees == 180 ||
+            rotateDegrees == 270) {
+            this.rotateDegrees = (float) rotateDegrees;
+        }
     }
 
     public void InvertYAxis() {

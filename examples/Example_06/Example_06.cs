@@ -24,6 +24,8 @@ public class Example_06 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
+        page.RotateBy(90);
+
         // File attachment functionality
         FileAttachment attachment = new FileAttachment(pdf, file1);
         attachment.SetLocation(100f, 300f);
@@ -66,7 +68,7 @@ public class Example_06 {
         container.Add(textLine);
 
         SquareAnnotation squareAnnotation = new SquareAnnotation();
-        squareAnnotation.SetLocation(0f, 0f);//50f, 500f);
+        // squareAnnotation.SetLocation(0f, 0f);//50f, 500f);
         squareAnnotation.SetSize(75f, 100f);
         squareAnnotation.SetFillColor(new float[] {0f, 0f, 1f});
         squareAnnotation.SetTransparency(0.5f);
@@ -84,7 +86,7 @@ public class Example_06 {
         polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
         //polygonAnnotation.DrawOn(page);
         container.Add(polygonAnnotation);
-        container.SetRotationClockwise(90);
+        // container.SetRotationClockwise(90);
         container.DrawOn(page);
 
         TextAnnotation textAnnotation = new TextAnnotation();
