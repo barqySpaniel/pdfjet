@@ -76,6 +76,10 @@ public class Container : IDrawable {
         this.rotateDegrees = (float)degrees;
     }
 
+    public float[] GetRotationCenter() {
+        return new float[] {x + width/2f, y + height/2f};
+    }
+
     /// <summary>
     /// Sets a uniform scaling factor for both X and Y axes.
     /// </summary>
