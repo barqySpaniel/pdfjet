@@ -11,11 +11,10 @@ public class Example_06 {
     public Example_06() {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_06.pdf", FileMode.Create)));
-        pdf.SetTitle("Hello");
-        pdf.SetAuthor("Eugene");
+        pdf.SetTitle("Annotation Examples");
+        pdf.SetAuthor("ED");
         pdf.SetSubject("Example");
         pdf.SetKeywords("Hello World This is a test");
-        pdf.SetCreator("Application Name");
 
         Font f1 = new Font(pdf, IBMPlexSans.Regular);
 
@@ -23,6 +22,11 @@ public class Example_06 {
         EmbeddedFile file2 = new EmbeddedFile(pdf, "examples/Example_02/Example_02.cs", Compress.YES);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
+
+        Container container = new Container(400f, 400f);
+        PDFjet.NET.Rect rect = new PDFjet.NET.Rect();
+        rect.SetSize(400f, 400f);
+        container.Add(rect);
 
         // File attachment functionality
         FileAttachment attachment = new FileAttachment(pdf, file1);
@@ -55,7 +59,8 @@ public class Example_06 {
         squareAnnotation.SetTransparency(0.5f);
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
-        squareAnnotation.DrawOn(page);
+        container.Add(squareAnnotation);
+        // squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
         polygonAnnotation.SetLocation(75f, 500f);
@@ -72,6 +77,8 @@ public class Example_06 {
         textAnnotation.SetTitle("Hello");
         textAnnotation.SetContents("World");
         textAnnotation.DrawOn(page);
+
+        container.DrawOn(page);
 
         pdf.Complete();
     }
