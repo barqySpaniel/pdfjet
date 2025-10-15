@@ -16,13 +16,15 @@ public class PolygonAnnotation : IDrawable {
     internal String actualText = null;
     internal String altDescription = null;
 
-    private float x = 0f;
-    private float y = 0f;
+    public float x = 0f;
+    public float y = 0f;
     private float w = 0f;
     private float h = 0f;
     private float[] vertices = null;
     private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
     private float transparency = 1f;
+    internal Container container = null;
+
 
     public PolygonAnnotation() {
     }

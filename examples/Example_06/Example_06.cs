@@ -24,6 +24,7 @@ public class Example_06 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Container container = new Container(400f, 400f);
+        container.SetLocation(50f, 50f);
         PDFjet.NET.Rect rect = new PDFjet.NET.Rect();
         rect.SetSize(400f, 400f);
         container.Add(rect);
@@ -53,23 +54,25 @@ public class Example_06 {
         textLine.DrawOn(page);
 
         SquareAnnotation squareAnnotation = new SquareAnnotation();
-        squareAnnotation.SetLocation(50f, 500f);
+        squareAnnotation.SetLocation(0f, 0f);
         squareAnnotation.SetSize(50f, 50f);
         squareAnnotation.SetFillColor(new float[] {0f, 0f, 1f});
         squareAnnotation.SetTransparency(0.5f);
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
         container.Add(squareAnnotation);
+        squareAnnotation.Rotate(90);
         // squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
-        polygonAnnotation.SetLocation(75f, 500f);
+        polygonAnnotation.SetLocation(50f, 0f);
         polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 50f, 50f, 0f, 0f});
         polygonAnnotation.SetFillColor(Color.red);
         polygonAnnotation.SetTransparency(0.5f);
         polygonAnnotation.SetTitle("This is a test ...");
         polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
-        polygonAnnotation.DrawOn(page);
+        container.Add(polygonAnnotation);
+        // polygonAnnotation.DrawOn(page);
 
         TextAnnotation textAnnotation = new TextAnnotation();
         textAnnotation.SetLocation(150f, 500f);

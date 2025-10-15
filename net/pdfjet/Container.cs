@@ -103,7 +103,44 @@ public class Container : IDrawable {
     /// </summary>
     /// <param name="element">The element to add.</param>
     public void Add(IDrawable element) {
+        if (element.GetType() == typeof(SquareAnnotation)) {
+            SquareAnnotation annot = (SquareAnnotation) element;
+            annot.container = this;
+            annot.x += x;
+            annot.y += y;
+            annot.x2 += x;
+            annot.y2 += y;
+        } else if (element.GetType() == typeof(PolygonAnnotation)) {
+            PolygonAnnotation annot = (PolygonAnnotation) element;
+            annot.container = this;
+            annot.SetLocation(annot.x + x, annot.y + y);
+        }
+
         this.elements.Add(element);
+    }
+
+    public static float[] RotateAroundCenter(
+            float x, float y,
+            float cx, float cy,
+            double rotateDegrees) {                     // positive = clockwise on screen
+        double rad = rotateDegrees * Math.PI / 180.0;   // convert to radians
+
+        // translate to centre
+        double dx = (double) (x - cx);
+        double dy = (double) (y - cy);
+
+        // rotate
+        double cos = Math.Cos(rad);
+        double sin = Math.Sin(rad);
+        double dxRot =  dx * cos - dy * sin;
+        double dyRot =  dx * sin + dy * cos;
+
+        // translate back
+        double nx = cx + dxRot;
+        double ny = cy + dyRot;
+Console.WriteLine(nx);
+Console.WriteLine(ny);
+        return new float[] {(float) nx, (float) ny};
     }
 
     /// <summary>

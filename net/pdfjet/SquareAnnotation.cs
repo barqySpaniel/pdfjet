@@ -8,6 +8,11 @@ using System;
 
 namespace PDFjet.NET {
 public class SquareAnnotation : IDrawable {
+    public float x = 0f;
+    public float y = 0f;
+    public float x2 = 0f;
+    public float y2 = 0f;
+
     internal String title = null;
     internal String contents = null;
     internal String uri = null;
@@ -15,13 +20,9 @@ public class SquareAnnotation : IDrawable {
     internal String language = null;
     internal String actualText = null;
     internal String altDescription = null;
-
-    private float x = 0f;
-    private float y = 0f;
-    private float w = 0f;
-    private float h = 0f;
-    private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
-    private float transparency = 1f;
+    internal float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
+    internal float transparency = 1f;
+    internal Container container = null;
 
     public SquareAnnotation() {
     }
@@ -37,8 +38,8 @@ public class SquareAnnotation : IDrawable {
     }
 
     public void SetSize(float w, float h) {
-        this.w = w;
-        this.h = h;
+        this.x2 = x + w;
+        this.y2 = y + h;
     }
 
     public void SetFillColor(float[] fillColor) {
@@ -64,13 +65,23 @@ public class SquareAnnotation : IDrawable {
         this.contents = contents;
     }
 
+    public void Rotate(double rotateDegrees) {
+        float[] rotateCenter = container.GetRotationCenter();
+        float[] xy1 = Container.RotateAroundCenter(x, y, rotateCenter[0], rotateCenter[1], rotateDegrees);
+        float[] xy2 = Container.RotateAroundCenter(x2, y2, rotateCenter[0], rotateCenter[1], rotateDegrees);
+        this.x = xy1[0];
+        this.y = xy1[1];
+        this.x2 = xy2[0];
+        this.y2 = xy2[1];
+    }
+
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 Annotation.Square,
                 x,
                 y,
-                x + w,
-                y + h,
+                x2,
+                y2,
                 null,           // Vertices
                 fillColor,      // Fill Color
                 transparency,   // Transparency
@@ -81,7 +92,7 @@ public class SquareAnnotation : IDrawable {
                 language,
                 actualText,
                 altDescription));
-        return new float[] {x + w, y + h};
+        return new float[] {x2, y2};
     }
 }
 }
