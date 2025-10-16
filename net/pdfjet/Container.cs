@@ -223,7 +223,7 @@ public class Container : IDrawable {
         // 6) Draw children elements
         foreach (IDrawable element in elements) {
             if (element.GetType() == typeof(SquareAnnotation)) {
-                ((SquareAnnotation) element).Rotate(rotateDegrees);
+                ((SquareAnnotation) element).Rotate(-rotateDegrees);
             }
             element.DrawOn(page);
         }
