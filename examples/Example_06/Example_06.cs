@@ -44,7 +44,7 @@ public class Example_06 {
         attachment.DrawOn(page);
 
         TextLine textLine = new TextLine(f1, "pdfjet.com");
-        textLine.SetLocation(300f, 600f);
+        textLine.SetLocation(300f, 618f);
         textLine.SetURIAction("https://pdfjet.com");
         textLine.DrawOn(page);
 
