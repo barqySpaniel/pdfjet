@@ -23,6 +23,39 @@ public class Example_06 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
+
+        // File attachment functionality
+        FileAttachment attachment = new FileAttachment(pdf, file1);
+        attachment.SetLocation(100f, 600f);
+        attachment.SetIconPushPin();
+        attachment.SetIconSize(18f);
+        attachment.SetTitle("Attached File: " + file1.GetFileName());
+        attachment.SetDescription(
+                "Right mouse click on the icon to save the attached file.");
+        attachment.DrawOn(page);
+
+        attachment = new FileAttachment(pdf, file2);
+        attachment.SetLocation(200f, 600f);
+        attachment.SetIconPaperclip();
+        attachment.SetIconSize(18f);
+        attachment.SetTitle("Attached File: " + file2.GetFileName());
+        attachment.SetDescription(
+                "Right mouse click on the icon to save the attached file.");
+        attachment.DrawOn(page);
+
+        TextLine textLine = new TextLine(f1, "pdfjet.com");
+        textLine.SetLocation(300f, 600f);
+        textLine.SetURIAction("https://pdfjet.com");
+        textLine.DrawOn(page);
+
+        TextAnnotation textAnnotation = new TextAnnotation();
+        textAnnotation.SetLocation(400f, 600f);
+        textAnnotation.SetSize(20f, 20f);
+        textAnnotation.SetTitle("Hello");
+        textAnnotation.SetContents("World");
+        textAnnotation.DrawOn(page);
+
+
         Container container = new Container(400f, 400f);
         container.SetLocation(100f, 100f);
         container.AddBorder();
@@ -32,30 +65,6 @@ public class Example_06 {
         rect.SetSize(25f, 25f);
         container.Add(rect);
 
-        // File attachment functionality
-        FileAttachment attachment = new FileAttachment(pdf, file1);
-        attachment.SetLocation(100f, 300f);
-        attachment.SetIconPushPin();
-        attachment.SetIconSize(18f);
-        attachment.SetTitle("Attached File: " + file1.GetFileName());
-        attachment.SetDescription(
-                "Right mouse click on the icon to save the attached file.");
-        attachment.DrawOn(page);
-
-        attachment = new FileAttachment(pdf, file2);
-        attachment.SetLocation(200f, 300f);
-        attachment.SetIconPaperclip();
-        attachment.SetIconSize(18f);
-        attachment.SetTitle("Attached File: " + file2.GetFileName());
-        attachment.SetDescription(
-                "Right mouse click on the icon to save the attached file.");
-        attachment.DrawOn(page);
-
-        TextLine textLine = new TextLine(f1, "pdfjet.com");
-        textLine.SetLocation(50f, 400f);
-        textLine.SetURIAction("https://pdfjet.com");
-        textLine.DrawOn(page);
-
         SquareAnnotation squareAnnotation = new SquareAnnotation();
         squareAnnotation.SetLocation(0f, 0f);
         squareAnnotation.SetSize(50f, 50f);
@@ -64,24 +73,15 @@ public class Example_06 {
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
         container.Add(squareAnnotation);
-        // squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
         polygonAnnotation.SetLocation(0f, 0f);
-        polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 50f, 50f, 0f, 0f});
+        polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 0f, 50f, 0f, 0f});
         polygonAnnotation.SetFillColor(Color.red);
         polygonAnnotation.SetTransparency(0.5f);
         polygonAnnotation.SetTitle("This is a test ...");
         polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
         container.Add(polygonAnnotation);
-        // polygonAnnotation.DrawOn(page);
-
-        TextAnnotation textAnnotation = new TextAnnotation();
-        textAnnotation.SetLocation(150f, 500f);
-        textAnnotation.SetSize(20f, 20f);
-        textAnnotation.SetTitle("Hello");
-        textAnnotation.SetContents("World");
-        textAnnotation.DrawOn(page);
 
         container.DrawOn(page);
 

@@ -127,7 +127,10 @@ public class Container : IDrawable {
         } else if (element.GetType() == typeof(PolygonAnnotation)) {
             PolygonAnnotation annot = (PolygonAnnotation) element;
             annot.container = this;
-            annot.SetLocation(annot.x + x, annot.y + y);
+            annot.x += x;
+            annot.y += y;
+            annot.x2 += x;
+            annot.y2 += y;
         }
 
         this.elements.Add(element);
@@ -227,7 +230,6 @@ public class Container : IDrawable {
             } else if (element.GetType() == typeof(PolygonAnnotation)) {
                 ((PolygonAnnotation) element).Rotate(-rotateDegrees);
             }
-
             element.DrawOn(page);
         }
 

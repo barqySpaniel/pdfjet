@@ -5,6 +5,7 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 using System;
+using System.Collections.Generic;
 
 namespace PDFjet.NET {
 public class PolygonAnnotation : IDrawable {
@@ -22,8 +23,6 @@ public class PolygonAnnotation : IDrawable {
     internal String altDescription = null;
     internal Container container = null;
 
-//    private float w = 0f;
-//    private float h = 0f;
     private float[] vertices = null;
     private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
     private float transparency = 1f;
@@ -81,6 +80,15 @@ public class PolygonAnnotation : IDrawable {
         this.y = xy1[1];
         this.x2 = xy2[0];
         this.y2 = xy2[1];
+
+//        List<float> list = new List<float>();
+//        for (int i = 0; i < vertices.Length; i += 2) {
+//            float[] xy = Container.RotateAroundCenter(
+//                vertices[i], vertices[i + 1], rotateCenter[0], rotateCenter[1], rotateDegrees);
+//            list.Add(xy[0]);
+//            list.Add(xy[1]);
+//        }
+//        vertices = list.ToArray();
     }
 
     public float[] DrawOn(Page page) {
