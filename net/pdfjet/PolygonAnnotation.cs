@@ -81,14 +81,14 @@ public class PolygonAnnotation : IDrawable {
         this.x2 = xy2[0];
         this.y2 = xy2[1];
 
-//        List<float> list = new List<float>();
-//        for (int i = 0; i < vertices.Length; i += 2) {
-//            float[] xy = Container.RotateAroundCenter(
-//                vertices[i], vertices[i + 1], rotateCenter[0], rotateCenter[1], rotateDegrees);
-//            list.Add(xy[0]);
-//            list.Add(xy[1]);
-//        }
-//        vertices = list.ToArray();
+        List<float> list = new List<float>();
+        for (int i = 0; i < vertices.Length; i += 2) {
+            float[] xy = Container.RotateAroundCenter(
+                vertices[i], vertices[i + 1], 0f, 0f, rotateDegrees);
+            list.Add(xy[0]);
+            list.Add(xy[1]);
+        }
+        vertices = list.ToArray();
     }
 
     public float[] DrawOn(Page page) {
