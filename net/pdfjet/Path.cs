@@ -265,6 +265,18 @@ public class Path : IDrawable {
         closePath = true;
     }
 
+    public int GetPointCount() {
+        return points.Count;
+    }
+
+    public Point GetLastPoint() {
+        if (points.Count > 0) {
+            return points[points.Count - 1];
+        } else {
+            return null;
+        }
+    }
+
     /**
      *  Draws this path on the page using the current selected color, pen width, line pattern and line join style.
      *

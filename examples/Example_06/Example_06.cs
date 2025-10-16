@@ -25,10 +25,8 @@ public class Example_06 {
 
         Container container = new Container(400f, 400f);
         container.SetLocation(100f, 100f);
-        PDFjet.NET.Rect rect = new PDFjet.NET.Rect();
-        rect.SetSize(400f, 400f);
-        container.Add(rect);
-        container.Rotate(180);
+        container.AddBorder();
+        container.Rotate(270);
 
         // File attachment functionality
         FileAttachment attachment = new FileAttachment(pdf, file1);

@@ -102,6 +102,16 @@ public class Container : IDrawable {
         this.scaleY = sy;
     }
 
+    public void AddBorder() {
+        Rect rect = new Rect();
+        rect.SetSize(width, height);
+        this.Add(rect);
+    }
+
+    public List<IDrawable> GetElements() {
+        return this.elements;
+    }
+
     /// <summary>
     /// Adds a drawable element to this container.
     /// </summary>
@@ -142,8 +152,7 @@ public class Container : IDrawable {
         // translate back
         double nx = cx + dxRot;
         double ny = cy + dyRot;
-Console.WriteLine(nx);
-Console.WriteLine(ny);
+
         return new float[] {(float) nx, (float) ny};
     }
 
