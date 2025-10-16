@@ -60,6 +60,10 @@ public class Container : IDrawable {
         this.rotateDegrees = (float)degrees;
     }
 
+    public void Rotate(double degrees) {
+        this.rotateDegrees = (float)degrees;
+    }
+
     /// <summary>
     /// Sets clockwise rotation.
     /// </summary>
@@ -209,6 +213,9 @@ Console.WriteLine(ny);
 
         // 6) Draw children elements
         foreach (IDrawable element in elements) {
+            if (element.GetType() == typeof(SquareAnnotation)) {
+                ((SquareAnnotation) element).Rotate(rotateDegrees);
+            }
             element.DrawOn(page);
         }
 

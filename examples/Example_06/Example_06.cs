@@ -24,10 +24,11 @@ public class Example_06 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Container container = new Container(400f, 400f);
-        container.SetLocation(50f, 50f);
+        container.SetLocation(100f, 100f);
         PDFjet.NET.Rect rect = new PDFjet.NET.Rect();
         rect.SetSize(400f, 400f);
         container.Add(rect);
+        container.Rotate(180);
 
         // File attachment functionality
         FileAttachment attachment = new FileAttachment(pdf, file1);
@@ -61,7 +62,6 @@ public class Example_06 {
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
         container.Add(squareAnnotation);
-        squareAnnotation.Rotate(90);
         // squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
