@@ -72,7 +72,7 @@ public class Example_06 {
         squareAnnotation.SetTransparency(0.5f);
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
-        container.Add(squareAnnotation);
+        // container.Add(squareAnnotation);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
         polygonAnnotation.SetLocation(0f, 0f);
