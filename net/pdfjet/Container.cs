@@ -224,7 +224,10 @@ public class Container : IDrawable {
         foreach (IDrawable element in elements) {
             if (element.GetType() == typeof(SquareAnnotation)) {
                 ((SquareAnnotation) element).Rotate(-rotateDegrees);
+            } else if (element.GetType() == typeof(PolygonAnnotation)) {
+                ((PolygonAnnotation) element).Rotate(-rotateDegrees);
             }
+
             element.DrawOn(page);
         }
 

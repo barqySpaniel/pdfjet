@@ -67,7 +67,7 @@ public class Example_06 {
         // squareAnnotation.DrawOn(page);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
-        polygonAnnotation.SetLocation(50f, 0f);
+        polygonAnnotation.SetLocation(0f, 0f);
         polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 50f, 50f, 0f, 0f});
         polygonAnnotation.SetFillColor(Color.red);
         polygonAnnotation.SetTransparency(0.5f);
