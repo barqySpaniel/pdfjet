@@ -142,15 +142,12 @@ public class Container : IDrawable {
         this.elements.Add(element);
     }
 
-    public static float[] RotateAroundCenter(
-            float x, float y,
-            float[] center,
-            double degrees) {                   // positive = clockwise on screen
+    public static float[] RotateAroundCenter(float[] point, float[] center, double degrees) {
         double rad = degrees * Math.PI / 180.0; // convert to radians
 
         // translate to centre
-        double dx = (double) (x - center[0]);
-        double dy = (double) (y - center[1]);
+        double dx = (double) (point[0] - center[0]);
+        double dy = (double) (point[1] - center[1]);
 
         // rotate
         double cos = Math.Cos(rad);

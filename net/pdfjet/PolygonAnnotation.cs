@@ -19,17 +19,17 @@ public class PolygonAnnotation : BaseAnnotation {
 
     public void Rotate(double degrees) {
         float[] center = container.GetRotationCenter();
-        float[] xy1 = Container.RotateAroundCenter(x1, y1, center, degrees);
-        float[] xy2 = Container.RotateAroundCenter(x2, y2, center, degrees);
-        this.x1 = xy1[0];
-        this.y1 = xy1[1];
-        this.x2 = xy2[0];
-        this.y2 = xy2[1];
+        float[] point1 = Container.RotateAroundCenter(new float[] {x1, y1}, center, degrees);
+        float[] point2 = Container.RotateAroundCenter(new float[] {x2, y2}, center, degrees);
+        this.x1 = point1[0];
+        this.y1 = point1[1];
+        this.x2 = point2[0];
+        this.y2 = point2[1];
 
         List<float> list = new List<float>();
         for (int i = 0; i < vertices.Length; i += 2) {
             float[] xy = Container.RotateAroundCenter(
-                base.vertices[i], base.vertices[i + 1], new float[] {0f, 0f}, degrees);
+                new float[] {base.vertices[i], base.vertices[i + 1]}, new float[] {0f, 0f}, degrees);
             list.Add(xy[0]);
             list.Add(xy[1]);
         }
