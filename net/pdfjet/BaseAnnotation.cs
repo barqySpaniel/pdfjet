@@ -20,8 +20,10 @@ public class BaseAnnotation : IDrawable {
     internal String actualText = null;
     internal String altDescription = null;
     internal float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
+    internal float[] vertices = null;
     internal float transparency = 1f;
     internal Container container = null;
+    internal String annotationType = null;
 
     public BaseAnnotation() {
     }
@@ -64,24 +66,14 @@ public class BaseAnnotation : IDrawable {
         this.contents = contents;
     }
 
-    public void Rotate(double degrees) {
-        float[] center = container.GetRotationCenter();
-        float[] xy1 = Container.RotateAroundCenter(x1, y1, center[0], center[1], degrees);
-        float[] xy2 = Container.RotateAroundCenter(x2, y2, center[0], center[1], degrees);
-        this.x1 = xy1[0];
-        this.y1 = xy1[1];
-        this.x2 = xy2[0];
-        this.y2 = xy2[1];
-    }
-
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
-                Annotation.Square,
+                annotationType,
                 x1,
                 y1,
                 x2,
                 y2,
-                null,           // Vertices
+                vertices,       // Vertices
                 fillColor,      // Fill Color
                 transparency,   // Transparency
                 title,          // Title
