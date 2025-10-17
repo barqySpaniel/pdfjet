@@ -8,10 +8,12 @@ using System;
 
 namespace PDFjet.NET {
 public class BaseAnnotation : IDrawable {
-    internal float x1 = 0f;
-    internal float y1 = 0f;
-    internal float x2 = 0f;
-    internal float y2 = 0f;
+    internal String annotationType = null;
+    internal float[] point1 = new float[] {0f, 0f};
+    internal float[] point2 = new float[] {0f, 0f};
+    internal float[] vertices = null;
+    internal float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
+    internal float transparency = 1f;
     internal String title = null;
     internal String contents = null;
     internal String uri = null;
@@ -19,28 +21,21 @@ public class BaseAnnotation : IDrawable {
     internal String language = null;
     internal String actualText = null;
     internal String altDescription = null;
-    internal float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
-    internal float[] vertices = null;
-    internal float transparency = 1f;
     internal Container container = null;
-    internal String annotationType = null;
 
     public BaseAnnotation() {
     }
 
     public void SetLocation(float x, float y) {
-        this.x1 = x;
-        this.y1 = y;
+        this.point1 = new float[] {x, y};
     }
 
     public void SetPosition(float x, float y) {
-        this.x1 = x;
-        this.y1 = y;
+        this.point1 = new float[] {x, y};
     }
 
     public void SetSize(float w, float h) {
-        this.x2 = x1 + w;
-        this.y2 = y1 + h;
+        this.point2 = new float[] {point1[0] + w, point1[1] + h};
     }
 
     public void SetFillColor(float[] fillColor) {
@@ -69,10 +64,10 @@ public class BaseAnnotation : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 annotationType,
-                x1,
-                y1,
-                x2,
-                y2,
+                point1[0],
+                point1[1],
+                point2[0],
+                point2[1],
                 vertices,       // Vertices
                 fillColor,      // Fill Color
                 transparency,   // Transparency
@@ -83,7 +78,7 @@ public class BaseAnnotation : IDrawable {
                 language,
                 actualText,
                 altDescription));
-        return new float[] {x2, y2};
+        return new float[] {point2[0], point2[1]};
     }
 }
 }

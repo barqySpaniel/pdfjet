@@ -120,24 +120,24 @@ public class Container : IDrawable {
         if (element.GetType() == typeof(SquareAnnotation)) {
             SquareAnnotation annot = (SquareAnnotation) element;
             annot.container = this;
-            annot.x1 += x;
-            annot.y1 += y;
-            annot.x2 += x;
-            annot.y2 += y;
+            annot.point1[0] += x;
+            annot.point1[1] += y;
+            annot.point2[0] += x;
+            annot.point2[1] += y;
         } else if (element.GetType() == typeof(CircleAnnotation)) {
             CircleAnnotation annot = (CircleAnnotation) element;
             annot.container = this;
-            annot.x1 += x;
-            annot.y1 += y;
-            annot.x2 += x;
-            annot.y2 += y;
+            annot.point1[0] += x;
+            annot.point1[1] += y;
+            annot.point2[0] += x;
+            annot.point2[1] += y;
         } else if (element.GetType() == typeof(PolygonAnnotation)) {
             PolygonAnnotation annot = (PolygonAnnotation) element;
             annot.container = this;
-            annot.x1 += x;
-            annot.y1 += y;
-            annot.x2 += x;
-            annot.y2 += y;
+            annot.point1[0] += x;
+            annot.point1[1] += y;
+            annot.point2[0] += x;
+            annot.point2[1] += y;
         }
         this.elements.Add(element);
     }
