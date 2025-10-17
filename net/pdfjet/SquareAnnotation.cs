@@ -8,11 +8,10 @@ using System;
 
 namespace PDFjet.NET {
 public class SquareAnnotation : IDrawable {
-    public float x = 0f;
-    public float y = 0f;
-    public float x2 = 0f;
-    public float y2 = 0f;
-
+    internal float x1 = 0f;
+    internal float y1 = 0f;
+    internal float x2 = 0f;
+    internal float y2 = 0f;
     internal String title = null;
     internal String contents = null;
     internal String uri = null;
@@ -28,18 +27,18 @@ public class SquareAnnotation : IDrawable {
     }
 
     public void SetLocation(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.x1 = x;
+        this.y1 = y;
     }
 
     public void SetPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
+        this.x1 = x;
+        this.y1 = y;
     }
 
     public void SetSize(float w, float h) {
-        this.x2 = x + w;
-        this.y2 = y + h;
+        this.x2 = x1 + w;
+        this.y2 = y1 + h;
     }
 
     public void SetFillColor(float[] fillColor) {
@@ -67,10 +66,10 @@ public class SquareAnnotation : IDrawable {
 
     public void Rotate(double rotateDegrees) {
         float[] rotateCenter = container.GetRotationCenter();
-        float[] xy1 = Container.RotateAroundCenter(x, y, rotateCenter[0], rotateCenter[1], rotateDegrees);
+        float[] xy1 = Container.RotateAroundCenter(x1, y1, rotateCenter[0], rotateCenter[1], rotateDegrees);
         float[] xy2 = Container.RotateAroundCenter(x2, y2, rotateCenter[0], rotateCenter[1], rotateDegrees);
-        this.x = xy1[0];
-        this.y = xy1[1];
+        this.x1 = xy1[0];
+        this.y1 = xy1[1];
         this.x2 = xy2[0];
         this.y2 = xy2[1];
     }
@@ -78,8 +77,8 @@ public class SquareAnnotation : IDrawable {
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 Annotation.Square,
-                x,
-                y,
+                x1,
+                y1,
                 x2,
                 y2,
                 null,           // Vertices

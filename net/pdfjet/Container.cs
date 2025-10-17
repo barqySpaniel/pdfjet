@@ -120,15 +120,15 @@ public class Container : IDrawable {
         if (element.GetType() == typeof(SquareAnnotation)) {
             SquareAnnotation annot = (SquareAnnotation) element;
             annot.container = this;
-            annot.x += x;
-            annot.y += y;
+            annot.x1 += x;
+            annot.y1 += y;
             annot.x2 += x;
             annot.y2 += y;
         } else if (element.GetType() == typeof(PolygonAnnotation)) {
             PolygonAnnotation annot = (PolygonAnnotation) element;
             annot.container = this;
-            annot.x += x;
-            annot.y += y;
+            annot.x1 += x;
+            annot.y1 += y;
             annot.x2 += x;
             annot.y2 += y;
         }
