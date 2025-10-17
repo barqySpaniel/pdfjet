@@ -13,8 +13,8 @@ public class Example_06 {
                 new FileStream("Example_06.pdf", FileMode.Create)));
         pdf.SetTitle("Annotation Examples");
         pdf.SetAuthor("ED");
-        pdf.SetSubject("Example");
-        pdf.SetKeywords("Hello World This is a test");
+        pdf.SetSubject("Annotations");
+        pdf.SetKeywords("Annotation Square Polygon");
 
         Font f1 = new Font(pdf, IBMPlexSans.Regular);
 
@@ -22,7 +22,6 @@ public class Example_06 {
         EmbeddedFile file2 = new EmbeddedFile(pdf, "examples/Example_02/Example_02.cs", Compress.YES);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
-
 
         // File attachment functionality
         FileAttachment attachment = new FileAttachment(pdf, file1);
