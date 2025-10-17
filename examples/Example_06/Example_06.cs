@@ -55,24 +55,24 @@ public class Example_06 {
         textAnnotation.SetContents("World");
         textAnnotation.DrawOn(page);
 
-
         Container container = new Container(400f, 400f);
         container.SetLocation(100f, 100f);
         container.AddBorder();
-        container.Rotate(-180);
+        container.Rotate(-90);
+        // container.Rotate(-180);
 
         Rect rect = new Rect();
         rect.SetSize(25f, 25f);
         container.Add(rect);
 
         SquareAnnotation squareAnnotation = new SquareAnnotation();
-        squareAnnotation.SetLocation(0f, 0f);
+        squareAnnotation.SetLocation(25f, 0f);
         squareAnnotation.SetSize(50f, 50f);
         squareAnnotation.SetFillColor(new float[] {0f, 0f, 1f});
         squareAnnotation.SetTransparency(0.5f);
         squareAnnotation.SetTitle("Hello, World!");
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
-        // container.Add(squareAnnotation);
+        container.Add(squareAnnotation);
 
         PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
         polygonAnnotation.SetLocation(0f, 0f);

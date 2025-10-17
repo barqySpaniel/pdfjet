@@ -132,7 +132,6 @@ public class Container : IDrawable {
             annot.x2 += x;
             annot.y2 += y;
         }
-
         this.elements.Add(element);
     }
 
