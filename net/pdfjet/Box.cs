@@ -68,16 +68,6 @@ public class Box : IDrawable {
      *  @param x the x coordinate of the top left corner of this box when drawn on the page.
      *  @param y the y coordinate of the top left corner of this box when drawn on the page.
      */
-//    public void SetPosition(double x, double y) {
-//        SetPosition((float) x, (float) y);
-//    }
-
-    /**
-     *  Sets the position of this box on the page.
-     *
-     *  @param x the x coordinate of the top left corner of this box when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this box when drawn on the page.
-     */
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
     }
