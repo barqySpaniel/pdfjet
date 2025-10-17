@@ -64,6 +64,15 @@ public class Example_06 {
         rect.SetSize(25f, 25f);
         container.Add(rect);
 
+        PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
+        polygonAnnotation.SetLocation(0f, 0f);
+        polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 0f, 50f, 0f, 0f});
+        polygonAnnotation.SetFillColor(Color.red);
+        polygonAnnotation.SetTransparency(0.5f);
+        polygonAnnotation.SetTitle("This is a test ...");
+        polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
+        container.Add(polygonAnnotation);
+
         SquareAnnotation squareAnnotation = new SquareAnnotation();
         squareAnnotation.SetLocation(25f, 0f);
         squareAnnotation.SetSize(50f, 50f);
@@ -73,14 +82,14 @@ public class Example_06 {
         squareAnnotation.SetContents("The quick brown fox jumps over the lazy dog.");
         container.Add(squareAnnotation);
 
-        PolygonAnnotation polygonAnnotation = new PolygonAnnotation();
-        polygonAnnotation.SetLocation(0f, 0f);
-        polygonAnnotation.SetVertices(new float[] {0f, 0f, 50f, 0f, 0f, 50f, 0f, 0f});
-        polygonAnnotation.SetFillColor(Color.red);
-        polygonAnnotation.SetTransparency(0.5f);
-        polygonAnnotation.SetTitle("This is a test ...");
-        polygonAnnotation.SetContents("The quick brown cat caught the lazy mouse.");
-        container.Add(polygonAnnotation);
+        CircleAnnotation circleAnnotation = new CircleAnnotation();
+        circleAnnotation.SetLocation(50f, 0f);
+        circleAnnotation.SetSize(50f, 50f);
+        circleAnnotation.SetFillColor(new float[] {0f, 0f, 1f});
+        circleAnnotation.SetTransparency(0.5f);
+        circleAnnotation.SetTitle("Circle");
+        circleAnnotation.SetContents("Annotation");
+        container.Add(circleAnnotation);
 
         container.DrawOn(page);
 

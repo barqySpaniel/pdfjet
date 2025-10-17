@@ -932,7 +932,8 @@ public class PDF {
                 Append(Util.ToHexString(contents));
                 Append(">\n");
             }
-        } else if (annot.annotationType.Equals(Annotation.Square)) {
+        } else if (annot.annotationType.Equals(Annotation.Square) ||
+                annot.annotationType.Equals(Annotation.Circle)) {
             Append("/IC [");
             Append(annot.fillColor[0]);
             Append(' ');

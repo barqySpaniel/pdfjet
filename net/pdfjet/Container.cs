@@ -124,6 +124,13 @@ public class Container : IDrawable {
             annot.y1 += y;
             annot.x2 += x;
             annot.y2 += y;
+        } else if (element.GetType() == typeof(CircleAnnotation)) {
+            CircleAnnotation annot = (CircleAnnotation) element;
+            annot.container = this;
+            annot.x1 += x;
+            annot.y1 += y;
+            annot.x2 += x;
+            annot.y2 += y;
         } else if (element.GetType() == typeof(PolygonAnnotation)) {
             PolygonAnnotation annot = (PolygonAnnotation) element;
             annot.container = this;
@@ -226,6 +233,8 @@ public class Container : IDrawable {
         foreach (IDrawable element in elements) {
             if (element.GetType() == typeof(SquareAnnotation)) {
                 ((SquareAnnotation) element).Rotate(-rotateDegrees);
+            } else if (element.GetType() == typeof(CircleAnnotation)) {
+                ((CircleAnnotation) element).Rotate(-rotateDegrees);
             } else if (element.GetType() == typeof(PolygonAnnotation)) {
                 ((PolygonAnnotation) element).Rotate(-rotateDegrees);
             }
