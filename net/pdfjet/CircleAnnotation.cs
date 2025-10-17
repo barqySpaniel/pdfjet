@@ -14,8 +14,8 @@ public class CircleAnnotation : BaseAnnotation {
 
     public void Rotate(double degrees) {
         float[] center = container.GetRotationCenter();
-        float[] xy1 = Container.RotateAroundCenter(x1, y1, center[0], center[1], degrees);
-        float[] xy2 = Container.RotateAroundCenter(x2, y2, center[0], center[1], degrees);
+        float[] xy1 = Container.RotateAroundCenter(x1, y1, center, degrees);
+        float[] xy2 = Container.RotateAroundCenter(x2, y2, center, degrees);
         this.x1 = xy1[0];
         this.y1 = xy1[1];
         this.x2 = xy2[0];
