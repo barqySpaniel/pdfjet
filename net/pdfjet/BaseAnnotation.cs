@@ -64,10 +64,10 @@ public class BaseAnnotation : IDrawable {
         this.contents = contents;
     }
 
-    public void Rotate(double rotateDegrees) {
-        float[] rotateCenter = container.GetRotationCenter();
-        float[] xy1 = Container.RotateAroundCenter(x1, y1, rotateCenter[0], rotateCenter[1], rotateDegrees);
-        float[] xy2 = Container.RotateAroundCenter(x2, y2, rotateCenter[0], rotateCenter[1], rotateDegrees);
+    public void Rotate(double degrees) {
+        float[] center = container.GetRotationCenter();
+        float[] xy1 = Container.RotateAroundCenter(x1, y1, center[0], center[1], degrees);
+        float[] xy2 = Container.RotateAroundCenter(x2, y2, center[0], center[1], degrees);
         this.x1 = xy1[0];
         this.y1 = xy1[1];
         this.x2 = xy2[0];
