@@ -171,12 +171,18 @@ public class RadioButton implements Drawable {
 
         if (uri != null) {
             page.addAnnotation(new Annotation(
-                    uri,
-                    null,
+                    Annotation.Link,
                     x + 3*r1,
                     y,
-                    x + 3*r1 + font.stringWidth(label),
-                    y + font.bodyHeight,
+                    x + 3*r1 + font.stringWidth(label), // TODO:
+                    y + font.getBodyHeight(),           // y + font.getBodyHeight(fontSize),
+                    null,   // Vertices
+                    null,   // Fill Color
+                    0f,     // Transparency
+                    null,   // Title
+                    null,   // Contents
+                    uri,
+                    null,
                     language,
                     actualText,
                     altDescription));

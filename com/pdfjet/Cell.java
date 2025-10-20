@@ -598,12 +598,18 @@ public class Cell {
             page.setBrushColor(point.getColor());
             if (point.getURIAction() != null) {
                 page.addAnnotation(new Annotation(
-                        point.getURIAction(),
-                        null,
+                        Annotation.Link,
                         point.x - point.r,
                         point.y - point.r,
                         point.x + point.r,
                         point.y + point.r,
+                        null,   // Vertices
+                        null,   // Fill Color
+                        0f,     // Transparency
+                        null,   // Title
+                        null,   // Contents
+                        point.getURIAction(),
+                        null,
                         null,
                         null,
                         null));
@@ -750,12 +756,18 @@ public class Cell {
             float w = (compositeTextLine != null) ?
                     compositeTextLine.getWidth() : font.stringWidth(text);
             page.addAnnotation(new Annotation(
+                    Annotation.Link,
+                    xText,
+                    (page.height - yText) - font.getAscent(), // (page.height - yText) - font.GetAscent(fontSize),
+                    xText + w,
+                    (page.height - yText) + font.getDescent(),
+                    null,       // Vertices
+                    null,       // Fill Color
+                    0f,         // Transparency
+                    null,       // Title
+                    null,       // Contents
                     uri,
                     null,
-                    xText,
-                    yText - font.ascent,
-                    xText + w,
-                    yText + font.descent,
                     null,
                     null,
                     null));

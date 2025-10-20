@@ -585,12 +585,18 @@ public class TextLine implements Drawable {
 
         if (uri != null || key != null) {
             page.addAnnotation(new Annotation(
+                    Annotation.Link,
+                    x,
+                    y - font.getAscent(),       // TODO: font.getAscent(fontSize)
+                    x + font.stringWidth(fallbackFont, text),
+                    y + font.getDescent(),
+                    null,   // Vertices
+                    null,   // Fill Color
+                    0f,     // Transparency
+                    null,   // Title
+                    null,   // Contents
                     uri,
                     key,    // The destination name
-                    x,
-                    y - font.ascent,
-                    x + font.stringWidth(fallbackFont, text),
-                    y + font.descent,
                     uriLanguage,
                     uriActualText,
                     uriAltDescription));

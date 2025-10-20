@@ -314,12 +314,18 @@ public class TextColumn implements Drawable {
 
                 if (textLine.getGoToAction() != null) {
                     page.addAnnotation(new Annotation(
+                            Annotation.Link,
+                            x,
+                            y - textLine.font.getAscent(),
+                            x + textLine.font.stringWidth(textLine.fallbackFont, textLine.text),
+                            y + textLine.font.getDescent(),
+                            null,                       // Vertices
+                            null,                       // Fill Color
+                            0f,                         // Transparency
+                            null,                       // Title
+                            null,                       // Contents
                             null,                       // The URI
                             textLine.getGoToAction(),   // The destination name
-                            x,
-                            y - textLine.font.ascent,
-                            x + textLine.font.stringWidth(textLine.fallbackFont, textLine.text),
-                            y + textLine.font.descent,
                             null,
                             null,
                             null));
@@ -380,12 +386,18 @@ public class TextColumn implements Drawable {
             textLine.setLocation(x1, y1 + textLine.getVerticalOffset());
             if (textLine.getGoToAction() != null) {
                 page.addAnnotation(new Annotation(
+                        Annotation.Link,
+                        x,
+                        y - textLine.font.getAscent(),
+                        x + textLine.font.stringWidth(textLine.fallbackFont, textLine.text),
+                        y + textLine.font.getDescent(),
+                        null,                       // Vertices
+                        null,                       // Fill Color
+                        0f,                         // Transparency
+                        null,                       // Title
+                        null,                       // Contents
                         null,                       // The URI
                         textLine.getGoToAction(),   // The destination name
-                        x,
-                        y - textLine.font.ascent,
-                        x + textLine.font.stringWidth(textLine.fallbackFont, textLine.text),
-                        y + textLine.font.descent,
                         null,
                         null,
                         null));

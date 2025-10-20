@@ -885,12 +885,18 @@ public class TextBox implements Drawable {
             drawBorders(page);
             if (textDirection == Direction.LEFT_TO_RIGHT && (uri != null || key != null)) {
                 page.addAnnotation(new Annotation(
-                        uri,
-                        key,    // The destination name
+                        Annotation.Link,
                         x,
                         y,
                         x + width,
                         y + height,
+                        null,   // Vertices
+                        null,   // Fill Color
+                        0f,     // Transparency
+                        null,   // Title
+                        null,   // Contents
+                        uri,
+                        key,    // The destination name
                         uriLanguage,
                         uriActualText,
                         uriAltDescription));

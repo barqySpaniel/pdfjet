@@ -249,12 +249,18 @@ public class CheckBox implements Drawable {
 
         if (uri != null) {  // TODO: BMC and EMC here!
             page.addAnnotation(new Annotation(
-                    uri,
-                    null,
+                    Annotation.Link,
                     x + 3f*w/2f,
                     y,
                     x + 3f*w/2f + font.stringWidth(label),
-                    y + font.bodyHeight,
+                    y + font.getBodyHeight(),       // TODO: Use fontSize
+                    null,       // Vertices
+                    null,       // Fill Color
+                    0f,         // Transparency
+                    null,       // Title
+                    null,       // Contents
+                    uri,
+                    null,
                     language,
                     actualText,
                     altDescription));

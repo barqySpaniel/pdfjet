@@ -248,12 +248,18 @@ public class Rect {
 
         if (this.uri != null || this.key != null) {
             page.addAnnotation(new Annotation(
-                this.uri,
-                this.key, // The destination name
+                Annotation.Link,
                 this.x,
                 this.y,
                 this.x + this.w,
                 this.y + this.h,
+                null,       // Vertices
+                null,       // Fill Color
+                0f,         // Transparency
+                null,       // Title
+                null,       // Contents
+                this.uri,
+                this.key,
                 this.language,
                 this.actualText,
                 this.altDescription));

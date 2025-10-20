@@ -8,7 +8,6 @@ package com.pdfjet;
 
 /**
  *  Used to attach file objects.
- *
  */
 public class FileAttachment implements Drawable {
     protected PDF pdf;
@@ -121,12 +120,18 @@ public class FileAttachment implements Drawable {
      */
     public float[] drawOn(Page page) throws Exception {
         Annotation annotation = new Annotation(
-                null,
-                null,
+                Annotation.FileAttachment,
                 x,
                 y,
                 x + h,
                 y + h,
+                null,   // Vertices
+                null,   // Fill Color
+                0f,     // Transparency
+                null,   // Title
+                null,   // Contents
+                null,
+                null,
                 null,
                 null,
                 null);

@@ -8,49 +8,74 @@ package com.pdfjet;
 
 /**
  *  Used to create PDF annotation objects.
- *
  */
 class Annotation {
-    protected int objNumber;
-    protected String uri;
-    protected String key;
-    protected float x1;
-    protected float y1;
-    protected float x2;
-    protected float y2;
-    protected String language = null;
-    protected String actualText = null;
-    protected String altDescription = null;
-    protected String contents = "TODO";
-    protected FileAttachment fileAttachment = null;
+    public static final String Link = "Link";
+    public static final String FileAttachment = "FileAttachment";
+    public static final String Polygon = "Polygon";
+    public static final String Popup = "Popup";
+    public static final String Circle = "Circle";
+    public static final String Square = "Square";
+    public static final String Text = "Text";
+
+    int objNumber;
+    String annotationType = null;
+    float x1 = 0f;
+    float y1 = 0f;
+    float x2 = 0f;
+    float y2 = 0f;
+    float[] vertices = null;
+    float[] fillColor = null;
+    float transparency = 0f;
+    String title = null;
+    String contents = null;
+    String uri = null;
+    String key = null;
+    String language = null;
+    String actualText = null;
+    String altDescription = null;
+    FileAttachment fileAttachment = null;
 
     /**
      *  This class is used to create annotation objects.
      *
-     *  @param uri the URI string.
-     *  @param key the destination name.
+     *  @param annotationType the annotation type.
      *  @param x1 the x coordinate of the top left corner.
      *  @param y1 the y coordinate of the top left corner.
      *  @param x2 the x coordinate of the bottom right corner.
      *  @param y2 the y coordinate of the bottom right corner.
-     *
+     *  @param vertices the polygon annotation vertices.
+     *  @param uri the URI string.
+     *  @param key the destination name.
      */
-    protected Annotation(
-            String uri,
-            String key,
+    Annotation(
+            String annotationType,
             float x1,
             float y1,
             float x2,
             float y2,
+            float[] vertices,
+            float[] fillColor,
+            float transparency,
+            String title,
+            String contents,
+            String uri,
+            String key,
             String language,
             String actualText,
             String altDescription) {
-        this.uri = uri;
-        this.key = key;
+        this.annotationType = annotationType;
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.vertices = vertices;
+        this.fillColor = fillColor;
+        this.transparency = transparency;
+        this.title = title;
+        this.contents = contents;
+        this.uri = uri;
+        this.key = key;
         this.language = language;
         this.actualText = (actualText == null) ? uri : actualText;
         this.altDescription = (altDescription == null) ? uri : altDescription;

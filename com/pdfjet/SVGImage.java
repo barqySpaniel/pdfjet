@@ -297,12 +297,18 @@ public class SVGImage {
         page.addEMC();
         if (uri != null || key != null) {
             page.addAnnotation(new Annotation(
-                    uri,
-                    key,    // The destination name
+                    Annotation.Link,
                     x,
                     y,
                     x + w,
                     y + h,
+                    null,   // Vertices
+                    null,   // Fill Color
+                    0f,     // Transparency
+                    null,   // Title
+                    null,   // Contents
+                    uri,
+                    key,    // The destination name
                     language,
                     actualText,
                     altDescription));

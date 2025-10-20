@@ -355,12 +355,18 @@ public class Chart implements Drawable {
                 }
                 if (point.getURIAction() != null) {
                     page.addAnnotation(new Annotation(
-                            point.getURIAction(),
-                            null,
+                            Annotation.Link,
                             point.x - point.r,
                             point.y - point.r,
                             point.x + point.r,
                             point.y + point.r,
+                            null,   // Vertices
+                            null,   // Fill Color
+                            0f,     // Transparency
+                            null,   // Title
+                            null,   // Contents
+                            point.getURIAction(),
+                            null,
                             null,
                             null,
                             null));
