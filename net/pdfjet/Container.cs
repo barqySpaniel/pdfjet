@@ -138,6 +138,13 @@ public class Container : IDrawable {
             annot.point1[1] += y;
             annot.point2[0] += x;
             annot.point2[1] += y;
+        } else if (element.GetType() == typeof(TextAnnotation)) {
+            TextAnnotation annot = (TextAnnotation) element;
+            annot.container = this;
+            annot.point1[0] += x;
+            annot.point1[1] += y;
+            annot.point2[0] += x;
+            annot.point2[1] += y;
         }
         this.elements.Add(element);
     }
@@ -234,6 +241,8 @@ public class Container : IDrawable {
                 ((CircleAnnotation) element).Rotate(-rotateDegrees);
             } else if (element.GetType() == typeof(PolygonAnnotation)) {
                 ((PolygonAnnotation) element).Rotate(-rotateDegrees);
+            } else if (element.GetType() == typeof(TextAnnotation)) {
+                ((TextAnnotation) element).Rotate(-rotateDegrees);
             }
             element.DrawOn(page);
         }
