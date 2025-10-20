@@ -113,6 +113,26 @@ public class Container implements Drawable {
         this.elements.add(element);
     }
 
+    protected static float[] rotateAroundCenter(float[] point, float[] center, double degrees) {
+        double rad = degrees * Math.PI / 180.0; // convert to radians
+
+        // translate to centre
+        double dx = (double) (point[0] - center[0]);
+        double dy = (double) (point[1] - center[1]);
+
+        // rotate
+        double cos = Math.cos(rad);
+        double sin = Math.sin(rad);
+        double dxRot =  dx * cos - dy * sin;
+        double dyRot =  dx * sin + dy * cos;
+
+        // translate back
+        double nx = center[0] + dxRot;
+        double ny = center[1] + dyRot;
+
+        return new float[] {(float) nx, (float) ny};
+    }
+
     /**
      * Draws this container and its child elements onto the page.
      *
