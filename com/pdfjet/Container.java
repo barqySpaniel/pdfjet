@@ -84,6 +84,10 @@ public class Container implements Drawable {
         this.rotateDegrees = (float) degrees;
     }
 
+    public float[] getRotationCenter() {
+        return new float[] {x + width/2f, y + height/2f};
+    }
+
     /**
      * Sets a uniform scaling factor for both X and Y axes.
      *
