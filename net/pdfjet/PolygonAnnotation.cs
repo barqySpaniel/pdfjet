@@ -22,14 +22,12 @@ public class PolygonAnnotation : BaseAnnotation {
         base.point1 = Container.RotateAroundCenter(base.point1, center, degrees);
         base.point2 = Container.RotateAroundCenter(base.point2, center, degrees);
 
-        List<float> list = new List<float>();
         for (int i = 0; i < vertices.Length; i += 2) {
             float[] point = Container.RotateAroundCenter(
                 new float[] {base.vertices[i], base.vertices[i + 1]}, new float[] {0f, 0f}, degrees);
-            list.Add(point[0]);
-            list.Add(point[1]);
+            base.vertices[i] = point[0];
+            base.vertices[i + 1] = point[1];
         }
-        base.vertices = list.ToArray();
     }
 }
 }
