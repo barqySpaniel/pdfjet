@@ -206,32 +206,11 @@ public class Container : IDrawable {
 
         // 6) Draw children elements
         foreach (IDrawable element in elements) {
-            if (element.GetType() == typeof(SquareAnnotation)) {
-                SquareAnnotation annot = (SquareAnnotation) element;
-                annot.container = this;
-                annot.point1[0] += x;
-                annot.point1[1] += y;
-                annot.point2[0] += x;
-                annot.point2[1] += y;
-                annot.Rotate(-rotateDegrees);
-            } else if (element.GetType() == typeof(CircleAnnotation)) {
-                CircleAnnotation annot = (CircleAnnotation) element;
-                annot.container = this;
-                annot.point1[0] += x;
-                annot.point1[1] += y;
-                annot.point2[0] += x;
-                annot.point2[1] += y;
-                annot.Rotate(-rotateDegrees);
-            } else if (element.GetType() == typeof(PolygonAnnotation)) {
-                PolygonAnnotation annot = (PolygonAnnotation) element;
-                annot.container = this;
-                annot.point1[0] += x;
-                annot.point1[1] += y;
-                annot.point2[0] += x;
-                annot.point2[1] += y;
-                annot.Rotate(-rotateDegrees);
-            } else if (element.GetType() == typeof(TextAnnotation)) {
-                TextAnnotation annot = (TextAnnotation) element;
+            if (element.GetType() == typeof(SquareAnnotation) ||
+                    element.GetType() == typeof(CircleAnnotation) ||
+                    element.GetType() == typeof(PolygonAnnotation) ||
+                    element.GetType() == typeof(TextAnnotation)) {
+                BaseAnnotation annot = (BaseAnnotation) element;
                 annot.container = this;
                 annot.point1[0] += x;
                 annot.point1[1] += y;
