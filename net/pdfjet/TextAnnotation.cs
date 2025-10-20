@@ -7,76 +7,15 @@
 using System;
 
 namespace PDFjet.NET {
-public class TextAnnotation : IDrawable {
-    internal String title = null;
-    internal String contents = null;
-    internal String uri = null;
-    internal String key = null;
-    internal String language = null;
-    internal String actualText = null;
-    internal String altDescription = null;
-
-    private float x = 0f;
-    private float y = 0f;
-    private float w = 0f;
-    private float h = 0f;
-    private float[] fillColor = new float[] {0.5f, 0.5f, 0.5f};
-
+public class TextAnnotation : BaseAnnotation {
     public TextAnnotation() {
+        base.annotationType = Annotation.Text;
     }
 
-    public void SetLocation(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void SetPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void SetSize(float w, float h) {
-        this.w = w;
-        this.h = h;
-    }
-
-    public void SetFillColor(float[] fillColor) {
-        this.fillColor = fillColor;
-    }
-
-    public void SetFillColor(int color) {
-        float r = ((color >> 16) & 0xff)/255f;
-        float g = ((color >>  8) & 0xff)/255f;
-        float b = ((color)       & 0xff)/255f;
-        SetFillColor(new float[] {r, g, b});
-    }
-
-    public void SetTitle(String title) {
-        this.title = title;
-    }
-
-    public void SetContents(String contents) {
-        this.contents = contents;
-    }
-
-    public float[] DrawOn(Page page) {
-        page.AddAnnotation(new Annotation(
-                Annotation.Text,
-                x,
-                y,
-                x + w,
-                y + h,
-                null,       // Vertices
-                fillColor,  // Fill Color
-                0f,         // Transparency
-                title,      // Title
-                contents,   // Contents
-                uri,        //
-                key,        // The destination name
-                language,
-                actualText,
-                altDescription));
-        return new float[] {x + w, y + h};
+    public void Rotate(double degrees) {
+        float[] center = container.GetRotationCenter();
+        base.point1 = Container.RotateAroundCenter(base.point1, center, degrees);
+        base.point2 = Container.RotateAroundCenter(base.point2, center, degrees);
     }
 }
 }
