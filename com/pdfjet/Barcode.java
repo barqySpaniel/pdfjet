@@ -9,7 +9,7 @@ package com.pdfjet;
 import java.util.*;
 
 /**
- *  Used to create one dimentional barcodes - EAN-13, UPC-A, Code 39 and Code 128.
+ *  Used to create one dimensional barcodes - EAN-13, UPC-A, Code 39 and Code 128.
  *
  *  Please see Example_11.
  */
