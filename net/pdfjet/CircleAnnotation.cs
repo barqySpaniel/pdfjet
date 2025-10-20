@@ -11,11 +11,5 @@ public class CircleAnnotation : BaseAnnotation {
     public CircleAnnotation() {
         base.annotationType = Annotation.Circle;
     }
-
-    public void Rotate(double degrees) {
-        float[] center = container.GetRotationCenter();
-        base.point1 = Container.RotateAroundCenter(base.point1, center, degrees);
-        base.point2 = Container.RotateAroundCenter(base.point2, center, degrees);
-    }
 }
 }

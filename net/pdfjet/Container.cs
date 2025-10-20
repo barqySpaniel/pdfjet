@@ -117,35 +117,6 @@ public class Container : IDrawable {
     /// </summary>
     /// <param name="element">The element to add.</param>
     public void Add(IDrawable element) {
-        if (element.GetType() == typeof(SquareAnnotation)) {
-            SquareAnnotation annot = (SquareAnnotation) element;
-            annot.container = this;
-            annot.point1[0] += x;
-            annot.point1[1] += y;
-            annot.point2[0] += x;
-            annot.point2[1] += y;
-        } else if (element.GetType() == typeof(CircleAnnotation)) {
-            CircleAnnotation annot = (CircleAnnotation) element;
-            annot.container = this;
-            annot.point1[0] += x;
-            annot.point1[1] += y;
-            annot.point2[0] += x;
-            annot.point2[1] += y;
-        } else if (element.GetType() == typeof(PolygonAnnotation)) {
-            PolygonAnnotation annot = (PolygonAnnotation) element;
-            annot.container = this;
-            annot.point1[0] += x;
-            annot.point1[1] += y;
-            annot.point2[0] += x;
-            annot.point2[1] += y;
-        } else if (element.GetType() == typeof(TextAnnotation)) {
-            TextAnnotation annot = (TextAnnotation) element;
-            annot.container = this;
-            annot.point1[0] += x;
-            annot.point1[1] += y;
-            annot.point2[0] += x;
-            annot.point2[1] += y;
-        }
         this.elements.Add(element);
     }
 
@@ -236,13 +207,37 @@ public class Container : IDrawable {
         // 6) Draw children elements
         foreach (IDrawable element in elements) {
             if (element.GetType() == typeof(SquareAnnotation)) {
-                ((SquareAnnotation) element).Rotate(-rotateDegrees);
+                SquareAnnotation annot = (SquareAnnotation) element;
+                annot.container = this;
+                annot.point1[0] += x;
+                annot.point1[1] += y;
+                annot.point2[0] += x;
+                annot.point2[1] += y;
+                annot.Rotate(-rotateDegrees);
             } else if (element.GetType() == typeof(CircleAnnotation)) {
-                ((CircleAnnotation) element).Rotate(-rotateDegrees);
+                CircleAnnotation annot = (CircleAnnotation) element;
+                annot.container = this;
+                annot.point1[0] += x;
+                annot.point1[1] += y;
+                annot.point2[0] += x;
+                annot.point2[1] += y;
+                annot.Rotate(-rotateDegrees);
             } else if (element.GetType() == typeof(PolygonAnnotation)) {
-                ((PolygonAnnotation) element).Rotate(-rotateDegrees);
+                PolygonAnnotation annot = (PolygonAnnotation) element;
+                annot.container = this;
+                annot.point1[0] += x;
+                annot.point1[1] += y;
+                annot.point2[0] += x;
+                annot.point2[1] += y;
+                annot.Rotate(-rotateDegrees);
             } else if (element.GetType() == typeof(TextAnnotation)) {
-                ((TextAnnotation) element).Rotate(-rotateDegrees);
+                TextAnnotation annot = (TextAnnotation) element;
+                annot.container = this;
+                annot.point1[0] += x;
+                annot.point1[1] += y;
+                annot.point2[0] += x;
+                annot.point2[1] += y;
+                annot.Rotate(-rotateDegrees);
             }
             element.DrawOn(page);
         }

@@ -61,6 +61,20 @@ public class BaseAnnotation : IDrawable {
         this.contents = contents;
     }
 
+    public void Rotate(double degrees) {
+        float[] center = container.GetRotationCenter();
+        point1 = Container.RotateAroundCenter(point1, center, degrees);
+        point2 = Container.RotateAroundCenter(point2, center, degrees);
+        if (annotationType.Equals(Annotation.Polygon)) {
+            for (int i = 0; i < vertices.Length; i += 2) {
+                float[] point = Container.RotateAroundCenter(
+                    new float[] {vertices[i], vertices[i + 1]}, new float[] {0f, 0f}, degrees);
+                vertices[i] = point[0];
+                vertices[i + 1] = point[1];
+            }
+        }
+    }
+
     public float[] DrawOn(Page page) {
         page.AddAnnotation(new Annotation(
                 annotationType,

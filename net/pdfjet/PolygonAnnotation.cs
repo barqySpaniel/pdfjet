@@ -16,18 +16,5 @@ public class PolygonAnnotation : BaseAnnotation {
     public void SetVertices(float[] vertices) {
         base.vertices = vertices;
     }
-
-    public void Rotate(double degrees) {
-        float[] center = container.GetRotationCenter();
-        base.point1 = Container.RotateAroundCenter(base.point1, center, degrees);
-        base.point2 = Container.RotateAroundCenter(base.point2, center, degrees);
-
-        for (int i = 0; i < vertices.Length; i += 2) {
-            float[] point = Container.RotateAroundCenter(
-                new float[] {base.vertices[i], base.vertices[i + 1]}, new float[] {0f, 0f}, degrees);
-            base.vertices[i] = point[0];
-            base.vertices[i + 1] = point[1];
-        }
-    }
 }
 }
