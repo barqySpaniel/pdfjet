@@ -11,10 +11,6 @@ public class Example_06 {
     public Example_06() {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_06.pdf", FileMode.Create)));
-        pdf.SetTitle("Annotation Examples");
-        pdf.SetAuthor("ED");
-        pdf.SetSubject("Annotations");
-        pdf.SetKeywords("Annotation Square Polygon");
 
         Font f1 = new Font(pdf, IBMPlexSans.Regular);
 
@@ -27,7 +23,7 @@ public class Example_06 {
         FileAttachment attachment = new FileAttachment(pdf, file1);
         attachment.SetLocation(100f, 600f);
         attachment.SetIconPushPin();
-        attachment.SetIconSize(18f);
+        // attachment.SetIconSize(25f);
         attachment.SetTitle("Attached File: " + file1.GetFileName());
         attachment.SetDescription(
                 "Right mouse click on the icon to save the attached file.");
@@ -36,7 +32,7 @@ public class Example_06 {
         attachment = new FileAttachment(pdf, file2);
         attachment.SetLocation(200f, 600f);
         attachment.SetIconPaperclip();
-        attachment.SetIconSize(18f);
+        // attachment.SetIconSize(25f);
         attachment.SetTitle("Attached File: " + file2.GetFileName());
         attachment.SetDescription(
                 "Right mouse click on the icon to save the attached file.");
@@ -49,7 +45,7 @@ public class Example_06 {
 
         TextAnnotation textAnnotation = new TextAnnotation();
         textAnnotation.SetLocation(400f, 600f);
-        textAnnotation.SetSize(20f, 20f);
+        textAnnotation.SetSize(25f, 25f);
         textAnnotation.SetTitle("Hello");
         textAnnotation.SetContents("World");
         textAnnotation.DrawOn(page);
