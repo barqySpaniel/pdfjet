@@ -213,7 +213,6 @@ public class Container : IDrawable {
             if (element.GetType() == typeof(SquareAnnotation) ||
                     element.GetType() == typeof(CircleAnnotation) ||
                     element.GetType() == typeof(PolygonAnnotation) ||
-                    element.GetType() == typeof(PopupAnnotation) ||
                     element.GetType() == typeof(TextAnnotation)) {
                 BaseAnnotation annot = (BaseAnnotation) element;
                 annot.container = this;
