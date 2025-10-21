@@ -14,7 +14,6 @@ internal class Annotation {
     public static readonly String Link = "Link";
     public static readonly String FileAttachment = "FileAttachment";
     public static readonly String Polygon = "Polygon";
-    public static readonly String Popup = "Popup";
     public static readonly String Circle = "Circle";
     public static readonly String Square = "Square";
     public static readonly String Text = "Text";

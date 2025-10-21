@@ -987,8 +987,6 @@ public class PDF {
                 Append(Util.ToHexString(contents));
                 Append(">\n");
             }
-        } else if (annot.annotationType.Equals(Annotation.Popup)) {
-            // TODO:
         }
 
         if (index != -1) {
