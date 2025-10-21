@@ -54,6 +54,13 @@ public class Example_06 {
         textAnnotation.SetContents("World");
         textAnnotation.DrawOn(page);
 
+        PopupAnnotation popupAnnotation = new PopupAnnotation();
+        popupAnnotation.SetLocation(100f, 650f);
+        popupAnnotation.SetSize(20f, 20f);
+        popupAnnotation.SetTitle("Popup");
+        popupAnnotation.SetContents("Annotation");
+        popupAnnotation.DrawOn(page);
+
         Container container = new Container(400f, 400f);
         container.SetLocation(100f, 100f);
         container.AddBorder();

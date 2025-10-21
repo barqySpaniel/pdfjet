@@ -7,54 +7,9 @@
 using System;
 
 namespace PDFjet.NET {
-public class PopupAnnotation : IDrawable {
-    internal String uri = null;
-    internal String key = null;
-    internal String language = null;
-    internal String actualText = null;
-    internal String altDescription = null;
-
-    private float x = 0f;
-    private float y = 0f;
-    private float w = 0f;
-    private float h = 0f;
-
+public class PopupAnnotation : BaseAnnotation {
     public PopupAnnotation() {
-    }
-
-    public void SetLocation(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void SetPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public void SetSize(float w, float h) {
-        this.w = w;
-        this.h = h;
-    }
-
-    public float[] DrawOn(Page page) {
-        page.AddAnnotation(new Annotation(
-                Annotation.Popup,
-                x,
-                y,
-                x + w,
-                y + h,
-                null,   // Vertices
-                null,   // Fill Color
-                0f,     // Transparency
-                null,   // Title
-                null,   // Contents
-                uri,
-                key,    // The destination name
-                language,
-                actualText,
-                altDescription));
-        return new float[] {0f, 0f};
+        base.annotationType = Annotation.Popup;
     }
 }
 }

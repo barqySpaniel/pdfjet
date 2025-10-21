@@ -933,6 +933,7 @@ public class PDF {
                 Append(">\n");
             }
         } else if (annot.annotationType.Equals(Annotation.Square) ||
+                annot.annotationType.Equals(Annotation.Popup) ||
                 annot.annotationType.Equals(Annotation.Circle)) {
             Append("/IC [");
             Append(annot.fillColor[0]);
