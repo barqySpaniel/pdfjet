@@ -11,6 +11,7 @@ public class Container : IDrawable {
     public float scaleX;
     public float scaleY;
     private List<IDrawable> elements;
+    internal Container parent = null;
 
     /// <summary>
     /// Creates a new container with the specified width and height.
@@ -118,6 +119,9 @@ public class Container : IDrawable {
     /// <param name="element">The element to add.</param>
     public void Add(IDrawable element) {
         this.elements.Add(element);
+        if (element.GetType() == typeof(Container)) {
+            ((Container) element).parent = this;
+        }
     }
 
     internal static float[] RotateAroundCenter(float[] point, float[] center, double degrees) {
@@ -216,6 +220,12 @@ public class Container : IDrawable {
                 annot.point1[1] += y;
                 annot.point2[0] += x;
                 annot.point2[1] += y;
+                if (this.parent != null) {
+                    annot.point1[0] += parent.x;
+                    annot.point1[1] += parent.y;
+                    annot.point2[0] += parent.x;
+                    annot.point2[1] += parent.y;
+                }
                 annot.Rotate(-rotateDegrees);
             }
             element.DrawOn(page);

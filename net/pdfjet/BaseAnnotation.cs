@@ -63,6 +63,10 @@ public class BaseAnnotation : IDrawable {
 
     public void Rotate(double degrees) {
         float[] center = container.GetRotationCenter();
+        if (container.parent != null) {
+            center[0] += container.parent.x;
+            center[1] += container.parent.y;
+        }
         point1 = Container.RotateAroundCenter(point1, center, degrees);
         point2 = Container.RotateAroundCenter(point2, center, degrees);
         if (annotationType.Equals(Annotation.Polygon)) {
