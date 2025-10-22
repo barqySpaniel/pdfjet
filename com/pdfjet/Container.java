@@ -115,6 +115,9 @@ public class Container implements Drawable {
      * @param element the element to add
      */
     public void add(Drawable element) {
+        if (element instanceof Container) {
+            ((Container) element).parent = this;
+        }
         this.elements.add(element);
     }
 

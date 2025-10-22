@@ -118,10 +118,10 @@ public class Container : IDrawable {
     /// </summary>
     /// <param name="element">The element to add.</param>
     public void Add(IDrawable element) {
-        this.elements.Add(element);
         if (element.GetType() == typeof(Container)) {
             ((Container) element).parent = this;
         }
+        this.elements.Add(element);
     }
 
     internal static float[] RotateAroundCenter(float[] point, float[] center, double degrees) {
