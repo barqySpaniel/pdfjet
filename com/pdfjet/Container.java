@@ -12,6 +12,7 @@ public class Container implements Drawable {
     public float scaleX;
     public float scaleY;
     private List<Drawable> elements;
+    Container parent = null;
 
     /**
      * Creates a new container with the specified width and height.

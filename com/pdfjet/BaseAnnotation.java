@@ -60,6 +60,24 @@ public class BaseAnnotation implements Drawable {
         this.contents = contents;
     }
 
+    public void rotate(double degrees) {
+        float[] center = container.getRotationCenter();
+        if (container.parent != null) {
+            center[0] += container.parent.x;
+            center[1] += container.parent.y;
+        }
+        point1 = Container.rotateAroundCenter(point1, center, degrees);
+        point2 = Container.rotateAroundCenter(point2, center, degrees);
+        if (annotationType.equals(Annotation.Polygon)) {
+            for (int i = 0; i < vertices.length; i += 2) {
+                float[] point = Container.rotateAroundCenter(
+                    new float[] {vertices[i], vertices[i + 1]}, new float[] {0f, 0f}, degrees);
+                vertices[i] = point[0];
+                vertices[i + 1] = point[1];
+            }
+        }
+    }
+
     public float[] drawOn(Page page) {
         page.addAnnotation(new Annotation(
                 annotationType,
