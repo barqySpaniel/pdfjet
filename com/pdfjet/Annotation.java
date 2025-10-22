@@ -13,7 +13,6 @@ class Annotation {
     public static final String Link = "Link";
     public static final String FileAttachment = "FileAttachment";
     public static final String Polygon = "Polygon";
-    public static final String Popup = "Popup";
     public static final String Circle = "Circle";
     public static final String Square = "Square";
     public static final String Text = "Text";
