@@ -195,6 +195,24 @@ public class Container implements Drawable {
         page.append(" cm\n");
 
         for (Drawable element : elements) {
+            if (element instanceof SquareAnnotation ||
+                element instanceof CircleAnnotation ||
+                element instanceof PolygonAnnotation ||
+                element instanceof TextAnnotation) {
+                BaseAnnotation annot = (BaseAnnotation) element;
+                annot.container = this;
+                annot.point1[0] += x;
+                annot.point1[1] += y;
+                annot.point2[0] += x;
+                annot.point2[1] += y;
+                if (this.parent != null) {
+                    annot.point1[0] += parent.x;
+                    annot.point1[1] += parent.y;
+                    annot.point2[0] += parent.x;
+                    annot.point2[1] += parent.y;
+                }
+                annot.rotate(-rotateDegrees);
+            }
             element.drawOn(page);
         }
 
