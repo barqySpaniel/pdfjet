@@ -91,7 +91,7 @@ public class Example_10 {
         buf.Append("big Western European economies. The Swiss in recent years ");
         buf.Append("have brought their economic practices largely into ");
         buf.Append("conformity with the EU's to enhance their international ");
-        buf.Append("competitiveness. Switzerland remains a safehaven for ");
+        buf.Append("competitiveness. Switzerland remains a safe haven for ");
         buf.Append("investors, because it has maintained a degree of bank secrecy ");
         buf.Append("and has kept up the franc's long-term external value. ");
         buf.Append("Reflecting the anemic economic conditions of Europe, GDP ");
