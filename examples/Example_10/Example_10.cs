@@ -108,20 +108,11 @@ public class Example_10 {
         text.SetTextColor(Color.blue);
         p5.Add(text);
 
-        Paragraph p6 = new Paragraph();
-        p6.SetAlignment(Align.RIGHT);
-        text = new TextLine(f1, "Source: The world fact book.");
-        text.SetTextColor(Color.blue);
-        text.SetURIAction(
-                "https://www.cia.gov/library/publications/the-world-factbook/geos/sz.html");
-        p6.Add(text);
-
         column.AddParagraph(p1);
         column.AddParagraph(p2);
         column.AddParagraph(p3);
         column.AddParagraph(p4);
         column.AddParagraph(p5);
-        column.AddParagraph(p6);
 
         if (rotate == 0) {
             column.SetLocation(90f, 300f);

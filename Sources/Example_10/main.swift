@@ -98,23 +98,11 @@ public class Example_10 {
         text.setColor(Color.blue)
         p5.add(text)
 
-        let p6 = Paragraph()
-        p6.setAlignment(Align.RIGHT)
-
-        text = TextLine(f1, "Source: The world fact book.")
-        text.setColor(Color.blue)
-
-        text.setURIAction(
-                "https://www.cia.gov/library/publications/the-world-factbook/geos/sz.html")
-
-        p6.add(text)
-
         column.addParagraph(p1)
         column.addParagraph(p2)
         column.addParagraph(p3)
         column.addParagraph(p4)
         column.addParagraph(p5)
-        column.addParagraph(p6)
 
         if rotate == 0 {
             column.setLocation(90.0, 300.0)
