@@ -26,7 +26,7 @@ public class TextColumn : IDrawable {
     private float y1;
     private float lineHeight;
     private float lineSpacing = 1.0f;
-    private float spaceBetweenParagraphs = 2.0f;
+    private float paragraphSpacing = 1.0f;
     private List<Paragraph> paragraphs;
     private bool lineBetweenParagraphs = false;
 
@@ -75,8 +75,12 @@ public class TextColumn : IDrawable {
         this.lineSpacing = (float) lineSpacing;
     }
 
-    public void SetSpaceBetweenParagraphs(float spaceBetweenParagraphs) {
-        this.spaceBetweenParagraphs = spaceBetweenParagraphs;
+    public void SetParagraphSpacing(float paragraphSpacing) {
+        this.paragraphSpacing = paragraphSpacing;
+    }
+
+    public void SetParagraphSpacing(double paragraphSpacing) {
+        this.paragraphSpacing = (float) paragraphSpacing;
     }
 
     /**
@@ -270,7 +274,7 @@ public class TextColumn : IDrawable {
             MoveToNextLine();
         }
 
-        return MoveToNextParagraph(this.spaceBetweenParagraphs);
+        return MoveToNextParagraph(lineHeight * this.paragraphSpacing);
     }
 
     private float[] MoveToNextLine() {
@@ -287,15 +291,15 @@ public class TextColumn : IDrawable {
         return new float[] {x1, y1};
     }
 
-    private float[] MoveToNextParagraph(float spaceBetweenParagraphs) {
+    private float[] MoveToNextParagraph(float paragraphSpacing) {
         if (rotate == 0) {
             x1 = x;
-            y1 += spaceBetweenParagraphs;
+            y1 += paragraphSpacing;
         } else if (rotate == 90) {
-            x1 += spaceBetweenParagraphs;
+            x1 += paragraphSpacing;
             y1 = y;
         } else if (rotate == 270) {
-            x1 -= spaceBetweenParagraphs;
+            x1 -= paragraphSpacing;
             y1 = y;
         }
         return new float[] {x1, y1};

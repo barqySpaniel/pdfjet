@@ -41,8 +41,8 @@ public class Example_10 {
         // int rotate = 90;
         // int rotate = 270;
         TextColumn column = new TextColumn(rotate);
-        column.SetLineSpacing(1.3f);
-        column.SetSpaceBetweenParagraphs(10.0f);
+        column.SetLineSpacing(1.3f);        // 1.3 x font height
+        column.SetParagraphSpacing(1.0f);   // 1.0 x line spacing
 
         Paragraph p1 = new Paragraph();
         p1.SetAlignment(Align.CENTER);

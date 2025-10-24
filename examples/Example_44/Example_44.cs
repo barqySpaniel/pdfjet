@@ -24,8 +24,8 @@ public class Example_44 {
         TextColumn column = new TextColumn(rotate);
         column.SetLocation(70f, 70f);
         column.SetWidth(500f);
-        column.SetLineSpacing(1.5f);
-        column.SetSpaceBetweenParagraphs(10.0f);
+        column.SetLineSpacing(1.5f);        // 1.5 x font height
+        column.SetParagraphSpacing(0.5f);   // 0.5 x line spacing
 
         Paragraph p1 = new Paragraph();
         p1.Add(new TextLine(f1,
