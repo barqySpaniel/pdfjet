@@ -330,6 +330,9 @@ public class Cell {
         } else if (textBlock != null) {
             textBlock.SetWidth(width);
             cellHeight = (textBlock.DrawOn(null)[1] - textBlock.y) + topPadding + bottomPadding;
+        } else if (textColumn != null) {
+            textColumn.SetWidth(width);
+            cellHeight = (textColumn.DrawOn(null)[1] - textColumn.y) + topPadding + bottomPadding;
         } else if (image != null) {
             cellHeight = image.GetHeight() + topPadding + bottomPadding;
         } else if (barcode != null) {

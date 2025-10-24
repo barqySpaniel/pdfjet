@@ -18,9 +18,8 @@ namespace PDFjet.NET {
 public class TextColumn : IDrawable {
     internal uint alignment = Align.LEFT;
     internal int rotate;
-
-    private float x;    // This variable keeps it's original value after being initialized.
-    private float y;    // This variable keeps it's original value after being initialized.
+    internal float x;   // This variable keeps it's original value after being initialized.
+    internal float y;   // This variable keeps it's original value after being initialized.
     private float w;
     private float h;
     private float x1;
@@ -33,7 +32,6 @@ public class TextColumn : IDrawable {
 
     /**
      *  Create a text column object.
-     *
      */
     public TextColumn() {
         this.paragraphs = new List<Paragraph>();
