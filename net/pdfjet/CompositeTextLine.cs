@@ -21,8 +21,8 @@ public class CompositeTextLine : IDrawable {
     private List<TextLine> textLines = new List<TextLine>();
 
     // Subscript and Superscript size factors
-    private float subscriptSizeFactor    = 0.583f;
-    private float superscriptSizeFactor  = 0.583f;
+    private float subscriptSizeFactor   = 0.583f;
+    private float superscriptSizeFactor = 0.583f;
 
     // Subscript and Superscript positions in relation to the base font
     private float superscriptPosition = 0.350f;

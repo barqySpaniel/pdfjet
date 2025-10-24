@@ -10,7 +10,6 @@ namespace PDFjet.NET {
 /**
  *  Used to create table cell objects.
  *  See the Table class for more information.
- *
  */
 public class Cell {
     internal Font font;
