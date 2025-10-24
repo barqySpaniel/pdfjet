@@ -25,7 +25,7 @@ public class TextColumn : IDrawable {
     private float x1;
     private float y1;
     private float lineHeight;
-    private float spaceBetweenLines = 1.0f;
+    private float lineSpacing = 1.0f;
     private float spaceBetweenParagraphs = 2.0f;
     private List<Paragraph> paragraphs;
     private bool lineBetweenParagraphs = false;
@@ -62,8 +62,17 @@ public class TextColumn : IDrawable {
         this.lineBetweenParagraphs = lineBetweenParagraphs;
     }
 
-    public void SetSpaceBetweenLines(float spaceBetweenLines) {
-        this.spaceBetweenLines = spaceBetweenLines;
+    public void SetLineSpacing(float lineSpacing) {
+        this.lineSpacing = lineSpacing;
+    }
+
+    /**
+     *  Sets the spacing between the lines in this text column.
+     *
+     *  @param spacing the specified spacing value.
+     */
+    public void SetLineSpacing(double lineSpacing) {
+        this.lineSpacing = (float) lineSpacing;
     }
 
     public void SetSpaceBetweenParagraphs(float spaceBetweenParagraphs) {
@@ -143,28 +152,11 @@ public class TextColumn : IDrawable {
     /**
      *  Sets the text alignment.
      *
-     *  @param alignment the specified alignment code. Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
+     *  @param alignment the specified alignment code.
+     *  Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
      */
     public void SetAlignment(uint alignment) {
         this.alignment = alignment;
-    }
-
-    /**
-     *  Sets the spacing between the lines in this text column.
-     *
-     *  @param spacing the specified spacing value.
-     */
-    public void SetLineSpacing(double spacing) {
-        this.spaceBetweenLines = (float) spacing;
-    }
-
-    /**
-     *  Sets the spacing between the lines in this text column.
-     *
-     *  @param spacing the specified spacing value.
-     */
-    public void SetLineSpacing(float spacing) {
-        this.spaceBetweenLines = spacing;
     }
 
     /**
@@ -221,7 +213,7 @@ public class TextColumn : IDrawable {
         for (int i = 0; i < paragraph.lines.Count; i++) {
             TextLine line = paragraph.lines[i];
             if (i == 0) {
-                lineHeight = line.font.GetBodyHeight(line.font.GetSize()) + spaceBetweenLines;
+                lineHeight = line.font.GetBodyHeight(line.font.GetSize()) * lineSpacing;
                 if (rotate == 0) {
                     y1 += line.font.GetAscent();
                 } else if (rotate == 90) {
