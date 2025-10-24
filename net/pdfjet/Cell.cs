@@ -359,22 +359,6 @@ public class Cell {
         return this.lineWidth;
     }
 
-    /**
-     *  Sets the pen color.
-     *
-     *  @param color the color specified as an integer.
-     */
-//    public void SetPenColor(int color) {
-//        this.strokeColor = color;
-//    }
-
-    /**
-     *  Returns the pen color.
-     */
-    public float[] GetPenColor() {
-        return strokeColor;
-    }
-
     public void SetBgColor(int color) {
         SetBackgroundColor(color);
     }
@@ -459,8 +443,6 @@ public class Cell {
      */
     public Cell SetColSpan(int colspan) {
         this.colspan = colspan;
-//        this.properties &= 0x00FF0000;
-//        this.properties |= ((uint) (colspan & 0x0000FFFF));
         return this;
     }
 
@@ -470,7 +452,6 @@ public class Cell {
      *  @return the column span value.
      */
     public int GetColSpan() {
-        // return (this.properties & 0x0000FFFF);
         return this.colspan;
     }
 
