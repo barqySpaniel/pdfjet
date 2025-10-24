@@ -20,8 +20,8 @@ public class TextColumn : IDrawable {
     internal int rotate;
     internal float x;   // This variable keeps it's original value after being initialized.
     internal float y;   // This variable keeps it's original value after being initialized.
-    private float w;
-    private float h;
+    internal float w;
+    internal float h;
     private float x1;
     private float y1;
     private float lineHeight;

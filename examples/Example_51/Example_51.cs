@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using PDFjet.NET;
 
 /**
@@ -11,29 +13,45 @@ public class Example_51 {
                 new FileStream("Example_51.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        f1.SetSize(16f);
+        f1.SetSize(8f);
 
-        Image image = new Image(pdf, "images/qrcode.png");
-        image.SetLocation(100f, 100f);
+        //Image image = new Image(pdf, "images/qrcode.png");
+        //image.SetLocation(100f, 100f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         TextBlock textBlock = new TextBlock(f1, "Hello, World");
         textBlock.SetLocation(50f, 50f);
 
-        Container container = new Container(400f, 400f);
-        container.Add(image);
-        container.Add(textBlock);
-        // container.SetLocation(100f, 100f);
+        Table table1 = new Table(f1,f1);
+        int tableWidth = 400;
+        int numcols = 3;
+        List<List<Cell>> tableData = new List<List<Cell>>();
+        List<Cell> row = new List<Cell>();
+        for (int i = 0; i < 3; i++) {
+            TextBlock tb = new TextBlock(f1, "test");
+            if (i == 0) {
+                tb.SetText("View Panel this 123 this is more code to teste this hello world is  test to see what will happen Cell {i}");
+            } else {
+                tb.SetText("hello");
+            }
+            //tb.SetText();
+            tb.SetBorderColor(new float[] {0,0,0});
+            tb.SetBorderCornerRadius(1.0f);
+            tb.SetHeight(91);
 
-        TextLine textLine = new TextLine(f1, "This is a test!!");
-        textLine.SetLocation(400f, 400f);
-
-        OptionalContentGroup group = new OptionalContentGroup(pdf, "Open Street Map");
-        group.Add(container);
-        group.Add(textLine);
-        group.DrawOn(page);
-
+            Cell cell = new Cell(f1, "");
+            //cell.SetColSpan(1);
+            cell.SetTextBlock(tb);
+            cell.SetWidth(tableWidth / numcols);
+            row.Add(cell);
+        }
+        //row.Add(new Cell(font, ""));
+        tableData.Add(row);
+        table1.SetData(tableData);
+        table1.SetLocation(100, 100);
+        //table1.SetHeight(91);
+        table1.DrawOn(page);
         pdf.Complete();
     }
 

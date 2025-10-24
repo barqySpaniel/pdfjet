@@ -524,6 +524,12 @@ public class Table {
                 maxCellHeight = cellHeight;
             }
         }
+        for (int i = 0; i < row.Count; i++) {
+            Cell cell = row[i];
+            if (cell.textBlock != null) {
+                cell.textBlock.SetHeight(maxCellHeight - (cell.topPadding + cell.bottomPadding));
+            }
+        }
         return maxCellHeight;
     }
 

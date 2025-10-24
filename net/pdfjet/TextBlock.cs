@@ -339,7 +339,7 @@ namespace PDFjet.NET {
                 this.x,
                 this.y,
                 this.width,
-                textLines.Length * leading + 2 * this.textPadding);
+                MathF.Max(this.height, textLines.Length * leading + 2 * this.textPadding));
             rect.SetFillColor(this.fillColor);
             rect.SetBorderWidth(this.borderWidth);
             rect.SetBorderColor(this.borderColor);
@@ -361,7 +361,8 @@ namespace PDFjet.NET {
             page.Append("Q\n");
 
             return new float[] {
-                this.x + this.width, this.y + textLines.Length * leading + 2 * this.textPadding
+                this.x + this.width,
+                MathF.Max(this.y + this.height, this.y + textLines.Length * leading + 2 * this.textPadding)
             };
         }
     }

@@ -572,7 +572,7 @@ public class Cell {
     }
 
     /**
-     *  Draws the point, text and borders of this cell.
+     * Draws the point, text and borders of this cell.
      */
     internal void DrawOn(
             Page page,
