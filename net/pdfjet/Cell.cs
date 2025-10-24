@@ -20,6 +20,7 @@ public class Cell {
     internal Barcode barcode;
     internal TextBox textBox;
     internal TextBlock textBlock;
+    internal TextColumn textColumn;
     internal Point point;
     internal CompositeTextLine compositeTextLine;
     internal float width = 75f;     // TODO: Rename to cellWidth
@@ -221,6 +222,11 @@ public class Cell {
         return this;
     }
 
+    public Cell SetTextColumn(TextColumn textColumn) {
+        this.textColumn = textColumn;
+        return this;
+    }
+
     public void SetBackgroundColor(float[] rgbColor) {
         this.backgroundColor = rgbColor;
     }
@@ -236,6 +242,8 @@ public class Cell {
             textBox.SetWidth(this.width - (this.leftPadding + this.rightPadding));
         } else if (textBlock != null) {
             textBlock.SetWidth(this.width - (this.leftPadding + this.rightPadding));
+        } else if (textColumn != null) {
+            textColumn.SetWidth(this.width - (this.leftPadding + this.rightPadding));
         }
     }
 
