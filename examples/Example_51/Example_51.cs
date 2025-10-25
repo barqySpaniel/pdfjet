@@ -29,13 +29,10 @@ public class Example_51 {
         List<List<Cell>> tableData = new List<List<Cell>>();
         List<Cell> row = new List<Cell>();
         for (int i = 0; i < 3; i++) {
-            TextBlock tb = new TextBlock(f1, "test");
-            if (i == 0) {
-                tb.SetText("View Panel this 123 this is more code to teste this hello world is  test to see what will happen Cell {i}");
-            } else {
-                tb.SetText("hello");
+            TextBlock tb = new TextBlock(f1, "Hello, World!");
+            if (i == 1) {
+                tb.SetText(Content.OfTextFile("data/languages/english.txt"));
             }
-            //tb.SetText();
             tb.SetBorderColor(new float[] {0,0,0});
             tb.SetBorderCornerRadius(1.0f);
             tb.SetHeight(91);
