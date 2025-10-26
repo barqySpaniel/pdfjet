@@ -22,6 +22,7 @@ final public class PDF {
     List<Image> images = new ArrayList<Image>();
     List<OptionalContentGroup> groups = new ArrayList<OptionalContentGroup>();
     Map<String, Integer> states = new HashMap<String, Integer>();
+    List<Stamp> stamps = new ArrayList<Stamp>();
     List<StructElem> structElements = new ArrayList<StructElem>();
     Encryption encryption = null;
 

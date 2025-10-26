@@ -8,7 +8,6 @@ package com.pdfjet;
 
 /**
  *  Creates a RadioButton, which can be set selected or unselected.
- *
  */
 public class RadioButton implements Drawable {
     private boolean selected = false;

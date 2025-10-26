@@ -1,5 +1,3 @@
-package com.pdfjet;
-
 /**
  * Rect.java
  *
@@ -23,6 +21,8 @@ package com.pdfjet;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package com.pdfjet;
+
 import java.util.*;
 
 public class Rect {

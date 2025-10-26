@@ -403,5 +403,5 @@ public class Stamp : IDrawable {
 
         return new float[] { this.x + width, this.y + height };
     }
-}   // End of XObject.cs
+}   // End of Stamp.cs
 }   // End of PDFjet.NET
