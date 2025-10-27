@@ -12,6 +12,7 @@ mkdir -p out/production
 # Compile the PDFjet library.
 javac -O -encoding utf-8 -Xlint \
     com/pdfjet/*.java \
+    com/pdfjet/barcodes/*.java \
     com/pdfjet/pdf417/*.java \
     com/pdfjet/qrcode/*.java \
     com/pdfjet/corefonts/*.java \

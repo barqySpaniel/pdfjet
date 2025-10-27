@@ -6,6 +6,7 @@ mkdir -p out/production
 
 javac -O -encoding utf-8 -Xlint \
     com/pdfjet/*.java \
+    com/pdfjet/barcodes/*.java \
     com/pdfjet/pdf417/*.java \
     com/pdfjet/qrcode/*.java \
     com/pdfjet/fonts/*.java \
