@@ -15,9 +15,6 @@ public class Example_51 {
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
         f1.SetSize(8f);
 
-        //Image image = new Image(pdf, "images/qrcode.png");
-        //image.SetLocation(100f, 100f);
-
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         TextBlock textBlock = new TextBlock(f1, "Hello, World");
@@ -25,7 +22,7 @@ public class Example_51 {
 
         Table table1 = new Table(f1,f1);
         int tableWidth = 400;
-        int numcols = 3;
+        int numCols = 3;
         List<List<Cell>> tableData = new List<List<Cell>>();
         List<Cell> row = new List<Cell>();
         for (int i = 0; i < 3; i++) {
@@ -38,16 +35,13 @@ public class Example_51 {
             tb.SetHeight(91);
 
             Cell cell = new Cell(f1, "");
-            //cell.SetColSpan(1);
             cell.SetTextBlock(tb);
-            cell.SetWidth(tableWidth / numcols);
+            cell.SetWidth(tableWidth / numCols);
             row.Add(cell);
         }
-        //row.Add(new Cell(font, ""));
         tableData.Add(row);
         table1.SetData(tableData);
-        table1.SetLocation(100, 100);
-        //table1.SetHeight(91);
+        table1.SetLocation(100f, 100f);
         table1.DrawOn(page);
         pdf.Complete();
     }

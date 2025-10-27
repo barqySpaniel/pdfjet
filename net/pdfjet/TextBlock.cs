@@ -323,7 +323,7 @@ namespace PDFjet.NET {
             if (page == null) {
                 return new float[] {
                     this.width,
-                    textLines.Length * leading + 2 * this.textPadding
+                    MathF.Max(this.height, textLines.Length * leading + 2 * this.textPadding)
                 };
             }
 
