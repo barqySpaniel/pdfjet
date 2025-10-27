@@ -9,7 +9,6 @@ package com.pdfjet;
 /**
  *  Used to create rectangular boxes on a page.
  *  Also used to for layout purposes. See the placeIn method in the Image and TextLine classes.
- *
  */
 public class Box implements Drawable {
     protected float x;
