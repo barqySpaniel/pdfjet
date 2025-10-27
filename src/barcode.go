@@ -16,7 +16,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/code128"
 )
 
-// Barcode describes one dimentional barcodes - UPC, Code 39 and Code 128.
+// Barcode describes one dimensional barcodes - UPC, Code 39 and Code 128.
 // Please see Example_11.
 type Barcode struct {
 	barcodeType     int

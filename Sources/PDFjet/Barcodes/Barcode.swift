@@ -7,7 +7,7 @@
 import Foundation
 
 ///
-/// Used to create one dimentional barcodes - UPC, Code 39 and Code 128.
+/// Used to create one dimensional barcodes - UPC, Code 39 and Code 128.
 ///
 /// Please see Example_11.
 ///
