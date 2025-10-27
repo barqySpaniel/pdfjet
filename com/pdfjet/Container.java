@@ -58,6 +58,10 @@ public class Container implements Drawable {
         this.y = y;
     }
 
+    public void rotate(double degrees) {
+        this.rotateDegrees = (float) degrees;
+    }
+
     /**
      * Sets the rotation angle.
      *
@@ -107,6 +111,12 @@ public class Container implements Drawable {
     public void setScaleFactorXY(float sx, float sy) {
         this.scaleX = sx;
         this.scaleY = sy;
+    }
+
+    public void addBorder() {
+        Rect rect = new Rect();
+        rect.setSize(width, height);
+        this.add(rect);
     }
 
     /**
