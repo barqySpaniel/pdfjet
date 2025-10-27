@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="net/pdfjet/*.cs" />
+    <Compile Include="net/pdfjet/Barcodes/*.cs" />
     <Compile Include="net/pdfjet/QRCode/*.cs" />
     <Compile Include="net/pdfjet/PDF417/*.cs" />
     <Compile Include="net/pdfjet/CoreFonts/*.cs" />
