@@ -336,7 +336,7 @@ final public class PDF {
             }
             append(Token.END_DICTIONARY);
         }
-        if (images.size() > 0) {
+        if (images.size() > 0 || stamps.size() > 0) {
             append("/XObject\n");
             append(Token.BEGIN_DICTIONARY);
             for (Image image : images) {
@@ -345,6 +345,13 @@ final public class PDF {
                 append(Token.SPACE);
                 append(image.objNumber);
                 append(Token.OBJ_REF);
+            }
+            for (Stamp stamp : stamps) {
+                append("/Fm");
+                append(stamp.objNumber);
+                append(' ');
+                append(stamp.objNumber);
+                append(" 0 R\n");
             }
             append(Token.END_DICTIONARY);
         }
