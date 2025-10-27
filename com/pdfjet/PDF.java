@@ -764,61 +764,176 @@ final public class PDF {
         annot.objNumber = getObjNumber();
         append(Token.BEGIN_DICTIONARY);
         append("/Type /Annot\n");
-        if (annot.fileAttachment != null) {
-            append("/Subtype /FileAttachment\n");
-            append("/T <");
-            append(toHex(annot.fileAttachment.title));
-            append(">\n");
-            append("/Contents <");
-            append(toHex(annot.fileAttachment.contents));
-            append(">\n");
-            append("/FS ");
-            append(annot.fileAttachment.embeddedFile.objNumber);
-            append(Token.OBJ_REF);
-            append("/Name /");
-            append(annot.fileAttachment.icon);
-            append(Token.NEWLINE);
-        } else {
-            append("/Subtype /Link\n");
-            append("/Contents <");
-            append(toHex(annot.contents));
-            append(">\n");
-        }
+        append("/Subtype /");
+        append(annot.annotationType);
+        append("\n");
+
         append("/Rect [");
         append(annot.x1);
-        append(Token.SPACE);
+        append(' ');
         append(annot.y1);
-        append(Token.SPACE);
+        append(' ');
         append(annot.x2);
-        append(Token.SPACE);
+        append(' ');
         append(annot.y2);
         append("]\n");
         append("/Border [0 0 0]\n");
-        if (annot.uri != null) {
-            append("/F 4\n");
-            append("/A <<\n");
-            append("/S /URI\n");
-            append("/URI (");
-            append(annot.uri);
-            append(")\n");
-            append(Token.END_DICTIONARY);
-        } else if (annot.key != null) {
-            Destination destination = destinations.get(annot.key);
-            if (destination != null) {
-                append("/F 4\n");   // No Zoom
-                append("/Dest [");
-                append(destination.pageObjNumber);
-                append(" 0 R /XYZ ");
-                append(destination.xPosition);
-                append(" ");
-                append(destination.yPosition);
-                append(" 0]\n");
+
+        if (annot.annotationType.equals(Annotation.FileAttachment)) {
+            append("/FS ");
+            append(annot.fileAttachment.embeddedFile.objNumber);
+            append(" 0 R\n");
+            append("/Name /");
+            append(annot.fileAttachment.icon);
+            append("\n");
+
+            if (annot.fileAttachment.title != null) {
+                byte[] title = annot.title.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     title = AES256.Encrypt(title, encryption.GetKey());
+//                 }
+                append("/T <");
+                append(Util.toHexString(title));
+                append(">\n");
+            }
+
+            if (annot.fileAttachment.contents != null) {
+                byte[] contents = annot.contents.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     contents = AES256.Encrypt(contents, encryption.GetKey());
+//                 }
+                append("/Contents <");
+                append(Util.toHexString(contents));
+                append(">\n");
+            }
+        } else if (annot.annotationType.equals(Annotation.Link)) {
+            if (annot.uri != null) {
+                append("/F 4\n");
+                append("/A <<\n");
+                append("/S /URI\n");
+                byte[] uri = annot.uri.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     uri = AES256.Encrypt(uri, encryption.GetKey());
+//                 }
+                append("/URI <");
+                append(Util.toHexString(uri));
+                append(">\n");
+                append(">>\n");
+            } else if (annot.key != null) {
+                Destination destination = destinations.get(annot.key);
+                if (destination != null) {
+                    append("/F 4\n");
+                    append("/Dest [");
+                    append(destination.pageObjNumber);
+                    append(" 0 R /XYZ ");
+                    append(destination.xPosition);
+                    append(" ");
+                    append(destination.yPosition);
+                    append(" 0]\n");
+                }
+            }
+        } else if (annot.annotationType.equals(Annotation.Polygon)) {
+            append("/Vertices [ ");
+            for (int i = 0; i < annot.vertices.length; i += 2) {
+                append(annot.x1 + annot.vertices[i]);
+                append(' ');
+                append(annot.y1 - annot.vertices[i + 1]);
+                append(' ');
+            }
+            append("]\n");
+
+            append("/IC [");
+            append(annot.fillColor[0]);
+            append(' ');
+            append(annot.fillColor[1]);
+            append(' ');
+            append(annot.fillColor[2]);
+            append("]\n");
+
+            append("/CA ");
+            append(annot.transparency);
+            append("\n");
+
+            if (annot.title != null) {
+                byte[] title = annot.title.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     title = AES256.Encrypt(title, encryption.GetKey());
+//                 }
+                append("/T <");
+                append(Util.toHexString(title));
+                append(">\n");
+            }
+
+            if (annot.contents != null) {
+                byte[] contents = annot.contents.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     contents = AES256.Encrypt(contents, encryption.GetKey());
+//                 }
+                append("/Contents <");
+                append(Util.toHexString(contents));
+                append(">\n");
+            }
+        } else if (annot.annotationType.equals(Annotation.Square) ||
+                annot.annotationType.equals(Annotation.Circle)) {
+            append("/IC [");
+            append(annot.fillColor[0]);
+            append(' ');
+            append(annot.fillColor[1]);
+            append(' ');
+            append(annot.fillColor[2]);
+            append("]\n");
+
+            append("/CA ");
+            append(annot.transparency);
+            append("\n");
+
+            if (annot.title != null) {
+                byte[] title = annot.title.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     title = AES256.Encrypt(title, encryption.GetKey());
+//                 }
+                append("/T <");
+                append(Util.toHexString(title));
+                append(">\n");
+            }
+
+            if (annot.contents != null) {
+                byte[] contents = annot.contents.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     contents = AES256.Encrypt(contents, encryption.GetKey());
+//                 }
+                append("/Contents <");
+                append(Util.toHexString(contents));
+                append(">\n");
+            }
+        } else if (annot.annotationType.equals(Annotation.Text)) {
+            append("/Name /Comment\n");
+
+            if (annot.title != null) {
+                byte[] title = annot.title.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     title = AES256.Encrypt(title, encryption.GetKey());
+//                 }
+                append("/T <");
+                append(Util.toHexString(title));
+                append(">\n");
+            }
+
+            if (annot.contents != null) {
+                byte[] contents = annot.contents.getBytes(StandardCharsets.UTF_8);
+//                 if (encryption != null) {
+//                     contents = AES256.Encrypt(contents, encryption.GetKey());
+//                 }
+                append("/Contents <");
+                append(Util.toHexString(contents));
+                append(">\n");
             }
         }
+
         if (index != -1) {
             append("/StructParent ");
             append(index++);
-            append(Token.NEWLINE);
+            append("\n");
         }
         append(Token.END_DICTIONARY);
         endobj();
