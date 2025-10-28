@@ -136,10 +136,10 @@ public class Form : IDrawable {
                             .SetLocation(2f + x + field.x, y + yField)
                             .DrawOn(page);
                     if (page != null && i == (field.values.Length - 1)) {
-                        new Line(x, y + yField + font.GetDescent(), x + rowLength, y + yField + font.GetDescent()).DrawOn(page);
-//                        if (field.x != 0f) {
-//                            new Line(x, y - (field.values.Length-1)*rowHeight, x, y).DrawOn(page);
-//                        }
+                        new Line(x, y + yField + font.GetDescent(),
+                                x + rowLength, y + yField + font.GetDescent()).DrawOn(page);
+                        new Line(x, y + yField + font.GetDescent() - (field.values.Length-1)*rowHeight,
+                                x, y + yField + font.GetDescent()).DrawOn(page);
                     }
                 }
                 yField += rowHeight;
@@ -185,9 +185,9 @@ public class Form : IDrawable {
                 }
             }
 
-            if (!line.Equals("")) {
-                lines.Add(line);
-            }
+//            if (!line.Equals("")) {
+//                lines.Add(line);
+//            }
         }
 
         int count = lines.Count;
