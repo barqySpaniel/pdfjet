@@ -19,7 +19,7 @@ public class Example_42 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         float w = 500f;
-        float h = 13f;
+        float h = 15f;
 
         List<Field> fields = new List<Field>();
         fields.Add(new Field(   0f, new String[] {"Company", "Smart Widgets Construction Inc."}));
