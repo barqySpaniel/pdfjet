@@ -34,7 +34,7 @@ public class Example_42 {
         fields.Add(new Field(   0f, new String[] {"Telephone Number", "(416) 331-2245"}));
         fields.Add(new Field(  w/4, new String[] {"Fax (if applicable)", "(416) 124-9879"}));
         fields.Add(new Field(  w/2, new String[] {"Email","jsmith12345@gmail.ca"}));
-        fields.Add(new Field(   0f, new String[] {"Other Information","", ""}));
+        fields.Add(new Field(   0f, new String[] {"Other Information", "Hello", "World"}));
 
         new Form(fields)
                 .SetLabelFont(f1)

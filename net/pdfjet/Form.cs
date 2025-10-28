@@ -138,8 +138,8 @@ public class Form : IDrawable {
                     if (page != null && i == (field.values.Length - 1)) {
                         new Line(x, y + yField + font.GetDescent(),
                                 x + rowLength, y + yField + font.GetDescent()).DrawOn(page);
-                        new Line(x, y + yField + font.GetDescent() - (field.values.Length-1)*rowHeight,
-                                x, y + yField + font.GetDescent()).DrawOn(page);
+                        new Line(x + field.x, y + yField + font.GetDescent() - (field.values.Length-1)*rowHeight,
+                                x + field.x, y + yField + font.GetDescent()).DrawOn(page);
                     }
                 }
                 yField += rowHeight;
