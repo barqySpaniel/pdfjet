@@ -49,7 +49,6 @@ public class Example_42 {
         pdf.Complete();
     }
 
-
     public static void Main(String[] args) {
         Stopwatch sw = Stopwatch.StartNew();
         long time0 = sw.ElapsedMilliseconds;
@@ -58,5 +57,4 @@ public class Example_42 {
         sw.Stop();
         TextUtils.PrintDuration("Example_42", time0, time1);
     }
-
 }   // End of Example_42.cs

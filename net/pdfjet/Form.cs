@@ -136,14 +136,14 @@ public class Form : IDrawable {
             yField = yRow;
             for (int i = 0; i < field.values.Length; i++) {
                 if (page != null) {
-                Font font = (i == 0) ? f1 : f2;
-                float fontSize = (i == 0) ? labelFontSize : valueFontSize;
-                float[] color = (i == 0) ? labelColor : valueColor;
+                    Font font = (i == 0) ? f1 : f2;
+                    float fontSize = (i == 0) ? labelFontSize : valueFontSize;
+                    float[] color = (i == 0) ? labelColor : valueColor;
                     new TextLine(font, field.values[i])
                             .SetFontSize(fontSize)
                             .SetTextColor(color)
                             .SetAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
-                            .SetLocation(x + field.x, y + yField)
+                            .SetLocation(2f + x + field.x, y + yField)
                             .DrawOn(page);
                     endOfLinePoints.Add(new float[] {
                             field.x + f1.GetDescent() + font.StringWidth(field.values[i]),
