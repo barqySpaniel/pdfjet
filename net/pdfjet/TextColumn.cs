@@ -204,18 +204,6 @@ public class TextColumn : IDrawable {
      *  @return the point with x and y coordinates of the location where to draw the next component.
      */
     public float[] DrawOn(Page page) {
-        if (page == null) {
-            float textColumnHeight = 0f;
-            for (int i = 0; i < paragraphs.Count; i++) {
-                Paragraph paragraph = paragraphs[i];
-                for (int j = 0; j < paragraph.lines.Count; j++) {
-                    TextLine line = paragraph.lines[j];
-                    textColumnHeight += line.font.GetBodyHeight(line.font.GetSize()) * lineSpacing;
-                }
-            }
-            return new float[] {this.w, textColumnHeight};
-        }
-
         float[] xy = null;
         for (int i = 0; i < paragraphs.Count; i++) {
             Paragraph paragraph = paragraphs[i];
@@ -223,7 +211,7 @@ public class TextColumn : IDrawable {
             xy = DrawParagraphOn(page, paragraph);
         }
         // Restore the original location
-        SetLocation(this.x, this.y);
+        // SetLocation(this.x, this.y);
         return xy;
     }
 

@@ -243,8 +243,6 @@ public class Cell {
             textBox.SetWidth(this.width - (this.leftPadding + this.rightPadding));
         } else if (textBlock != null) {
             textBlock.SetWidth(this.width - (this.leftPadding + this.rightPadding));
-        } else if (textColumn != null) {
-            textColumn.SetWidth(this.width - (this.leftPadding + this.rightPadding));
         }
     }
 
