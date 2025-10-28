@@ -22,8 +22,8 @@ public class TextColumn implements Drawable {
     private float x1;
     private float y1;
     private float lineHeight;
-    private float spaceBetweenLines = 1f;
-    private float spaceBetweenParagraphs = 2f;
+    private float lineSpacing = 1.0f;
+    private float paragraphSpacing = 1.0f;
     private final List<Paragraph> paragraphs;
     private boolean lineBetweenParagraphs = false;
 
@@ -60,12 +60,8 @@ public class TextColumn implements Drawable {
         this.lineBetweenParagraphs = lineBetweenParagraphs;
     }
 
-    public void setSpaceBetweenLines(float spaceBetweenLines) {
-        this.spaceBetweenLines = spaceBetweenLines;
-    }
-
-    public void setSpaceBetweenParagraphs(float spaceBetweenParagraphs) {
-        this.spaceBetweenParagraphs = spaceBetweenParagraphs;
+    public void setParagraphSpacing(float paragraphSpacing) {
+        this.paragraphSpacing = paragraphSpacing;
     }
 
     /**
@@ -159,8 +155,8 @@ public class TextColumn implements Drawable {
      *
      *  @param spacing the specified spacing value.
      */
-    public void setLineSpacing(double spacing) {
-        this.spaceBetweenLines = (float) spacing;
+    public void setLineSpacing(double lineSpacing) {
+        this.lineSpacing = (float) lineSpacing;
     }
 
     /**
@@ -168,8 +164,8 @@ public class TextColumn implements Drawable {
      *
      *  @param spacing the specified spacing value.
      */
-    public void setLineSpacing(float spacing) {
-        this.spaceBetweenLines = spacing;
+    public void setLineSpacing(float lineSpacing) {
+        this.lineSpacing = lineSpacing;
     }
 
     /**
@@ -228,7 +224,7 @@ public class TextColumn implements Drawable {
         for (int i = 0; i < paragraph.lines.size(); i++) {
             TextLine line = paragraph.lines.get(i);
             if (i == 0) {
-                lineHeight = line.font.bodyHeight + spaceBetweenLines;
+                lineHeight = line.font.bodyHeight * lineSpacing;
                 if (rotate == 0) {
                     y1 += line.font.ascent;
                 } else if (rotate == 90) {
@@ -268,11 +264,12 @@ public class TextColumn implements Drawable {
             }
         }
         drawNonJustifiedLine(page, list);
+
         if (lineBetweenParagraphs) {
             moveToNextLine();
         }
 
-        return moveToNextParagraph(this.spaceBetweenParagraphs);
+        return moveToNextParagraph(this.paragraphSpacing);
     }
 
     private float[] moveToNextLine() {
@@ -289,15 +286,15 @@ public class TextColumn implements Drawable {
         return new float[] {x1, y1};
     }
 
-    private float[] moveToNextParagraph(float spaceBetweenParagraphs) {
+    private float[] moveToNextParagraph(float paragraphSpacing) {
         if (rotate == 0) {
             x1 = x;
-            y1 += spaceBetweenParagraphs;
+            y1 += paragraphSpacing;
         } else if (rotate == 90) {
-            x1 += spaceBetweenParagraphs;
+            x1 += paragraphSpacing;
             y1 = y;
         } else if (rotate == 270) {
-            x1 -= spaceBetweenParagraphs;
+            x1 -= paragraphSpacing;
             y1 = y;
         }
         return new float[] {x1, y1};
