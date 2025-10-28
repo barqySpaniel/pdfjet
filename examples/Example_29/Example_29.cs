@@ -34,7 +34,7 @@ public class Example_29 {
         List<Cell> row = new List<Cell>();
         row.Add(new Cell(font, "Hello"));
         row.Add(new Cell(font, "World"));
-        // cell.SetTextColumn(column);
+        row[1].SetTextColumn(column);
         tableData.Add(row);
 
         Table table1 = new Table(font, font);
