@@ -178,7 +178,6 @@ public class TextColumn : IDrawable {
 
     /**
      *  Removes the last paragraph added to this text column.
-     *
      */
     public void RemoveLastParagraph() {
         if (this.paragraphs.Count >= 1) {
