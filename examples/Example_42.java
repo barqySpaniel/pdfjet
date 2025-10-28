@@ -43,18 +43,11 @@ public class Example_42 {
                 .setLabelFontSize(8f)
                 .setValueFont(f2)
                 .setValueFontSize(10f)
-                .setLocation(70f, 90f)
+                .setLocation(50f, 50f)
                 .setRowLength(w)
                 .setRowHeight(h)
                 .drawOn(page));
-/*
-System.out.println(xy[0]);
-System.out.println(xy[1]);
-        Box box = new Box();
-        box.setLocation(xy[0], xy[1]);
-        box.setSize(20f, 20f);
-        box.drawOn(page);
-*/
+
         pdf.complete();
     }
 
