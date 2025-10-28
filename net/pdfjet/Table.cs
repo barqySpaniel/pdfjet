@@ -40,7 +40,7 @@ public class Table {
     private float bottomMargin;
 
     /**
-     *  Create a table object.
+     * Create a table object.
      */
     public Table() {
         tableData = new List<List<Cell>>();
@@ -52,7 +52,7 @@ public class Table {
     }
 
     /**
-     *  Create a table object.
+     * Create a table object.
      */
     public Table(Font f1, Font f2, String fileName) {
         this.f1 = f1;

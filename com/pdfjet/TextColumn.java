@@ -15,8 +15,8 @@ import java.util.*;
 public class TextColumn implements Drawable {
     protected int alignment = Align.LEFT;
     protected int rotate;
-    private float x;    // This variable is set in the beginning and only reset after the drawOn
-    private float y;    // This variable is set in the beginning and only reset after the drawOn
+    protected float x;  // This variable is set in the beginning and only reset after the drawOn
+    protected float y;  // This variable is set in the beginning and only reset after the drawOn
     private float w;
     private float h;
     private float x1;
@@ -29,7 +29,6 @@ public class TextColumn implements Drawable {
 
     /**
      *  Create a text column object.
-     *
      */
     public TextColumn() {
         this.paragraphs = new ArrayList<Paragraph>();
@@ -140,6 +139,10 @@ public class TextColumn implements Drawable {
      */
     public void setWidth(float w) {
         this.w = w;
+    }
+
+    public float getWidth() {
+        return this.w;
     }
 
     /**

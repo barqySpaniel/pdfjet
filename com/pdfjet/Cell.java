@@ -17,6 +17,7 @@ public class Cell {
     protected Image image;
     protected Barcode barcode;
     protected TextBox textBox;
+    protected TextColumn textColumn;
     protected Point point;
     protected CompositeTextLine compositeTextLine;
     protected float width = 50f;
@@ -212,6 +213,12 @@ public class Cell {
         this.text = null;
     }
 
+    public Cell setTextColumn(TextColumn textColumn) {
+        this.textColumn = textColumn;
+        this.width = textColumn.getWidth();
+        return this;
+    }
+
     /**
      *  Sets the width of this cell.
      *
@@ -284,11 +291,13 @@ public class Cell {
      *  @param width the cell width.
      *  @return the cell height.
      */
-    public float getHeight(float width) {
+    public float getHeight(float width) throws Exception {
         float cellHeight = 0f;
         if (textBox != null) {
             textBox.setWidth(width);
             cellHeight = (textBox.drawOn(null)[1] - textBox.y) + topPadding + bottomPadding;
+        } else if (textColumn != null) {
+            cellHeight = (textColumn.drawOn(null)[1] - textColumn.y) + topPadding + bottomPadding;
         } else if (image != null) {
             cellHeight = image.getHeight() + topPadding + bottomPadding;
         } else if (barcode != null) {

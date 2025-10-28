@@ -33,16 +33,22 @@ public class Table {
     private int rendered = 0;
     private float x1;
     private float y1;
+    private Font f1;
+    private Font f2;
     private float x1FirstPage;
     private float y1FirstPage;
     private float bottomMargin;
 
     /**
      * Create a table object.
-     *
      */
     public Table() {
         tableData = new ArrayList<List<Cell>>();
+    }
+
+    public Table(Font f1, Font f2) {
+        this.f1 = f1;
+        this.f2 = f2;
     }
 
     /**

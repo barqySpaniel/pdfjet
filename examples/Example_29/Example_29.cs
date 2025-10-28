@@ -12,10 +12,10 @@ public class Example_29 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_29.pdf", FileMode.Create)));
 
-        Page page = new Page(pdf, Letter.PORTRAIT);
-
         Font font = new Font(pdf, IBMPlexSans.Regular);
         font.SetSize(15f);
+
+        Page page = new Page(pdf, Letter.PORTRAIT);
 
         Paragraph paragraph1 = new Paragraph();
         paragraph1.Add(new TextLine(font, Content.OfTextFile("data/languages/english.txt")));
@@ -37,10 +37,10 @@ public class Example_29 {
         row[1].SetTextColumn(column);
         tableData.Add(row);
 
-        Table table1 = new Table(font, font);
-        table1.SetData(tableData);
-        table1.SetLocation(50f, 50f);
-        table1.DrawOn(page);
+        Table table = new Table(font, font);
+        table.SetData(tableData);
+        table.SetLocation(50f, 50f);
+        table.DrawOn(page);
 
         pdf.Complete();
     }
