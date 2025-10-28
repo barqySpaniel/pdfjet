@@ -184,10 +184,9 @@ public class Form : IDrawable {
                     j = 0;
                 }
             }
-
-//            if (!line.Equals("")) {
-//                lines.Add(line);
-//            }
+            if (!line.Equals("")) {
+                lines.Add(line);
+            }
         }
 
         int count = lines.Count;

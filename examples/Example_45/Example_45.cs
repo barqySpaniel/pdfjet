@@ -5,15 +5,14 @@ using System.Diagnostics;
 using PDFjet.NET;
 
 /**
- *  Example_45.cs
+ * Example_45.cs
  */
 public class Example_45 {
     public Example_45() {
         PDF pdf = new PDF(new BufferedStream(
             new FileStream("Example_45.pdf", FileMode.Create)));
-        pdf.SetCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        Font f1 = new Font(pdf, IBMPlexSans.Bold);
         f1.SetSize(12f);
 
         Font f2 = new Font(pdf, IBMPlexSans.Italic);
