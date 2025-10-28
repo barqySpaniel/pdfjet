@@ -211,7 +211,7 @@ public class TextColumn : IDrawable {
             xy = DrawParagraphOn(page, paragraph);
         }
         // Restore the original location
-        // SetLocation(this.x, this.y);
+        SetLocation(this.x, this.y);
         return xy;
     }
 
