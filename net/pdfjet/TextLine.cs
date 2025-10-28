@@ -31,9 +31,6 @@ public class TextLine : IDrawable {
     private float[] textColor = new float[] {0f, 0f, 0f};
     private float[] lineColor = new float[] {0f, 0f, 0f};
 
-    private float xBox;
-    private float yBox;
-
     private int textEffect = Effect.NORMAL;
     private float verticalOffset = 0f;
 
@@ -522,23 +519,6 @@ public class TextLine : IDrawable {
         return PlaceIn(box, (float) xOffset, (float) yOffset);
     }
 
-    /**
-     *  Places this text line in the box at the specified offset.
-     *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     *  @return this TextLine.
-     */
-    public TextLine PlaceIn(
-            Box box,
-            float xOffset,
-            float yOffset) {
-        xBox = box.x + xOffset;
-        yBox = box.y + yOffset;
-        return this;
-    }
-
     public float Advance(float leading) {
         this.y += leading;
         return this.y;
@@ -567,9 +547,6 @@ public class TextLine : IDrawable {
         }
 
         page.SetTextDirection(degrees);
-
-        x += xBox;
-        y += yBox;
 
         page.SetBrushColor(textColor);
         page.AddBMC(structureType, language, text, altDescription);
