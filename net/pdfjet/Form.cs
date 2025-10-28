@@ -25,11 +25,9 @@ public class Form : IDrawable {
     private float rowHeight = 12f;
     private float[] labelColor = new float[] {0f, 0f, 0f};
     private float[] valueColor = new float[] {0f, 0f, 1f};
-    private List<float[]> endOfLinePoints;
 
     public Form(List<Field> fields) {
         this.fields = fields;
-        this.endOfLinePoints = new List<float[]>();
     }
 
     public void SetPosition(double x, double y) {
@@ -137,10 +135,6 @@ public class Form : IDrawable {
                             .SetAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
                             .SetLocation(2f + x + field.x, y + yField)
                             .DrawOn(page);
-                    endOfLinePoints.Add(new float[] {
-                            field.x + f1.GetDescent() + font.StringWidth(field.values[i]),
-                            yField + font.GetDescent(),
-                    });
                     if (page != null && i == (field.values.Length - 1)) {
                         new Line(x, y + yField + font.GetDescent(), x + rowLength, y + yField + font.GetDescent()).DrawOn(page);
 //                        if (field.x != 0f) {
