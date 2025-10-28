@@ -150,10 +150,10 @@ public class Form : IDrawable {
                             yField + font.GetDescent(),
                     });
                     if (page != null && i == (field.values.Length - 1)) {
-                        new Line(0f, 0f, rowLength, 0f).DrawOn(page);
-                        if (field.x != 0f) {
-                            new Line(0f, -(field.values.Length-1)*rowHeight, 0f, 0f).DrawOn(page);
-                        }
+                        new Line(x, y + yField + font.GetDescent(), x + rowLength, y + yField + font.GetDescent()).DrawOn(page);
+//                        if (field.x != 0f) {
+//                            new Line(x, y - (field.values.Length-1)*rowHeight, x, y).DrawOn(page);
+//                        }
                     }
                 }
                 yField += rowHeight;
