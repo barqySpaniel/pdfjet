@@ -567,6 +567,9 @@ public class Cell {
             textBox.setLocation(x + leftPadding, y + topPadding);
             textBox.setWidth(w - (leftPadding + rightPadding));
             textBox.drawOn(page);
+        } else if (textColumn != null) {
+            textColumn.setPosition(x + leftPadding, y + topPadding);
+            textColumn.drawOn(page);
         } else if (image != null) {
             if (getTextAlignment() == Align.LEFT) {
                 image.setLocation(x + leftPadding, y + topPadding);
