@@ -224,6 +224,7 @@ public class Cell {
 
     public Cell SetTextColumn(TextColumn textColumn) {
         this.textColumn = textColumn;
+        this.width = textColumn.GetWidth();
         return this;
     }
 
@@ -331,8 +332,6 @@ public class Cell {
             textBlock.SetWidth(width);
             cellHeight = (textBlock.DrawOn(null)[1] - textBlock.y) + topPadding + bottomPadding;
         } else if (textColumn != null) {
-Console.WriteLine("Are we here?");
-            textColumn.SetWidth(width);
             cellHeight = (textColumn.DrawOn(null)[1] - textColumn.y) + topPadding + bottomPadding;
         } else if (image != null) {
             cellHeight = image.GetHeight() + topPadding + bottomPadding;
@@ -595,7 +594,6 @@ Console.WriteLine("Are we here?");
             textBlock.DrawOn(page);
         } else if (textColumn != null) {
             textColumn.SetPosition(x + leftPadding, y + topPadding);
-            textColumn.SetWidth(w - (leftPadding + rightPadding));
             textColumn.DrawOn(page);
         } else if (image != null) {
             if (GetTextAlignment() == Align.LEFT) {

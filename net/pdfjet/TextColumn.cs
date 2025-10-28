@@ -153,6 +153,10 @@ public class TextColumn : IDrawable {
         this.w = w;
     }
 
+    public float GetWidth() {
+        return this.w;
+    }
+
     /**
      *  Sets the text alignment.
      *

@@ -25,7 +25,7 @@ public class Example_29 {
 
         TextColumn column = new TextColumn();
         column.SetLocation(50f, 50f);
-        column.SetSize(540f, 0f);
+        column.SetSize(400f, 0f);
         column.AddParagraph(paragraph1);
         column.AddParagraph(paragraph2);
         // column.DrawOn(page);
