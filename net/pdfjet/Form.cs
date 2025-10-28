@@ -142,19 +142,17 @@ public class Form : IDrawable {
                     new TextLine(font, field.values[i])
                             .SetFontSize(fontSize)
                             .SetTextColor(color)
-                            .PlaceIn(box, field.x + font.GetDescent(), yField - font.GetDescent())
                             .SetAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
+                            .SetLocation(field.x, yField)
                             .DrawOn(page);
                     endOfLinePoints.Add(new float[] {
                             field.x + f1.GetDescent() + font.StringWidth(field.values[i]),
                             yField + font.GetDescent(),
                     });
                     if (page != null && i == (field.values.Length - 1)) {
-                        new Line(0f, 0f, rowLength, 0f)
-                                .DrawOn(page);
+                        new Line(0f, 0f, rowLength, 0f).DrawOn(page);
                         if (field.x != 0f) {
-                            new Line(0f, -(field.values.Length-1)*rowHeight, 0f, 0f)
-                                    .DrawOn(page);
+                            new Line(0f, -(field.values.Length-1)*rowHeight, 0f, 0f).DrawOn(page);
                         }
                     }
                 }
