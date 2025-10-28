@@ -117,14 +117,6 @@ public class Form : IDrawable {
             return new float[] { x, y };
         }
 
-        float boxHeight = rowHeight*numberOfRows;
-        Box box = new Box();
-        box.SetLocation(x, y);
-        box.SetSize(rowLength, boxHeight);
-        if (page != null) {
-            box.DrawOn(page);
-        }
-
         float yField = 0f;
         int rowSpan = 1;
         float yRow = 0;
@@ -160,7 +152,7 @@ public class Form : IDrawable {
             }
         }
 
-        return new float[] { x + rowLength, y + boxHeight };
+        return new float[] { x + rowLength, y + yField };
     }
 
     public static String[] Format(
