@@ -41,7 +41,7 @@ public class Example_42 {
                 .SetLabelFontSize(8f)
                 .SetValueFont(f2)
                 .SetValueFontSize(10f)
-                .SetLocation(100f, 100f)
+                .SetLocation(50f, 50f)
                 .SetRowLength(w)
                 .SetRowHeight(h)
                 .DrawOn(page);

@@ -143,7 +143,7 @@ public class Form : IDrawable {
                             .SetFontSize(fontSize)
                             .SetTextColor(color)
                             .SetAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
-                            .SetLocation(field.x, yField)
+                            .SetLocation(x + field.x, y + yField)
                             .DrawOn(page);
                     endOfLinePoints.Add(new float[] {
                             field.x + f1.GetDescent() + font.StringWidth(field.values[i]),
