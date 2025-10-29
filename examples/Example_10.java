@@ -10,27 +10,19 @@ public class Example_10 {
     public Example_10() throws Exception {
         PDF pdf = new PDF(
             new BufferedOutputStream(new FileOutputStream("Example_10.pdf")));
-        pdf.setCompliance(Compliance.PDF_UA_1);
-
-        pdf.setTitle("Using TextColumn and Paragraph classes");
-        pdf.setSubject("Examples");
-        pdf.setAuthor("PDFjet Software");
 
         Image image1 = new Image(pdf, "images/sz-map.png");
 
-        // Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        // Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        // Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        // Font f4 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
-
         Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
-        Font f3 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
-        Font f4 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
-
         f1.setSize(10f);
+
+        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
         f2.setSize(14f);
+
+        Font f3 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
         f3.setSize(12f);
+
+        Font f4 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
         f4.setSize(10f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);

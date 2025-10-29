@@ -231,10 +231,8 @@ public class TextColumn : IDrawable {
             }
 
             String[] tokens = Regex.Split(line.text, @"\s+");
-            TextLine text = null;
-            for (int j = 0; j < tokens.Length; j++) {
-                String str = tokens[j];
-                text = new TextLine(line.font, str);
+            foreach (String token in tokens) {
+                TextLine text = new TextLine(line.font, token + Single.space);
                 text.SetTextColor(line.GetTextColor());
                 text.SetUnderline(line.GetUnderline());
                 text.SetStrikeout(line.GetStrikeout());
@@ -242,21 +240,16 @@ public class TextColumn : IDrawable {
                 text.SetURIAction(line.GetURIAction());
                 text.SetGoToAction(line.GetGoToAction());
                 text.SetFallbackFont(line.GetFallbackFont());
-                runLength += line.font.StringWidth(line.fallbackFont, str);
+                runLength += text.GetStringWidth();
                 if (runLength < w) {
                     list.Add(text);
-                    runLength += line.font.StringWidth(line.fallbackFont, Single.space);
                 } else {
                     DrawLineOfText(page, list);
                     MoveToNextLine();
                     list.Clear();
                     list.Add(text);
-                    runLength = line.font.StringWidth(line.fallbackFont, str + Single.space);
+                    runLength = text.GetStringWidth();
                 }
-            }
-            if (line.GetTrailingSpace() == false) {
-                runLength -= line.font.StringWidth(line.fallbackFont, Single.space);
-                text.SetTrailingSpace(false);
             }
         }
         DrawNonJustifiedLine(page, list);
@@ -352,11 +345,6 @@ public class TextColumn : IDrawable {
         float runLength = 0f;
         for (int i = 0; i < list.Count; i++) {
             TextLine textLine = list[i];
-            if (i < (list.Count - 1)) {
-                if (textLine.GetTrailingSpace()) {
-                    textLine.text += Single.space;
-                }
-            }
             runLength += textLine.font.StringWidth(textLine.fallbackFont, textLine.text);
         }
 
