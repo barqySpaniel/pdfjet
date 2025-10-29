@@ -269,7 +269,7 @@ public class TextColumn implements Drawable {
             moveToNextLine();
         }
 
-        return moveToNextParagraph(this.paragraphSpacing);
+        return moveToNextParagraph(lineHeight * this.paragraphSpacing);
     }
 
     private float[] moveToNextLine() {
