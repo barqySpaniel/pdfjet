@@ -215,7 +215,7 @@ public class Cell {
 
     public Cell setTextColumn(TextColumn textColumn) {
         this.textColumn = textColumn;
-        this.width = textColumn.getWidth();
+        this.width = textColumn.getWidth() + this.leftPadding + this.rightPadding;
         return this;
     }
 
