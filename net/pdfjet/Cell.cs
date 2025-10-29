@@ -228,6 +228,10 @@ public class Cell {
         return this;
     }
 
+    public TextColumn GetTextColumn() {
+        return this.textColumn;
+    }
+
     public void SetBackgroundColor(float[] rgbColor) {
         this.backgroundColor = rgbColor;
     }
