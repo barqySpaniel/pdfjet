@@ -10,7 +10,6 @@ import java.util.Map;
 
 /**
  *  Used to create text line objects.
- *
  */
 public class TextLine implements Drawable {
     protected float x;
@@ -260,6 +259,10 @@ public class TextLine implements Drawable {
      */
     public float getStringWidth(String text) {
         return font.stringWidth(fallbackFont, text);
+    }
+
+    public float getStringWidth() {
+        return font.stringWidth(fallbackFont, this.text);
     }
 
     /**

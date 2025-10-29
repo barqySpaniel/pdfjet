@@ -235,10 +235,8 @@ public class TextColumn implements Drawable {
             }
 
             String[] tokens = line.text.split("\\s+");
-            TextLine text = null;
-            for (int j = 0; j < tokens.length; j++) {
-                String str = tokens[j];
-                text = new TextLine(line.font, str);
+            for (String token : tokens) {
+                TextLine text = new TextLine(line.font, token + Single.space);
                 text.setColor(line.getColor());
                 text.setUnderline(line.getUnderline());
                 text.setStrikeout(line.getStrikeout());
@@ -246,21 +244,16 @@ public class TextColumn implements Drawable {
                 text.setURIAction(line.getURIAction());
                 text.setGoToAction(line.getGoToAction());
                 text.setFallbackFont(line.getFallbackFont());
-                runLength += line.font.stringWidth(line.fallbackFont, str);
-                if (runLength < w) {
+                runLength += text.getStringWidth();
+                if (runLength < this.w) {
                     list.add(text);
-                    runLength += line.font.stringWidth(line.fallbackFont, Single.space);
                 } else {
                     drawLineOfText(page, list);
                     moveToNextLine();
                     list.clear();
                     list.add(text);
-                    runLength = line.font.stringWidth(line.fallbackFont, str + Single.space);
+                    runLength = text.getStringWidth();
                 }
-            }
-            if (line.getTrailingSpace() == false) {
-                runLength -= line.font.stringWidth(line.fallbackFont, Single.space);
-                text.setTrailingSpace(false);
             }
         }
         drawNonJustifiedLine(page, list);
@@ -355,11 +348,11 @@ public class TextColumn implements Drawable {
         float runLength = 0f;
         for (int i = 0; i < list.size(); i++) {
             TextLine textLine = list.get(i);
-            if (i < (list.size() - 1)) {
-                if (textLine.getTrailingSpace()) {
-                    textLine.text += Single.space;
-                }
-            }
+//             if (i < (list.size() - 1)) {
+//                 if (textLine.getTrailingSpace()) {
+//                     textLine.text += Single.space;
+//                 }
+//             }
             runLength += textLine.font.stringWidth(textLine.fallbackFont, textLine.text);
         }
 
