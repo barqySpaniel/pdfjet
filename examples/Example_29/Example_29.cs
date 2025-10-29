@@ -15,13 +15,20 @@ public class Example_29 {
         Font font = new Font(pdf, IBMPlexSans.Regular);
         font.SetSize(15f);
 
+        Font font2 = new Font(pdf, IBMPlexSans.BoldItalic);
+        font2.SetSize(17f);
+
+        Font font3 = new Font(pdf, IBMPlexSans.Bold);
+        font3.SetSize(10f);
+
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Paragraph paragraph1 = new Paragraph();
         paragraph1.Add(new TextLine(font, Content.OfTextFile("data/languages/english.txt")));
 
         Paragraph paragraph2 = new Paragraph();
-        paragraph2.Add(new TextLine(font, Content.OfTextFile("data/languages/greek.txt")));
+        paragraph2.Add(new TextLine(font2, Content.OfTextFile("data/languages/greek.txt")));
+        paragraph2.Add(new TextLine(font3, "Hello, World! This is a test!").SetTextColor(Color.blue));
 
         TextColumn column = new TextColumn();
         column.SetLocation(50f, 50f);

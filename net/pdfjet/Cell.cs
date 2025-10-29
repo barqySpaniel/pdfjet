@@ -224,7 +224,7 @@ public class Cell {
 
     public Cell SetTextColumn(TextColumn textColumn) {
         this.textColumn = textColumn;
-        this.width = textColumn.GetWidth();
+        this.width = textColumn.GetWidth() + this.leftPadding + this.rightPadding;
         return this;
     }
 
