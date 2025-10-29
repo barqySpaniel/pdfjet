@@ -43,8 +43,8 @@ public class Example_10 {
         // int rotate = 90;
         // int rotate = 270;
         TextColumn column = new TextColumn(rotate);
-        column.setSpaceBetweenLines(5.0f);
-        column.setSpaceBetweenParagraphs(10.0f);
+        column.setLineSpacing(1.3f);        // 1.3 x font height
+        column.setParagraphSpacing(1.0f);   // 1.0 x line spacing
 
         Paragraph p1 = new Paragraph();
         p1.setAlignment(Align.CENTER);

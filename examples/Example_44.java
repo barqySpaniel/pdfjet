@@ -24,8 +24,8 @@ public class Example_44 {
         TextColumn column = new TextColumn(rotate);
         column.setLocation(70f, 70f);
         column.setWidth(500f);
-        column.setSpaceBetweenLines(5.0f);
-        column.setSpaceBetweenParagraphs(10.0f);
+        column.setLineSpacing(1.5f);        // 1.5 x font height
+        column.setParagraphSpacing(0.5f);   // 0.5 x line spacing
 
         Paragraph p1 = new Paragraph();
         p1.add(new TextLine(f1,
