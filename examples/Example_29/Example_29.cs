@@ -21,8 +21,8 @@ public class Example_29 {
         Paragraph paragraph = new Paragraph();
         Paragraph paragraph2 = new Paragraph();
         // a Paragraph has no size, just the list of
-                // internal List<TextLine> lines = null;
-                // each TextLine has its own settings
+        // internal List<TextLine> lines = null;
+        // each TextLine has its own settings
         paragraph.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
         paragraph.Add(new TextLine(font, " Nulla elementum interdum elit, quis vehicula urna interdum quis. "));
         paragraph.Add(new TextLine(font, "Phasellus gravida ligula quam, nec blandit nulla. Sed posuere, lorem eget feugiat placerat, ipsum nulla euismod nisi, in semper mi nibh sed elit. "));
@@ -66,7 +66,7 @@ public class Example_29 {
         List<Cell> row = new List<Cell>();
         Cell cell = new Cell(font, "");
         cell.SetTextColumn(column);
-        cell.SetWidth(400);
+        // cell.SetWidth(400);
         cell.SetStrokeColor(Color.red);
         cell.SetLineWidth(2f);
         row.Add(cell);

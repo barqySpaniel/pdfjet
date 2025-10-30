@@ -273,7 +273,7 @@ public class TextLine : IDrawable {
      *
      *  @return the width.
      */
-    public float GetStringWidth(String text) {
+    public float GetStringWidth(String text) {      // TODO: Check TextFrame.cs
         return font.StringWidth(fallbackFont, text);
     }
 
