@@ -217,7 +217,7 @@ public class Form implements Drawable {
                     int color = (i == 0) ? labelColor : valueColor;
                     new TextLine(font, field.values[i])
                             .setFontSize(fontSize)
-                            .setColor(color)
+                            .setTextColor(color)
                             .placeIn(box, field.x + font.descent, yField - font.descent)
                             .setAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
                             .drawOn(page);

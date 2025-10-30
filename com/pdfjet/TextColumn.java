@@ -238,7 +238,7 @@ public class TextColumn implements Drawable {
             for (String token : tokens) {
                 TextLine text = new TextLine(line.font, token + Single.space);
                 text.setFontSize(line.getFontSize());
-                text.setColor(line.getColor());
+                text.setTextColor(line.getTextColor());
                 text.setUnderline(line.getUnderline());
                 text.setStrikeout(line.getStrikeout());
                 text.setVerticalOffset(line.getVerticalOffset());

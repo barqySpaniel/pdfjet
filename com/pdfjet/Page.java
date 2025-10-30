@@ -1877,7 +1877,7 @@ final public class Page {
         float offset = (hypotenuse - stringWidth) / 2f;
         double angle = Math.atan(this.height / this.width);
         TextLine watermark = new TextLine(font);
-        watermark.setColor(Color.lightgrey);
+        watermark.setTextColor(Color.lightgrey);
         watermark.setText(text);
         watermark.setLocation(
                 (float) (offset * Math.cos(angle)),

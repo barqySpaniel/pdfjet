@@ -72,7 +72,7 @@ public class Example_10 {
         buf.append("organizations but retains a strong commitment to neutrality.");
 
         text = new TextLine(f1, buf.toString());
-        text.setColor(Color.red);
+        text.setTextColor(Color.red);
         p3.add(text);
 
         Paragraph p4 = new Paragraph();
@@ -99,7 +99,7 @@ public class Example_10 {
 
         text = new TextLine(f4,
                 "Even so, unemployment has remained at less than half the EU average.");
-        text.setColor(Color.blue);
+        text.setTextColor(Color.blue);
         p5.add(text);
 
         column.addParagraph(p1);

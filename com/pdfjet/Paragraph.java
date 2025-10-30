@@ -103,7 +103,7 @@ public class Paragraph {
      */
     public void setColor(int color) {
         for (TextLine line : lines) {
-            line.setColor(color);
+            line.setTextColor(color);
         }
     }
 

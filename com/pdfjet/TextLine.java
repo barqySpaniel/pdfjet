@@ -206,9 +206,13 @@ public class TextLine implements Drawable {
      *  @param color the color is specified as an integer.
      *  @return this TextLine.
      */
-    public TextLine setColor(int color) {
+    public TextLine setTextColor(int color) {
         this.color = color;
         return this;
+    }
+
+    public TextLine setColor(int color) {
+        return setTextColor(color);
     }
 
     /**
@@ -218,9 +222,13 @@ public class TextLine implements Drawable {
      *  @param color the color.
      *  @return this TextLine.
      */
-    public TextLine setColor(int[] color) {
+    public TextLine setTextColor(int[] color) {
         this.color = color[0] << 16 | color[1] << 8 | color[2];
         return this;
+    }
+
+    public TextLine setColor(int[] color) {
+        return setTextColor(color);
     }
 
     /**
@@ -228,6 +236,10 @@ public class TextLine implements Drawable {
      *
      *  @return the text line color.
      */
+    public int getTextColor() {
+        return this.color;
+    }
+
     public int getColor() {
         return this.color;
     }
