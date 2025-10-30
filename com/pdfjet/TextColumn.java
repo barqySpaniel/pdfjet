@@ -299,7 +299,7 @@ public class TextColumn implements Drawable {
             float sumOfWordWidths = 0f;
             for (int i = 0; i < list.size(); i++) {
                 TextLine textLine = list.get(i);
-                sumOfWordWidths += textLine.font.stringWidth(textLine.fallbackFont, textLine.text);
+                sumOfWordWidths += textLine.getWidth();
             }
             float dx = (w - sumOfWordWidths) / (list.size() - 1);
             for (int i = 0; i < list.size(); i++) {
@@ -311,7 +311,7 @@ public class TextColumn implements Drawable {
                             Annotation.Link,
                             x,
                             y - textLine.font.getAscent(),
-                            x + textLine.font.stringWidth(textLine.fallbackFont, textLine.text),
+                            x + textLine.getWidth(),
                             y + textLine.font.getDescent(),
                             null,                       // Vertices
                             null,                       // Fill Color
@@ -328,15 +328,15 @@ public class TextColumn implements Drawable {
                 if (rotate == 0) {
                     textLine.setTextDirection(0);
                     textLine.drawOn(page);
-                    x1 += textLine.font.stringWidth(textLine.fallbackFont, textLine.text) + dx;
+                    x1 += textLine.getWidth() + dx;
                 } else if (rotate == 90) {
                     textLine.setTextDirection(90);
                     textLine.drawOn(page);
-                    y1 -= textLine.font.stringWidth(textLine.fallbackFont, textLine.text) + dx;
+                    y1 -= textLine.getWidth() + dx;
                 } else if (rotate == 270) {
                     textLine.setTextDirection(270);
                     textLine.drawOn(page);
-                    y1 += textLine.font.stringWidth(textLine.fallbackFont, textLine.text) + dx;
+                    y1 += textLine.getWidth() + dx;
                 }
             }
         } else {
@@ -349,7 +349,7 @@ public class TextColumn implements Drawable {
         float runLength = 0f;
         for (int i = 0; i < list.size(); i++) {
             TextLine textLine = list.get(i);
-            runLength += textLine.font.stringWidth(textLine.fallbackFont, textLine.text);
+            runLength += textLine.getWidth();
         }
 
         if (alignment == Align.CENTER) {
@@ -378,7 +378,7 @@ public class TextColumn implements Drawable {
                         Annotation.Link,
                         x,
                         y - textLine.font.getAscent(),
-                        x + textLine.font.stringWidth(textLine.fallbackFont, textLine.text),
+                        x + textLine.getWidth(),
                         y + textLine.font.getDescent(),
                         null,                       // Vertices
                         null,                       // Fill Color
@@ -395,15 +395,15 @@ public class TextColumn implements Drawable {
             if (rotate == 0) {
                 textLine.setTextDirection(0);
                 textLine.drawOn(page);
-                x1 += textLine.font.stringWidth(textLine.fallbackFont, textLine.text);
+                x1 += textLine.getWidth();
             } else if (rotate == 90) {
                 textLine.setTextDirection(90);
                 textLine.drawOn(page);
-                y1 -= textLine.font.stringWidth(textLine.fallbackFont, textLine.text);
+                y1 -= textLine.getWidth();
             } else if (rotate == 270) {
                 textLine.setTextDirection(270);
                 textLine.drawOn(page);
-                y1 += textLine.font.stringWidth(textLine.fallbackFont, textLine.text);
+                y1 += textLine.getWidth();
             }
         }
         return new float[] {x1, y1};
