@@ -61,7 +61,7 @@ func NewTextLine(font *Font, text string) *TextLine {
 	return textLine
 }
 
-// NewTextLine is constructor for creating empty text line objects.
+// NewEmptyTextLine is constructor for creating empty text line objects.
 // @param font the font to use.
 func NewEmptyTextLine(font *Font) *TextLine {
 	return NewTextLine(font, "")
@@ -176,7 +176,7 @@ func (textLine *TextLine) GetWidth() float32 {
 	return textLine.font.StringWidth(textLine.fallbackFont, textLine.text)
 }
 
-// GetWidth returns the width of this TextLine.
+// GetStringWidth returns the width of this TextLine.
 // @return the width.
 func (textLine *TextLine) GetStringWidth(text string) float32 {
 	return textLine.font.StringWidth(textLine.fallbackFont, text)
