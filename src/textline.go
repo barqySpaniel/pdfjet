@@ -415,7 +415,7 @@ func (textLine *TextLine) DrawOn(page *Page) []float32 {
 		textLine.colorMap)
 	page.AddEMC()
 
-	radians := float64(math.Pi) * float64(textLine.degrees) / float64(180.0)
+	radians := math.Pi * float64(textLine.degrees) / 180.0
 	if textLine.underline {
 		page.SetPenWidth(textLine.font.underlineThickness)
 		page.SetPenColor(textLine.color)
