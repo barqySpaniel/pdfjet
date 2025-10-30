@@ -235,8 +235,9 @@ public class TextColumn : IDrawable {
             }
 
             String[] tokens = Regex.Split(line.text, @"\s+");
+            TextLine text = null;
             foreach (String token in tokens) {
-                TextLine text = new TextLine(line.font, token + Single.space);
+                text = new TextLine(line.font, token + Single.space);
                 text.SetFontSize(line.GetFontSize());
                 text.SetTextColor(line.GetTextColor());
                 text.SetUnderline(line.GetUnderline());
@@ -256,6 +257,7 @@ public class TextColumn : IDrawable {
                     runLength = text.GetWidth();
                 }
             }
+            text.lastToken = true;
         }
         DrawNonJustifiedLine(page, list);
 

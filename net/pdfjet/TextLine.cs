@@ -14,15 +14,12 @@ namespace PDFjet.NET {
 public class TextLine : IDrawable {
     internal float x;
     internal float y;
-
     internal Font font;
     internal Font fallbackFont;
     internal float fontSize;
     internal String text;
-    internal bool trailingSpace = true;
-
-    private String uri;
-    private String key;
+    internal bool trailingSpace = true; // This should be removed! TODO:
+    internal bool lastToken = false;    // We need this for underline and strikeout to work properly
 
     private bool underline = false;
     private bool strikeout = false;
@@ -34,9 +31,10 @@ public class TextLine : IDrawable {
     private int textEffect = Effect.NORMAL;
     private float verticalOffset = 0f;
 
+    private String uri;
+    private String key;
     private String language = null;
     private String altDescription = null;
-
     private String uriLanguage = null;
     private String uriActualText = null;
     private String uriAltDescription = null;
@@ -557,6 +555,9 @@ public class TextLine : IDrawable {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, fontSize, text);
+            if (this.lastToken) {
+                lineLength -= font.StringWidth(fallbackFont, fontSize, Single.space);
+            }
             double xAdjust = font.GetUnderlinePosition(fontSize) * Math.Sin(radians) + verticalOffset;
             double yAdjust = font.GetUnderlinePosition(fontSize) * Math.Cos(radians) + verticalOffset;
             double x2 = x + lineLength * Math.Cos(radians);
@@ -572,6 +573,9 @@ public class TextLine : IDrawable {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, fontSize, text);
+            if (this.lastToken) {
+                lineLength -= font.StringWidth(fallbackFont, fontSize, Single.space);
+            }
             double xAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Sin(radians);
             double yAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Cos(radians);
             double x2 = x + lineLength * Math.Cos(radians);
