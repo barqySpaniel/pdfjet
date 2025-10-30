@@ -233,6 +233,7 @@ public class TextColumn : IDrawable {
             String[] tokens = Regex.Split(line.text, @"\s+");
             foreach (String token in tokens) {
                 TextLine text = new TextLine(line.font, token + Single.space);
+                text.SetFontSize(line.fontSize);
                 text.SetTextColor(line.GetTextColor());
                 text.SetUnderline(line.GetUnderline());
                 text.SetStrikeout(line.GetStrikeout());
@@ -240,7 +241,7 @@ public class TextColumn : IDrawable {
                 text.SetURIAction(line.GetURIAction());
                 text.SetGoToAction(line.GetGoToAction());
                 text.SetFallbackFont(line.GetFallbackFont());
-                runLength += text.GetStringWidth();
+                runLength += text.GetWidth();
                 if (runLength < w) {
                     list.Add(text);
                 } else {
@@ -248,7 +249,7 @@ public class TextColumn : IDrawable {
                     MoveToNextLine();
                     list.Clear();
                     list.Add(text);
-                    runLength = text.GetStringWidth();
+                    runLength = text.GetWidth();
                 }
             }
         }
@@ -294,7 +295,7 @@ public class TextColumn : IDrawable {
             float sumOfWordWidths = 0f;
             for (int i = 0; i < list.Count; i++) {
                 TextLine textLine = list[i];
-                sumOfWordWidths += textLine.font.StringWidth(textLine.fallbackFont, textLine.text);
+                sumOfWordWidths += textLine.GetWidth();
             }
             float dx = (w - sumOfWordWidths) / (list.Count - 1);
             for (int i = 0; i < list.Count; i++) {
@@ -306,7 +307,7 @@ public class TextColumn : IDrawable {
                             Annotation.Link,
                             x,
                             y - textLine.font.GetAscent(),
-                            x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
+                            x + textLine.GetWidth(),
                             y + textLine.font.GetDescent(),
                             null,                       // Vertices
                             null,                       // Fill Color
@@ -323,15 +324,15 @@ public class TextColumn : IDrawable {
                 if (rotate == 0) {
                     textLine.SetTextDirection(0);
                     textLine.DrawOn(page);
-                    x1 += textLine.font.StringWidth(textLine.fallbackFont, textLine.text) + dx;
+                    x1 += textLine.GetWidth() + dx;
                 } else if (rotate == 90) {
                     textLine.SetTextDirection(90);
                     textLine.DrawOn(page);
-                    y1 -= textLine.font.StringWidth(textLine.fallbackFont, textLine.text) + dx;
+                    y1 -= textLine.GetWidth() + dx;
                 } else if (rotate == 270) {
                     textLine.SetTextDirection(270);
                     textLine.DrawOn(page);
-                    y1 += textLine.font.StringWidth(textLine.fallbackFont, textLine.text) + dx;
+                    y1 += textLine.GetWidth() + dx;
                 }
             }
         } else {
@@ -345,7 +346,7 @@ public class TextColumn : IDrawable {
         float runLength = 0f;
         for (int i = 0; i < list.Count; i++) {
             TextLine textLine = list[i];
-            runLength += textLine.font.StringWidth(textLine.fallbackFont, textLine.text);
+            runLength += textLine.GetWidth();
         }
 
         if (alignment == Align.CENTER) {
@@ -375,7 +376,7 @@ public class TextColumn : IDrawable {
                         Annotation.Link,
                         x,
                         y - textLine.font.GetAscent(),
-                        x + textLine.font.StringWidth(textLine.fallbackFont, textLine.text),
+                        x + textLine.GetWidth(),
                         y + textLine.font.GetDescent(),
                         null,                       // Vertices
                         null,                       // Fill Color
@@ -392,15 +393,15 @@ public class TextColumn : IDrawable {
             if (rotate == 0) {
                 textLine.SetTextDirection(0);
                 textLine.DrawOn(page);
-                x1 += textLine.font.StringWidth(textLine.fallbackFont, textLine.text);
+                x1 += textLine.GetWidth();
             } else if (rotate == 90) {
                 textLine.SetTextDirection(90);
                 textLine.DrawOn(page);
-                y1 -= textLine.font.StringWidth(textLine.fallbackFont, textLine.text);
+                y1 -= textLine.GetWidth();
             } else if (rotate == 270) {
                 textLine.SetTextDirection(270);
                 textLine.DrawOn(page);
-                y1 += textLine.font.StringWidth(textLine.fallbackFont, textLine.text);
+                y1 += textLine.GetWidth();
             }
         }
 

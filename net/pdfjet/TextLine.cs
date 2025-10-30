@@ -273,13 +273,12 @@ public class TextLine : IDrawable {
      *
      *  @return the width.
      */
-
     public float GetStringWidth(String text) {
         return font.StringWidth(fallbackFont, text);
     }
 
     public float GetStringWidth() {
-        return font.StringWidth(fallbackFont, this.text);
+        return font.StringWidth(fallbackFont, this.text);   // TODO:
     }
 
     /**
