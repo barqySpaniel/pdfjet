@@ -157,6 +157,10 @@ public class TextColumn : IDrawable {
         return this.w;
     }
 
+    public float GetHeight() {
+        return this.h;
+    }
+
     /**
      *  Sets the text alignment.
      *
