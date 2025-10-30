@@ -18,16 +18,13 @@ public class TextLine : IDrawable {
     internal Font fallbackFont;
     internal float fontSize;
     internal String text;
-    internal bool trailingSpace = true; // This should be removed! TODO:
-    internal bool lastToken = false;    // We need this for underline and strikeout to work properly
+    internal bool isLastToken = false;  // We need this for underline and strikeout to work properly!
 
     private bool underline = false;
     private bool strikeout = false;
-
     private int degrees = 0;
     private float[] textColor = new float[] {0f, 0f, 0f};
     private float[] lineColor = new float[] {0f, 0f, 0f};
-
     private int textEffect = Effect.NORMAL;
     private float verticalOffset = 0f;
 
@@ -426,26 +423,6 @@ public class TextLine : IDrawable {
         return verticalOffset;
     }
 
-    /**
-     *  Sets the trailing space after this text line when used in paragraph.
-     *
-     *  @param trailingSpace the trailing space.
-     *  @return this TextLine.
-     */
-    public TextLine SetTrailingSpace(bool trailingSpace) {
-        this.trailingSpace = trailingSpace;
-        return this;
-    }
-
-    /**
-     *  Returns the trailing space.
-     *
-     *  @return the trailing space.
-     */
-    public bool GetTrailingSpace() {
-        return trailingSpace;
-    }
-
     public TextLine SetLanguage(String language) {
         this.language = language;
         return this;
@@ -555,7 +532,7 @@ public class TextLine : IDrawable {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, fontSize, text);
-            if (this.lastToken) {
+            if (this.isLastToken) {
                 lineLength -= font.StringWidth(fallbackFont, fontSize, Single.space);
             }
             double xAdjust = font.GetUnderlinePosition(fontSize) * Math.Sin(radians) + verticalOffset;
@@ -573,7 +550,7 @@ public class TextLine : IDrawable {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
             double lineLength = font.StringWidth(fallbackFont, fontSize, text);
-            if (this.lastToken) {
+            if (this.isLastToken) {
                 lineLength -= font.StringWidth(fallbackFont, fontSize, Single.space);
             }
             double xAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Sin(radians);

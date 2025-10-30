@@ -13,23 +13,22 @@ public class Example_49 {
             new FileStream("Example_49.pdf", FileMode.Create)));
         pdf.SetCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.SetSize(14f);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
+        Font f2 = new Font(pdf, IBMPlexSans.Italic);
         f2.SetSize(16f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Paragraph paragraph1 = new Paragraph()
                 .Add(new TextLine(f1, "Hello"))
-                .Add(new TextLine(f1, "W").SetColor(Color.black).SetTrailingSpace(false))
-                .Add(new TextLine(f1, "o").SetColor(Color.red).SetTrailingSpace(false))
-                .Add(new TextLine(f1, "r").SetColor(Color.green).SetTrailingSpace(false))
-                .Add(new TextLine(f1, "l").SetColor(Color.blue).SetTrailingSpace(false))
+                .Add(new TextLine(f1, "W").SetColor(Color.black))
+                .Add(new TextLine(f1, "o").SetColor(Color.red))
+                .Add(new TextLine(f1, "r").SetColor(Color.green))
+                .Add(new TextLine(f1, "l").SetColor(Color.blue))
                 .Add(new TextLine(f1, "d").SetColor(Color.black))
-                .Add(new TextLine(f1, "$").SetTrailingSpace(false)
-                        .SetVerticalOffset(f1.GetAscent() - f2.GetAscent()))
+                .Add(new TextLine(f1, "$").SetVerticalOffset(f1.GetAscent() - f2.GetAscent()))
                 .Add(new TextLine(f2, "29.95").SetColor(Color.blue))
                 .SetAlignment(Align.RIGHT);
 

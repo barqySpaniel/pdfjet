@@ -13,23 +13,22 @@ public class Example_49 {
             new BufferedOutputStream(new FileOutputStream("Example_49.pdf")));
         pdf.setCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream");
-        Font f2 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream");
-
+        Font f1 = new Font(pdf, SourceSerif4.Regular);
         f1.setSize(14f);
+
+        Font f2 = new Font(pdf, SourceSerif4.Italic);
         f2.setSize(16f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         Paragraph paragraph1 = new Paragraph()
                 .add(new TextLine(f1, "Hello"))
-                .add(new TextLine(f1, "W").setColor(Color.black).setTrailingSpace(false))
-                .add(new TextLine(f1, "o").setColor(Color.red).setTrailingSpace(false))
-                .add(new TextLine(f1, "r").setColor(Color.green).setTrailingSpace(false))
-                .add(new TextLine(f1, "l").setColor(Color.blue).setTrailingSpace(false))
+                .add(new TextLine(f1, "W").setColor(Color.black))
+                .add(new TextLine(f1, "o").setColor(Color.red))
+                .add(new TextLine(f1, "r").setColor(Color.green))
+                .add(new TextLine(f1, "l").setColor(Color.blue))
                 .add(new TextLine(f1, "d").setColor(Color.black))
-                .add(new TextLine(f1, "$").setTrailingSpace(false)
-                        .setVerticalOffset(f1.getAscent() - f2.getAscent()))
+                .add(new TextLine(f1, "$").setVerticalOffset(f1.getAscent() - f2.getAscent()))
                 .add(new TextLine(f2, "29.95").setColor(Color.blue))
                 .setAlignment(Align.RIGHT);
 

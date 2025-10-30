@@ -257,7 +257,7 @@ public class TextColumn : IDrawable {
                     runLength = text.GetWidth();
                 }
             }
-            text.lastToken = true;
+            text.isLastToken = true;
         }
         DrawNonJustifiedLine(page, list);
 

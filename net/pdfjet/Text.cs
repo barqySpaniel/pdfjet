@@ -104,7 +104,7 @@ public class Text : IDrawable {
                 }
                 float[] point = DrawTextLine(page, xText, yText, textLine);
                 xText = point[0];
-                if (textLine.GetTrailingSpace()) {
+                if (!textLine.isLastToken) {
                     xText += spaceBetweenTextLines;
                 }
                 yText = point[1];
