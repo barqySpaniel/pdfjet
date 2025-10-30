@@ -242,7 +242,7 @@ public class TextColumn : IDrawable {
                 text.SetGoToAction(line.GetGoToAction());
                 text.SetFallbackFont(line.GetFallbackFont());
                 runLength += text.GetWidth();
-                if (runLength < w) {
+                if (runLength < this.w) {
                     list.Add(text);
                 } else {
                     DrawLineOfText(page, list);
