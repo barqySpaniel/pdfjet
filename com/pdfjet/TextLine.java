@@ -17,6 +17,7 @@ public class TextLine implements Drawable {
 
     protected Font font;
     protected Font fallbackFont;
+    protected float fontSize;
     protected String text;
     protected boolean trailingSpace = true;
 
@@ -53,6 +54,7 @@ public class TextLine implements Drawable {
     public TextLine(Font font) {
         this.font = font;
         this.fallbackFont = font;
+        this.fontSize = font.getSize();
     }
 
     /**
@@ -64,6 +66,7 @@ public class TextLine implements Drawable {
     public TextLine(Font font, String text) {
         this.font = font;
         this.fallbackFont = font;
+        this.fontSize = font.getSize();
         this.text = text;
         this.altDescription = text;
     }
@@ -162,6 +165,10 @@ public class TextLine implements Drawable {
         return this;
     }
 
+    public float getFontSize() {
+        return this.fontSize;
+    }
+
     /**
      *  Sets the fallback font.
      *
@@ -240,7 +247,7 @@ public class TextLine implements Drawable {
      * @return the y coordinate of the destination.
      */
     public float getDestinationY() {
-        return y - font.getSize();
+        return y - this.fontSize;
     }
 
     /**
@@ -249,7 +256,7 @@ public class TextLine implements Drawable {
      *  @return the width.
      */
     public float getWidth() {
-        return font.stringWidth(fallbackFont, text);
+        return font.stringWidth(fallbackFont, this.fontSize, text);
     }
 
     /**
@@ -259,10 +266,6 @@ public class TextLine implements Drawable {
      */
     public float getStringWidth(String text) {
         return font.stringWidth(fallbackFont, text);
-    }
-
-    public float getStringWidth() {
-        return font.stringWidth(fallbackFont, this.text);
     }
 
     /**

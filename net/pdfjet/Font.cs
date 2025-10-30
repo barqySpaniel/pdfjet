@@ -464,10 +464,10 @@ public class Font {
         this.skew15 = skew15;
     }
 
-
     public float StringWidth(Font fallbackFont, String str) {
         return StringWidth(fallbackFont, this.size, str);
     }
+
     /**
      * Returns the width of a string drawn using two fonts.
      *

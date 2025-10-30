@@ -351,6 +351,10 @@ final public class Font {
         this.kernPairs = kernPairs;
     }
 
+    public float stringWidth(String str) {
+        return stringWidth(this.size, str);
+    }
+
     /**
      * Returns the width of the specified string when drawn on the page with this
      * font using the current font size.
@@ -360,7 +364,7 @@ final public class Font {
      * @return the width of the string when draw on the page with this font using
      *         the current selected size.
      */
-    public float stringWidth(String str) {
+    public float stringWidth(float fontSize, String str) {
         float width = 0f;
 
         if (str == null) {
@@ -403,7 +407,7 @@ final public class Font {
             }
         }
 
-        return width * size / unitsPerEm;
+        return width * fontSize / unitsPerEm;
     }
 
     /**
@@ -549,6 +553,10 @@ final public class Font {
         this.skew15 = skew15;
     }
 
+    public float stringWidth(Font fallbackFont, String str) {
+        return stringWidth(fallbackFont, this.size, str);
+    }
+
     /**
      * Returns the width of a string drawn using two fonts.
      *
@@ -556,11 +564,11 @@ final public class Font {
      * @param str          the string.
      * @return the width.
      */
-    public float stringWidth(Font fallbackFont, String str) {
+    public float stringWidth(Font fallbackFont, float fontSize, String str) {
         float width = 0f;
 
         if (this.isCoreFont || this.isCJK || fallbackFont == null || fallbackFont.isCoreFont || fallbackFont.isCJK) {
-            return stringWidth(str);
+            return stringWidth(fontSize, str);
         }
 
         Font activeFont = this;
@@ -568,7 +576,7 @@ final public class Font {
         for (int i = 0; i < str.length(); i++) {
             int ch = str.charAt(i);
             if (activeFont.unicodeToGID[ch] == 0) {
-                width += activeFont.stringWidth(buf.toString());
+                width += activeFont.stringWidth(fontSize, buf.toString());
                 buf.setLength(0);
                 // Switch the active font
                 if (activeFont == this) {
@@ -579,7 +587,7 @@ final public class Font {
             }
             buf.append((char) ch);
         }
-        width += activeFont.stringWidth(buf.toString());
+        width += activeFont.stringWidth(fontSize, buf.toString());
 
         return width;
     }

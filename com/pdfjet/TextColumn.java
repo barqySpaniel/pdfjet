@@ -237,6 +237,7 @@ public class TextColumn implements Drawable {
             String[] tokens = line.text.split("\\s+");
             for (String token : tokens) {
                 TextLine text = new TextLine(line.font, token + Single.space);
+                text.setFontSize(line.getFontSize());
                 text.setColor(line.getColor());
                 text.setUnderline(line.getUnderline());
                 text.setStrikeout(line.getStrikeout());
@@ -244,7 +245,7 @@ public class TextColumn implements Drawable {
                 text.setURIAction(line.getURIAction());
                 text.setGoToAction(line.getGoToAction());
                 text.setFallbackFont(line.getFallbackFont());
-                runLength += text.getStringWidth();
+                runLength += text.getWidth();
                 if (runLength < this.w) {
                     list.add(text);
                 } else {
@@ -252,7 +253,7 @@ public class TextColumn implements Drawable {
                     moveToNextLine();
                     list.clear();
                     list.add(text);
-                    runLength = text.getStringWidth();
+                    runLength = text.getWidth();
                 }
             }
         }
