@@ -277,10 +277,6 @@ public class TextLine : IDrawable {
         return font.StringWidth(fallbackFont, text);
     }
 
-    public float GetStringWidth() {
-        return font.StringWidth(fallbackFont, this.text);   // TODO:
-    }
-
     /**
      *  Returns the height of this TextLine.
      *
