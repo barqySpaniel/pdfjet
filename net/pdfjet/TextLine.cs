@@ -556,7 +556,9 @@ public class TextLine : IDrawable {
         if (underline) {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
-            double lineLength = font.StringWidth(fallbackFont, fontSize, text);
+            double lineLength =
+                font.StringWidth(fallbackFont, fontSize, text) -
+                font.StringWidth(fallbackFont, fontSize, Single.space);
             double xAdjust = font.GetUnderlinePosition(fontSize) * Math.Sin(radians) + verticalOffset;
             double yAdjust = font.GetUnderlinePosition(fontSize) * Math.Cos(radians) + verticalOffset;
             double x2 = x + lineLength * Math.Cos(radians);
@@ -571,7 +573,9 @@ public class TextLine : IDrawable {
         if (strikeout) {
             page.SetPenWidth(font.GetUnderlineThickness(fontSize));
             page.SetPenColor(lineColor);
-            double lineLength = font.StringWidth(fallbackFont, fontSize, text);
+            double lineLength =
+                font.StringWidth(fallbackFont, fontSize, text) -
+                font.StringWidth(fallbackFont, fontSize, Single.space);
             double xAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Sin(radians);
             double yAdjust = ( font.GetBodyHeight(fontSize) / 4.0 ) * Math.Cos(radians);
             double x2 = x + lineLength * Math.Cos(radians);
