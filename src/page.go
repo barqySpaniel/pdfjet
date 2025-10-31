@@ -80,19 +80,6 @@ const (
 	mTransY
 )
 
-/**
- *  Creates page object and add it to the PDF document.
- *
- *  Please note:
- *  <pre>
- *  The coordinate (0.0, 0.0) is the top left corner of the page.
- *  The size of the pages are represented in points.
- *  1 point is 1/72 inches.
- *  </pre>
- *
- *  @param pdf the pdf object.
- *  @param pageSize the page size of this page.
- */
 func NewPage(pdf *PDF, pageSize [2]float32) *Page {
 	return newPage(pdf, pageSize, true)
 }
@@ -249,7 +236,7 @@ func (page *Page) DrawStringUsingColorMap(
 		for _, ch := range text {
 			if activeFont.unicodeToGID[ch] == 0 {
 				page.drawString(activeFont, buf.String(), x, y, brush, colors)
-				x += activeFont.stringWidth(buf.String())
+				x += activeFont.stringWidth(activeFont.size, buf.String())
 				buf.Reset()
 				// Switch the active font
 				if activeFont == font {
@@ -1464,7 +1451,7 @@ func (page *Page) DrawArrayOfCharacters(font *Font, text string, x, y, dx float3
 func (page *Page) AddWatermark(font *Font, text string) {
 	hypotenuse := float32(math.Sqrt(
 		float64(page.height*page.height + page.width*page.width)))
-	stringWidth := font.stringWidth(text)
+	stringWidth := font.stringWidth(font.size, text)
 	offset := (hypotenuse - stringWidth) / 2.0
 	angle := math.Atan(float64(page.height / page.width))
 	watermark := NewTextLine(font, "")

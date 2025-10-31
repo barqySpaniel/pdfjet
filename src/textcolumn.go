@@ -165,6 +165,7 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 		var text *TextLine
 		for _, token := range tokens {
 			text = NewTextLine(line.font, token)
+			text.SetFontSize(line.GetFontSize())
 			text.SetColor(line.GetColor())
 			text.SetUnderline(line.GetUnderline())
 			text.SetStrikeout(line.GetStrikeout())
@@ -172,22 +173,23 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 			text.SetURIAction(line.GetURIAction())
 			text.SetGoToAction(line.GetGoToAction())
 			text.SetFallbackFont(line.GetFallbackFont())
-			runLength += line.font.StringWidth(line.GetFallbackFont(), token)
+			runLength += line.font.StringWidth(line.GetFallbackFont(), line.font.size, token)
 			if runLength < textColumn.w {
 				list = append(list, text)
-				runLength += line.font.StringWidth(line.GetFallbackFont(), single.Space)
+				runLength += line.font.StringWidth(line.GetFallbackFont(), line.font.size, single.Space)
 			} else {
 				textColumn.drawLineOfText(page, list)
 				textColumn.moveToNextLine()
 				list = make([]*TextLine, 0)
 				list = append(list, text)
-				runLength = line.font.StringWidth(line.GetFallbackFont(), token+single.Space)
+				runLength = line.font.StringWidth(line.GetFallbackFont(), line.font.size, token+single.Space)
 			}
 		}
-		if !line.GetTrailingSpace() {
-			runLength -= line.font.StringWidth(line.GetFallbackFont(), single.Space)
-			text.SetTrailingSpace(false)
-		}
+		// TODO:
+		//if !line.GetTrailingSpace() {
+		//	runLength -= line.font.StringWidth(line.GetFallbackFont(), line.font.size, single.Space)
+		//	text.SetTrailingSpace(false)
+		//}
 	}
 	textColumn.drawNonJustifiedLine(page, list)
 
@@ -230,7 +232,7 @@ func (textColumn *TextColumn) drawLineOfText(page *Page, textLines []*TextLine) 
 	if textColumn.alignment == align.Justify {
 		var sumOfWordWidths float32
 		for _, textLine := range textLines {
-			sumOfWordWidths += textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text)
+			sumOfWordWidths += textLine.GetWidth()
 		}
 		dx := (textColumn.w - sumOfWordWidths) / float32(len(textLines)-1)
 		for _, textLine := range textLines {
@@ -241,7 +243,7 @@ func (textColumn *TextColumn) drawLineOfText(page *Page, textLines []*TextLine) 
 					textLine.key, // The destination name
 					textColumn.x,
 					page.height-(textColumn.y-textLine.font.ascent),
-					textColumn.x+textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text),
+					textColumn.x+textLine.GetWidth(),
 					page.height-(textColumn.y+textLine.font.descent),
 					"",
 					"",
@@ -251,15 +253,15 @@ func (textColumn *TextColumn) drawLineOfText(page *Page, textLines []*TextLine) 
 			if textColumn.rotate == 0 {
 				textLine.SetTextDirection(0)
 				textLine.DrawOn(page)
-				textColumn.x1 += textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text) + dx
+				textColumn.x1 += textLine.GetWidth() + dx
 			} else if textColumn.rotate == 90 {
 				textLine.SetTextDirection(90)
 				textLine.DrawOn(page)
-				textColumn.y1 -= textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text) + dx
+				textColumn.y1 -= textLine.GetWidth() + dx
 			} else if textColumn.rotate == 270 {
 				textLine.SetTextDirection(270)
 				textLine.DrawOn(page)
-				textColumn.y1 += textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text) + dx
+				textColumn.y1 += textLine.GetWidth() + dx
 			}
 		}
 	} else {
@@ -276,7 +278,7 @@ func (textColumn *TextColumn) drawNonJustifiedLine(page *Page, textLines []*Text
 				textLine.text += single.Space
 			}
 		}
-		runLength += textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text)
+		runLength += textLine.GetWidth()
 	}
 
 	if textColumn.alignment == align.Center {
@@ -305,7 +307,7 @@ func (textColumn *TextColumn) drawNonJustifiedLine(page *Page, textLines []*Text
 				textLine.GetGoToAction(), // The destination name
 				textColumn.x,
 				textColumn.y-textLine.font.ascent,
-				textColumn.x+textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text),
+				textColumn.x+textLine.GetWidth(),
 				textColumn.y+textLine.font.descent,
 				"",
 				"",
@@ -315,15 +317,15 @@ func (textColumn *TextColumn) drawNonJustifiedLine(page *Page, textLines []*Text
 		if textColumn.rotate == 0 {
 			textLine.SetTextDirection(0)
 			textLine.DrawOn(page)
-			textColumn.x1 += textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text)
+			textColumn.x1 += textLine.GetWidth()
 		} else if textColumn.rotate == 90 {
 			textLine.SetTextDirection(90)
 			textLine.DrawOn(page)
-			textColumn.y1 -= textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text)
+			textColumn.y1 -= textLine.GetWidth()
 		} else if textColumn.rotate == 270 {
 			textLine.SetTextDirection(270)
 			textLine.DrawOn(page)
-			textColumn.y1 += textLine.font.StringWidth(textLine.GetFallbackFont(), textLine.text)
+			textColumn.y1 += textLine.GetWidth()
 		}
 	}
 }
@@ -336,7 +338,7 @@ func (textColumn *TextColumn) AddChineseParagraph(font *Font, text string) {
 	var paragraph *Paragraph
 	var buf strings.Builder
 	for _, ch := range text {
-		if font.stringWidth(buf.String()+string(ch)) > textColumn.w {
+		if font.stringWidth(font.size, buf.String()+string(ch)) > textColumn.w {
 			paragraph = NewParagraph()
 			paragraph.Add(NewTextLine(font, buf.String()))
 			textColumn.paragraphs = append(textColumn.paragraphs, paragraph)

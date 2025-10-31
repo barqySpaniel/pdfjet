@@ -71,7 +71,7 @@ func Example27() {
 	str = pdfjet.ReorderVisually(str)
 	textLine := pdfjet.NewTextLine(f3, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f3.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f3.StringWidth(f2, f3.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -79,7 +79,7 @@ func Example27() {
 	str = pdfjet.ReorderVisually(str)
 	textLine = pdfjet.NewTextLine(f3, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f3.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f3.StringWidth(f2, f3.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -87,7 +87,7 @@ func Example27() {
 	str = pdfjet.ReorderVisually(str)
 	textLine = pdfjet.NewTextLine(f3, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f3.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f3.StringWidth(f2, f3.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -95,7 +95,7 @@ func Example27() {
 	str = pdfjet.ReorderVisually(str)
 	textLine = pdfjet.NewTextLine(f3, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f3.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f3.StringWidth(f2, f3.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -103,7 +103,7 @@ func Example27() {
 	str = pdfjet.ReorderVisually(str)
 	textLine = pdfjet.NewTextLine(f3, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f3.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f3.StringWidth(f2, f3.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 60.0
@@ -111,7 +111,7 @@ func Example27() {
 		"قالت شركة PSA بيجو ستروين الفرنسية وشريكتها الصينية شركة دونغفينغ موترز الاربعاء إنهما اتفقتا")
 	textLine = pdfjet.NewTextLine(f4, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f4.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f4.StringWidth(f2, f4.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -119,7 +119,7 @@ func Example27() {
 		"على التعاون في تطوير السيارات التي تعمل بالطاقة الكهربائية اعتبارا من عام 2019.")
 	textLine = pdfjet.NewTextLine(f4, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f4.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f4.StringWidth(f2, f4.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -127,7 +127,7 @@ func Example27() {
 		"وجاء في تصريح اصدرته في باريس الشركة الفرنسية ان الشركتين ستنتجان نموذجا كهربائيا مشتركا تستخدمه كل")
 	textLine = pdfjet.NewTextLine(f4, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f4.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f4.StringWidth(f2, f4.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -135,7 +135,7 @@ func Example27() {
 		"من بيجو وسيتروين ودونغفينغ.")
 	textLine = pdfjet.NewTextLine(f4, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f4.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f4.StringWidth(f2, f4.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	y += 20.0
@@ -143,7 +143,7 @@ func Example27() {
 		"وقالت إن الخطة تهدف الى تحقيق عائد يزيد على 100 مليار يوان (15,4 مليار دولار) بحلول عام 2020.")
 	textLine = pdfjet.NewTextLine(f4, str)
 	textLine.SetFallbackFont(f2)
-	textLine.SetLocation(600.0-f4.StringWidth(f2, str), y)
+	textLine.SetLocation(600.0-f4.StringWidth(f2, f4.GetSize(), str), y)
 	textLine.DrawOn(page)
 
 	pdf.Complete()

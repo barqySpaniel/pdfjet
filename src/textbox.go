@@ -202,13 +202,13 @@ func (textBox *TextBox) GetMargin() float32 {
 	return textBox.margin
 }
 
-// SetLineWidth sets the border line width.
+// SetBorderWidth sets the border line width.
 // @param lineWidth float
 func (textBox *TextBox) SetBorderWidth(borderWidth float32) {
 	textBox.borderWidth = borderWidth
 }
 
-// GetLineWidth returns the border line width.
+// GetBorderWidth returns the border line width.
 // @return float the line width.
 func (textBox *TextBox) GetBorderWidth() float32 {
 	return textBox.borderWidth
@@ -220,7 +220,7 @@ func (textBox *TextBox) SetLineHeight(lineHeight float32) {
 	textBox.lineHeight = lineHeight
 }
 
-// GetSpacing returns the spacing between lines of text.
+// GetLineHeight returns the spacing between lines of text.
 // @return float the spacing.
 func (textBox *TextBox) GetLineHeight() float32 {
 	return textBox.lineHeight
@@ -232,7 +232,7 @@ func (textBox *TextBox) SetBgColor(color int32) {
 	textBox.background = color
 }
 
-// SetBgColor sets the background to the specified color using RGB values.
+// SetBgColorRGB sets the background to the specified color using RGB values.
 // @param color the color specified as array of integer values from 0x00 to 0xFF.
 func (textBox *TextBox) SetBgColorRGB(color []int32) {
 	textBox.background = color[0]<<16 | color[1]<<8 | color[2]
@@ -244,27 +244,27 @@ func (textBox *TextBox) GetBgColor() int32 {
 	return textBox.background
 }
 
-// Sets the penColor and brushColor colors to the specified color.
+// SetFgColor sets the pen and brush colors to the specified color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetFgColor(color int32) {
 	textBox.pen = color
 	textBox.brush = color
 }
 
-// SetFgColor sets the penColor and brushColor colors to the specified color using RGB values.
+// SetFgColorRGB sets the pen and brush colors to the specified color using RGB values.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetFgColorRGB(color []int32) {
 	textBox.pen = color[0]<<16 | color[1]<<8 | color[2]
 	textBox.brush = textBox.pen
 }
 
-// Sets the penColor color.
+// SetPenColor sets the pen color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetPenColor(color int32) {
 	textBox.pen = color
 }
 
-// SetPenColor sets the penColor color using RGB values.
+// SetPenColorRGB sets the pen color using RGB values.
 // @param color the color specified as an array of int values from 0x00 to 0xFF.
 func (textBox *TextBox) SetPenColorRGB(color []int32) {
 	textBox.pen = color[0]<<16 | color[1]<<8 | color[2]
@@ -276,13 +276,13 @@ func (textBox *TextBox) GetPenColor() int32 {
 	return textBox.pen
 }
 
-// Sets the brushColor color.
+// SetBrushColor sets the brush color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBox *TextBox) SetBrushColor(color int32) {
 	textBox.brush = color
 }
 
-// SetBrushColor sets the brushColor color.
+// SetBrushColorRGB sets the brushColor color.
 // @param color the color specified as an array of int values from 0x00 to 0xFF.
 func (textBox *TextBox) SetBrushColorRGB(color []int32) {
 	textBox.brush = color[0]<<16 | color[1]<<8 | color[2]
@@ -332,7 +332,7 @@ func (textBox *TextBox) GetBorder(value int) bool {
 	return false
 }
 
-// SetBorder sets all the TextBox borders.
+// SetBorders sets all the TextBox borders.
 // @param borders sets all borders if true, no borders otherwise.
 func (textBox *TextBox) SetBorders(borders bool) {
 	if borders {
@@ -347,14 +347,14 @@ func (textBox *TextBox) SetBorders(borders bool) {
 // Supported values: align.Left, align.Right and align.Center
 func (textBox *TextBox) SetTextAlignment(alignment int) {
 	textBox.properties &= 0x00CFFFFF
-	textBox.properties |= (alignment & 0x00300000)
+	textBox.properties |= alignment & 0x00300000
 }
 
 // GetTextAlignment returns the text alignment.
 // @return alignment the alignment code.
 // Supported values: align.Left, align.Right and align.Center
 func (textBox *TextBox) GetTextAlignment() int {
-	return (textBox.properties & 0x00300000)
+	return textBox.properties & 0x00300000
 }
 
 // SetUnderline sets the underline variable.
@@ -372,7 +372,7 @@ func (textBox *TextBox) GetUnderline() bool {
 	return (textBox.properties & 0x00400000) != 0
 }
 
-// SetStrikeout sets the srikeout flag.
+// SetStrikeout sets the strikeout flag.
 // In the flag is true - draw strikeout line through the text.
 func (textBox *TextBox) SetStrikeout(strikeout bool) {
 	if strikeout {
@@ -447,7 +447,7 @@ func (textBox *TextBox) drawBorders(page *Page) {
 	}
 }
 
-func (text *TextBox) textIsCJK(str string) bool {
+func (textBox *TextBox) textIsCJK(str string) bool {
 	// CJK Unified Ideographs Range: 4E00–9FD5
 	// Hiragana Range: 3040–309F
 	// Katakana Range: 30A0–30FF
@@ -476,14 +476,14 @@ func (textBox *TextBox) getTextLines() []string {
 	}
 	lines := strings.Split(strings.ReplaceAll(textBox.text, "\r\n", "\n"), "\n")
 	for _, line := range lines {
-		if textBox.font.StringWidth(textBox.fallbackFont, line) <= textAreaWidth {
+		if textBox.font.StringWidth(textBox.fallbackFont, textBox.font.size, line) <= textAreaWidth {
 			list = append(list, line)
 		} else {
 			if textBox.textIsCJK(line) {
 				var sb strings.Builder
 				for _, ch := range line {
 					if textBox.font.StringWidth(
-						textBox.fallbackFont, sb.String()+string(ch)) <= textAreaWidth {
+						textBox.fallbackFont, textBox.font.size, sb.String()+string(ch)) <= textAreaWidth {
 						sb.WriteRune(ch)
 					} else {
 						list = append(list, sb.String())
@@ -499,7 +499,7 @@ func (textBox *TextBox) getTextLines() []string {
 				var tokens = strings.Fields(line)
 				for _, token := range tokens {
 					if textBox.font.StringWidth(
-						textBox.fallbackFont, sb.String()+token) <= textAreaWidth {
+						textBox.fallbackFont, textBox.font.size, sb.String()+token) <= textAreaWidth {
 						sb.WriteString(token + " ")
 					} else {
 						list = append(list, strings.TrimSpace(sb.String()))
@@ -575,15 +575,18 @@ func (textBox *TextBox) DrawOn(page *Page) [2]float32 {
 				if textBox.GetTextAlignment() == align.Left {
 					xText = textBox.x + textBox.margin
 				} else if textBox.GetTextAlignment() == align.Right {
-					xText = (textBox.x + textBox.width) - (textBox.font.StringWidth(textBox.fallbackFont, line) + textBox.margin)
+					xText = (textBox.x + textBox.width) -
+						(textBox.font.StringWidth(textBox.fallbackFont, textBox.font.size, line) + textBox.margin)
 				} else if textBox.GetTextAlignment() == align.Right {
-					xText = textBox.x + (textBox.width-textBox.font.StringWidth(textBox.fallbackFont, line))/2
+					xText = textBox.x +
+						(textBox.width-textBox.font.StringWidth(textBox.fallbackFont, textBox.font.size, line))/2
 				}
 			} else {
 				xText = textBox.y + textBox.margin
 			}
 			if page != nil {
-				textBox.DrawTextLine(page, textBox.font, textBox.fallbackFont, line, xText, yText, textBox.brush, textBox.colors)
+				textBox.DrawTextLine(page, textBox.font,
+					textBox.fallbackFont, line, xText, yText, textBox.brush, textBox.colors)
 			}
 			if textBox.textDirection == direction.LeftToRight ||
 				textBox.textDirection == direction.BottomToTop {
@@ -609,15 +612,18 @@ func (textBox *TextBox) DrawOn(page *Page) [2]float32 {
 				if textBox.GetTextAlignment() == align.Left {
 					xText = textBox.x + textBox.margin
 				} else if textBox.GetTextAlignment() == align.Right {
-					xText = (textBox.x + textBox.width) - (textBox.font.StringWidth(textBox.fallbackFont, line) + textBox.margin)
+					xText = (textBox.x + textBox.width) -
+						(textBox.font.StringWidth(textBox.fallbackFont, textBox.font.size, line) + textBox.margin)
 				} else if textBox.GetTextAlignment() == align.Center {
-					xText = textBox.x + (textBox.width-textBox.font.StringWidth(textBox.fallbackFont, line))/2
+					xText = textBox.x +
+						(textBox.width-textBox.font.StringWidth(textBox.fallbackFont, textBox.font.size, line))/2
 				}
 			} else {
 				xText = textBox.x + textBox.margin
 			}
 			if page != nil {
-				textBox.DrawTextLine(page, textBox.font, textBox.fallbackFont, line, xText, yText, textBox.brush, textBox.colors)
+				textBox.DrawTextLine(page, textBox.font,
+					textBox.fallbackFont, line, xText, yText, textBox.brush, textBox.colors)
 			}
 			if textBox.textDirection == direction.LeftToRight ||
 				textBox.textDirection == direction.BottomToTop {
@@ -647,7 +653,7 @@ func (textBox *TextBox) DrawOn(page *Page) [2]float32 {
 	return [2]float32{textBox.x + textBox.width, textBox.y + textBox.height}
 }
 
-// DrawText draws the text on the page.
+// DrawTextLine draws the text on the page.
 func (textBox *TextBox) DrawTextLine(
 	page *Page,
 	font, fallbackFont *Font,
@@ -670,7 +676,7 @@ func (textBox *TextBox) DrawTextLine(
 	}
 	page.AddEMC()
 	if textBox.textDirection == direction.LeftToRight {
-		lineLength := textBox.font.StringWidth(textBox.fallbackFont, text)
+		lineLength := textBox.font.StringWidth(textBox.fallbackFont, textBox.font.size, text)
 		if textBox.GetUnderline() {
 			page.AddArtifactBMC()
 			page.MoveTo(xText, yText+font.underlinePosition)
@@ -688,9 +694,9 @@ func (textBox *TextBox) DrawTextLine(
 	}
 }
 
-func (textBlock *TextBox) SetURIAction(uri string) *TextBox {
-	textBlock.uri = &uri
-	return textBlock
+func (textBox *TextBox) SetURIAction(uri string) *TextBox {
+	textBox.uri = &uri
+	return textBox
 }
 
 func (textBox *TextBox) SetTextDirection(textDirection direction.Direction) {

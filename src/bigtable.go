@@ -158,7 +158,7 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 		case align.Left: // Align Left
 			bt.page.SetTextLocation(xText1, bt.yText)
 		case align.Right: // Align Right
-			bt.page.SetTextLocation(xText2-font.StringWidth(nil, text), bt.yText)
+			bt.page.SetTextLocation(xText2-font.StringWidth(nil, font.size, text), bt.yText)
 		}
 		bt.page.DrawText(text)
 		bt.page.EndText()
@@ -253,7 +253,7 @@ func (bt *BigTable) SetTableData(fileName, delimiter string) error {
 		}
 		for i := 0; i < bt.numberOfColumns; i++ {
 			field := fields[i]
-			width := bt.f1.StringWidth(nil, field) + 2*bt.padding
+			width := bt.f1.StringWidth(nil, bt.f1.size, field) + 2*bt.padding
 			if width > bt.widths[i] {
 				bt.widths[i] = width
 			}

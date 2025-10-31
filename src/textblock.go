@@ -95,7 +95,7 @@ func (textBlock *TextBlock) SetFontSize(size float32) {
 	textBlock.font.SetSize(size)
 }
 
-// SetFontSize sets the font size for the text block.
+// SetFallbackFontSize sets the font size for the text block.
 //
 // @param size the font size.
 func (textBlock *TextBlock) SetFallbackFontSize(size float32) {
@@ -146,12 +146,12 @@ func (textBlock *TextBlock) SetWidth(w float32) {
 }
 
 // SetBorderCornerRadius sets the border corner radius.
-// @param borderRadius float the border corners radius.
+// @param borderRadius float the border corner radius.
 func (textBlock *TextBlock) SetBorderCornerRadius(borderCornerRadius float32) {
 	textBlock.borderCornerRadius = borderCornerRadius
 }
 
-// SetPadding sets the padding around the block of text.
+// SetTextPadding sets the padding around the block of text.
 // @param padding the padding between the text and the border.
 func (textBlock *TextBlock) SetTextPadding(padding float32) {
 	textBlock.textPadding = padding
@@ -163,36 +163,36 @@ func (textBlock *TextBlock) SetBorderWidth(borderWidth float32) {
 	textBlock.borderWidth = borderWidth
 }
 
-// Sets the penColor color.
+// SetBorderColor sets the penColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBlock *TextBlock) SetBorderColor(borderColor int32) {
 	textBlock.borderColor = borderColor
 }
 
-// SetLineHeight sets the extra leading between lines of text.
+// SetTextLineHeight sets the extra leading between lines of text.
 // @param lineHeight
 func (textBlock *TextBlock) SetTextLineHeight(lineSpacing float32) {
 	textBlock.lineSpacing = lineSpacing
 }
 
-// Sets the brushColor color.
+// SetTextColor sets the text color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBlock *TextBlock) SetTextColor(textColor int32) {
 	textBlock.textColor = textColor
 }
 
-// SetTextColors sets the text colors map.
+// SetHighlightColors sets the text colors map.
 func (textBlock *TextBlock) SetHighlightColors(keywordHighlightColors map[string]int32) {
 	textBlock.keywordHighlightColors = keywordHighlightColors
 }
 
-// Sets the brushColor color.
+// SetTextAlignment sets the brushColor color.
 // @param color the color specified as 0xRRGGBB integer.
 func (textBlock *TextBlock) SetTextAlignment(textAlignment int) {
 	textBlock.textAlignment = textAlignment
 }
 
-func (text *TextBlock) textIsCJK(str string) bool {
+func (textBlock *TextBlock) textIsCJK(str string) bool {
 	// CJK Unified Ideographs Range: 4E00–9FD5
 	// Hiragana Range: 3040–309F
 	// Katakana Range: 30A0–30FF
@@ -225,31 +225,31 @@ func (textBlock *TextBlock) SetKeywordHighlightColors(keywordHighlightColors map
 	}
 }
 
-func (t *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
+func (textBlock *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
 	var textLines []TextLineWithOffset
 
 	var textAreaWidth float32
-	if t.textDirection == direction.LeftToRight {
-		textAreaWidth = t.width - 2*t.textPadding
+	if textBlock.textDirection == direction.LeftToRight {
+		textAreaWidth = textBlock.width - 2*textBlock.textPadding
 	} else {
 		// When writing text vertically!
-		textAreaWidth = t.height - 2*t.textPadding
+		textAreaWidth = textBlock.height - 2*textBlock.textPadding
 	}
 
-	t.textContent = strings.ReplaceAll(t.textContent, "\r\n", "\n")
-	t.textContent = strings.TrimSpace(t.textContent)
-	lines := strings.Split(t.textContent, "\n")
+	textBlock.textContent = strings.ReplaceAll(textBlock.textContent, "\r\n", "\n")
+	textBlock.textContent = strings.TrimSpace(textBlock.textContent)
+	lines := strings.Split(textBlock.textContent, "\n")
 
 	for _, line := range lines {
-		if t.font.StringWidth(t.fallbackFont, line) <= textAreaWidth {
+		if textBlock.font.StringWidth(textBlock.fallbackFont, textBlock.font.size, line) <= textAreaWidth {
 			textLines = append(
 				textLines,
 				TextLineWithOffset{textLine: line, xOffset: 0})
 		} else {
-			if t.textIsCJK(line) {
+			if textBlock.textIsCJK(line) {
 				var sb strings.Builder
 				for _, ch := range line {
-					if t.font.StringWidth(t.fallbackFont, sb.String()+string(ch)) <= textAreaWidth {
+					if textBlock.font.StringWidth(textBlock.fallbackFont, textBlock.font.size, sb.String()+string(ch)) <= textAreaWidth {
 						sb.WriteRune(ch)
 					} else {
 						textLines = append(
@@ -268,7 +268,7 @@ func (t *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
 				var sb strings.Builder
 				tokens := strings.Fields(line) // Split by whitespace
 				for _, token := range tokens {
-					if t.font.StringWidth(t.fallbackFont, sb.String()+token) <= textAreaWidth {
+					if textBlock.font.StringWidth(textBlock.fallbackFont, textBlock.font.size, sb.String()+token) <= textAreaWidth {
 						sb.WriteString(token + " ")
 					} else {
 						textLines = append(
@@ -290,15 +290,15 @@ func (t *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
 	return textLines
 }
 
-func (t *TextBlock) rightAlignText(textLines []TextLineWithOffset) {
+func (textBlock *TextBlock) rightAlignText(textLines []TextLineWithOffset) {
 	for _, textLineWithOffset := range textLines {
-		textLineWithOffset.xOffset = t.width - t.font.stringWidth(textLineWithOffset.textLine)
+		textLineWithOffset.xOffset = textBlock.width - textBlock.font.stringWidth(textBlock.font.size, textLineWithOffset.textLine)
 	}
 }
 
-func (t *TextBlock) centerText(textLines []TextLineWithOffset) {
+func (textBlock *TextBlock) centerText(textLines []TextLineWithOffset) {
 	for _, textLineWithOffset := range textLines {
-		textLineWithOffset.xOffset = (t.width - t.font.stringWidth(textLineWithOffset.textLine)) / 2.0
+		textLineWithOffset.xOffset = (textBlock.width - textBlock.font.stringWidth(textBlock.font.size, textLineWithOffset.textLine)) / 2.0
 	}
 }
 
@@ -306,42 +306,42 @@ func (t *TextBlock) centerText(textLines []TextLineWithOffset) {
 // @param page the Page where the TextBlock is to be drawn.
 // @param draw flag specifying if text block component should actually be drawn on the page.
 // @return x and y coordinates of the bottom right corner of text block component.
-func (t *TextBlock) DrawOn(page *Page) ([]float32, error) {
+func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 	if page == nil {
 		return nil, errors.New("a valid Page object is required")
 	}
 
-	page.SetPenWidth(t.borderWidth)
+	page.SetPenWidth(textBlock.borderWidth)
 
-	ascent := t.font.ascent
-	descent := t.font.descent
-	leading := (ascent + descent) * t.lineSpacing
+	ascent := textBlock.font.ascent
+	descent := textBlock.font.descent
+	leading := (ascent + descent) * textBlock.lineSpacing
 
-	textLines := t.getTextLinesWithOffsets()
+	textLines := textBlock.getTextLinesWithOffsets()
 
-	switch t.textAlignment {
+	switch textBlock.textAlignment {
 	case alignment.Right:
-		t.rightAlignText(textLines)
+		textBlock.rightAlignText(textLines)
 	case alignment.Center:
-		t.centerText(textLines)
+		textBlock.centerText(textLines)
 	default:
 	}
 
-	page.AddBMC("P", t.uriLanguage, t.textContent, "")
+	page.AddBMC("P", textBlock.uriLanguage, textBlock.textContent, "")
 	textBlockHeight := page.drawTextBlock(
-		t.font,
+		textBlock.font,
 		textLines,
-		t.x+t.textPadding,
-		t.y+t.textPadding,
-		leading*t.lineSpacing,
-		t.textDirection,
-		t.textColor,
-		t.keywordHighlightColors)
+		textBlock.x+textBlock.textPadding,
+		textBlock.y+textBlock.textPadding,
+		leading*textBlock.lineSpacing,
+		textBlock.textDirection,
+		textBlock.textColor,
+		textBlock.keywordHighlightColors)
 	page.AddEMC()
 
-	rect := NewRect(t.x, t.y, t.width, textBlockHeight+2*t.textPadding)
-	rect.SetBorderColor(t.borderColor)
-	rect.SetCornerRadius(t.borderCornerRadius)
+	rect := NewRect(textBlock.x, textBlock.y, textBlock.width, textBlockHeight+2*textBlock.textPadding)
+	rect.SetBorderColor(textBlock.borderColor)
+	rect.SetCornerRadius(textBlock.borderCornerRadius)
 	rect.DrawOn(page)
 
 	// You can uncomment and adapt if required.
@@ -362,5 +362,5 @@ func (t *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		}
 	*/
 
-	return []float32{t.x + t.width, t.y + textBlockHeight + 2*t.textPadding}, nil
+	return []float32{textBlock.x + textBlock.width, textBlock.y + textBlockHeight + 2*textBlock.textPadding}, nil
 }

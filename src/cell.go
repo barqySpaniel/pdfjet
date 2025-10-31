@@ -328,7 +328,7 @@ func (cell *Cell) GetProperties() uint32 {
 // @param colspan the specified column span value.
 func (cell *Cell) SetColSpan(colspan int) {
 	cell.properties &= 0x00FF0000
-	cell.properties |= (uint32(colspan) & 0x0000FFFF)
+	cell.properties |= uint32(colspan) & 0x0000FFFF
 }
 
 // GetColSpan returns the column span func (cell *Cell) variable value.
@@ -343,7 +343,7 @@ func (cell *Cell) SetBorder(border int, visible bool) {
 	if visible {
 		cell.properties |= uint32(border)
 	} else {
-		cell.properties &= (^uint32(border) & 0x00FFFFFF)
+		cell.properties &= ^uint32(border) & 0x00FFFFFF
 	}
 }
 
@@ -367,7 +367,7 @@ func (cell *Cell) SetBorders(borders bool) {
 // Supported values: align.Left, align.Right and align.Center
 func (cell *Cell) SetTextAlignment(alignment int) {
 	cell.properties &= 0x00CFFFFF
-	cell.properties |= (uint32(alignment) & 0x00300000)
+	cell.properties |= uint32(alignment) & 0x00300000
 }
 
 // GetTextAlignment returns the text alignment.
@@ -557,7 +557,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 	page.SetPenColor(cell.pen)
 	if cell.GetTextAlignment() == align.Right {
 		if cell.compositeTextLine == nil {
-			xText = (x + wCell) - (cell.font.stringWidth(*cell.text) + cell.rightPadding)
+			xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
 			page.AddBMC("Span", "", *cell.text, *cell.text)
 			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, *cell.text, xText, yText, cell.brush, nil)
 			page.AddEMC()
@@ -577,7 +577,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 	} else if cell.GetTextAlignment() == align.Center {
 		if cell.compositeTextLine == nil {
 			xText = x + cell.leftPadding +
-				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(*cell.text)) / 2)
+				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
 			page.AddBMC("Span", "", *cell.text, *cell.text)
 			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, *cell.text, xText, yText, cell.brush, nil)
 			page.AddEMC()
@@ -622,7 +622,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		if cell.compositeTextLine != nil {
 			w = cell.compositeTextLine.GetWidth()
 		} else {
-			w = cell.font.stringWidth(*cell.text)
+			w = cell.font.stringWidth(cell.font.size, *cell.text)
 		}
 		page.AddAnnotation(NewAnnotation(
 			cell.uri,
@@ -642,7 +642,7 @@ func (cell *Cell) UnderlineText(page *Page, font *Font, text string, x, y float3
 	page.AddBMC("Span", "", "underline", "underline")
 	page.SetPenWidth(font.underlineThickness)
 	page.MoveTo(x, y+font.descent)
-	page.LineTo(x+font.stringWidth(text), y+font.descent)
+	page.LineTo(x+font.stringWidth(cell.font.size, text), y+font.descent)
 	page.StrokePath()
 	page.AddEMC()
 }
@@ -652,7 +652,7 @@ func (cell *Cell) StrikeoutText(page *Page, font *Font, text string, x, y float3
 	page.AddBMC("Span", "", "strike out", "strike out")
 	page.SetPenWidth(font.underlineThickness)
 	page.MoveTo(x, y-font.ascent/3.0)
-	page.LineTo(x+font.stringWidth(text), y-font.ascent/3.0)
+	page.LineTo(x+font.stringWidth(cell.font.size, text), y-font.ascent/3.0)
 	page.StrokePath()
 	page.AddEMC()
 }

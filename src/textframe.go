@@ -36,7 +36,8 @@ func NewTextFrame(paragraphs []*TextLine) *TextFrame {
 		textFrame.leading = textFrame.font.GetBodyHeight()
 		textFrame.paragraphLeading = 2 * textFrame.leading
 		textFrame.beginParagraphPoints = make([][]float32, 0)
-		textFrame.spaceBetweenTextLines = textFrame.font.StringWidth(textFrame.fallbackFont, single.Space)
+		textFrame.spaceBetweenTextLines = textFrame.font.StringWidth(
+			textFrame.fallbackFont, textFrame.font.size, single.Space)
 		// Reverse the paragraphs
 		for i, j := 0, len(paragraphs)-1; i < j; i, j = i+1, j-1 {
 			paragraphs[i], paragraphs[j] = paragraphs[j], paragraphs[i]
@@ -147,7 +148,7 @@ func (frame *TextFrame) drawLineOnPage(page *Page, textLine *TextLine) *TextLine
 	tokens := strings.Fields(textLine.text)
 	testForFit := true
 	for _, token := range tokens {
-		if testForFit && textLine.font.stringWidth(sb1.String()+token) < frame.w {
+		if testForFit && textLine.font.stringWidth(textLine.font.size, sb1.String()+token) < frame.w {
 			sb1.WriteString(token + single.Space)
 		} else {
 			testForFit = false

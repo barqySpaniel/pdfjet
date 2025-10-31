@@ -121,7 +121,7 @@ func (radioButton *RadioButton) DrawOn(page *Page) []float32 {
 			nil,
 			radioButton.x+3*radioButton.r1,
 			radioButton.y,
-			radioButton.x+3*radioButton.r1+radioButton.font.stringWidth(radioButton.label),
+			radioButton.x+3*radioButton.r1+radioButton.font.stringWidth(radioButton.font.size, radioButton.label),
 			radioButton.y+radioButton.font.bodyHeight,
 			radioButton.language,
 			radioButton.actualText,
@@ -129,6 +129,6 @@ func (radioButton *RadioButton) DrawOn(page *Page) []float32 {
 	}
 
 	return []float32{
-		radioButton.x + 6*radioButton.r1 + radioButton.font.stringWidth(radioButton.label),
+		radioButton.x + 6*radioButton.r1 + radioButton.font.stringWidth(radioButton.font.size, radioButton.label),
 		radioButton.y - radioButton.font.GetDescent()}
 }

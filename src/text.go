@@ -136,8 +136,8 @@ func (text *Text) drawTextLine(page *Page, x, y float32, textLine *TextLine) []f
 		if i > 0 {
 			token = single.Space + tokens[i]
 		}
-		lineWidth := textLine.font.StringWidth(textLine.fallbackFont, buf.String())
-		tokenWidth := textLine.font.StringWidth(textLine.fallbackFont, token)
+		lineWidth := textLine.font.StringWidth(textLine.fallbackFont, textLine.font.size, buf.String())
+		tokenWidth := textLine.font.StringWidth(textLine.fallbackFont, textLine.font.size, token)
 		if (lineWidth + tokenWidth) < (text.x1+text.width)-text.xText {
 			buf.WriteString(token)
 		} else {
@@ -170,7 +170,8 @@ func (text *Text) drawTextLine(page *Page, x, y float32, textLine *TextLine) []f
 		textLine2.DrawOn(page)
 	}
 
-	return []float32{text.xText + textLine.font.StringWidth(textLine.fallbackFont, buf.String()), text.yText}
+	return []float32{text.xText + textLine.font.StringWidth(
+		textLine.fallbackFont, textLine.font.size, buf.String()), text.yText}
 }
 
 func (text *Text) textIsCJK(str string) bool {
@@ -195,7 +196,7 @@ func (text *Text) tokenizeCJK(textLine *TextLine, textWidth float32) []string {
 	tokens := make([]string, 0)
 	var sb strings.Builder
 	for _, ch := range textLine.text {
-		if text.font.StringWidth(text.fallbackFont, sb.String()+string(ch)) < textWidth {
+		if text.font.StringWidth(text.fallbackFont, text.font.size, sb.String()+string(ch)) < textWidth {
 			sb.WriteRune(ch)
 		} else {
 			tokens = append(tokens, sb.String())
@@ -211,11 +212,10 @@ func (text *Text) tokenizeCJK(textLine *TextLine, textWidth float32) []string {
 
 func ParagraphsFromFile(f1 *Font, filePath string) []*Paragraph {
 	paragraphs := make([]*Paragraph, 0)
-	content := content.OfTextFile(filePath)
 	paragraph := NewParagraph()
 	textLine := NewEmptyTextLine(f1)
 	sb := make([]rune, 0)
-	runes := []rune(content)
+	runes := []rune(content.OfTextFile(filePath))
 	for i := 0; i < len(runes); i++ {
 		ch := runes[i]
 		// We need at least one character after the \n\n to begin new paragraph!

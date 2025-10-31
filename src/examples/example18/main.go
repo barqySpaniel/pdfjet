@@ -56,7 +56,7 @@ func Example18() {
 			font,
 			nil,
 			footer,
-			(page.GetWidth()-font.StringWidth(font, footer))/2.0,
+			(page.GetWidth()-font.StringWidth(font, font.GetSize(), footer))/2.0,
 			(page.GetHeight() - 5.0))
 	}
 
