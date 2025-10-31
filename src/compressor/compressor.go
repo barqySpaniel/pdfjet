@@ -9,7 +9,7 @@ import (
 func Deflate(buf []byte) []byte {
 	var deflated bytes.Buffer
 	writer := zlib.NewWriter(&deflated)
-	writer.Write(buf)
-	writer.Close()
+	_, _ = writer.Write(buf)
+	_ = writer.Close()
 	return deflated.Bytes()
 }
