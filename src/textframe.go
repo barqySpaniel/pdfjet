@@ -77,8 +77,8 @@ func (frame *TextFrame) SetParagraphLeading(paragraphLeading float32) *TextFrame
 	return frame
 }
 
-// GetBeginParagraphPoints returns the begin paragraph points.
-func (frame *TextFrame) GetBeginParagraphPoints() [][]float32 {
+// GetStartParagraphPoints returns the start paragraph points.
+func (frame *TextFrame) GetStartParagraphPoints() [][]float32 {
 	return frame.beginParagraphPoints
 }
 

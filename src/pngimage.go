@@ -64,7 +64,7 @@ func NewPNGImage(reader io.Reader) *PNGImage {
 		case "IHDR":
 			image.w = int(toUint32(chunk.ChunkData, 0)) // Width
 			image.h = int(toUint32(chunk.ChunkData, 4)) // Height
-			image.bitDepth = int(chunk.ChunkData[8])    // Bit Depth
+			image.bitDepth = int(chunk.ChunkData[8])    // BitDepth
 			image.colorType = int(chunk.ChunkData[9])   // Color Type
 
 			// fmt.Println(

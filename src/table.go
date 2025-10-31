@@ -441,8 +441,8 @@ func (table *Table) hasMoreData() bool {
 	return table.rendered != -1
 }
 
-// GetWidth returns the width of table table when drawn on a page.
-// @return the widht of table table.
+// GetWidth returns the width of the table when drawn on a page.
+// @return the width of the table.
 func (table *Table) GetWidth() float32 {
 	var tableWidth float32
 	row := table.tableData[0]
@@ -461,7 +461,7 @@ func (table *Table) GetRowsRendered() int {
 	return -1
 }
 
-// SetNoCellBorders sets all table cells borders to <strong>false</strong> or <strong>true</strong>.
+// SetCellBorders sets all table cells borders to <strong>false</strong> or <strong>true</strong>.
 func (table *Table) SetCellBorders(borders bool) {
 	for _, row := range table.tableData {
 		for _, cell := range row {
@@ -617,7 +617,7 @@ func getTotalWidth(row []*Cell, index int) float32 {
 	for i := 0; i < colspan; i++ {
 		cellWidth += row[index+i].GetWidth()
 	}
-	cellWidth -= (cell.leftPadding + row[index+(colspan-1)].rightPadding)
+	cellWidth -= cell.leftPadding + row[index+(colspan-1)].rightPadding
 	return cellWidth
 }
 
