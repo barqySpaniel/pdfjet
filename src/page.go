@@ -489,9 +489,9 @@ func (page *Page) SetGraphicsState(gs *GraphicsState) {
 //     to a float value between 0.0 and 1.0 (by dividing by 255).
 //   - The method calls SetPenColorRGB internally to apply the color using float32 values.
 func (page *Page) SetPenColor(color int32) {
-	r := float32(((color >> 16) & 0xff)) / 255.0
-	g := float32(((color >> 8) & 0xff)) / 255.0
-	b := float32(((color) & 0xff)) / 255.0
+	r := float32((color>>16)&0xff) / 255.0
+	g := float32((color>>8)&0xff) / 255.0
+	b := float32((color)&0xff) / 255.0
 	page.SetPenColorRGB([3]float32{r, g, b})
 }
 
@@ -561,9 +561,9 @@ func (page *Page) GetPenColorRGB() [3]float32 {
 //     to a float value between 0.0 and 1.0 (by dividing by 255).
 //   - The method calls SetBrushColorRGB internally to apply the color using float32 values.
 func (page *Page) SetBrushColor(color int32) {
-	r := float32(((color >> 16) & 0xff)) / 255.0
-	g := float32(((color >> 8) & 0xff)) / 255.0
-	b := float32(((color) & 0xff)) / 255.0
+	r := float32((color>>16)&0xff) / 255.0
+	g := float32((color>>8)&0xff) / 255.0
+	b := float32((color)&0xff) / 255.0
 	page.SetBrushColorRGB([3]float32{r, g, b})
 }
 
@@ -806,7 +806,7 @@ func (page *Page) DrawPath(path []*Point, pathOperator string) {
 	}
 	point := path[0]
 	page.MoveTo(point.x, point.y)
-	var controlPoint string = ""
+	var controlPoint = ""
 	for i := 1; i < len(path); i++ {
 		point = path[i]
 		if point.controlPoint != "" {
@@ -1065,16 +1065,9 @@ func (page *Page) SetTextDirection(degrees int) {
 	page.tm3 = fastfloat.ToByteArray(page.tmx[3])
 }
 
-/**
- *  Draws a cubic bezier curve starting from the current point to the end point p3
- *
- *  @param x1 first control point x
- *  @param y1 first control point y
- *  @param x2 second control point x
- *  @param y2 second control point y
- *  @param x3 end point x
- *  @param y3 end point y
- */
+// CurveTo adds a cubic Bézier curve command to the page’s content stream.
+// The coordinates (x1,y1) and (x2,y2) are the two control points,
+// and (x3,y3) is the end point of the curve.
 func (page *Page) CurveTo(x1, y1, x2, y2, x3, y3 float32) {
 	page.appendFloat32(x1)
 	page.appendString(" ")
