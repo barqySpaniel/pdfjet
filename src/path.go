@@ -84,7 +84,7 @@ func (path *Path) SetColor(color int32) {
 }
 
 // SetClosePath sets the closePath variable.
-// @param closePath if closePath is true a line will be draw between the first and last point of this path.
+// @param closePath if true a line will be drawn between the first and last point of this path.
 func (path *Path) SetClosePath(closePath bool) {
 	path.closePath = closePath
 }

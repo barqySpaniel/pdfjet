@@ -32,7 +32,7 @@ func FontStream1(pdf *PDF, font *Font, reader io.Reader) {
 	pdf.appendString("/Type /Font\n")
 	pdf.appendString("/Subtype /Type0\n")
 	pdf.appendString("/BaseFont /")
-	pdf.appendString(string([]byte(font.name)))
+	pdf.appendString(string([]byte(font.name))) // TODO: Redundant conversion??
 	pdf.appendString("\n")
 	pdf.appendString("/Encoding /Identity-H\n")
 	pdf.appendString("/DescendantFonts [")
@@ -83,7 +83,7 @@ func embedFontFile(pdf *PDF, font *Font, reader io.Reader) {
 	pdf.appendString(">>\n")
 	pdf.appendString("stream\n")
 
-	buf := make([]byte, 4096) // We need this buffer to be non zero length!
+	buf := make([]byte, 4096) // We need this buffer to be non-zero length!
 	for {
 		n, err := reader.Read(buf)
 		pdf.appendByteArray(buf[:n])

@@ -193,7 +193,7 @@ func (composite *CompositeTextLine) GetNumberOfTextLines() int {
 
 // GetMinMax returns the vertical coordinates of the top left and bottom right corners
 // of the bounding box of this composite text line.
-// @return the an array containing the vertical coordinates.
+// @return the array containing the vertical coordinates.
 func (composite *CompositeTextLine) GetMinMax() []float32 {
 	min := composite.position[composite.Y]
 	max := composite.position[composite.Y]
@@ -233,7 +233,7 @@ func (composite *CompositeTextLine) GetHeight() float32 {
 
 // GetWidth returns the width of this CompositeTextLine.
 func (composite *CompositeTextLine) GetWidth() float32 {
-	return (composite.current[composite.X] - composite.position[composite.X])
+	return composite.current[composite.X] - composite.position[composite.X]
 }
 
 // DrawOn draws this line on the specified page.

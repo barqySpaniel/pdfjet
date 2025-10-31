@@ -1361,7 +1361,7 @@ func getObjects2(buf []byte, obj *PDFobj, objects *[]*PDFobj) {
 
 func (pdf *PDF) getStartXRef(buf []byte) int {
 	var sb strings.Builder
-	for i := (len(buf) - 10); i > 10; i-- {
+	for i := len(buf) - 10; i > 10; i-- {
 		if buf[i] == 's' &&
 			buf[i+1] == 't' &&
 			buf[i+2] == 'a' &&
@@ -1700,7 +1700,7 @@ func (pdf *PDF) addObjectsToPDF(objects *[]*PDFobj) {
 			pdf.objOffsets = append(pdf.objOffsets, pdf.byteCount)
 			// Uncomment to see the format of the objects.
 			// fmt.Println(obj.dict)
-			var link bool = false
+			var link = false
 			n := len(obj.dict)
 			var token string
 			for i := 0; i < n; i++ {

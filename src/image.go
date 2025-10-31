@@ -60,14 +60,19 @@ func NewImageFromFile(pdf *PDF, filePath string) *Image {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer file.Close()
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			// TODO:
+		}
+	}(file)
 	return NewImage(pdf, bufio.NewReader(file), imageType)
 }
 
 // NewImage the main constructor for the Image class.
 // @param pdf the PDF to which we add this image.
 // @param inputStream the input stream to read the image from.
-// @param imageType imagetype.JPG, imagetype.PNG or imagetype.BMP.
+// @param imageType could be imagetype.JPG, imagetype.PNG or imagetype.BMP
 func NewImage(pdf *PDF, reader io.Reader, imageType int) *Image {
 	image := new(Image)
 	image.altDescription = single.Space
@@ -77,8 +82,8 @@ func NewImage(pdf *PDF, reader io.Reader, imageType int) *Image {
 	case imagetype.JPG:
 		jpg := NewJPGImage(reader)
 		data := jpg.GetData()
-		image.w = float32(jpg.GetWidth())
-		image.h = float32(jpg.GetHeight())
+		image.w = jpg.GetWidth()
+		image.h = jpg.GetHeight()
 		if jpg.GetColorComponents() == 1 {
 			image.addImageToPDF(pdf, data, nil, imageType, device.Gray, 8)
 		} else if jpg.GetColorComponents() == 3 {
@@ -89,8 +94,8 @@ func NewImage(pdf *PDF, reader io.Reader, imageType int) *Image {
 	case imagetype.PNG:
 		png := NewPNGImage(reader)
 		data := png.GetData()
-		image.w = float32(png.GetWidth())
-		image.h = float32(png.GetHeight())
+		image.w = png.GetWidth()
+		image.h = png.GetHeight()
 		if png.GetColorType() == 0 {
 			image.addImageToPDF(pdf, data, nil, imageType, device.Gray, png.GetBitDepth())
 		} else {
@@ -103,8 +108,8 @@ func NewImage(pdf *PDF, reader io.Reader, imageType int) *Image {
 	case imagetype.BMP:
 		bmp := NewBMPImage(reader)
 		data := bmp.GetData()
-		image.w = float32(bmp.GetWidth())
-		image.h = float32(bmp.GetHeight())
+		image.w = bmp.GetWidth()
+		image.h = bmp.GetHeight()
 		image.addImageToPDF(pdf, data, nil, imageType, device.RGB, 8)
 	}
 
@@ -114,7 +119,7 @@ func NewImage(pdf *PDF, reader io.Reader, imageType int) *Image {
 // NewImage2 adds this image to the existing PDF objects.
 // @param objects the map to which we add this image.
 // @param inputStream the input stream to read the image from.
-// @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
+// @param imageType could be ImageType.JPG, ImageType.PNG or ImageType.BMP
 func NewImage2(objects *[]*PDFobj, reader io.Reader, imageType int) *Image {
 	image := new(Image)
 
@@ -122,8 +127,8 @@ func NewImage2(objects *[]*PDFobj, reader io.Reader, imageType int) *Image {
 	case imagetype.JPG:
 		jpg := NewJPGImage(reader)
 		data := jpg.GetData()
-		image.w = float32(jpg.GetWidth())
-		image.h = float32(jpg.GetHeight())
+		image.w = jpg.GetWidth()
+		image.h = jpg.GetHeight()
 		if jpg.GetColorComponents() == 1 {
 			image.addImageToObjects(objects, data, nil, imageType, device.Gray, 8)
 		} else if jpg.GetColorComponents() == 3 {
@@ -291,7 +296,7 @@ func (image *Image) SetGoToAction(key *string) {
 	image.key = key
 }
 
-// SetRotate sets the image rotation to the specified number of degrees.
+// RotateClockwise sets the image rotation to the specified number of degrees.
 // @param degrees the number of degrees.
 func (image *Image) RotateClockwise(degrees int) {
 	if degrees != 0 && degrees != 90 && degrees != 180 && degrees != 270 {
