@@ -7,7 +7,7 @@ package pdfjet
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-// Path is used to create path objects.
+// PathOp is used to create path objects.
 // The path objects may consist of lines, splines or both.
 // Please see Example_02.
 type PathOp struct {

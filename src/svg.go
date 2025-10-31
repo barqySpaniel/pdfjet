@@ -50,7 +50,7 @@ func isCommand(ch rune) bool {
 
 func (svg *SVG) GetOperations(path string) []*PathOp {
 	operations := make([]*PathOp, 0)
-	var op *PathOp
+	var op = NewPathOp(' ')
 	var buf = strings.Builder{}
 	var token = false
 	for _, ch := range path {
@@ -92,7 +92,7 @@ func (svg *SVG) GetOperations(path string) []*PathOp {
 
 func (svg *SVG) ToPDF(list []*PathOp) []*PathOp {
 	operations := make([]*PathOp, 0)
-	var lastOp *PathOp
+	var lastOp = NewPathOp(' ')
 	var x0 float32 = 0.0 // Start of subpath
 	var y0 float32 = 0.0
 	for _, op := range list {
@@ -312,7 +312,7 @@ func (svg *SVG) ToPDF(list []*PathOp) []*PathOp {
 					y += float64(lastOp.y)
 				}
 				pathOp.setCubicPoints(
-					float32(x1), float32(y1),
+					x1, y1,
 					float32(x2), float32(y2),
 					float32(x), float32(y))
 				operations = append(operations, pathOp)
