@@ -307,8 +307,10 @@ func (font *Font) SetSize(fontSize float32) *Font {
 	font.ascent = float32(font.fontAscent) * font.size / float32(font.unitsPerEm)
 	font.descent = -(float32(font.fontDescent) * font.size / float32(font.unitsPerEm))
 	font.bodyHeight = font.ascent + font.descent
-	font.underlineThickness = float32(font.fontUnderlineThickness) * font.size / float32(font.unitsPerEm)
-	font.underlinePosition = -float32(font.fontUnderlinePosition)*font.size/float32(font.unitsPerEm) + font.underlineThickness/2.0
+	font.underlineThickness = float32(font.fontUnderlineThickness) *
+		font.size / float32(font.unitsPerEm)
+	font.underlinePosition = -float32(font.fontUnderlinePosition)*
+		font.size/float32(font.unitsPerEm) + font.underlineThickness/2.0
 	return font
 }
 

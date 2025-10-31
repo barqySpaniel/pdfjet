@@ -21,8 +21,7 @@ type TextLine struct {
 	x, y, xBox, yBox   float32
 	font, fallbackFont *Font
 	fontSize           float32
-	trailingSpace      bool
-	uri, key           *string
+	isLastToken        bool
 	underline          bool
 	strikeout          bool
 	underlineTTS       string
@@ -32,6 +31,7 @@ type TextLine struct {
 	colorMap           map[string]int32
 	textEffect         int
 	verticalOffset     float32
+	uri, key           *string
 	language           string
 	altDescription     string
 	actualText         string
@@ -50,7 +50,7 @@ func NewTextLine(font *Font, text string) *TextLine {
 	textLine.fallbackFont = font
 	textLine.fontSize = 12.0
 	textLine.text = text
-	textLine.trailingSpace = true
+	textLine.isLastToken = false
 	textLine.underlineTTS = "underline"
 	textLine.strikeoutTTS = "strikeout"
 	textLine.color = color.Black
@@ -299,16 +299,16 @@ func (textLine *TextLine) GetVerticalOffset() float32 {
 // SetTrailingSpace sets the trailing space after this text line when used in paragraph.
 // @param trailingSpace the trailing space.
 // @return this TextLine.
-func (textLine *TextLine) SetTrailingSpace(trailingSpace bool) *TextLine {
-	textLine.trailingSpace = trailingSpace
-	return textLine
-}
-
-// GetTrailingSpace returns the trailing space.
-// @return the trailing space.
-func (textLine *TextLine) GetTrailingSpace() bool {
-	return textLine.trailingSpace
-}
+//func (textLine *TextLine) SetTrailingSpace(trailingSpace bool) *TextLine {
+//	textLine.trailingSpace = trailingSpace
+//	return textLine
+//}
+//
+//// GetTrailingSpace returns the trailing space.
+//// @return the trailing space.
+//func (textLine *TextLine) GetTrailingSpace() bool {
+//	return textLine.trailingSpace
+//}
 
 // SetLanguage sets the language.
 func (textLine *TextLine) SetLanguage(language string) *TextLine {

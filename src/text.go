@@ -97,7 +97,7 @@ func (text *Text) DrawOn(page *Page) [2]float32 {
 			}
 			xy := text.drawTextLine(page, text.xText, text.yText, textLine)
 			text.xText = xy[0]
-			if textLine.GetTrailingSpace() {
+			if !textLine.isLastToken {
 				text.xText *= text.lineSpacing
 			}
 			text.yText = xy[1]

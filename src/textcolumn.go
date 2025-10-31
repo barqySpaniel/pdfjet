@@ -164,7 +164,7 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 		tokens := strings.Fields(line.text)
 		var text *TextLine
 		for _, token := range tokens {
-			text = NewTextLine(line.font, token)
+			text = NewTextLine(line.font, token+single.Space)
 			text.SetFontSize(line.GetFontSize())
 			text.SetColor(line.GetColor())
 			text.SetUnderline(line.GetUnderline())
@@ -173,23 +173,20 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 			text.SetURIAction(line.GetURIAction())
 			text.SetGoToAction(line.GetGoToAction())
 			text.SetFallbackFont(line.GetFallbackFont())
-			runLength += line.font.StringWidth(line.GetFallbackFont(), line.font.size, token)
+			runLength += text.GetWidth()
 			if runLength < textColumn.w {
 				list = append(list, text)
-				runLength += line.font.StringWidth(line.GetFallbackFont(), line.font.size, single.Space)
 			} else {
 				textColumn.drawLineOfText(page, list)
 				textColumn.moveToNextLine()
 				list = make([]*TextLine, 0)
 				list = append(list, text)
-				runLength = line.font.StringWidth(line.GetFallbackFont(), line.font.size, token+single.Space)
+				runLength = text.GetWidth()
 			}
 		}
-		// TODO:
-		//if !line.GetTrailingSpace() {
-		//	runLength -= line.font.StringWidth(line.GetFallbackFont(), line.font.size, single.Space)
-		//	text.SetTrailingSpace(false)
-		//}
+		if text != nil {
+			text.isLastToken = true
+		}
 	}
 	textColumn.drawNonJustifiedLine(page, list)
 
@@ -273,11 +270,6 @@ func (textColumn *TextColumn) drawNonJustifiedLine(page *Page, textLines []*Text
 	var runLength float32
 	for i := 0; i < len(textLines); i++ {
 		textLine := textLines[i]
-		if i < len(textLines)-1 {
-			if textLine.GetTrailingSpace() {
-				textLine.text += single.Space
-			}
-		}
 		runLength += textLine.GetWidth()
 	}
 
