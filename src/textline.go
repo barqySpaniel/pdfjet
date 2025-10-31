@@ -296,20 +296,6 @@ func (textLine *TextLine) GetVerticalOffset() float32 {
 	return textLine.verticalOffset
 }
 
-// SetTrailingSpace sets the trailing space after this text line when used in paragraph.
-// @param trailingSpace the trailing space.
-// @return this TextLine.
-//func (textLine *TextLine) SetTrailingSpace(trailingSpace bool) *TextLine {
-//	textLine.trailingSpace = trailingSpace
-//	return textLine
-//}
-//
-//// GetTrailingSpace returns the trailing space.
-//// @return the trailing space.
-//func (textLine *TextLine) GetTrailingSpace() bool {
-//	return textLine.trailingSpace
-//}
-
 // SetLanguage sets the language.
 func (textLine *TextLine) SetLanguage(language string) *TextLine {
 	textLine.language = language
