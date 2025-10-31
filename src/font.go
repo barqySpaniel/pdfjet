@@ -93,7 +93,7 @@ const (
 // </pre>
 //
 // @param pdf the PDF to add this font to.
-// @param coreFont the core font. Must be one the names defined in the CoreFont class.
+// @param coreFont the core font. Must be one of the names defined in the CoreFont class.
 //
 // font := CoreFont(pdf, corefont.Helvetica())
 func NewCoreFont(pdf *PDF, coreFont *corefont.CoreFont) *Font {
@@ -417,7 +417,7 @@ func (font *Font) getCoreFontFitChars(text string, width float32) int {
 // This makes a regular font look like an italic type font.
 // Use this method when you don't have real italic font in the font family,
 // or when you want to generate smaller PDF files.
-// For example you could embed only the Regular and Bold fonts and synthesize the RegularItalic and BoldItalic.
+// For example, you could embed only the Regular and Bold fonts and synthesize the RegularItalic and BoldItalic.
 func (font *Font) SetItalic(skew15 bool) {
 	font.skew15 = skew15
 }
@@ -437,7 +437,7 @@ func (font *Font) stringWidth(str string) float32 {
 	runes := []rune(str)
 	if font.isCoreFont {
 		for i, c1 := range runes {
-			if c1 < rune(font.firstChar) || c1 > rune(font.lastChar) {
+			if c1 < font.firstChar || c1 > font.lastChar {
 				c1 = 0x20
 			}
 			c1 -= 32
