@@ -314,6 +314,10 @@ public class Font {
         return self
     }
 
+    public func stringWidth(_ str: String?) -> Float {
+        return stringWidth(self.size, str)
+    }
+
     ///
     /// Returns the width of the specified string when drawn on the page with this font using the current font size.
     ///
@@ -321,7 +325,7 @@ public class Font {
     ///
     /// @return the width of the string when draw on the page with this font using the current selected size.
     ///
-    public func stringWidth(_ str: String?) -> Float {
+    public func stringWidth(_ fontSize: Float, _ str: String?) -> Float {
         var width: Int = 0
         if str == nil || str == "" {
             return 0.0
@@ -366,7 +370,7 @@ public class Font {
             }
         }
 
-        return Float(width) * self.size / Float(self.unitsPerEm)
+        return Float(width) * fontSize / Float(self.unitsPerEm)
     }
 
     ///

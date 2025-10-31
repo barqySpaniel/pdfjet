@@ -72,7 +72,7 @@ public class TextLine : Drawable {
     /// Sets the text.
     ///
     /// - Parameter text the text.
-    /// - Returns: selt.TextLine.
+    /// - Returns: self.TextLine.
     ///
     @discardableResult
     public func setText(_ text: String) -> TextLine {
