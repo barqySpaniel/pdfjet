@@ -299,15 +299,13 @@ public class TextColumn : IDrawable {
     private float[] DrawLineOfText(Page page, List<TextLine> list) {
         if (alignment == Align.JUSTIFY) {
             float sumOfWordWidths = 0f;
-            for (int i = 0; i < list.Count; i++) {
-                TextLine textLine = list[i];
+            foreach (TextLine textLine in list) {
                 sumOfWordWidths += textLine.GetWidth();
             }
-            float dx = (w - sumOfWordWidths) / (list.Count - 1);
-            for (int i = 0; i < list.Count; i++) {
-                TextLine textLine = list[i];
-                textLine.SetLocation(x1, y1 + textLine.GetVerticalOffset());
 
+            float dx = (w - sumOfWordWidths) / (list.Count - 1);
+            foreach (TextLine textLine in list) {
+                textLine.SetLocation(x1, y1 + textLine.GetVerticalOffset());
                 if (textLine.GetGoToAction() != null) {
                     page.AddAnnotation(new Annotation(
                             Annotation.Link,
