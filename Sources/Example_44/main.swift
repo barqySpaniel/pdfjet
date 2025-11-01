@@ -20,7 +20,7 @@ public class Example_44 {
         let column = TextColumn(rotate)
         column.setLocation(70.0, 70.0)
         column.setWidth(500.0)
-        column.setSpaceBetweenLines(5.0)
+        column.setLineSpacing(1.3)
         column.setSpaceBetweenParagraphs(10.0)
 
         let p1 = Paragraph()

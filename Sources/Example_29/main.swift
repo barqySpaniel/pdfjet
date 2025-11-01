@@ -43,7 +43,8 @@ public class Example_29 {
         column.removeLastParagraph()
         column.setLocation(50.0, point2[1])
         paragraph = Paragraph()
-        paragraph.add(TextLine(font, "Peter Blood, bachelor of medicine and several other things besides, smoked a pipe and tended the geraniums boxed on the sill of his window above Water Lane in the town of Bridgewater."))
+        paragraph.add(TextLine(font,
+            "Peter Blood, bachelor of medicine and several other things besides, smoked a pipe and tended the geraniums boxed on the sill of his window above Water Lane in the town of Bridgewater."))
         column.addParagraph(paragraph)
 
 /*

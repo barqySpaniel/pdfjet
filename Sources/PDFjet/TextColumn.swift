@@ -197,7 +197,9 @@ public class TextColumn : Drawable {
                 if runLength < self.w {
                     list.append(text!)
                 } else {
-                    drawLineOfText(page!, list)
+                    if page != nil {    // TODO: Why is page == nil?
+                        drawLineOfText(page!, list)
+                    }
                     moveToNextLine()
                     list.removeAll()
                     list.append(text!)

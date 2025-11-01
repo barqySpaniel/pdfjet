@@ -13,10 +13,10 @@ public class Example_29 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_29.pdf", FileMode.Create)));
 
-        Page page = new Page(pdf, Letter.LANDSCAPE);
-
         Font font = new Font(pdf, CoreFont.HELVETICA);
         font.SetSize(16f);
+
+        Page page = new Page(pdf, Letter.LANDSCAPE);
 
         Paragraph paragraph = new Paragraph();
         Paragraph paragraph2 = new Paragraph();
@@ -77,7 +77,8 @@ public class Example_29 {
         float[] point2 = column.DrawOn(null);
 
 
-        TextBlock tb = new TextBlock(font, "Peter Blood, bachelor of medicine and several other things besides, smoked a pipe and tended the geraniums boxed on the sill of his window above Water Lane in the town of Bridgewater.");
+        TextBlock tb = new TextBlock(font,
+                "Peter Blood, bachelor of medicine and several other things besides, smoked a pipe and tended the geraniums boxed on the sill of his window above Water Lane in the town of Bridgewater.");
                 //List<Cell> row2 = new List<Cell>();
         tb.SetFontSize(16f);
         Cell cell2 = new Cell(font, "");
