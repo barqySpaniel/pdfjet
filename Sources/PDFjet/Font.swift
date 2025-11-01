@@ -503,6 +503,10 @@ public class Font {
         self.skew15 = skew15
     }
 
+    public func stringWidth(_ fallbackFont: Font?, _ str: String?) -> Float {
+        return stringWidth(fallbackFont, self.size, str)
+    }
+
     ///
     /// Returns the width of a string drawn using two fonts.
     ///
@@ -510,16 +514,16 @@ public class Font {
     /// @param str the string.
     /// @return the width.
     ///
-    public func stringWidth(_ fallbackFont: Font?, _ str: String?) -> Float {
+    public func stringWidth(_ fallbackFont: Font?, _ fontSize: Float, _ str: String?) -> Float {
         var width: Float = 0.0
         if self.isCoreFont || self.isCJK || fallbackFont == nil || fallbackFont!.isCoreFont || fallbackFont!.isCJK {
-            return stringWidth(str)
+            return stringWidth(fontSize, str)
         }
         var activeFont = self
         var buf = String()
         for scalar in str!.unicodeScalars {
             if activeFont.unicodeToGID![Int(scalar.value)] == 0 {
-                width += activeFont.stringWidth(buf)
+                width += activeFont.stringWidth(fontSize, buf)
                 buf = ""
                 // Switch the active font
                 if activeFont === self {
@@ -530,7 +534,7 @@ public class Font {
             }
             buf.append(String(scalar))
         }
-        width += activeFont.stringWidth(buf)
+        width += activeFont.stringWidth(fontSize, buf)
         return width
     }
 }   // End of Font.swift
