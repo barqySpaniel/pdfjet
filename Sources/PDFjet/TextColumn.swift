@@ -177,21 +177,20 @@ public class TextColumn : Drawable {
     private func drawParagraphOn(
             _ page: Page?,
             _ paragraph: Paragraph) -> [Float] {
-
-        self.lineHeight = paragraph.lines![0].font!.bodyHeight + spaceBetweenLines
-        if rotate == 0 {
-            self.y1 += paragraph.lines![0].font!.ascent
-        } else if rotate == 90 {
-            self.x1 += paragraph.lines![0].font!.ascent
-        } else if rotate == 270 {
-            self.x1 -= paragraph.lines![0].font!.ascent
-        }
-
         var list = [TextLine]()
         var runLength: Float = 0.0
-        var text: TextLine?
         for line in paragraph.lines! {
+            self.lineHeight = paragraph.lines![0].font!.bodyHeight + spaceBetweenLines
+            if rotate == 0 {
+                self.y1 += paragraph.lines![0].font!.ascent
+            } else if rotate == 90 {
+                self.x1 += paragraph.lines![0].font!.ascent
+            } else if rotate == 270 {
+                self.x1 -= paragraph.lines![0].font!.ascent
+            }
+
             let tokens = line.text!.components(separatedBy: .whitespaces)
+            var text: TextLine?
             for token in tokens {
                 text = TextLine(line.font!, token + " ")
                         .setFontSize(line.getFontSize())
@@ -203,7 +202,7 @@ public class TextColumn : Drawable {
                         .setGoToAction(line.getGoToAction())
                         .setFallbackFont(line.getFallbackFont())
                 runLength += line.getWidth()
-                if runLength < w {
+                if runLength < self.w {
                     list.append(text!)
                 } else {
                     drawLineOfText(page!, list)
