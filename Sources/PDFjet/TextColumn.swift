@@ -299,8 +299,9 @@ public class TextColumn : Drawable {
     @discardableResult
     private func drawNonJustifiedLine(_ page: Page, _ list: [TextLine]) -> [Float] {
         var runLength: Float = 0.0
-        for i in 0..<list.count {
-            let textLine = list[i]
+//         for i in 0..<list.count {
+//             let textLine = list[i]
+        for textLine in list {
             runLength += textLine.getWidth()
         }
 
