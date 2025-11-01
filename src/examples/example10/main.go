@@ -1,10 +1,12 @@
 package main
 
 import (
+	"strings"
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -44,89 +46,89 @@ func Example10() {
 
 	p2 := pdfjet.NewParagraph()
 	p2.Add(pdfjet.NewTextLine(f2, "Introduction"))
-	/*
-		buf := StringBuilder()
-		buf.Append("The Swiss Confederation was founded in 1291 as a defensive ")
-		buf.Append("alliance among three cantons. In succeeding years, other ")
-		buf.Append("localities joined the original three. ")
-		buf.Append("The Swiss Confederation secured its independence from the ")
-		buf.Append("Holy Roman Empire in 1499. Switzerland's sovereignty and ")
-		buf.Append("neutrality have long been honored by the major European ")
-		buf.Append("powers, and the country was not involved in either of the ")
-		buf.Append("two World Wars. The political and economic integration of ")
-		buf.Append("Europe over the past half century, as well as Switzerland's ")
-		buf.Append("role in many UN and international organizations, has ")
-		buf.Append("strengthened Switzerland's ties with its neighbors. ")
-		buf.Append("However, the country did not officially become a UN member ")
-		buf.Append("until 2002.")
 
-		p3 := pdfjet.NewParagraph()
-		// p3.SetAlignment(Align.LEFT)
-		// p3.SetAlignment(Align.RIGHT)
-		p3.SetAlignment(Align.JUSTIFY)
-		text := NewTextLine(f1, buf.ToString())
-		p3.Add(text)
+	var buf strings.Builder
+	buf.WriteString("The Swiss Confederation was founded in 1291 as a defensive ")
+	buf.WriteString("alliance among three cantons. In succeeding years, other ")
+	buf.WriteString("localities joined the original three. ")
+	buf.WriteString("The Swiss Confederation secured its independence from the ")
+	buf.WriteString("Holy Roman Empire in 1499. Switzerland's sovereignty and ")
+	buf.WriteString("neutrality have long been honored by the major European ")
+	buf.WriteString("powers, and the country was not involved in either of the ")
+	buf.WriteString("two World Wars. The political and economic integration of ")
+	buf.WriteString("Europe over the past half century, as well as Switzerland's ")
+	buf.WriteString("role in many UN and international organizations, has ")
+	buf.WriteString("strengthened Switzerland's ties with its neighbors. ")
+	buf.WriteString("However, the country did not officially become a UN member ")
+	buf.WriteString("until 2002.")
 
-		buf := new StringBuilder()
-		buf.Append("Switzerland remains active in many UN and international ")
-		buf.Append("organizations but retains a strong commitment to neutrality.")
+	p3 := pdfjet.NewParagraph()
+	// p3.SetAlignment(Align.LEFT)
+	// p3.SetAlignment(Align.RIGHT)
+	p3.SetAlignment(align.Justify)
+	text := pdfjet.NewTextLine(f1, buf.String())
+	p3.Add(text)
 
-		text = NewTextLine(f1, buf.ToString())
-		text.SetTextColor(Color.red)
-		p3.Add(text)
+	buf.Reset()
+	buf.WriteString("Switzerland remains active in many UN and international ")
+	buf.WriteString("organizations but retains a strong commitment to neutrality.")
 
-		p4 = NewParagraph()
-		p4.Add(NewTextLine(f3, "Economy"))
+	text = pdfjet.NewTextLine(f1, buf.String())
+	text.SetTextColor(color.Red)
+	p3.Add(text)
 
-		buf = new StringBuilder()
-		buf.Append("Switzerland is a peaceful, prosperous, and stable modern ")
-		buf.Append("market economy with low unemployment, a highly skilled ")
-		buf.Append("labor force, and a per capita GDP larger than that of the ")
-		buf.Append("big Western European economies. The Swiss in recent years ")
-		buf.Append("have brought their economic practices largely into ")
-		buf.Append("conformity with the EU's to enhance their international ")
-		buf.Append("competitiveness. Switzerland remains a safe haven for ")
-		buf.Append("investors, because it has maintained a degree of bank secrecy ")
-		buf.Append("and has kept up the franc's long-term external value. ")
-		buf.Append("Reflecting the anemic economic conditions of Europe, GDP ")
-		buf.Append("growth stagnated during the 2001-03 period, improved during ")
-		buf.Append("2004-05 to 1.8% annually and to 2.9% in 2006.")
+	p4 := pdfjet.NewParagraph()
+	p4.Add(pdfjet.NewTextLine(f3, "Economy"))
 
-		p5 := NewParagraph()
-		p5.SetAlignment(Align.JUSTIFY)
-		text = NewTextLine(f1, buf.ToString())
-		p5.Add(text)
+	buf.Reset()
+	buf.WriteString("Switzerland is a peaceful, prosperous, and stable modern ")
+	buf.WriteString("market economy with low unemployment, a highly skilled ")
+	buf.WriteString("labor force, and a per capita GDP larger than that of the ")
+	buf.WriteString("big Western European economies. The Swiss in recent years ")
+	buf.WriteString("have brought their economic practices largely into ")
+	buf.WriteString("conformity with the EU's to enhance their international ")
+	buf.WriteString("competitiveness. Switzerland remains a safe haven for ")
+	buf.WriteString("investors, because it has maintained a degree of bank secrecy ")
+	buf.WriteString("and has kept up the franc's long-term external value. ")
+	buf.WriteString("Reflecting the anemic economic conditions of Europe, GDP ")
+	buf.WriteString("growth stagnated during the 2001-03 period, improved during ")
+	buf.WriteString("2004-05 to 1.8% annually and to 2.9% in 2006.")
 
-		text = NewTextLine(f4,
-			"Even so, unemployment has remained at less than half the EU average.")
-		text.SetTextColor(Color.blue)
-		p5.Add(text)
+	p5 := pdfjet.NewParagraph()
+	p5.SetAlignment(align.Justify)
+	text = pdfjet.NewTextLine(f1, buf.String())
+	p5.Add(text)
 
-		column.AddParagraph(p1)
-		column.AddParagraph(p2)
-		column.AddParagraph(p3)
-		column.AddParagraph(p4)
-		column.AddParagraph(p5)
+	text = pdfjet.NewTextLine(f4,
+		"Even so, unemployment has remained at less than half the EU average.")
+	text.SetTextColor(color.Blue)
+	p5.Add(text)
 
-		if rotate == 0 {
-			column.SetLocation(90.0, 300.0)
-		} else if rotate == 90 {
-			column.SetLocation(90.0, 780.0)
-		} else if rotate == 270 {
-			column.SetLocation(550.0, 310.0)
-		}
+	column.AddParagraph(p1)
+	column.AddParagraph(p2)
+	column.AddParagraph(p3)
+	column.AddParagraph(p4)
+	column.AddParagraph(p5)
 
-		columnWidth := 470.0
-		column.SetSize(columnWidth, 100.0)
-		xy := column.DrawOn(page)
+	//	if rotate == 0 {
+	column.SetLocation(90.0, 300.0)
+	//} else if rotate == 90 {
+	//	column.SetLocation(90.0, 780.0)
+	//} else if rotate == 270 {
+	//	column.SetLocation(550.0, 310.0)
+	//}
 
-		line := NewLine(
-			xy[0],
-			xy[1],
-			xy[0] + columnWidth,
-			xy[1])
-		line.DrawOn(page)
-	*/
+	columnWidth := float32(470.0)
+	column.SetSize(columnWidth, 100.0)
+	xy := column.DrawOn(page)
+
+	line := pdfjet.NewLine(
+		xy[0],
+		xy[1],
+		xy[0]+columnWidth,
+		xy[1])
+	line.DrawOn(page)
+
 	pdf.Complete()
 }
 
