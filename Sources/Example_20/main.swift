@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_20.swift
+ * Example_20.swift
  */
 public class Example_20 {
     public init() throws {
@@ -11,10 +11,7 @@ public class Example_20 {
                 from: InputStream(fileAtPath: "data/testPDFs/PDFjetLogo.pdf")!)
         pdf.addResourceObjects(&objects)
 
-        let f1 = try Font(
-                pdf,
-                InputStream(fileAtPath: "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")!,
-                Font.STREAM).setSize(18.0)
+        let f1 = try Font(pdf, IBMPlexSans.Regular).setSize(18.0)
 
         let pages = pdf.getPageObjects(from: objects)
         let content = pages[0].getContentObject(&objects)!

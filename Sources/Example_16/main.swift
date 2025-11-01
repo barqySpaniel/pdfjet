@@ -8,7 +8,7 @@ public class Example_16 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_16.pdf", append: false)!)
 
-        let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+        let f1 = try Font(pdf, IBMPlexSans.Regular)
 
         let page = Page(pdf, Letter.PORTRAIT)
 
@@ -20,7 +20,7 @@ public class Example_16 {
 
         let gs = GraphicsState()
         gs.setAlphaStroking(0.5)        // Stroking alpha
-        gs.setAlphaNonStroking(0.5)     // Nonstroking alpha
+        gs.setAlphaNonStroking(0.5)     // Non-Stroking alpha
         page.setGraphicsState(gs)
 
         // f1.setSize(72.0)
