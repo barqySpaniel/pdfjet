@@ -20,7 +20,7 @@ public class Example_37 {
         let f1 = try Font(
                 &objects,
                 InputStream(fileAtPath: "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")!,
-                Font.STREAM)
+                true)
         f1.setSize(72.0)
 
         let line = TextLine(f1, "This is a test!")

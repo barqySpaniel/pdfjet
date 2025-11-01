@@ -8,10 +8,7 @@ import PDFjet
 public class Example_11 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_11.pdf", append: false)!)
-        let f1 = try Font(
-                pdf,
-                InputStream(fileAtPath: "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")!,
-                Font.STREAM)
+        let f1 = try Font(pdf, IBMPlexSans.Regular)
 
         let page = Page(pdf, Letter.PORTRAIT)
 

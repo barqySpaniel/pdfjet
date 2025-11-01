@@ -11,8 +11,6 @@ import Foundation
 /// The font objects must added to the PDF before they can be used to draw text.
 ///
 public class Font {
-    public static var STREAM: Bool = true
-
     var name: String = ""
     var info: String = ""
     var objNumber = 0

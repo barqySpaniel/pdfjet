@@ -12,10 +12,7 @@ public class Example_48 {
 
         let pdf = PDF(stream!)
 
-        let f1 = try Font(
-                pdf,
-                InputStream(fileAtPath: "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")!,
-                Font.STREAM)
+        let f1 = try Font(pdf, IBMPlexSans.Regular)
 
         var page = Page(pdf, Letter.PORTRAIT)
 

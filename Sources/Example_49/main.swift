@@ -8,7 +8,7 @@ public class Example_49 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_49.pdf", append: false)!)
 
-        let f1 = try Font(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf")
+        let f1 = try Font(pdf, SourceSerif4.Regular)
         let f2 = try Font(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf")
 
         f1.setSize(14.0)
