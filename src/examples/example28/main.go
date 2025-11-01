@@ -8,6 +8,7 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/NotoSans"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -16,7 +17,9 @@ import (
 func Example28() {
 	pdf := pdfjet.NewPDFFile("Example_28.pdf")
 
-	f1 := pdfjet.NewFontFromFile(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream")
+	// f1 := pdfjet.NewFontFromFile(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream")
+	f1 := pdfjet.NewFontFromFile(pdf, NotoSans.Regular)
+
 	f2 := pdfjet.NewFontFromFile(pdf, "fonts/NotoSansTC/NotoSansTC-Regular.ttf.stream")
 	f3 := pdfjet.NewFontFromFile(pdf, "fonts/NotoSansSymbols/NotoSansSymbols-Regular.ttf.stream")
 
