@@ -111,11 +111,9 @@ public class Example_10 {
 
         if (rotate == 0) {
             column.SetLocation(90f, 300f);
-        }
-        else if (rotate == 90) {
+        } else if (rotate == 90) {
             column.SetLocation(90f, 780f);
-        }
-        else if (rotate == 270) {
+        } else if (rotate == 270) {
             column.SetLocation(550f, 310f);
         }
 
