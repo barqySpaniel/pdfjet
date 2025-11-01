@@ -145,6 +145,10 @@ public class TextLine : Drawable {
         return self
     }
 
+    public func getFontSize() -> Float {
+        return self.fontSize
+    }
+
     ///
     /// Sets the fallback font.
     ///

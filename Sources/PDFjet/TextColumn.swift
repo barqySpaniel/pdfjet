@@ -189,11 +189,12 @@ public class TextColumn : Drawable {
 
         var list = [TextLine]()
         var runLength: Float = 0.0
+        var text: TextLine?
         for line in paragraph.lines! {
             let tokens = line.text!.components(separatedBy: .whitespaces)
-            var text: TextLine?
             for token in tokens {
-                text = TextLine(line.font!, token)
+                text = TextLine(line.font!, token + " ")
+                        .setFontSize(line.getFontSize())
                         .setColor(line.getColor())
                         .setUnderline(line.getUnderline())
                         .setStrikeout(line.getStrikeout())
@@ -201,24 +202,22 @@ public class TextColumn : Drawable {
                         .setURIAction(line.getURIAction())
                         .setGoToAction(line.getGoToAction())
                         .setFallbackFont(line.getFallbackFont())
-                runLength += line.font!.stringWidth(line.fallbackFont, token)
+                runLength += line.getWidth()
                 if runLength < w {
                     list.append(text!)
-                    runLength += line.font!.stringWidth(line.fallbackFont, Single.space)
                 } else {
-                    if page != nil {
-                        drawLineOfText(page!, list)
-                    }
+                    drawLineOfText(page!, list)
                     moveToNextLine()
                     list.removeAll()
                     list.append(text!)
-                    runLength = line.font!.stringWidth(line.fallbackFont, token + Single.space)
+                    runLength = line.getWidth()
                 }
             }
-            if line.getTrailingSpace() == false {
-                runLength -= line.font!.stringWidth(line.fallbackFont, Single.space)
-                text!.setTrailingSpace(false)
-            }
+            // TODO:
+//             if line.getTrailingSpace() == false {
+//                 runLength -= line.font!.stringWidth(line.fallbackFont, Single.space)
+//                 text!.setTrailingSpace(false)
+//             }
         }
         if page != nil {
             drawNonJustifiedLine(page!, list)
@@ -265,8 +264,7 @@ public class TextColumn : Drawable {
         if alignment == Align.JUSTIFY {
             var sumOfWordWidths: Float = 0.0
             for textLine in list {
-                sumOfWordWidths +=
-                        textLine.font!.stringWidth(textLine.fallbackFont, textLine.text)
+                sumOfWordWidths += textLine.getWidth()
             }
 
             let dx = (w - sumOfWordWidths) / Float(list.count - 1)
@@ -278,7 +276,7 @@ public class TextColumn : Drawable {
                             textLine.getGoToAction(),   // The destination name
                             x,
                             y - textLine.font!.ascent,
-                            x + textLine.font!.stringWidth(textLine.fallbackFont, textLine.text),
+                            x + textLine.getWidth(),
                             y + textLine.font!.descent,
                             nil,
                             nil,
@@ -287,13 +285,13 @@ public class TextColumn : Drawable {
 
                 if rotate == 0 {
                     textLine.setTextDirection(0).drawOn(page)
-                    x1 += textLine.font!.stringWidth(textLine.fallbackFont, textLine.text) + dx
+                    x1 += textLine.getWidth() + dx
                 } else if rotate == 90 {
                     textLine.setTextDirection(90).drawOn(page)
-                    y1 -= textLine.font!.stringWidth(textLine.fallbackFont, textLine.text) + dx
+                    y1 -= textLine.getWidth() + dx
                 } else if rotate == 270 {
                     textLine.setTextDirection(270).drawOn(page)
-                    y1 += textLine.font!.stringWidth(textLine.fallbackFont, textLine.text) + dx
+                    y1 += textLine.getWidth() + dx
                 }
             }
         } else {
@@ -308,12 +306,7 @@ public class TextColumn : Drawable {
         var runLength: Float = 0.0
         for i in 0..<list.count {
             let textLine = list[i]
-            if i < (list.count - 1) {
-                if textLine.getTrailingSpace() {
-                    textLine.setText(textLine.getText()! + Single.space)
-                }
-            }
-            runLength += textLine.font!.stringWidth(textLine.fallbackFont, textLine.text)
+            runLength += textLine.getWidth()
         }
 
         if alignment == Align.CENTER {
@@ -342,7 +335,7 @@ public class TextColumn : Drawable {
                         textLine.getGoToAction(),   // The destination name
                         x,
                         y - textLine.font!.ascent,
-                        x + textLine.font!.stringWidth(textLine.fallbackFont, textLine.text!),
+                        x + textLine.getWidth(),
                         y + textLine.font!.descent,
                         nil,
                         nil,
@@ -350,13 +343,13 @@ public class TextColumn : Drawable {
             }
             if rotate == 0 {
                 textLine.setTextDirection(0).drawOn(page)
-                x1 += textLine.font!.stringWidth(textLine.fallbackFont, textLine.text)
+                x1 += textLine.getWidth()
             } else if rotate == 90 {
                 textLine.setTextDirection(90).drawOn(page)
-                y1 -= textLine.font!.stringWidth(textLine.fallbackFont, textLine.text)
+                y1 -= textLine.getWidth()
             } else if rotate == 270 {
                 textLine.setTextDirection(270).drawOn(page)
-                y1 += textLine.font!.stringWidth(textLine.fallbackFont, textLine.text)
+                y1 += textLine.getWidth()
             }
         }
 
