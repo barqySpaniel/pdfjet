@@ -14,16 +14,16 @@ public class Example_10 {
 
         Image image1 = new Image(pdf, "images/sz-map.png");
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.SetSize(10f);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
+        Font f2 = new Font(pdf, IBMPlexSans.SemiBold);
         f2.SetSize(14f);
 
-        Font f3 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream");
+        Font f3 = new Font(pdf, IBMPlexSans.SemiBold);
         f3.SetSize(12f);
 
-        Font f4 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
+        Font f4 = new Font(pdf, IBMPlexSans.Italic);
         f4.SetSize(10f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
