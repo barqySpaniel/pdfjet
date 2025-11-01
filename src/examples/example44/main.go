@@ -24,8 +24,8 @@ func Example44() {
 	column := pdfjet.NewTextColumn(rotate)
 	column.SetLocation(70.0, 70.0)
 	column.SetWidth(500.0)
-	column.SetSpaceBetweenLines(5.0)
-	column.SetSpaceBetweenParagraphs(10.0)
+	column.SetLineSpacing(1.3)
+	column.SetParagraphSpacing(1.0)
 
 	p1 := pdfjet.NewParagraph()
 	p1.Add(pdfjet.NewTextLine(f1, "The Swiss Confederation was founded in 1291 as a defensive alliance among three cantons. In succeeding years, other localities joined the original three. The Swiss Confederation secured its independence from the Holy Roman Empire in 1499. Switzerland's sovereignty and neutrality have long been honored by the major European powers, and the country was not involved in either of the two World Wars. The political and economic integration of Europe over the past half century, as well as Switzerland's role in many UN and international organizations, has strengthened Switzerland's ties with its neighbors. However, the country did not officially become a UN member until 2002."))

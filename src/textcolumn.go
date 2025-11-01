@@ -19,19 +19,19 @@ import (
 //
 // Please see Example_10.
 type TextColumn struct {
-	alignment              int // = align.Left
-	rotate                 int
-	x                      float32 // This variable is set in the beginning and only reset after the DrawOn
-	y                      float32 // This variable is set in the beginning and only reset after the DrawOn
-	w                      float32
-	h                      float32
-	x1                     float32
-	y1                     float32
-	lineHeight             float32
-	spaceBetweenLines      float32
-	spaceBetweenParagraphs float32
-	paragraphs             []*Paragraph
-	lineBetweenParagraphs  bool
+	alignment             int // = align.Left
+	rotate                int
+	x                     float32 // This variable is set in the beginning and only reset after the DrawOn
+	y                     float32 // This variable is set in the beginning and only reset after the DrawOn
+	w                     float32
+	h                     float32
+	x1                    float32
+	y1                    float32
+	lineHeight            float32
+	linesSpacing          float32
+	paragraphSpacing      float32
+	paragraphs            []*Paragraph
+	lineBetweenParagraphs bool
 }
 
 /**
@@ -49,8 +49,8 @@ func (textColumn *TextColumn) TextColumn() {
 func NewTextColumn(rotateByDegrees int) *TextColumn {
 	textColumn := new(TextColumn)
 	textColumn.alignment = align.Left
-	textColumn.spaceBetweenLines = 1.0
-	textColumn.spaceBetweenParagraphs = 2.0
+	textColumn.linesSpacing = 1.3
+	textColumn.paragraphSpacing = 1.0
 	textColumn.rotate = rotateByDegrees
 	if rotateByDegrees != 0 && rotateByDegrees != 90 && rotateByDegrees != 270 {
 		log.Fatal("Invalid rotation angle. Please use 0, 90 or 270 degrees.")
@@ -66,14 +66,14 @@ func (textColumn *TextColumn) SetLineBetweenParagraphs(lineBetweenParagraphs boo
 	textColumn.lineBetweenParagraphs = lineBetweenParagraphs
 }
 
-// SetSpaceBetweenLines sets the space between the lines.
-func (textColumn *TextColumn) SetSpaceBetweenLines(spaceBetweenLines float32) {
-	textColumn.spaceBetweenLines = spaceBetweenLines
+// SetLineSpacing sets the space between the lines.
+func (textColumn *TextColumn) SetLineSpacing(linesSpacing float32) {
+	textColumn.linesSpacing = linesSpacing
 }
 
-// SetSpaceBetweenParagraphs sets the space between the paragraphs.
-func (textColumn *TextColumn) SetSpaceBetweenParagraphs(spaceBetweenParagraphs float32) {
-	textColumn.spaceBetweenParagraphs = spaceBetweenParagraphs
+// SetParagraphSpacing sets the space between the paragraphs.
+func (textColumn *TextColumn) SetParagraphSpacing(paragraphSpacing float32) {
+	textColumn.paragraphSpacing = paragraphSpacing
 }
 
 // SetLocation sets the position of this text column on the page.
@@ -104,11 +104,6 @@ func (textColumn *TextColumn) SetWidth(w float32) {
 // Supported values: align.Left, align.Right, align.Center and align.Justify
 func (textColumn *TextColumn) SetAlignment(alignment int) {
 	textColumn.alignment = alignment
-}
-
-// SetLineSpacing sets the spacing between the lines in this text column.
-func (textColumn *TextColumn) SetLineSpacing(spacing float32) {
-	textColumn.spaceBetweenLines = spacing
 }
 
 // AddParagraph adds a new paragraph to this text column.
@@ -151,7 +146,7 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 	for i := 0; i < len(paragraph.lines); i++ {
 		line := paragraph.lines[i]
 		if i == 0 {
-			textColumn.lineHeight = line.font.bodyHeight + textColumn.spaceBetweenLines
+			textColumn.lineHeight = line.font.bodyHeight * textColumn.linesSpacing
 			if textColumn.rotate == 0 {
 				textColumn.y1 += line.font.ascent
 			} else if textColumn.rotate == 90 {
@@ -194,7 +189,7 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 		return textColumn.moveToNextLine()
 	}
 
-	return textColumn.moveToNextParagraph(textColumn.spaceBetweenParagraphs)
+	return textColumn.moveToNextParagraph(textColumn.lineHeight * textColumn.paragraphSpacing)
 }
 
 func (textColumn *TextColumn) moveToNextLine() []float32 {
@@ -211,15 +206,15 @@ func (textColumn *TextColumn) moveToNextLine() []float32 {
 	return []float32{textColumn.x1, textColumn.y1}
 }
 
-func (textColumn *TextColumn) moveToNextParagraph(spaceBetweenParagraphs float32) []float32 {
+func (textColumn *TextColumn) moveToNextParagraph(paragraphSpacing float32) []float32 {
 	if textColumn.rotate == 0 {
 		textColumn.x1 = textColumn.x
-		textColumn.y1 += spaceBetweenParagraphs
+		textColumn.y1 += paragraphSpacing
 	} else if textColumn.rotate == 90 {
-		textColumn.x1 += spaceBetweenParagraphs
+		textColumn.x1 += paragraphSpacing
 		textColumn.y1 = textColumn.y
 	} else if textColumn.rotate == 270 {
-		textColumn.x1 -= spaceBetweenParagraphs
+		textColumn.x1 -= paragraphSpacing
 		textColumn.y1 = textColumn.y
 	}
 	return []float32{textColumn.x1, textColumn.y1}

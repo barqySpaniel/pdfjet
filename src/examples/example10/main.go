@@ -4,6 +4,7 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/align"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -29,21 +30,21 @@ func Example10() {
 	image.SetLocation(90.0, 35.0)
 	image.ScaleBy(0.75)
 	image.DrawOn(page)
+
+	rotate := 0
+	// int rotate := 90
+	// int rotate := 270
+	column := pdfjet.NewTextColumn(rotate)
+	column.SetLineSpacing(1.3)      // 1.3 x font height
+	column.SetParagraphSpacing(1.0) // 1.0 x line spacing
+
+	p1 := pdfjet.NewParagraph()
+	p1.SetAlignment(align.Center)
+	p1.Add(pdfjet.NewTextLine(f2, "Switzerland"))
+
+	p2 := pdfjet.NewParagraph()
+	p2.Add(pdfjet.NewTextLine(f2, "Introduction"))
 	/*
-		rotate := 0
-		// int rotate := 90
-		// int rotate := 270
-		column := pdfjet.NewTextColumn(rotate)
-		column.SetLineSpacing(1.3)		// 1.3 x font height
-		column.SetParagraphSpacing(1.0) // 1.0 x line spacing
-
-		p1 := pdfjet.NewParagraph()
-		p1.SetAlignment(align.CENTER)
-		p1.Add(pdfjet.NewTextLine(f2, "Switzerland"))
-
-		p2 := pdfjet.NewParagraph()
-		p2.Add(pdfjet.NewTextLine(f2, "Introduction"))
-
 		buf := StringBuilder()
 		buf.Append("The Swiss Confederation was founded in 1291 as a defensive ")
 		buf.Append("alliance among three cantons. In succeeding years, other ")
