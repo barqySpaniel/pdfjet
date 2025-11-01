@@ -15,12 +15,11 @@ internal class FlateLiteral {
     //                           10111111
     //  144 - 255     9          110010000 through
     //                           111111111
-    static let instance = FlateLiteral()
 
     var codes = [UInt32]()
     var nBits = [UInt8]()
 
-    private init() {
+    internal init() {
         var code: UInt32 = 0b00110000
         var i = 0
         while i < 144 {

@@ -14,6 +14,10 @@ internal class FlateEncode {
 
     @discardableResult
     public init(_ output: inout [UInt8], _ input: [UInt8]) {
+        let flateLength = FlateLength()
+        let flateDistance = FlateDistance()
+        let flateLiteral = FlateLiteral()
+
         let BUFSIZE = MASK + 1  // 2^16 bytes
         hashtable = [Int](repeating: -1, count: Int(BUFSIZE))
         writeCode(&output, UInt32(0x9C78), 16)      // FLG | CMF
@@ -35,22 +39,22 @@ internal class FlateEncode {
                     i += 1
                 }
                 writeCode(&output,
-                        FlateLength.instance.codes[length - 3],
-                        FlateLength.instance.nBits[length - 3])
+                        flateLength.codes[length - 3],
+                        flateLength.nBits[length - 3])
                 writeCode(&output,
-                        FlateDistance.instance.codes[distance - 1],
-                        FlateDistance.instance.nBits[distance - 1])
+                        flateDistance.codes[distance - 1],
+                        flateDistance.nBits[distance - 1])
             } else {
                 writeCode(&output,
-                        FlateLiteral.instance.codes[Int(input[i])],
-                        FlateLiteral.instance.nBits[Int(input[i])])
+                        flateLiteral.codes[Int(input[i])],
+                        flateLiteral.nBits[Int(input[i])])
                 i += 1
             }
         }
         while i < input.count {
             writeCode(&output,
-                    FlateLiteral.instance.codes[Int(input[i])],
-                    FlateLiteral.instance.nBits[Int(input[i])])
+                    flateLiteral.codes[Int(input[i])],
+                    flateLiteral.nBits[Int(input[i])])
             i += 1
         }
         writeCode(&output, UInt32(0), 7)            // END-OF-BLOCK

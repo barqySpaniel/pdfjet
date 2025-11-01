@@ -25,8 +25,6 @@ final internal class FlateDistance {
     // codes, with possible additional bits as shown in the table
     // above.
 
-    static let instance = FlateDistance()
-
     let eBits = [
             0,  0,  0,  0,  1,  1,  2,  2,
             3,  3,  4,  4,  5,  5,  6,  6,
@@ -35,7 +33,7 @@ final internal class FlateDistance {
     var codes = [UInt32]()
     var nBits = [UInt8]()
 
-    private init() {
+    internal init() {
         var code = 0
         while code <= 29 {
             let reversed = FlateUtils.reverse(UInt32(code), length: 5)

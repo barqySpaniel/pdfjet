@@ -30,18 +30,15 @@ internal class FlateLength {
     //   280 - 285     8          11000000 through
     //                            11000101
 
-    static let instance = FlateLength()
-
-    var ebits1 = [
+    let ebits1 = [
             0, 0, 0, 0,
             0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
             3, 3, 3, 3, 4, 4, 4]
-    var ebits2 = [4, 5, 5, 5, 5]
-
+    let ebits2 = [4, 5, 5, 5, 5]
     var codes = [UInt32]()
     var nBits = [UInt8]()
 
-    private init() {
+    internal init() {
         var code: UInt32 = 0b0000001
         for extra in ebits1 {
             let reversed = UInt32(FlateUtils.reverse(code, length: 7))
