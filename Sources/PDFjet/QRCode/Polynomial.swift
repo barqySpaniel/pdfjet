@@ -18,6 +18,7 @@ import Foundation
 
 class Polynomial {
     private var num: [Int]
+    private let qrmath = QRMath()
 
     init(_ num: [Int], _ shift: Int) {
         var offset = 0
@@ -43,8 +44,8 @@ class Polynomial {
         for i in 0..<getLength() {
             for j in 0..<polynomial.getLength() {
                 num[i + j] ^=
-                        QRMath.singleton.gexp(QRMath.singleton.glog(get(i)) +
-                        QRMath.singleton.glog(polynomial.get(j)))
+                        qrmath.gexp(qrmath.glog(get(i)) +
+                        qrmath.glog(polynomial.get(j)))
             }
         }
         return Polynomial(num, 0)
@@ -55,15 +56,14 @@ class Polynomial {
             return self
         }
 
-        let ratio = QRMath.singleton.glog(get(0)) - QRMath.singleton.glog(polynomial.get(0))
+        let ratio = qrmath.glog(get(0)) - qrmath.glog(polynomial.get(0))
         var num = [Int](repeating: 0, count: getLength())
         for i in 0..<getLength() {
             num[i] = get(i)
         }
 
         for i in 0..<polynomial.getLength() {
-            num[i] ^= QRMath.singleton.gexp(
-                    QRMath.singleton.glog(polynomial.get(i)) + ratio)
+            num[i] ^= qrmath.gexp(qrmath.glog(polynomial.get(i)) + ratio)
         }
 
         return Polynomial(num, 0).mod(polynomial)

@@ -19,6 +19,7 @@ import Foundation
 class QRUtil {
     private var G15: Int
     private var G15_MASK: Int
+    private let qrmath = QRMath()
 
     init() {
         G15 = 1 << 10
@@ -38,7 +39,7 @@ class QRUtil {
     func getErrorCorrectPolynomial(_ errorCorrectLength: Int) -> Polynomial {
         var a = Polynomial([1], 0)
         for i in 0..<errorCorrectLength {
-            a = a.multiply(Polynomial([1, QRMath.singleton.gexp(i)], 0))
+            a = a.multiply(Polynomial([1, qrmath.gexp(i)], 0))
         }
         return a
     }

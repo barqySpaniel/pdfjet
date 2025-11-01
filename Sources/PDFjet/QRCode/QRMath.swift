@@ -17,24 +17,22 @@
 import Foundation
 
 class QRMath {
-    static let singleton = QRMath()
+    var EXP_TABLE = [Int](repeating: 0, count: 256)
+    var LOG_TABLE = [Int](repeating: 0, count: 256)
 
-    private static var EXP_TABLE = [Int](repeating: 0, count: 256)
-    private static var LOG_TABLE = [Int](repeating: 0, count: 256)
-
-    private init() {
+    init() {
         for i in 0..<8 {
-            QRMath.EXP_TABLE[i] = (1 << i)
+            self.EXP_TABLE[i] = (1 << i)
         }
         for i in 8..<256 {
-            QRMath.EXP_TABLE[i] =
-                    QRMath.EXP_TABLE[i - 4] ^
-                    QRMath.EXP_TABLE[i - 5] ^
-                    QRMath.EXP_TABLE[i - 6] ^
-                    QRMath.EXP_TABLE[i - 8]
+            self.EXP_TABLE[i] =
+                    self.EXP_TABLE[i - 4] ^
+                    self.EXP_TABLE[i - 5] ^
+                    self.EXP_TABLE[i - 6] ^
+                    self.EXP_TABLE[i - 8]
         }
         for i in 0..<255 {
-            QRMath.LOG_TABLE[QRMath.EXP_TABLE[i]] = i
+            self.LOG_TABLE[self.EXP_TABLE[i]] = i
         }
     }
 
@@ -42,7 +40,7 @@ class QRMath {
         if n < 1 {
             Swift.print("log(" + String(describing: n) + ")")
         }
-        return QRMath.LOG_TABLE[n]
+        return self.LOG_TABLE[n]
     }
 
     public func gexp(_ i: Int) -> Int {
@@ -53,6 +51,6 @@ class QRMath {
         while n >= 256 {
             n -= 255
         }
-        return QRMath.EXP_TABLE[n]
+        return self.EXP_TABLE[n]
     }
 }
