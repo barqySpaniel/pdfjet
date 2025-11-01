@@ -17,12 +17,10 @@
 import Foundation
 
 class QRUtil {
-    static let singleton = QRUtil()
-
     private var G15: Int
     private var G15_MASK: Int
 
-    private init() {
+    init() {
         G15 = 1 << 10
         G15 |= 1 << 8
         G15 |= 1 << 5

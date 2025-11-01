@@ -33,6 +33,7 @@ public class QRCode : Drawable {
     private var m1: Float = 2.0             // Module length
 
     private var color: Int32 = Color.black
+    private let qrutil = QRUtil()
 
     ///
     /// Used to create 2D QR Code barcodes.
@@ -128,7 +129,7 @@ public class QRCode : Drawable {
         var pattern = 0
         for i in 0..<8 {
             make(true, i)
-            let lostPoint = QRUtil.singleton.getLostPoint(self)
+            let lostPoint = qrutil.getLostPoint(self)
             if i == 0 || minLostPoint > lostPoint {
                 minLostPoint = lostPoint
                 pattern = i
@@ -175,7 +176,7 @@ public class QRCode : Drawable {
                         if byteIndex < data.count {
                             dark = (((data[byteIndex] >> bitIndex) & 1) == 1)
                         }
-                        let mask = QRUtil.singleton.getMask(maskPattern, row, col - c)
+                        let mask = qrutil.getMask(maskPattern, row, col - c)
                         if mask {
                             dark = !dark
                         }
@@ -265,7 +266,7 @@ public class QRCode : Drawable {
             _ test: Bool,
             _ maskPattern: Int) {
         let data = (errorCorrectLevel << 3) | maskPattern
-        let bits = QRUtil.singleton.getBCHTypeInfo(data)
+        let bits = qrutil.getBCHTypeInfo(data)
 
         for i in 0..<15 {
             let mod = (!test && ((bits >> i) & 1) == 1)
@@ -360,7 +361,7 @@ public class QRCode : Drawable {
             }
             offset += dcCount
 
-            let rsPoly = QRUtil.singleton.getErrorCorrectPolynomial(ecCount)
+            let rsPoly = qrutil.getErrorCorrectPolynomial(ecCount)
             let rawPoly = Polynomial(dcdata[r]!, rsPoly.getLength() - 1)
             let modPoly = rawPoly.mod(rsPoly)
             ecdata[r] = [Int](repeating: 0, count: (rsPoly.getLength() - 1))
