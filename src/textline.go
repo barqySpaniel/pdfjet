@@ -48,7 +48,7 @@ func NewTextLine(font *Font, text string) *TextLine {
 	textLine := new(TextLine)
 	textLine.font = font
 	textLine.fallbackFont = font
-	textLine.fontSize = 12.0
+	textLine.fontSize = font.size
 	textLine.text = text
 	textLine.isLastToken = false
 	textLine.underlineTTS = "underline"
