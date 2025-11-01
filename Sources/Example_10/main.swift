@@ -7,20 +7,19 @@ import PDFjet
 public class Example_10 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_10.pdf", append: false)!)
-        pdf.setTitle("Using TextColumn and Paragraph classes")
-        pdf.setSubject("Examples")
-        pdf.setAuthor("Innovatics Inc.")
 
         let image1 = try Image(pdf, "images/sz-map.png")
 
-        let f1 = Font(pdf, CoreFont.HELVETICA)
-        let f2 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        let f3 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        let f4 = Font(pdf, CoreFont.HELVETICA_OBLIQUE)
-
+        let f1 = try Font(pdf, IBMPlexSans.Regular)
         f1.setSize(10.0)
+
+        let f2 = try Font(pdf, IBMPlexSans.SemiBold)
         f2.setSize(14.0)
+
+        let f3 = try Font(pdf, IBMPlexSans.SemiBold)
         f3.setSize(12.0)
+
+        let f4 = try Font(pdf, IBMPlexSans.Italic)
         f4.setSize(10.0)
 
         let page = Page(pdf, Letter.PORTRAIT)
