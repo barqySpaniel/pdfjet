@@ -15,6 +15,8 @@ public class TextLine : Drawable {
 
     var font: Font?
     var fallbackFont: Font?
+    var fontSize: Float
+
     var text: String?
     var trailingSpace: Bool = true
 
@@ -51,6 +53,7 @@ public class TextLine : Drawable {
     public init(_ font: Font) {
         self.font = font
         self.fallbackFont = font
+        self.fontSize = font.size
         self.colorMap = [String: Int32]()
     }
 
@@ -63,6 +66,7 @@ public class TextLine : Drawable {
     public init(_ font: Font, _ text: String) {
         self.font = font
         self.fallbackFont = font
+        self.fontSize = font.size
         self.text = text
         self.altDescription = text
         self.colorMap = [String: Int32]()
@@ -95,11 +99,11 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Sets the location where selt.text line will be drawn on the page.
+    /// Sets the location where the text line will be drawn on the page.
     ///
     /// - Parameter x the x coordinate of the text line.
     /// - Parameter y the y coordinate of the text line.
-    /// - Returns: selt.TextLine.
+    /// - Returns: text TextLine.
     ///
     @discardableResult
     public func setLocation(_ x: Float, _ y: Float) -> TextLine {
@@ -109,10 +113,10 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Sets the font to use for selt.text line.
+    /// Sets the text line font.
     ///
     /// - Parameter font the font to use.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setFont(_ font: Font) -> TextLine {
@@ -121,7 +125,7 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Gets the font to use for selt.text line.
+    /// Gets the text line font.
     ///
     /// - Returns: font the font to use.
     ///
@@ -130,14 +134,14 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Sets the font size to use for selt.text line.
+    /// Sets the text line font size.
     ///
     /// - Parameter fontSize the fontSize to use.
-    /// - Returns: selt.TextLine.
+    /// - Returns: text TextLine.
     ///
     @discardableResult
     public func setFontSize(_ fontSize: Float) -> TextLine {
-        self.font!.setSize(fontSize)
+        self.fontSize = fontSize
         return self
     }
 
@@ -145,7 +149,7 @@ public class TextLine : Drawable {
     /// Sets the fallback font.
     ///
     /// - Parameter fallbackFont the fallback font.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setFallbackFont(_ fallbackFont: Font?) -> TextLine {
@@ -154,10 +158,10 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Sets the fallback font size to use for selt.text line.
+    /// Sets the text line fallback font size.
     ///
     /// - Parameter fallbackFontSize the fallback font size.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setFallbackFontSize(_ fallbackFontSize: Float) -> TextLine {
@@ -175,10 +179,10 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Sets the color for selt.text line.
+    /// Sets the color of the text line.
     ///
     /// - Parameter color the color is specified as an integer.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setColor(_ color: Int32) -> TextLine {
@@ -191,7 +195,7 @@ public class TextLine : Drawable {
     ///
     /// - Parameter color the color.
     ///   See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setColor(_ color: [Int32]) -> TextLine {
@@ -227,12 +231,12 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Returns the width of selt.TextLine.
+    /// Returns the width of the text line.
     ///
     /// - Returns: the width.
     ///
     public func getWidth() -> Float {
-        return font!.stringWidth(fallbackFont, text!)
+        return font!.stringWidth(fallbackFont, fontSize, text!)
     }
 
     ///
@@ -241,11 +245,11 @@ public class TextLine : Drawable {
     /// - Returns: the width.
     ///
     public func getStringWidth(_ text: String) -> Float {
-        return font!.stringWidth(fallbackFont, text)
+        return font!.stringWidth(fallbackFont, fontSize, text)
     }
 
     ///
-    /// Returns the height of selt.TextLine.
+    /// Returns the height of the text line.
     ///
     /// - Returns: the height.
     ///
@@ -259,7 +263,7 @@ public class TextLine : Drawable {
     /// Sets the URI for the "click text line" action.
     ///
     /// - Parameter uri the URI
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setURIAction(_ uri: String?) -> TextLine {
@@ -280,7 +284,7 @@ public class TextLine : Drawable {
     /// Sets the destination key for the action.
     ///
     /// - Parameter key the destination name.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setGoToAction(_ key: String?) -> TextLine {
@@ -302,7 +306,7 @@ public class TextLine : Drawable {
     /// If the value of the underline variable is 'true' - the text is underlined.
     ///
     /// - Parameter underline the underline flag.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setUnderline(_ underline: Bool) -> TextLine {
@@ -324,7 +328,7 @@ public class TextLine : Drawable {
     /// If the value of the strike variable is 'true' - a strike line is drawn through the text.
     ///
     /// - Parameter strikeout the strikeout flag.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setStrikeout(_ strikeout: Bool) -> TextLine {
@@ -345,7 +349,7 @@ public class TextLine : Drawable {
     /// Sets the direction in which to draw the text.
     ///
     /// - Parameter degrees the number of degrees.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setTextDirection(_ degrees: Int) -> TextLine {
@@ -366,7 +370,7 @@ public class TextLine : Drawable {
     /// Sets the text effect.
     ///
     /// - Parameter textEffect Effect.NORMAL, Effect.SUBSCRIPT or Effect.SUPERSCRIPT.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setTextEffect(_ textEffect: Int) -> TextLine {
@@ -387,7 +391,7 @@ public class TextLine : Drawable {
     /// Sets the vertical offset of the text.
     ///
     /// - Parameter verticalOffset the vertical offset.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setVerticalOffset(_ verticalOffset: Float) -> TextLine {
@@ -405,10 +409,10 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Sets the trailing space after selt.text line when used in paragraph.
+    /// Sets the trailing space after the text line when used in paragraph. // TODO:
     ///
     /// - Parameter trailingSpace the trailing space.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setTrailingSpace(_ trailingSpace: Bool) -> TextLine {
@@ -436,10 +440,10 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Sets the alternate description of selt.text line.
+    /// Sets the alternate description of the text line.
     ///
     /// - Parameter altDescription the alternate description of the text line.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func setAltDescription(_ altDescription: String?) -> TextLine {
@@ -476,10 +480,10 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Places selt.text line in the specified box.
+    /// Places the text line in the specified box.
     ///
     /// - Parameter box the specified box.
-    /// - Returns: selt.TextLine.
+    /// - Returns: the TextLine.
     ///
     @discardableResult
     public func placeIn(_ box: Box) -> TextLine {
@@ -488,12 +492,12 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Places selt.text line in the box at the specified offset.
+    /// Places the text line in the box at the specified offset.
     ///
     /// - Parameter box the specified box.
     /// - Parameter xOffset the x offset from the top left corner of the box.
     /// - Parameter yOffset the y offset from the top left corner of the box.
-    /// - Returns: selt.TextLine.
+    /// - Returns: TextLine.
     ///
     @discardableResult
     public func placeIn(
@@ -525,9 +529,9 @@ public class TextLine : Drawable {
     }
 
     ///
-    /// Draws selt.text line on the specified page if the draw parameter is true.
+    /// Draws the text line on the specified page if the draw parameter is true.
     ///
-    /// - Parameter page the page to draw selt.text line on.
+    /// - Parameter page the page to draw text line on.
     /// - Parameter draw if draw is false - no action is performed.
     ///
     @discardableResult
@@ -550,7 +554,7 @@ public class TextLine : Drawable {
         if underline {
             page!.setPenWidth(font!.underlineThickness)
             page!.setPenColor(color)
-            let lineLength = font!.stringWidth(fallbackFont, text!)
+            let lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
             let xAdjust = font!.underlinePosition * Float(sin(radians)) + verticalOffset
             let yAdjust = font!.underlinePosition * Float(cos(radians)) + verticalOffset
             let x2 = x + lineLength * Float(cos(radians))
@@ -565,7 +569,7 @@ public class TextLine : Drawable {
         if strikeout {
             page!.setPenWidth(font!.underlineThickness)
             page!.setPenColor(color)
-            let lineLength = font!.stringWidth(fallbackFont, text!)
+            let lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
             let xAdjust = (font!.bodyHeight / 4.0) * Float(sin(radians))
             let yAdjust = (font!.bodyHeight / 4.0) * Float(cos(radians))
             let x2 = x + lineLength * Float(cos(radians))
@@ -583,7 +587,7 @@ public class TextLine : Drawable {
                     key,    // The destination name
                     self.x,
                     self.y - font!.ascent,
-                    self.x + font!.stringWidth(fallbackFont, text!),
+                    self.x + font!.stringWidth(fallbackFont, fontSize, text!),
                     self.y + font!.descent,
                     uriLanguage,
                     uriActualText,
@@ -591,7 +595,7 @@ public class TextLine : Drawable {
         }
         page!.setTextDirection(0)
 
-        let len = font!.stringWidth(fallbackFont, text!)
+        let len = font!.stringWidth(fallbackFont, fontSize, text!)
         let xMax = max(x, x + len*Float(cos(radians)))
         let yMax = max(y, y - len*Float(sin(radians)))
 
