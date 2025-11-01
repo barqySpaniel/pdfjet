@@ -23,6 +23,7 @@ public class TextLine : Drawable {
     private var uri: String?
     private var key: String?
 
+    var isLastToken: Bool = false
     private var underline = false
     private var strikeout = false
 
@@ -558,7 +559,10 @@ public class TextLine : Drawable {
         if underline {
             page!.setPenWidth(font!.underlineThickness)
             page!.setPenColor(color)
-            let lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
+            var lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
+            if (self.isLastToken) {
+                lineLength -= font!.stringWidth(fallbackFont, fontSize, Single.space);
+            }
             let xAdjust = font!.underlinePosition * Float(sin(radians)) + verticalOffset
             let yAdjust = font!.underlinePosition * Float(cos(radians)) + verticalOffset
             let x2 = x + lineLength * Float(cos(radians))
@@ -573,7 +577,10 @@ public class TextLine : Drawable {
         if strikeout {
             page!.setPenWidth(font!.underlineThickness)
             page!.setPenColor(color)
-            let lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
+            var lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
+            if (self.isLastToken) {
+                lineLength -= font!.stringWidth(fallbackFont, fontSize, Single.space);
+            }
             let xAdjust = (font!.bodyHeight / 4.0) * Float(sin(radians))
             let yAdjust = (font!.bodyHeight / 4.0) * Float(cos(radians))
             let x2 = x + lineLength * Float(cos(radians))

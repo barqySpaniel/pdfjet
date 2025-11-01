@@ -192,7 +192,7 @@ public class TextColumn : Drawable {
             let tokens = line.text!.components(separatedBy: .whitespaces)
             var text: TextLine?
             for token in tokens {
-                text = TextLine(line.font!, token + " ")
+                text = TextLine(line.font!, token + Single.space)
                         .setFontSize(line.getFontSize())
                         .setColor(line.getColor())
                         .setUnderline(line.getUnderline())
@@ -212,11 +212,7 @@ public class TextColumn : Drawable {
                     runLength = line.getWidth()
                 }
             }
-            // TODO:
-//             if line.getTrailingSpace() == false {
-//                 runLength -= line.font!.stringWidth(line.fallbackFont, Single.space)
-//                 text!.setTrailingSpace(false)
-//             }
+            line.isLastToken = true
         }
         if page != nil {
             drawNonJustifiedLine(page!, list)
