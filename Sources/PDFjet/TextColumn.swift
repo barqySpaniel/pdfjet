@@ -23,7 +23,7 @@ public class TextColumn : Drawable {
     private var y1: Float = 0.0
     private var lineHeight: Float = 0.0
     private var lineSpacing: Float = 1.0
-    private var spaceBetweenParagraphs: Float = 2.0
+    private var paragraphSpacing: Float = 1.0
     private var paragraphs: [Paragraph]
     private var lineBetweenParagraphs = false
 
@@ -64,8 +64,8 @@ public class TextColumn : Drawable {
         self.lineSpacing = lineSpacing
     }
 
-    public func setSpaceBetweenParagraphs(_ spaceBetweenParagraphs: Float) {
-        self.spaceBetweenParagraphs = spaceBetweenParagraphs
+    public func setParagraphSpacing(_ paragraphSpacing: Float) {
+        self.paragraphSpacing = paragraphSpacing
     }
 
     public func setPosition(_ x: Float, _ y: Float) {
@@ -216,7 +216,7 @@ public class TextColumn : Drawable {
             return moveToNextLine()
         }
 
-        return moveToNextParagraph(self.spaceBetweenParagraphs)
+        return moveToNextParagraph(self.paragraphSpacing)
     }
 
     @discardableResult
@@ -234,15 +234,15 @@ public class TextColumn : Drawable {
         return [x1, y1]
     }
 
-    private func moveToNextParagraph(_ spaceBetweenParagraphs: Float) -> [Float] {
+    private func moveToNextParagraph(_ paragraphSpacing: Float) -> [Float] {
         if rotate == 0 {
             x1 = x
-            y1 += spaceBetweenParagraphs
+            y1 += paragraphSpacing
         } else if rotate == 90 {
-            x1 += spaceBetweenParagraphs
+            x1 += paragraphSpacing
             y1 = y
         } else if rotate == 270 {
-            x1 -= spaceBetweenParagraphs
+            x1 -= paragraphSpacing
             y1 = y
         }
         return [x1, y1]
