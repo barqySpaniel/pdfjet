@@ -31,7 +31,7 @@ public class Example_10 {
 
         let rotate = 0  // degrees
         let column = TextColumn(rotate)
-        column.setSpaceBetweenLines(5.0)
+        column.setLineSpacing(1.3)
         column.setSpaceBetweenParagraphs(10.0)
 
         let p1 = Paragraph()

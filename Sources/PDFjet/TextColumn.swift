@@ -22,7 +22,7 @@ public class TextColumn : Drawable {
     private var x1: Float = 0.0
     private var y1: Float = 0.0
     private var lineHeight: Float = 0.0
-    private var spaceBetweenLines: Float = 1.0
+    private var lineSpacing: Float = 1.0
     private var spaceBetweenParagraphs: Float = 2.0
     private var paragraphs: [Paragraph]
     private var lineBetweenParagraphs = false
@@ -60,8 +60,8 @@ public class TextColumn : Drawable {
         self.lineBetweenParagraphs = lineBetweenParagraphs
     }
 
-    public func setSpaceBetweenLines(_ spaceBetweenLines: Float) {
-        self.spaceBetweenLines = spaceBetweenLines
+    public func setLineSpacing(_ lineSpacing: Float) {
+        self.lineSpacing = lineSpacing
     }
 
     public func setSpaceBetweenParagraphs(_ spaceBetweenParagraphs: Float) {
@@ -118,15 +118,6 @@ public class TextColumn : Drawable {
     }
 
     ///
-    /// Sets the spacing between the lines in this text column.
-    ///
-    /// @param spacing the specified spacing value.
-    ///
-    public func setLineSpacing(_ spacing: Float) {
-        self.spaceBetweenLines = spacing
-    }
-
-    ///
     /// Adds a new paragraph to this text column.
     ///
     /// @param paragraph the new paragraph object.
@@ -174,19 +165,20 @@ public class TextColumn : Drawable {
         return xy
     }
 
-    private func drawParagraphOn(
-            _ page: Page?,
-            _ paragraph: Paragraph) -> [Float] {
+    private func drawParagraphOn(_ page: Page?, _ paragraph: Paragraph) -> [Float] {
         var list = [TextLine]()
         var runLength: Float = 0.0
-        for line in paragraph.lines! {
-            self.lineHeight = paragraph.lines![0].font!.bodyHeight + spaceBetweenLines
-            if rotate == 0 {
-                self.y1 += paragraph.lines![0].font!.ascent
-            } else if rotate == 90 {
-                self.x1 += paragraph.lines![0].font!.ascent
-            } else if rotate == 270 {
-                self.x1 -= paragraph.lines![0].font!.ascent
+        for i in 0..<paragraph.lines!.count {
+            let line = paragraph.lines![i]
+            if (i == 0) {
+                self.lineHeight = paragraph.lines![0].font!.bodyHeight * lineSpacing
+                if rotate == 0 {
+                    self.y1 += paragraph.lines![0].font!.ascent
+                } else if rotate == 90 {
+                    self.x1 += paragraph.lines![0].font!.ascent
+                } else if rotate == 270 {
+                    self.x1 -= paragraph.lines![0].font!.ascent
+                }
             }
 
             let tokens = line.text!.components(separatedBy: .whitespaces)
