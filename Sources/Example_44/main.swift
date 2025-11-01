@@ -21,7 +21,7 @@ public class Example_44 {
         column.setLocation(70.0, 70.0)
         column.setWidth(500.0)
         column.setLineSpacing(1.3)
-        column.setSpaceBetweenParagraphs(10.0)
+        column.setParagraphSpacing(1.0)
 
         let p1 = Paragraph()
         p1.add(TextLine(f1,
