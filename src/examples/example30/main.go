@@ -4,8 +4,8 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
 	"github.com/edragoev1/pdfjet/src/color"
-	"github.com/edragoev1/pdfjet/src/font"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -15,7 +15,7 @@ func Example30() {
 	pdf := pdfjet.NewPDFFile("Example_30.pdf")
 
 	// font := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	f1 := pdfjet.NewFontFromFile(pdf, font.IBMPlexSans.Regular)
+	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
 
 	image1 := pdfjet.NewImageFromFile(pdf, "images/map407.png")
 	image1.SetLocation(10.0, 100.0)

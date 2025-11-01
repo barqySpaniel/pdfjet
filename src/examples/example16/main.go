@@ -6,10 +6,10 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
 	"github.com/edragoev1/pdfjet/src/border"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/direction"
-	"github.com/edragoev1/pdfjet/src/font"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -18,7 +18,7 @@ import (
 func Example16() {
 	pdf := pdfjet.NewPDFFile("Example_16.pdf")
 
-	f1 := pdfjet.NewFontFromFile(pdf, font.IBMPlexSans.Regular)
+	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 

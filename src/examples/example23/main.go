@@ -4,6 +4,7 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
@@ -13,9 +14,9 @@ import (
 func Example23() {
 	pdf := pdfjet.NewPDFFile("Example_23.pdf")
 
-	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream")
-	f2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
-	f3 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
+	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Bold)
+	f2 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
+	f3 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.SemiBold)
 
 	// What is this?
 	f3.SetSize(7.0 * 0.583)

@@ -4,11 +4,11 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/SourceSerif4"
 	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/content"
 	"github.com/edragoev1/pdfjet/src/direction"
-	"github.com/edragoev1/pdfjet/src/font"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -16,7 +16,7 @@ import (
 func Example19() {
 	pdf := pdfjet.NewPDFFile("Example_19.pdf")
 
-	f1 := pdfjet.NewFontFromFile(pdf, font.SourceSerif4.Italic)
+	f1 := pdfjet.NewFontFromFile(pdf, SourceSerif4.Italic)
 	f1.SetSize(18.0)
 
 	page := pdfjet.NewPage(pdf, letter.Landscape)

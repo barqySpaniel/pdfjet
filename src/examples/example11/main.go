@@ -4,13 +4,14 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
 // Example11 tests the one dimensional barcodes.
 func Example11() {
 	pdf := pdfjet.NewPDFFile("Example_11.pdf")
-	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
