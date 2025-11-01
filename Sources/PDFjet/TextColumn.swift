@@ -171,13 +171,13 @@ public class TextColumn : Drawable {
         for i in 0..<paragraph.lines!.count {
             let line = paragraph.lines![i]
             if (i == 0) {
-                self.lineHeight = paragraph.lines![0].font!.bodyHeight * lineSpacing
+                self.lineHeight = line.font!.bodyHeight * lineSpacing
                 if rotate == 0 {
-                    self.y1 += paragraph.lines![0].font!.ascent
+                    self.y1 += line.font!.ascent
                 } else if rotate == 90 {
-                    self.x1 += paragraph.lines![0].font!.ascent
+                    self.x1 += line.font!.ascent
                 } else if rotate == 270 {
-                    self.x1 -= paragraph.lines![0].font!.ascent
+                    self.x1 -= line.font!.ascent
                 }
             }
 
