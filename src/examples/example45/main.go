@@ -4,6 +4,8 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/JetBrainsMono"
+	"github.com/edragoev1/pdfjet/src/SourceSerif4"
 	"github.com/edragoev1/pdfjet/src/a4"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/compliance"
@@ -16,13 +18,13 @@ func Example45() {
 	pdf.SetLanguage("en-US")
 	pdf.SetTitle("Hello, World!")
 
-	f1 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream")
+	f1 := pdfjet.NewFontFromFile(pdf, SourceSerif4.Regular)
 	f1.SetSize(14.0)
 
-	f2 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream")
+	f2 := pdfjet.NewFontFromFile(pdf, SourceSerif4.Italic)
 	f2.SetSize(14.0)
 
-	f3 := pdfjet.NewFontFromFile(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream")
+	f3 := pdfjet.NewFontFromFile(pdf, JetBrainsMono.Regular)
 	f3.SetSize(10.0)
 
 	page := pdfjet.NewPage(pdf, a4.Portrait)

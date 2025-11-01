@@ -4,6 +4,8 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/JetBrainsMono"
+	"github.com/edragoev1/pdfjet/src/SourceSerif4"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
@@ -15,8 +17,8 @@ func Example14() {
 	pdf := pdfjet.NewPDFFile("Example_14.pdf")
 
 	font1 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	font2 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream")
-	font3 := pdfjet.NewFontFromFile(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream")
+	font2 := pdfjet.NewFontFromFile(pdf, SourceSerif4.Regular)
+	font3 := pdfjet.NewFontFromFile(pdf, JetBrainsMono.Regular)
 
 	image := pdfjet.NewImageFromFile(pdf, "images/ee-map.png")
 
