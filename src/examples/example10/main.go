@@ -4,114 +4,128 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
-// Example10 draws the Canadian flag using a Path object that contains both lines
-// and curve segments. Every curve segment must have exactly 2 control points.
 func Example10() {
 	pdf := pdfjet.NewPDFFile("Example_10.pdf")
 
-	// font1 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	font1 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream")
-	font2 := pdfjet.NewFontFromFile(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream")
-	font3 := pdfjet.NewFontFromFile(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf")
+	image := pdfjet.NewImageFromFile(pdf, "images/sz-map.png")
 
-	image := pdfjet.NewImageFromFile(pdf, "images/ee-map.png")
+	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+	f1.SetSize(10.0)
+
+	f2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
+	f2.SetSize(14.0)
+
+	f3 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
+	f3.SetSize(12.0)
+
+	f4 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream")
+	f4.SetSize(10.0)
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
-	flag := pdfjet.NewBoxAt(85.0, 85.0, 64.0, 32.0)
-
-	path := pdfjet.NewPath()
-
-	path.Add(pdfjet.NewPoint(13.0, 0.0))
-	path.Add(pdfjet.NewPoint(15.5, 4.5))
-
-	path.Add(pdfjet.NewPoint(18.0, 3.5))
-	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
-	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
-	path.Add(pdfjet.NewPoint(20.5, 7.5))
-
-	path.Add(pdfjet.NewPoint(21.0, 9.5))
-	path.Add(pdfjet.NewPoint(25.0, 9.0))
-	path.Add(pdfjet.NewPoint(24.0, 13.0))
-	path.Add(pdfjet.NewPoint(25.5, 14.0))
-	path.Add(pdfjet.NewPoint(19.0, 19.0))
-	path.Add(pdfjet.NewPoint(20.0, 21.5))
-	path.Add(pdfjet.NewPoint(13.5, 20.5))
-	path.Add(pdfjet.NewPoint(13.5, 27.0))
-	path.Add(pdfjet.NewPoint(12.5, 27.0))
-	path.Add(pdfjet.NewPoint(12.5, 20.5))
-	path.Add(pdfjet.NewPoint(6.0, 21.5))
-	path.Add(pdfjet.NewPoint(7.0, 19.0))
-	path.Add(pdfjet.NewPoint(0.5, 14.0))
-	path.Add(pdfjet.NewPoint(2.0, 13.0))
-	path.Add(pdfjet.NewPoint(1.0, 9.0))
-	path.Add(pdfjet.NewPoint(5.0, 9.5))
-
-	path.Add(pdfjet.NewPoint(5.5, 7.5))
-	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
-	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
-	path.Add(pdfjet.NewPoint(8.0, 3.5))
-
-	path.Add(pdfjet.NewPoint(10.5, 4.5))
-	path.SetClosePath(true)
-	path.SetColor(color.Red)
-	path.SetFillShape(true)
-	path.PlaceIn(flag, 19.0, 3.0)
-
-	path.DrawOn(page)
-
-	box := pdfjet.NewBox()
-	box.SetSize(16.0, 32.0)
-	box.SetColor(color.Red)
-	box.SetFillShape(true)
-	box.PlaceIn(flag, 0.0, 0.0)
-	box.DrawOn(page)
-	box.PlaceIn(flag, 48.0, 0.0)
-	box.DrawOn(page)
-
-	path.ScaleBy(15.0)
-	path.SetFillShape(false)
-	xy := path.DrawOn(page)
-
-	box = pdfjet.NewBox()
-	box.SetLocation(xy[0], xy[1])
-	box.SetSize(20.0, 20.0)
-	box.DrawOn(page)
-
-	font1.SetSize(24.0)
-	textField := pdfjet.NewTextLine(font1, "Hello, World!")
-	textField.SetLocation(300.0, 300.0)
-	textField.SetColor(color.BlanchedAlmond)
-	textField.DrawOn(page)
-
-	font2.SetSize(24.0)
-	textField2 := pdfjet.NewTextLine(font2, "This is great!")
-	textField2.SetLocation(400.0, 400.0)
-	textField2.SetColor(color.Blue)
-	textField2.SetStrikeout(true)
-	textField2.SetUnderline(true)
-	textField2.DrawOn(page)
-
-	font2.SetSize(14.0)
-	textField2 = pdfjet.NewTextLine(font2, "This is great!")
-	textField2.SetLocation(400.0, 500.0)
-	textField2.SetColor(color.Blue)
-	textField2.DrawOn(page)
-
-	font3.SetSize(24.0)
-	textField2 = pdfjet.NewTextLine(font3, "This is great!")
-	textField2.SetLocation(400.0, 600.0)
-	textField2.SetColor(color.Blue)
-	textField2.DrawOn(page)
-
-	image.SetLocation(100.0, 500.0)
-	image.ScaleBy(0.5)
+	image.SetLocation(90.0, 35.0)
+	image.ScaleBy(0.75)
 	image.DrawOn(page)
+	/*
+		rotate := 0
+		// int rotate := 90
+		// int rotate := 270
+		column := pdfjet.NewTextColumn(rotate)
+		column.SetLineSpacing(1.3)		// 1.3 x font height
+		column.SetParagraphSpacing(1.0) // 1.0 x line spacing
 
+		p1 := pdfjet.NewParagraph()
+		p1.SetAlignment(align.CENTER)
+		p1.Add(pdfjet.NewTextLine(f2, "Switzerland"))
+
+		p2 := pdfjet.NewParagraph()
+		p2.Add(pdfjet.NewTextLine(f2, "Introduction"))
+
+		buf := StringBuilder()
+		buf.Append("The Swiss Confederation was founded in 1291 as a defensive ")
+		buf.Append("alliance among three cantons. In succeeding years, other ")
+		buf.Append("localities joined the original three. ")
+		buf.Append("The Swiss Confederation secured its independence from the ")
+		buf.Append("Holy Roman Empire in 1499. Switzerland's sovereignty and ")
+		buf.Append("neutrality have long been honored by the major European ")
+		buf.Append("powers, and the country was not involved in either of the ")
+		buf.Append("two World Wars. The political and economic integration of ")
+		buf.Append("Europe over the past half century, as well as Switzerland's ")
+		buf.Append("role in many UN and international organizations, has ")
+		buf.Append("strengthened Switzerland's ties with its neighbors. ")
+		buf.Append("However, the country did not officially become a UN member ")
+		buf.Append("until 2002.")
+
+		p3 := pdfjet.NewParagraph()
+		// p3.SetAlignment(Align.LEFT)
+		// p3.SetAlignment(Align.RIGHT)
+		p3.SetAlignment(Align.JUSTIFY)
+		text := NewTextLine(f1, buf.ToString())
+		p3.Add(text)
+
+		buf := new StringBuilder()
+		buf.Append("Switzerland remains active in many UN and international ")
+		buf.Append("organizations but retains a strong commitment to neutrality.")
+
+		text = NewTextLine(f1, buf.ToString())
+		text.SetTextColor(Color.red)
+		p3.Add(text)
+
+		p4 = NewParagraph()
+		p4.Add(NewTextLine(f3, "Economy"))
+
+		buf = new StringBuilder()
+		buf.Append("Switzerland is a peaceful, prosperous, and stable modern ")
+		buf.Append("market economy with low unemployment, a highly skilled ")
+		buf.Append("labor force, and a per capita GDP larger than that of the ")
+		buf.Append("big Western European economies. The Swiss in recent years ")
+		buf.Append("have brought their economic practices largely into ")
+		buf.Append("conformity with the EU's to enhance their international ")
+		buf.Append("competitiveness. Switzerland remains a safe haven for ")
+		buf.Append("investors, because it has maintained a degree of bank secrecy ")
+		buf.Append("and has kept up the franc's long-term external value. ")
+		buf.Append("Reflecting the anemic economic conditions of Europe, GDP ")
+		buf.Append("growth stagnated during the 2001-03 period, improved during ")
+		buf.Append("2004-05 to 1.8% annually and to 2.9% in 2006.")
+
+		p5 := NewParagraph()
+		p5.SetAlignment(Align.JUSTIFY)
+		text = NewTextLine(f1, buf.ToString())
+		p5.Add(text)
+
+		text = NewTextLine(f4,
+			"Even so, unemployment has remained at less than half the EU average.")
+		text.SetTextColor(Color.blue)
+		p5.Add(text)
+
+		column.AddParagraph(p1)
+		column.AddParagraph(p2)
+		column.AddParagraph(p3)
+		column.AddParagraph(p4)
+		column.AddParagraph(p5)
+
+		if rotate == 0 {
+			column.SetLocation(90.0, 300.0)
+		} else if rotate == 90 {
+			column.SetLocation(90.0, 780.0)
+		} else if rotate == 270 {
+			column.SetLocation(550.0, 310.0)
+		}
+
+		columnWidth := 470.0
+		column.SetSize(columnWidth, 100.0)
+		xy := column.DrawOn(page)
+
+		line := NewLine(
+			xy[0],
+			xy[1],
+			xy[0] + columnWidth,
+			xy[1])
+		line.DrawOn(page)
+	*/
 	pdf.Complete()
 }
 

@@ -7,7 +7,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
-// Example11 tests the one dimenstional barcodes.
+// Example11 tests the one dimensional barcodes.
 func Example11() {
 	pdf := pdfjet.NewPDFFile("Example_11.pdf")
 	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
