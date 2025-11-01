@@ -233,7 +233,7 @@ public class BigTable {
     }
 
     public func complete() throws {
-        let reader = try String(contentsOfFile: fileName)
+        let reader = try String(contentsOfFile: fileName, encoding: .utf8)
         let lines = reader.components(separatedBy: .newlines)
         for line in lines {
             let fields = line.components(separatedBy: delimiter)

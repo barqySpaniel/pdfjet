@@ -248,7 +248,7 @@ public class Text : Drawable {
 
     public static func readLines(_ filePath: String) throws -> [String] {
         var lines = [String]()
-        let contents = try String(contentsOf: URL(fileURLWithPath: filePath))
+        let contents = try String(contentsOf: URL(fileURLWithPath: filePath), encoding: .utf8)
         var buffer = String()
         for scalar in contents.unicodeScalars {
             if scalar == "\r" {
