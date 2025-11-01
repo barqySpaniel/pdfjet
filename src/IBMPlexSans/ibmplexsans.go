@@ -1,7 +1,7 @@
 package IBMPlexSans
 
 // IBMPlexSans provides the paths to the IBM Plex Sans fonts.
-var (
+const (
 	Bold             = "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream"
 	BoldItalic       = "fonts/IBMPlexSans/IBMPlexSans-BoldItalic.ttf.stream"
 	ExtraLight       = "fonts/IBMPlexSans/IBMPlexSans-ExtraLight.ttf.stream"
