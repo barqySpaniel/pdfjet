@@ -63,8 +63,8 @@ func Example10() {
 	buf.WriteString("until 2002.")
 
 	p3 := pdfjet.NewParagraph()
-	// p3.SetAlignment(Align.LEFT)
-	// p3.SetAlignment(Align.RIGHT)
+	// p3.SetAlignment(align.Left)
+	// p3.SetAlignment(align.Right)
 	p3.SetAlignment(align.Justify)
 	text := pdfjet.NewTextLine(f1, buf.String())
 	p3.Add(text)
@@ -110,13 +110,13 @@ func Example10() {
 	column.AddParagraph(p4)
 	column.AddParagraph(p5)
 
-	//	if rotate == 0 {
-	column.SetLocation(90.0, 300.0)
-	//} else if rotate == 90 {
-	//	column.SetLocation(90.0, 780.0)
-	//} else if rotate == 270 {
-	//	column.SetLocation(550.0, 310.0)
-	//}
+	if rotate == 0 {
+		column.SetLocation(90.0, 300.0)
+	} else if rotate == 90 {
+		column.SetLocation(90.0, 780.0)
+	} else if rotate == 270 {
+		column.SetLocation(550.0, 310.0)
+	}
 
 	columnWidth := float32(470.0)
 	column.SetSize(columnWidth, 100.0)
