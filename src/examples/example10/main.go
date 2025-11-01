@@ -5,6 +5,7 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
 	"github.com/edragoev1/pdfjet/src/align"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
@@ -15,16 +16,16 @@ func Example10() {
 
 	image := pdfjet.NewImageFromFile(pdf, "images/sz-map.png")
 
-	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
 	f1.SetSize(10.0)
 
-	f2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
+	f2 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.SemiBold)
 	f2.SetSize(14.0)
 
-	f3 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
+	f3 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.SemiBold)
 	f3.SetSize(12.0)
 
-	f4 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream")
+	f4 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Italic)
 	f4.SetSize(10.0)
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
