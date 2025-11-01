@@ -5,11 +5,10 @@
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-public class Hexadecimal {
-    static let instance = Hexadecimal()
+internal class Hexadecimal {
     var digits = [UInt8]()
 
-    private init() {
+    internal init() {
         for row in 0..<16 {
             for col in 0..<16 {
                 let offset1 = (row <= 9) ? 48 : 55

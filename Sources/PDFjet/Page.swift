@@ -17,6 +17,7 @@ import Foundation
 /// </pre>
 ///
 public class Page {
+    public static let DETACHED = false
     var pdf: PDF
     var pageObj: PDFobj?
     var objNumber = 0
@@ -50,7 +51,7 @@ public class Page {
     private var font: Font?
     private var savedStates = [State]()
     private var mcid = 0
-    public static let DETACHED = false
+    private let hexadecimal = Hexadecimal()
 
     ///
     /// Creates page object and add it to the PDF document.
@@ -1674,8 +1675,8 @@ public class Page {
 
     private func appendTwoHexDigits(_ number: Int, _ buffer: inout [UInt8]) {
         let index = (number & 0xFF) << 1
-        buffer.append(Hexadecimal.instance.digits[index])
-        buffer.append(Hexadecimal.instance.digits[index + 1])
+        buffer.append(hexadecimal.digits[index])
+        buffer.append(hexadecimal.digits[index + 1])
     }
 
     private static let HEX: [UInt8] = [
