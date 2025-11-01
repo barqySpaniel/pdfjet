@@ -193,7 +193,7 @@ public class TextColumn : Drawable {
                         .setURIAction(line.getURIAction())
                         .setGoToAction(line.getGoToAction())
                         .setFallbackFont(line.getFallbackFont())
-                runLength += line.getWidth()
+                runLength += text!.getWidth()
                 if runLength < self.w {
                     list.append(text!)
                 } else {
@@ -201,7 +201,7 @@ public class TextColumn : Drawable {
                     moveToNextLine()
                     list.removeAll()
                     list.append(text!)
-                    runLength = line.getWidth()
+                    runLength = text!.getWidth()
                 }
             }
             line.isLastToken = true
