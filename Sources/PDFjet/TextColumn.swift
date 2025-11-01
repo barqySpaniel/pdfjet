@@ -216,7 +216,7 @@ public class TextColumn : Drawable {
             return moveToNextLine()
         }
 
-        return moveToNextParagraph(self.paragraphSpacing)
+        return moveToNextParagraph(self.lineHeight * self.paragraphSpacing)
     }
 
     @discardableResult

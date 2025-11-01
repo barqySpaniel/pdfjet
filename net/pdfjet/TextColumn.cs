@@ -24,7 +24,7 @@ public class TextColumn : IDrawable {
     internal float h;
     private float x1;
     private float y1;
-    private float lineHeight;
+    private float lineHeight = 0.0f;
     private float lineSpacing = 1.0f;
     private float paragraphSpacing = 1.0f;
     private List<Paragraph> paragraphs;
@@ -265,7 +265,7 @@ public class TextColumn : IDrawable {
             MoveToNextLine();
         }
 
-        return MoveToNextParagraph(lineHeight * this.paragraphSpacing);
+        return MoveToNextParagraph(this.lineHeight * this.paragraphSpacing);
     }
 
     private float[] MoveToNextLine() {
