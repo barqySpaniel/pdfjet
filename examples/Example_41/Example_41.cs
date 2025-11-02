@@ -44,7 +44,6 @@ public class Example_41 {
         text.SetBorder(true);
         text.DrawOn(page);
 
-
         paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
         int paragraphNumber = 1;
         Dictionary<String, int> colorMap = new Dictionary<String, int>();

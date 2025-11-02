@@ -14,11 +14,12 @@ public class Example_41 {
                         new FileOutputStream("Example_41.pdf")));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f3 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
-
         f1.setSize(10f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f2.setSize(10f);
+
+        Font f3 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
         f3.setSize(10f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
