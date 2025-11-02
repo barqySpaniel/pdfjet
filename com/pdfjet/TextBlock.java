@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 public class TextBlock {
-    private float x;
-    private float y;
+    float x;
+    float y;
     private float width;
     private float height;
     private Font font;

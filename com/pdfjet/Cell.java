@@ -307,6 +307,9 @@ public class Cell {
         if (textBox != null) {
             textBox.setWidth(width);
             cellHeight = (textBox.drawOn(null)[1] - textBox.y) + topPadding + bottomPadding;
+        } else if (textBlock != null) {
+            textBlock.setWidth(width);
+            cellHeight = (textBlock.drawOn(null)[1] - textBlock.y) + topPadding + bottomPadding;
         } else if (textColumn != null) {
             cellHeight = (textColumn.drawOn(null)[1] - textColumn.y) + topPadding + bottomPadding;
         } else if (image != null) {
