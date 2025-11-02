@@ -581,6 +581,10 @@ public class Cell {
             textBox.setLocation(x + leftPadding, y + topPadding);
             textBox.setWidth(w - (leftPadding + rightPadding));
             textBox.drawOn(page);
+        } else if (textBlock != null) {
+            textBlock.setPosition(x + leftPadding, y + topPadding);
+            textBlock.setWidth(w - (leftPadding + rightPadding));
+            textBlock.drawOn(page);
         } else if (textColumn != null) {
             textColumn.setPosition(x + leftPadding, y + topPadding);
             textColumn.drawOn(page);

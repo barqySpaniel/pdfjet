@@ -67,6 +67,27 @@ public class TextBlock {
         this.strikeout = false;
     }
 
+    /**
+     *  Sets the position where this text box will be drawn on the page.
+     *
+     *  @param x the x coordinate of the top left corner of the text box.
+     *  @param y the y coordinate of the top left corner of the text box.
+     */
+    public void setPosition(double x, double y) {
+        setPosition((float) x, (float) y);
+    }
+
+    /**
+     *  Sets the position where this text box will be drawn on the page.
+     *
+     *  @param x the x coordinate of the top left corner of the text box.
+     *  @param y the y coordinate of the top left corner of the text box.
+     */
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public void setFont(Font font) {
         this.font = font;
     }
