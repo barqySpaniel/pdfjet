@@ -17,6 +17,7 @@ public class Cell {
     protected Image image;
     protected Barcode barcode;
     protected TextBox textBox;
+    protected TextBlock textBlock;
     protected TextColumn textColumn;
     protected Point point;
     protected CompositeTextLine compositeTextLine;
@@ -213,6 +214,11 @@ public class Cell {
         this.text = null;
     }
 
+    public Cell setTextBlock(TextBlock textBlock) {
+        this.textBlock = textBlock;
+        return this;
+    }
+
     public Cell setTextColumn(TextColumn textColumn) {
         this.textColumn = textColumn;
         this.width = textColumn.getWidth() + this.leftPadding + this.rightPadding;
@@ -226,6 +232,11 @@ public class Cell {
      */
     public void setWidth(float width) {
         this.width = width;
+        if (textBox != null) {
+            textBox.setWidth(this.width - (this.leftPadding + this.rightPadding));
+        } else if (textBlock != null) {
+            textBlock.setWidth(this.width - (this.leftPadding + this.rightPadding));
+        }
     }
 
     /**
