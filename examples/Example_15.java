@@ -14,14 +14,11 @@ public class Example_15 {
         pdf.setCompliance(Compliance.PDF_UA_1);
         pdf.setTitle("PDF/UA compliant PDF");
 
-        // We are trying to prove here that PDFjet will not embed the same font twice
         Font f1 = new Font(pdf, NotoSans.Bold);
         Font f2 = new Font(pdf, NotoSans.Regular);
         Font f3 = new Font(pdf, NotoSans.Regular);
         Font f4 = new Font(pdf, NotoSans.Bold);
         Font f5 = new Font(pdf, NotoSans.Regular);
-
-        // Page page = new Page(pdf, A4.PORTRAIT);
 
         List<List<Cell>> tableData = new ArrayList<List<Cell>>();
         List<Cell> row = null;
