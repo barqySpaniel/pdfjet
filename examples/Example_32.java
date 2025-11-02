@@ -12,7 +12,7 @@ public class Example_32 {
         PDF pdf = new PDF(
                 new BufferedOutputStream(new FileOutputStream("Example_32.pdf")));
 
-        Font font = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream");
+        Font font = new Font(pdf, JetBrainsMono.Regular);
         font.setSize(8f);
 
         Map<String, Integer> colors = new HashMap<String, Integer>();
@@ -28,7 +28,7 @@ public class Example_32 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
         float x = 50f;
-        float y = 50f;            
+        float y = 50f;
         float leading = font.getBodyHeight();
         List<String> lines = Text.readLines("examples/Example_02.java");
         for (String line : lines) {

@@ -12,7 +12,7 @@ public class Example_11 {
             new BufferedOutputStream(new FileOutputStream("Example_11.pdf")));
         pdf.setCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, NotoSans.Regular);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
