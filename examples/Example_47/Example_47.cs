@@ -13,10 +13,10 @@ public class Example_47 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_47.pdf", FileMode.Create)));
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.SetSize(12f);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
+        Font f2 = new Font(pdf, IBMPlexSans.Italic);
         f2.SetSize(12f);
 
         Image image1 = new Image(pdf, "images/AU-map.png");

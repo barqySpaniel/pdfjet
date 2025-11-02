@@ -8,10 +8,10 @@ public class Example_47 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_47.pdf", append: false)!)
 
-        let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
-        let f2 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream")
-
+        let f1 = try Font(pdf, IBMPlexSans.Regular)
         f1.setSize(12.0)
+
+        let f2 = try Font(pdf, IBMPlexSans.Italic)
         f2.setSize(12.0)
 
         let image1 = try Image(pdf, "images/AU-map.png")
@@ -30,7 +30,7 @@ public class Example_47 {
         image2.drawOn(page)
 
         var paragraphs = [TextLine]()
-        let str = try String(contentsOfFile: "data/austria_hungary.txt", encoding: .utf8)        
+        let str = try String(contentsOfFile: "data/austria_hungary.txt", encoding: .utf8)
         let lines = str.components(separatedBy: "\n\n")
         for line in lines {
             paragraphs.append(TextLine(f1, String(line)))

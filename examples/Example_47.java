@@ -13,10 +13,10 @@ public class Example_47 {
             new BufferedOutputStream(new FileOutputStream("Example_47.pdf")));
         pdf.setCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.setSize(12f);
 
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Italic.ttf.stream");
+        Font f2 = new Font(pdf, IBMPlexSans.Italic);
         f2.setSize(12f);
 
         Image image1 = new Image(pdf, "images/AU-map.png");
