@@ -5,10 +5,10 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/content"
-	IBMPlexSans "github.com/edragoev1/pdfjet/src/ibmplexsans"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
