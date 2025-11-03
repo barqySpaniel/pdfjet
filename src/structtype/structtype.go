@@ -1,16 +1,19 @@
-// Package element defines standard PDF structure element tags
-// as defined in ISO 32000-1 (PDF 1.7) and PDF/UA specifications
 package structtype
+
+/**
+ * structtype.go
+ *
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
+ */
 
 // Structure Elements for Tagged PDF
 const (
-	// Document-level structure elements
 	Document = "Document"
 	Part     = "Part"
 	Div      = "Div"
 	Sect     = "Sect"
 
-	// Heading elements
 	H1 = "H1"
 	H2 = "H2"
 	H3 = "H3"
@@ -18,21 +21,17 @@ const (
 	H5 = "H5"
 	H6 = "H6"
 
-	// Paragraph and text elements
 	P     = "P"
 	Title = "Title"
 	Lbl   = "Lbl"
 
-	// Inline text
 	Span   = "Span"
 	Em     = "Em"
 	Strong = "Strong"
 
-	// Links and annotations
 	Link  = "Link"
 	Annot = "Annot"
 
-	// List elements
 	L  = "L"  // List
 	LI = "LI" // List Item
 
