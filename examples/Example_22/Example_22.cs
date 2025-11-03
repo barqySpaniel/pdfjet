@@ -4,7 +4,7 @@ using System.Diagnostics;
 using PDFjet.NET;
 
 /**
- *  Example_22.cs
+ * Example_22.cs
  */
 public class Example_22 {
     public Example_22() {
@@ -13,10 +13,7 @@ public class Example_22 {
         pdf.SetCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, IBMPlexSans.Regular);
-/*
-        PDF pdf = new PDF(new FileStream("Example_22.pdf", FileMode.Create));
-        Font f1 = new Font(pdf, CoreFont.HELVETICA);
-*/
+
         Page page = new Page(pdf, Letter.PORTRAIT);
         TextLine text = new TextLine(f1, "Page #1 -> Go to Destination #3.");
         text.SetGoToAction("dest#3");
