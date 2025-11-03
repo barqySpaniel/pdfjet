@@ -6,6 +6,7 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/color"
+	IBMPlexSans "github.com/edragoev1/pdfjet/src/ibmplexsans"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -17,13 +18,13 @@ func Example08() {
 	// f2 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
 	// f3 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBoldOblique())
 
-	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
+	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.SemiBold)
 	f1.SetSize(7.0)
 
-	f2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+	f2 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
 	f2.SetSize(7.0)
 
-	f3 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-BoldItalic.ttf.stream")
+	f3 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.BoldItalic)
 	f3.SetSize(7.0)
 
 	image := pdfjet.NewImageFromFile(pdf, "images/TeslaX.png")

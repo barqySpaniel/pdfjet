@@ -29,7 +29,7 @@ func Example16() {
 
 	gs := pdfjet.NewGraphicsState()
 	gs.SetAlphaStroking(0.5)    // Stroking alpha
-	gs.SetAlphaNonStroking(0.5) // Nonstroking alpha
+	gs.SetAlphaNonStroking(0.5) // Non-Stroking alpha
 	page.SetGraphicsState(gs)
 
 	// f1.SetSize(72.0)
