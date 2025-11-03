@@ -140,6 +140,10 @@ public class TextColumn implements Drawable {
         return this.w;
     }
 
+    public float getHeight() {
+        return this.h;
+    }
+
     /**
      *  Sets the text alignment.
      *
@@ -214,6 +218,9 @@ public class TextColumn implements Drawable {
         }
         // Restore the original location
         setLocation(this.x, this.y);
+        if (this.getHeight() > xy[1]) {
+            xy[1] = this.getHeight();
+        }
         return xy;
     }
 
