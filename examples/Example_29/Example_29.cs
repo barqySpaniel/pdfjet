@@ -76,7 +76,6 @@ public class Example_29 {
 
         float[] point2 = column.DrawOn(null);
 
-
         TextBlock tb = new TextBlock(font,
                 "Peter Blood, bachelor of medicine and several other things besides, smoked a pipe and tended the geraniums boxed on the sill of his window above Water Lane in the town of Bridgewater.");
                 //List<Cell> row2 = new List<Cell>();
