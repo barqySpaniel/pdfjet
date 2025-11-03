@@ -6,7 +6,7 @@ using System.Diagnostics;
 using PDFjet.NET;
 
 /**
- *  Example_50.cs
+ * Example_50.cs
  */
 public class Example_50 {
     public Example_50(String fileNumber, String fileName) {
@@ -37,7 +37,6 @@ public class Example_50 {
 
         List<PDFobj> pages = pdf.GetPageObjects(objects);
         Page page = new Page(pdf, pages[0]);
-        // page.InvertYAxis();
 
         page.AddResource(image, objects);
         page.AddResource(f1, objects);
