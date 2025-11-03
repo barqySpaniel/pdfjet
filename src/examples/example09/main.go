@@ -4,19 +4,20 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
+	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
 	"github.com/edragoev1/pdfjet/src/shape"
 )
 
-// Example09 draws the a chart that consists of three paths.
+// Example09 draws a chart that consists of three paths.
 func Example09() {
 	pdf := pdfjet.NewPDFFile("Example_09.pdf")
 
-	font1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream")
+	font1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Bold)
 	font1.SetSize(8.0)
 
-	font2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+	font2 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
 	font2.SetSize(8.0)
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)

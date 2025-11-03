@@ -5,22 +5,20 @@ import java.util.*;
 import com.pdfjet.*;
 
 /**
- *  Example_09.java
+ * Example_09.java
  */
 final public class Example_09 {
     public Example_09() throws Exception {
         PDF pdf = new PDF(
                 new BufferedOutputStream(new FileOutputStream("Example_09.pdf")));
 
-        Page page = new Page(pdf, Letter.PORTRAIT);
-
-        // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f1 = new Font(pdf, "fonts/NotoSans/NotoSans-Bold.ttf.stream");
-        // Font f2 = new Font(pdf, CoreFont.HELVETICA);
-        Font f2 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream");
-
+        Font f1 = new Font(pdf, IBMPlexSans.Bold);
         f1.setSize(8f);
+
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
         f2.setSize(8f);
+
+        Page page = new Page(pdf, Letter.PORTRAIT);
 
         Chart chart = new Chart(f1, f2);
         chart.setData(getData("data/world-communications.txt", "|"));
