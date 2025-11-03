@@ -214,7 +214,7 @@ public class TextColumn : IDrawable {
         }
         // Restore the original location
         SetLocation(this.x, this.y);
-        if (this.GetHeight() > xy[1]) {
+        if (this.GetHeight() > 0 xy[1]) {
             xy[1] = this.GetHeight();
         }
         return xy;
