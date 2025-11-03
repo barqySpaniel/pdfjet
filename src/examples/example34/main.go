@@ -21,11 +21,12 @@ func Example34() {
 	pdf := pdfjet.NewPDFFile("Example_34.pdf")
 
 	f1 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBold())
-	f2 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	f3 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBoldOblique())
-
 	f1.SetSize(7.0)
+
+	f2 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
 	f2.SetSize(7.0)
+
+	f3 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBoldOblique())
 	f3.SetSize(7.0)
 
 	table := pdfjet.NewTable()
@@ -93,7 +94,11 @@ func getData(fileName, delimiter string, numOfHeaderRows int, f1, f2 *pdfjet.Fon
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer f.Close()
+	defer func(f *os.File) {
+		if err := f.Close(); err != nil {
+			log.Printf("error closing %s: %v", fileName, err)
+		}
+	}(f)
 
 	scanner := bufio.NewScanner(f)
 	currentRow := 0
