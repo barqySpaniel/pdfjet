@@ -7,16 +7,14 @@ import PDFjet
 public class Example_09 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_09.pdf", append: false)!)
-        let page = Page(pdf, Letter.PORTRAIT)
 
-        // let f1 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        // let f2 = Font(pdf, CoreFont.HELVETICA)
-
-        let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream")
-        let f2 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
-
+        let f1 = try Font(pdf, IBMPlexSans.Bold)
         f1.setSize(8.0)
+
+        let f2 = try Font(pdf, IBMPlexSans.Regular)
         f2.setSize(8.0)
+
+        let page = Page(pdf, Letter.PORTRAIT)
 
         var chartData = [[Point]]()
 
