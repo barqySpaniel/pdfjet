@@ -18,22 +18,22 @@ public class Example_29 {
 
         Page page = new Page(pdf, Letter.LANDSCAPE);
 
-        Paragraph paragraph = new Paragraph();
+        Paragraph paragraph1 = new Paragraph();
+
+        // A paragraph has no size. It is just a list of text lines.
+        paragraph1.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+        paragraph1.Add(new TextLine(font, " Nulla elementum interdum elit, quis vehicula urna interdum quis. "));
+        paragraph1.Add(new TextLine(font, "Phasellus gravida ligula quam, nec blandit nulla. Sed posuere, lorem eget feugiat placerat, ipsum nulla euismod nisi, in semper mi nibh sed elit. "));
+        paragraph1.Add(new TextLine(font, "Mauris libero est, sodales dignissim congue sed, pulvinar non ipsum. "));
+        paragraph1.Add(new TextLine(font, "Sed risus nisi, ultrices nec eleifend at, viverra sed neque. "));
+
         Paragraph paragraph2 = new Paragraph();
-        // a Paragraph has no size, just the list of
-        // internal List<TextLine> lines = null;
-        // each TextLine has its own settings
-        paragraph.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
-        paragraph.Add(new TextLine(font, " Nulla elementum interdum elit, quis vehicula urna interdum quis. "));
-        paragraph.Add(new TextLine(font, "Phasellus gravida ligula quam, nec blandit nulla. Sed posuere, lorem eget feugiat placerat, ipsum nulla euismod nisi, in semper mi nibh sed elit. "));
-        paragraph.Add(new TextLine(font, "Mauris libero est, sodales dignissim congue sed, pulvinar non ipsum. "));
-        paragraph.Add(new TextLine(font, "Sed risus nisi, ultrices nec eleifend at, viverra sed neque. "));
         paragraph2.Add(new TextLine(font, "Integer vehicula massa non arcu viverra ullamcorper. "));
         paragraph2.Add(new TextLine(font, "Ut id tellus id ante mattis commodo. "));
         paragraph2.Add(new TextLine(font, "Donec dignissim aliquam tortor, eu pharetra ipsum ullamcorper in. "));
         paragraph2.Add(new TextLine(font, "Vivamus ultrices imperdiet iaculis."));
-        List<TextLine> lines = paragraph.GetTextLines();
 
+        List<TextLine> lines = paragraph1.GetTextLines();
         float r = 0.1f, g = 0.2f, b = 0f;
         float fontSize = 8f;
         int i = 0;
@@ -59,7 +59,7 @@ public class Example_29 {
         column.SetHeight(400f);
 
         column.SetLineBetweenParagraphs(false);
-        column.AddParagraph(paragraph);
+        column.AddParagraph(paragraph1);
         column.AddParagraph(paragraph2);
 
         Table table1 = new Table(font,font);
@@ -67,7 +67,6 @@ public class Example_29 {
         List<Cell> row = new List<Cell>();
         Cell cell = new Cell(font, "");
         cell.SetTextColumn(column);
-        // cell.SetWidth(400);
         cell.SetStrokeColor(Color.red);
         cell.SetLineWidth(2f);
         row.Add(cell);
