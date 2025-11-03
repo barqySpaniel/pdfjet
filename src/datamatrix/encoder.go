@@ -14,7 +14,7 @@ import (
 // strings.
 const FNC1 byte = 232
 
-// Encode returns a Datamatrix barcode for the given content and color scheme
+// EncodeWithColor returns a Datamatrix barcode for the given content and color scheme
 func EncodeWithColor(content string, color barcode.ColorScheme) (barcode.Barcode, error) {
 	data := encodeText(content)
 
@@ -65,7 +65,7 @@ func encodeText(content string) []byte {
 			// two numbers...
 			c2 := input[i]
 			i++
-			cw := byte(((c-'0')*10 + (c2 - '0')) + 130)
+			cw := ((c-'0')*10 + (c2 - '0')) + 130
 			result = append(result, cw)
 		} else if isGS1 && c == FNC1 {
 			result = append(result, c)

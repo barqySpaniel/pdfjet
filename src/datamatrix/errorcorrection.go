@@ -8,7 +8,7 @@ type errorCorrection struct {
 	rs *utils.ReedSolomonEncoder
 }
 
-var ec *errorCorrection = newErrorCorrection()
+var ec = newErrorCorrection()
 
 func newErrorCorrection() *errorCorrection {
 	gf := utils.NewGaloisField(301, 256, 1)

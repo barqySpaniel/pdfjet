@@ -164,28 +164,28 @@ func (l *codeLayout) Merge() *datamatrixCode {
 	result := newDataMatrixCodeWithColor(l.size, l.color)
 
 	//dotted horizontal lines
-	for r := 0; r < l.size.Rows; r += (l.size.RegionRows() + 2) {
+	for r := 0; r < l.size.Rows; r += l.size.RegionRows() + 2 {
 		for c := 0; c < l.size.Columns; c += 2 {
 			result.set(c, r, true)
 		}
 	}
 
 	//solid horizontal line
-	for r := l.size.RegionRows() + 1; r < l.size.Rows; r += (l.size.RegionRows() + 2) {
+	for r := l.size.RegionRows() + 1; r < l.size.Rows; r += l.size.RegionRows() + 2 {
 		for c := 0; c < l.size.Columns; c++ {
 			result.set(c, r, true)
 		}
 	}
 
 	//dotted vertical lines
-	for c := l.size.RegionColumns() + 1; c < l.size.Columns; c += (l.size.RegionColumns() + 2) {
+	for c := l.size.RegionColumns() + 1; c < l.size.Columns; c += l.size.RegionColumns() + 2 {
 		for r := 1; r < l.size.Rows; r += 2 {
 			result.set(c, r, true)
 		}
 	}
 
 	//solid vertical line
-	for c := 0; c < l.size.Columns; c += (l.size.RegionColumns() + 2) {
+	for c := 0; c < l.size.Columns; c += l.size.RegionColumns() + 2 {
 		for r := 0; r < l.size.Rows; r++ {
 			result.set(c, r, true)
 		}
