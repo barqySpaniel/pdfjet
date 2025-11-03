@@ -13,7 +13,7 @@ public class Example_18 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_18.pdf", FileMode.Create)));
 
-        Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font font = new Font(pdf, IBMPlexSans.Regular);
         float fontSize = 12f;
 
         List<Page> pages = new List<Page>();

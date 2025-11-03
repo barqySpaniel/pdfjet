@@ -13,12 +13,11 @@ public class Example_35 {
                 new BufferedOutputStream(new FileOutputStream("Example_35.pdf")));
 
         // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Bold);
+        f1.setSize(8f);
 
         // Font f2 = new Font(pdf, CoreFont.HELVETICA);
-        Font f2 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
-
-        f1.setSize(8f);
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
         f2.setSize(8f);
 
         Page page = new Page(pdf, A4.PORTRAIT);

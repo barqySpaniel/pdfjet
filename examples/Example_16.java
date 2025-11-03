@@ -14,9 +14,9 @@ public class Example_16 {
             new BufferedOutputStream(new FileOutputStream("Example_16.pdf")));
         pdf.setCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
-        // Font f1 = new Font(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf");
-        // Font f1 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        // Font f1 = new Font(pdf, SourceSerif4.Regular);
+        // Font f1 = new Font(pdf, NotoSans.Regular);
 
         f1.setSize(15f);
 
@@ -29,7 +29,7 @@ public class Example_16 {
 
         GraphicsState gs = new GraphicsState();
         gs.setAlphaStroking(0.5f);                  // Stroking alpha
-        gs.setAlphaNonStroking(0.5f);               // Nonstroking alpha
+        gs.setAlphaNonStroking(0.5f);               // Non-Stroking alpha
         page.setGraphicsState(gs);
 
         String englishText = Content.ofTextFile("data/languages/english.txt");

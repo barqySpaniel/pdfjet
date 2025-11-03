@@ -10,12 +10,12 @@ import com.pdfjet.*;
 public class Example_14 {
     public Example_14() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_14.pdf")));
+                new BufferedOutputStream(new FileOutputStream("Example_14.pdf")));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f1.setSize(7f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.setSize(7f);
 
         Page page = new Page(pdf, A4.PORTRAIT);

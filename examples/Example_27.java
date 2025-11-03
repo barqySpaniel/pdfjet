@@ -15,7 +15,7 @@ public class Example_27 {
                 new BufferedOutputStream(
                         new FileOutputStream("Example_27.pdf")));
         // Latin font
-        Font f1 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, NotoSans.Regular);
         f1.setSize(14f);
 
         // Thai font

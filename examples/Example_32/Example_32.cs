@@ -13,7 +13,7 @@ public class Example_32 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_32.pdf", FileMode.Create)));
 
-        Font font = new Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream");
+        Font font = new Font(pdf, JetBrainsMono.Regular);
         font.SetSize(8f);
 
         Dictionary<String, Int32> colors = new Dictionary<String, Int32>();

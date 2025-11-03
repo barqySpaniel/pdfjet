@@ -15,9 +15,9 @@ final public class Example_13 {
                         new FileOutputStream("Example_13.pdf")));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA);
-
         f1.setSize(7f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.setSize(7f);
 
         List<List<Cell>> tableData = new ArrayList<List<Cell>>();

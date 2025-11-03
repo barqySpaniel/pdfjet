@@ -14,7 +14,7 @@ public class Example_12 {
         pdf.setCompliance(Compliance.PDF_UA_1);
 
         // Font font = new Font(pdf, CoreFont.HELVETICA);
-        Font font = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf");
+        Font font = new Font(pdf, IBMPlexSans.Regular);
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         List<String> lines = Text.readLines("examples/Example_12.java");
