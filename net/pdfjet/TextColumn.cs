@@ -297,7 +297,7 @@ public class TextColumn : IDrawable {
             x1 -= paragraphSpacing;
             y1 = y;
         }
-        return new float[] {x1, y1};
+        return new float[] {x1 + this.w, y1};
     }
 
     private float[] DrawLineOfText(Page page, List<TextLine> list) {
