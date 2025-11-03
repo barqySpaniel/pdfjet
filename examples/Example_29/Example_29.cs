@@ -21,8 +21,13 @@ public class Example_29 {
         Paragraph paragraph1 = new Paragraph();
 
         // A paragraph has no size. It is just a list of text lines.
-        paragraph1.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
-        paragraph1.Add(new TextLine(font, " Nulla elementum interdum elit, quis vehicula urna interdum quis. "));
+        paragraph1.Add(new TextLine(font, ""));
+        paragraph1.Add(new TextLine(font, ""));
+        paragraph1.Add(new TextLine(font, ""));
+        paragraph1.Add(new TextLine(font, ""));
+
+        paragraph1.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "));
+        paragraph1.Add(new TextLine(font, "Nulla elementum interdum elit, quis vehicula urna interdum quis. "));
         paragraph1.Add(new TextLine(font, "Phasellus gravida ligula quam, nec blandit nulla. Sed posuere, lorem eget feugiat placerat, ipsum nulla euismod nisi, in semper mi nibh sed elit. "));
         paragraph1.Add(new TextLine(font, "Mauris libero est, sodales dignissim congue sed, pulvinar non ipsum. "));
         paragraph1.Add(new TextLine(font, "Sed risus nisi, ultrices nec eleifend at, viverra sed neque. "));
