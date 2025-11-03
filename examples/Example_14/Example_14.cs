@@ -32,8 +32,7 @@ public class Example_14 {
             for (int j = 0; j < 5; j++) {
                 if (i == 0) {
                     cell = new Cell(f1);
-                }
-                else {
+                } else {
                     cell = new Cell(f2);
                 }
                 // WITH:

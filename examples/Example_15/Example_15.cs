@@ -26,8 +26,7 @@ public class Example_15 {
             for (int j = 0; j < 5; j++) {
                 if (i == 0) {
                     cell = new Cell(f1);
-                }
-                else {
+                } else {
                     cell = new Cell(f2);
                 }
 
@@ -52,8 +51,7 @@ public class Example_15 {
                 if (i == 0 || j == 0) {
                     cell.SetCompositeTextLine(composite);
                     cell.SetTextColor(Color.deepskyblue);
-                }
-                else {
+                } else {
                     cell.SetTextColor(Color.dodgerblue);
                 }
                 cell.SetStrokeColor(Color.lightgray);

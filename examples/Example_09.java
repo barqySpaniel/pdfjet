@@ -116,11 +116,9 @@ final public class Example_09 {
                 String[] cols = null;
                 if (delimiter.equals("|")) {
                     cols = line.split("\\|", -1);
-                }
-                else if (delimiter.equals("\t")) {
+                } else if (delimiter.equals("\t")) {
                     cols = line.split("\t", -1);
-                }
-                else {
+                } else {
                     throw new Exception(
                         "Only pipes and tabs can be used as delimiters");
                 }

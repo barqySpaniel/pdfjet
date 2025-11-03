@@ -55,8 +55,7 @@ public class Example_15 {
                 if (i == 0 || j == 0) {
                     cell.setCompositeTextLine(composite);
                     cell.setBgColor(Color.deepskyblue);
-                }
-                else {
+                } else {
                     cell.setBgColor(Color.dodgerblue);
                 }
                 cell.setPenColor(Color.lightgray);
