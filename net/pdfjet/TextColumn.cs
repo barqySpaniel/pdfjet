@@ -357,8 +357,7 @@ public class TextColumn : IDrawable {
 
     private float[] DrawNonJustifiedLine(Page page, List<TextLine> list) {
         float runLength = 0f;
-        for (int i = 0; i < list.Count; i++) {
-            TextLine textLine = list[i];
+        foreach (TextLine textLine in list) {
             runLength += textLine.GetWidth();
         }
 
@@ -380,8 +379,7 @@ public class TextColumn : IDrawable {
             }
         }
 
-        for (int i = 0; i < list.Count; i++) {
-            TextLine textLine = list[i];
+        foreach (TextLine textLine in list) {
             textLine.SetLocation(x1, y1 + textLine.GetVerticalOffset());
 
             if (textLine.GetGoToAction() != null) {
