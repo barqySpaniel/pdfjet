@@ -56,8 +56,6 @@ public class Example_29 {
         column.SetLocation(50f, 50f);
         column.SetWidth(420f);
         column.SetHeight(400f);
-
-        column.SetLineBetweenParagraphs(false);
         column.AddParagraph(paragraph1);
         column.AddParagraph(paragraph2);
 
