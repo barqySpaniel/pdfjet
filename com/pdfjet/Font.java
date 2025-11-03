@@ -428,6 +428,24 @@ final public class Font {
         return descent;
     }
 
+    public float getAscent(float fontSize) {
+        if (isCJK) {
+            return fontSize;
+        }
+        return fontAscent * fontSize / unitsPerEm;
+    }
+
+    public float getDescent(float fontSize) {
+        if (isCJK) {
+            return fontSize/4;
+        }
+        return -fontDescent * fontSize / unitsPerEm;
+    }
+
+    public float getBodyHeight(float fontSize) {
+        return getAscent(fontSize) + getDescent(fontSize);
+    }
+
     /**
      * Returns the height of this font.
      *
@@ -450,7 +468,7 @@ final public class Font {
      * Returns the number of characters from the specified string that will fit
      * within the specified width.
      *
-     * @param str   the specified string.
+     * @param str the specified string.
      * @param width the specified width.
      *
      * @return the number of characters that will fit.

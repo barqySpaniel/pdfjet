@@ -24,6 +24,7 @@ public class TextLine implements Drawable {
     private String uri;
     private String key;
 
+    protected boolean isLastToken = true;
     private boolean underline = false;
     private boolean strikeout = false;
 

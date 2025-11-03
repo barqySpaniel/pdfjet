@@ -21,7 +21,6 @@ public class TextColumn implements Drawable {
     private float h;
     private float x1;
     private float y1;
-    private float lineHeight;
     private float lineSpacing = 1.0f;
     private float paragraphSpacing = 1.0f;
     private final List<Paragraph> paragraphs;
@@ -220,23 +219,22 @@ public class TextColumn implements Drawable {
 
     private float[] drawParagraphOn(Page page, Paragraph paragraph) throws Exception {
         List<TextLine> list = new ArrayList<TextLine>();
-        float runLength = 0f;
-        for (int i = 0; i < paragraph.lines.size(); i++) {
-            TextLine line = paragraph.lines.get(i);
-            if (i == 0) {
-                lineHeight = line.font.bodyHeight * lineSpacing;
-                if (rotate == 0) {
-                    y1 += line.font.ascent;
-                } else if (rotate == 90) {
-                    x1 += line.font.ascent;
-                } else if (rotate == 270) {
-                    x1 -= line.font.ascent;
-                }
-            }
+        TextLine firstLine = paragraph.lines.get(0);
+        float lineHeight = firstLine.font.getBodyHeight(firstLine.getFontSize()) * lineSpacing;
+        if (rotate == 0) {
+            y1 += firstLine.font.getAscent();
+        } else if (rotate == 90) {
+            x1 += firstLine.font.getAscent();
+        } else if (rotate == 270) {
+            x1 -= firstLine.font.getAscent();
+        }
 
+        float runLength = 0f;
+        for (TextLine line : paragraph.lines) {
             String[] tokens = line.text.split("\\s+");
+            TextLine text = null;
             for (String token : tokens) {
-                TextLine text = new TextLine(line.font, token + Single.space);
+                text = new TextLine(line.font, token + Single.space);
                 text.setFontSize(line.getFontSize());
                 text.setTextColor(line.getTextColor());
                 text.setUnderline(line.getUnderline());
@@ -250,23 +248,24 @@ public class TextColumn implements Drawable {
                     list.add(text);
                 } else {
                     drawLineOfText(page, list);
-                    moveToNextLine();
+                    moveToNextLine(lineHeight);
                     list.clear();
                     list.add(text);
                     runLength = text.getWidth();
                 }
             }
+            text.isLastToken = true;
         }
         drawNonJustifiedLine(page, list);
 
         if (lineBetweenParagraphs) {
-            moveToNextLine();
+            moveToNextLine(lineHeight);
         }
 
         return moveToNextParagraph(lineHeight * this.paragraphSpacing);
     }
 
-    private float[] moveToNextLine() {
+    private float[] moveToNextLine(float lineHeight) {
         if (rotate == 0) {
             this.x1 = x;
             this.y1 += lineHeight;
