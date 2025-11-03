@@ -43,7 +43,7 @@ final public class Example_09 {
         float m = chart.slope(points);
         float b = chart.intercept(points, m);
 
-        List<Point> trendline = new ArrayList<Point>();
+        List<Point> trendLine = new ArrayList<Point>();
         float x = 0.0f;
         float y = m * x + b;
         Point p1 = new Point(x, y);
@@ -56,10 +56,10 @@ final public class Example_09 {
         Point p2 = new Point(x, y);
         p2.setShape(Point.INVISIBLE);
 
-        trendline.add(p1);
-        trendline.add(p2);
+        trendLine.add(p1);
+        trendLine.add(p2);
 
-        chart.getData().add(trendline);
+        chart.getData().add(trendLine);
     }
 
     public void addTableToChart(
