@@ -24,7 +24,6 @@ public class TextColumn : IDrawable {
     internal float h;
     private float x1;
     private float y1;
-    private float lineHeight = 0.0f;
     private float lineSpacing = 1.0f;
     private float paragraphSpacing = 1.0f;
     private List<Paragraph> paragraphs;
@@ -215,25 +214,26 @@ public class TextColumn : IDrawable {
         }
         // Restore the original location
         SetLocation(this.x, this.y);
+        if (this.GetHeight() > xy[1]) {
+            xy[1] = this.GetHeight();
+        }
         return xy;
     }
 
     private float[] DrawParagraphOn(Page page, Paragraph paragraph) {
         List<TextLine> list = new List<TextLine>();
-        float runLength = 0f;
-        for (int i = 0; i < paragraph.lines.Count; i++) {
-            TextLine line = paragraph.lines[i];
-            if (i == 0) {
-                lineHeight = line.font.GetBodyHeight(line.font.GetSize()) * lineSpacing;
-                if (rotate == 0) {
-                    y1 += line.font.GetAscent();
-                } else if (rotate == 90) {
-                    x1 += line.font.GetAscent();
-                } else if (rotate == 270) {
-                    x1 -= line.font.GetAscent();
-                }
-            }
+        TextLine firstLine = paragraph.lines[0];
+        float lineHeight = firstLine.font.GetBodyHeight(firstLine.GetFontSize()) * lineSpacing;
+        if (rotate == 0) {
+            y1 += firstLine.font.GetAscent();
+        } else if (rotate == 90) {
+            x1 += firstLine.font.GetAscent();
+        } else if (rotate == 270) {
+            x1 -= firstLine.font.GetAscent();
+        }
 
+        float runLength = 0f;
+        foreach (TextLine line in paragraph.lines) {
             String[] tokens = Regex.Split(line.text, @"\s+");
             TextLine text = null;
             foreach (String token in tokens) {
@@ -251,7 +251,7 @@ public class TextColumn : IDrawable {
                     list.Add(text);
                 } else {
                     DrawLineOfText(page, list);
-                    MoveToNextLine();
+                    MoveToNextLine(lineHeight);
                     list.Clear();
                     list.Add(text);
                     runLength = text.GetWidth();
@@ -262,13 +262,13 @@ public class TextColumn : IDrawable {
         DrawNonJustifiedLine(page, list);
 
         if (lineBetweenParagraphs) {
-            MoveToNextLine();
+            MoveToNextLine(lineHeight);
         }
 
-        return MoveToNextParagraph(this.lineHeight * this.paragraphSpacing);
+        return MoveToNextParagraph(lineHeight * this.paragraphSpacing);
     }
 
-    private float[] MoveToNextLine() {
+    private float[] MoveToNextLine(float lineHeight) {
         if (rotate == 0) {
             x1 = x;
             y1 += lineHeight;
