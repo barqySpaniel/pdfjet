@@ -46,10 +46,6 @@ public class Example_29 {
             g = (g + 0.3f) - MathF.Truncate(g + 0.3f);
             b = (b + 0.2f) - MathF.Truncate(b + 0.2f);
             line.SetFontSize(fontSize);
-            //line.SetFontSize(i % 3 == 0 ? fontSize + i * 2f : fontSize);
-            //font.SetSize(i % 3 == 0 ? fontSize + i * 2f : fontSize);
-            //font.SetItalic(i % 4 == 0);
-            //line.SetFont(font);
             line.SetUnderline(i % 2 == 0);
             line.SetStrikeout(i % 2 == 0);
             line.SetTextEffect(i % 2 != 0 ? Effect.SUBSCRIPT : Effect.NORMAL);
@@ -84,7 +80,6 @@ public class Example_29 {
         cell2.SetTextBlock(tb);
         cell2.SetWidth(200);
         row.Add(cell2);
-        //tableData.Add(row2);
         table1.SetData(tableData);
         table1.SetLocation(50f, 50f);
         float[] xy = table1.DrawOn(page);
