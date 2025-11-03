@@ -55,7 +55,8 @@ public class Example_29 {
 
         TextColumn column = new TextColumn();
         column.SetLocation(50f, 50f);
-        column.SetSize(420f, 0f);
+        column.SetWidth(420f);
+        column.SetHeight(400f);
 
         column.SetLineBetweenParagraphs(false);
         column.AddParagraph(paragraph);
@@ -72,13 +73,10 @@ public class Example_29 {
         row.Add(cell);
         tableData.Add(row);
 
-        //table1.DrawOn(page);//column.DrawOn(page);
-
         float[] point2 = column.DrawOn(null);
 
         TextBlock tb = new TextBlock(font,
                 "Peter Blood, bachelor of medicine and several other things besides, smoked a pipe and tended the geraniums boxed on the sill of his window above Water Lane in the town of Bridgewater.");
-                //List<Cell> row2 = new List<Cell>();
         tb.SetFontSize(16f);
         Cell cell2 = new Cell(font, "");
         cell2.SetTextBlock(tb);
@@ -87,11 +85,11 @@ public class Example_29 {
         //tableData.Add(row2);
         table1.SetData(tableData);
         table1.SetLocation(50f, 50f);
-        float[] xy = table1.DrawOn(page);//column.DrawOn(page);
+        float[] xy = table1.DrawOn(page);
 
         Box box = new Box();
         box.SetLocation(xy[0], xy[1] + 5);
-        box.SetSize(540f, 25f);
+        box.SetSize(25f, 25f);
         box.SetLineWidth(2f);
         box.SetColor(Color.darkblue);
         box.DrawOn(page);

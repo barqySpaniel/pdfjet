@@ -118,7 +118,8 @@ public class Example_10 {
         }
 
         float columnWidth = 470f;
-        column.SetSize(columnWidth, 100f);
+        column.SetWidth(columnWidth);
+        column.SetHeight(100f);
         float[] xy = column.DrawOn(page);
 
         Line line = new Line(

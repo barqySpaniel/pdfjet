@@ -156,6 +156,10 @@ public class TextColumn : IDrawable {
         return this.w;
     }
 
+    public void SetHeight(float h) {
+        this.h = h;
+    }
+
     public float GetHeight() {
         return this.h;
     }
