@@ -277,8 +277,8 @@ public class TextLine : IDrawable {
      *
      *  @return the height.
      */
-    public double GetHeight() {
-        return fontSize;
+    public float GetHeight() {
+        return font.GetBodyHeight(fontSize);
     }
 
     /**
