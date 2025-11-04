@@ -87,7 +87,7 @@ public class Example_29 {
         float[] xy = table1.DrawOn(page);
 
         Box box = new Box();
-        box.SetLocation(xy[0], xy[1] + 5);
+        box.SetLocation(xy[0], xy[1] + 2f);
         box.SetSize(25f, 25f);
         box.SetLineWidth(2f);
         box.SetColor(Color.darkblue);
