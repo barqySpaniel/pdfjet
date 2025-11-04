@@ -14,13 +14,15 @@ public class Example_29 {
                 new FileStream("Example_29.pdf", FileMode.Create)));
 
         Font font = new Font(pdf, CoreFont.HELVETICA);
-        font.SetSize(16f);
+
+        Font font2 = new Font(pdf, CoreFont.HELVETICA);
+        font2.SetSize(16f);
 
         Page page = new Page(pdf, Letter.LANDSCAPE);
 
         // A paragraph has no size. It is just a list of text lines.
         Paragraph paragraph1 = new Paragraph();
-        paragraph1.Add(new TextLine(font, ""));
+        paragraph1.Add(new TextLine(font2, "yes"));
         paragraph1.Add(new TextLine(font, ""));
         paragraph1.Add(new TextLine(font, ""));
         paragraph1.Add(new TextLine(font, ""));
@@ -45,7 +47,9 @@ public class Example_29 {
             r = (r + 0.1f) - MathF.Truncate(r + 0.1f);
             g = (g + 0.3f) - MathF.Truncate(g + 0.3f);
             b = (b + 0.2f) - MathF.Truncate(b + 0.2f);
-            line.SetFontSize(fontSize);
+            if (i > 0) {
+                line.SetFontSize(fontSize);
+            }
             line.SetUnderline(i % 2 == 0);
             line.SetStrikeout(i % 2 == 0);
             line.SetTextEffect(i % 2 != 0 ? Effect.SUBSCRIPT : Effect.NORMAL);

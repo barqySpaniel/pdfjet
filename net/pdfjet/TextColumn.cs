@@ -231,14 +231,22 @@ public class TextColumn : IDrawable {
 
     private float[] DrawParagraphOn(Page page, Paragraph paragraph) {
         List<TextLine> list = new List<TextLine>();
-        TextLine firstTextLine = paragraph.lines[0];
-        float lineHeight = firstTextLine.GetHeight() * lineSpacing;
+        float lineHeight = 0f;
+        float maxAscent = 0f;
+        foreach (TextLine line in paragraph.lines) {
+            if ((line.GetHeight() * lineSpacing) > lineHeight) {
+                lineHeight = line.GetHeight() * lineSpacing;
+            }
+            if (line.font.GetAscent(line.fontSize) > maxAscent) {
+                maxAscent = line.font.GetAscent(line.fontSize);
+            }
+        }
         if (rotate == 0) {
-            y1 += firstTextLine.font.GetAscent(firstTextLine.fontSize);
+            y1 += maxAscent;
         } else if (rotate == 90) {
-            x1 += firstTextLine.font.GetAscent(firstTextLine.fontSize);
+            x1 += maxAscent;
         } else if (rotate == 270) {
-            x1 -= firstTextLine.font.GetAscent(firstTextLine.fontSize);
+            x1 -= maxAscent;
         }
 
         float runLength = 0f;
