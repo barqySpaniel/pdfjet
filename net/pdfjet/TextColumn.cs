@@ -261,7 +261,6 @@ public class TextColumn : IDrawable {
                 text.SetUnderline(line.GetUnderline());
                 text.SetStrikeout(line.GetStrikeout());
                 text.SetTextEffect(line.GetTextEffect());
-                text.SetVerticalOffset(line.GetVerticalOffset());
                 text.SetURIAction(line.GetURIAction());
                 text.SetGoToAction(line.GetGoToAction());
                 runLength += text.GetWidth();

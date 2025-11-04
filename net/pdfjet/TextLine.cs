@@ -263,6 +263,10 @@ public class TextLine : IDrawable {
         return font.StringWidth(fallbackFont, this.fontSize, text);
     }
 
+    public float GetWidth(float fontSize) {
+        return font.StringWidth(fallbackFont, fontSize, text);
+    }
+
     /**
      *  Returns the string width of the specified string.
      *
@@ -531,11 +535,7 @@ public class TextLine : IDrawable {
 
         page.SetBrushColor(textColor);
         page.AddBMC(structureType, language, text, altDescription);
-        if (verticalOffset != 0f) {
-            page.DrawString(font, fallbackFont, fontSize/2f, text, x, y, textColor, colorMap);
-        } else {
-            page.DrawString(font, fallbackFont, fontSize, text, x, y, textColor, colorMap);
-        }
+        page.DrawString(font, fallbackFont, fontSize, text, x, y, textColor, colorMap);
         page.AddEMC();
 
         double radians = Math.PI * degrees / 180.0;
