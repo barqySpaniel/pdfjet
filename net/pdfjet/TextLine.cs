@@ -263,10 +263,6 @@ public class TextLine : IDrawable {
         return font.StringWidth(fallbackFont, this.fontSize, text);
     }
 
-    public float GetWidth(float fontSize) {
-        return font.StringWidth(fallbackFont, fontSize, text);
-    }
-
     /**
      *  Returns the string width of the specified string.
      *

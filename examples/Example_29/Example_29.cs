@@ -49,7 +49,10 @@ public class Example_29 {
             }
             line.SetUnderline(i % 2 == 0);
             line.SetStrikeout(i % 2 == 0);
-            line.SetTextEffect(i % 2 != 0 ? Effect.SUBSCRIPT : Effect.NORMAL);
+            if (i % 2 == 0) {
+                line.SetTextEffect(Effect.SUBSCRIPT);
+                line.SetFontSize(line.GetFontSize()/2f);
+            }
             i += 1;
         }
 
