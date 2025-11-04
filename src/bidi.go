@@ -121,7 +121,7 @@ func ReorderVisually(text string) string {
 		buf1 = append(buf1, processText(buf2)...)
 	}
 	buf3 := make([]rune, 0)
-	for i := (len(buf1) - 1); i >= 0; i-- {
+	for i := len(buf1) - 1; i >= 0; i-- {
 		ch := buf1[i]
 		if isArabicLetter(ch) {
 			prevCh := '\u0000'
@@ -154,11 +154,11 @@ func ReorderVisually(text string) string {
 }
 
 func isArabic(ch rune) bool {
-	return (ch >= 0x600 && ch <= 0x6FF)
+	return ch >= 0x600 && ch <= 0x6FF
 }
 
 func isHebrew(ch rune) bool {
-	return (ch >= 0x0591 && ch <= 0x05F4)
+	return ch >= 0x0591 && ch <= 0x05F4
 }
 
 func isAlphaNumeric(ch rune) bool {

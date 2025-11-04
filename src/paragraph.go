@@ -55,16 +55,16 @@ func (paragraph *Paragraph) GetY2() float32 {
 
 // Add is used to add new text lines to the paragraph.
 //
-// @param text the text line to add to paragraph paragraph.
-// @return paragraph paragraph.
+// @param text the text line to add to the paragraph.
+// @return the paragraph.
 func (paragraph *Paragraph) Add(textLine *TextLine) *Paragraph {
 	paragraph.lines = append(paragraph.lines, textLine)
 	return paragraph
 }
 
-// SetAlignment sets the alignment of the text in paragraph paragraph.
+// SetAlignment sets the alignment of the text in the paragraph.
 // @param alignment the alignment code.
-// @return paragraph paragraph.
+// @return the paragraph.
 // <pre>Supported values: align.Left, align.Right, align.Center and align.Justify.</pre>
 func (paragraph *Paragraph) SetAlignment(alignment int) *Paragraph {
 	paragraph.alignment = alignment

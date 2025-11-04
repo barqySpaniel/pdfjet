@@ -59,7 +59,7 @@ func NewBMPImage(reader io.Reader) *BMPImage {
 		image.bpp = read2BytesLE(reader)
 		compression := readSignedInt(reader)
 		if image.bpp > 8 {
-			image.r5g6b5 = (compression == 3)
+			image.r5g6b5 = compression == 3
 			skipNBytes(reader, 20)
 			if offset > 54 {
 				skipNBytes(reader, offset-54)

@@ -75,7 +75,7 @@ func (form *Form) SetValueFont(f2 *Font) *Form {
 	return form
 }
 
-// SetValueFontSize sets the font size for falue value text.
+// SetValueFontSize sets the font size for value value text.
 func (form *Form) SetValueFontSize(valueFontSize float32) *Form {
 	form.valueFontSize = valueFontSize
 	return form
@@ -93,8 +93,8 @@ func (form *Form) SetValueColor(valueColor int32) *Form {
 	return form
 }
 
-// DrawOn draws form Form on the specified page.
-// @param page the page to draw form form on.
+// DrawOn draws the form on the specified page.
+// @param page the page to draw form on.
 // @return x and y coordinates of the bottom right corner of form component.
 func (form *Form) DrawOn(page *Page) []float32 {
 	for _, field := range form.fields {
@@ -134,7 +134,7 @@ func (form *Form) DrawOn(page *Page) []float32 {
 
 		var font *Font
 		var fontSize float32
-		var color int32
+		var textColor int32
 		var altDescription string
 		var actualText string
 		i := 0
@@ -142,20 +142,20 @@ func (form *Form) DrawOn(page *Page) []float32 {
 			if i == 0 {
 				font = form.f1
 				fontSize = form.labelFontSize
-				color = form.labelColor
+				textColor = form.labelColor
 				altDescription = field.altDescription[i]
 				actualText = field.actualText[i]
 			} else {
 				font = form.f2
 				fontSize = form.valueFontSize
-				color = form.valueColor
+				textColor = form.valueColor
 				altDescription = field.altDescription[i] + ","
 				actualText = field.actualText[i] + ","
 			}
 
 			textLine := NewTextLine(font, field.values[i])
 			textLine.SetFontSize(fontSize)
-			textLine.SetColor(color)
+			textLine.SetColor(textColor)
 			textLine.PlaceIn(box, field.x+font.descent, yField-font.descent)
 			textLine.SetAltDescription(altDescription)
 			textLine.SetActualText(actualText)

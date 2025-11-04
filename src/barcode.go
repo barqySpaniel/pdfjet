@@ -8,6 +8,7 @@ package pdfjet
  */
 
 import (
+	"fmt"
 	"log"
 	"math"
 	"strconv"
@@ -151,9 +152,9 @@ func (barcode *Barcode) DrawOn(page *Page) []float32 {
 	case CODE39:
 		return barcode.drawCode39(page, barcode.x1, barcode.y1)
 	default:
-		log.Fatal("Unsupported Barcode Type.")
-		return []float32{0.0, 0.0}
+		fmt.Println("Unsupported Barcode Type.")
 	}
+	return []float32{0.0, 0.0}
 }
 
 // drawOnPageAtLocation draws this barcode on the specified page at the specified location.
@@ -166,9 +167,9 @@ func (barcode *Barcode) drawOnPageAtLocation(page *Page, x1, y1 float32) []float
 	case CODE39:
 		return barcode.drawCode39(page, x1, y1)
 	default:
-		log.Fatal("Unsupported Barcode Type.")
-		return []float32{0.0, 0.0}
+		fmt.Println("Unsupported Barcode Type.")
 	}
+	return []float32{0.0, 0.0}
 }
 
 func (barcode *Barcode) drawCodeUPC(page *Page, x1, y1 float32) []float32 {
@@ -263,7 +264,7 @@ func (barcode *Barcode) drawEGuard(page *Page, x, y, m1, h float32) float32 {
 		barcode.drawBar(page, x+(0.5*m1), y, m1, h)
 		barcode.drawBar(page, x+(2.5*m1), y, m1, h)
 	}
-	return (x + (3.0 * m1))
+	return x + (3.0 * m1)
 }
 
 func (barcode *Barcode) drawMGuard(page *Page, x, y, m1, h float32) float32 {
@@ -272,7 +273,7 @@ func (barcode *Barcode) drawMGuard(page *Page, x, y, m1, h float32) float32 {
 		barcode.drawBar(page, x+(1.5*m1), y, m1, h)
 		barcode.drawBar(page, x+(3.5*m1), y, m1, h)
 	}
-	return (x + (5.0 * m1))
+	return x + (5.0 * m1)
 }
 
 func (barcode *Barcode) drawBar(page *Page, x, y, m1, h float32) {
@@ -319,14 +320,14 @@ func (barcode *Barcode) drawCode128(page *Page, x1, y1 float32) []float32 {
 
 	var buf strings.Builder
 	checkDigit := rune(code128.StartB)
-	buf.WriteRune(rune(checkDigit))
+	buf.WriteRune(checkDigit)
 	for i := 0; i < len(list); i++ {
 		codeword := list[i]
 		buf.WriteRune(codeword)
 		checkDigit += rune(int(codeword) * (i + 1))
 	}
 	checkDigit %= code128.StartA
-	buf.WriteRune(rune(checkDigit))
+	buf.WriteRune(checkDigit)
 	buf.WriteRune(rune(code128.Stop))
 
 	for _, si := range buf.String() {

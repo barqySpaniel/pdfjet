@@ -28,18 +28,6 @@ func NewDestination(name *string, xPosition float32, yPosition float32) *Destina
 	return destination
 }
 
-// NewDestination creates new destination objects.
-//
-// @param name the name of this destination object.
-// @param yPosition the y coordinate of the top left corner.
-func NewDestination7(name *string, yPosition float32) *Destination {
-	destination := new(Destination)
-	destination.name = name
-	destination.xPosition = 0.0
-	destination.yPosition = yPosition
-	return destination
-}
-
 // SetPageObjNumber sets the page object number.
 func (destination *Destination) SetPageObjNumber(pageObjNumber int) {
 	destination.pageObjNumber = pageObjNumber
