@@ -393,10 +393,10 @@ public class TextLine : IDrawable {
         this.textEffect = textEffect;
         if (textEffect == Effect.NORMAL) {
             verticalOffset = 0f;
+        } else if (textEffect == Effect.SUPERSCRIPT) {
+            verticalOffset = fontSize/3f;
         } else if (textEffect == Effect.SUBSCRIPT) {
             verticalOffset = -fontSize/5f;
-        } else if (textEffect == Effect.SUPERSCRIPT) {
-            verticalOffset = fontSize/5f;
         }
         return this;
     }
