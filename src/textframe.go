@@ -33,7 +33,7 @@ func NewTextFrame(paragraphs []*TextLine) *TextFrame {
 		textFrame.paragraphs = paragraphs
 		textFrame.font = textFrame.paragraphs[0].GetFont()
 		textFrame.fallbackFont = textFrame.paragraphs[0].GetFallbackFont()
-		textFrame.leading = textFrame.font.GetBodyHeight()
+		textFrame.leading = textFrame.font.GetBodyHeight(textFrame.font.GetSize())
 		textFrame.paragraphLeading = 2 * textFrame.leading
 		textFrame.beginParagraphPoints = make([][]float32, 0)
 		textFrame.spaceBetweenTextLines = textFrame.font.StringWidth(

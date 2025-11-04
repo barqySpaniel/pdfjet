@@ -112,7 +112,7 @@ func (textLine *TextLine) GetFont() *Font {
 // @param fontSize the fontSize to use.
 // @return this TextLine.
 func (textLine *TextLine) SetFontSize(fontSize float32) *TextLine {
-	textLine.font.SetSize(fontSize)
+	textLine.fontSize = fontSize
 	return textLine
 }
 
@@ -196,9 +196,8 @@ func (textLine *TextLine) GetStringWidth(text string) float32 {
 // GetHeight returns the height of this TextLine.
 // @return the height.
 func (textLine *TextLine) GetHeight() float32 {
-	ascent := math.Max(float64(textLine.font.ascent), float64(textLine.fallbackFont.ascent))
-	descent := -(math.Max(float64(textLine.font.descent), float64(textLine.fallbackFont.descent)))
-	return float32(ascent + descent)
+	// println(textLine.fontSize, textLine.font.GetBodyHeight(textLine.fontSize))
+	return textLine.font.GetBodyHeight(textLine.fontSize)
 }
 
 // SetURIAction sets the URI for the "click text line" action.

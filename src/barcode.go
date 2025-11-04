@@ -246,7 +246,7 @@ func (barcode *Barcode) drawCodeUPC(page *Page, x1, y1 float32) []float32 {
 		textLine := NewTextLine(barcode.font, label)
 		textLine.SetLocation(
 			barcode.x1+((x-barcode.x1)-barcode.font.stringWidth(barcode.font.size, label))/2,
-			barcode.y1+h+barcode.font.GetBodyHeight())
+			barcode.y1+h+barcode.font.GetBodyHeight(barcode.font.GetSize()))
 		xy = textLine.DrawOn(page)
 		xy[0] = float32(math.Max(float64(x), float64(xy[0])))
 		xy[1] = float32(math.Max(float64(y), float64(xy[1])))

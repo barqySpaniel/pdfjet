@@ -330,14 +330,14 @@ func (font *Font) GetAscent(fontSize float32) float32 {
 	if font.isCJK {
 		return fontSize
 	}
-	return font.ascent * fontSize / float32(font.unitsPerEm)
+	return float32(font.fontAscent) * fontSize / float32(font.unitsPerEm)
 }
 
 func (font *Font) GetDescent(fontSize float32) float32 {
 	if font.isCJK {
 		return fontSize / 4
 	}
-	return -font.descent * fontSize / float32(font.unitsPerEm)
+	return -float32(font.fontDescent) * fontSize / float32(font.unitsPerEm)
 }
 
 // GetHeight returns the height of this font.
@@ -346,8 +346,8 @@ func (font *Font) GetHeight() float32 {
 }
 
 // GetBodyHeight returns the height of the body of the font.
-func (font *Font) GetBodyHeight() float32 {
-	return font.bodyHeight
+func (font *Font) GetBodyHeight(fontSize float32) float32 {
+	return font.GetAscent(fontSize) + font.GetDescent(fontSize)
 }
 
 // GetFitChars returns the number of characters from the specified text string
