@@ -27,7 +27,6 @@ type TextColumn struct {
 	h                     float32
 	x1                    float32
 	y1                    float32
-	lineHeight            float32
 	lineSpacing           float32
 	paragraphSpacing      float32
 	paragraphs            []*Paragraph
@@ -52,6 +51,7 @@ func NewTextColumn(rotateByDegrees int) *TextColumn {
 	textColumn.lineSpacing = 1.3
 	textColumn.paragraphSpacing = 1.0
 	textColumn.rotate = rotateByDegrees
+	textColumn.lineBetweenParagraphs = true
 	if rotateByDegrees != 0 && rotateByDegrees != 90 && rotateByDegrees != 270 {
 		log.Fatal("Invalid rotation angle. Please use 0, 90 or 270 degrees.")
 	}
