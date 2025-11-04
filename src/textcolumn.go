@@ -263,8 +263,7 @@ func (textColumn *TextColumn) drawLineOfText(page *Page, textLines []*TextLine) 
 
 func (textColumn *TextColumn) drawNonJustifiedLine(page *Page, textLines []*TextLine) {
 	var runLength float32
-	for i := 0; i < len(textLines); i++ {
-		textLine := textLines[i]
+	for _, textLine := range textLines {
 		runLength += textLine.GetWidth()
 	}
 
