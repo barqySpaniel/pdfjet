@@ -23,19 +23,19 @@ public class Example_29 {
         // A paragraph has no size. It is just a list of text lines.
         Paragraph paragraph1 = new Paragraph();
         paragraph1.Add(new TextLine(font2, "yes"));
-        paragraph1.Add(new TextLine(font, ""));
-        paragraph1.Add(new TextLine(font, ""));
-        paragraph1.Add(new TextLine(font, ""));
-        paragraph1.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "));
-        paragraph1.Add(new TextLine(font, "Nulla elementum interdum elit, quis vehicula urna interdum quis. "));
-        paragraph1.Add(new TextLine(font, "Phasellus gravida ligula quam, nec blandit nulla. Sed posuere, lorem eget feugiat placerat, ipsum nulla euismod nisi, in semper mi nibh sed elit. "));
-        paragraph1.Add(new TextLine(font, "Mauris libero est, sodales dignissim congue sed, pulvinar non ipsum. "));
-        paragraph1.Add(new TextLine(font, "Sed risus nisi, ultrices nec eleifend at, viverra sed neque. "));
+//        paragraph1.Add(new TextLine(font, ""));
+//        paragraph1.Add(new TextLine(font, ""));
+//        paragraph1.Add(new TextLine(font, ""));
+        paragraph1.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+        paragraph1.Add(new TextLine(font, "Nulla elementum interdum elit, quis vehicula urna interdum quis."));
+        paragraph1.Add(new TextLine(font, "Phasellus gravida ligula quam, nec blandit nulla. Sed posuere, lorem eget feugiat placerat, ipsum nulla euismod nisi, in semper mi nibh sed elit."));
+        paragraph1.Add(new TextLine(font, "Mauris libero est, sodales dignissim congue sed, pulvinar non ipsum."));
+        paragraph1.Add(new TextLine(font, "Sed risus nisi, ultrices nec eleifend at, viverra sed neque."));
 
         Paragraph paragraph2 = new Paragraph();
-        paragraph2.Add(new TextLine(font, "Integer vehicula massa non arcu viverra ullamcorper. "));
-        paragraph2.Add(new TextLine(font, "Ut id tellus id ante mattis commodo. "));
-        paragraph2.Add(new TextLine(font, "Donec dignissim aliquam tortor, eu pharetra ipsum ullamcorper in. "));
+        paragraph2.Add(new TextLine(font, "Integer vehicula massa non arcu viverra ullamcorper."));
+        paragraph2.Add(new TextLine(font, "Ut id tellus id ante mattis commodo."));
+        paragraph2.Add(new TextLine(font, "Donec dignissim aliquam tortor, eu pharetra ipsum ullamcorper in."));
         paragraph2.Add(new TextLine(font, "Vivamus ultrices imperdiet iaculis."));
 
         List<TextLine> lines = paragraph1.GetTextLines();
