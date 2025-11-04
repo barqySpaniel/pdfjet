@@ -289,9 +289,9 @@ public class Cell {
         } else if barcode != nil {
             cellHeight = barcode!.getHeight() + topPadding + bottomPadding
         } else if text != nil {
-            var fontHeight = font!.getHeight()
-            if fallbackFont != nil && fallbackFont!.getHeight() > fontHeight {
-                fontHeight = fallbackFont!.getHeight()
+            var fontHeight = font!.getBodyHeight()
+            if fallbackFont != nil && fallbackFont!.getBodyHeight() > fontHeight {
+                fontHeight = fallbackFont!.getBodyHeight()
             }
             cellHeight = fontHeight + topPadding + bottomPadding
         }

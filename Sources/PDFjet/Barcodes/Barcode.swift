@@ -621,6 +621,6 @@ public class Barcode : Drawable {
         if font == nil {
             return m1 * barHeightFactor
         }
-        return m1 * barHeightFactor + font!.getHeight()
+        return m1 * barHeightFactor + font!.getBodyHeight()
     }
 }   // End of Barcode.swift

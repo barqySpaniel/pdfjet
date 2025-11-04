@@ -389,12 +389,26 @@ public class Font {
         return self.descent
     }
 
+    public func getAscent(_ fontSize: Float) -> Float {
+        if isCJK {
+            return fontSize
+        }
+        return Float(fontAscent) * fontSize / Float(unitsPerEm)
+    }
+
+    public func getDescent(_ fontSize: Float) -> Float {
+        if isCJK {
+            return fontSize/4
+        }
+        return -Float(fontDescent) * fontSize / Float(unitsPerEm)
+    }
+
     ///
     /// Returns the height of this font.
     ///
     /// @return the height of the font.
     ///
-    public func getHeight() -> Float {
+    public func getBodyHeight() -> Float {
         return self.ascent + self.descent
     }
 
@@ -403,8 +417,8 @@ public class Font {
     ///
     /// @return float the height of the body of the font.
     ///
-    public func getBodyHeight() -> Float {
-        return self.bodyHeight
+    public func getBodyHeight(_ fontSize: Float) -> Float {
+        return getAscent(fontSize) + getDescent(fontSize)
     }
 
     public func getUnderlineThickness() -> Int16 {

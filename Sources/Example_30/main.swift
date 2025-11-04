@@ -25,7 +25,7 @@ public class Example_30 {
 
         textLine = TextLine(font, "http://www.openstreetmap.org/copyright")
         textLine.setURIAction("http://www.openstreetmap.org/copyright")
-        textLine.setLocation(10.0, xy[1] + font.getHeight())
+        textLine.setLocation(10.0, xy[1] + font.getBodyHeight())
         textLine.drawOn(page)
 
         var group = OptionalContentGroup(pdf, "Open Source Map")

@@ -21,7 +21,6 @@ public class TextColumn : Drawable {
     private var h: Float = 0.0
     private var x1: Float = 0.0
     private var y1: Float = 0.0
-    private var lineHeight: Float = 0.0
     private var lineSpacing: Float = 1.0
     private var paragraphSpacing: Float = 1.0
     private var paragraphs: [Paragraph]
@@ -167,20 +166,26 @@ public class TextColumn : Drawable {
 
     private func drawParagraphOn(_ page: Page?, _ paragraph: Paragraph) -> [Float] {
         var list = [TextLine]()
-        var runLength: Float = 0.0
-        for i in 0..<paragraph.lines!.count {
-            let line = paragraph.lines![i]
-            if (i == 0) {
-                self.lineHeight = line.font!.bodyHeight * lineSpacing
-                if rotate == 0 {
-                    self.y1 += line.font!.ascent
-                } else if rotate == 90 {
-                    self.x1 += line.font!.ascent
-                } else if rotate == 270 {
-                    self.x1 -= line.font!.ascent
-                }
+        var lineHeight: Float = 0.0
+        var maxAscent: Float = 0.0
+        for line in paragraph.lines! {
+            if (line.getHeight() * self.lineSpacing) > lineHeight {
+                lineHeight = line.getHeight() * lineSpacing
             }
+            if line.font!.getAscent(line.fontSize) > maxAscent {
+                maxAscent = line.font!.getAscent(line.fontSize)
+            }
+        }
+        if rotate == 0 {
+            self.y1 += maxAscent
+        } else if rotate == 90 {
+            self.x1 += maxAscent
+        } else if rotate == 270 {
+            self.x1 -= maxAscent
+        }
 
+        var runLength: Float = 0.0
+        for line in paragraph.lines! {
             let tokens = line.text!.components(separatedBy: .whitespaces)
             var text: TextLine?
             for token in tokens {
@@ -200,7 +205,7 @@ public class TextColumn : Drawable {
                     if page != nil {    // TODO: Why is page == nil?
                         drawLineOfText(page!, list)
                     }
-                    moveToNextLine()
+                    moveToNextLine(lineHeight)
                     list.removeAll()
                     list.append(text!)
                     runLength = text!.getWidth()
@@ -213,14 +218,14 @@ public class TextColumn : Drawable {
         }
 
         if lineBetweenParagraphs {
-            return moveToNextLine()
+            return moveToNextLine(lineHeight)
         }
 
-        return moveToNextParagraph(self.lineHeight * self.paragraphSpacing)
+        return moveToNextParagraph(lineHeight * self.paragraphSpacing)
     }
 
     @discardableResult
-    private func moveToNextLine() -> [Float] {
+    private func moveToNextLine(_ lineHeight: Float) -> [Float] {
         if rotate == 0 {
             x1 = x
             y1 += lineHeight

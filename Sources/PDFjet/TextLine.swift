@@ -259,9 +259,7 @@ public class TextLine : Drawable {
     /// - Returns: the height.
     ///
     public func getHeight() -> Float {
-        let ascent = max(font!.ascent, fallbackFont!.ascent)
-        let descent = max(font!.descent, fallbackFont!.descent)
-        return ascent + descent
+        return font!.getBodyHeight(self.fontSize)
     }
 
     ///
