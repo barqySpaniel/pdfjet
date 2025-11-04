@@ -28,7 +28,7 @@ type TextColumn struct {
 	x1                    float32
 	y1                    float32
 	lineHeight            float32
-	linesSpacing          float32
+	lineSpacing           float32
 	paragraphSpacing      float32
 	paragraphs            []*Paragraph
 	lineBetweenParagraphs bool
@@ -49,7 +49,7 @@ func (textColumn *TextColumn) TextColumn() {
 func NewTextColumn(rotateByDegrees int) *TextColumn {
 	textColumn := new(TextColumn)
 	textColumn.alignment = align.Left
-	textColumn.linesSpacing = 1.3
+	textColumn.lineSpacing = 1.3
 	textColumn.paragraphSpacing = 1.0
 	textColumn.rotate = rotateByDegrees
 	if rotateByDegrees != 0 && rotateByDegrees != 90 && rotateByDegrees != 270 {
@@ -67,8 +67,8 @@ func (textColumn *TextColumn) SetLineBetweenParagraphs(lineBetweenParagraphs boo
 }
 
 // SetLineSpacing sets the space between the lines.
-func (textColumn *TextColumn) SetLineSpacing(linesSpacing float32) {
-	textColumn.linesSpacing = linesSpacing
+func (textColumn *TextColumn) SetLineSpacing(lineSpacing float32) {
+	textColumn.lineSpacing = lineSpacing
 }
 
 // SetParagraphSpacing sets the space between the paragraphs.
@@ -142,20 +142,26 @@ func (textColumn *TextColumn) DrawOn(page *Page) []float32 {
 
 func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) []float32 {
 	list := make([]*TextLine, 0)
-	var runLength float32
-	for i := 0; i < len(paragraph.lines); i++ {
-		line := paragraph.lines[i]
-		if i == 0 {
-			textColumn.lineHeight = line.font.bodyHeight * textColumn.linesSpacing
-			if textColumn.rotate == 0 {
-				textColumn.y1 += line.font.ascent
-			} else if textColumn.rotate == 90 {
-				textColumn.x1 += line.font.ascent
-			} else if textColumn.rotate == 270 {
-				textColumn.x1 -= line.font.ascent
-			}
+	var lineHeight = float32(0.0)
+	var maxAscent = float32(0.0)
+	for _, line := range paragraph.lines {
+		if (line.GetHeight() * textColumn.lineSpacing) > lineHeight {
+			lineHeight = line.GetHeight() * textColumn.lineSpacing
 		}
+		if line.font.GetAscent(line.GetFontSize()) > maxAscent {
+			maxAscent = line.font.GetAscent(line.GetFontSize())
+		}
+	}
+	if textColumn.rotate == 0 {
+		textColumn.y1 += maxAscent
+	} else if textColumn.rotate == 90 {
+		textColumn.x1 += maxAscent
+	} else if textColumn.rotate == 270 {
+		textColumn.x1 -= maxAscent
+	}
 
+	var runLength float32
+	for _, line := range paragraph.lines {
 		tokens := strings.Fields(line.text)
 		var text *TextLine
 		for _, token := range tokens {
@@ -173,7 +179,7 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 				list = append(list, text)
 			} else {
 				textColumn.drawLineOfText(page, list)
-				textColumn.moveToNextLine()
+				textColumn.moveToNextLine(lineHeight)
 				list = make([]*TextLine, 0)
 				list = append(list, text)
 				runLength = text.GetWidth()
@@ -186,21 +192,21 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 	textColumn.drawNonJustifiedLine(page, list)
 
 	if textColumn.lineBetweenParagraphs {
-		return textColumn.moveToNextLine()
+		return textColumn.moveToNextLine(lineHeight)
 	}
 
-	return textColumn.moveToNextParagraph(textColumn.lineHeight * textColumn.paragraphSpacing)
+	return textColumn.moveToNextParagraph(lineHeight * textColumn.paragraphSpacing)
 }
 
-func (textColumn *TextColumn) moveToNextLine() []float32 {
+func (textColumn *TextColumn) moveToNextLine(lineHeight float32) []float32 {
 	if textColumn.rotate == 0 {
 		textColumn.x1 = textColumn.x
-		textColumn.y1 += textColumn.lineHeight
+		textColumn.y1 += lineHeight
 	} else if textColumn.rotate == 90 {
-		textColumn.x1 += textColumn.lineHeight
+		textColumn.x1 += lineHeight
 		textColumn.y1 = textColumn.y
 	} else if textColumn.rotate == 270 {
-		textColumn.x1 -= textColumn.lineHeight
+		textColumn.x1 -= lineHeight
 		textColumn.y1 = textColumn.y
 	}
 	return []float32{textColumn.x1, textColumn.y1}

@@ -91,11 +91,11 @@ func (radioButton *RadioButton) SetActualText(actualText string) *RadioButton {
 func (radioButton *RadioButton) DrawOn(page *Page) []float32 {
 	page.AddBMC("Span", radioButton.language, radioButton.actualText, radioButton.altDescription)
 
-	radioButton.r1 = radioButton.font.GetAscent() / 2
+	radioButton.r1 = radioButton.font.GetAscent(radioButton.font.GetSize()) / 2
 	radioButton.r2 = radioButton.r1 / 2
 	radioButton.penWidth = radioButton.r1 / 10
 
-	yBox := radioButton.y - radioButton.font.GetAscent()
+	yBox := radioButton.y - radioButton.font.GetAscent(radioButton.font.size)
 	page.SetPenWidth(1.0)
 	page.SetPenColor(color.Black)
 	page.SetLinePattern("[] 0")
@@ -130,5 +130,5 @@ func (radioButton *RadioButton) DrawOn(page *Page) []float32 {
 
 	return []float32{
 		radioButton.x + 6*radioButton.r1 + radioButton.font.stringWidth(radioButton.font.size, radioButton.label),
-		radioButton.y - radioButton.font.GetDescent()}
+		radioButton.y - radioButton.font.GetDescent(radioButton.font.size)}
 }
