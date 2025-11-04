@@ -226,14 +226,22 @@ public class TextColumn implements Drawable {
 
     private float[] drawParagraphOn(Page page, Paragraph paragraph) throws Exception {
         List<TextLine> list = new ArrayList<TextLine>();
-        TextLine firstLine = paragraph.lines.get(0);
-        float lineHeight = firstLine.font.getBodyHeight(firstLine.getFontSize()) * lineSpacing;
+        float lineHeight = 0f;
+        float maxAscent = 0f;
+        for (TextLine line : paragraph.lines) {
+            if ((line.getHeight() * lineSpacing) > lineHeight) {
+                lineHeight = line.getHeight() * lineSpacing;
+            }
+            if (line.font.getAscent(line.fontSize) > maxAscent) {
+                maxAscent = line.font.getAscent(line.fontSize);
+            }
+        }
         if (rotate == 0) {
-            y1 += firstLine.font.getAscent();
+            y1 += maxAscent;
         } else if (rotate == 90) {
-            x1 += firstLine.font.getAscent();
+            x1 += maxAscent;
         } else if (rotate == 270) {
-            x1 -= firstLine.font.getAscent();
+            x1 -= maxAscent;
         }
 
         float runLength = 0f;
