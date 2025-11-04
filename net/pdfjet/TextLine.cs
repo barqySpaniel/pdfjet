@@ -394,9 +394,9 @@ public class TextLine : IDrawable {
         if (textEffect == Effect.NORMAL) {
             verticalOffset = 0f;
         } else if (textEffect == Effect.SUPERSCRIPT) {
-            verticalOffset = font.GetBodyHeight(this.fontSize)/3f;
+            verticalOffset = -font.GetBodyHeight(this.fontSize)/3f;
         } else if (textEffect == Effect.SUBSCRIPT) {
-            verticalOffset = -font.GetBodyHeight(this.fontSize)/5f;
+            verticalOffset = font.GetBodyHeight(this.fontSize)/5f;
         }
         return this;
     }
@@ -531,7 +531,11 @@ public class TextLine : IDrawable {
 
         page.SetBrushColor(textColor);
         page.AddBMC(structureType, language, text, altDescription);
-        page.DrawString(font, fallbackFont, fontSize, text, x, y, textColor, colorMap);
+        if (verticalOffset != 0f) {
+            page.DrawString(font, fallbackFont, fontSize/2f, text, x, y, textColor, colorMap);
+        } else {
+            page.DrawString(font, fallbackFont, fontSize, text, x, y, textColor, colorMap);
+        }
         page.AddEMC();
 
         double radians = Math.PI * degrees / 180.0;
