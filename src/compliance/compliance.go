@@ -1,6 +1,6 @@
 package compliance
 
-type Comliance int
+type Compliance int
 
 // Used to set PDF/UA and PDF/A compliance.
 // See the constructors in the PDF class.
