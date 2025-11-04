@@ -48,8 +48,6 @@ public class Example_29 {
             if (i == 1) {
                 line.SetTextEffect(Effect.SUBSCRIPT);
                 line.SetFontSize(line.GetFontSize()*0.6f);
-            } else if (i == 2) {
-
             } else if (i == 4) {
                 line.SetTextEffect(Effect.SUPERSCRIPT);
                 line.SetFontSize(line.GetFontSize()*0.6f);
