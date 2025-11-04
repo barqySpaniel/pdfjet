@@ -255,14 +255,15 @@ public class TextColumn : IDrawable {
             TextLine text = null;
             foreach (String token in tokens) {
                 text = new TextLine(line.font, token + Single.space);
+                text.SetFallbackFont(line.GetFallbackFont());
                 text.SetFontSize(line.GetFontSize());
                 text.SetTextColor(line.GetTextColor());
                 text.SetUnderline(line.GetUnderline());
                 text.SetStrikeout(line.GetStrikeout());
+                text.SetTextEffect(line.GetTextEffect());
                 text.SetVerticalOffset(line.GetVerticalOffset());
                 text.SetURIAction(line.GetURIAction());
                 text.SetGoToAction(line.GetGoToAction());
-                text.SetFallbackFont(line.GetFallbackFont());
                 runLength += text.GetWidth();
                 if (runLength < this.w) {
                     list.Add(text);
