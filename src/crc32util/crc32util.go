@@ -54,7 +54,7 @@ var table = []uint32{
 	0x5D681B02, 0x2A6F2B94, 0xB40BBE37, 0xC30C8EA1, 0x5A05DF1B,
 	0x2D02EF8D}
 
-// CRC32 decribes the CRC32 structure.
+// CRC32 describes the CRC32 structure.
 type CRC32 struct {
 	crc uint32
 }
