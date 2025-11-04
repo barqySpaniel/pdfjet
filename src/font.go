@@ -326,16 +326,6 @@ func (font *Font) SetKernPairs(kernPairs bool) {
 	font.kernPairs = kernPairs
 }
 
-//// GetAscent returns the ascent of this font.
-//func (font *Font) GetAscent() float32 {
-//	return font.ascent
-//}
-//
-//// GetDescent returns the descent of this font.
-//func (font *Font) GetDescent() float32 {
-//	return font.descent
-//}
-
 func (font *Font) GetAscent(fontSize float32) float32 {
 	if font.isCJK {
 		return fontSize
