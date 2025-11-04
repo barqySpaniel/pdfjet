@@ -224,7 +224,7 @@ public class TextColumn : IDrawable {
         // Restore the original location
         SetLocation(this.x, this.y);
         if (fixedHeight > 0) {
-            xy[1] = fixedHeight;
+            xy[1] = y + fixedHeight;
         }
         return xy;
     }
