@@ -394,9 +394,9 @@ public class TextLine : IDrawable {
         if (textEffect == Effect.NORMAL) {
             verticalOffset = 0f;
         } else if (textEffect == Effect.SUPERSCRIPT) {
-            verticalOffset = fontSize/3f;
+            verticalOffset = font.GetBodyHeight(this.fontSize)/3f;
         } else if (textEffect == Effect.SUBSCRIPT) {
-            verticalOffset = -fontSize/5f;
+            verticalOffset = -font.GetBodyHeight(this.fontSize)/5f;
         }
         return this;
     }
