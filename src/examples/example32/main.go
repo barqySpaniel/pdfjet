@@ -30,7 +30,7 @@ func Example32() {
 	page := pdfjet.NewPage(pdf, a4.Portrait)
 	x := float32(50.0)
 	y := float32(50.0)
-	leading := font.GetBodyHeight()
+	leading := font.GetBodyHeight(font.GetSize())
 	lines := pdfjet.ReadTextLines("examples/Example_02.java")
 	for _, line := range lines {
 		page.DrawStringUsingColorMap(font, nil, line, x, y, color.Black, colors)
