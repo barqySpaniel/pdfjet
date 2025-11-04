@@ -311,13 +311,12 @@ public class TextColumn implements Drawable {
     private float[] drawLineOfText(Page page, List<TextLine> list) throws Exception {
         if (alignment == Align.JUSTIFY) {
             float sumOfWordWidths = 0f;
-            for (int i = 0; i < list.size(); i++) {
-                TextLine textLine = list.get(i);
+            for (TextLine textLine : list) {
                 sumOfWordWidths += textLine.getWidth();
             }
             float dx = (w - sumOfWordWidths) / (list.size() - 1);
-            for (int i = 0; i < list.size(); i++) {
-                TextLine textLine = list.get(i);
+
+            for (TextLine textLine : list) {
                 textLine.setLocation(x1, y1 + textLine.getVerticalOffset());
 
                 if (textLine.getGoToAction() != null) {
@@ -361,8 +360,7 @@ public class TextColumn implements Drawable {
 
     private float[] drawNonJustifiedLine(Page page, List<TextLine> list) throws Exception {
         float runLength = 0f;
-        for (int i = 0; i < list.size(); i++) {
-            TextLine textLine = list.get(i);
+        for (TextLine textLine : list) {
             runLength += textLine.getWidth();
         }
 
@@ -384,8 +382,7 @@ public class TextColumn implements Drawable {
             }
         }
 
-        for (int i = 0; i < list.size(); i++) {
-            TextLine textLine = list.get(i);
+        for (TextLine textLine : list) {
             textLine.setLocation(x1, y1 + textLine.getVerticalOffset());
             if (textLine.getGoToAction() != null) {
                 page.addAnnotation(new Annotation(
