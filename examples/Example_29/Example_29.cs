@@ -15,14 +15,10 @@ public class Example_29 {
 
         Font font = new Font(pdf, CoreFont.HELVETICA);
 
-        Font font2 = new Font(pdf, CoreFont.HELVETICA);
-        font2.SetSize(8f);
-
         Page page = new Page(pdf, Letter.LANDSCAPE);
 
         // A paragraph has no size. It is just a list of text lines.
         Paragraph paragraph1 = new Paragraph();
-        paragraph1.Add(new TextLine(font2, "yes"));
         paragraph1.Add(new TextLine(font, "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
         paragraph1.Add(new TextLine(font, "Nulla elementum interdum elit, quis vehicula urna interdum quis."));
         paragraph1.Add(new TextLine(font, "Phasellus gravida ligula quam, nec blandit nulla. Sed posuere, lorem eget feugiat placerat, ipsum nulla euismod nisi, in semper mi nibh sed elit."));
@@ -49,9 +45,14 @@ public class Example_29 {
             }
             line.SetUnderline(i % 2 == 0);
             line.SetStrikeout(i % 2 == 0);
-            if (i % 2 == 0) {
+            if (i == 1) {
                 line.SetTextEffect(Effect.SUBSCRIPT);
-                line.SetFontSize((line.GetFontSize()*2f)/3f);
+                line.SetFontSize(line.GetFontSize()*0.6f);
+            } else if (i == 2) {
+
+            } else if (i == 4) {
+                line.SetTextEffect(Effect.SUPERSCRIPT);
+                line.SetFontSize(line.GetFontSize()*0.6f);
             }
             i += 1;
         }
