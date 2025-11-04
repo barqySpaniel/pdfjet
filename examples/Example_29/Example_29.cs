@@ -16,7 +16,7 @@ public class Example_29 {
         Font font = new Font(pdf, CoreFont.HELVETICA);
 
         Font font2 = new Font(pdf, CoreFont.HELVETICA);
-        font2.SetSize(16f);
+        font2.SetSize(8f);
 
         Page page = new Page(pdf, Letter.LANDSCAPE);
 
@@ -40,7 +40,7 @@ public class Example_29 {
 
         List<TextLine> lines = paragraph1.GetTextLines();
         float r = 0.1f, g = 0.2f, b = 0f;
-        float fontSize = 8f;
+        float fontSize = 18f;
         int i = 0;
         foreach (var line in lines) {
             line.SetTextColor(r, g, b);
