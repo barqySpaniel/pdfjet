@@ -158,6 +158,9 @@ public class TextColumn : IDrawable {
     }
 
     public float GetHeight() {
+        if (fixedHeight > 0f) {
+            return fixedHeight;
+        }
         return this.h;
     }
 
@@ -223,7 +226,7 @@ public class TextColumn : IDrawable {
         }
         // Restore the original location
         SetLocation(this.x, this.y);
-        if (fixedHeight > 0) {
+        if (fixedHeight > 0f) {
             xy[1] = y + fixedHeight;
         }
         return xy;
