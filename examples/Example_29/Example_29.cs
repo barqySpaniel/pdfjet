@@ -51,7 +51,7 @@ public class Example_29 {
             line.SetStrikeout(i % 2 == 0);
             if (i % 2 == 0) {
                 line.SetTextEffect(Effect.SUBSCRIPT);
-                line.SetFontSize(line.GetFontSize()/2f);
+                line.SetFontSize((line.GetFontSize()*2f)/3f);
             }
             i += 1;
         }
