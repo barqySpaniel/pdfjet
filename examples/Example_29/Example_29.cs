@@ -61,6 +61,7 @@ public class Example_29 {
         column.SetHeight(400f);
         column.AddParagraph(paragraph1);
         column.AddParagraph(paragraph2);
+        column.SetFixedHeight(400f);
 
         Table table1 = new Table(font,font);
         List<List<Cell>> tableData = new List<List<Cell>>();
