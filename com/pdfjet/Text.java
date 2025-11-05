@@ -82,12 +82,12 @@ public class Text implements Drawable {
         this.xText = x1;
         this.yText = y1 + font.ascent;
         for (Paragraph paragraph : paragraphs) {
-            int numberOfTextLines = paragraph.lines.size();
             StringBuilder buf = new StringBuilder();
-            for (int i = 0; i < numberOfTextLines; i++) {
-                TextLine textLine = paragraph.lines.get(i);
+            for (TextLine textLine : paragraph.lines) {
                 buf.append(textLine.getText());
             }
+
+            int numberOfTextLines = paragraph.lines.size();
             for (int i = 0; i < numberOfTextLines; i++) {
                 TextLine textLine = paragraph.lines.get(i);
                 if (i == 0) {
