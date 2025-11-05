@@ -11,9 +11,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 /**
- *  Used to create table objects and draw them on a page.
+ * Used to create table objects and draw them on a page.
  *
- *  Please see Example_08.
+ * Please see Example_08.
  */
 namespace PDFjet.NET {
 public class Table {
@@ -100,30 +100,30 @@ public class Table {
     }
 
     /**
-     *  Sets the position (x, y) of the top left corner of this table on the page.
+     * Sets the position (x, y) of the top left corner of this table on the page.
      *
-     *  @param x the x coordinate of the top left point of the table.
-     *  @param y the y coordinate of the top left point of the table.
+     * @param x the x coordinate of the top left point of the table.
+     * @param y the y coordinate of the top left point of the table.
      */
     public void SetPosition(double x, double y) {
         SetPosition((float) x, (float) y);
     }
 
     /**
-     *  Sets the position (x, y) of the top left corner of this table on the page.
+     * Sets the position (x, y) of the top left corner of this table on the page.
      *
-     *  @param x the x coordinate of the top left point of the table.
-     *  @param y the y coordinate of the top left point of the table.
+     * @param x the x coordinate of the top left point of the table.
+     * @param y the y coordinate of the top left point of the table.
      */
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
     }
 
     /**
-     *  Sets the location (x, y) of the top left corner of this table on the page.
+     * Sets the location (x, y) of the top left corner of this table on the page.
      *
-     *  @param x the x coordinate of the top left point of the table.
-     *  @param y the y coordinate of the top left point of the table.
+     * @param x the x coordinate of the top left point of the table.
+     * @param y the y coordinate of the top left point of the table.
      */
     public void SetLocation(float x, float y) {
         this.x1 = x;
@@ -131,27 +131,27 @@ public class Table {
     }
 
     /**
-     *  Sets the bottom margin for this table.
+     * Sets the bottom margin for this table.
      *
-     *  @param bottomMargin the margin.
+     * @param bottomMargin the margin.
      */
     public void SetBottomMargin(double bottomMargin) {
         this.bottomMargin = (float) bottomMargin;
     }
 
     /**
-     *  Sets the bottom margin for this table.
+     * Sets the bottom margin for this table.
      *
-     *  @param bottomMargin the margin.
+     * @param bottomMargin the margin.
      */
     public void SetBottomMargin(float bottomMargin) {
         this.bottomMargin = bottomMargin;
     }
 
     /**
-     *  Sets the table data.
+     * Sets the table data.
      *
-     *  @param tableData the table data.
+     * @param tableData the table data.
      */
     public void SetData(List<List<Cell>> tableData) {
         this.tableData = tableData;
@@ -170,10 +170,10 @@ public class Table {
     }
 
     /**
-     *  Sets the table data and specifies the number of header rows in this data.
+     * Sets the table data and specifies the number of header rows in this data.
      *
-     *  @param tableData the table data.
-     *  @param numOfHeaderRows the number of header rows in this data.
+     * @param tableData the table data.
+     * @param numOfHeaderRows the number of header rows in this data.
      */
     public void SetData(List<List<Cell>> tableData, int numOfHeaderRows) {
         this.tableData = tableData;
@@ -182,7 +182,7 @@ public class Table {
     }
 
     /**
-     *  Sets the alignment of the numbers to the right.
+     * Sets the alignment of the numbers to the right.
      */
     public void RightAlignNumbers() {
         StringBuilder buf = new StringBuilder();
@@ -210,7 +210,7 @@ public class Table {
     }
 
     /**
-     *  Removes the horizontal lines between the rows from index1 to index2.
+     * Removes the horizontal lines between the rows from index1 to index2.
      */
     public void RemoveLineBetweenRows(int index1, int index2) {
         for (int i = index1; i < index2; i++) {
@@ -226,10 +226,10 @@ public class Table {
     }
 
     /**
-     *  Sets the text alignment in the specified column.
+     * Sets the text alignment in the specified column.
      *
-     *  @param index the index of the specified column.
-     *  @param alignment the specified alignment. Supported values: Align.LEFT, Align.RIGHT, Align.CENTER and Align.JUSTIFY.
+     * @param index the index of the specified column.
+     * @param alignment the specified alignment. Supported values: Align.LEFT, Align.RIGHT, Align.CENTER and Align.JUSTIFY.
      */
     public void SetTextAlignInColumn(int index, uint alignment) {
         foreach (List<Cell> row in tableData) {
@@ -244,10 +244,10 @@ public class Table {
     }
 
     /**
-     *  Sets the color of the text in the specified column.
+     * Sets the color of the text in the specified column.
      *
-     *  @param index the index of the specified column.
-     *  @param color the color specified as an integer.
+     * @param index the index of the specified column.
+     * @param color the color specified as an integer.
      */
     public void SetTextColorInColumn(int index, int color) {
         foreach (List<Cell> row in tableData) {
@@ -262,10 +262,10 @@ public class Table {
     }
 
     /**
-     *  Sets the font for the specified column.
+     * Sets the font for the specified column.
      *
-     *  @param index the column index.
-     *  @param font the font.
+     * @param index the column index.
+     * @param font the font.
      */
     public void SetFontInColumn(int index, Font font) {
         foreach (List<Cell> row in tableData) {
@@ -280,10 +280,10 @@ public class Table {
     }
 
     /**
-     *  Sets the color of the text in the specified row.
+     * Sets the color of the text in the specified row.
      *
-     *  @param index the index of the specified row.
-     *  @param color the color specified as an integer.
+     * @param index the index of the specified row.
+     * @param color the color specified as an integer.
      */
     public void SetTextColorInRow(int index, int color) {
         if (index < tableData.Count) {
@@ -298,10 +298,10 @@ public class Table {
     }
 
     /**
-     *  Sets the font for the specified row.
+     * Sets the font for the specified row.
      *
-     *  @param index the row index.
-     *  @param font the font.
+     * @param index the row index.
+     * @param font the font.
      */
     public void SetFontInRow(int index, Font font) {
         if (index < tableData.Count) {
@@ -316,10 +316,10 @@ public class Table {
     }
 
     /**
-     *  Sets the width of the column with the specified index.
+     * Sets the width of the column with the specified index.
      *
-     *  @param index the index of specified column.
-     *  @param width the specified width.
+     * @param index the index of specified column.
+     * @param width the specified width.
      */
     public void SetColumnWidth(int index, double width) {
         foreach (List<Cell> row in tableData) {
@@ -330,22 +330,22 @@ public class Table {
     }
 
     /**
-     *  Returns the column width of the column at the specified index.
+     * Returns the column width of the column at the specified index.
      *
-     *  @param index the index of the column.
-     *  @return the width of the column.
+     * @param index the index of the column.
+     * @return the width of the column.
      */
     public float GetColumnWidth(int index) {
         return GetCellAtRowColumn(0, index).GetWidth();
     }
 
     /**
-     *  Returns the cell at the specified row and column.
+     * Returns the cell at the specified row and column.
      *
-     *  @param row the specified row.
-     *  @param col the specified column.
+     * @param row the specified row.
+     * @param col the specified column.
      *
-     *  @return the cell at the specified row and column.
+     * @return the cell at the specified row and column.
      */
     public Cell GetCellAt(int row, int col) {
         if (row >= 0) {
@@ -355,23 +355,22 @@ public class Table {
     }
 
     /**
-     *  Returns the cell at the specified row and column.
+     * Returns the cell at the specified row and column.
      *
-     *  @param row the specified row.
-     *  @param col the specified column.
+     * @param row the specified row.
+     * @param col the specified column.
      *
-     *  @return the cell at the specified row and column.
+     * @return the cell at the specified row and column.
      */
     public Cell GetCellAtRowColumn(int row, int col) {
         return GetCellAt(row, col);
     }
 
     /**
-     *  Returns a list of cell for the specified row.
+     * Returns a list of cell for the specified row.
      *
-     *  @param index the index of the specified row.
-     *
-     *  @return the list of cells.
+     * @param index the index of the specified row.
+     * @return the list of cells.
      */
     public List<Cell> GetRow(int index) {
         return tableData[index];
@@ -382,11 +381,10 @@ public class Table {
     }
 
     /**
-     *  Returns a list of cell for the specified column.
+     * Returns a list of cell for the specified column.
      *
-     *  @param index the index of the specified column.
-     *
-     *  @return the list of cells.
+     * @param index the index of the specified column.
+     * @return the list of cells.
      */
     public List<Cell> GetColumn(int index) {
         List<Cell> column = new List<Cell>();
@@ -419,10 +417,10 @@ public class Table {
     }
 
     /**
-     *  Draws this table on the specified page.
+     * Draws this table on the specified page.
      *
-     *  @param page the page to draw this table on.
-     *  @return Point the point on the page where to draw the next component.
+     * @param page the page to draw this table on.
+     * @return Point the point on the page where to draw the next component.
      */
     public float[] DrawOn(Page page) {
         AppendMissingCells(tableData);
@@ -534,16 +532,16 @@ public class Table {
     }
 
     /**
-     *  Returns true if the table contains more data that needs to be drawn on a page.
+     * Returns true if the table contains more data that needs to be drawn on a page.
      */
     private bool HasMoreData() {
         return rendered != -1;
     }
 
     /**
-     *  Returns the width of this table when drawn on a page.
+     * Returns the width of this table when drawn on a page.
      *
-     *  @return the width of this table.
+     * @return the width of this table.
      */
     public float GetWidth() {
         float tableWidth = 0f;
@@ -555,9 +553,9 @@ public class Table {
     }
 
     /**
-     *  Returns the number of data rows that have been rendered so far.
+     * Returns the number of data rows that have been rendered so far.
      *
-     *  @return the number of data rows that have been rendered so far.
+     * @return the number of data rows that have been rendered so far.
      */
     public int GetRowsRendered() {
         return rendered == -1 ? rendered : rendered - numOfHeaderRows;
@@ -576,9 +574,9 @@ public class Table {
     }
 
     /**
-     *  Sets the color of the cell border lines.
+     * Sets the color of the cell border lines.
      *
-     *  @param color the color of the cell border lines.
+     * @param color the color of the cell border lines.
      */
     public void SetCellBordersColor(int color) {
         for (int i = 0; i < tableData.Count; i++) {
@@ -590,9 +588,9 @@ public class Table {
     }
 
     /**
-     *  Sets the width of the cell border lines.
+     * Sets the width of the cell border lines.
      *
-     *  @param width the width of the cell border lines.
+     * @param width the width of the cell border lines.
      */
     public void SetCellBordersWidth(float width) {
         for (int i = 0; i < tableData.Count; i++) {
@@ -735,8 +733,8 @@ public class Table {
     }
 
     /**
-     *  Wraps around the text in all cells so it fits the column width.
-     *  This method should be called after all calls to setColumnWidth and autoAdjustColumnWidths.
+     * Wraps around the text in all cells so it fits the column width.
+     * This method should be called after all calls to setColumnWidth and autoAdjustColumnWidths.
      */
     protected void WrapAroundCellText() {
         List<List<Cell>> tableData2 = AddExtraTableRows();
@@ -784,9 +782,9 @@ public class Table {
     }
 
     /**
-     *  Use this method to find out how many vertically stacked cell are needed after call to wrapAroundCellText.
+     * Use this method to find out how many vertically stacked cell are needed after call to wrapAroundCellText.
      *
-     *  @return the number of vertical cells needed to wrap around the cell text.
+     * @return the number of vertical cells needed to wrap around the cell text.
      */
     public int GetNumVerCells(List<Cell> row, int index) {
         Cell cell = row[index];
