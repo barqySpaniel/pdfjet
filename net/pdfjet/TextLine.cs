@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 /**
- *  Used to create text line objects.
+ * Used to create text line objects.
  */
 public class TextLine : IDrawable {
     internal float x;
@@ -40,9 +40,9 @@ public class TextLine : IDrawable {
     private Dictionary<String, int> colorMap = null;
 
     /**
-     *  Constructor for creating text line objects.
+     * Constructor for creating text line objects.
      *
-     *  @param font the font to use.
+     * @param font the font to use.
      */
     public TextLine(Font font) {
         this.font = font;
@@ -51,10 +51,10 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Constructor for creating text line objects.
+     * Constructor for creating text line objects.
      *
-     *  @param font the font to use.
-     *  @param text the text.
+     * @param font the font to use.
+     * @param text the text.
      */
     public TextLine(Font font, String text) {
         this.font = font;
@@ -65,10 +65,10 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Sets the text.
+     * Sets the text.
      *
-     *  @param text the text.
-     *  @return this TextLine.
+     * @param text the text.
+     * @return this TextLine.
      */
     public TextLine SetText(String text) {
         this.text = text;
@@ -77,31 +77,31 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the text.
+     * Returns the text.
      *
-     *  @return the text.
+     * @return the text.
      */
     public String GetText() {
         return text;
     }
 
     /**
-     *  Sets the position where this text line will be drawn on the page.
+     * Sets the position where this text line will be drawn on the page.
      *
-     *  @param x the x coordinate of the text line.
-     *  @param y the y coordinate of the text line.
-     *  @return this TextLine.
+     * @param x the x coordinate of the text line.
+     * @param y the y coordinate of the text line.
+     * @return this TextLine.
      */
     public void SetPosition(double x, double y) {
         SetLocation((float) x, (float) y);
     }
 
     /**
-     *  Sets the position where this text line will be drawn on the page.
+     * Sets the position where this text line will be drawn on the page.
      *
-     *  @param x the x coordinate of the text line.
-     *  @param y the y coordinate of the text line.
-     *  @return this TextLine.
+     * @param x the x coordinate of the text line.
+     * @param y the y coordinate of the text line.
+     * @return this TextLine.
      */
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
@@ -112,11 +112,11 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Sets the location where this text line will be drawn on the page.
+     * Sets the location where this text line will be drawn on the page.
      *
-     *  @param x the x coordinate of the text line.
-     *  @param y the y coordinate of the text line.
-     *  @return this TextLine.
+     * @param x the x coordinate of the text line.
+     * @param y the y coordinate of the text line.
+     * @return this TextLine.
      */
     public TextLine SetLocation(float x, float y) {
         this.x = x;
@@ -125,10 +125,10 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Sets the font to use for this text line.
+     * Sets the font to use for this text line.
      *
-     *  @param font the font to use.
-     *  @return this TextLine.
+     * @param font the font to use.
+     * @return this TextLine.
      */
     public TextLine SetFont(Font font) {
         this.font = font;
@@ -136,19 +136,19 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Gets the font to use for this text line.
+     * Gets the font to use for this text line.
      *
-     *  @return font the font to use.
+     * @return font the font to use.
      */
     public Font GetFont() {
         return font;
     }
 
     /**
-     *  Sets the font size to use for this text line.
+     * Sets the font size to use for this text line.
      *
-     *  @param fontSize the fontSize to use.
-     *  @return this TextLine.
+     * @param fontSize the fontSize to use.
+     * @return this TextLine.
      */
     public TextLine SetFontSize(float fontSize) {
         this.fontSize = fontSize;
@@ -160,10 +160,10 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Sets the fallback font.
+     * Sets the fallback font.
      *
-     *  @param fallbackFont the fallback font.
-     *  @return this TextLine.
+     * @param fallbackFont the fallback font.
+     * @return this TextLine.
      */
     public TextLine SetFallbackFont(Font fallbackFont) {
         this.fallbackFont = fallbackFont;
@@ -171,9 +171,9 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the fallback font.
+     * Returns the fallback font.
      *
-     *  @return the fallback font.
+     * @return the fallback font.
      */
     public Font GetFallbackFont() {
         return this.fallbackFont;
@@ -255,37 +255,37 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the width of this TextLine.
+     * Returns the width of this TextLine.
      *
-     *  @return the width.
+     * @return the width.
      */
     public float GetWidth() {
         return font.StringWidth(fallbackFont, this.fontSize, text);
     }
 
     /**
-     *  Returns the string width of the specified string.
+     * Returns the string width of the specified string.
      *
-     *  @return the width.
+     * @return the width.
      */
     public float GetStringWidth(String text) {      // TODO: Check TextFrame.cs
         return font.StringWidth(fallbackFont, text);
     }
 
     /**
-     *  Returns the height of this TextLine.
+     * Returns the height of this TextLine.
      *
-     *  @return the height.
+     * @return the height.
      */
     public float GetHeight() {
         return font.GetBodyHeight(this.fontSize);
     }
 
     /**
-     *  Sets the URI for the "click text line" action.
+     * Sets the URI for the "click text line" action.
      *
-     *  @param uri the URI
-     *  @return this TextLine.
+     * @param uri the URI
+     * @return this TextLine.
      */
     public TextLine SetURIAction(String uri) {
         this.uri = uri;
@@ -293,19 +293,19 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the action URI.
+     * Returns the action URI.
      *
-     *  @return the action URI.
+     * @return the action URI.
      */
     public String GetURIAction() {
         return this.uri;
     }
 
     /**
-     *  Sets the destination key for the action.
+     * Sets the destination key for the action.
      *
-     *  @param key the destination name.
-     *  @return this TextLine.
+     * @param key the destination name.
+     * @return this TextLine.
      */
     public TextLine SetGoToAction(String key) {
         this.key = key;
@@ -322,11 +322,11 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Sets the underline variable.
-     *  If the value of the underline variable is 'true' - the text is underlined.
+     * Sets the underline variable.
+     * If the value of the underline variable is 'true' - the text is underlined.
      *
-     *  @param underline the underline flag.
-     *  @return this TextLine.
+     * @param underline the underline flag.
+     * @return this TextLine.
      */
     public TextLine SetUnderline(bool underline) {
         this.underline = underline;
@@ -334,20 +334,20 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the underline flag.
+     * Returns the underline flag.
      *
-     *  @return the underline flag.
+     * @return the underline flag.
      */
     public bool GetUnderline() {
         return this.underline;
     }
 
     /**
-     *  Sets the strike variable.
-     *  If the value of the strike variable is 'true' - a strike line is drawn through the text.
+     * Sets the strike variable.
+     * If the value of the strike variable is 'true' - a strike line is drawn through the text.
      *
-     *  @param strike the strike value.
-     *  @return this TextLine.
+     * @param strike the strike value.
+     * @return this TextLine.
      */
     public TextLine SetStrikeout(bool strike) {
         this.strikeout = strike;
@@ -355,19 +355,19 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the strikeout flag.
+     * Returns the strikeout flag.
      *
-     *  @return the strikeout flag.
+     * @return the strikeout flag.
      */
     public bool GetStrikeout() {
         return this.strikeout;
     }
 
     /**
-     *  Sets the direction in which to draw the text.
+     * Sets the direction in which to draw the text.
      *
-     *  @param degrees the number of degrees.
-     *  @return this TextLine.
+     * @param degrees the number of degrees.
+     * @return this TextLine.
      */
     public TextLine SetTextDirection(int degrees) {
         this.degrees = degrees;
@@ -384,10 +384,10 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Sets the text effect.
+     * Sets the text effect.
      *
-     *  @param textEffect Effect.NORMAL, Effect.SUBSCRIPT or Effect.SUPERSCRIPT.
-     *  @return this TextLine.
+     * @param textEffect Effect.NORMAL, Effect.SUBSCRIPT or Effect.SUPERSCRIPT.
+     * @return this TextLine.
      */
     public TextLine SetTextEffect(int textEffect) {
         this.textEffect = textEffect;
@@ -402,19 +402,19 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the text effect.
+     * Returns the text effect.
      *
-     *  @return the text effect.
+     * @return the text effect.
      */
     public int GetTextEffect() {
         return textEffect;
     }
 
     /**
-     *  Sets the vertical offset of the text.
+     * Sets the vertical offset of the text.
      *
-     *  @param verticalOffset the vertical offset.
-     *  @return this TextLine.
+     * @param verticalOffset the vertical offset.
+     * @return this TextLine.
      */
     public TextLine SetVerticalOffset(float verticalOffset) {
         this.verticalOffset = verticalOffset;
@@ -422,9 +422,9 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Returns the vertical text offset.
+     * Returns the vertical text offset.
      *
-     *  @return the vertical text offset.
+     * @return the vertical text offset.
      */
     public float GetVerticalOffset() {
         return verticalOffset;
@@ -440,10 +440,10 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Sets the alternate description of this text line.
+     * Sets the alternate description of this text line.
      *
-     *  @param altDescription the alternate description of the text line.
-     *  @return this TextLine.
+     * @param altDescription the alternate description of the text line.
+     * @return this TextLine.
      */
     public TextLine SetAltDescription(String altDescription) {
         this.altDescription = altDescription;
@@ -475,10 +475,10 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Places this text line in the specified box at position (0.0, 0.0).
+     * Places this text line in the specified box at position (0.0, 0.0).
      *
-     *  @param box the specified box.
-     *  @return this TextLine.
+     * @param box the specified box.
+     * @return this TextLine.
      */
     public TextLine PlaceIn(Box box) {
         PlaceIn(box, 0.0, 0.0);
@@ -486,12 +486,12 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Places this text line in the box at the specified offset.
+     * Places this text line in the box at the specified offset.
      *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     *  @return this TextLine.
+     * @param box the specified box.
+     * @param xOffset the x offset from the top left corner of the box.
+     * @param yOffset the y offset from the top left corner of the box.
+     * @return this TextLine.
      */
     public TextLine PlaceIn(
             Box box,
@@ -515,12 +515,12 @@ public class TextLine : IDrawable {
     }
 
     /**
-     *  Draws this text line on the specified page if is not null.
+     * Draws this text line on the specified page if is not null.
      *
-     *  @param page the page to draw this text line on.
-     *  @param draw if draw is false - no action is performed.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw this text line on.
+     * @param draw if draw is false - no action is performed.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         if (page == null || text == null || text.Equals("")) {

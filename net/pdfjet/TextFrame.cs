@@ -11,7 +11,6 @@ using System.Collections.Generic;
 
 /**
  *  Please see Example_47
- *
  */
 namespace PDFjet.NET {
 public class TextFrame : IDrawable {
