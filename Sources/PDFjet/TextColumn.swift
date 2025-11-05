@@ -187,28 +187,27 @@ public class TextColumn : Drawable {
         var runLength: Float = 0.0
         for line in paragraph.lines! {
             let tokens = line.text!.components(separatedBy: .whitespaces)
-            var text: TextLine?
+            var text: TextLine
             for token in tokens {
                 text = TextLine(line.font!, token + Single.space)
-                        .setFontSize(line.getFontSize())
-                        .setColor(line.getColor())
-                        .setUnderline(line.getUnderline())
-                        .setStrikeout(line.getStrikeout())
-                        .setVerticalOffset(line.getVerticalOffset())
-                        .setURIAction(line.getURIAction())
-                        .setGoToAction(line.getGoToAction())
-                        .setFallbackFont(line.getFallbackFont())
-                runLength += text!.getWidth()
+                text.setFontSize(line.getFontSize())
+                text.setColor(line.getColor())
+                text.setUnderline(line.getUnderline())
+                text.setStrikeout(line.getStrikeout())
+                text.setURIAction(line.getURIAction())
+                text.setGoToAction(line.getGoToAction())
+                text.setFallbackFont(line.getFallbackFont())
+                runLength += text.getWidth()
                 if runLength < self.w {
-                    list.append(text!)
+                    list.append(text)
                 } else {
                     if page != nil {    // TODO: Why is page == nil?
                         drawLineOfText(page!, list)
                     }
                     moveToNextLine(lineHeight)
                     list.removeAll()
-                    list.append(text!)
-                    runLength = text!.getWidth()
+                    list.append(text)
+                    runLength = text.getWidth()
                 }
             }
             line.isLastToken = true
