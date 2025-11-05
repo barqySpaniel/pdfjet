@@ -31,16 +31,16 @@ public class TextColumn : IDrawable {
     private float fixedHeight;
 
     /**
-     *  Create a text column object.
+     * Create a text column object.
      */
     public TextColumn() {
         this.paragraphs = new List<Paragraph>();
     }
 
     /**
-     *  Create a text column object and set the rotation angle.
+     * Create a text column object and set the rotation angle.
      *
-     *  @param rotateByDegrees the specified rotation angle in degrees.
+     * @param rotateByDegrees the specified rotation angle in degrees.
      */
     public TextColumn(int rotateByDegrees) {
         this.rotate = rotateByDegrees;
@@ -53,10 +53,10 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Sets the lineBetweenParagraphs private variable value.
-     *  If the value is set to true - an empty line will be inserted between the current and next paragraphs.
+     * Sets the lineBetweenParagraphs private variable value.
+     * If the value is set to true - an empty line will be inserted between the current and next paragraphs.
      *
-     *  @param lineBetweenParagraphs the specified bool value.
+     * @param lineBetweenParagraphs the specified bool value.
      */
     public void SetLineBetweenParagraphs(bool lineBetweenParagraphs) {
         this.lineBetweenParagraphs = lineBetweenParagraphs;
@@ -67,9 +67,9 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Sets the spacing between the lines in this text column.
+     * Sets the spacing between the lines in this text column.
      *
-     *  @param spacing the specified spacing value.
+     * @param spacing the specified spacing value.
      */
     public void SetLineSpacing(double lineSpacing) {
         this.lineSpacing = (float) lineSpacing;
@@ -84,20 +84,20 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Sets the position of this text column on the page.
+     * Sets the position of this text column on the page.
      *
-     *  @param x the x coordinate of the top left corner of this text column when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this text column when drawn on the page.
+     * @param x the x coordinate of the top left corner of this text column when drawn on the page.
+     * @param y the y coordinate of the top left corner of this text column when drawn on the page.
      */
     public void SetPosition(double x, double y) {
         SetPosition((float) x, (float) y);
     }
 
     /**
-     *  Sets the position of this text column on the page.
+     * Sets the position of this text column on the page.
      *
-     *  @param x the x coordinate of the top left corner of this text column when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this text column when drawn on the page.
+     * @param x the x coordinate of the top left corner of this text column when drawn on the page.
+     * @param y the y coordinate of the top left corner of this text column when drawn on the page.
      */
     public void SetPosition(float x, float y) {
         this.x = x;
@@ -107,10 +107,10 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Sets the location of this text column on the page.
+     * Sets the location of this text column on the page.
      *
-     *  @param x the x coordinate of the top left corner.
-     *  @param y the y coordinate of the top left corner.
+     * @param x the x coordinate of the top left corner.
+     * @param y the y coordinate of the top left corner.
      */
     public void SetLocation(float x, float y) {
         this.x = x;
@@ -120,30 +120,32 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Sets the size of this text column.
+     * Sets the size of this text column.
      *
-     *  @param w the width of this text column.
-     *  @param h the height of this text column.
+     * @param w the width of this text column.
+     * @param h the height of this text column.
      */
+    [Obsolete]
     public void SetSize(double w, double h) {
         SetSize((float) w, (float) h);
     }
 
     /**
-     *  Sets the size of this text column.
+     * Sets the size of this text column.
      *
-     *  @param w the width of this text column.
-     *  @param h the height of this text column.
+     * @param w the width of this text column.
+     * @param h the height of this text column.
      */
+    [Obsolete]
     public void SetSize(float w, float h) {
         this.w = w;
         this.h = h;
     }
 
     /**
-     *  Sets the desired width of this text column.
+     * Sets the desired width of this text column.
      *
-     *  @param w the width of this text column.
+     * @param w the width of this text column.
      */
     public void SetWidth(float w) {
         this.w = w;
@@ -173,26 +175,26 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Sets the text alignment.
+     * Sets the text alignment.
      *
-     *  @param alignment the specified alignment code.
-     *  Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
+     * @param alignment the specified alignment code.
+     *      Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
      */
     public void SetAlignment(uint alignment) {
         this.alignment = alignment;
     }
 
     /**
-     *  Adds a new paragraph to this text column.
+     * Adds a new paragraph to this text column.
      *
-     *  @param paragraph the new paragraph object.
+     * @param paragraph the new paragraph object.
      */
     public void AddParagraph(Paragraph paragraph) {
         this.paragraphs.Add(paragraph);
     }
 
     /**
-     *  Removes the last paragraph added to this text column.
+     * Removes the last paragraph added to this text column.
      */
     public void RemoveLastParagraph() {
         if (this.paragraphs.Count >= 1) {
@@ -201,10 +203,10 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Returns dimension object containing the width and height of this component.
-     *  Please see Example_29.
+     * Returns dimension object containing the width and height of this component.
+     * Please see Example_29.
      *
-     *  @Return dimension object containing the width and height of this component.
+     * @Return dimension object containing the width and height of this component.
      */
     public Dimension GetSize() {
         float[] xy = DrawOn(null);
@@ -212,10 +214,10 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Draws this text column on the specified page.
+     * Draws this text column on the specified page.
      *
-     *  @param page the page to draw this text column on.
-     *  @return the point with x and y coordinates of the location where to draw the next component.
+     * @param page the page to draw this text column on.
+     * @return the point with x and y coordinates of the location where to draw the next component.
      */
     public float[] DrawOn(Page page) {
         float[] xy = null;
@@ -431,10 +433,10 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Adds a new paragraph with Chinese text to this text column.
+     * Adds a new paragraph with Chinese text to this text column.
      *
-     *  @param font the font used by this paragraph.
-     *  @param chinese the Chinese text.
+     * @param font the font used by this paragraph.
+     * @param chinese the Chinese text.
      */
     public void AddChineseParagraph(Font font, String chinese) {
         Paragraph paragraph;
@@ -455,10 +457,10 @@ public class TextColumn : IDrawable {
     }
 
     /**
-     *  Adds a new paragraph with Japanese text to this text column.
+     * Adds a new paragraph with Japanese text to this text column.
      *
-     *  @param font the font used by this paragraph.
-     *  @param japanese the Japanese text.
+     * @param font the font used by this paragraph.
+     * @param japanese the Japanese text.
      */
     public void AddJapaneseParagraph(Font font, String japanese) {
         AddChineseParagraph(font, japanese);
