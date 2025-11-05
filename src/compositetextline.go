@@ -195,34 +195,34 @@ func (composite *CompositeTextLine) GetNumberOfTextLines() int {
 // of the bounding box of this composite text line.
 // @return the array containing the vertical coordinates.
 func (composite *CompositeTextLine) GetMinMax() []float32 {
-	min := composite.position[composite.Y]
-	max := composite.position[composite.Y]
+	minValue := composite.position[composite.Y]
+	maxValue := composite.position[composite.Y]
 	var cur float32
 
 	for _, component := range composite.textLines {
 		if component.GetTextEffect() == effect.Superscript {
 			cur = (composite.position[composite.Y] - component.font.ascent) - composite.fontSize*composite.superscriptPosition
-			if cur < min {
-				min = cur
+			if cur < minValue {
+				minValue = cur
 			}
 		} else if component.GetTextEffect() == effect.Subscript {
 			cur = (composite.position[composite.Y] + component.font.descent) + composite.fontSize*composite.subscriptPosition
-			if cur > max {
-				max = cur
+			if cur > maxValue {
+				maxValue = cur
 			}
 		} else {
 			cur = composite.position[composite.Y] - component.font.ascent
-			if cur < min {
-				min = cur
+			if cur < minValue {
+				minValue = cur
 			}
 			cur = composite.position[composite.Y] + component.font.descent
-			if cur > max {
-				max = cur
+			if cur > maxValue {
+				maxValue = cur
 			}
 		}
 	}
 
-	return []float32{min, max}
+	return []float32{minValue, maxValue}
 }
 
 // GetHeight returns the height of this CompositeTextLine.

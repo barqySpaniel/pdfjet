@@ -8,9 +8,8 @@ package pdfjet
  */
 
 /**
- *  Provides BIDI processing for Arabic and Hebrew.
- *
- *  Please see Example_27.
+ * Provides BIDI processing for Arabic and Hebrew.
+ * Please see Example_27.
  */
 func getForms() []rune {
 	// General,Isolated,End,Middle,Beginning
