@@ -9,10 +9,10 @@ package com.pdfjet;
 import java.util.*;
 
 /**
- *  Used to create path objects.
- *  The path objects may consist of lines, splines or both.
+ * Used to create path objects.
+ * The path objects may consist of lines, splines or both.
  *
- *  Please see Example_02.
+ * Please see Example_02.
  */
 public class Path implements Drawable {
     private int color = Color.black;

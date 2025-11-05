@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  Used to create Java or .NET objects that represent the objects in PDF document.
- *  See the PDF specification for more information.
+ * Used to create Java or .NET objects that represent the objects in PDF document.
+ * See the PDF specification for more information.
  */
 public class PDFobj {
     protected int number;           // The object number

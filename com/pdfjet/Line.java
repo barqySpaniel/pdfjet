@@ -7,9 +7,8 @@
 package com.pdfjet;
 
 /**
- *  Used to create line objects.
- *
- *  Please see Example_01.
+ * Used to create line objects.
+ * Please see Example_01.
  */
 public class Line implements Drawable {
     private float x1;

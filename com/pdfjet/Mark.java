@@ -7,8 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Used to specify the check mark in CheckBox.
- *
+ * Used to specify the check mark in CheckBox.
  */
 public class Mark {
     /** Default Constructor */

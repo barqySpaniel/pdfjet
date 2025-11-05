@@ -7,8 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Used to create PDF destination objects.
- *
+ * Used to create PDF destination objects.
  */
 public class Destination {
     String name;
@@ -17,11 +16,11 @@ public class Destination {
     float yPosition;
 
     /**
-     *  This constructor is used to create destination objects.
+     * This constructor is used to create destination objects.
      *
-     *  @param name the name of this destination object.
-     *  @param xPosition the x coordinate of the top left corner.
-     *  @param yPosition the y coordinate of the top left corner.
+     * @param name the name of this destination object.
+     * @param xPosition the x coordinate of the top left corner.
+     * @param yPosition the y coordinate of the top left corner.
      */
     public Destination(String name, float xPosition, float yPosition) {
         this.name = name;
@@ -30,31 +29,31 @@ public class Destination {
     }
 
     /**
-     *  This constructor is used to create destination objects.
+     * This constructor is used to create destination objects.
      *
-     *  @param name the name of this destination object.
-     *  @param xPosition the x coordinate of the top left corner.
-     *  @param yPosition the y coordinate of the top left corner.
+     * @param name the name of this destination object.
+     * @param xPosition the x coordinate of the top left corner.
+     * @param yPosition the y coordinate of the top left corner.
      */
     public Destination(String name, double xPosition, double yPosition) {
         this(name, (float) xPosition, (float) yPosition);
     }
 
     /**
-     *  This constructor is used to create destination objects.
+     * This constructor is used to create destination objects.
      *
-     *  @param name the name of this destination object.
-     *  @param yPosition the y coordinate of the top left corner.
+     * @param name the name of this destination object.
+     * @param yPosition the y coordinate of the top left corner.
      */
     public Destination(String name, float yPosition) {
         this(name, 0f, yPosition);
     }
 
     /**
-     *  This constructor is used to create destination objects.
+     * This constructor is used to create destination objects.
      *
-     *  @param name the name of this destination object.
-     *  @param yPosition the y coordinate of the top left corner.
+     * @param name the name of this destination object.
+     * @param yPosition the y coordinate of the top left corner.
      */
     public Destination(String name, double yPosition) {
         this(name, 0f, (float) yPosition);

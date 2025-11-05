@@ -9,7 +9,6 @@ package com.pdfjet;
 /**
  *  Used to control the visibility of cell borders.
  *  See the Cell class for more information.
- *
  */
 public class Border {
     /** The default constructor */

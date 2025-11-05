@@ -13,11 +13,11 @@ package com.pdfjet;
  */
 public interface Drawable {
     /**
-     *  Draw the component implementing this interface on the PDF page.
+     * Draw the component implementing this interface on the PDF page.
      *
-     *  @param page the page to draw on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception if the draw method did not succeed.
+     * @param page the page to draw on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception if the draw method did not succeed.
      */
     public float[] drawOn(Page page) throws Exception;
 

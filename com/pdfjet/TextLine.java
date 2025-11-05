@@ -9,7 +9,7 @@ package com.pdfjet;
 import java.util.Map;
 
 /**
- *  Used to create text line objects.
+ * Used to create text line objects.
  */
 public class TextLine implements Drawable {
     protected float x;

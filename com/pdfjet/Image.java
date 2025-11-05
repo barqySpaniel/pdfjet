@@ -10,11 +10,11 @@ import java.io.*;
 import java.util.*;
 
 /**
- *  Used to create image objects and draw them on a page.
- *  The image type can be one of the following:
- *      ImageType.JPG, ImageType.PNG or ImageType.BMP
+ * Used to create image objects and draw them on a page.
+ * The image type can be one of the following:
+ *     ImageType.JPG, ImageType.PNG or ImageType.BMP
  *
- *  Please see Example_03 and Example_24.
+ * Please see Example_03 and Example_24.
  */
 final public class Image implements Drawable {
     protected int objNumber;

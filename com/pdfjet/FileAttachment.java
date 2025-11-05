@@ -7,7 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Used to attach file objects.
+ * Used to attach file objects.
  */
 public class FileAttachment implements Drawable {
     protected PDF pdf;

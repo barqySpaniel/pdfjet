@@ -7,7 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Used to select Chinese, Japanese and Korean fonts.
+ * Used to select Chinese, Japanese and Korean fonts.
  */
 public enum CJKFont {
     /** Chinese (Traditional) font */

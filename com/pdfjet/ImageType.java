@@ -7,10 +7,9 @@
 package com.pdfjet;
 
 /**
- *  Used to specify the image type of an image.
- *  Supported types: ImageType.JPG, ImageType.PNG and ImageType.BMP
- *  See the Image class for more information.
- *
+ * Used to specify the image type of an image.
+ * Supported types: ImageType.JPG, ImageType.PNG and ImageType.BMP
+ * See the Image class for more information.
  */
 public class ImageType {
     /** Default Constructor */

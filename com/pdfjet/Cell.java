@@ -7,8 +7,8 @@
 package com.pdfjet;
 
 /**
- *  Used to create table cell objects.
- *  See the Table class for more information.
+ * Used to create table cell objects.
+ * See the Table class for more information.
  */
 public class Cell {
     protected Font font;

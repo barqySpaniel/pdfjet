@@ -12,7 +12,6 @@ import java.util.Map;
 /**
  * Used to specify the pen and brush colors.
  * @see <a href="http://www.w3.org/TR/css3-color/#svg-color">http://www.w3.org/TR/css3-color/#svg-color</a>
- *
  */
  public class ColorMap {
     Map<String, Integer> map = null;

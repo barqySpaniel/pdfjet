@@ -7,7 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Used to specify the text direction in TextBox.
+ * Used to specify the text direction in TextBox.
  */
 public enum Direction {
     LEFT_TO_RIGHT,

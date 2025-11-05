@@ -9,9 +9,8 @@ package com.pdfjet;
 import java.util.*;
 
 /**
- *  Used to create paragraph objects.
- *  See the TextColumn class for more information.
- *
+ * Used to create paragraph objects.
+ * See the TextColumn class for more information.
  */
 public class Paragraph {
     /** The xText coordinate. */

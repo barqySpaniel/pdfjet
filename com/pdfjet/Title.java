@@ -8,7 +8,6 @@ package com.pdfjet;
 
 /**
  * Please see Example_51 and Example_52
- *
  */
 public class Title implements Drawable {
     public TextLine prefix;

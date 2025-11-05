@@ -7,7 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Used to specify the PDF page layout.
+ * Used to specify the PDF page layout.
  */
 public class PageLayout {
     /**

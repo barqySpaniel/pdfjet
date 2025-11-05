@@ -7,8 +7,8 @@
 package com.pdfjet;
 
 /**
- *  Provides BIDI processing for Arabic and Hebrew.
- *  Please see Example_27.
+ * Provides BIDI processing for Arabic and Hebrew.
+ * Please see Example_27.
  */
 public class Bidi {
 /*

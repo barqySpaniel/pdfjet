@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.zip.*;
 
 /**
- *  Used to create PDF objects that represent PDF documents.
+ * Used to create PDF objects that represent PDF documents.
  */
 final public class PDF {
     Compliance compliance;

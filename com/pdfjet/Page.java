@@ -11,14 +11,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
- *  Used to create PDF page objects.
+ * Used to create PDF page objects.
  *
- *  Please note:
- *  <pre>
- *  The coordinate (0f, 0f) is the top left corner of the page.
- *  The size of the pages are represented in points.
- *  1 point is 1/72 inches.
- *  </pre>
+ * Please note:
+ * <pre>
+ * The coordinate (0f, 0f) is the top left corner of the page.
+ * The size of the pages are represented in points.
+ * 1 point is 1/72 inches.
+ * </pre>
  */
 final public class Page {
     PDF pdf;

@@ -7,8 +7,8 @@
 package com.pdfjet;
 
 /**
- *  Used to specify the join style when joining two lines.
- *  See the Page and Line classes for more details.
+ * Used to specify the join style when joining two lines.
+ * See the Page and Line classes for more details.
  */
 public enum JoinStyle {
     /** Join style MITER */

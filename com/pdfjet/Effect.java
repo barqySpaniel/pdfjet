@@ -8,7 +8,6 @@ package com.pdfjet;
 
 /**
  *  Used to specify the text effects.
- *
  */
 public class Effect {
     /** Default Constructor */

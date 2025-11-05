@@ -7,8 +7,7 @@
 package com.pdfjet;
 
 /**
- *  The graphics state class
- *
+ * The graphics state class
  */
 public class GraphicsState {
     /** Default Constructor */

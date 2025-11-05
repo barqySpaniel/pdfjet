@@ -9,10 +9,10 @@ package com.pdfjet;
 import java.util.*;
 
 /**
- *  This class was designed and implemented by Jon T. Swanson, Ph.D.
+ * This class was designed and implemented by Jon T. Swanson, Ph.D.
  *
- *  Refactored and integrated into the project by Eugene Dragoev - 2nd June 2012.
- *  Used to create composite text line objects.
+ * Refactored and integrated into the project by Eugene Dragoev - 2nd June 2012.
+ * Used to create composite text line objects.
  */
 public class CompositeTextLine implements Drawable {
     private static final int X = 0;

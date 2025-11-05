@@ -7,7 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Used to create PDF annotation objects.
+ * Used to create PDF annotation objects.
  */
 class Annotation {
     public static final String Link = "Link";

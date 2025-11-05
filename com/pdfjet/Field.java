@@ -7,7 +7,7 @@
 package com.pdfjet;
 
 /**
- *  Please see Example_45
+ * Please see Example_45
  */
 public class Field {
     float x;

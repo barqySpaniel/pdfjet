@@ -7,8 +7,8 @@
 package com.pdfjet;
 
 /**
- *  Used to set PDF/UA and PDF/A compliance.
- *  See the constructors in the PDF class.
+ * Used to set PDF/UA and PDF/A compliance.
+ * See the constructors in the PDF class.
  */
 public enum Compliance {
     PDF_15,

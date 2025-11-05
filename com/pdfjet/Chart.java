@@ -10,9 +10,8 @@ import java.util.*;
 import java.text.*;
 
 /**
- *  Used to create XY chart objects and draw them on a page.
- *
- *  Please see Example_09.
+ * Used to create XY chart objects and draw them on a page.
+ * Please see Example_09.
  */
 public class Chart implements Drawable {
     private float w = 300f;

@@ -10,7 +10,6 @@ import java.util.*;
 
 /**
  * Please see Example_51 and Example_52
- *
  */
 public class Bookmark {
     protected Page page = null;

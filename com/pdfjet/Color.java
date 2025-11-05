@@ -9,7 +9,6 @@ package com.pdfjet;
 /**
  * Used to specify the pen and brush colors.
  * @see <a href="http://www.w3.org/TR/css3-color/#svg-color">http://www.w3.org/TR/css3-color/#svg-color</a>
- *
  */
  public class Color {
     /** The color named "transparent" */

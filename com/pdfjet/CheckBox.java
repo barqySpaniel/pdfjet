@@ -7,10 +7,10 @@
 package com.pdfjet;
 
 /**
- *  Creates a CheckBox, which can be set checked or unchecked.
- *  By default the check box is unchecked.
- *  Portions provided by Shirley C. Christenson
- *  Shirley Christenson Consulting
+ * Creates a CheckBox, which can be set checked or unchecked.
+ * By default the check box is unchecked.
+ * Portions provided by Shirley C. Christenson
+ * Shirley Christenson Consulting
  */
 public class CheckBox implements Drawable {
     private float x;

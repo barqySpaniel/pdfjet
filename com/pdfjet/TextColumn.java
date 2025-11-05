@@ -8,9 +8,8 @@ package com.pdfjet;
 
 import java.util.*;
 /**
- *  Used to create text column objects and draw them on a page.
- *
- *  Please see Example_10.
+ * Used to create text column objects and draw them on a page.
+ * Please see Example_10.
  */
 public class TextColumn implements Drawable {
     protected int alignment = Align.LEFT;

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Defines the StructElem types.
+ * Defines the StructElem types.
  */
 public class StructElem {
     // Document structure
