@@ -7,6 +7,7 @@
 package com.pdfjet;
 
 import java.util.*;
+
 /**
  * Used to create text column objects and draw them on a page.
  * Please see Example_10.
@@ -249,14 +250,14 @@ public class TextColumn implements Drawable {
             TextLine text = null;
             for (String token : tokens) {
                 text = new TextLine(line.font, token + Single.space);
+                text.setFallbackFont(line.getFallbackFont());
                 text.setFontSize(line.getFontSize());
                 text.setTextColor(line.getTextColor());
                 text.setUnderline(line.getUnderline());
                 text.setStrikeout(line.getStrikeout());
-                text.setVerticalOffset(line.getVerticalOffset());
+                text.setTextEffect(line.getTextEffect());
                 text.setURIAction(line.getURIAction());
                 text.setGoToAction(line.getGoToAction());
-                text.setFallbackFont(line.getFallbackFont());
                 runLength += text.getWidth();
                 if (runLength < this.w) {
                     list.add(text);

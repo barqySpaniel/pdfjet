@@ -166,14 +166,14 @@ func (textColumn *TextColumn) drawParagraphOn(page *Page, paragraph *Paragraph) 
 		var text *TextLine
 		for _, token := range tokens {
 			text = NewTextLine(line.font, token+single.Space)
+			text.SetFallbackFont(line.GetFallbackFont())
 			text.SetFontSize(line.GetFontSize())
-			text.SetColor(line.GetColor())
+			text.SetTextColor(line.GetTextColor())
 			text.SetUnderline(line.GetUnderline())
 			text.SetStrikeout(line.GetStrikeout())
-			text.SetVerticalOffset(line.GetVerticalOffset())
+			text.SetTextEffect(line.GetTextEffect())
 			text.SetURIAction(line.GetURIAction())
 			text.SetGoToAction(line.GetGoToAction())
-			text.SetFallbackFont(line.GetFallbackFont())
 			runLength += text.GetWidth()
 			if runLength < textColumn.w {
 				list = append(list, text)

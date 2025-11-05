@@ -195,6 +195,12 @@ public class TextLine : Drawable {
         return self
     }
 
+    @discardableResult
+    public func setTextColor(_ color: Int32) -> TextLine {
+        self.color = color
+        return self
+    }
+
     ///
     /// Sets the pen color.
     ///
@@ -214,6 +220,10 @@ public class TextLine : Drawable {
     /// - Returns: the text line color.
     ///
     public func getColor() -> Int32 {
+        return self.color
+    }
+
+    public func getTextColor() -> Int32 {
         return self.color
     }
 

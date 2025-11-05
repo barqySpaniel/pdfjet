@@ -190,13 +190,14 @@ public class TextColumn : Drawable {
             var text: TextLine
             for token in tokens {
                 text = TextLine(line.font!, token + Single.space)
+                text.setFallbackFont(line.getFallbackFont())
                 text.setFontSize(line.getFontSize())
-                text.setColor(line.getColor())
+                text.setTextColor(line.getTextColor())
                 text.setUnderline(line.getUnderline())
                 text.setStrikeout(line.getStrikeout())
+                text.setTextEffect(line.getTextEffect())
                 text.setURIAction(line.getURIAction())
                 text.setGoToAction(line.getGoToAction())
-                text.setFallbackFont(line.getFallbackFont())
                 runLength += text.getWidth()
                 if runLength < self.w {
                     list.append(text)
