@@ -19,7 +19,6 @@ public class TextLine implements Drawable {
     protected Font fallbackFont;
     protected float fontSize;
     protected String text;
-    protected boolean trailingSpace = true;
 
     private String uri;
     private String key;
@@ -432,26 +431,6 @@ public class TextLine implements Drawable {
      */
     public float getVerticalOffset() {
         return verticalOffset;
-    }
-
-    /**
-     *  Sets the trailing space after this text line when used in paragraph.
-     *
-     *  @param trailingSpace the trailing space.
-     *  @return this TextLine.
-     */
-    public TextLine setTrailingSpace(boolean trailingSpace) {
-        this.trailingSpace = trailingSpace;
-        return this;
-    }
-
-    /**
-     *  Returns the trailing space.
-     *
-     *  @return the trailing space.
-     */
-    public boolean getTrailingSpace() {
-        return trailingSpace;
     }
 
     public TextLine setLanguage(String language) {

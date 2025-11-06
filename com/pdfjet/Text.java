@@ -91,7 +91,7 @@ public class Text implements Drawable {
                 }
                 float[] xy = drawTextLine(page, xText, yText, textLine);
                 xText = xy[0];
-                if (textLine.getTrailingSpace()) {
+                if (textLine.isLastToken) {
                     xText += font.stringWidth(fallbackFont, Single.space);
                 }
                 yText = xy[1];
