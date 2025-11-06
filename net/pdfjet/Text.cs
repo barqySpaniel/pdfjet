@@ -148,7 +148,7 @@ public class Text : IDrawable {
             } else {
                 if (page != null) {
                     new TextLine(textLine.font, buf.ToString())
-                            .SetFallbackFont(textLine.fallbackFont)
+                            .SetFallbackFont(textLine.GetFallbackFont())
                             .SetFontSize(textLine.GetFontSize())
                             .SetLocation(xText, yText + textLine.GetVerticalOffset())
                             .SetTextColor(textLine.GetTextColor())

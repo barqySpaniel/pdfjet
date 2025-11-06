@@ -141,7 +141,7 @@ public class Text implements Drawable {
             } else {
                 if (page != null) {
                     new TextLine(textLine.font, buf.toString())
-                            .setFallbackFont(textLine.fallbackFont)
+                            .setFallbackFont(textLine.getFallbackFont())
                             .setFontSize(textLine.getFontSize())
                             .setLocation(xText, yText + textLine.getVerticalOffset())
                             .setTextColor(textLine.getTextColor())
