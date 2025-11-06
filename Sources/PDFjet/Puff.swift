@@ -27,7 +27,7 @@
  * Puff.swift is a conversion from the original puff.c by Mark Adler.
  * All credit goes to the original author.
  *
- * Eugene Dragoev
+ * Evgeni Dragoev
  * edragoev@protonmail.com
  */
 import Foundation
