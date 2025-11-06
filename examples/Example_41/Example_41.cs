@@ -67,7 +67,7 @@ public class Example_41 {
         text = new Text(paragraphs);
         text.SetLocation(70f, 150f);
         text.SetWidth(500f);
-        // text.SetBorder(true);
+        text.SetBorder(true);
         text.DrawOn(page);
 
         paragraphNumber = 1;

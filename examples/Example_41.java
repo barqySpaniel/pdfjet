@@ -79,6 +79,7 @@ public class Example_41 {
         text = new Text(paragraphs);
         text.setLocation(70f, 150f);
         text.setWidth(500f);
+        text.setBorder(true);
         text.drawOn(page);
 
         paragraphNumber = 1;
