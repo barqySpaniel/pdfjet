@@ -101,10 +101,8 @@ public class Text : Drawable {
 
         let height = ((self.yText - paragraphLeading) - self.y1) + font!.descent
         if page != nil && border {
-            let box = Box()
-            box.setLocation(x1, y1)
-            box.setSize(self.width, height)
-            box.drawOn(page)
+            let rect = Rect(x1, y1, self.width, height)
+            rect.drawOn(page)
         }
 
         return [self.x1 + self.width, self.y1 + height]

@@ -104,10 +104,8 @@ public class Text implements Drawable {
 
         float height = ((yText - paragraphLeading) - y1) + font.descent;
         if (page != null && border) {
-            Box box = new Box();
-            box.setLocation(x1, y1);
-            box.setSize(width, height);
-            box.drawOn(page);
+            Rect rect = new Rect(x1, y1, width, height);
+            rect.drawOn(page);
         }
 
         return new float[] { x1 + width, y1 + height };

@@ -110,10 +110,8 @@ public class Text : IDrawable {
 
         float height = ((yText - paragraphLeading) - y1) + font.GetDescent(fontSize);
         if (page != null && border) {
-            Box box = new Box();
-            box.SetLocation(x1, y1);
-            box.SetSize(width, height);
-            box.DrawOn(page);
+            Rect rect = new Rect(x1, y1, width, height);
+            rect.DrawOn(page);
         }
 
         return new float[] {x1 + width, y1 + height};
