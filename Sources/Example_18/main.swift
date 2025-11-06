@@ -2,8 +2,8 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_18.swift
- *  This example shows how to write "Page X of N" footer on every page.
+ * Example_18.swift
+ * This example shows how to write "Page X of N" footer on every page.
  */
 public class Example_18 {
     public init() throws {
@@ -14,7 +14,7 @@ public class Example_18 {
         // print("Original file size:")
         // print(buf1.count)
         // print()
-        
+
         // var buf2 = [UInt8]()
         // var time0 = Int64(Date().timeIntervalSince1970 * 1000)
         // FlateEncode(&buf2, buf1)

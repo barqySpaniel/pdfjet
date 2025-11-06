@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_15.swift
+ * Example_15.swift
  */
 public class Example_15 {
     public init() throws {

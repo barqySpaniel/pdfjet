@@ -2,17 +2,18 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_35.swift
+ * Example_35.swift
  */
 public class Example_35 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_35.pdf", append: false)!)
+
+        let mainFont = Font(pdf, CJKFont.ADOBE_MING_STD_LIGHT)
+        let fallbackFont = try Font(pdf, IBMPlexSans.Regular)
+
         let page = Page(pdf, A4.PORTRAIT)
 
         let text = try String(contentsOfFile: "data/chinese-english.txt", encoding: .utf8)
-
-        let mainFont = Font(pdf, CJKFont.ADOBE_MING_STD_LIGHT)
-        let fallbackFont = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf")
 
         var textLine = TextLine(mainFont)
         textLine.setText(text)

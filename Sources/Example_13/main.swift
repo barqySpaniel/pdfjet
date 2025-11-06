@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_13.swift
+ * Example_13.swift
  */
 public class Example_13 {
     public init() throws {
@@ -18,7 +18,7 @@ public class Example_13 {
                 "data/winter-2009.txt", encoding: .utf8)).trimmingCharacters(in: .newlines)
         let lines = text.components(separatedBy: "\n")
         for line1 in lines {
-            let line = line1.trimmingCharacters(in: .newlines) 
+            let line = line1.trimmingCharacters(in: .newlines)
             var row = [Cell]()
             let columns = line.components(separatedBy: "|")
             for i in 0..<columns.count {

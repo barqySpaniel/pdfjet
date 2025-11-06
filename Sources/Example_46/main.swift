@@ -9,14 +9,16 @@ public class Example_46 {
         let stream = OutputStream(toFileAtPath: "Example_46.pdf", append: false)
         let pdf = PDF(stream!)
 
-        let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf")
-        let f2 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf")
-        let f3 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf")
-
+        let f1 = try Font(pdf, IBMPlexSans.Bold)
         f1.setSize(14.0)
+
+        let f2 = try Font(pdf, IBMPlexSans.Regular)
         f2.setSize(14.0)
 
+        let f3 = try Font(pdf, IBMPlexSans.SemiBold)
+
         let page = Page(pdf, Letter.PORTRAIT)
+
         var paragraphs = [Paragraph]()
         var paragraph = Paragraph()
                 .add(TextLine(f1,

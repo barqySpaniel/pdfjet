@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_24.swift
+ * Example_24.swift
  */
 public class Example_24 {
     public init() throws {
@@ -32,7 +32,7 @@ public class Example_24 {
         textline_03.setTextDirection(0)
         textline_03.setLocation(50.0, 620.0)
         point = textline_03.drawOn(page)
-        image_03.setLocation(50.0, point[1] + 10.0).scaleBy(0.75).drawOn(page)	
+        image_03.setLocation(50.0, point[1] + 10.0).scaleBy(0.75).drawOn(page)
 
         pdf.complete()
     }

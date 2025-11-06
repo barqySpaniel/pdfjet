@@ -2,22 +2,21 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_39.swift
+ * Example_39.swift
  */
 public class Example_39 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_39.pdf", append: false)!)
 
         let f1 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        let f2 = Font(pdf, CoreFont.HELVETICA_BOLD)
-
-        let page = Page(pdf, Letter.PORTRAIT)
-
+        f1.setSize(10.0)
         f1.setItalic(true)
+
+        let f2 = Font(pdf, CoreFont.HELVETICA_BOLD)
+        f2.setSize(8.0)
         f2.setItalic(true)
 
-        f1.setSize(10.0)
-        f2.setSize(8.0)
+        let page = Page(pdf, Letter.PORTRAIT)
 
         let chart = Chart(f1, f2)
         chart.setLocation(70.0, 50.0)

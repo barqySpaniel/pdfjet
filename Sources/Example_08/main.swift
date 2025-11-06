@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_08.swift
+ * Example_08.swift
  */
 public class Example_08 {
     public init() throws {
@@ -12,12 +12,13 @@ public class Example_08 {
         // let f2 = Font(pdf, CoreFont.HELVETICA)
         // let f3 = Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE)
 
-        let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-SemiBold.ttf.stream")
-        let f2 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
-        let f3 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-BoldItalic.ttf.stream")
-
+        let f1 = try Font(pdf, IBMPlexSans.SemiBold)
         f1.setSize(7.0)
+
+        let f2 = try Font(pdf, IBMPlexSans.Regular)
         f2.setSize(7.0)
+
+        let f3 = try Font(pdf, IBMPlexSans.BoldItalic)
         f3.setSize(7.0)
 
         let image = try Image(pdf, "images/TeslaX.png")

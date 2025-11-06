@@ -2,17 +2,17 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_19.swift
+ * Example_19.swift
  */
 public class Example_19 {
     public init() throws {
         let stream = OutputStream(toFileAtPath: "Example_19.pdf", append: false)
         let pdf = PDF(stream!)
 
-        let f1 = try Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream")
-        let f2 = try Font(pdf, "fonts/NotoSansTC/NotoSansTC-Regular.ttf.stream")
-
+        let f1 = try Font(pdf, NotoSans.Regular)
         f1.setSize(10.0)
+
+        let f2 = try Font(pdf, "fonts/NotoSansTC/NotoSansTC-Regular.ttf.stream")
         f2.setSize(10.0)
 
         let page = Page(pdf, Letter.PORTRAIT)

@@ -2,12 +2,11 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_40.swift
+ * Example_40.swift
  */
 public class Example_40 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_40.pdf", append: false)!)
-        let page = Page(pdf, Letter.PORTRAIT)
 
         let f1 = Font(pdf, CoreFont.HELVETICA_BOLD)
         f1.setItalic(true)
@@ -16,6 +15,8 @@ public class Example_40 {
         let f2 = Font(pdf, CoreFont.HELVETICA_BOLD)
         f2.setItalic(true)
         f2.setSize(8.0)
+
+        let page = Page(pdf, Letter.PORTRAIT)
 
         let chart = Chart(f1, f2)
         chart.setLocation(70.0, 50.0)
@@ -32,7 +33,7 @@ public class Example_40 {
 
     public func getData() throws -> [[Point]] {
         var chartData = [[Point]]()
-        
+
         var path1 = [Point]()
         var point = Point()
         point.setDrawPath()

@@ -2,16 +2,16 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_49.swift
+ * Example_49.swift
  */
 public class Example_49 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_49.pdf", append: false)!)
 
         let f1 = try Font(pdf, SourceSerif4.Regular)
-        let f2 = try Font(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf")
-
         f1.setSize(14.0)
+
+        let f2 = try Font(pdf, SourceSerif4.Italic)
         f2.setSize(16.0)
 
         let page = Page(pdf, Letter.PORTRAIT)
