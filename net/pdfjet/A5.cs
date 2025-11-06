@@ -7,8 +7,8 @@
 using System;
 
 /**
- *  Used to specify PDF page with size <strong>A5</strong>.
- *  For more information about the page size classes - A3, A4, A5, B5, Executive, Letter, Legal and Tabloid - see the Page class.
+ * Used to specify PDF page with size <strong>A5</strong>.
+ * For more information about the page size classes - A3, A4, A5, B5, Executive, Letter, Legal and Tabloid - see the Page class.
  */
 namespace PDFjet.NET {
 public class A5 {

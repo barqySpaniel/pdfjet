@@ -7,9 +7,8 @@
 using System;
 
 /**
- *  Used to control the visibility of cell borders.
- *  See the Cell class for more information.
- *
+ * Used to control the visibility of cell borders.
+ * See the Cell class for more information.
  */
 namespace PDFjet.NET {
 public class Border {

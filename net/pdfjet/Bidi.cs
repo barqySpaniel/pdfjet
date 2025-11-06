@@ -9,9 +9,9 @@ using System.Text;
 
 namespace PDFjet.NET {
 /**
- *  Provides BIDI processing for Arabic and Hebrew.
+ * Provides BIDI processing for Arabic and Hebrew.
  *
- *  Please see Example_27.
+ * Please see Example_27.
  */
 public class Bidi {
 /*

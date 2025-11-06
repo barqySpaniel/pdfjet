@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_07.swift
+ * Example_07.swift
  */
 public class Example_07 {
     public init() throws {
@@ -12,7 +12,7 @@ public class Example_07 {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_07.pdf", append: false)!, Compliance.PDF_UA_1)
         pdf.setTitle("PDF/UA compliant PDF")
 
-        let f1 = try Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
+        let f1 = try Font(pdf, IBMPlexSans.Regular)
 
         var page = Page(pdf, A4.LANDSCAPE)
 

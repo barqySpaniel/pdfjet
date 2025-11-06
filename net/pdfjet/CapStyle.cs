@@ -7,8 +7,8 @@
 using System;
 
 /**
- *  Used to specify the cap style of a line.
- *  See the Line class for more information.
+ * Used to specify the cap style of a line.
+ * See the Line class for more information.
  */
 namespace PDFjet.NET {
 public enum CapStyle : Int32 {

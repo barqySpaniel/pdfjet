@@ -8,9 +8,8 @@ using System;
 
 namespace PDFjet.NET {
 /**
- *  Used to specify the text alignment in paragraphs.
- *  See the Paragraph class for more details.
- *
+ * Used to specify the text alignment in paragraphs.
+ * See the Paragraph class for more details.
  */
 public class Align {
     public const uint LEFT    = 0x00000000;

@@ -7,9 +7,8 @@
 using System;
 
 /**
- *  Used to create rectangular boxes on a page.
- *  Also used to for layout purposes. See the PlaceIn method in the Image and TextLine classes.
- *
+ * Used to create rectangular boxes on a page.
+ * Also used to for layout purposes. See the PlaceIn method in the Image and TextLine classes.
  */
 namespace PDFjet.NET {
 public class Box : IDrawable {

@@ -6,8 +6,8 @@
  */
 
 /**
- *  Used to set PDF/A compliance.
- *  See the constructors in the PDF class.
+ * Used to set PDF/A compliance.
+ * See the constructors in the PDF class.
  */
 namespace PDFjet.NET {
     public enum Compliance {

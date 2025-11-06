@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_05.swift
+ * Example_05.swift
  */
 public class Example_05 {
     public init() {
@@ -47,7 +47,7 @@ public class Example_05 {
         text.drawOn(page)
         text.setLocation(150.0, 90.0)
         text.drawOn(page)
-        
+
         text = TextLine(f1, "-- font.setKernPairs(true);")
         text.setLocation(150.0, 70.0)
         text.drawOn(page)
@@ -69,7 +69,7 @@ public class Example_05 {
         page.setPenWidth(1.0)
         page.drawEllipse(300.0, 600.0, 100.0, 50.0)
 
-        f1.setSize(14.0)        
+        f1.setSize(14.0)
         let unicode = "\u{20AC}\u{0020}\u{201A}\u{0192}\u{201E}\u{2026}\u{2020}\u{2021}\u{02C6}\u{2030}\u{0160}"
         text = TextLine(f1, unicode)
         text.setLocation(100.0, 700.0)
