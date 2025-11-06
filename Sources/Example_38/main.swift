@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_38.swift
+ * Example_38.swift
  */
 public class Example_38 {
     public init() throws {
@@ -85,7 +85,7 @@ public class Example_38 {
      * <td>1x1</td>
      * </tr>
      * </table>
-     * 
+     *
      * @return
      * @throws Exception
      */
@@ -205,7 +205,7 @@ public class Example_38 {
                 row.append(getCell(font, 1, "1x1", true, true))
             }
             rows.append(row)
-        }       
+        }
         return rows
     }
 

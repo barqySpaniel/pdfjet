@@ -2,7 +2,7 @@ import Foundation
 import PDFjet
 
 public class Example_01 {
-    
+
     // Initializes the PDF creation process
     public init() throws {
         // Create an output stream to write the PDF to a file
