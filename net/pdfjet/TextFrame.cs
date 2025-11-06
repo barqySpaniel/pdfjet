@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
 /**
- *  Please see Example_47
+ * Please see Example_47
  */
 namespace PDFjet.NET {
 public class TextFrame : IDrawable {

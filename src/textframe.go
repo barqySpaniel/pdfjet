@@ -135,10 +135,8 @@ func (frame *TextFrame) DrawOn(page *Page) []float32 {
 
 func (frame *TextFrame) DrawBorder(page *Page) {
 	if page != nil && frame.border {
-		box := NewBox()
-		box.SetLocation(frame.x, frame.y)
-		box.SetSize(frame.w, frame.h)
-		box.DrawOn(page)
+		rect := NewRect(frame.x, frame.y, frame.w, frame.h)
+		rect.DrawOn(page)
 	}
 }
 

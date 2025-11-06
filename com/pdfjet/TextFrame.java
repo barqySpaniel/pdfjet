@@ -9,7 +9,7 @@ package com.pdfjet;
 import java.util.*;
 
 /**
- *  Please see Example_47
+ * Please see Example_47
  */
 public class TextFrame implements Drawable {
     private List<TextLine> paragraphs;
@@ -136,9 +136,7 @@ public class TextFrame implements Drawable {
 
     private void drawBorder(Page page) throws Exception {
         if (page != null && border) {
-            Box box = new Box();
-            box.setLocation(x, y);
-            box.setSize(w, h);
+            Rect box = new Rect(x, y, w, h);
             box.drawOn(page);
         }
     }

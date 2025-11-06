@@ -117,9 +117,7 @@ public class TextFrame : Drawable {
 
     private func drawBorder(_ page: Page?) {
         if page != nil && border {
-            let box = Box()
-            box.setLocation(x, y)
-            box.setSize(w, h)
+            let box = Rect(x, y, w, h)
             box.drawOn(page)
         }
     }
