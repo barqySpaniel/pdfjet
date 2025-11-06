@@ -60,8 +60,11 @@ func Example41() {
 	text := pdfjet.NewText(paragraphs)
 	text.SetLocation(70.0, 90.0)
 	text.SetWidth(500.0)
-	// text.SetBorder(true)
-	text.DrawOn(page)
+	text.SetBorder(true)
+	xy := text.DrawOn(page)
+
+	rect := pdfjet.NewRect(xy[0], xy[1], 20.0, 20.0)
+	rect.DrawOn(page)
 
 	paragraphNumber := 1
 	for _, p := range paragraphs {
