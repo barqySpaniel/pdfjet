@@ -1,13 +1,13 @@
 package pdfjet
 
 /**
- *  optionalcontentgroup.go
+ * optionalcontentgroup.go
  *
- *  Copyright (c) 2025 PDFjet Software
- *  Licensed under the MIT License. See LICENSE file in the project root.
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
  *
- *  Original author: Mark Paxton
- *  Modified and adapted for use in PDFjet by Evgeni Dragoev
+ * Original author: Mark Paxton
+ * Modified and adapted for use in PDFjet by Evgeni Dragoev
  */
 
 import "github.com/edragoev1/pdfjet/src/token"
