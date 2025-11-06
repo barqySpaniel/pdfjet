@@ -88,7 +88,7 @@ public class Text : Drawable {
                 }
                 let xy = drawTextLine(page, self.xText, self.yText, textLine!)
                 self.xText = xy[0]
-                if textLine!.getTrailingSpace() {
+                if textLine!.isLastToken {
                     self.xText += font!.stringWidth(fallbackFont, Single.space)
                 }
                 self.yText = xy[1]

@@ -18,8 +18,6 @@ public class TextLine : Drawable {
     var fontSize: Float
 
     var text: String?
-    var trailingSpace: Bool = true
-
     private var uri: String?
     private var key: String?
 
@@ -419,27 +417,6 @@ public class TextLine : Drawable {
     ///
     public func getVerticalOffset() -> Float {
         return self.verticalOffset
-    }
-
-    ///
-    /// Sets the trailing space after the text line when used in paragraph. // TODO:
-    ///
-    /// - Parameter trailingSpace the trailing space.
-    /// - Returns: the TextLine.
-    ///
-    @discardableResult
-    public func setTrailingSpace(_ trailingSpace: Bool) -> TextLine {
-        self.trailingSpace = trailingSpace
-        return self
-    }
-
-    ///
-    /// Returns the trailing space.
-    ///
-    /// - Returns: the trailing space.
-    ///
-    public func getTrailingSpace() -> Bool {
-        return self.trailingSpace
     }
 
     @discardableResult
