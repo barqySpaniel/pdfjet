@@ -143,7 +143,8 @@ func (text *Text) drawTextLine(page *Page, x, y float32, textLine *TextLine) []f
 		} else {
 			if page != nil {
 				textLine2 := NewTextLine(textLine.font, buf.String())
-				textLine2.SetFallbackFont(textLine.fallbackFont)
+				textLine2.SetFallbackFont(textLine.GetFallbackFont())
+				textLine2.SetFontSize(textLine.GetFontSize())
 				textLine2.SetLocation(text.xText, text.yText+textLine.GetVerticalOffset())
 				textLine2.SetColor(textLine.GetColor())
 				textLine2.SetColorMap(textLine.GetColorMap())
@@ -160,7 +161,8 @@ func (text *Text) drawTextLine(page *Page, x, y float32, textLine *TextLine) []f
 	}
 	if page != nil {
 		textLine2 := NewTextLine(textLine.font, buf.String())
-		textLine2.SetFallbackFont(textLine.fallbackFont)
+		textLine2.SetFallbackFont(textLine.GetFallbackFont())
+		textLine2.SetFontSize(textLine.GetFontSize())
 		textLine2.SetLocation(text.xText, text.yText+textLine.GetVerticalOffset())
 		textLine2.SetColor(textLine.GetColor())
 		textLine2.SetColorMap(textLine.GetColorMap())

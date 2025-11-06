@@ -145,6 +145,7 @@ public class Text : Drawable {
                 if page != nil {
                     TextLine(textLine.font!, buf)
                             .setFallbackFont(textLine.fallbackFont)
+                            .setFontSize(textLine.getFontSize())
                             .setLocation(xText, yText + textLine.getVerticalOffset())
                             .setColor(textLine.getColor())
                             .setColorMap(textLine.getColorMap())
