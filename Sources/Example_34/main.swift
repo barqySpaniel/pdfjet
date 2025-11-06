@@ -9,11 +9,12 @@ public class Example_34 {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_34.pdf", append: false)!)
 
         let f1 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        let f2 = Font(pdf, CoreFont.HELVETICA)
-        let f3 = Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE)
-
         f1.setSize(7.0)
+
+        let f2 = Font(pdf, CoreFont.HELVETICA)
         f2.setSize(7.0)
+
+        let f3 = Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE)
         f3.setSize(7.0)
 
         let table = Table()

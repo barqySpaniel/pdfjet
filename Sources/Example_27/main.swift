@@ -7,7 +7,6 @@ import PDFjet
 public class Example_27 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_27.pdf", append: false)!)
-        let page = Page(pdf, Letter.PORTRAIT)
 
         // Latin font
         let f1 = try Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream")
@@ -24,6 +23,8 @@ public class Example_27 {
         // Arabic font
         let f4 = try Font(pdf, "fonts/NotoSansArabic/NotoSansArabic-Regular.ttf.stream")
         f4.setSize(12.0)
+
+        let page = Page(pdf, Letter.PORTRAIT)
 
         let x: Float = 50.0
         var y: Float = 50.0

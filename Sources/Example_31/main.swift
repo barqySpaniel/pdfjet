@@ -9,8 +9,9 @@ public class Example_31 {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_31.pdf", append: false)!)
 
         let f1 = try Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream")
-        let f2 = try Font(pdf, "fonts/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf.stream")
         f1.setSize(15.0)
+
+        let f2 = try Font(pdf, "fonts/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf.stream")
         f2.setSize(15.0)
 
         let page = Page(pdf, Letter.PORTRAIT)

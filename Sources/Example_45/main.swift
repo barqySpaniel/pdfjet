@@ -11,12 +11,13 @@ public class Example_45 {
         pdf.setLanguage("en-US")
         pdf.setTitle("Hello, World!")
 
-        let f1 = try Font(pdf, "fonts/SourceSerif4/SourceSerif4-Regular.ttf.stream")
-        let f2 = try Font(pdf, "fonts/SourceSerif4/SourceSerif4-Italic.ttf.stream")
-        let f3 = try Font(pdf, "fonts/JetBrainsMono/JetBrainsMono-Regular.ttf.stream")
-
+        let f1 = try Font(pdf, SourceSerif4.Regular)
         f1.setSize(14.0)
+
+        let f2 = try Font(pdf, SourceSerif4.Italic)
         f2.setSize(14.0)
+
+        let f3 = try Font(pdf, JetBrainsMono.Regular)
         f3.setSize(10.0)
 
         let page = Page(pdf, Letter.PORTRAIT)

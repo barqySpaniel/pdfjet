@@ -2,16 +2,16 @@ import Foundation
 import PDFjet
 
 /**
- *  Example_44.swift
+ * Example_44.swift
  */
 public class Example_44 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_44.pdf", append: false)!)
 
         let f1 = Font(pdf, CoreFont.HELVETICA)          // Latin font
-        let f2 = Font(pdf, CJKFont.ST_HEITI_SC_LIGHT)   // Chinese (Simplified) font
-
         f1.setSize(12.0)
+
+        let f2 = Font(pdf, CJKFont.ST_HEITI_SC_LIGHT)   // Chinese (Simplified) font
         f2.setSize(12.0)
 
         let page = Page(pdf, Letter.PORTRAIT)
