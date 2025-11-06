@@ -104,10 +104,8 @@ func (text *Text) DrawOn(page *Page) [2]float32 {
 
 	height := ((text.yText - text.paragraphLeading) - text.y1) + text.font.descent
 	if page != nil && text.border {
-		box := NewBox()
-		box.SetLocation(text.x1, text.y1)
-		box.SetSize(text.width, height)
-		box.DrawOn(page)
+		rect := NewRect(text.x1, text.y1, text.width, height)
+		rect.DrawOn(page)
 	}
 
 	return [2]float32{text.x1 + text.width, text.y1 + height}
