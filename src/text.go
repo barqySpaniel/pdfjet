@@ -22,7 +22,6 @@ type Text struct {
 	x1, y1, xText, yText, width float32
 	leading                     float32
 	paragraphLeading            float32
-	lineSpacing                 float32
 	border                      bool
 }
 
@@ -34,7 +33,6 @@ func NewText(paragraphs []*Paragraph) *Text {
 	text.fallbackFont = paragraphs[0].lines[0].GetFallbackFont()
 	text.leading = text.font.ascent + text.font.descent
 	text.paragraphLeading = 2 * text.leading
-	text.lineSpacing = 1.0
 	return text
 }
 
@@ -65,7 +63,6 @@ func (text *Text) SetParagraphLeading(paragraphLeading float32) *Text {
 
 // GetSize returns the size of the text block.
 func (text *Text) GetSize() [2]float32 {
-	// return [2]float32{text.width, (text.yText - text.font.descent) - (text.y1 + text.paragraphLeading)}
 	return [2]float32{text.width, text.yText + text.font.descent}
 }
 
