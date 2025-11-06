@@ -55,7 +55,7 @@ func (a *AES128) EncryptK1(K1, key, iv []byte) ([]byte, error) {
 	return ciphertext, nil
 }
 
-// Helper function for backward compatibility - static method style
+// EncryptK1 helper function for backward compatibility.
 func EncryptK1(K1, key, iv []byte) ([]byte, error) {
 	aes128 := &AES128{}
 	return aes128.EncryptK1(K1, key, iv)

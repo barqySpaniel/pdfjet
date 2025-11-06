@@ -43,11 +43,8 @@ func NewSVGImageFromFile(filePath string) *SVGImage {
 	return NewSVGImage(reader)
 }
 
-/**
- * Used to embed SVG images in the PDF document.
- *
- * @param stream the input stream.
- */
+// NewSVGImage Used to embed SVG images in the PDF document.
+// @param stream the input stream.
 func NewSVGImage(reader io.Reader) *SVGImage {
 	image := new(SVGImage)
 	colorMap := NewColorMap()
