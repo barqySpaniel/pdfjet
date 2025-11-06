@@ -7,17 +7,17 @@
 package com.pdfjet;
 
 /**
- *  Encapsulates the width and height of a component.
+ * Encapsulates the width and height of a component.
  */
 public class Dimension {
     protected float w;
     protected float h;
 
     /**
-     *  Constructor for creating dimension objects.
+     * Constructor for creating dimension objects.
      *
-     *  @param width the width.
-     *  @param height the height.
+     * @param width the width.
+     * @param height the height.
      */
     public Dimension(float width, float height) {
         this.w = width;
