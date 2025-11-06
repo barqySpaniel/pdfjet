@@ -24,7 +24,6 @@ public class Text implements Drawable {
     private float width;
     private float leading;
     private float paragraphLeading;
-    private float spaceBetweenTextLines;
     private boolean border = false;
 
     public Text(List<Paragraph> paragraphs) {
@@ -33,7 +32,6 @@ public class Text implements Drawable {
         this.fallbackFont = paragraphs.get(0).lines.get(0).getFallbackFont();
         this.leading = font.getBodyHeight();
         this.paragraphLeading = 2 * leading;
-        this.spaceBetweenTextLines = font.stringWidth(fallbackFont, Single.space);
     }
 
     public void setPosition(float x, float y) {
@@ -69,11 +67,6 @@ public class Text implements Drawable {
         return this;
     }
 
-    public Text setSpaceBetweenTextLines(float spaceBetweenTextLines) {
-        this.spaceBetweenTextLines = spaceBetweenTextLines;
-        return this;
-    }
-
     public void setBorder(boolean border) {
         this.border = border;
     }
@@ -99,7 +92,7 @@ public class Text implements Drawable {
                 float[] xy = drawTextLine(page, xText, yText, textLine);
                 xText = xy[0];
                 if (textLine.getTrailingSpace()) {
-                    xText += spaceBetweenTextLines;
+                    xText += font.stringWidth(fallbackFont, Single.space);
                 }
                 yText = xy[1];
             }
