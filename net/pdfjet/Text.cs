@@ -167,6 +167,7 @@ public class Text : IDrawable {
         if (page != null) {
             new TextLine(textLine.font, buf.ToString())
                     .SetFallbackFont(textLine.fallbackFont)
+                    .SetFontSize(textLine.GetFontSize())
                     .SetLocation(xText, yText + textLine.GetVerticalOffset())
                     .SetTextColor(textLine.GetTextColor())
                     .SetColorMap(textLine.GetColorMap())
