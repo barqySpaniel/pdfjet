@@ -20,7 +20,6 @@ public class Text : Drawable {
     private var yText: Float = 0.0
     private var leading: Float = 0.0
     private var paragraphLeading: Float = 0.0
-    private var spaceBetweenTextLines: Float = 0.0
     private var border = false
 
     public init(_ paragraphs: [Paragraph]) {
@@ -29,7 +28,6 @@ public class Text : Drawable {
         self.fallbackFont = paragraphs[0].lines![0].getFallbackFont()
         self.leading = font!.getBodyHeight()
         self.paragraphLeading = 2*leading
-        self.spaceBetweenTextLines = font!.stringWidth(fallbackFont, Single.space)
     }
 
     public func setPosition(_ x: Float, _ y: Float) {
@@ -63,13 +61,6 @@ public class Text : Drawable {
     }
 
     @discardableResult
-    public func setSpaceBetweenTextLines(
-            _ spaceBetweenTextLines: Float) -> Text {
-        self.spaceBetweenTextLines = spaceBetweenTextLines
-        return self
-    }
-
-    @discardableResult
     public func setBorder(_ border: Bool) -> Text {
         self.border = border
         return self
@@ -98,7 +89,7 @@ public class Text : Drawable {
                 let xy = drawTextLine(page, self.xText, self.yText, textLine!)
                 self.xText = xy[0]
                 if textLine!.getTrailingSpace() {
-                    self.xText += spaceBetweenTextLines
+                    self.xText += font!.stringWidth(fallbackFont, Single.space)
                 }
                 self.yText = xy[1]
             }
