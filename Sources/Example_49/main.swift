@@ -18,13 +18,12 @@ public class Example_49 {
 
         let paragraph1 = Paragraph()
                 .add(TextLine(f1, "Hello"))
-                .add(TextLine(f1, "W").setColor(Color.black).setTrailingSpace(false))
-                .add(TextLine(f1, "o").setColor(Color.red).setTrailingSpace(false))
-                .add(TextLine(f1, "r").setColor(Color.green).setTrailingSpace(false))
-                .add(TextLine(f1, "l").setColor(Color.blue).setTrailingSpace(false))
+                .add(TextLine(f1, "W").setColor(Color.black))
+                .add(TextLine(f1, "o").setColor(Color.red))
+                .add(TextLine(f1, "r").setColor(Color.green))
+                .add(TextLine(f1, "l").setColor(Color.blue))
                 .add(TextLine(f1, "d").setColor(Color.black))
-                .add(TextLine(f1, "$").setTrailingSpace(false)
-                        .setVerticalOffset(f1.getAscent() - f2.getAscent()))
+                .add(TextLine(f1, "$").setVerticalOffset(f1.getAscent() - f2.getAscent()))
                 .add(TextLine(f2, "29.95").setColor(Color.blue))
                 .setAlignment(Align.RIGHT)
 
