@@ -64,12 +64,6 @@ func (text *Text) SetParagraphLeading(paragraphLeading float32) *Text {
 	return text
 }
 
-// SetSpaceBetweenTextLines sets the space between text lines.
-func (text *Text) SetSpaceBetweenTextLines(lineSpacing float32) *Text {
-	text.lineSpacing = lineSpacing
-	return text
-}
-
 // GetSize returns the size of the text block.
 func (text *Text) GetSize() [2]float32 {
 	return [2]float32{text.width, (text.yText - text.font.descent) - (text.y1 + text.paragraphLeading)}
@@ -98,7 +92,7 @@ func (text *Text) DrawOn(page *Page) [2]float32 {
 			xy := text.drawTextLine(page, text.xText, text.yText, textLine)
 			text.xText = xy[0]
 			if !textLine.isLastToken {
-				text.xText *= text.lineSpacing
+				text.xText *= text.font.StringWidth(text.fallbackFont, text.font.size, single.Space)
 			}
 			text.yText = xy[1]
 		}
