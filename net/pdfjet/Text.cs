@@ -88,12 +88,12 @@ public class Text : IDrawable {
         this.xText = x1;
         this.yText = y1 + font.GetAscent();
         foreach (Paragraph paragraph in paragraphs) {
-            int numberOfTextLines = paragraph.lines.Count;
             StringBuilder buf = new StringBuilder();
-            for (int i = 0; i < numberOfTextLines; i++) {
-                TextLine textLine = paragraph.lines[i];
+            foreach (TextLine textLine in paragraph.lines) {
                 buf.Append(textLine.text);
             }
+
+            int numberOfTextLines = paragraph.lines.Count;
             for (int i = 0; i < numberOfTextLines; i++) {
                 TextLine textLine = paragraph.lines[i];
                 if (i == 0) {
