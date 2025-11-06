@@ -25,9 +25,9 @@ public class PDFobj {
     protected int gsNumber = -1;
 
     /**
-     *  Used to create Java or .NET objects that represent the objects in PDF document.
-     *  See the PDF specification for more information.
-     *  Also see Example_19.
+     * Used to create Java or .NET objects that represent the objects in PDF document.
+     * See the PDF specification for more information.
+     * Also see Example_19.
      */
     protected PDFobj() {
         this.dict = new ArrayList<String>();
@@ -43,18 +43,18 @@ public class PDFobj {
     }
 
     /**
-     *  Returns the object dictionary.
+     * Returns the object dictionary.
      *
-     *  @return the object dictionary.
+     * @return the object dictionary.
      */
     public List<String> getDict() {
         return this.dict;
     }
 
     /**
-     *  Returns the uncompressed stream data.
+     * Returns the uncompressed stream data.
      *
-     *  @return the uncompressed stream data.
+     * @return the uncompressed stream data.
      */
     public byte[] getData() {
         return this.data;
@@ -83,11 +83,10 @@ public class PDFobj {
     }
 
     /**
-     *  Returns the dictionary value for the specified key.
+     * Returns the dictionary value for the specified key.
      *
-     *  @param key the specified key.
-     *
-     *  @return the value.
+     * @param key the specified key.
+     * @return the value.
      */
     public String getValue(String key) {
         for (int i = 0; i < dict.size(); i++) {
