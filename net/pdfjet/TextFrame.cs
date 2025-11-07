@@ -16,7 +16,8 @@ namespace PDFjet.NET {
 public class TextFrame : IDrawable {
     private List<TextLine> paragraphs;
     private Font font;
-    private float fontSize = 12f;
+    private Font fallbackFont;
+    private float fontSize;
     private float x;
     private float y;
     private float w;
@@ -29,10 +30,11 @@ public class TextFrame : IDrawable {
     public TextFrame(List<TextLine> paragraphs) {
         this.paragraphs = new List<TextLine>(paragraphs);
         this.font = paragraphs[0].font;
+        this.fallbackFont = paragraphs[0].fallbackFont;
+        this.fontSize = font.size;
         this.leading = font.GetBodyHeight(fontSize);
         this.paragraphLeading = 2*leading;
         this.beginParagraphPoints = new List<float[]>();
-        Font fallbackFont = paragraphs[0].fallbackFont;
         if (fallbackFont != null && (fallbackFont.GetBodyHeight(fontSize) > this.leading)) {
             this.leading = fallbackFont.GetBodyHeight(fontSize);
         }
@@ -97,8 +99,8 @@ public class TextFrame : IDrawable {
         return this.beginParagraphPoints;
     }
 
-    public void SetDrawBorder(bool drawBorder) {
-        this.border = drawBorder;
+    public void SetDrawBorder(bool border) {
+        this.border = border;
     }
 
     public void SetPosition(float x, float y) {

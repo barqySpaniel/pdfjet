@@ -15,6 +15,7 @@ public class TextFrame implements Drawable {
     private List<TextLine> lines;
     private final Font font;
     private final Font fallbackFont;
+    private float fontSize;
     private float x;
     private float y;
     private float w;
@@ -28,6 +29,7 @@ public class TextFrame implements Drawable {
         this.lines = lines;
         this.font = lines.get(0).getFont();
         this.fallbackFont = lines.get(0).getFallbackFont();
+        this.fontSize = font.size;
         this.leading = font.getBodyHeight();
         this.paragraphLeading = 2*leading;
         this.beginParagraphPoints = new ArrayList<float[]>();
@@ -96,17 +98,21 @@ public class TextFrame implements Drawable {
         return this.beginParagraphPoints;
     }
 
-    public void setBorder(boolean drawBorder) {
-        this.border = drawBorder;
+    public void setDrawBorder(boolean border) {
+        this.border = border;
     }
 
     public void setPosition(float x, float y) {
         setLocation(x, y);
     }
 
+    public void SetFontSize(float fontSize) {
+        this.fontSize = fontSize;
+    }
+
     public float[] drawOn(Page page) throws Exception {
         float xText = x;
-        float yText = y + font.ascent;
+        float yText = y + font.getAscent(fontSize);
         while (lines.size() > 0) {
             // The lines are reversed so we can efficiently remove the first one:
             TextLine textLine = lines.remove(lines.size() - 1);
@@ -118,7 +124,7 @@ public class TextFrame implements Drawable {
                     break;
                 }
                 yText = textLine.advance(leading);
-                if (yText + font.descent >= (y + h)) {
+                if (yText + font.getDescent(fontSize) >= (y + h)) {
                     // The text lines are reversed so we can efficiently add new lines:
                     lines.add(textLine);
                     drawBorder(page);

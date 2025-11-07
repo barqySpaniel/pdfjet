@@ -52,7 +52,7 @@ public class Example_47 {
         frame.setLocation(xPos, yPos);
         frame.setWidth(width);
         frame.setHeight(height);
-        frame.setBorder(true);
+        frame.setDrawBorder(true);
         frame.drawOn(page);
 
         xPos += 200f;
@@ -60,7 +60,7 @@ public class Example_47 {
             frame.setLocation(xPos, yPos);
             frame.setWidth(width);
             frame.setHeight(height);
-            frame.setBorder(false);
+            frame.setDrawBorder(false);
             frame.drawOn(page);
         }
 
@@ -69,7 +69,7 @@ public class Example_47 {
             frame.setLocation(xPos, yPos);
             frame.setWidth(width);
             frame.setHeight(height);
-            frame.setBorder(true);
+            frame.setDrawBorder(true);
             frame.drawOn(page);
         }
 
