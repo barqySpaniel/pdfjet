@@ -47,9 +47,9 @@ public class TextLine implements Drawable {
     private Map<String, Integer> colorMap = null;
 
     /**
-     *  Constructor for creating text line objects.
+     * Constructor for creating text line objects.
      *
-     *  @param font the font to use.
+     * @param font the font to use.
      */
     public TextLine(Font font) {
         this.font = font;
@@ -58,10 +58,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Constructor for creating text line objects.
+     * Constructor for creating text line objects.
      *
-     *  @param font the font to use.
-     *  @param text the text.
+     * @param font the font to use.
+     * @param text the text.
      */
     public TextLine(Font font, String text) {
         this.font = font;
@@ -72,10 +72,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the text.
+     * Sets the text.
      *
-     *  @param text the text.
-     *  @return this TextLine.
+     * @param text the text.
+     * @return this TextLine.
      */
     public TextLine setText(String text) {
         this.text = text;
@@ -84,40 +84,40 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the text.
+     * Returns the text.
      *
-     *  @return the text.
+     * @return the text.
      */
     public String getText() {
         return text;
     }
 
     /**
-     *  Sets the position where this text line will be drawn on the page.
+     * Sets the position where this text line will be drawn on the page.
      *
-     *  @param x the x coordinate of the text line.
-     *  @param y the y coordinate of the text line.
+     * @param x the x coordinate of the text line.
+     * @param y the y coordinate of the text line.
      */
     public void setPosition(float x, float y) {
         setLocation(x, y);
     }
 
     /**
-     *  Sets the position where this text line will be drawn on the page.
+     * Sets the position where this text line will be drawn on the page.
      *
-     *  @param x the x coordinate of the text line.
-     *  @param y the y coordinate of the text line.
+     * @param x the x coordinate of the text line.
+     * @param y the y coordinate of the text line.
      */
     public void setPosition(double x, double y) {
         setLocation(x, y);
     }
 
     /**
-     *  Sets the location where this text line will be drawn on the page.
+     * Sets the location where this text line will be drawn on the page.
      *
-     *  @param x the x coordinate of the text line.
-     *  @param y the y coordinate of the text line.
-     *  @return this TextLine.
+     * @param x the x coordinate of the text line.
+     * @param y the y coordinate of the text line.
+     * @return this TextLine.
      */
     public TextLine setLocation(float x, float y) {
         this.x = x;
@@ -135,10 +135,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the font to use for this text line.
+     * Sets the font to use for this text line.
      *
-     *  @param font the font to use.
-     *  @return this TextLine.
+     * @param font the font to use.
+     * @return this TextLine.
      */
     public TextLine setFont(Font font) {
         this.font = font;
@@ -146,19 +146,19 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Gets the font to use for this text line.
+     * Gets the font to use for this text line.
      *
-     *  @return font the font to use.
+     * @return font the font to use.
      */
     public Font getFont() {
         return font;
     }
 
     /**
-     *  Sets the font size to use for this text line.
+     * Sets the font size to use for this text line.
      *
-     *  @param fontSize the fontSize to use.
-     *  @return this TextLine.
+     * @param fontSize the fontSize to use.
+     * @return this TextLine.
      */
     public TextLine setFontSize(float fontSize) {
         this.font.setSize(fontSize);
@@ -170,10 +170,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the fallback font.
+     * Sets the fallback font.
      *
-     *  @param fallbackFont the fallback font.
-     *  @return this TextLine.
+     * @param fallbackFont the fallback font.
+     * @return this TextLine.
      */
     public TextLine setFallbackFont(Font fallbackFont) {
         this.fallbackFont = fallbackFont;
@@ -181,10 +181,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the fallback font size to use for this text line.
+     * Sets the fallback font size to use for this text line.
      *
-     *  @param fallbackFontSize the fallback font size.
-     *  @return this TextLine.
+     * @param fallbackFontSize the fallback font size.
+     * @return this TextLine.
      */
     public TextLine setFallbackFontSize(float fallbackFontSize) {
         this.fallbackFont.setSize(fallbackFontSize);
@@ -192,19 +192,19 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the fallback font.
+     * Returns the fallback font.
      *
-     *  @return the fallback font.
+     * @return the fallback font.
      */
     public Font getFallbackFont() {
         return this.fallbackFont;
     }
 
     /**
-     *  Sets the color for this text line.
+     * Sets the color for this text line.
      *
-     *  @param color the color is specified as an integer.
-     *  @return this TextLine.
+     * @param color the color is specified as an integer.
+     * @return this TextLine.
      */
     public TextLine setTextColor(int color) {
         this.color = color;
@@ -216,11 +216,11 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the pen color.
-     *  See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
+     * Sets the pen color.
+     * See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
      *
-     *  @param color the color.
-     *  @return this TextLine.
+     * @param color the color.
+     * @return this TextLine.
      */
     public TextLine setTextColor(int[] color) {
         this.color = color[0] << 16 | color[1] << 8 | color[2];
@@ -232,9 +232,9 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the text line color.
+     * Returns the text line color.
      *
-     *  @return the text line color.
+     * @return the text line color.
      */
     public int getTextColor() {
         return this.color;
@@ -263,27 +263,27 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the width of this TextLine.
+     * Returns the width of this TextLine.
      *
-     *  @return the width.
+     * @return the width.
      */
     public float getWidth() {
         return font.stringWidth(fallbackFont, this.fontSize, text);
     }
 
     /**
-     *  Returns the string width of the specified string.
+     * Returns the string width of the specified string.
      *
-     *  @return the width.
+     * @return the width.
      */
     public float getStringWidth(String text) {
         return font.stringWidth(fallbackFont, text);
     }
 
     /**
-     *  Returns the height of this TextLine.
+     * Returns the height of this TextLine.
      *
-     *  @return the height.
+     * @return the height.
      */
     public float getHeight() {
         float ascent = Math.max(font.ascent, fallbackFont.ascent);
@@ -292,10 +292,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the URI for the "click text line" action.
+     * Sets the URI for the "click text line" action.
      *
-     *  @param uri the URI
-     *  @return this TextLine.
+     * @param uri the URI
+     * @return this TextLine.
      */
     public TextLine setURIAction(String uri) {
         this.uri = uri;
@@ -303,19 +303,19 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the action URI.
+     * Returns the action URI.
      *
-     *  @return the action URI.
+     * @return the action URI.
      */
     public String getURIAction() {
         return this.uri;
     }
 
     /**
-     *  Sets the destination key for the action.
+     * Sets the destination key for the action.
      *
-     *  @param key the destination name.
-     *  @return this TextLine.
+     * @param key the destination name.
+     * @return this TextLine.
      */
     public TextLine setGoToAction(String key) {
         this.key = key;
@@ -332,11 +332,11 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the underline variable.
-     *  If the value of the underline variable is 'true' - the text is underlined.
+     * Sets the underline variable.
+     * If the value of the underline variable is 'true' - the text is underlined.
      *
-     *  @param underline the underline flag.
-     *  @return this TextLine.
+     * @param underline the underline flag.
+     * @return this TextLine.
      */
     public TextLine setUnderline(boolean underline) {
         this.underline = underline;
@@ -353,11 +353,11 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the strike variable.
-     *  If the value of the strike variable is 'true' - a strike line is drawn through the text.
+     * Sets the strike variable.
+     * If the value of the strike variable is 'true' - a strike line is drawn through the text.
      *
-     *  @param strikeout the strikeout flag.
-     *  @return this TextLine.
+     * @param strikeout the strikeout flag.
+     * @return this TextLine.
      */
     public TextLine setStrikeout(boolean strikeout) {
         this.strikeout = strikeout;
@@ -365,19 +365,19 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the strikeout flag.
+     * Returns the strikeout flag.
      *
-     *  @return the strikeout flag.
+     * @return the strikeout flag.
      */
     public boolean getStrikeout() {
         return this.strikeout;
     }
 
     /**
-     *  Sets the direction in which to draw the text.
+     * Sets the direction in which to draw the text.
      *
-     *  @param degrees the number of degrees.
-     *  @return this TextLine.
+     * @param degrees the number of degrees.
+     * @return this TextLine.
      */
     public TextLine setTextDirection(int degrees) {
         this.degrees = degrees;
@@ -394,10 +394,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the text effect.
+     * Sets the text effect.
      *
-     *  @param textEffect Effect.NORMAL, Effect.SUBSCRIPT or Effect.SUPERSCRIPT.
-     *  @return this TextLine.
+     * @param textEffect Effect.NORMAL, Effect.SUBSCRIPT or Effect.SUPERSCRIPT.
+     * @return this TextLine.
      */
     public TextLine setTextEffect(int textEffect) {
         this.textEffect = textEffect;
@@ -405,19 +405,19 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the text effect.
+     * Returns the text effect.
      *
-     *  @return the text effect.
+     * @return the text effect.
      */
     public int getTextEffect() {
         return textEffect;
     }
 
     /**
-     *  Sets the vertical offset of the text.
+     * Sets the vertical offset of the text.
      *
-     *  @param verticalOffset the vertical offset.
-     *  @return this TextLine.
+     * @param verticalOffset the vertical offset.
+     * @return this TextLine.
      */
     public TextLine setVerticalOffset(float verticalOffset) {
         this.verticalOffset = verticalOffset;
@@ -425,9 +425,9 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Returns the vertical text offset.
+     * Returns the vertical text offset.
      *
-     *  @return the vertical text offset.
+     * @return the vertical text offset.
      */
     public float getVerticalOffset() {
         return verticalOffset;
@@ -443,10 +443,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Sets the alternate description of this text line.
+     * Sets the alternate description of this text line.
      *
-     *  @param altDescription the alternate description of the text line.
-     *  @return this TextLine.
+     * @param altDescription the alternate description of the text line.
+     * @return this TextLine.
      */
     public TextLine setAltDescription(String altDescription) {
         this.altDescription = altDescription;
@@ -478,10 +478,10 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Places this text line in the specified box.
+     * Places this text line in the specified box.
      *
-     *  @param box the specified box.
-     *  @return this TextLine.
+     * @param box the specified box.
+     * @return this TextLine.
      */
     public TextLine placeIn(Box box) {
         placeIn(box, 0f, 0f);
@@ -489,12 +489,12 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Places this text line in the box at the specified offset.
+     * Places this text line in the box at the specified offset.
      *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     *  @return this TextLine.
+     * @param box the specified box.
+     * @param xOffset the x offset from the top left corner of the box.
+     * @param yOffset the y offset from the top left corner of the box.
+     * @return this TextLine.
      */
     public TextLine placeIn(
             Box box,
@@ -504,12 +504,12 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Places this text line in the box at the specified offset.
+     * Places this text line in the box at the specified offset.
      *
-     *  @param box the specified box.
-     *  @param xOffset the x offset from the top left corner of the box.
-     *  @param yOffset the y offset from the top left corner of the box.
-     *  @return this TextLine.
+     * @param box the specified box.
+     * @param xOffset the x offset from the top left corner of the box.
+     * @param yOffset the y offset from the top left corner of the box.
+     * @return this TextLine.
      */
     public TextLine placeIn(
             Box box,
@@ -530,11 +530,11 @@ public class TextLine implements Drawable {
     }
 
     /**
-     *  Draws this text line on the specified page.
+     * Draws this text line on the specified page.
      *
-     *  @param page the page to draw this text line on.
-     *  @return float[] with the coordinates of the bottom right corner.
-     *  @throws Exception  If an input or output exception occurred
+     * @param page the page to draw this text line on.
+     * @return float[] with the coordinates of the bottom right corner.
+     * @throws Exception  If an input or output exception occurred
      */
     public float[] drawOn(Page page) throws Exception {
         if (page == null || text == null || text.equals("")) {

@@ -947,9 +947,9 @@ public class TextBox implements Drawable {
     }
 
     /**
-     *  Sets the URI for the "click text line" action.
+     * Sets the URI for the "click text line" action.
      *
-     *  @param uri the URI
+     * @param uri the URI
      */
     public void setURIAction(String uri) {
         this.uri = uri;

@@ -34,10 +34,10 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Create a text column object and set the rotation angle.
+     * Create a text column object and set the rotation angle.
      *
-     *  @param rotateByDegrees the specified rotation angle in degrees.
-     *  @throws Exception  If an input or output exception occurred
+     * @param rotateByDegrees the specified rotation angle in degrees.
+     * @throws Exception  If an input or output exception occurred
      */
     public TextColumn(int rotateByDegrees) throws Exception {
         this.rotate = rotateByDegrees;
@@ -50,10 +50,10 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Sets the lineBetweenParagraphs private variable value.
-     *  If the value is set to true - an empty line will be inserted between the current and next paragraphs.
+     * Sets the lineBetweenParagraphs private variable value.
+     * If the value is set to true - an empty line will be inserted between the current and next paragraphs.
      *
-     *  @param lineBetweenParagraphs the specified boolean value.
+     * @param lineBetweenParagraphs the specified boolean value.
      */
     public void setLineBetweenParagraphs(boolean lineBetweenParagraphs) {
         this.lineBetweenParagraphs = lineBetweenParagraphs;
@@ -64,30 +64,30 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Sets the position of this text column on the page.
+     * Sets the position of this text column on the page.
      *
-     *  @param x the x coordinate of the top left corner of this text column when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this text column when drawn on the page.
+     * @param x the x coordinate of the top left corner of this text column when drawn on the page.
+     * @param y the y coordinate of the top left corner of this text column when drawn on the page.
      */
     public void setPosition(float x, float y) {
         setLocation(x, y);
     }
 
     /**
-     *  Sets the position of this text column on the page.
+     * Sets the position of this text column on the page.
      *
-     *  @param x the x coordinate of the top left corner of this text column when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this text column when drawn on the page.
+     * @param x the x coordinate of the top left corner of this text column when drawn on the page.
+     * @param y the y coordinate of the top left corner of this text column when drawn on the page.
      */
     public void setPosition(double x, double y) {
         setLocation(x, y);
     }
 
     /**
-     *  Sets the position of this text column on the page.
+     * Sets the position of this text column on the page.
      *
-     *  @param x the x coordinate of the top left corner of this text column when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this text column when drawn on the page.
+     * @param x the x coordinate of the top left corner of this text column when drawn on the page.
+     * @param y the y coordinate of the top left corner of this text column when drawn on the page.
      */
     public void setLocation(float x, float y) {
         this.x = x;
@@ -97,30 +97,30 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Sets the position of this text column on the page.
+     * Sets the position of this text column on the page.
      *
-     *  @param x the x coordinate of the top left corner of this text column when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this text column when drawn on the page.
+     * @param x the x coordinate of the top left corner of this text column when drawn on the page.
+     * @param y the y coordinate of the top left corner of this text column when drawn on the page.
      */
     public void setLocation(double x, double y) {
         setLocation((float) x, (float) y);
     }
 
     /**
-     *  Sets the size of this text column.
+     * Sets the size of this text column.
      *
-     *  @param w the width of this text column.
-     *  @param h the height of this text column.
+     * @param w the width of this text column.
+     * @param h the height of this text column.
      */
     public void setSize(double w, double h) {
         setSize((float) w, (float) h);
     }
 
     /**
-     *  Sets the size of this text column.
+     * Sets the size of this text column.
      *
-     *  @param w the width of this text column.
-     *  @param h the height of this text column.
+     * @param w the width of this text column.
+     * @param h the height of this text column.
      */
     public void setSize(float w, float h) {
         this.w = w;
@@ -128,9 +128,9 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Sets the desired width of this text column.
+     * Sets the desired width of this text column.
      *
-     *  @param w the width of this text column.
+     * @param w the width of this text column.
      */
     public void setWidth(float w) {
         this.w = w;
@@ -145,44 +145,43 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Sets the text alignment.
+     * Sets the text alignment.
      *
-     *  @param alignment the specified alignment code. Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
+     * @param alignment the specified alignment code. Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
      */
     public void setAlignment(int alignment) {
         this.alignment = alignment;
     }
 
     /**
-     *  Sets the spacing between the lines in this text column.
+     * Sets the spacing between the lines in this text column.
      *
-     *  @param spacing the specified spacing value.
+     * @param spacing the specified spacing value.
      */
     public void setLineSpacing(double lineSpacing) {
         this.lineSpacing = (float) lineSpacing;
     }
 
     /**
-     *  Sets the spacing between the lines in this text column.
+     * Sets the spacing between the lines in this text column.
      *
-     *  @param spacing the specified spacing value.
+     * @param spacing the specified spacing value.
      */
     public void setLineSpacing(float lineSpacing) {
         this.lineSpacing = lineSpacing;
     }
 
     /**
-     *  Adds a new paragraph to this text column.
+     * Adds a new paragraph to this text column.
      *
-     *  @param paragraph the new paragraph object.
+     * @param paragraph the new paragraph object.
      */
     public void addParagraph(Paragraph paragraph) {
         this.paragraphs.add(paragraph);
     }
 
     /**
-     *  Removes the last paragraph added to this text column.
-     *
+     * Removes the last paragraph added to this text column.
      */
     public void removeLastParagraph() {
         if (this.paragraphs.size() >= 1) {
@@ -191,11 +190,11 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Returns dimension object containing the width and height of this component.
-     *  Please see Example_29.
+     * Returns dimension object containing the width and height of this component.
+     * Please see Example_29.
      *
-     *  @return dimension object containing the width and height of this component.
-     *  @throws Exception  If an input or output exception occurred
+     * @return dimension object containing the width and height of this component.
+     * @throws Exception  If an input or output exception occurred
      */
     public Dimension getSize() throws Exception {
         float[] xy = drawOn(null);
@@ -203,11 +202,11 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Draws this text column on the specified page if the 'draw' boolean value is 'true'.
+     * Draws this text column on the specified page if the 'draw' boolean value is 'true'.
      *
-     *  @param page the page to draw this text column on.
-     *  @return the point with x and y coordinates of the location where to draw the next component.
-     *  @throws Exception  If an input or output exception occurred
+     * @param page the page to draw this text column on.
+     * @return the point with x and y coordinates of the location where to draw the next component.
+     * @throws Exception  If an input or output exception occurred
      */
     public float[] drawOn(Page page) throws Exception {
         float[] xy = null;
@@ -421,10 +420,10 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Adds a new paragraph with Chinese text to this text column.
+     * Adds a new paragraph with Chinese text to this text column.
      *
-     *  @param font the font used by this paragraph.
-     *  @param chinese the Chinese text.
+     * @param font the font used by this paragraph.
+     * @param chinese the Chinese text.
      */
     public void addChineseParagraph(Font font, String chinese) {
         Paragraph paragraph;
@@ -445,10 +444,10 @@ public class TextColumn implements Drawable {
     }
 
     /**
-     *  Adds a new paragraph with Japanese text to this text column.
+     * Adds a new paragraph with Japanese text to this text column.
      *
-     *  @param font the font used by this paragraph.
-     *  @param japanese the Japanese text.
+     * @param font the font used by this paragraph.
+     * @param japanese the Japanese text.
      */
     public void addJapaneseParagraph(Font font, String japanese) {
         addChineseParagraph(font, japanese);

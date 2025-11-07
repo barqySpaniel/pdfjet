@@ -174,11 +174,11 @@ public class SVGImage {
     }
 
     /**
-     *  Sets the location of this SVG on the page.
+     * Sets the location of this SVG on the page.
      *
-     *  @param x the x coordinate of the top left corner of this box when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this box when drawn on the page.
-     *  @return this SVG object.
+     * @param x the x coordinate of the top left corner of this box when drawn on the page.
+     * @param y the y coordinate of the top left corner of this box when drawn on the page.
+     * @return this SVG object.
      */
     public SVGImage setLocation(float x, float y) {
         this.x = x;
