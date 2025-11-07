@@ -25,7 +25,7 @@ public class TextFrame implements Drawable {
     private final List<float[]> beginParagraphPoints;
 
     public TextFrame(List<TextLine> lines) {
-        this.lines = new ArrayList<TextLine>(lines);
+        this.lines = lines;
         this.font = lines.get(0).getFont();
         this.fallbackFont = lines.get(0).getFallbackFont();
         this.leading = font.getBodyHeight();
