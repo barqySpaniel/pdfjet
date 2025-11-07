@@ -12,7 +12,7 @@ import java.util.*;
  * Please see Example_47
  */
 public class TextFrame implements Drawable {
-    private List<TextLine> paragraphs;
+    private List<TextLine> lines;
     private final Font font;
     private final Font fallbackFont;
     private float x;
@@ -24,14 +24,14 @@ public class TextFrame implements Drawable {
     private boolean border;
     private final List<float[]> beginParagraphPoints;
 
-    public TextFrame(List<TextLine> paragraphs) {
-        this.paragraphs = new ArrayList<TextLine>(paragraphs);
-        this.font = paragraphs.get(0).getFont();
-        this.fallbackFont = paragraphs.get(0).getFallbackFont();
+    public TextFrame(List<TextLine> lines) {
+        this.lines = new ArrayList<TextLine>(lines);
+        this.font = lines.get(0).getFont();
+        this.fallbackFont = lines.get(0).getFallbackFont();
         this.leading = font.getBodyHeight();
         this.paragraphLeading = 2*leading;
         this.beginParagraphPoints = new ArrayList<float[]>();
-        Collections.reverse(this.paragraphs);
+        Collections.reverse(this.lines);
     }
 
     public TextFrame setLocation(float x, float y) {
@@ -84,12 +84,12 @@ public class TextFrame implements Drawable {
         return setParagraphLeading((float) paragraphLeading);
     }
 
-    public void setParagraphs(List<TextLine> paragraphs) {
-        this.paragraphs = paragraphs;
+    public void setParagraphs(List<TextLine> lines) {
+        this.lines = lines;
     }
 
     public List<TextLine> getParagraphs() {
-        return this.paragraphs;
+        return this.lines;
     }
 
     public List<float[]> getBeginParagraphPoints() {
@@ -107,9 +107,9 @@ public class TextFrame implements Drawable {
     public float[] drawOn(Page page) throws Exception {
         float xText = x;
         float yText = y + font.ascent;
-        while (paragraphs.size() > 0) {
-            // The paragraphs are reversed so we can efficiently remove the first one:
-            TextLine textLine = paragraphs.remove(paragraphs.size() - 1);
+        while (lines.size() > 0) {
+            // The lines are reversed so we can efficiently remove the first one:
+            TextLine textLine = lines.remove(lines.size() - 1);
             textLine.setLocation(xText, yText);
             beginParagraphPoints.add(new float[] {xText, yText});
             while (true) {
@@ -119,8 +119,8 @@ public class TextFrame implements Drawable {
                 }
                 yText = textLine.advance(leading);
                 if (yText + font.descent >= (y + h)) {
-                    // The paragraphs are reversed so we can efficiently add new first paragraph:
-                    paragraphs.add(textLine);
+                    // The text lines are reversed so we can efficiently add new lines:
+                    lines.add(textLine);
                     drawBorder(page);
                     return new float[] {this.x + this.w, this.y + this.h};
                 }
@@ -161,6 +161,6 @@ public class TextFrame implements Drawable {
     }
 
     public boolean isNotEmpty() {
-        return paragraphs.size() > 0;
+        return lines.size() > 0;
     }
 }   // End of TextFrame.java
