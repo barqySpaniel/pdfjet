@@ -16,7 +16,7 @@ public class PDF {
     var destinations = [String : Destination]()
     var groups = [OptionalContentGroup]()
     var states = [String : Int]()
-    var compliance = Compliance.PDF_15
+    var compliance = Compliance.PDF_17
     var toc: Bookmark?
     var importedFonts = [String]()
     var extGState = ""
@@ -60,7 +60,7 @@ public class PDF {
     /// - Parameter os the associated output stream.
     ///
     public convenience init(_ os: OutputStream) {
-        self.init(os, Compliance.PDF_15)
+        self.init(os, Compliance.PDF_17)
     }
 
     /// Here is the layout of the PDF document:
@@ -376,7 +376,7 @@ public class PDF {
         append("/Type /Pages\n")
         append("/Kids [\n")
         for page in pages {
-            if compliance != Compliance.PDF_15 {
+            if compliance != Compliance.PDF_17 {
                 page.setStructElementsPageObjNumber(page.objNumber)
             }
             append(page.objNumber)
@@ -531,7 +531,7 @@ public class PDF {
         newobj()
         append(Token.beginDictionary)
         append("/Type /Catalog\n")
-        if compliance != Compliance.PDF_15 {
+        if compliance != Compliance.PDF_17 {
             append("/Lang (")
             append(language)
             append(")\n")
@@ -564,7 +564,7 @@ public class PDF {
         append(pagesObjNumber)
         append(Token.objRef)
 
-        if compliance != Compliance.PDF_15 {
+        if compliance != Compliance.PDF_17 {
             append("/Metadata ")
             append(metadataObjNumber)
             append(Token.objRef)
@@ -669,7 +669,7 @@ public class PDF {
                 }
                 buffer.append("]\n")
             }
-            if compliance != Compliance.PDF_15 {
+            if compliance != Compliance.PDF_17 {
                 buffer.append("/Tabs /S\n")
                 buffer.append("/StructParents ")
                 buffer.append(String(i))
@@ -855,7 +855,7 @@ public class PDF {
         if prevPage != nil {
             addPageContent(prevPage!)
         }
-        if compliance != Compliance.PDF_15 {
+        if compliance != Compliance.PDF_17 {
             metadataObjNumber = addMetadataObject("", false)
             outputIntentObjNumber = addOutputIntentObject()
         }
@@ -866,7 +866,7 @@ public class PDF {
         }
 
         var structTreeRootObjNumber = 0
-        if compliance != Compliance.PDF_15 {
+        if compliance != Compliance.PDF_17 {
             addStructElementObjects();
             structTreeRootObjNumber = addStructTreeRootObject();
             addNumsParentTree();
