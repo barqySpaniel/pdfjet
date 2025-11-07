@@ -7,9 +7,8 @@
 import Foundation
 
 /**
- *  Used to create table cell objects.
- *  See the Table class for more information.
- *
+ * Used to create table cell objects.
+ * See the Table class for more information.
  */
 public class Cell {
     var font: Font?
@@ -18,6 +17,8 @@ public class Cell {
     var image: Image?
     var barcode: Barcode?
     var textBox: TextBox?
+    var textBlock: TextBlock?
+    var textColumn: TextColumn?
     var point: Point?
     var compositeTextLine: CompositeTextLine?
     var width: Float = 50.0
@@ -50,19 +51,19 @@ public class Cell {
     private var valign = Align.TOP
 
     /**
-     *  Creates a cell object and sets the font.
+     * Creates a cell object and sets the font.
      *
-     *  @param font the font.
+     * @param font the font.
      */
     public init(_ font: Font?) {
         self.font = font
     }
 
     /**
-     *  Creates a cell object and sets the font and the cell text.
+     * Creates a cell object and sets the font and the cell text.
      *
-     *  @param font the font.
-     *  @param text the text.
+     * @param font the font.
+     * @param text the text.
      */
     public init(_ font: Font?, _ text: String?) {
         self.font = font
@@ -70,11 +71,11 @@ public class Cell {
     }
 
     /**
-     *  Creates a cell object and sets the font, fallback font and the cell text.
+     * Creates a cell object and sets the font, fallback font and the cell text.
      *
-     *  @param font the font.
-     *  @param fallbackFont the fallback font.
-     *  @param text the text.
+     * @param font the font.
+     * @param fallbackFont the fallback font.
+     * @param text the text.
      */
     public init(_ font: Font?, _ fallbackFont: Font?, _ text: String?) {
         self.font = font
@@ -83,45 +84,45 @@ public class Cell {
     }
 
     /**
-     *  Sets the font for this cell.
+     * Sets the font for this cell.
      *
-     *  @param font the font.
+     * @param font the font.
      */
     public func setFont(_ font: Font?) {
         self.font = font
     }
 
     /**
-     *  Sets the fallback font for this cell.
+     * Sets the fallback font for this cell.
      *
-     *  @param fallbackFont the fallback font.
+     * @param fallbackFont the fallback font.
      */
     public func setFallbackFont(_ fallbackFont: Font?) {
         self.fallbackFont = fallbackFont
     }
 
     /**
-     *  Returns the font used by this cell.
+     * Returns the font used by this cell.
      *
-     *  @return the font.
+     * @return the font.
      */
     public func getFont() -> Font? {
         return self.font
     }
 
     /**
-     *  Returns the fallback font used by this cell.
+     * Returns the fallback font used by this cell.
      *
-     *  @return the fallback font.
+     * @return the fallback font.
      */
     public func getFallbackFont() -> Font? {
         return self.fallbackFont
     }
 
     /**
-     *  Sets the cell text.
+     * Sets the cell text.
      *
-     *  @param text the cell text.
+     * @param text the cell text.
      */
     @discardableResult
     public func setText(_ text: String?) -> Cell {
@@ -130,18 +131,18 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell text.
+     * Returns the cell text.
      *
-     *  @return the cell text.
+     * @return the cell text.
      */
     public func getText() -> String? {
         return self.text
     }
 
     /**
-     *  Sets the image inside this cell.
+     * Sets the image inside this cell.
      *
-     *  @param image the image.
+     * @param image the image.
      */
     public func setImage(_ image: Image?) {
         self.image = image
@@ -149,9 +150,9 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell image.
+     * Returns the cell image.
      *
-     *  @return the image.
+     * @return the image.
      */
     public func getImage() -> Image? {
         return self.image
@@ -167,10 +168,10 @@ public class Cell {
     }
 
     /**
-     *  Sets the point inside this cell.
-     *  See the Point class and Example_09 for more information.
+     * Sets the point inside this cell.
+     * See the Point class and Example_09 for more information.
      *
-     *  @param point the point.
+     * @param point the point.
      */
     @discardableResult
     public func setPoint(_ point: Point?) -> Cell {
@@ -179,9 +180,9 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell point.
+     * Returns the cell point.
      *
-     *  @return the point.
+     * @return the point.
      */
     public func getPoint() -> Point? {
         return self.point
@@ -206,9 +207,9 @@ public class Cell {
     }
 
     /**
-     *  Sets the width of this cell.
+     * Sets the width of this cell.
      *
-     *  @param width the specified width.
+     * @param width the specified width.
      */
     public func setWidth(_ width: Float) {
         self.width = width
@@ -218,54 +219,54 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell width.
+     * Returns the cell width.
      *
-     *  @return the cell width.
+     * @return the cell width.
      */
     public func getWidth() -> Float {
         return self.width
     }
 
     /**
-     *  Sets the top padding of this cell.
+     * Sets the top padding of this cell.
      *
-     *  @param padding the top padding.
+     * @param padding the top padding.
      */
     public func setTopPadding(_ padding: Float) {
         self.topPadding = padding
     }
 
     /**
-     *  Sets the bottom padding of this cell.
+     * Sets the bottom padding of this cell.
      *
-     *  @param padding the bottom padding.
+     * @param padding the bottom padding.
      */
     public func setBottomPadding(_ padding: Float) {
         self.bottomPadding = padding
     }
 
     /**
-     *  Sets the left padding of this cell.
+     * Sets the left padding of this cell.
      *
-     *  @param padding the left padding.
+     * @param padding the left padding.
      */
     public func setLeftPadding(_ padding: Float) {
         self.leftPadding = padding
     }
 
     /**
-     *  Sets the right padding of this cell.
+     * Sets the right padding of this cell.
      *
-     *  @param padding the right padding.
+     * @param padding the right padding.
      */
     public func setRightPadding(_ padding: Float) {
         self.rightPadding = padding
     }
 
     /**
-     *  Sets the top, bottom, left and right paddings of this cell.
+     * Sets the top, bottom, left and right paddings of this cell.
      *
-     *  @param padding the right padding.
+     * @param padding the right padding.
      */
     public func setPadding(_ padding: Float) {
         self.topPadding = padding
@@ -275,9 +276,9 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell height.
+     * Returns the cell height.
      *
-     *  @return the cell height.
+     * @return the cell height.
      */
     public func getHeight(_ width: Float) -> Float {
         var cellHeight = Float(0.0)
@@ -317,50 +318,48 @@ public class Cell {
     }
 
     /**
-     *  Sets the background to the specified color.
+     * Sets the background to the specified color.
      *
-     *  @param color the color specified as 0xRRGGBB integer.
+     * @param color the color specified as 0xRRGGBB integer.
      */
     public func setBgColor(_ color: Int32?) {
         self.background = color
     }
 
     /**
-     *  Returns the background color of this cell.
-     *
+     * Returns the background color of this cell.
      */
     public func getBgColor() -> Int32? {
         return self.background
     }
 
     /**
-     *  Sets the pen color.
+     * Sets the pen color.
      *
-     *  @param color the color specified as 0xRRGGBB integer.
+     * @param color the color specified as 0xRRGGBB integer.
      */
     public func setPenColor(_ color: Int32) {
         self.pen = color
     }
 
     /**
-     *  Returns the pen color.
-     *
+     * Returns the pen color.
      */
     public func getPenColor() -> Int32 {
         return pen
     }
 
     /**
-     *  Sets the brush color.
+     * Sets the brush color.
      *
-     *  @param color the color specified as 0xRRGGBB integer.
+     * @param color the color specified as 0xRRGGBB integer.
      */
     public func setBrushColor(_ color: Int32) {
         self.brush = color
     }
 
     /**
-     *  Returns the brush color.
+     * Returns the brush color.
      *
      * @return the brush color.
      */
@@ -369,9 +368,9 @@ public class Cell {
     }
 
     /**
-     *  Sets the pen and brush colors to the specified color.
+     * Sets the pen and brush colors to the specified color.
      *
-     *  @param color the color specified as 0xRRGGBB integer.
+     * @param color the color specified as 0xRRGGBB integer.
      */
     public func setFgColor(_ color: Int32) {
         self.pen = color
@@ -387,9 +386,9 @@ public class Cell {
     }
 
     /**
-     *  Sets the column span private variable.
+     * Sets the column span private variable.
      *
-     *  @param colspan the specified column span value.
+     * @param colspan the specified column span value.
      */
     public func setColSpan(_ colspan: UInt32) {
         self.properties &= 0x00FF0000
@@ -397,18 +396,18 @@ public class Cell {
     }
 
     /**
-     *  Returns the column span private variable value.
+     * Returns the column span private variable value.
      *
-     *  @return the column span value.
+     * @return the column span value.
      */
     public func getColSpan() -> UInt32 {
         return (self.properties & 0x0000FFFF)
     }
 
     /**
-     *  Sets the cell border object.
+     * Sets the cell border object.
      *
-     *  @param border the border object.
+     * @param border the border object.
      */
     public func setBorder(_ border: UInt32, _ visible: Bool) {
         if visible {
@@ -419,16 +418,16 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell border object.
+     * Returns the cell border object.
      *
-     *  @return the cell border object.
+     * @return the cell border object.
      */
     public func getBorder(_ border: UInt32) -> Bool {
         return (self.properties & border) != 0
     }
 
     /**
-     *  Sets all cell borders.
+     * Sets all cell borders.
      */
     public func setBorders(_ borders: Bool) {
         if borders {
@@ -439,10 +438,10 @@ public class Cell {
     }
 
     /**
-     *  Sets the cell text alignment.
+     * Sets the cell text alignment.
      *
-     *  @param alignment the alignment code.
-     *  Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
+     * @param alignment the alignment code.
+     * Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
      */
     public func setTextAlignment(_ alignment: UInt32) {
         self.properties &= 0x00CFFFFF
@@ -450,38 +449,38 @@ public class Cell {
     }
 
     /**
-     *  Returns the text alignment.
+     * Returns the text alignment.
      *
-     *  @return the text horizontal alignment code.
+     * @return the text horizontal alignment code.
      */
     public func getTextAlignment() -> UInt32{
         return (self.properties & 0x00300000)
     }
 
     /**
-     *  Sets the cell text vertical alignment.
+     * Sets the cell text vertical alignment.
      *
-     *  @param alignment the alignment code.
-     *  Supported values: Align.TOP, Align.CENTER and Align.BOTTOM.
+     * @param alignment the alignment code.
+     * Supported values: Align.TOP, Align.CENTER and Align.BOTTOM.
      */
     public func setVerTextAlignment(_ alignment: UInt32) {
         self.valign = alignment
     }
 
     /**
-     *  Returns the cell text vertical alignment.
+     * Returns the cell text vertical alignment.
      *
-     *  @return the vertical alignment code.
+     * @return the vertical alignment code.
      */
     public func getVerTextAlignment() -> UInt32 {
         return self.valign
     }
 
     /**
-     *  Sets the underline text parameter.
-     *  If the value of the underline variable is 'true' - the text is underlined.
+     * Sets the underline text parameter.
+     * If the value of the underline variable is 'true' - the text is underlined.
      *
-     *  @param underline the underline text parameter.
+     * @param underline the underline text parameter.
      */
     public func setUnderline(_ underline: Bool) {
         if underline {
@@ -527,8 +526,7 @@ public class Cell {
     }
 
     /**
-     *  Draws the point, text and borders of this cell.
-     *
+     * Draws the point, text and borders of this cell.
      */
     func drawOn(
             _ page: Page,
