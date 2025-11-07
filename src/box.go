@@ -86,7 +86,7 @@ func (box *Box) SetLineWidth(width float32) {
 	box.width = width
 }
 
-// SetCornerRadius sets the corner radious.
+// SetCornerRadius sets the corner radius.
 // @param width the width.
 func (box *Box) SetCornerRadius(r float32) {
 	box.r = r
@@ -168,7 +168,7 @@ func (box *Box) PlaceIn(box2 *Box, xOffset, yOffset float32) {
 	box.y = box2.y + yOffset
 }
 
-// ScaleBy scales this box by the spacified factor.
+// ScaleBy scales this box by the specified factor.
 // @param factor the factor used to scale the box.
 func (box *Box) ScaleBy(factor float32) {
 	box.x *= factor
@@ -205,20 +205,20 @@ func (box *Box) DrawOn(page *Page) []float32 {
 		points = append(points, NewPoint(box.x+box.r, box.y))
 		points = append(points, NewPoint((box.x+box.w)-box.r, box.y))
 		points = append(points, NewControlPointC(((box.x+box.w)-box.r)+box.r*k, box.y))
-		points = append(points, NewControlPointC((box.x+box.w), (box.y+box.r)-box.r*k))
-		points = append(points, NewPoint((box.x+box.w), (box.y+box.r)))
-		points = append(points, NewPoint((box.x+box.w), (box.y+box.h)-box.r))
-		points = append(points, NewControlPointC((box.x+box.w), ((box.y+box.h)-box.r)+box.r*k))
-		points = append(points, NewControlPointC(((box.x+box.w)-box.r)+box.r*k, (box.y+box.h)))
-		points = append(points, NewPoint(((box.x+box.w)-box.r), (box.y+box.h)))
-		points = append(points, NewPoint((box.x+box.r), (box.y+box.h)))
-		points = append(points, NewControlPointC(((box.x+box.r)-box.r*k), (box.y+box.h)))
+		points = append(points, NewControlPointC(box.x+box.w, (box.y+box.r)-box.r*k))
+		points = append(points, NewPoint(box.x+box.w, box.y+box.r))
+		points = append(points, NewPoint(box.x+box.w, (box.y+box.h)-box.r))
+		points = append(points, NewControlPointC(box.x+box.w, ((box.y+box.h)-box.r)+box.r*k))
+		points = append(points, NewControlPointC(((box.x+box.w)-box.r)+box.r*k, box.y+box.h))
+		points = append(points, NewPoint((box.x+box.w)-box.r, box.y+box.h))
+		points = append(points, NewPoint(box.x+box.r, box.y+box.h))
+		points = append(points, NewControlPointC((box.x+box.r)-box.r*k, box.y+box.h))
 		points = append(points, NewControlPointC(box.x, ((box.y+box.h)-box.r)+box.r*k))
 		points = append(points, NewPoint(box.x, (box.y+box.h)-box.r))
-		points = append(points, NewPoint(box.x, (box.y+box.r)))
+		points = append(points, NewPoint(box.x, box.y+box.r))
 		points = append(points, NewControlPointC(box.x, (box.y+box.r)-box.r*k))
 		points = append(points, NewControlPointC((box.x+box.r)-box.r*k, box.y))
-		points = append(points, NewPoint((box.x+box.r), box.y))
+		points = append(points, NewPoint(box.x+box.r, box.y))
 
 		page.DrawPath(points, operator.Stroke)
 	}
