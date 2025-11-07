@@ -30,9 +30,12 @@ public class TextFrame implements Drawable {
         this.font = lines.get(0).getFont();
         this.fallbackFont = lines.get(0).getFallbackFont();
         this.fontSize = font.size;
-        this.leading = font.getBodyHeight();
+        this.leading = font.getBodyHeight(fontSize);
         this.paragraphLeading = 2*leading;
         this.beginParagraphPoints = new ArrayList<float[]>();
+        if (fallbackFont != null && (fallbackFont.getBodyHeight(fontSize) > this.leading)) {
+            this.leading = fallbackFont.getBodyHeight(fontSize);
+        }
         Collections.reverse(this.lines);
     }
 
