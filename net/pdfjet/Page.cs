@@ -10,15 +10,14 @@ using System.Text;
 using System.Collections.Generic;
 
 /**
- *  Used to create PDF page objects.
+ * Used to create PDF page objects.
  *
- *  Please note:
- *  <pre>
- *  The coordinate (0.0f, 0.0f) is the top left corner of the page.
- *  The size of the pages are represented in points.
- *  1 point is 1/72 inches.
- *  </pre>
- *
+ * Please note:
+ * <pre>
+ * The coordinate (0.0f, 0.0f) is the top left corner of the page.
+ * The size of the pages are represented in points.
+ * 1 point is 1/72 inches.
+ * </pre>
  */
 namespace PDFjet.NET {
 public class Page {
@@ -65,34 +64,34 @@ public class Page {
     private int mcid;
 
     /**
-     *  Creates page object and add it to the PDF document.
+     * Creates page object and add it to the PDF document.
      *
-     *  Please note:
-     *  <pre>
-     *  The coordinate (0.0, 0.0) is the top left corner of the page.
-     *  The size of the pages are represented in points.
-     *  1 point is 1/72 inches.
-     *  </pre>
+     * Please note:
+     * <pre>
+     * The coordinate (0.0, 0.0) is the top left corner of the page.
+     * The size of the pages are represented in points.
+     * 1 point is 1/72 inches.
+     * </pre>
      *
-     *  @param pdf the pdf object.
-     *  @param pageSize the page size of this page.
+     * @param pdf the pdf object.
+     * @param pageSize the page size of this page.
      */
     public Page(PDF pdf, float[] pageSize) : this(pdf, pageSize, true) {
     }
 
     /**
-     *  Creates page object and add it to the PDF document.
+     * Creates page object and add it to the PDF document.
      *
-     *  Please note:
-     *  <pre>
-     *  The coordinate (0.0, 0.0) is the top left corner of the page.
-     *  The size of the pages are represented in points.
-     *  1 point is 1/72 inches.
-     *  </pre>
+     * Please note:
+     * <pre>
+     * The coordinate (0.0, 0.0) is the top left corner of the page.
+     * The size of the pages are represented in points.
+     * 1 point is 1/72 inches.
+     * </pre>
      *
-     *  @param pdf the pdf object.
-     *  @param pageSize the page size of this page.
-     *  @param addPageToPDF bool flag.
+     * @param pdf the pdf object.
+     * @param pageSize the page size of this page.
+     * @param addPageToPDF bool flag.
      */
     public Page(PDF pdf, float[] pageSize, bool addPageToPDF) {
         this.pdf = pdf;
@@ -168,13 +167,13 @@ public class Page {
     }
 
     /**
-     *  Adds destination to this page.
+     * Adds destination to this page.
      *
-     *  @param name The destination name.
-     *  @param xPosition The horizontal position of the destination on this page.
-     *  @param yPosition The vertical position of the destination on this page.
+     * @param name The destination name.
+     * @param xPosition The horizontal position of the destination on this page.
+     * @param yPosition The vertical position of the destination on this page.
      *
-     *  @return the destination.
+     * @return the destination.
      */
     public Destination AddDestination(String name, float xPosition, float yPosition) {
         Destination dest = new Destination(name, xPosition, height - yPosition);
@@ -183,12 +182,11 @@ public class Page {
     }
 
     /**
-     *  Adds destination to this page.
+     * Adds destination to this page.
      *
-     *  @param name The destination name.
-     *  @param yPosition The vertical position of the destination on this page.
-     *
-     *  @return the destination.
+     * @param name The destination name.
+     * @param yPosition The vertical position of the destination on this page.
+     * @return the destination.
      */
     public Destination AddDestination(String name, float yPosition) {
         Destination dest = new Destination(name, 0f, height - yPosition);
@@ -308,18 +306,18 @@ public class Page {
     }
 
     /**
-     *  Returns the width of this page.
+     * Returns the width of this page.
      *
-     *  @return the width of the page.
+     * @return the width of the page.
      */
     public float GetWidth() {
         return width;
     }
 
     /**
-     *  Returns the height of this page.
+     * Returns the height of this page.
      *
-     *  @return the height of the page.
+     * @return the height of the page.
      */
     public float GetHeight() {
         return height;
@@ -330,12 +328,12 @@ public class Page {
     }
 
     /**
-     *  Draws a line on the page, using the current color, between the points (x1, y1) and (x2, y2).
+     * Draws a line on the page, using the current color, between the points (x1, y1) and (x2, y2).
      *
-     *  @param x1 the first point's x coordinate.
-     *  @param y1 the first point's y coordinate.
-     *  @param x2 the second point's x coordinate.
-     *  @param y2 the second point's y coordinate.
+     * @param x1 the first point's x coordinate.
+     * @param y1 the first point's y coordinate.
+     * @param x2 the second point's x coordinate.
+     * @param y2 the second point's y coordinate.
      */
     public void DrawLine(
             double x1,
@@ -373,16 +371,16 @@ public class Page {
     }
 
     /**
-     *  Draws the text given by the specified string,
-     *  using the specified Thai or Hebrew font and the current brush color.
-     *  If the font is missing some glyphs - the fallback font is used.
-     *  The baseline of the leftmost character is at position (x, y) on the page.
+     * Draws the text given by the specified string,
+     * using the specified Thai or Hebrew font and the current brush color.
+     * If the font is missing some glyphs - the fallback font is used.
+     * The baseline of the leftmost character is at position (x, y) on the page.
      *
-     *  @param font1 the Thai or Hebrew font.
-     *  @param font2 the fallback font.
-     *  @param str the string to be drawn.
-     *  @param x the x coordinate.
-     *  @param y the y coordinate.
+     * @param font1 the Thai or Hebrew font.
+     * @param font2 the fallback font.
+     * @param str the string to be drawn.
+     * @param x the x coordinate.
+     * @param y the y coordinate.
      */
     public void DrawString(
             Font font,
@@ -418,14 +416,14 @@ public class Page {
     }
 
     /**
-     *  Draws the text given by the specified string,
-     *  using the specified font and the current brush color.
-     *  The baseline of the leftmost character is at position (x, y) on the page.
+     * Draws the text given by the specified string,
+     * using the specified font and the current brush color.
+     * The baseline of the leftmost character is at position (x, y) on the page.
      *
-     *  @param font the font to use.
-     *  @param str the string to be drawn.
-     *  @param x the x coordinate.
-     *  @param y the y coordinate.
+     * @param font the font to use.
+     * @param str the string to be drawn.
+     * @param x the x coordinate.
+     * @param y the y coordinate.
      */
     public void DrawString(
             Font font,
@@ -446,14 +444,14 @@ public class Page {
     }
 
     /**
-     *  Draws the text given by the specified string,
-     *  using the specified font and the current brush color.
-     *  The baseline of the leftmost character is at position (x, y) on the page.
+     * Draws the text given by the specified string,
+     * using the specified font and the current brush color.
+     * The baseline of the leftmost character is at position (x, y) on the page.
      *
-     *  @param font the font to use.
-     *  @param str the string to be drawn.
-     *  @param x the x coordinate.
-     *  @param y the y coordinate.
+     * @param font the font to use.
+     * @param str the string to be drawn.
+     * @param x the x coordinate.
+     * @param y the y coordinate.
      */
     public void DrawString(
             Font font,
@@ -869,35 +867,35 @@ public class Page {
     }
 
     /**
-     *  Sets the line width to the default.
-     *  The default is the finest line width.
+     * Sets the line width to the default.
+     * The default is the finest line width.
      */
     public void SetDefaultStrokeWidth() {
         Append("0 w\n");
     }
 
     /**
-     *  The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
-     *  It is specified by a dash array and a dash phase.
-     *  The elements of the dash array are positive numbers that specify the lengths of
-     *  alternating dashes and gaps.
-     *  The dash phase specifies the distance into the dash pattern at which to start the dash.
-     *  The elements of both the dash array and the dash phase are expressed in user space units.
-     *  <pre>
-     *  Examples of line dash patterns:
+     * The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
+     * It is specified by a dash array and a dash phase.
+     * The elements of the dash array are positive numbers that specify the lengths of
+     * alternating dashes and gaps.
+     * The dash phase specifies the distance into the dash pattern at which to start the dash.
+     * The elements of both the dash array and the dash phase are expressed in user space units.
+     * <pre>
+     * Examples of line dash patterns:
      *
-     *      "[Array] Phase"     Appearance          Description
-     *      _______________     _________________   ____________________________________
+     *     "[Array] Phase"     Appearance          Description
+     *     _______________     _________________   ____________________________________
      *
-     *      "[] 0"              -----------------   Solid line
-     *      "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
-     *      "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
-     *      "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
-     *      "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
-     *      "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
-     *  </pre>
+     *     "[] 0"              -----------------   Solid line
+     *     "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
+     *     "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
+     *     "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
+     *     "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
+     *     "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
+     * </pre>
      *
-     *  @param pattern the line dash pattern.
+     * @param pattern the line dash pattern.
      */
     public void SetStrokePattern(String pattern) {
         this.strokePattern = pattern;
@@ -914,18 +912,18 @@ public class Page {
     }
 
     /**
-     *  Sets the pen width that will be used to draw lines and splines on this page.
+     * Sets the pen width that will be used to draw lines and splines on this page.
      *
-     *  @param width the pen width.
+     * @param width the pen width.
      */
     public void SetPenWidth(double width) {
         SetPenWidth((float) width);
     }
 
     /**
-     *  Sets the pen width that will be used to draw lines and splines on this page.
+     * Sets the pen width that will be used to draw lines and splines on this page.
      *
-     *  @param width the pen width.
+     * @param width the pen width.
      */
     public void SetPenWidth(float width) {
         this.penWidth = width;
@@ -938,10 +936,10 @@ public class Page {
     }
 
     /**
-     *  Sets the current line cap style.
+     * Sets the current line cap style.
      *
-     *  @param style the cap style of the current line.
-     *  Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
+     * @param style the cap style of the current line.
+     * Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
      */
     public void SetLineCapStyle(CapStyle style) {
         this.lineCapStyle = style;
@@ -950,10 +948,10 @@ public class Page {
     }
 
     /**
-     *  Sets the line join style.
+     * Sets the line join style.
      *
-     *  @param style the line join style code.
-     *  Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
+     * @param style the line join style code.
+     * Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
      */
     public void SetLineJoinStyle(JoinStyle style) {
         this.lineJoinStyle = style;
@@ -1178,13 +1176,13 @@ public class Page {
     }
 
     /**
-     *  Draws an ellipse on the page and fills it using the current brush color.
+     * Draws an ellipse on the page and fills it using the current brush color.
      *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param rx the horizontal radius of the ellipse to be drawn.
-     *  @param ry the vertical radius of the ellipse to be drawn.
-     *  @param operation must be: Operation.FILL
+     * @param x the x coordinate of the center of the ellipse to be drawn.
+     * @param y the y coordinate of the center of the ellipse to be drawn.
+     * @param rx the horizontal radius of the ellipse to be drawn.
+     * @param ry the vertical radius of the ellipse to be drawn.
+     * @param operation must be: Operation.FILL
      */
     public void DrawEllipse(
             float x,
@@ -1199,13 +1197,13 @@ public class Page {
     }
 
     /**
-     *  Draws an ellipse on the page and fills it using the current brush color.
+     * Draws an ellipse on the page and fills it using the current brush color.
      *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
-     *  @param operation the operation.
+     * @param x the x coordinate of the center of the ellipse to be drawn.
+     * @param y the y coordinate of the center of the ellipse to be drawn.
+     * @param r1 the horizontal radius of the ellipse to be drawn.
+     * @param r2 the vertical radius of the ellipse to be drawn.
+     * @param operation the operation.
      */
     internal void DrawEllipse(
             float x,
@@ -1243,9 +1241,9 @@ public class Page {
     }
 
     /**
-     *  Draws a point on the page using the current pen color.
+     * Draws a point on the page using the current pen color.
      *
-     *  @param p the point.
+     * @param p the point.
      */
     public void DrawPoint(Point p) {
         if (p.shape != Point.INVISIBLE) {
@@ -1324,9 +1322,9 @@ public class Page {
     }
 
     /**
-     *  Sets the text rendering mode.
+     * Sets the text rendering mode.
      *
-     *  @param mode the rendering mode.
+     * @param mode the rendering mode.
      */
     public void SetTextRenderingMode(int mode) {
         if (mode >= 0 && mode <= 7) {
@@ -1337,9 +1335,9 @@ public class Page {
     }
 
     /**
-     *  Sets the text direction.
+     * Sets the text direction.
      *
-     *  @param degrees the angle.
+     * @param degrees the angle.
      */
     public void SetTextDirection(int degrees) {
         if (degrees > 360) degrees %= 360;
@@ -1365,14 +1363,14 @@ public class Page {
     }
 
     /**
-     *  Draws a cubic bezier curve starting from the current point to the end point p3
+     * Draws a cubic bezier curve starting from the current point to the end point p3
      *
-     *  @param x1 first control point x
-     *  @param y1 first control point y
-     *  @param x2 second control point x
-     *  @param y2 second control point y
-     *  @param x3 end point x
-     *  @param y3 end point y
+     * @param x1 first control point x
+     * @param y1 first control point y
+     * @param x2 second control point x
+     * @param y2 second control point y
+     * @param x3 end point x
+     * @param y3 end point y
      */
     public void CurveTo(
             float x1, float y1, float x2, float y2, float x3, float y3) {
@@ -1449,14 +1447,14 @@ public class Page {
     }
 
     /**
-     *  Draws a bezier curve starting from the current point.
-     *  <strong>Please note:</strong> You must call the StrokePath,
-     *  ClosePath or FillPath methods after the last BezierCurveTo call.
-     *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
+     * Draws a bezier curve starting from the current point.
+     * <strong>Please note:</strong> You must call the StrokePath,
+     * ClosePath or FillPath methods after the last BezierCurveTo call.
+     * <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
      *
-     *  @param p1 this first control point.
-     *  @param p2 this second control point.
-     *  @param p3 this end point.
+     * @param p1 this first control point.
+     * @param p2 this second control point.
+     * @param p3 this end point.
      */
     public void BezierCurveTo(Point p1, Point p2, Point p3) {
         Append(p1);
@@ -1536,7 +1534,7 @@ public class Page {
     }
 
     /**
-     *  Clips the path.
+     * Clips the path.
      */
     public void ClipPath() {
         Append("W\n");
@@ -1562,7 +1560,7 @@ public class Page {
     }
 
     /**
-     *  Saves the graphics state. Please see Example_31.
+     * Saves the graphics state. Please see Example_31.
      */
     public void SaveGraphicsState() {
         Append("q\n");
@@ -1571,9 +1569,9 @@ public class Page {
     }
 
     /**
-     *  Sets the graphics state. Please see Example_31.
+     * Sets the graphics state. Please see Example_31.
      *
-     *  @param gs the graphics state to use.
+     * @param gs the graphics state to use.
      */
     public void SetGraphicsState(GraphicsState gs) {
         StringBuilder sb = new StringBuilder();
@@ -1596,7 +1594,7 @@ public class Page {
     }
 
     /**
-     *  Restores the graphics state. Please see Example_31.
+     * Restores the graphics state. Please see Example_31.
      */
     public void RestoreGraphicsState() {
         Append("Q\n");
@@ -1835,10 +1833,10 @@ public class Page {
     }
 
     /**
-     *  Sets the text location.
+     * Sets the text location.
      *
-     *  @param x the x coordinate of new text location.
-     *  @param y the y coordinate of new text location.
+     * @param x the x coordinate of new text location.
+     * @param y the y coordinate of new text location.
      */
     internal void SetTextLocation(float x, float y) {
         Append(x);
@@ -1848,8 +1846,8 @@ public class Page {
     }
 
     /**
-     *  Sets the text leading.
-     *  @param leading the leading.
+     * Sets the text leading.
+     * @param leading the leading.
      */
     internal void SetTextLeading(float leading) {
         Append(leading);
@@ -1857,7 +1855,7 @@ public class Page {
     }
 
     /**
-     *  Advance to the next line.
+     * Advance to the next line.
      */
     internal void NextLine() {
         Append("T*\n");
@@ -1874,8 +1872,8 @@ public class Page {
     }
 
     /**
-     *  Draws a string at the specified location.
-     *  @param str the string.
+     * Draws a string at the specified location.
+     * @param str the string.
      */
     internal void DrawText(String str) {
         if (font.isCoreFont) {

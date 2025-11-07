@@ -6,8 +6,7 @@
  */
 
 /**
- *  Used to specify the check mark in CheckBox.
- *
+ * Used to specify the check mark in CheckBox.
  */
 namespace PDFjet.NET {
 public class Mark {
