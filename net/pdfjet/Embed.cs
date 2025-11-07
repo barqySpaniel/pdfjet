@@ -6,9 +6,8 @@
  */
 
 /**
- *  Used to specify if TrueType or OpenType font should be embedded in the PDF document.
- *  See the Font class for more details.
- *
+ * Used to specify if TrueType or OpenType font should be embedded in the PDF document.
+ * See the Font class for more details.
  */
 namespace PDFjet.NET {
 public class Embed {

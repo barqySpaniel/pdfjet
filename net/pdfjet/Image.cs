@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.Text;
 
 /**
- *  Used to create image objects and draw them on a page.
- *  The image type can be one of the following: ImageType.JPG, ImageType.PNG or ImageType.BMP
+ * Used to create image objects and draw them on a page.
+ * The image type can be one of the following: ImageType.JPG, ImageType.PNG or ImageType.BMP
  *
- *  Please see Example_03 and Example_24.
+ * Please see Example_03 and Example_24.
  */
 namespace PDFjet.NET {
 public class Image : IDrawable {
@@ -31,11 +31,10 @@ public class Image : IDrawable {
     private String actualText = null;
 
     /**
-     *  Convenience constructor for the Image class.
+     * Convenience constructor for the Image class.
      *
-     *  @param pdf the PDF to which we add this image.
-     *  @param filePath the file path to the image file.
-     *
+     * @param pdf the PDF to which we add this image.
+     * @param filePath the file path to the image file.
      */
     public Image(PDF pdf, String filePath) : this(pdf, new FileStream(filePath, FileMode.Open, FileAccess.Read),
             filePath.ToLower().EndsWith(".png") ? ImageType.PNG :
@@ -43,12 +42,11 @@ public class Image : IDrawable {
     }
 
     /**
-     *  The main constructor for the Image class.
+     * The main constructor for the Image class.
      *
-     *  @param pdf the page to draw this image on.
-     *  @param inputStream the input stream to read the image from.
-     *  @param imageType ImageType.JPG, ImageType.PNG or ImageType.BMP.
-     *
+     * @param pdf the page to draw this image on.
+     * @param inputStream the input stream to read the image from.
+     * @param imageType ImageType.JPG, ImageType.PNG or ImageType.BMP.
      */
     public Image(PDF pdf, Stream inputStream, int imageType) {
         byte[] data;
@@ -103,12 +101,11 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Constructor used to attach images to existing PDF.
+     * Constructor used to attach images to existing PDF.
      *
-     *  @param pdf the page to draw this image on.
-     *  @param inputStream the input stream to read the image from.
-     *  @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
-     *
+     * @param pdf the page to draw this image on.
+     * @param inputStream the input stream to read the image from.
+     * @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
      */
     public Image(List<PDFobj> objects, Stream inputStream, int imageType) {
         byte[] data;
@@ -199,20 +196,20 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Sets the position of this image on the page to (x, y).
+     * Sets the position of this image on the page to (x, y).
      *
-     *  @param x the x coordinate of the top left corner of the image.
-     *  @param y the y coordinate of the top left corner of the image.
+     * @param x the x coordinate of the top left corner of the image.
+     * @param y the y coordinate of the top left corner of the image.
      */
     public void SetPosition(double x, double y) {
         SetPosition((float) x, (float) y);
     }
 
     /**
-     *  Sets the position of this image on the page to (x, y).
+     * Sets the position of this image on the page to (x, y).
      *
-     *  @param x the x coordinate of the top left corner of the image.
-     *  @param y the y coordinate of the top left corner of the image.
+     * @param x the x coordinate of the top left corner of the image.
+     * @param y the y coordinate of the top left corner of the image.
      */
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
@@ -223,10 +220,10 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Sets the location of this image on the page to (x, y).
+     * Sets the location of this image on the page to (x, y).
      *
-     *  @param x the x coordinate of the top left corner of the image.
-     *  @param y the y coordinate of the top left corner of the image.
+     * @param x the x coordinate of the top left corner of the image.
+     * @param y the y coordinate of the top left corner of the image.
      */
     public Image SetLocation(float x, float y) {
         this.x = x;
@@ -235,18 +232,18 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Scales this image by the specified factor.
+     * Scales this image by the specified factor.
      *
-     *  @param factor the factor used to scale the image.
+     * @param factor the factor used to scale the image.
      */
     public Image SetScaleFactor(double factor) {
         return this.SetScaleFactor((float) factor, (float) factor);
     }
 
     /**
-     *  Scales this image by the specified factor.
+     * Scales this image by the specified factor.
      *
-     *  @param factor the factor used to scale the image.
+     * @param factor the factor used to scale the image.
      */
     public Image SetScaleFactor(float factor) {
         return this.SetScaleFactor(factor, factor);
@@ -267,11 +264,11 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Scales this image by the specified width and height factor.
-     *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
+     * Scales this image by the specified width and height factor.
+     * <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
      *
-     *  @param widthFactor the factor used to scale the width of the image
-     *  @param heightFactor the factor used to scale the height of the image
+     * @param widthFactor the factor used to scale the width of the image
+     * @param heightFactor the factor used to scale the height of the image
      */
     public Image SetScaleFactor(float widthFactor, float heightFactor) {
         this.w *= widthFactor;
@@ -282,7 +279,6 @@ public class Image : IDrawable {
     public Image ScaleBy(float widthFactor, float heightFactor) {
         return SetScaleFactor(widthFactor, heightFactor);
     }
-
 
 //    public Image ResizeWidth(float width) {
 //        float factor = width / GetWidth();
@@ -295,28 +291,28 @@ public class Image : IDrawable {
 //    }
 
     /**
-     *  Sets the URI for the "click box" action.
+     * Sets the URI for the "click box" action.
      *
-     *  @param uri the URI
+     * @param uri the URI
      */
     public void SetURIAction(String uri) {
         this.uri = uri;
     }
 
     /**
-     *  Sets the destination key for the action.
+     * Sets the destination key for the action.
      *
-     *  @param key the destination name.
+     * @param key the destination name.
      */
     public void SetGoToAction(String key) {
         this.key = key;
     }
 
     /**
-     *  Sets the alternate description of this image.
+     * Sets the alternate description of this image.
      *
-     *  @param altDescription the alternate description of the image.
-     *  @return this Image.
+     * @param altDescription the alternate description of the image.
+     * @return this Image.
      */
     public Image SetAltDescription(String altDescription) {
         this.altDescription = altDescription;
@@ -324,10 +320,10 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Sets the actual text for this image.
+     * Sets the actual text for this image.
      *
-     *  @param actualText the actual text for the image.
-     *  @return this Image.
+     * @param actualText the actual text for the image.
+     * @return this Image.
      */
     public Image SetActualText(String actualText) {
         this.actualText = actualText;
@@ -335,11 +331,11 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Draws this image on the specified page.
+     * Draws this image on the specified page.
      *
-     *  @param page the page to draw on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         if (!String.IsNullOrEmpty(actualText) && !String.IsNullOrEmpty(altDescription)) {
@@ -382,20 +378,20 @@ public class Image : IDrawable {
     }
 
     /**
-     *  Returns the width of this image when drawn on the page.
-     *  The scaling is take into account.
+     * Returns the width of this image when drawn on the page.
+     * The scaling is take into account.
      *
-     *  @return w - the width of this image.
+     * @return w - the width of this image.
      */
     public float GetWidth() {
         return this.w;
     }
 
     /**
-     *  Returns the height of this image when drawn on the page.
-     *  The scaling is take into account.
+     * Returns the height of this image when drawn on the page.
+     * The scaling is take into account.
      *
-     *  @return h - the height of this image.
+     * @return h - the height of this image.
      */
     public float GetHeight() {
         return this.h;

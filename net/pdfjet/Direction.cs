@@ -6,7 +6,7 @@
  */
 
 /**
- *  Used to specify the text writing direction in TextBox.cs
+ * Used to specify the text writing direction in TextBox.cs
  */
 namespace PDFjet.NET {
 public enum Direction {
