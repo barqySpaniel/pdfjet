@@ -11,7 +11,7 @@ package com.pdfjet;
  * See the constructors in the PDF class.
  */
 public enum Compliance {
-    PDF_15,
+    PDF_17,
     PDF_UA_1,
     PDF_A_1A,
     PDF_A_1B,
