@@ -62,7 +62,7 @@ final public class PDF {
      *  @param os the associated output stream.
      *  @throws Exception if an input or output exception occurred
      */
-    public PDF(OutputStream os) throws Exception { this(os, Compliance.PDF_15); }
+    public PDF(OutputStream os) throws Exception { this(os, Compliance.PDF_17); }
 
     // Here is the layout of the PDF document:
     //
@@ -391,7 +391,7 @@ final public class PDF {
         append("/Type /Pages\n");
         append("/Kids [\n");
         for (Page page : pages) {
-            if (compliance != Compliance.PDF_15) {
+            if (compliance != Compliance.PDF_17) {
                 page.setStructElementsPageObjNumber(page.objNumber);
             }
             append(page.objNumber);
@@ -561,7 +561,7 @@ final public class PDF {
         append(Token.BEGIN_DICTIONARY);
         append("/Type /Catalog\n");
 
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_17) {
             append("/Lang (");
             append(language);
             append(")\n");
@@ -592,7 +592,7 @@ final public class PDF {
         append(pagesObjNumber);
         append(Token.OBJ_REF);
 
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_17) {
             append("/Metadata ");
             append(metadataObjNumber);
             append(Token.OBJ_REF);
@@ -697,7 +697,7 @@ final public class PDF {
                 append("]\n");
             }
 
-            if (compliance != Compliance.PDF_15) {
+            if (compliance != Compliance.PDF_17) {
                 append("/Tabs /S\n");
                 append("/StructParents ");
                 append(i);
@@ -1028,7 +1028,7 @@ final public class PDF {
         if (prevPage != null) {
             addPageContent(prevPage);
         }
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_17) {
             metadataObjNumber = addMetadataObject("", false);
             outputIntentObjNumber = addOutputIntentObject();
         }
@@ -1039,7 +1039,7 @@ final public class PDF {
         }
 
         int structTreeRootObjNumber = 0;
-        if (compliance != Compliance.PDF_15) {
+        if (compliance != Compliance.PDF_17) {
             addStructElementObjects();
             structTreeRootObjNumber = addStructTreeRootObject();
             addNumsParentTree();
