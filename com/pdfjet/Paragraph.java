@@ -36,7 +36,6 @@ public class Paragraph {
 
     /**
      * Constructor for creating paragraph objects.
-     *
      */
     public Paragraph() {
         lines = new ArrayList<TextLine>();
@@ -53,10 +52,10 @@ public class Paragraph {
     }
 
     /**
-     *  Adds a text line to this paragraph.
+     * Adds a text line to this paragraph.
      *
-     *  @param text the text line to add to this paragraph.
-     *  @return this paragraph.
+     * @param text the text line to add to this paragraph.
+     * @return this paragraph.
      */
     public Paragraph add(TextLine text) {
         lines.add(text);
@@ -64,12 +63,10 @@ public class Paragraph {
     }
 
     /**
-     *  Sets the alignment of the text in this paragraph.
+     * Sets the alignment of the text in this paragraph.
      *
-     *  @param alignment the alignment code.
-     *  @return this paragraph.
-     *
-     *  <pre>Supported values: Align.LEFT, Align.RIGHT, Align.CENTER and Align.JUSTIFY.</pre>
+     * @param alignment the alignment code.
+     * @return this paragraph.
      */
     public Paragraph setAlignment(int alignment) {
         this.alignment = alignment;

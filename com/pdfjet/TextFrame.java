@@ -14,25 +14,23 @@ import java.util.*;
 public class TextFrame implements Drawable {
     private List<TextLine> paragraphs;
     private final Font font;
+    private final Font fallbackFont;
     private float x;
     private float y;
     private float w;
     private float h;
     private float leading;
     private float paragraphLeading;
-    private final List<float[]> beginParagraphPoints;
     private boolean border;
+    private final List<float[]> beginParagraphPoints;
 
     public TextFrame(List<TextLine> paragraphs) {
         this.paragraphs = new ArrayList<TextLine>(paragraphs);
         this.font = paragraphs.get(0).getFont();
+        this.fallbackFont = paragraphs.get(0).getFallbackFont();
         this.leading = font.getBodyHeight();
         this.paragraphLeading = 2*leading;
         this.beginParagraphPoints = new ArrayList<float[]>();
-        Font fallbackFont = paragraphs.get(0).getFallbackFont();
-        if (fallbackFont != null && (fallbackFont.getBodyHeight() > this.leading)) {
-            this.leading = fallbackFont.getBodyHeight();
-        }
         Collections.reverse(this.paragraphs);
     }
 
