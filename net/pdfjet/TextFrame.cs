@@ -99,12 +99,16 @@ public class TextFrame : IDrawable {
         return this.beginParagraphPoints;
     }
 
-    public void SetDrawBorder(bool border) {
+    public void SetPosition(float x, float y) {
+        SetLocation(x, y);
+    }
+
+    public void SetBorder(bool border) {
         this.border = border;
     }
 
-    public void SetPosition(float x, float y) {
-        SetLocation(x, y);
+    public void SetDrawBorder(bool border) {
+        this.border = border;
     }
 
     public void SetFontSize(float fontSize) {

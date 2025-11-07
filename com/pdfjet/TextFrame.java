@@ -98,12 +98,16 @@ public class TextFrame implements Drawable {
         return this.beginParagraphPoints;
     }
 
-    public void setDrawBorder(boolean border) {
+    public void setPosition(float x, float y) {
+        setLocation(x, y);
+    }
+
+    public void setBorder(boolean border) {
         this.border = border;
     }
 
-    public void setPosition(float x, float y) {
-        setLocation(x, y);
+    public void setDrawBorder(boolean border) {
+        this.border = border;
     }
 
     public void SetFontSize(float fontSize) {

@@ -12,6 +12,8 @@ import Foundation
 public class TextFrame : Drawable {
     private var paragraphs: Array<TextLine>?
     private var font: Font?
+    private var fallbackFont: Font?
+    private var fontSize: Float?
     private var x: Float = 0.0
     private var y: Float = 0.0
     private var w: Float = 0.0
@@ -24,10 +26,10 @@ public class TextFrame : Drawable {
     public init(_ paragraphs: Array<TextLine>) {
         self.paragraphs = Array(paragraphs)
         self.font = paragraphs[0].getFont()
+        self.fallbackFont = paragraphs[0].getFallbackFont()
         self.leading = font!.getBodyHeight()
         self.paragraphLeading = 2*leading
         self.beginParagraphPoints = [[Float]]()
-        let fallbackFont = paragraphs[0].getFallbackFont()
         if fallbackFont != nil && (fallbackFont!.getBodyHeight() > self.leading) {
             self.leading = fallbackFont!.getBodyHeight()
         }
@@ -78,12 +80,20 @@ public class TextFrame : Drawable {
         return self.beginParagraphPoints
     }
 
+    public func setPosition(_ x: Float, _ y: Float) {
+        setLocation(x, y)
+    }
+
+    public func setBorder(_ border: Bool) {
+        self.border = border
+    }
+
     public func setDrawBorder(_ border: Bool) {
         self.border = border
     }
 
-    public func setPosition(_ x: Float, _ y: Float) {
-        setLocation(x, y)
+    public func setFontSize(_ fontSize: Float) {
+        self.fontSize = fontSize
     }
 
     @discardableResult
