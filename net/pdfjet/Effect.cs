@@ -6,7 +6,7 @@
  */
 
 /**
- *  Used to specify the text effects.
+ * Used to specify the text effects.
  */
 namespace PDFjet.NET {
 public class Effect {

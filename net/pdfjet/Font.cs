@@ -60,19 +60,19 @@ public class Font {
     private float underlineThickness;
 
     /**
-     *  Constructor for the 14 standard fonts.
-     *  Creates a font object and adds it to the PDF.
+     * Constructor for the 14 standard fonts.
+     * Creates a font object and adds it to the PDF.
      *
-     *  <pre>
-     *  Examples:
-     *      Font font1 = new Font(pdf, CoreFont.HELVETICA);
-     *      Font font2 = new Font(pdf, CoreFont.TIMES_ITALIC);
-     *      Font font3 = new Font(pdf, CoreFont.ZAPF_DINGBATS);
+     * <pre>
+     * Examples:
+     *     Font font1 = new Font(pdf, CoreFont.HELVETICA);
+     *     Font font2 = new Font(pdf, CoreFont.TIMES_ITALIC);
+     *     Font font3 = new Font(pdf, CoreFont.ZAPF_DINGBATS);
      *      ...
-     *  </pre>
+     * </pre>
      *
-     *  @param pdf the PDF to add this font to.
-     *  @param coreFont the core font. Must be one the names defined in the CoreFont class.
+     * @param pdf the PDF to add this font to.
+     * @param coreFont the core font. Must be one the names defined in the CoreFont class.
      */
     public Font(PDF pdf, int coreFont) {
         CoreFont font = new CoreFont(coreFont);
@@ -233,10 +233,10 @@ public class Font {
     }
 
     /**
-     *  Constructor for OpenType and TrueType fonts.
+     * Constructor for OpenType and TrueType fonts.
      *
-     *  @param pdf the PDF object that requires this font.
-     *  @param inputStream the input stream to read this font from.
+     * @param pdf the PDF object that requires this font.
+     * @param inputStream the input stream to read this font from.
      */
     public Font(PDF pdf, System.IO.Stream inputStream) {
         OpenTypeFont.Register(pdf, this, inputStream);
@@ -261,20 +261,20 @@ public class Font {
     }
 
     /**
-     *  Sets the size of this font.
+     * Sets the size of this font.
      *
-     *  @param fontSize specifies the size of this font.
-     *  @return the font.
+     * @param fontSize specifies the size of this font.
+     * @return the font.
      */
     public Font SetSize(double fontSize) {
         return SetSize((float) fontSize);
     }
 
     /**
-     *  Sets the size of this font.
+     * Sets the size of this font.
      *
-     *  @param fontSize specifies the size of this font.
-     *  @return the font.
+     * @param fontSize specifies the size of this font.
+     * @return the font.
      */
     public Font SetSize(float fontSize) {
         this.size = fontSize;

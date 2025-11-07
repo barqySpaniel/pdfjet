@@ -8,9 +8,9 @@ using System;
 using System.Collections.Generic;
 
 /**
- *  Used to create XY chart objects and draw them on a page.
+ * Used to create XY chart objects and draw them on a page.
  *
- *  Please see Example_09.
+ * Please see Example_09.
  */
 namespace PDFjet.NET {
 public class Chart : IDrawable {
@@ -72,10 +72,10 @@ public class Chart : IDrawable {
     private List<List<Point>> chartData = null;
 
     /**
-     *  Create a XY chart object.
+     * Create a XY chart object.
      *
-     *  @param f1 the font used for the chart title.
-     *  @param f2 the font used for the X and Y axis titles.
+     * @param f1 the font used for the chart title.
+     * @param f2 the font used for the X and Y axis titles.
      */
     public Chart(Font f1, Font f2) {
         this.f1 = f1;
@@ -84,75 +84,75 @@ public class Chart : IDrawable {
     }
 
     /**
-     *  Sets the title of the chart.
+     * Sets the title of the chart.
      *
-     *  @param title the title text.
+     * @param title the title text.
      */
     public void SetTitle(String title) {
         this.title = title;
     }
 
     /**
-     *  Sets the title for the X axis.
+     * Sets the title for the X axis.
      *
-     *  @param title the X axis title.
+     * @param title the X axis title.
      */
     public void SetXAxisTitle(String title) {
         this.xAxisTitle = title;
     }
 
     /**
-     *  Sets the title for the Y axis.
+     * Sets the title for the Y axis.
      *
-     *  @param title the Y axis title.
+     * @param title the Y axis title.
      */
     public void SetYAxisTitle(String title) {
         this.yAxisTitle = title;
     }
 
     /**
-     *  Sets the data that will be used to draw this chart.
+     * Sets the data that will be used to draw this chart.
      *
-     *  @param chartData the data.
+     * @param chartData the data.
      */
     public void SetData(List<List<Point>> chartData) {
         this.chartData = chartData;
     }
 
     /**
-     *  Returns the chart data.
+     * Returns the chart data.
      *
-     *  @return the chart data.
+     * @return the chart data.
      */
     public List<List<Point>> GetData() {
         return chartData;
     }
 
     /**
-     *  Sets the position of this chart on the page.
+     * Sets the position of this chart on the page.
      *
-     *  @param x the x coordinate of the top left corner of this chart when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this chart when drawn on the page.
+     * @param x the x coordinate of the top left corner of this chart when drawn on the page.
+     * @param y the y coordinate of the top left corner of this chart when drawn on the page.
      */
     public void SetPosition(double x, double y) {
         SetPosition((float) x, (float) y);
     }
 
     /**
-     *  Sets the position of this chart on the page.
+     * Sets the position of this chart on the page.
      *
-     *  @param x the x coordinate of the top left corner of this chart when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this chart when drawn on the page.
+     * @param x the x coordinate of the top left corner of this chart when drawn on the page.
+     * @param y the y coordinate of the top left corner of this chart when drawn on the page.
      */
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
     }
 
     /**
-     *  Sets the location of this chart on the page.
+     * Sets the location of this chart on the page.
      *
-     *  @param x the x coordinate of the top left corner of this chart when drawn on the page.
-     *  @param y the y coordinate of the top left corner of this chart when drawn on the page.
+     * @param x the x coordinate of the top left corner of this chart when drawn on the page.
+     * @param y the y coordinate of the top left corner of this chart when drawn on the page.
      */
     public void SetLocation(float x, float y) {
         this.x1 = x;
@@ -160,20 +160,20 @@ public class Chart : IDrawable {
     }
 
     /**
-     *  Sets the size of this chart.
+     * Sets the size of this chart.
      *
-     *  @param w the width of this chart.
-     *  @param h the height of this chart.
+     * @param w the width of this chart.
+     * @param h the height of this chart.
      */
     public void SetSize(double w, double h) {
         SetSize((float) w, (float) h);
     }
 
     /**
-     *  Sets the size of this chart.
+     * Sets the size of this chart.
      *
-     *  @param w the width of this chart.
-     *  @param h the height of this chart.
+     * @param w the width of this chart.
+     * @param h the height of this chart.
      */
     public void SetSize(float w, float h) {
         this.w = w;
@@ -185,51 +185,51 @@ public class Chart : IDrawable {
     }
 
     /**
-     *  Sets the minimum number of fractions digits do display for the X and Y axis labels.
+     * Sets the minimum number of fractions digits do display for the X and Y axis labels.
      *
-     *  @param minFractionDigits the minimum number of fraction digits.
+     * @param minFractionDigits the minimum number of fraction digits.
      */
     public void SetMinimumFractionDigits(int minFractionDigits) {
         this.minFractionDigits = minFractionDigits;
     }
 
     /**
-     *  Sets the maximum number of fractions digits do display for the X and Y axis labels.
+     * Sets the maximum number of fractions digits do display for the X and Y axis labels.
      *
-     *  @param maxFractionDigits the maximum number of fraction digits.
+     * @param maxFractionDigits the maximum number of fraction digits.
      */
     public void SetMaximumFractionDigits(int maxFractionDigits) {
         this.maxFractionDigits = maxFractionDigits;
     }
 
     /**
-     *  Calculates the Slope of a trend line given a list of points.
-     *  See Example_09.
+     * Calculates the Slope of a trend line given a list of points.
+     * See Example_09.
      *
-     *  @param points the list of points.
-     *  @return the Slope float value.
+     * @param points the list of points.
+     * @return the Slope float value.
      */
     public float Slope(List<Point> points) {
         return (Covar(points) / Devsq(points) * (points.Count - 1));
     }
 
     /**
-     *  Calculates the Intercept of a trend line given a list of points.
-     *  See Example_09.
+     * Calculates the Intercept of a trend line given a list of points.
+     * See Example_09.
      *
-     *  @param points the list of points.
-     *  @return the Intercept float value.
+     * @param points the list of points.
+     * @return the Intercept float value.
      */
     public float Intercept(List<Point> points, double slope) {
         return Intercept(points, (float) slope);
     }
 
     /**
-     *  Calculates the Intercept of a trend line given a list of points.
-     *  See Example_09.
+     * Calculates the Intercept of a trend line given a list of points.
+     * See Example_09.
      *
-     *  @param points the list of points.
-     *  @return the Intercept float value.
+     * @param points the list of points.
+     * @return the Intercept float value.
      */
     public float Intercept(List<Point> points, float slope) {
         float[] _mean = Mean(points);
@@ -249,9 +249,9 @@ public class Chart : IDrawable {
     }
 
     /**
-     *  Draws this chart on the specified page.
+     * Draws this chart on the specified page.
      *
-     *  @param page the page to draw this chart on.
+     * @param page the page to draw this chart on.
      */
     public float[] DrawOn(Page page) {
         page.Append("q\n"); // Save the graphics state
@@ -616,7 +616,6 @@ public class Chart : IDrawable {
 
     /**
      * Devsq() returns the sum of squares of deviations.
-     *
      */
     private float Devsq(List<Point> points) {
         float _devsq = 0f;
@@ -629,11 +628,11 @@ public class Chart : IDrawable {
     }
 
     /**
-     *  Sets xMin and xMax for the X axis and the number of X grid lines.
+     * Sets xMin and xMax for the X axis and the number of X grid lines.
      *
-     *  @param xMin for the X axis.
-     *  @param xMax for the X axis.
-     *  @param xAxisGridLines the number of X axis grid lines.
+     * @param xMin for the X axis.
+     * @param xMax for the X axis.
+     * @param xAxisGridLines the number of X axis grid lines.
      */
     public void SetXAxisMinMax(float xMin, float xMax, int xAxisGridLines) {
         this.xMin = xMin;
@@ -642,11 +641,11 @@ public class Chart : IDrawable {
     }
 
     /**
-     *  Sets yMin and yMax for the Y axis and the number of Y grid lines.
+     * Sets yMin and yMax for the Y axis and the number of Y grid lines.
      *
-     *  @param yMin for the Y axis.
-     *  @param yMax for the Y axis.
-     *  @param yAxisGridLines the number of Y axis grid lines.
+     * @param yMin for the Y axis.
+     * @param yMax for the Y axis.
+     * @param yAxisGridLines the number of Y axis grid lines.
      */
     public void SetYAxisMinMax(float yMin, float yMax, int yAxisGridLines) {
         this.yMin = yMin;

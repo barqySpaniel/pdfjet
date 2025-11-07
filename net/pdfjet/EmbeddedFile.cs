@@ -10,8 +10,8 @@ using System.Text;
 
 namespace PDFjet.NET {
 /**
- *  Used to embed file objects.
- *  The file objects must added to the PDF before drawing on the first page.
+ * Used to embed file objects.
+ * The file objects must added to the PDF before drawing on the first page.
  */
 public class EmbeddedFile {
     internal int objNumber = -1;

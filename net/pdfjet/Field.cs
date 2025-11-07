@@ -7,7 +7,7 @@
 using System;
 
 /**
- *  Please see Example_45
+ * Please see Example_45
  */
 namespace PDFjet.NET {
 public class Field {

@@ -7,10 +7,10 @@
 using System;
 
 /**
- *  Creates a CheckBox, which can be set checked or unchecked.
- *  By default the check box is unchecked.
- *  Portions provided by Shirley C. Christenson
- *  Shirley Christenson Consulting
+ * Creates a CheckBox, which can be set checked or unchecked.
+ * By default the check box is unchecked.
+ * Portions provided by Shirley C. Christenson
+ * Shirley Christenson Consulting
  */
 namespace PDFjet.NET {
 public class CheckBox : IDrawable {
@@ -33,8 +33,7 @@ public class CheckBox : IDrawable {
     private String altDescription = Single.space;
 
     /**
-     *  Creates a CheckBox with blue check mark.
-     *
+     * Creates a CheckBox with blue check mark.
      */
     public CheckBox(Font font, String label) {
         this.font = font;
@@ -42,10 +41,10 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Sets the font size to use for this text line.
+     * Sets the font size to use for this text line.
      *
-     *  @param fontSize the fontSize to use.
-     *  @return this CheckBox.
+     * @param fontSize the fontSize to use.
+     * @return this CheckBox.
      */
     public CheckBox SetFontSize(float fontSize) {
         this.fontSize = fontSize;
@@ -53,10 +52,10 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Sets the color of the check box.
+     * Sets the color of the check box.
      *
-     *  @param boxColor the check box color specified as an 0xRRGGBB integer.
-     *  @return this CheckBox.
+     * @param boxColor the check box color specified as an 0xRRGGBB integer.
+     * @return this CheckBox.
      */
     public CheckBox SetBoxColor(int boxColor) {
         this.boxColor = boxColor;
@@ -64,10 +63,10 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Sets the color of the check mark.
+     * Sets the color of the check mark.
      *
-     *  @param checkColor the check mark color specified as an 0xRRGGBB integer.
-     *  @return this CheckBox.
+     * @param checkColor the check mark color specified as an 0xRRGGBB integer.
+     * @return this CheckBox.
      */
     public CheckBox SetCheckmark(int checkColor) {
         this.checkColor = checkColor;
@@ -75,11 +74,11 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Set the x,y position on the Page.
+     * Set the x,y position on the Page.
      *
-     *  @param x the x coordinate on the Page.
-     *  @param y the y coordinate on the Page.
-     *  @return this CheckBox.
+     * @param x the x coordinate on the Page.
+     * @param y the y coordinate on the Page.
+     * @return this CheckBox.
      */
     public void SetPosition(double x, double y) {
         SetLocation((float) x, (float) y);
@@ -94,11 +93,11 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Set the x,y location on the Page.
+     * Set the x,y location on the Page.
      *
-     *  @param x the x coordinate on the Page.
-     *  @param y the y coordinate on the Page.
-     *  @return this CheckBox.
+     * @param x the x coordinate on the Page.
+     * @param y the y coordinate on the Page.
+     * @return this CheckBox.
      */
     public CheckBox SetLocation(float x, float y) {
         this.x = x;
@@ -107,25 +106,23 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Gets the height of the CheckBox.
-     *
+     * Gets the height of the CheckBox.
      */
     public float GetHeight() {
         return this.h;
     }
 
     /**
-     *  Gets the width of the CheckBox.
-     *
+     * Gets the width of the CheckBox.
      */
     public float GetWidth() {
         return this.w;
     }
 
     /**
-     *  Checks or unchecks this check box. See the Mark class for available options.
+     * Checks or unchecks this check box. See the Mark class for available options.
      *
-     *  @return this CheckBox.
+     * @return this CheckBox.
      */
     public CheckBox Check(int mark) {
         this.mark = mark;
@@ -133,10 +130,10 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Sets the URI for the "click text line" action.
+     * Sets the URI for the "click text line" action.
      *
-     *  @param uri the URI.
-     *  @return this CheckBox.
+     * @param uri the URI.
+     * @return this CheckBox.
      */
     public CheckBox SetURIAction(String uri) {
         this.uri = uri;
@@ -144,10 +141,10 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Sets the alternate description of this check box.
+     * Sets the alternate description of this check box.
      *
-     *  @param altDescription the alternate description of the check box.
-     *  @return this CheckBox.
+     * @param altDescription the alternate description of the check box.
+     * @return this CheckBox.
      */
     public CheckBox SetAltDescription(String altDescription) {
         this.altDescription = altDescription;
@@ -155,10 +152,10 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Sets the actual text for this check box.
+     * Sets the actual text for this check box.
      *
-     *  @param actualText the actual text for the check box.
-     *  @return this CheckBox.
+     * @param actualText the actual text for the check box.
+     * @return this CheckBox.
      */
     public CheckBox SetActualText(String actualText) {
         this.actualText = actualText;
@@ -176,11 +173,11 @@ public class CheckBox : IDrawable {
     }
 
     /**
-     *  Draws this CheckBox on the specified Page.
+     * Draws this CheckBox on the specified Page.
      *
-     *  @param page the page to draw on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         page.AddBMC(StructElem.P, language, actualText, altDescription);
