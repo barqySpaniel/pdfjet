@@ -9,10 +9,8 @@ import (
 	"github.com/edragoev1/pdfjet/src/color"
 )
 
-/**
- *  Example_18.go
- *  This example shows how to write "Page X of N" footer on every page.
- */
+// Example18
+// This example shows how to write "Page X of N" footer on every page.
 func Example18() {
 	pdf := pdfjet.NewPDFFile("Example_18.pdf")
 
@@ -50,14 +48,14 @@ func Example18() {
 
 	for i := 0; i < len(pages); i++ {
 		page := pages[i]
-		footer := "Page " + fmt.Sprint(i+1) + " of " + fmt.Sprint((len(pages)))
+		footer := "Page " + fmt.Sprint(i+1) + " of " + fmt.Sprint(len(pages))
 		page.SetBrushColor(color.Black)
 		page.DrawString(
 			font,
 			nil,
 			footer,
 			(page.GetWidth()-font.StringWidth(font, font.GetSize(), footer))/2.0,
-			(page.GetHeight() - 5.0))
+			page.GetHeight()-5.0)
 	}
 
 	for i := 0; i < len(pages); i++ {

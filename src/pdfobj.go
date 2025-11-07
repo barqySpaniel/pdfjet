@@ -204,7 +204,7 @@ func (obj *PDFobj) getLength(objects []*PDFobj, number int) int {
 	return 0
 }
 
-// GetContentObject returns the contect object.
+// GetContentObject returns the content object.
 func (obj *PDFobj) GetContentObject(objects []*PDFobj) *PDFobj {
 	for i := 0; i < len(obj.dict); i++ {
 		if obj.dict[i] == "/Contents" {
