@@ -15,32 +15,31 @@ import (
 
 // TextFrame please see Example_47
 type TextFrame struct {
-	paragraphs               []*TextLine
+	lines                    []*TextLine
 	font                     *Font
 	fallbackFont             *Font
+	fontSize                 float32
 	x, y, w, h, xText, yText float32
 	leading                  float32
 	paragraphLeading         float32
 	beginParagraphPoints     [][]float32
-	spaceBetweenTextLines    float32
 	border                   bool
 }
 
 // NewTextFrame constructs new text frame.
-func NewTextFrame(paragraphs []*TextLine) *TextFrame {
+func NewTextFrame(lines []*TextLine) *TextFrame {
 	textFrame := new(TextFrame)
-	if paragraphs != nil {
-		textFrame.paragraphs = paragraphs
-		textFrame.font = textFrame.paragraphs[0].GetFont()
-		textFrame.fallbackFont = textFrame.paragraphs[0].GetFallbackFont()
+	if lines != nil {
+		textFrame.lines = lines
+		textFrame.font = textFrame.lines[0].GetFont()
+		textFrame.fallbackFont = textFrame.lines[0].GetFallbackFont()
+		textFrame.fontSize = textFrame.lines[0].GetFontSize()
 		textFrame.leading = textFrame.font.GetBodyHeight(textFrame.font.GetSize())
 		textFrame.paragraphLeading = 2 * textFrame.leading
 		textFrame.beginParagraphPoints = make([][]float32, 0)
-		textFrame.spaceBetweenTextLines = textFrame.font.StringWidth(
-			textFrame.fallbackFont, textFrame.font.size, single.Space)
-		// Reverse the paragraphs
-		for i, j := 0, len(paragraphs)-1; i < j; i, j = i+1, j-1 {
-			paragraphs[i], paragraphs[j] = paragraphs[j], paragraphs[i]
+		// Reverse the lines
+		for i, j := 0, len(lines)-1; i < j; i, j = i+1, j-1 {
+			lines[i], lines[j] = lines[j], lines[i]
 		}
 	}
 	return textFrame
@@ -82,15 +81,9 @@ func (frame *TextFrame) GetStartParagraphPoints() [][]float32 {
 	return frame.beginParagraphPoints
 }
 
-// SetSpaceBetweenTextLines sets the space between the text lines.
-func (frame *TextFrame) SetSpaceBetweenTextLines(spaceBetweenTextLines float32) *TextFrame {
-	frame.spaceBetweenTextLines = spaceBetweenTextLines
-	return frame
-}
-
-// GetParagraphs returns the paragraphs.
+// GetParagraphs returns the lines.
 func (frame *TextFrame) GetParagraphs() []*TextLine {
-	return frame.paragraphs
+	return frame.lines
 }
 
 // SetPosition sets the position of the text frame on the page.
@@ -98,20 +91,30 @@ func (frame *TextFrame) SetPosition(x, y float32) {
 	frame.SetLocation(x, y)
 }
 
-// SetDrawBorder sets the 'set border' variable.
+// SetBorder sets the border variable.
+func (frame *TextFrame) SetBorder(border bool) {
+	frame.border = border
+}
+
+// SetDrawBorder sets the border variable.
 func (frame *TextFrame) SetDrawBorder(border bool) {
 	frame.border = border
+}
+
+// SetFontSize sets the font size.
+func (frame *TextFrame) SetFontSize(fontSize float32) {
+	frame.fontSize = fontSize
 }
 
 // DrawOn draws the text frame on the page.
 func (frame *TextFrame) DrawOn(page *Page) []float32 {
 	frame.xText = frame.x
-	frame.yText = frame.y + frame.font.ascent
-	for len(frame.paragraphs) > 0 {
-		// The paragraphs are reversed so we can efficiently remove the first one:
-		textLine := frame.paragraphs[len(frame.paragraphs)-1]
+	frame.yText = frame.y + frame.font.GetAscent(frame.fontSize)
+	for len(frame.lines) > 0 {
+		// The lines are reversed so we can efficiently remove the first one:
+		textLine := frame.lines[len(frame.lines)-1]
 		textLine.SetLocation(frame.xText, frame.yText)
-		frame.paragraphs = frame.paragraphs[:len(frame.paragraphs)-1]
+		frame.lines = frame.lines[:len(frame.lines)-1]
 		frame.beginParagraphPoints = append(frame.beginParagraphPoints, []float32{frame.xText, frame.yText})
 		for {
 			textLine = frame.drawLineOnPage(page, textLine)
@@ -119,9 +122,9 @@ func (frame *TextFrame) DrawOn(page *Page) []float32 {
 				break
 			}
 			frame.yText = textLine.advance(frame.leading)
-			if frame.yText+frame.font.descent >= (frame.y + frame.h) {
-				// The paragraphs are reversed so we can efficiently add new first paragraph:
-				frame.paragraphs = append(frame.paragraphs, textLine)
+			if frame.yText+frame.font.GetDescent(frame.fontSize) >= (frame.y + frame.h) {
+				// The lines are reversed so we can efficiently add new first paragraph:
+				frame.lines = append(frame.lines, textLine)
 				frame.DrawBorder(page)
 				return []float32{frame.x + frame.w, frame.y + frame.h}
 			}
@@ -163,5 +166,5 @@ func (frame *TextFrame) drawLineOnPage(page *Page, textLine *TextLine) *TextLine
 
 // IsNotEmpty returns true if there is more text to draw, otherwise it returns false.
 func (frame *TextFrame) IsNotEmpty() bool {
-	return len(frame.paragraphs) > 0
+	return len(frame.lines) > 0
 }

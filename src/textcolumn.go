@@ -39,7 +39,7 @@ type TextColumn struct {
  */
 /*
 func (textColumn *TextColumn) TextColumn() {
-    this.paragraphs = new ArrayList<Paragraph>()
+    this.lines = new ArrayList<Paragraph>()
 }
 */
 
@@ -60,7 +60,7 @@ func NewTextColumn(rotateByDegrees int) *TextColumn {
 }
 
 // SetLineBetweenParagraphs sets the lineBetweenParagraphs private variable value.
-// If the value is set to true - an empty line will be inserted between the current and next paragraphs.
+// If the value is set to true - an empty line will be inserted between the current and next lines.
 // @param lineBetweenParagraphs the specified boolean value.
 func (textColumn *TextColumn) SetLineBetweenParagraphs(lineBetweenParagraphs bool) {
 	textColumn.lineBetweenParagraphs = lineBetweenParagraphs
@@ -71,7 +71,7 @@ func (textColumn *TextColumn) SetLineSpacing(lineSpacing float32) {
 	textColumn.lineSpacing = lineSpacing
 }
 
-// SetParagraphSpacing sets the space between the paragraphs.
+// SetParagraphSpacing sets the space between the lines.
 func (textColumn *TextColumn) SetParagraphSpacing(paragraphSpacing float32) {
 	textColumn.paragraphSpacing = paragraphSpacing
 }
