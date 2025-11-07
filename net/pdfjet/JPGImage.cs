@@ -41,7 +41,6 @@ using System.IO;
 
 /**
  * Used to embed JPG images in the PDF document.
- *
  */
 namespace PDFjet.NET {
 class JPGImage {

@@ -7,10 +7,10 @@
 using System;
 
 /**
- *  Used to create point objects with different shapes and draw them on a page.
- *  Please note: When we are mentioning (x, y) coordinates of a point - we are talking about the coordinates of the center of the point.
+ * Used to create point objects with different shapes and draw them on a page.
+ * Please note: When we are mentioning (x, y) coordinates of a point - we are talking about the coordinates of the center of the point.
  *
- *  Please see Example_05.
+ * Please see Example_05.
  */
 namespace PDFjet.NET {
 public class Point : IDrawable {
@@ -62,25 +62,25 @@ public class Point : IDrawable {
     private String uri;
 
     /**
-     *  The default constructor.
+     * The default constructor.
      */
     public Point() {
     }
 
     /**
-     *  Constructor for creating point objects.
+     * Constructor for creating point objects.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
-     *  @param y the y coordinate of this point when drawn on the page.
+     * @param x the x coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
      */
     public Point(double x, double y) : this((float) x, (float) y) {
     }
 
     /**
-     *  Constructor for creating point objects.
+     * Constructor for creating point objects.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
-     *  @param y the y coordinate of this point when drawn on the page.
+     * @param x the x coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
      */
     public Point(float x, float y) {
         this.x = x;
@@ -88,21 +88,21 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Constructor for creating point objects.
+     * Constructor for creating point objects.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
-     *  @param y the y coordinate of this point when drawn on the page.
-     *  @param isControlPoint true if this point is one of the points specifying a curve.
+     * @param x the x coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
+     * @param isControlPoint true if this point is one of the points specifying a curve.
      */
     public Point(double x, double y, char controlPoint) : this((float) x, (float) y, controlPoint) {
     }
 
     /**
-     *  Constructor for creating point objects.
+     * Constructor for creating point objects.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
-     *  @param y the y coordinate of this point when drawn on the page.
-     *  @param isControlPoint true if this point is one of the points specifying a curve.
+     * @param x the x coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
+     * @param isControlPoint true if this point is one of the points specifying a curve.
      */
     public Point(float x, float y, char controlPoint) {
         this.x = x;
@@ -111,20 +111,20 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets the position (x, y) of this point.
+     * Sets the position (x, y) of this point.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
-     *  @param y the y coordinate of this point when drawn on the page.
+     * @param x the x coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
      */
     public void SetPosition(double x, double y) {
         SetPosition((float) x, (float) y);
     }
 
     /**
-     *  Sets the position (x, y) of this point.
+     * Sets the position (x, y) of this point.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
-     *  @param y the y coordinate of this point when drawn on the page.
+     * @param x the x coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
      */
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
@@ -135,10 +135,10 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets the location (x, y) of this point.
+     * Sets the location (x, y) of this point.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
-     *  @param y the y coordinate of this point when drawn on the page.
+     * @param x the x coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
      */
     public void SetLocation(float x, float y) {
         this.x = x;
@@ -146,81 +146,81 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets the x coordinate of this point.
+     * Sets the x coordinate of this point.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
+     * @param x the x coordinate of this point when drawn on the page.
      */
     public void SetX(double x) {
         this.x = (float) x;
     }
 
     /**
-     *  Sets the x coordinate of this point.
+     * Sets the x coordinate of this point.
      *
-     *  @param x the x coordinate of this point when drawn on the page.
+     * @param x the x coordinate of this point when drawn on the page.
      */
     public void SetX(float x) {
         this.x = x;
     }
 
     /**
-     *  Returns the x coordinate of this point.
+     * Returns the x coordinate of this point.
      *
-     *  @return the x coordinate of this point.
+     * @return the x coordinate of this point.
      */
     public float GetX() {
         return x;
     }
 
     /**
-     *  Sets the y coordinate of this point.
+     * Sets the y coordinate of this point.
      *
-     *  @param y the y coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
      */
     public void SetY(double y) {
         this.y = (float) y;
     }
 
     /**
-     *  Sets the y coordinate of this point.
+     * Sets the y coordinate of this point.
      *
-     *  @param y the y coordinate of this point when drawn on the page.
+     * @param y the y coordinate of this point when drawn on the page.
      */
     public void SetY(float y) {
         this.y = y;
     }
 
     /**
-     *  Returns the y coordinate of this point.
+     * Returns the y coordinate of this point.
      *
-     *  @return the y coordinate of this point.
+     * @return the y coordinate of this point.
      */
     public float GetY() {
         return y;
     }
 
     /**
-     *  Sets the radius of this point.
+     * Sets the radius of this point.
      *
-     *  @param r the radius.
+     * @param r the radius.
      */
     public void SetRadius(double r) {
         this.r = (float) r;
     }
 
     /**
-     *  Sets the radius of this point.
+     * Sets the radius of this point.
      *
-     *  @param r the radius.
+     * @param r the radius.
      */
     public void SetRadius(float r) {
         this.r = r;
     }
 
     /**
-     *  Returns the radius of this point.
+     * Returns the radius of this point.
      *
-     *  @return the radius of this point.
+     * @return the radius of this point.
      */
     public float GetRadius() {
         return r;
@@ -272,89 +272,87 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets the shape of this point.
+     * Sets the shape of this point.
      *
-     *  @param shape the shape of this point. Supported values:
-     *  <pre>
-     *  Point.INVISIBLE
-     *  Point.CIRCLE
-     *  Point.DIAMOND
-     *  Point.BOX
-     *  Point.PLUS
-     *  Point.H_DASH
-     *  Point.V_DASH
-     *  Point.MULTIPLY
-     *  Point.STAR
-     *  Point.X_MARK
-     *  Point.UP_ARROW
-     *  Point.DOWN_ARROW
-     *  Point.LEFT_ARROW
-     *  Point.RIGHT_ARROW
-     *  </pre>
+     * @param shape the shape of this point. Supported values:
+     * <pre>
+     * Point.INVISIBLE
+     * Point.CIRCLE
+     * Point.DIAMOND
+     * Point.BOX
+     * Point.PLUS
+     * Point.H_DASH
+     * Point.V_DASH
+     * Point.MULTIPLY
+     * Point.STAR
+     * Point.X_MARK
+     * Point.UP_ARROW
+     * Point.DOWN_ARROW
+     * Point.LEFT_ARROW
+     * Point.RIGHT_ARROW
+     * </pre>
      */
     public void SetShape(int shape) {
         this.shape = shape;
     }
 
     /**
-     *  Returns the point shape code value.
+     * Returns the point shape code value.
      *
-     *  @return the shape code value.
+     * @return the shape code value.
      */
     public int GetShape() {
         return shape;
     }
 
     /**
-     *  Sets the width of the lines of this point.
+     * Sets the width of the lines of this point.
      *
-     *  @param width the line width.
+     * @param width the line width.
      */
     public void SetStrokeWidth(double width) {
         this.strokeWidth = (float) width;
     }
 
     /**
-     *  Returns the width of the lines used to draw this point.
+     * Returns the width of the lines used to draw this point.
      *
-     *  @return the width of the lines used to draw this point.
+     * @return the width of the lines used to draw this point.
      */
     public float GetStrokeWidth() {
         return strokeWidth;
     }
 
     /**
+     * The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
+     * It is specified by a dash array and a dash phase.
+     * The elements of the dash array are positive numbers that specify the lengths of
+     * alternating dashes and gaps.
+     * The dash phase specifies the distance into the dash pattern at which to start the dash.
+     * The elements of both the dash array and the dash phase are expressed in user space units.
+     * <pre>
+     * Examples of line dash patterns:
      *
-     *  The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
-     *  It is specified by a dash array and a dash phase.
-     *  The elements of the dash array are positive numbers that specify the lengths of
-     *  alternating dashes and gaps.
-     *  The dash phase specifies the distance into the dash pattern at which to start the dash.
-     *  The elements of both the dash array and the dash phase are expressed in user space units.
-     *  <pre>
-     *  Examples of line dash patterns:
+     *     "[Array] Phase"     Appearance          Description
+     *     _______________     _________________   ____________________________________
+     *     "[] 0"              -----------------   Solid line
+     *     "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
+     *     "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
+     *     "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
+     *     "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
+     *     "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
+     * </pre>
      *
-     *      "[Array] Phase"     Appearance          Description
-     *      _______________     _________________   ____________________________________
-     *
-     *      "[] 0"              -----------------   Solid line
-     *      "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
-     *      "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
-     *      "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
-     *      "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
-     *      "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
-     *  </pre>
-     *
-     *  @param pattern the line dash pattern.
+     * @param pattern the line dash pattern.
      */
     public void SetStrokePattern(String pattern) {
         this.strokePattern = pattern;
     }
 
     /**
-     *  Returns the dash pattern.
+     * Returns the dash pattern.
      *
-     *  @return the dash pattern.
+     * @return the dash pattern.
      */
     public String GetStrokePattern() {
         return strokePattern;
@@ -369,9 +367,9 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets this point as the start of a path that will be drawn on the chart.
+     * Sets this point as the start of a path that will be drawn on the chart.
      *
-     *  @return the point.
+     * @return the point.
      */
     public Point SetStartOfPath() {
         this.drawPath = true;
@@ -379,9 +377,9 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets this point as the start of a path that will be drawn on the chart.
+     * Sets this point as the start of a path that will be drawn on the chart.
      *
-     *  @return the point.
+     * @return the point.
      */
     public Point SetDrawPath() {
         this.drawPath = true;
@@ -389,101 +387,101 @@ public class Point : IDrawable {
     }
 
     /**
-     *  Sets the URI for the "click point" action.
+     * Sets the URI for the "click point" action.
      *
-     *  @param uri the URI
+     * @param uri the URI
      */
     public void SetURIAction(String uri) {
         this.uri = uri;
     }
 
     /**
-     *  Returns the URI for the "click point" action.
+     * Returns the URI for the "click point" action.
      *
-     *  @return the URI for the "click point" action.
+     * @return the URI for the "click point" action.
      */
     public String GetURIAction() {
         return uri;
     }
 
     /**
-     *  Sets the point text.
+     * Sets the point text.
      *
-     *  @param text the text.
+     * @param text the text.
      */
     public void SetText(String text) {
         this.text = text;
     }
 
     /**
-     *  Returns the text associated with this point.
+     * Returns the text associated with this point.
      *
-     *  @return the text.
+     * @return the text.
      */
     public String GetText() {
         return text;
     }
 
     /**
-     *  Sets the point's text color.
+     * Sets the point's text color.
      *
-     *  @param textColor the text color.
+     * @param textColor the text color.
      */
     public void SetTextColor(int textColor) {
         this.textColor = textColor;
     }
 
     /**
-     *  Returns the point's text color.
+     * Returns the point's text color.
      *
-     *  @return the text color.
+     * @return the text color.
      */
     public int GetTextColor() {
         return this.textColor;
     }
 
     /**
-     *  Sets the point's text direction.
+     * Sets the point's text direction.
      *
-     *  @param textDirection the text direction.
+     * @param textDirection the text direction.
      */
     public void SetTextDirection(int textDirection) {
         this.textDirection = textDirection;
     }
 
     /**
-     *  Returns the point's text direction.
+     * Returns the point's text direction.
      *
-     *  @return the text direction.
+     * @return the text direction.
      */
     public int GetTextDirection() {
         return this.textDirection;
     }
 
     /**
-     *  Sets the point alignment.
+     * Sets the point alignment.
      *
-     *  @param align the alignment value.
+     * @param align the alignment value.
      */
     public void SetAlignment(Alignment alignment) {
         this.alignment = alignment;
     }
 
     /**
-     *  Returns the point alignment.
+     * Returns the point alignment.
      *
-     *  @return Alignment the alignment value.
+     * @return Alignment the alignment value.
      */
     public Alignment GetAlignment() {
         return this.alignment;
     }
 
     /**
-     *  Draws this point on the specified page.
+     * Draws this point on the specified page.
      *
-     *  @param page the page to draw on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         page.Append("q\n");

@@ -8,7 +8,6 @@ using System;
 
 /**
  * Please see Example_51 and Example_52
- *
  */
 namespace PDFjet.NET {
 public class Title : IDrawable {

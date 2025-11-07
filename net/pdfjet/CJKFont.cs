@@ -6,7 +6,7 @@
  */
 
 /**
- *  Used to select Chinese, Japanese or Korean fonts.
+ * Used to select Chinese, Japanese or Korean fonts.
  */
 namespace PDFjet.NET {
 public enum CJKFont {

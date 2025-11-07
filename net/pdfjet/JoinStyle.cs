@@ -7,8 +7,8 @@
 using System;
 
 /**
- *  Used to specify the join style when joining two lines.
- *  See the Page and Line classes for more details.
+ * Used to specify the join style when joining two lines.
+ * See the Page and Line classes for more details.
  */
 namespace PDFjet.NET {
 public enum JoinStyle : Int32 {

@@ -1159,24 +1159,24 @@ public class PDF {
     }
 
     /**
-     *  Set the "Title" document property of the PDF file.
-     *  @param title The title of this document.
+     * Set the "Title" document property of the PDF file.
+     * @param title The title of this document.
      */
     public void SetTitle(String title) {
         this.title = title;
     }
 
     /**
-     *  Set the "Author" document property of the PDF file.
-     *  @param author The author of this document.
+     * Set the "Author" document property of the PDF file.
+     * @param author The author of this document.
      */
     public void SetAuthor(String author) {
         this.author = author;
     }
 
     /**
-     *  Set the "Subject" document property of the PDF file.
-     *  @param subject The subject of this document.
+     * Set the "Subject" document property of the PDF file.
+     * @param subject The subject of this document.
      */
     public void SetSubject(String subject) {
         this.subject = subject;

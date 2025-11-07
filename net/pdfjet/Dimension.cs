@@ -6,7 +6,7 @@
  */
 
 /**
- *  Encapsulates the width and height of a component.
+ * Encapsulates the width and height of a component.
  */
 namespace PDFjet.NET {
 public class Dimension {
@@ -14,10 +14,10 @@ public class Dimension {
     internal float h;
 
     /**
-     *  Constructor for creating dimension objects.
+     * Constructor for creating dimension objects.
      *
-     *  @param width the width.
-     *  @param height the height.
+     * @param width the width.
+     * @param height the height.
      */
     public Dimension(float width, float height) {
         this.w = width;

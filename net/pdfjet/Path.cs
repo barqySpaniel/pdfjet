@@ -8,10 +8,10 @@ using System;
 using System.Collections.Generic;
 
 /**
- *  Used to create path objects.
- *  The path objects may consist of lines, splines or both.
+ * Used to create path objects.
+ * The path objects may consist of lines, splines or both.
  *
- *  Please see Example_02.
+ * Please see Example_02.
  */
 namespace PDFjet.NET {
 public class Path : IDrawable {
@@ -36,16 +36,16 @@ public class Path : IDrawable {
     private bool closePath = false;
 
     /**
-     *  The default constructor.
+     * The default constructor.
      */
     public Path() {
         points = new List<Point>();
     }
 
     /**
-     *  Adds a point to this path.
+     * Adds a point to this path.
      *
-     *  @param point the point to add.
+     * @param point the point to add.
      */
     public void Add(Point point) {
         points.Add(point);
@@ -70,9 +70,9 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Sets the pen color that will be used to draw this path.
+     * Sets the pen color that will be used to draw this path.
      *
-     *  @param color the color is specified as an integer.
+     * @param color the color is specified as an integer.
      */
     public void SetFillColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
@@ -105,9 +105,9 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Sets the pen width that will be used to draw the lines and splines that are part of this path.
+     * Sets the pen width that will be used to draw the lines and splines that are part of this path.
      *
-     *  @param width the pen width.
+     * @param width the pen width.
      */
     public void SetStrokeWidth(double width) {
         this.strokeWidth = (float) width;
@@ -118,66 +118,66 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Sets the line dash pattern for this path.
+     * Sets the line dash pattern for this path.
      *
-     *  The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
-     *  It is specified by a dash array and a dash phase.
-     *  The elements of the dash array are positive numbers that specify the lengths of
-     *  alternating dashes and gaps.
-     *  The dash phase specifies the distance into the dash pattern at which to start the dash.
-     *  The elements of both the dash array and the dash phase are expressed in user space units.
-     *  <pre>
-     *  Examples of line dash patterns:
+     * The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
+     * It is specified by a dash array and a dash phase.
+     * The elements of the dash array are positive numbers that specify the lengths of
+     * alternating dashes and gaps.
+     * The dash phase specifies the distance into the dash pattern at which to start the dash.
+     * The elements of both the dash array and the dash phase are expressed in user space units.
+     * <pre>
+     * Examples of line dash patterns:
      *
-     *      "[Array] Phase"     Appearance          Description
-     *      _______________     _________________   ____________________________________
+     *     "[Array] Phase"     Appearance          Description
+     *     _______________     _________________   ____________________________________
      *
-     *      "[] 0"              -----------------   Solid line
-     *      "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
-     *      "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
-     *      "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
-     *      "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
-     *      "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
-     *  </pre>
+     *     "[] 0"              -----------------   Solid line
+     *     "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
+     *     "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
+     *     "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
+     *     "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
+     *     "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
+     * </pre>
      *
-     *  @param pattern the line dash pattern.
+     * @param pattern the line dash pattern.
      */
     public void SetStrokePattern(String pattern) {
         this.strokePattern = pattern;
     }
 
     /**
-     *  Sets the line cap style.
+     * Sets the line cap style.
      *
-     *  @param style the cap style of this path.
-     *  Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
+     * @param style the cap style of this path.
+     * Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
      */
     public void SetLineCapStyle(CapStyle style) {
         this.lineCapStyle = style;
     }
 
     /**
-     *  Returns the line cap style for this path.
+     * Returns the line cap style for this path.
      *
-     *  @return the line cap style for this path.
+     * @return the line cap style for this path.
      */
     public CapStyle GetLineCapStyle() {
         return this.lineCapStyle;
     }
 
     /**
-     *  Sets the line join style.
+     * Sets the line join style.
      *
-     *  @param style the line join style code. Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
+     * @param style the line join style code. Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
      */
     public void SetLineJoinStyle(JoinStyle style) {
         this.lineJoinStyle = style;
     }
 
     /**
-     *  Returns the line join style.
+     * Returns the line join style.
      *
-     *  @return the line join style.
+     * @return the line join style.
      */
     public JoinStyle GetLineJoinStyle() {
         return this.lineJoinStyle;
@@ -196,18 +196,18 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Sets the URI for the "click box" action.
+     * Sets the URI for the "click box" action.
      *
-     *  @param uri the URI
+     * @param uri the URI
      */
     public void SetURIAction(String uri) {
         this.uri = uri;
     }
 
     /**
-     *  Sets the destination key for the action.
+     * Sets the destination key for the action.
      *
-     *  @param key the destination name.
+     * @param key the destination name.
      */
     public void SetGoToAction(String key) {
         this.key = key;
@@ -218,29 +218,29 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Sets the actual text for this path.
+     * Sets the actual text for this path.
      *
-     *  @param actualText the actual text for the path.
-     *  @return this Path.
+     * @param actualText the actual text for the path.
+     * @return this Path.
      */
     public void SetActualText(String actualText) {
         this.actualText = actualText;
     }
 
     /**
-     *  Sets the alternate description of this path.
+     * Sets the alternate description of this path.
      *
-     *  @param altDescription the alternate description of the path.
-     *  @return this Path.
+     * @param altDescription the alternate description of the path.
+     * @return this Path.
      */
     public void SetAltDescription(String altDescription) {
         this.altDescription = altDescription;
     }
 
     /**
-     *  Scales the path using the specified factor.
+     * Scales the path using the specified factor.
      *
-     *  @param factor the specified factor.
+     * @param factor the specified factor.
      */
     public Path SetScaleFactor(double factor) {
         SetScaleFactor((float) factor);
@@ -248,9 +248,9 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Scales the path using the specified factor.
+     * Scales the path using the specified factor.
      *
-     *  @param factor the specified factor.
+     * @param factor the specified factor.
      */
     public Path SetScaleFactor(float factor) {
         for (int i = 0; i < points.Count; i++) {
@@ -278,11 +278,11 @@ public class Path : IDrawable {
     }
 
     /**
-     *  Draws this path on the page using the current selected color, pen width, line pattern and line join style.
+     * Draws this path on the page using the current selected color, pen width, line pattern and line join style.
      *
-     *  @param page the page to draw on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         if (closePath == true) {

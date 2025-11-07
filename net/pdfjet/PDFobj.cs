@@ -9,9 +9,8 @@ using System.Collections.Generic;
 using System.Text;
 
 /**
- *  Used to create Java or .NET objects that represent the objects in PDF document.
- *  See the PDF specification for more information.
- *
+ * Used to create Java or .NET objects that represent the objects in PDF document.
+ * See the PDF specification for more information.
  */
 namespace PDFjet.NET {
 public class PDFobj {
@@ -24,9 +23,9 @@ public class PDFobj {
     internal int gsNumber = -1;
 
     /**
-     *  Used to create Java or .NET objects that represent the objects in PDF document.
-     *  See the PDF specification for more information.
-     *  Also see Example_19.
+     * Used to create Java or .NET objects that represent the objects in PDF document.
+     * See the PDF specification for more information.
+     * Also see Example_19.
      */
     internal PDFobj() {
         this.dict = new List<String>();
@@ -67,11 +66,10 @@ public class PDFobj {
     }
 
     /**
-     *  Returns the parameter value given the specified key.
+     * Returns the parameter value given the specified key.
      *
-     *  @param key the specified key.
-     *
-     *  @return the value.
+     * @param key the specified key.
+     * @return the value.
      */
     public String GetValue(String key) {
         for (int i = 0; i < dict.Count; i++) {

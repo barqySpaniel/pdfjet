@@ -10,21 +10,21 @@ using System.Collections.Generic;
 
 namespace PDFjet.NET {
 /**
- *  A box containing line-wrapped text.
+ * A box containing line-wrapped text.
  *
- *  <p>Defaults:<br />
- *  x = 0f<br />
- *  y = 0f<br />
- *  width = 300f<br />
- *  height = 0f<br />
- *  alignment = Align.LEFT<br />
- *  valign = Align.TOP<br />
- *  spacing = 0f<br />
- *  margin = 0f<br />
- *  </p>
+ * <p>Defaults:<br />
+ * x = 0f<br />
+ * y = 0f<br />
+ * width = 300f<br />
+ * height = 0f<br />
+ * alignment = Align.LEFT<br />
+ * valign = Align.TOP<br />
+ * spacing = 0f<br />
+ * margin = 0f<br />
+ * </p>
  *
- *  This class was originally developed by Ronald Bourret.
- *  It was completely rewritten in 2013 by Eugene Dragoev.
+ * This class was originally developed by Ronald Bourret.
+ * It was completely rewritten in 2013 by Evgeni Dragoev.
  */
 public class TextBox : IDrawable {
     internal Font font;
@@ -73,9 +73,9 @@ public class TextBox : IDrawable {
     private Direction textDirection = Direction.LEFT_TO_RIGHT;
 
     /**
-     *  Creates a text box and sets the font.
+     * Creates a text box and sets the font.
      *
-     *  @param font the font.
+     * @param font the font.
      */
     public TextBox(Font font) {
         this.font = font;
@@ -83,10 +83,10 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Creates a text box and sets the font.
+     * Creates a text box and sets the font.
      *
-     *  @param text the text.
-     *  @param font the font.
+     * @param text the text.
+     * @param font the font.
      */
     public TextBox(Font font, String text) {
         this.font = font;
@@ -95,24 +95,24 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Creates a text box and sets the font and the text.
+     * Creates a text box and sets the font and the text.
      *
-     *  @param font the font.
-     *  @param text the text.
-     *  @param width the width.
-     *  @param height the height.
+     * @param font the font.
+     * @param text the text.
+     * @param width the width.
+     * @param height the height.
      */
     public TextBox(Font font, String text, double width, double height) :
         this(font, text, (float) width, (float) height) {
     }
 
     /**
-     *  Creates a text box and sets the font and the text.
+     * Creates a text box and sets the font and the text.
      *
-     *  @param font the font.
-     *  @param text the text.
-     *  @param width the width.
-     *  @param height the height.
+     * @param font the font.
+     * @param text the text.
+     * @param width the width.
+     * @param height the height.
      */
     public TextBox(Font font, String text, float width, float height) {
         this.font = font;
@@ -123,18 +123,18 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the font for this text box.
+     * Sets the font for this text box.
      *
-     *  @param font the font.
+     * @param font the font.
      */
     public void SetFont(Font font) {
         this.font = font;
     }
 
     /**
-     *  Returns the font used by this text box.
+     * Returns the font used by this text box.
      *
-     *  @return the font.
+     * @return the font.
      */
     public Font GetFont() {
         return font;
@@ -145,38 +145,38 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the text box text.
+     * Sets the text box text.
      *
-     *  @param text the text box text.
+     * @param text the text box text.
      */
     public void SetText(String text) {
         this.text = text;
     }
 
     /**
-     *  Returns the text box text.
+     * Returns the text box text.
      *
-     *  @return the text box text.
+     * @return the text box text.
      */
     public String GetText() {
         return text;
     }
 
     /**
-     *  Sets the position where this text box will be drawn on the page.
+     * Sets the position where this text box will be drawn on the page.
      *
-     *  @param x the x coordinate of the top left corner of the text box.
-     *  @param y the y coordinate of the top left corner of the text box.
+     * @param x the x coordinate of the top left corner of the text box.
+     * @param y the y coordinate of the top left corner of the text box.
      */
     public void SetPosition(double x, double y) {
         SetPosition((float) x, (float) y);
     }
 
     /**
-     *  Sets the position where this text box will be drawn on the page.
+     * Sets the position where this text box will be drawn on the page.
      *
-     *  @param x the x coordinate of the top left corner of the text box.
-     *  @param y the y coordinate of the top left corner of the text box.
+     * @param x the x coordinate of the top left corner of the text box.
+     * @param y the y coordinate of the top left corner of the text box.
      */
     public void SetPosition(float x, float y) {
         this.x = x;
@@ -184,10 +184,10 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the location where this text box will be drawn on the page.
+     * Sets the location where this text box will be drawn on the page.
      *
-     *  @param x the x coordinate of the top left corner of the text box.
-     *  @param y the y coordinate of the top left corner of the text box.
+     * @param x the x coordinate of the top left corner of the text box.
+     * @param y the y coordinate of the top left corner of the text box.
      */
     public void SetLocation(float x, float y) {
         this.x = x;
@@ -215,36 +215,36 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the width of this text box.
+     * Sets the width of this text box.
      *
-     *  @param width the specified width.
+     * @param width the specified width.
      */
     public void SetWidth(double width) {
         this.width = (float) width;
     }
 
     /**
-     *  Sets the width of this text box.
+     * Sets the width of this text box.
      *
-     *  @param width the specified width.
+     * @param width the specified width.
      */
     public void SetWidth(float width) {
         this.width = width;
     }
 
     /**
-     *  Returns the text box width.
+     * Returns the text box width.
      *
-     *  @return the text box width.
+     * @return the text box width.
      */
     public float GetWidth() {
         return width;
     }
 
     /**
-     *  Sets the height of this text box.
+     * Sets the height of this text box.
      *
-     *  @param height the specified height.
+     * @param height the specified height.
      */
     public TextBox SetHeight(double height) {
         this.height = (float) height;
@@ -252,9 +252,9 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the height of this text box.
+     * Sets the height of this text box.
      *
-     *  @param height the specified height.
+     * @param height the specified height.
      */
     public TextBox SetHeight(float height) {
         this.height = height;
@@ -262,18 +262,18 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Returns the text box height.
+     * Returns the text box height.
      *
-     *  @return the text box height.
+     * @return the text box height.
      */
     public float GetHeight() {
         return height;
     }
 
     /**
-     *  Sets the margin of this text box.
+     * Sets the margin of this text box.
      *
-     *  @param margin the margin between the text and the box
+     * @param margin the margin between the text and the box
      */
     public TextBox SetMargin(double margin) {
         this.margin = (float) margin;
@@ -281,9 +281,9 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the margin of this text box.
+     * Sets the margin of this text box.
      *
-     *  @param margin the margin between the text and the box
+     * @param margin the margin between the text and the box
      */
     public TextBox SetMargin(float margin) {
         this.margin = margin;
@@ -291,63 +291,63 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Returns the text box margin.
+     * Returns the text box margin.
      *
-     *  @return the margin between the text and the box
+     * @return the margin between the text and the box
      */
     public float GetMargin() {
         return margin;
     }
 
     /**
-     *  Sets the border line width.
+     * Sets the border line width.
      *
-     *  @param lineWidth float
+     * @param lineWidth float
      */
     public void SetLineWidth(double lineWidth) {
         this.lineWidth = (float) lineWidth;
     }
 
     /**
-     *  Sets the border line width.
+     * Sets the border line width.
      *
-     *  @param lineWidth float
+     * @param lineWidth float
      */
     public void SetLineWidth(float lineWidth) {
         this.lineWidth = lineWidth;
     }
 
     /**
-     *  Returns the border line width.
+     * Returns the border line width.
      *
-     *  @return float the line width.
+     * @return float the line width.
      */
     public float GetLineWidth() {
         return lineWidth;
     }
 
     /**
-     *  Sets the spacing between lines of text.
+     * Sets the spacing between lines of text.
      *
-     *  @param spacing the spacing
+     * @param spacing the spacing
      */
     public void SetSpacing(double spacing) {
         this.spacing = (float) spacing;
     }
 
     /**
-     *  Sets the spacing between lines of text.
+     * Sets the spacing between lines of text.
      *
-     *  @param spacing the spacing
+     * @param spacing the spacing
      */
     public void SetSpacing(float spacing) {
         this.spacing = spacing;
     }
 
     /**
-     *  Returns the spacing between lines of text.
+     * Returns the spacing between lines of text.
      *
-     *  @return the spacing.
+     * @return the spacing.
      */
     public float GetSpacing() {
         return spacing;
@@ -411,9 +411,9 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the TextBox border properties.
+     * Sets the TextBox border properties.
      *
-     *  @param border the border properties.
+     * @param border the border properties.
      */
     public void SetBorder(uint border) {
         this.properties |= border;
@@ -468,10 +468,10 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the cell text alignment.
+     * Sets the cell text alignment.
      *
-     *  @param alignment the alignment code.
-     *  Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
+     * @param alignment the alignment code.
+     * Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
      */
     public TextBox SetTextAlignment(uint alignment) {
         this.properties &= 0x00CFFFFF;
@@ -480,19 +480,19 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Returns the text alignment.
+     * Returns the text alignment.
      *
-     *  @return alignment the alignment code. Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
+     * @return alignment the alignment code. Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
      */
     public uint GetTextAlignment() {
         return (this.properties & 0x00300000);
     }
 
     /**
-     *  Sets the underline variable.
-     *  If the value of the underline variable is 'true' - the text is underlined.
+     * Sets the underline variable.
+     * If the value of the underline variable is 'true' - the text is underlined.
      *
-     *  @param underline the underline flag.
+     * @param underline the underline flag.
      */
     public void SetUnderline(bool underline) {
         if (underline) {
@@ -503,19 +503,19 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Whether the text will be underlined.
+     * Whether the text will be underlined.
      *
-     *  @return whether the text will be underlined
+     * @return whether the text will be underlined
      */
     public bool GetUnderline() {
         return (properties & 0x00400000) != 0;
     }
 
     /**
-     *  Sets the srikeout flag.
-     *  In the flag is true - draw strikeout line through the text.
+     * Sets the srikeout flag.
+     * In the flag is true - draw strikeout line through the text.
      *
-     *  @param strikeout the strikeout flag.
+     * @param strikeout the strikeout flag.
      */
     public void SetStrikeout(bool strikeout) {
         if (strikeout) {
@@ -526,9 +526,9 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Returns the strikeout flag.
+     * Returns the strikeout flag.
      *
-     *  @return boolean the strikeout flag.
+     * @return boolean the strikeout flag.
      */
     public bool GetStrikeout() {
         return (properties & 0x00800000) != 0;
@@ -543,9 +543,9 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the vertical alignment of the text in this TextBox.
+     * Sets the vertical alignment of the text in this TextBox.
      *
-     *  @param valign - valid values are Align.TOP, Align.BOTTOM and Align.CENTER
+     * @param valign - valid values are Align.TOP, Align.BOTTOM and Align.CENTER
      */
     public void SetVerticalAlignment(uint valign) {
         this.valign = valign;
@@ -662,12 +662,12 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Draws this text box on the specified page.
+     * Draws this text box on the specified page.
      *
-     *  @param page the Page where the TextBox is to be drawn.
-     *  @param draw flag specifying if this component should actually be drawn on the page.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the Page where the TextBox is to be drawn.
+     * @param draw flag specifying if this component should actually be drawn on the page.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         String[] lines = getTextLines();
@@ -846,10 +846,10 @@ public class TextBox : IDrawable {
     }
 
     /**
-     *  Sets the URI for the "click text line" action.
+     * Sets the URI for the "click text line" action.
      *
-     *  @param uri the URI
-     *  @return this TextBox.
+     * @param uri the URI
+     * @return this TextBox.
      */
     public TextBox SetURIAction(String uri) {
         this.uri = uri;
