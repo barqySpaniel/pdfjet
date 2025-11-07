@@ -7,7 +7,7 @@
 import Foundation
 
 /**
- *  Please see Example_45
+ * Please see Example_45
  */
 public class Form : Drawable {
     private var fields: [Field]
@@ -87,11 +87,11 @@ public class Form : Drawable {
     }
 
     /**
-     *  Draws this Form on the specified page.
+     * Draws this Form on the specified page.
      *
-     *  @param page the page to draw this form on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw this form on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     @discardableResult
     public func drawOn(_ page: Page?) -> [Float] {

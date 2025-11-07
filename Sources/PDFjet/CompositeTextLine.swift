@@ -19,7 +19,7 @@ public class CompositeTextLine : Drawable {
     private var textLines = [TextLine]()
 
     private var position = [Float](repeating: 0, count: 2)
-    private var current  = [Float](repeating: 0, count: 2)
+    private var current = [Float](repeating: 0, count: 2)
 
     // Subscript and Superscript size factors
     private var subscriptSizeFactor: Float = 0.583

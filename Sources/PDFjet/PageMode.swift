@@ -6,7 +6,7 @@
  */
 
 /**
- *  Used to specify the PDF page mode.
+ * Used to specify the PDF page mode.
  */
 public class PageMode {
     public static let USE_NONE = "UseNone"             // Neither document outline nor thumbnail images visible

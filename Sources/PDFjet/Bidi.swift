@@ -7,9 +7,9 @@
 import Foundation
 
 /**
- *  Provides BIDI processing for Arabic and Hebrew.
+ * Provides BIDI processing for Arabic and Hebrew.
  *
- *  Please see Example_27.
+ * Please see Example_27.
  */
 public class Bidi {
 /*
@@ -60,11 +60,11 @@ private static let forms: [Character] = [
     }
 
     /**
-     *  Reorders the string so that Arabic and Hebrew text flows from right
-     *  to left while numbers and Latin text flows from left to right.
+     * Reorders the string so that Arabic and Hebrew text flows from right
+     * to left while numbers and Latin text flows from left to right.
      *
-     *  @param str the input string.
-     *  @return the reordered string.
+     * @param str the input string.
+     * @return the reordered string.
      */
     public static func reorderVisually(_ str: String) -> String {
         var buf1 = String()

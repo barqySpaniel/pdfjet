@@ -7,7 +7,7 @@
 import Foundation
 
 /**
- *  Used to attach file objects.
+ * Used to attach file objects.
  */
 public class FileAttachment : Drawable {
     var pdf: PDF?

@@ -6,7 +6,7 @@
  */
 
 /**
- *  Defines the StructElem types.
+ * Defines the StructElem types.
  */
 public class StructElem {
     // Defines standard PDF structure element tags
@@ -17,7 +17,7 @@ public class StructElem {
     public static let Part = "Part"
     public static let Div = "Div"
     public static let Sect = "Sect"
-    
+
     // Heading elements
     public static let H1 = "H1"
     public static let H2 = "H2"
@@ -25,25 +25,25 @@ public class StructElem {
     public static let H4 = "H4"
     public static let H5 = "H5"
     public static let H6 = "H6"
-    
+
     // Paragraph and text elements
     public static let P = "P"
     public static let Title = "Title"
     public static let Lbl = "Lbl"
-    
+
     // Inline text
     public static let Span = "Span"
     public static let Em = "Em"
     public static let Strong = "Strong"
-    
+
     // Links and annotations
     public static let Link = "Link"
     public static let Annot = "Annot"
-    
+
     // List elements
     public static let L = "L"   // List
     public static let LI = "LI" // List Item
-    
+
     // Table elements
     public static let Table = "Table"
     public static let TR = "TR"     // Table Row
@@ -53,11 +53,11 @@ public class StructElem {
     public static let TBody = "TBody" // Table Body group
     public static let TFoot = "TFoot" // Table Footer group
     public static let Caption = "Caption"
-    
+
     // Figure and special elements
     public static let Figure = "Figure"
     public static let Artifact = "Artifact"
-    
+
     // Figure and special elements
     public static let figure = "Figure"
     public static let artifact = "Artifact"

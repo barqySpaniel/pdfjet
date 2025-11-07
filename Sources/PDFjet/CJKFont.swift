@@ -6,7 +6,7 @@
  */
 
 /**
- *  Used to select Chinese, Japanese and Korean fonts.
+ * Used to select Chinese, Japanese and Korean fonts.
  */
 public enum CJKFont {
     case ADOBE_MING_STD_LIGHT       // Chinese (Traditional) font
