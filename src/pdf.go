@@ -392,7 +392,7 @@ func (pdf *PDF) addPagesObject() int {
 	pdf.appendString("/Type /Pages\n")
 	pdf.appendString("/Kids [\n")
 	for _, page := range pdf.pages {
-		if pdf.compliance != compliance.PDF_15 {
+		if pdf.compliance != compliance.PDF_17 {
 			page.setStructElementsPageObjNumber(page.objNumber)
 		}
 		pdf.appendInteger(page.objNumber)
@@ -560,7 +560,7 @@ func (pdf *PDF) addRootObject(structTreeRootObjNumber, outlineDictNumber int) in
 	pdf.appendString("<<\n")
 	pdf.appendString("/Type /Catalog\n")
 
-	if pdf.compliance != compliance.PDF_15 {
+	if pdf.compliance != compliance.PDF_17 {
 		pdf.appendString("/Lang (")
 		pdf.appendString(pdf.language)
 		pdf.appendString(")\n")
@@ -591,7 +591,7 @@ func (pdf *PDF) addRootObject(structTreeRootObjNumber, outlineDictNumber int) in
 	pdf.appendInteger(pdf.pagesObjNumber)
 	pdf.appendString(" 0 R\n")
 
-	if pdf.compliance != compliance.PDF_15 {
+	if pdf.compliance != compliance.PDF_17 {
 		pdf.appendString("/Metadata ")
 		pdf.appendInteger(pdf.metadataObjNumber)
 		pdf.appendString(" 0 R\n")
@@ -695,7 +695,7 @@ func (pdf *PDF) addAllPages(resObjNumber int) {
 			pdf.appendString("]\n")
 		}
 
-		if pdf.compliance != compliance.PDF_15 {
+		if pdf.compliance != compliance.PDF_17 {
 			pdf.appendString("/Tabs /S\n")
 			pdf.appendString("/StructParents ")
 			pdf.appendInteger(i)
@@ -887,7 +887,7 @@ func (pdf *PDF) Complete() {
 	if pdf.prevPage != nil {
 		pdf.addPageContent(pdf.prevPage)
 	}
-	if pdf.compliance != compliance.PDF_15 {
+	if pdf.compliance != compliance.PDF_17 {
 		pdf.metadataObjNumber = pdf.addMetadataObject("", false)
 		pdf.outputIntentObjNumber = pdf.addOutputIntentObject()
 	}
@@ -898,7 +898,7 @@ func (pdf *PDF) Complete() {
 	}
 
 	structTreeRootObjNumber := 0
-	if pdf.compliance != compliance.PDF_15 {
+	if pdf.compliance != compliance.PDF_17 {
 		pdf.addStructElementObjects()
 		structTreeRootObjNumber = pdf.addStructTreeRootObject()
 		pdf.addNumsParentTree()
