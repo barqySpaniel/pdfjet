@@ -10,10 +10,10 @@ import Foundation
 /// Please see Example_47
 ///
 public class TextFrame : Drawable {
-    private var paragraphs: Array<TextLine>?
+    private var lines: Array<TextLine>?
     private var font: Font?
     private var fallbackFont: Font?
-    private var fontSize: Float?
+    private var fontSize: Float = 0.0
     private var x: Float = 0.0
     private var y: Float = 0.0
     private var w: Float = 0.0
@@ -23,17 +23,18 @@ public class TextFrame : Drawable {
     private var beginParagraphPoints: [[Float]]?
     private var border = false
 
-    public init(_ paragraphs: Array<TextLine>) {
-        self.paragraphs = Array(paragraphs)
-        self.font = paragraphs[0].getFont()
-        self.fallbackFont = paragraphs[0].getFallbackFont()
-        self.leading = font!.getBodyHeight()
+    public init(_ lines: Array<TextLine>) {
+        self.lines = lines
+        self.font = lines[0].getFont()
+        self.fallbackFont = lines[0].getFallbackFont()
+        self.fontSize = font!.size
+        self.leading = font!.getBodyHeight(self.fontSize)
         self.paragraphLeading = 2*leading
         self.beginParagraphPoints = [[Float]]()
         if fallbackFont != nil && (fallbackFont!.getBodyHeight() > self.leading) {
             self.leading = fallbackFont!.getBodyHeight()
         }
-        self.paragraphs!.reverse()
+        self.lines!.reverse()
     }
 
     @discardableResult
@@ -67,12 +68,12 @@ public class TextFrame : Drawable {
         return self
     }
 
-    public func setParagraphs(_ paragraphs: Array<TextLine>) {
-        self.paragraphs = paragraphs
+    public func setParagraphs(_ lines: Array<TextLine>) {
+        self.lines = lines
     }
 
     public func getParagraphs() -> Array<TextLine>? {
-        return self.paragraphs
+        return self.lines
     }
 
     @discardableResult
@@ -100,9 +101,9 @@ public class TextFrame : Drawable {
     public func drawOn(_ page: Page?) -> [Float] {
         var xText = self.x
         var yText = self.y + self.font!.ascent
-        while paragraphs!.count > 0 {
-            // The paragraphs are reversed so we can efficiently remove the first one:
-            var textLine = paragraphs!.removeLast()
+        while lines!.count > 0 {
+            // The lines are reversed so we can efficiently remove the first one:
+            var textLine = lines!.removeLast()
             textLine.setLocation(xText, yText)
             beginParagraphPoints!.append([xText, yText])
             while true {
@@ -112,8 +113,8 @@ public class TextFrame : Drawable {
                 }
                 yText = textLine.advance(leading)
                 if yText + font!.descent >= (self.y + self.h) {
-                    // The paragraphs are reversed so we can efficiently add new first paragraph:
-                    paragraphs!.append(textLine)
+                    // The lines are reversed so we can efficiently add new one:
+                    lines!.append(textLine)
                     drawBorder(page!)
                     return [x + w, y + h]
                 }
@@ -154,6 +155,6 @@ public class TextFrame : Drawable {
     }
 
     public func isNotEmpty() -> Bool {
-        return paragraphs!.count > 0
+        return lines!.count > 0
     }
 }   // End of TextFrame.swift
