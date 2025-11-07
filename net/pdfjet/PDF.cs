@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 /**
- *  Used to create PDF objects that represent PDF documents.
+ * Used to create PDF objects that represent PDF documents.
  */
 namespace PDFjet.NET {
 public class PDF {
@@ -578,7 +578,6 @@ public class PDF {
 
         return sb.ToString();
     }
-
 
     private void AddNumsParentTree() {
         NewObj();

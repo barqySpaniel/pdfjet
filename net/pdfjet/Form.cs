@@ -9,7 +9,7 @@ using System.Text;
 using System.Collections.Generic;
 
 /**
- *  Please see Example_45
+ * Please see Example_45
  */
 namespace PDFjet.NET {
 public class Form : IDrawable {
@@ -89,11 +89,11 @@ public class Form : IDrawable {
     }
 
     /**
-     *  Draws this form on the specified page.
+     * Draws this form on the specified page.
      *
-     *  @param page the page to draw on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         foreach (Field field in fields) {

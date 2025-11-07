@@ -7,9 +7,8 @@
 using System.Collections.Generic;
 
 /**
- *  Used to create paragraph objects.
- *  See the TextColumn class for more information.
- *
+ * Used to create paragraph objects.
+ * See the TextColumn class for more information.
  */
 namespace PDFjet.NET {
 public class Paragraph {
@@ -23,8 +22,7 @@ public class Paragraph {
     internal uint alignment = Align.LEFT;
 
     /**
-     *  Constructor for creating paragraph objects.
-     *
+     * Constructor for creating paragraph objects.
      */
     public Paragraph() {
         this.lines = new List<TextLine>();
@@ -36,10 +34,10 @@ public class Paragraph {
     }
 
     /**
-     *  Adds a text line to this paragraph.
+     * Adds a text line to this paragraph.
      *
-     *  @param text the text line to add to this paragraph.
-     *  @return this paragraph.
+     * @param text the text line to add to this paragraph.
+     * @return this paragraph.
      */
     public Paragraph Add(TextLine text) {
         lines.Add(text);
@@ -47,12 +45,11 @@ public class Paragraph {
     }
 
     /**
-     *  Sets the alignment of the text in this paragraph.
+     * Sets the alignment of the text in this paragraph.
      *
-     *  @param alignment the alignment code.
-     *  @return this paragraph.
-     *
-     *  <pre>Supported values: Align.LEFT, Align.RIGHT, Align.CENTER and Align.JUSTIFY.</pre>
+     * @param alignment the alignment code.
+     * @return this paragraph.
+     * <pre>Supported values: Align.LEFT, Align.RIGHT, Align.CENTER and Align.JUSTIFY.</pre>
      */
     public Paragraph SetAlignment(uint alignment) {
         this.alignment = alignment;
