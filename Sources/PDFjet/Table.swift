@@ -28,8 +28,7 @@ public class Table {
     private var rendered = 0
     private var x1: Float = 0.0
     private var y1: Float = 0.0
-    private var x1FirstPage: Float = 0.0
-    private var y1FirstPage: Float = 0.0
+    private var firstPageTopMargin: Float = 0.0
     private var bottomMargin: Float = 0.0
 
     ///
@@ -419,9 +418,8 @@ public class Table {
     private func drawHeaderRows(_ page: Page?, _ pageNumber: Int) -> [Float] {
         var x = x1
         var y = y1
-        if pageNumber == 1 && y1FirstPage > 0.0 {
-            x = x1FirstPage
-            y = y1FirstPage
+        if pageNumber == 1 && firstPageTopMargin > 0.0 {
+            y = firstPageTopMargin
         }
         for i in 0..<numOfHeaderRows {
             let row = tableData[i]
@@ -824,8 +822,7 @@ public class Table {
         tableData = list
     }
 
-    public func setLocationFirstPage(_ x: Float, _ y: Float) {
-        self.x1FirstPage = x;
-        self.y1FirstPage = y;
+    public func setFirstPageTopMargin(_ firstPageTopMargin: Float) {
+        self.firstPageTopMargin = firstPageTopMargin
     }
 }   // End of Table.swift

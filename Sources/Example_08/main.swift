@@ -8,10 +8,6 @@ public class Example_08 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_08.pdf", append: false)!)
 
-        // let f1 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        // let f2 = Font(pdf, CoreFont.HELVETICA)
-        // let f3 = Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE)
-
         let f1 = try Font(pdf, IBMPlexSans.SemiBold)
         f1.setSize(7.0)
 
@@ -26,7 +22,7 @@ public class Example_08 {
 
         let barcode = Barcode(Barcode.CODE128, "Hello, World!")
         barcode.setModuleLength(0.75)
-        // Uncomment the line below if you want to print the text underneath the barcode.
+	    // Comment out the line below if you don't want to print the text underneath the barcode.
         barcode.setFont(f1)
 
         let table = try Table(f1, f2, "data/Electric_Vehicle_Population_10_Pages.csv")
@@ -34,7 +30,6 @@ public class Example_08 {
         table.getCellAt(4, 0).setImage(image)
         table.getCellAt(5, 0).setColSpan(8)
         table.getCellAt(5, 0).setBarcode(barcode)
-        table.setFontInRow(14, f3)
         table.getCellAt(20, 0).setColSpan(6)
         table.getCellAt(20, 6).setColSpan(2)
         table.setColumnWidths()
@@ -43,12 +38,12 @@ public class Example_08 {
         table.setColumnWidth(5, table.getColumnWidth(5) + 10.0)
         table.rightAlignNumbers()
 
-        table.setLocationFirstPage(50.0, 100.0)
-        table.setLocation(50.0, 0.0)
+        table.setLocation(35.0, 35.0)
+        // table.setFirstPageTopMargin(150.0)
         table.setBottomMargin(15.0)
         table.setTextColorInRow(12, Color.blue)
         table.setTextColorInRow(13, Color.red)
-        // table.getCellAt(13, 0).getTextBox().setURIAction("http://pdfjet.com")
+        table.setFontInRow(14, f3)
 
         var pages = [Page]()
         table.drawOn(pdf, &pages, Letter.PORTRAIT)
