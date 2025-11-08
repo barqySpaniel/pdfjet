@@ -67,17 +67,15 @@ func NewPNGImage(reader io.Reader) *PNGImage {
 			image.bitDepth = int(chunk.ChunkData[8])    // BitDepth
 			image.colorType = int(chunk.ChunkData[9])   // Color Type
 
-			// fmt.Println(
-			//         "Bit Depth == " + chunk.getData()[8])
-			// fmt.Println(
-			//         "Color Type == " + chunk.getData()[9])
-			// fmt.Println(chunk.getData()[10])
-			// fmt.Println(chunk.getData()[11])
-			// fmt.Println(chunk.getData()[12])
+			// log.Println("Bit Depth == " + chunk.getData()[8])
+			// log.Println("Color Type == " + chunk.getData()[9])
+			// log.Println(chunk.getData()[10])
+			// log.Println(chunk.getData()[11])
+			// log.Println(chunk.getData()[12])
 
 			if chunk.ChunkData[12] == 1 {
-				fmt.Println("Interlaced PNG images are not supported.")
-				fmt.Println("Convert the image using OptiPNG:\noptipng -i0 -o7 myimage.png")
+				log.Println("Interlaced PNG images are not supported.")
+				log.Println("Convert the image using OptiPNG:\noptipng -i0 -o7 myimage.png")
 			}
 		case "IDAT":
 			image.iDAT = append(image.iDAT, chunk.ChunkData...)
@@ -87,17 +85,17 @@ func NewPNGImage(reader io.Reader) *PNGImage {
 				log.Fatal("Incorrect palette length.")
 			}
 		case "gAMA":
-			// fmt.Println("gAMA chunk found!")
+			// log.Println("gAMA chunk found!")
 		case "tRNS":
 			if image.colorType == 3 {
 				image.tRNS = chunk.ChunkData
 			}
 		case "cHRM":
-			// fmt.Println("cHRM chunk found!")
+			// log.Println("cHRM chunk found!")
 		case "sBIT":
-			// fmt.Println("sBIT chunk found!")
+			// log.Println("sBIT chunk found!")
 		case "bKGD":
-			// fmt.Println("bKGD chunk found!")
+			// log.Println("bKGD chunk found!")
 		}
 	}
 
