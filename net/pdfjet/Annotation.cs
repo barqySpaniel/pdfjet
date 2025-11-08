@@ -37,16 +37,16 @@ internal class Annotation {
     internal FileAttachment fileAttachment = null;
 
     /**
-     *  This class is used to create annotation objects.
+     * This class is used to create annotation objects.
      *
-     *  @param annotationType the annotation type.
-     *  @param x1 the x coordinate of the top left corner.
-     *  @param y1 the y coordinate of the top left corner.
-     *  @param x2 the x coordinate of the bottom right corner.
-     *  @param y2 the y coordinate of the bottom right corner.
-     *  @param vertices the polygon annotation vertices.
-     *  @param uri the URI string.
-     *  @param key the destination name.
+     * @param annotationType the annotation type.
+     * @param x1 the x coordinate of the top left corner.
+     * @param y1 the y coordinate of the top left corner.
+     * @param x2 the x coordinate of the bottom right corner.
+     * @param y2 the y coordinate of the bottom right corner.
+     * @param vertices the polygon annotation vertices.
+     * @param uri the URI string.
+     * @param key the destination name.
      */
     internal Annotation(
             String annotationType,

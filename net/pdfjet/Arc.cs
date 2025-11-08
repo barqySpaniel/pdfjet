@@ -94,7 +94,6 @@ public class Arc : IDrawable {
      *
      *     "[Array] Phase"     Appearance          Description
      *     _______________     _________________   ____________________________________
-     *
      *     "[] 0"              -----------------   Solid line
      *     "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
      *     "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
