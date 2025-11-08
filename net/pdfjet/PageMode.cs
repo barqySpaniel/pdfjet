@@ -7,8 +7,7 @@
 using System;
 
 /**
- *  Used to specify the PDF page layout.
- *
+ * Used to specify the PDF page layout.
  */
 namespace PDFjet.NET {
 public class PageMode {
