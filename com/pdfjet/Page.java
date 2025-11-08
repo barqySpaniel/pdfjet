@@ -643,7 +643,7 @@ final public class Page {
         if (rgbColor[0] < 0f || rgbColor[0] > 1f ||
             rgbColor[1] < 0f || rgbColor[1] > 1f ||
             rgbColor[2] < 0f || rgbColor[2] > 1f) {
-            System.out.println("Warning: RGB color values must be between 0f and 1f. Ignoring request.");
+            PDF.LOG.warning("Warning: RGB color values must be between 0f and 1f. Ignoring request.");
             return; // Early exit if out of range
         }
 
@@ -700,7 +700,7 @@ final public class Page {
         if (rgbColor[0] < 0f || rgbColor[0] > 1f ||
             rgbColor[1] < 0f || rgbColor[1] > 1f ||
             rgbColor[2] < 0f || rgbColor[2] > 1f) {
-            System.out.println("Warning: RGB color values must be between 0f and 1f. Ignoring request.");
+            PDF.LOG.warning("Warning: RGB color values must be between 0f and 1f. Ignoring request.");
             return; // Early exit if out of range
         }
 

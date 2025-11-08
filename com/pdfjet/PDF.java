@@ -8,9 +8,9 @@ package com.pdfjet;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Logger;
 import java.text.*;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.zip.*;
 
 /**
@@ -51,7 +51,7 @@ final public class PDF {
     private Page prevPage = null;
     private boolean contentStreamsCompression = false;
 
-    public static final Logger LOG = Logger.getLogger(PDF.class.getName());
+    static final Logger LOG = Logger.getLogger(PDF.class.getName());
 
     /**
      * The default constructor - use when reading PDF files.

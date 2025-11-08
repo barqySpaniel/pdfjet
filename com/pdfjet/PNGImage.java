@@ -53,15 +53,13 @@ public class PNGImage {
                 this.h = toIntValue(chunk.getData(), 4);    // Height
                 this.bitDepth = chunk.getData()[8];         // Bit Depth
                 this.colorType = chunk.getData()[9];        // Color Type
-                // System.out.println(
-                //         "Bit Depth == " + chunk.getData()[8]);
-                // System.out.println(
-                //         "Color Type == " + chunk.getData()[9]);
-                // System.out.println(chunk.getData()[10]);
-                // System.out.println(chunk.getData()[11]);
-                // System.out.println(chunk.getData()[12]);
+                // PDF.LOG.warning("Bit Depth == " + chunk.getData()[8]);
+                // PDF.LOG.warning("Color Type == " + chunk.getData()[9]);
+                // PDF.LOG.warning(chunk.getData()[10]);
+                // PDF.LOG.warning(chunk.getData()[11]);
+                // PDF.LOG.warning(chunk.getData()[12]);
                 if (chunk.getData()[12] == 1) {
-                    System.out.println("Interlaced PNG images are not supported.\nConvert the image using OptiPNG:\noptipng -i0 -o7 myimage.png\n");
+                    PDF.LOG.warning("Interlaced PNG images are not supported.\nConvert the image using OptiPNG:\noptipng -i0 -o7 myimage.png\n");
                 }
             } else if (chunkType.equals("IDAT")) {
                 iDAT = appendIdatChunk(iDAT, chunk.getData());
@@ -71,17 +69,17 @@ public class PNGImage {
                     throw new Exception("Incorrect palette length.");
                 }
             } else if (chunkType.equals("gAMA")) {
-                // System.out.println("gAMA chunk found!");
+                // PDF.LOG.warning("gAMA chunk found!");
             } else if (chunkType.equals("tRNS")) {
                 if (colorType == 3) {
                     tRNS = chunk.getData();
                 }
             } else if (chunkType.equals("cHRM")) {
-                // System.out.println("cHRM chunk found!");
+                // PDF.LOG.warning("cHRM chunk found!");
             } else if (chunkType.equals("sBIT")) {
-                // System.out.println("sBIT chunk found!");
+                // PDF.LOG.warning("sBIT chunk found!");
             } else if (chunkType.equals("bKGD")) {
-                // System.out.println("bKGD chunk found!");
+                // PDF.LOG.warning("bKGD chunk found!");
             }
         }
 
