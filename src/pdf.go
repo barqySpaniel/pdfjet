@@ -328,9 +328,9 @@ func (pdf *PDF) addResourcesObject() int {
 	if len(pdf.fonts) > 0 || len(pdf.importedFonts) > 0 {
 		pdf.appendString("/Font\n")
 		pdf.appendByteArray(token.BeginDictionary)
-		for _, token := range pdf.importedFonts {
-			pdf.appendString(token)
-			if token == "R" {
+		for _, token1 := range pdf.importedFonts {
+			pdf.appendString(token1)
+			if token1 == "R" {
 				pdf.appendString("\n")
 			} else {
 				pdf.appendString(" ")
@@ -905,7 +905,7 @@ func (pdf *PDF) Complete() {
 		pdf.addStructDocumentObject(structTreeRootObjNumber)
 	}
 
-	var outlineDictNum int = 0
+	var outlineDictNum = 0
 	if pdf.toc != nil && pdf.toc.getChildren() != nil {
 		list := pdf.toc.toArrayList()
 		outlineDictNum = pdf.addOutlineDict(pdf.toc)
@@ -953,7 +953,11 @@ func (pdf *PDF) Complete() {
 	pdf.appendString("\n")
 	pdf.appendString("%%EOF\n")
 
-	pdf.writer.Flush()
+	err := pdf.writer.Flush()
+	if err != nil {
+		fmt.Printf("failed to flush PDF writer: %v\n", err)
+		return
+	}
 }
 
 // SetLanguage sets the "Language" document property of the PDF file.
@@ -1116,7 +1120,7 @@ func getObject(buf []byte, off, length int) *PDFobj {
 	obj := NewPDFobj()
 	obj.offset = off
 
-	var token strings.Builder
+	var token1 strings.Builder
 	p := 0
 	b1 := byte(' ')
 	done := false
@@ -1124,26 +1128,26 @@ func getObject(buf []byte, off, length int) *PDFobj {
 		b2 := buf[off]
 		off++
 		if b1 == byte('\\') {
-			token.WriteByte(b2)
+			token1.WriteByte(b2)
 			b1 = b2
 			continue
 		}
 
 		if b2 == byte('(') {
 			if p == 0 {
-				done = process(obj, &token, buf, off)
+				done = process(obj, &token1, buf, off)
 			}
 			if !done {
-				token.WriteByte(b2)
+				token1.WriteByte(b2)
 				b1 = b2
 				p++
 			}
 		} else if b2 == byte(')') {
-			token.WriteByte(b2)
+			token1.WriteByte(b2)
 			b1 = b2
 			p--
 			if p == 0 {
-				done = process(obj, &token, buf, off)
+				done = process(obj, &token1, buf, off)
 			}
 		} else if b2 == 0x00 || // Null
 			b2 == 0x09 || // Horizontal Tab
@@ -1151,30 +1155,30 @@ func getObject(buf []byte, off, length int) *PDFobj {
 			b2 == 0x0C || // Form Feed
 			b2 == 0x0D || // Carriage Return (CR)
 			b2 == 0x20 { // Space
-			done = process(obj, &token, buf, off)
+			done = process(obj, &token1, buf, off)
 			if !done {
 				b1 = byte(' ')
 			}
 		} else if b2 == byte('/') {
-			done = process(obj, &token, buf, off)
+			done = process(obj, &token1, buf, off)
 			if !done {
-				token.WriteByte(b2)
+				token1.WriteByte(b2)
 				b1 = b2
 			}
 		} else if b2 == byte('<') || b2 == byte('>') || b2 == byte('%') {
 			if p > 0 {
-				token.WriteByte(b2)
+				token1.WriteByte(b2)
 				b1 = b2
 			} else {
 				if b2 != b1 {
-					done = process(obj, &token, buf, off)
+					done = process(obj, &token1, buf, off)
 					if !done {
-						token.WriteByte(b2)
+						token1.WriteByte(b2)
 						b1 = b2
 					}
 				} else {
-					token.WriteByte(b2)
-					done = process(obj, &token, buf, off)
+					token1.WriteByte(b2)
+					done = process(obj, &token1, buf, off)
 					if !done {
 						b1 = byte(' ')
 					}
@@ -1183,17 +1187,17 @@ func getObject(buf []byte, off, length int) *PDFobj {
 		} else if b2 == byte('[') || b2 == byte(']') ||
 			b2 == byte('{') || b2 == byte('}') {
 			if p > 0 {
-				token.WriteByte(b2)
+				token1.WriteByte(b2)
 				b1 = b2
 			} else {
-				done = process(obj, &token, buf, off)
+				done = process(obj, &token1, buf, off)
 				if !done {
 					obj.dict = append(obj.dict, string(b2))
 					b1 = b2
 				}
 			}
 		} else {
-			token.WriteByte(b2)
+			token1.WriteByte(b2)
 			b1 = b2
 		}
 	}
@@ -1228,9 +1232,9 @@ func getObjects1(buf []byte, obj *PDFobj, objects *[]*PDFobj) {
 
 	i := 1
 	for {
-		token := obj.dict[i]
+		token1 := obj.dict[i]
 		i++
-		if token == "trailer" {
+		if token1 == "trailer" {
 			break
 		}
 
@@ -1282,20 +1286,20 @@ func getObjects2(buf []byte, obj *PDFobj, objects *[]*PDFobj) {
 	n3 := 0        // Field 3 number of bytes
 	length := 0
 	for i := 0; i < len(obj.dict); i++ {
-		token := obj.dict[i]
-		if token == "/Predictor" {
+		token1 := obj.dict[i]
+		if token1 == "/Predictor" {
 			val, err := strconv.Atoi(obj.dict[i+1])
 			if err != nil {
 				log.Fatal(err)
 			}
 			predictor = val
-		} else if token == "/Length" {
+		} else if token1 == "/Length" {
 			len1, err := strconv.Atoi(obj.dict[i+1])
 			if err != nil {
 				log.Fatal(err)
 			}
 			length = len1
-		} else if token == "/W" {
+		} else if token1 == "/W" {
 			// "/W [ 1 3 1 ]"
 			num, err := strconv.Atoi(obj.dict[i+2])
 			if err != nil {
@@ -1485,13 +1489,15 @@ func getNumOfChildren(numOfChildren int, bm1 *Bookmark) int {
 // AddObjects adds the specified objects to the PDF.
 func (pdf *PDF) AddObjects(objects *[]*PDFobj) {
 	pagesObject := pdf.getPagesObject(*objects)
-	number := pagesObject.dict[0]
-	objNumber, err := strconv.Atoi(number)
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		pdf.pagesObjNumber = objNumber
-		pdf.addObjectsToPDF(objects)
+	if pagesObject != nil {
+		var number = pagesObject.dict[0]
+		objNumber, err := strconv.Atoi(number)
+		if err != nil {
+			log.Fatal(err)
+		} else {
+			pdf.pagesObjNumber = objNumber
+			pdf.addObjectsToPDF(objects)
+		}
 	}
 }
 
@@ -1525,8 +1531,8 @@ func (pdf *PDF) getPageObjects(pdfObj *PDFobj, objects []*PDFobj, pages *[]*PDFo
 
 func isPageObject(obj *PDFobj) bool {
 	isPage := false
-	for i, token := range obj.dict {
-		if token == "/Type" && obj.dict[i+1] == "/Page" {
+	for i, token1 := range obj.dict {
+		if token1 == "/Type" && obj.dict[i+1] == "/Page" {
 			isPage = true
 		}
 	}
@@ -1544,13 +1550,13 @@ func (pdf *PDF) getExtGState(resources *PDFobj) string {
 			level++
 			for level > 0 {
 				i++
-				token := dict[i]
-				if token == "<<" {
+				token1 := dict[i]
+				if token1 == "<<" {
 					level++
-				} else if token == ">>" {
+				} else if token1 == ">>" {
 					level--
 				}
-				buf.WriteString(token)
+				buf.WriteString(token1)
 				if level > 0 {
 					buf.WriteString(" ")
 				} else {
@@ -1567,11 +1573,11 @@ func (pdf *PDF) getFontObjects(resources *PDFobj, objects []*PDFobj) []*PDFobj {
 	fonts := make([]*PDFobj, 0)
 
 	dict := resources.GetDict()
-	for i, token := range dict {
-		if token == "/Font" {
+	for i, token1 := range dict {
+		if token1 == "/Font" {
 			if dict[i+2] != ">>" {
-				token := dict[i+3]
-				objNumber, err := strconv.Atoi(token)
+				token1 := dict[i+3]
+				objNumber, err := strconv.Atoi(token1)
 				if err != nil {
 					log.Fatal(err)
 				} else {
@@ -1604,14 +1610,14 @@ func (pdf *PDF) getFontObjects(resources *PDFobj, objects []*PDFobj) []*PDFobj {
 func (pdf *PDF) getDescendantFonts(font *PDFobj, objects []*PDFobj) []*PDFobj {
 	descendantFonts := make([]*PDFobj, 0)
 	dict := font.GetDict()
-	for i, token := range dict {
-		if token == "/DescendantFonts" {
-			token = dict[i+2]
-			objNumber, err := strconv.Atoi(token)
+	for i, token1 := range dict {
+		if token1 == "/DescendantFonts" {
+			token1 = dict[i+2]
+			objNumber, err := strconv.Atoi(token1)
 			if err != nil {
 				log.Fatal(err)
 			} else {
-				if token != "]" {
+				if token1 != "]" {
 					descendantFonts = append(descendantFonts, objects[objNumber-1])
 				}
 			}
@@ -1622,12 +1628,12 @@ func (pdf *PDF) getDescendantFonts(font *PDFobj, objects []*PDFobj) []*PDFobj {
 
 func (pdf *PDF) getObjectFromObjects(name string, obj *PDFobj, objects []*PDFobj) *PDFobj {
 	dict := obj.GetDict()
-	for i, token := range dict {
-		if token == name {
-			token = dict[i+1]
-			objNumber, err := strconv.Atoi(token)
+	for i, token1 := range dict {
+		if token1 == name {
+			token1 = dict[i+1]
+			objNumber, err := strconv.Atoi(token1)
 			if err != nil {
-				fmt.Println("NumberFormatException: " + token)
+				fmt.Println("NumberFormatException: " + token1)
 			} else {
 				return objects[objNumber-1]
 			}
@@ -1680,8 +1686,8 @@ func (pdf *PDF) addObjectsToPDF(objects *[]*PDFobj) {
 			pdf.appendInteger(obj.number)
 			pdf.appendString(" 0 obj\n")
 			if obj.dict != nil {
-				for _, token := range obj.dict {
-					pdf.appendString(token)
+				for _, token1 := range obj.dict {
+					pdf.appendString(token1)
 					pdf.appendString(" ")
 				}
 			}
@@ -1702,13 +1708,13 @@ func (pdf *PDF) addObjectsToPDF(objects *[]*PDFobj) {
 			// fmt.Println(obj.dict)
 			var link = false
 			n := len(obj.dict)
-			var token string
+			var token1 string
 			for i := 0; i < n; i++ {
-				token = obj.dict[i]
-				pdf.appendString(token)
-				if strings.HasPrefix(token, "(http:") {
+				token1 = obj.dict[i]
+				pdf.appendString(token1)
+				if strings.HasPrefix(token1, "(http:") {
 					link = true
-				} else if link && strings.HasSuffix(token, ")") {
+				} else if link && strings.HasSuffix(token1, ")") {
 					link = false
 				}
 				if i < (n - 1) {
@@ -1723,7 +1729,7 @@ func (pdf *PDF) addObjectsToPDF(objects *[]*PDFobj) {
 				pdf.appendByteArray(obj.stream)
 				pdf.appendString("\nendstream\n")
 			}
-			if token != "endobj" {
+			if token1 != "endobj" {
 				pdf.appendString("endobj\n")
 			}
 		}
