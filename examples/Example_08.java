@@ -12,25 +12,21 @@ public class Example_08 {
         PDF pdf = new PDF(
                 new BufferedOutputStream(new FileOutputStream("Example_08.pdf")));
 
-        // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        // Font f2 = new Font(pdf, CoreFont.HELVETICA);
-        // Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE);
+        Font f1 = new Font(pdf, IBMPlexSans.SemiBold);
+        f1.setSize(7.0);
 
-        Font f1 = new Font(pdf, NotoSans.SemiBold);
-        f1.setSize(7f);
+        Font f2 = new Font(pdf, IBMPlexSans.Regular);
+        f2.setSize(7.0);
 
-        Font f2 = new Font(pdf, NotoSans.Regular);
-        f2.setSize(7f);
-
-        Font f3 = new Font(pdf, NotoSans.SemiBoldItalic);
-        f3.setSize(7f);
+        Font f3 = new Font(pdf, IBMPlexSans.BoldItalic);
+        f3.setSize(7.0);
 
         Image image = new Image(pdf, "images/TeslaX.png");
         image.scaleBy(0.20f);
 
         Barcode barcode = new Barcode(Barcode.CODE_128, "Hello, World!");
         barcode.setModuleLength(0.75f);
-        // Uncomment the line below if you want to print the text underneath the barcode.
+	    // Comment out the line below if you don't want to print the text underneath the barcode.
         barcode.setFont(f1);
 
         Table table = new Table(f1, f2, "data/Electric_Vehicle_Population_10_Pages.csv");
@@ -46,13 +42,12 @@ public class Example_08 {
         table.setColumnWidth(5, table.getColumnWidth(5) + 10f);
         table.rightAlignNumbers();
 
-        table.setLocationFirstPage(50f, 100f);
-        table.setLocation(50f, 0f);
+        table.setLocation(30f, 30f);
+        // table.setFirstPageTopMargin(150f);
         table.setBottomMargin(15f);
         table.setTextColorInRow(12, Color.blue);
         table.setTextColorInRow(13, Color.red);
         table.setFontInRow(14, f3);
-        // table.getCellAt(13, 0).getTextBox().setURIAction("http://pdfjet.com");
 
         List<Page> pages = new ArrayList<Page>();
         table.drawOn(pdf, pages, Letter.PORTRAIT);

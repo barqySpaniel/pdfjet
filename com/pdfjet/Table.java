@@ -35,8 +35,7 @@ public class Table {
     private float y1;
     private Font f1;
     private Font f2;
-    private float x1FirstPage;
-    private float y1FirstPage;
+    private float firstPageTopMargin;
     private float bottomMargin;
 
     /**
@@ -475,9 +474,8 @@ public class Table {
     private float[] drawHeaderRows(Page page, int pageNumber) throws Exception {
         float x = x1;
         float y = y1;
-        if (pageNumber == 1 && y1FirstPage > 0f) {
-            x = x1FirstPage;
-            y = y1FirstPage;
+        if (pageNumber == 1 && firstPageTopMargin > 0f) {
+            y = firstPageTopMargin;
         }
         for (int i = 0; i < numOfHeaderRows; i++) {
             List<Cell> row = tableData.get(i);
@@ -877,8 +875,7 @@ public class Table {
         tableData = list;
     }
 
-    public void setLocationFirstPage(float x, float y) {
-        this.x1FirstPage = x;
-        this.y1FirstPage = y;
+    public void setFirstPageTopMargin(float firstPageTopMargin) {
+        this.firstPageTopMargin = firstPageTopMargin;
     }
 } // End of Table.java

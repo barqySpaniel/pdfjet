@@ -36,7 +36,6 @@ func Example08() {
 	table.GetCellAt(4, 0).SetImage(image)
 	table.GetCellAt(5, 0).SetColSpan(8)
 	table.GetCellAt(5, 0).SetBarcode(barcode)
-	table.SetFontInRow(14, f3)
 	table.GetCellAt(20, 0).SetColSpan(6)
 	table.GetCellAt(20, 6).SetColSpan(2)
 	table.SetColumnWidths()
@@ -50,6 +49,7 @@ func Example08() {
 	table.SetBottomMargin(15.0)
 	table.SetTextColorInRow(12, color.Blue)
 	table.SetTextColorInRow(13, color.Red)
+	table.SetFontInRow(14, f3)
 
 	pages := make([]*pdfjet.Page, 0)
 	table.DrawOnPages(pdf, &pages, letter.Portrait)
