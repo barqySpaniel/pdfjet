@@ -40,5 +40,5 @@ func PrintDuration(example string, duration time.Duration) {
 	} else if len(durationAsString) == 6 {
 		durationAsString = " " + durationAsString
 	}
-	log.Print(example + " => " + durationAsString + "\n")
+	fmt.Print(example + " => " + durationAsString + "\n")
 }
