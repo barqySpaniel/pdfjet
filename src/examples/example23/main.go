@@ -50,9 +50,8 @@ func Example23() {
 
 	table := pdfjet.NewTable()
 	table.SetData(tableData, 1) // One header row
-	table.SetLocationFirstPage(50.0, 650.0)
 	table.SetLocation(50.0, 50.0)
-
+	table.SetFirstPageTopMargin(650.0)
 	table.SetBottomMargin(15.0)
 	table.SetColumnWidth(0, 100.0)
 	table.SetColumnWidth(1, 100.0)
