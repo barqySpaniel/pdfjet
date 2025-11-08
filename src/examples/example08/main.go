@@ -14,10 +14,6 @@ import (
 func Example08() {
 	pdf := pdfjet.NewPDFFile("Example_08.pdf")
 
-	// f1 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBold())
-	// f2 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	// f3 := pdfjet.NewCoreFont(pdf, corefont.HelveticaBoldOblique())
-
 	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.SemiBold)
 	f1.SetSize(7.0)
 
@@ -32,7 +28,7 @@ func Example08() {
 
 	barcode := pdfjet.NewBarcode(pdfjet.CODE128, "Hello, World!")
 	barcode.SetModuleLength(0.75)
-	// Uncomment the line below if you want to print the text underneath the barcode.
+	// Comment out the line below if you don't want to print the text underneath the barcode.
 	barcode.SetFont(f1)
 
 	table := pdfjet.NewTableFromFile(f1, f2, "data/Electric_Vehicle_Population_10_Pages.csv")
@@ -49,12 +45,11 @@ func Example08() {
 	table.SetColumnWidth(5, table.GetColumnWidth(5)+10.0)
 	table.RightAlignNumbers()
 
-	table.SetLocationFirstPage(50.0, 100.0)
-	table.SetLocation(50.0, 0.0)
+	table.SetLocation(30.0, 30.0)
+	// table.SetFirstPageTopMargin(150.0)
 	table.SetBottomMargin(15.0)
 	table.SetTextColorInRow(12, color.Blue)
 	table.SetTextColorInRow(13, color.Red)
-	// table.GetCellAt(13, 0).GetTextBox().SetURIAction("http://pdfjet.com")
 
 	pages := make([]*pdfjet.Page, 0)
 	table.DrawOnPages(pdf, &pages, letter.Portrait)

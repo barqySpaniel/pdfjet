@@ -21,13 +21,12 @@ import (
 // Table is used to create table objects and draw them on a page.
 // Please see Example_08.
 type Table struct {
-	tableData       [][]*Cell
-	numOfHeaderRows int
-	rendered        int
-	x1, y1          float32
-	x1FirstPage     float32
-	y1FirstPage     float32
-	bottomMargin    float32
+	tableData          [][]*Cell
+	numOfHeaderRows    int
+	rendered           int
+	x1, y1             float32
+	firstPageTopMargin float32
+	bottomMargin       float32
 }
 
 // Constants
@@ -364,9 +363,8 @@ func (table *Table) DrawOnPages(pdf *PDF, pages *[]*Page, pageSize [2]float32) [
 func (table *Table) drawHeaderRows(page *Page, pageNumber int) [2]float32 {
 	x := table.x1
 	y := table.y1
-	if pageNumber == 1 && table.y1FirstPage > 0.0 {
-		x = table.x1FirstPage
-		y = table.y1FirstPage
+	if pageNumber == 1 && table.firstPageTopMargin > 0.0 {
+		y = table.firstPageTopMargin
 	}
 	for i := 0; i < table.numOfHeaderRows; i++ {
 		row := table.tableData[i]
@@ -759,7 +757,6 @@ func (table *Table) SetVisibleColumns(visible ...int) {
 	table.tableData = list
 }
 
-func (table *Table) SetLocationFirstPage(x, y float32) {
-	table.x1FirstPage = x
-	table.y1FirstPage = y
+func (table *Table) SetFirstPageTopMargin(firstPageTopMargin float32) {
+	table.firstPageTopMargin = firstPageTopMargin
 }
