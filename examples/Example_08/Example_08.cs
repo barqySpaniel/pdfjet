@@ -12,13 +12,6 @@ public class Example_08 {
         PDF pdf = new PDF(new BufferedStream(
                 new FileStream("Example_08.pdf", FileMode.Create)));
 
-        // Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
-        // f1.SetSize(7f);
-        // Font f2 = new Font(pdf, CoreFont.HELVETICA);
-        // f2.SetSize(7f);
-        // Font f3 = new Font(pdf, CoreFont.HELVETICA_BOLD_OBLIQUE);
-        // f3.SetSize(7f);
-
         Font f1 = new Font(pdf, IBMPlexSans.SemiBold);
         f1.SetSize(7f);
 
@@ -33,7 +26,7 @@ public class Example_08 {
 
         Barcode barcode = new Barcode(Barcode.CODE128, "Hello, World!");
         barcode.SetModuleLength(0.75f);
-        // Uncomment the line below if you want to print the text underneath the barcode.
+	    // Comment out the line below if you don't want to print the text underneath the barcode.
         barcode.SetFont(f1);
 
         Table table = new Table(f1, f2, "data/Electric_Vehicle_Population_10_Pages.csv");
@@ -41,7 +34,6 @@ public class Example_08 {
         table.GetCellAt(4, 0).SetImage(image);
         table.GetCellAt(5, 0).SetColSpan(8);
         table.GetCellAt(5, 0).SetBarcode(barcode);
-        table.SetFontInRow(14, f3);
         table.GetCellAt(20, 0).SetColSpan(6);
         table.GetCellAt(20, 6).SetColSpan(2);
         table.SetColumnWidths();
@@ -50,12 +42,12 @@ public class Example_08 {
         table.SetColumnWidth(5, table.GetColumnWidth(5) + 10f);
         table.RightAlignNumbers();
 
-        table.SetLocationFirstPage(50f, 100f);
-        table.SetLocation(50f, 0f);
+        table.SetLocation(30f, 30f);
+        // table.SetFirstPageTopMargin(150f);
         table.SetBottomMargin(15f);
         table.SetTextColorInRow(12, Color.blue);
         table.SetTextColorInRow(13, Color.red);
-        // table.GetCellAt(13, 0).GetTextBox().SetURIAction("http://pdfjet.com");
+        table.SetFontInRow(14, f3);
 
         List<Page> pages = new List<Page>();
         table.DrawOn(pdf, pages, Letter.PORTRAIT);

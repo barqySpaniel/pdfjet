@@ -35,8 +35,7 @@ public class Table {
     private float y1;
     private Font f1;
     private Font f2;
-    private float x1FirstPage;
-    private float y1FirstPage;
+    private float firstPageTopMargin;
     private float bottomMargin;
 
     /**
@@ -450,9 +449,8 @@ public class Table {
     private float[] DrawHeaderRows(Page page, int pageNumber) {
         float x = x1;
         float y = y1;
-        if (pageNumber == 1 && y1FirstPage > 0f) {
-            x = x1FirstPage;
-            y = y1FirstPage;
+        if (pageNumber == 1 && firstPageTopMargin > 0f) {
+            y = firstPageTopMargin;
         }
         for (int i = 0; i < numOfHeaderRows; i++) {
             List<Cell> row = tableData[i];
@@ -864,11 +862,6 @@ public class Table {
         tableData = list;
     }
 
-    public void SetLocationFirstPage(float x, float y) {
-        this.x1FirstPage = x;
-        this.y1FirstPage = y;
-    }
-
     public int AppendRow() {
         List<Cell> row = new List<Cell>();
         tableData.Add(row);         // Add the row
@@ -877,10 +870,15 @@ public class Table {
 
     public int GetRowCount() { return tableData.Count; }
     public int GetColCount(int row) {
-        if (row <= tableData.Count)
+        if (row <= tableData.Count) {
             return tableData[row].Count;
-        else
+        } else {
             return 0;
+        }
+    }
+
+    public void SetFirstPageTopMargin(float firstPageTopMargin) {
+        this.firstPageTopMargin = firstPageTopMargin;
     }
 }   // End of Table.cs
 }   // End of namespace PDFjet.NET
