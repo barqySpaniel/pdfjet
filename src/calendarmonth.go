@@ -8,7 +8,7 @@ package pdfjet
  */
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 	"time"
 
@@ -39,12 +39,12 @@ func (calendarMonth *CalendarMonth) NewCalendarMonth(f1, f2 *Font, year, month i
 	calendarMonth.daysInMonth = calendarMonth.getDaysInMonth(year, month-1)
 
 	now := time.Now()
-	fmt.Println(now.Year())
-	fmt.Println(now.Month())
-	fmt.Println(now.Day())
-	fmt.Println(now.Hour())
-	fmt.Println(now.Minute())
-	fmt.Println(now.Second())
+	log.Println(now.Year())
+	log.Println(now.Month())
+	log.Println(now.Day())
+	log.Println(now.Hour())
+	log.Println(now.Minute())
+	log.Println(now.Second())
 	calendarMonth.dayOfWeek = int(now.Weekday())
 }
 
