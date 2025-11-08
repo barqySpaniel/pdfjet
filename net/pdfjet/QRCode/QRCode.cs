@@ -1,18 +1,18 @@
 /**
- *  QRCode.cs
+ * QRCode.cs
  *
- *  Copyright (c) 2025 PDFjet Software
- *  Licensed under the MIT License. See LICENSE file in the project root.
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
  *
- *  Original author: Kazuhiko Arase, 2009
- *  URL: http://www.d-project.com/
- *  Licensed under MIT: http://www.opensource.org/licenses/mit-license.php
+ * Original author: Kazuhiko Arase, 2009
+ * URL: http://www.d-project.com/
+ * Licensed under MIT: http://www.opensource.org/licenses/mit-license.php
  *
- *  The word "QR Code" is a registered trademark of
- *  DENSO WAVE INCORPORATED
- *  http://www.denso-wave.com/qrcode/faqpatent-e.html
+ * The word "QR Code" is a registered trademark of
+ * DENSO WAVE INCORPORATED
+ * http://www.denso-wave.com/qrcode/faqpatent-e.html
  *
- *  Modified and adapted for use in PDFjet by PDFjet Software
+ * Modified and adapted for use in PDFjet by PDFjet Software
  */
 using System;
 using System.Text;
@@ -50,30 +50,30 @@ public class QRCode : IDrawable {
     }
 
     /**
-     *  Sets the position where this barcode will be drawn on the page.
+     * Sets the position where this barcode will be drawn on the page.
      *
-     *  @param x the x coordinate of the top left corner of the barcode.
-     *  @param y the y coordinate of the top left corner of the barcode.
+     * @param x the x coordinate of the top left corner of the barcode.
+     * @param y the y coordinate of the top left corner of the barcode.
      */
     public void SetPosition(double x, double y) {
         SetPosition((float) x, (float) y);
     }
 
     /**
-     *  Sets the position where this barcode will be drawn on the page.
+     * Sets the position where this barcode will be drawn on the page.
      *
-     *  @param x the x coordinate of the top left corner of the barcode.
-     *  @param y the y coordinate of the top left corner of the barcode.
+     * @param x the x coordinate of the top left corner of the barcode.
+     * @param y the y coordinate of the top left corner of the barcode.
      */
     public void SetPosition(float x, float y) {
         SetLocation(x, y);
     }
 
     /**
-     *  Sets the location where this barcode will be drawn on the page.
+     * Sets the location where this barcode will be drawn on the page.
      *
-     *  @param x the x coordinate of the top left corner of the barcode.
-     *  @param y the y coordinate of the top left corner of the barcode.
+     * @param x the x coordinate of the top left corner of the barcode.
+     * @param y the y coordinate of the top left corner of the barcode.
      */
     public void SetLocation(float x, float y) {
         this.x = x;
@@ -81,20 +81,20 @@ public class QRCode : IDrawable {
     }
 
     /**
-     *  Sets the module length of this barcode.
-     *  The default value is 2.0f
+     * Sets the module length of this barcode.
+     * The default value is 2.0f
      *
-     *  @param moduleLength the specified module length.
+     * @param moduleLength the specified module length.
      */
     public void SetModuleLength(double moduleLength) {
         this.m1 = (float) moduleLength;
     }
 
     /**
-     *  Sets the module length of this barcode.
-     *  The default value is 2.0f
+     * Sets the module length of this barcode.
+     * The default value is 2.0f
      *
-     *  @param moduleLength the specified module length.
+     * @param moduleLength the specified module length.
      */
     public void SetModuleLength(float moduleLength) {
         this.m1 = moduleLength;
@@ -105,11 +105,11 @@ public class QRCode : IDrawable {
     }
 
     /**
-     *  Draws this barcode on the specified page.
+     * Draws this barcode on the specified page.
      *
-     *  @param page the page to draw on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception
+     * @param page the page to draw on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception
      */
     public float[] DrawOn(Page page) {
         page.SetBrushColor(this.color);
