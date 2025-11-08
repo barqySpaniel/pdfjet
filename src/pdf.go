@@ -168,7 +168,7 @@ func (pdf *PDF) addMetadataObject(notice string, fontMetadataObject bool) int {
 		sb.WriteString("<xmpRights:UsageTerms>\n")
 		sb.WriteString("<rdf:Alt>\n")
 		sb.WriteString("<rdf:li xml:lang=\"x-default\">\n")
-		sb.WriteString(string([]byte(notice)))
+		sb.WriteString(notice)
 		sb.WriteString("</rdf:li>\n")
 		sb.WriteString("</rdf:Alt>\n")
 		sb.WriteString("</xmpRights:UsageTerms>\n")
@@ -502,10 +502,9 @@ func toHex(s string) string {
 	b.Grow(len(s) * 6) // preallocate maximum needed
 
 	for _, r := range s {
-		codePoint := rune(r)
-		if codePoint != 0xFEFF { // Skip BOM
-			cp := uint32(codePoint)
-			if codePoint <= 0xFFFF {
+		cp := uint32(r)
+		if cp != 0xFEFF { // Skip BOM
+			if cp <= 0xFFFF {
 				b.WriteByte(hexDigits[(cp>>12)&0xF])
 				b.WriteByte(hexDigits[(cp>>8)&0xF])
 				b.WriteByte(hexDigits[(cp>>4)&0xF])
