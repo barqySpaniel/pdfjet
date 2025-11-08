@@ -18,7 +18,7 @@ package qrcode
  */
 
 import (
-	"fmt"
+	"log"
 	"math"
 	"os"
 )
@@ -57,7 +57,7 @@ func getMask(maskPattern, i, j int) bool {
 		return ((i*j)%3+(i+j)%2)%2 == 0
 
 	default:
-		fmt.Println("Illegal mask pattern.")
+		log.Println("Illegal mask pattern.")
 		os.Exit(1)
 	}
 

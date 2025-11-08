@@ -515,7 +515,7 @@ func (page *Page) SetPenColorRGB(rgbColor [3]float32) {
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
 		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
 		rgbColor[2] < 0.0 || rgbColor[2] > 1.0 {
-		fmt.Println("Warning: RGB color values must be between 0f and 1f. Ignoring request.")
+		log.Println("Warning: RGB color values must be between 0f and 1f. Ignoring request.")
 		return // Early exit if out of range
 	}
 
@@ -587,7 +587,7 @@ func (page *Page) SetBrushColorRGB(rgbColor [3]float32) {
 	if rgbColor[0] < 0.0 || rgbColor[0] > 1.0 ||
 		rgbColor[1] < 0.0 || rgbColor[1] > 1.0 ||
 		rgbColor[2] < 0.0 || rgbColor[2] > 1.0 {
-		fmt.Println("Warning: RGB color values must be between 0f and 1f. Ignoring request.")
+		log.Println("Warning: RGB color values must be between 0f and 1f. Ignoring request.")
 		return // Early exit if out of range
 	}
 

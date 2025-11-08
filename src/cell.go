@@ -8,7 +8,6 @@ package pdfjet
  */
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/edragoev1/pdfjet/src/align"
@@ -248,7 +247,6 @@ func (cell *Cell) GetHeightHeader(width float32) float32 {
 	if cell.textBox != nil {
 		cell.textBox.SetWidth(width)
 		cellHeight = (cell.textBox.DrawOn(nil)[1] - cell.textBox.y) + cell.topPadding + cell.bottomPadding
-		fmt.Println("--> ", cellHeight)
 	} else if cell.image != nil {
 		cellHeight = cell.image.GetHeight() + cell.topPadding + cell.bottomPadding
 	} else if cell.barcode != nil {
@@ -263,12 +261,12 @@ func (cell *Cell) GetHeightHeader(width float32) float32 {
 	return cellHeight
 }
 
-// SetLineWidth sets the border line width.
+// SetLineWidth sets the border width.
 func (cell *Cell) SetLineWidth(lineWidth float32) {
 	cell.lineWidth = lineWidth
 }
 
-// GetLineWidth returns the border line width.
+// GetLineWidth returns the border width.
 func (cell *Cell) GetLineWidth() float32 {
 	return cell.lineWidth
 }

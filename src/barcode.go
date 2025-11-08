@@ -8,7 +8,6 @@ package pdfjet
  */
 
 import (
-	"fmt"
 	"log"
 	"math"
 	"strconv"
@@ -152,7 +151,7 @@ func (barcode *Barcode) DrawOn(page *Page) []float32 {
 	case CODE39:
 		return barcode.drawCode39(page, barcode.x1, barcode.y1)
 	default:
-		fmt.Println("Unsupported Barcode Type.")
+		log.Println("Unsupported Barcode Type.")
 	}
 	return []float32{0.0, 0.0}
 }
@@ -167,7 +166,7 @@ func (barcode *Barcode) drawOnPageAtLocation(page *Page, x1, y1 float32) []float
 	case CODE39:
 		return barcode.drawCode39(page, x1, y1)
 	default:
-		fmt.Println("Unsupported Barcode Type.")
+		log.Println("Unsupported Barcode Type.")
 	}
 	return []float32{0.0, 0.0}
 }

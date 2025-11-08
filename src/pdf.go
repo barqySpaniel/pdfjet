@@ -9,7 +9,6 @@ package pdfjet
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"os"
 	"sort"
@@ -954,7 +953,7 @@ func (pdf *PDF) Complete() {
 
 	err := pdf.writer.Flush()
 	if err != nil {
-		fmt.Printf("failed to flush PDF writer: %v\n", err)
+		log.Printf("failed to flush PDF writer: %v\n", err)
 		return
 	}
 }
@@ -1632,7 +1631,7 @@ func (pdf *PDF) getObjectFromObjects(name string, obj *PDFobj, objects []*PDFobj
 			token1 = dict[i+1]
 			objNumber, err := strconv.Atoi(token1)
 			if err != nil {
-				fmt.Println("NumberFormatException: " + token1)
+				log.Println("NumberFormatException: " + token1)
 			} else {
 				return objects[objNumber-1]
 			}
@@ -1704,7 +1703,7 @@ func (pdf *PDF) addObjectsToPDF(objects *[]*PDFobj) {
 		} else {
 			pdf.objOffsets = append(pdf.objOffsets, pdf.byteCount)
 			// Uncomment to see the format of the objects.
-			// fmt.Println(obj.dict)
+			// log.Println(obj.dict)
 			var link = false
 			n := len(obj.dict)
 			var token1 string

@@ -71,7 +71,7 @@ func NewOTF(reader io.Reader) *OTF {
 		version == 0x4F54544F { // CFF OTF
 		// We should be able to read this font.
 	} else {
-		fmt.Println("OTF version == " + fmt.Sprint(version) + " is not supported.")
+		log.Println("OTF version == " + fmt.Sprint(version) + " is not supported.")
 	}
 
 	numOfTables := int(readUint16(otf))
