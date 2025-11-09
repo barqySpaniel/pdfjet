@@ -71,9 +71,9 @@ public class Text implements Drawable {
                 float[] point = drawTextLine(page, xText, yText, textLine);
                 xText = point[0];
                 yText = point[1];
+                paragraph.x2 = xText;
+                paragraph.y2 = yText + textLine.font.getDescent(textLine.font.size);
             }
-            paragraph.x2 = xText;
-            paragraph.y2 = yText + paragraph.lines.get(0).font.getDescent(paragraph.lines.get(0).font.size);
             xText = x1;
             yText += paragraphLeading;
         }
