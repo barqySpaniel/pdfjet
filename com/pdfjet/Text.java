@@ -20,12 +20,11 @@ public class Text implements Drawable {
     private float width;
     private float xText;
     private float yText;
-    private float paragraphLeading;
+    private float paragraphLeading = 24f;
     private boolean border = false;
 
     public Text(List<Paragraph> paragraphs) {
         this.paragraphs = paragraphs;
-        this.paragraphLeading = 24f;
     }
 
     public void setPosition(float x, float y) {
@@ -69,16 +68,11 @@ public class Text implements Drawable {
                 buf.append(textLine.getText());
             }
 
-            int numberOfTextLines = paragraph.lines.size();
-            TextLine textLine = null;
-            for (int i = 0; i < numberOfTextLines; i++) {
-                textLine = paragraph.lines.get(i);
-                if (i == 0) {
-                    paragraph.x1 = x1;
-                    paragraph.y1 = yText - textLine.font.getAscent();
-                    paragraph.xText = xText;
-                    paragraph.yText = yText;
-                }
+            paragraph.x1 = x1;
+            paragraph.y1 = yText - paragraph.lines.get(0).font.getAscent();
+            paragraph.xText = xText;
+            paragraph.yText = yText;
+            for (TextLine textLine : paragraph.lines) {
                 float[] point = drawTextLine(page, xText, yText, textLine);
                 xText = point[0];
                 if (textLine.isLastToken) {
@@ -87,12 +81,12 @@ public class Text implements Drawable {
                 yText = point[1];
             }
             paragraph.x2 = xText;
-            paragraph.y2 = yText + textLine.font.getDescent(textLine.font.size);
+            paragraph.y2 = yText + paragraph.lines.get(0).font.getDescent(paragraph.lines.get(0).font.size);
             xText = x1;
             yText += paragraphLeading;
         }
 
-        float height = ((yText - paragraphLeading) - y1); // + textLine.font.getDescent(textLine.font.size);
+        float height = yText - y1; // ((yText - paragraphLeading) - y1); // + textLine.font.getDescent(textLine.font.size);
         if (page != null && border) {
             Rect rect = new Rect(x1, y1, width, height);
             rect.drawOn(page);
