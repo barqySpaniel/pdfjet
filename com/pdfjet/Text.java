@@ -31,7 +31,7 @@ public class Text implements Drawable {
         this.font = paragraphs.get(0).lines.get(0).getFont();
         this.fallbackFont = paragraphs.get(0).lines.get(0).getFallbackFont();
         this.fontSize = font.size;
-        this.paragraphLeading = 12f;
+        this.paragraphLeading = 24f;
     }
 
     public void setPosition(float x, float y) {
