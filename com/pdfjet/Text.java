@@ -63,11 +63,6 @@ public class Text implements Drawable {
         this.xText = x1;
         this.yText = y1 + paragraphs.get(0).getTextLines().get(0).getFont().getAscent();
         for (Paragraph paragraph : paragraphs) {
-            StringBuilder buf = new StringBuilder();
-            for (TextLine textLine : paragraph.lines) {
-                buf.append(textLine.getText());
-            }
-
             paragraph.x1 = x1;
             paragraph.y1 = yText - paragraph.lines.get(0).font.getAscent();
             paragraph.xText = xText;
