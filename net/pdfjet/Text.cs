@@ -131,12 +131,11 @@ public class Text : IDrawable {
         }
 
         StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < tokens.Length; i++) {
-            String token = (i == 0) ? tokens[i] : (Single.space + tokens[i]);
-            float lineWidth = textLine.font.StringWidth(textLine.fallbackFont, buf.ToString());
-            float tokenWidth = textLine.font.StringWidth(textLine.fallbackFont, token);
-            if ((lineWidth + tokenWidth) < (this.x1 + this.width) - this.xText) {
-                buf.Append(token);
+        foreach (String token in tokens) {
+            float runLength = textLine.font.StringWidth(textLine.fallbackFont, buf.ToString());
+            float tokenWidth = textLine.font.StringWidth(textLine.fallbackFont, token + Single.space);
+            if ((runLength + tokenWidth) < (this.x1 + this.width) - this.xText) {
+                buf.Append(token + Single.space);
             } else {
                 new TextLine(textLine.font, buf.ToString())
                         .SetFallbackFont(textLine.GetFallbackFont())
@@ -151,7 +150,7 @@ public class Text : IDrawable {
                 xText = x1;
                 yText += leading;
                 buf.Length = 0;
-                buf.Append(tokens[i]);
+                buf.Append(token + Single.space);
             }
         }
         new TextLine(textLine.font, buf.ToString())

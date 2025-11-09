@@ -130,11 +130,10 @@ public class Text implements Drawable {
 
         StringBuilder buf = new StringBuilder();
         for (String token : tokens) {
-            token += Single.space;
-            float lineWidth = textLine.font.stringWidth(textLine.fallbackFont, buf.toString());
-            float tokenWidth = textLine.font.stringWidth(textLine.fallbackFont, token);
-            if ((lineWidth + tokenWidth) < ((this.x1 + this.width) - this.xText)) {
-                buf.append(token);
+            float runLength = textLine.font.stringWidth(textLine.fallbackFont, buf.toString());
+            float tokenWidth = textLine.font.stringWidth(textLine.fallbackFont, token + Single.space);
+            if ((runLength + tokenWidth) < ((this.x1 + this.width) - this.xText)) {
+                buf.append(token + Single.space);
             } else {
                 new TextLine(textLine.font, buf.toString())
                         .setFallbackFont(textLine.getFallbackFont())
@@ -149,7 +148,7 @@ public class Text implements Drawable {
                 xText = x1;
                 yText += leading;
                 buf.setLength(0);
-                buf.append(token);
+                buf.append(token + Single.space);
             }
         }
         new TextLine(textLine.font, buf.toString())
