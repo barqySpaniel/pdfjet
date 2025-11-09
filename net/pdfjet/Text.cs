@@ -80,42 +80,32 @@ public class Text : IDrawable {
 
     public float[] DrawOn(Page page) {
         this.xText = x1;
-        this.yText = y1 + font.GetAscent(fontSize);
+        this.yText = y1 + paragraphs[0].GetTextLines()[0].GetFont().GetAscent();
         foreach (Paragraph paragraph in paragraphs) {
-            StringBuilder buf = new StringBuilder();
+            paragraph.x1 = x1;
+            paragraph.y1 = yText - paragraph.lines[0].font.GetAscent();
+            paragraph.xText = xText;
+            paragraph.yText = yText;
             foreach (TextLine textLine in paragraph.lines) {
-                buf.Append(textLine.text);
-            }
-
-            int numberOfTextLines = paragraph.lines.Count;
-            for (int i = 0; i < numberOfTextLines; i++) {
-                TextLine textLine = paragraph.lines[i];
-                if (i == 0) {
-                    paragraph.x1 = x1;
-                    paragraph.y1 = yText - font.GetAscent(fontSize);
-                    paragraph.xText = xText;
-                    paragraph.yText = yText;
-                }
                 float[] point = DrawTextLine(page, xText, yText, textLine);
                 xText = point[0];
-                if (!textLine.isLastToken) {
-                    xText += font.StringWidth(fallbackFont, Single.space);
-                }
                 yText = point[1];
+                paragraph.x2 = xText;
+                paragraph.y2 = yText + textLine.font.GetDescent(textLine.font.size);
             }
-            paragraph.x2 = xText;
-            paragraph.y2 = yText + font.GetDescent(fontSize);
             xText = x1;
             yText += paragraphLeading;
         }
 
-        float height = ((yText - paragraphLeading) - y1) + font.GetDescent(fontSize);
+        Paragraph lastParagraph = paragraphs[paragraphs.Count - 1];
+        TextLine lastTextLine = lastParagraph.GetTextLines()[lastParagraph.GetTextLines().Count - 1];
+        float height = ((yText - paragraphLeading) - y1) + lastTextLine.font.GetDescent(lastTextLine.fontSize);
         if (page != null && border) {
             Rect rect = new Rect(x1, y1, width, height);
             rect.DrawOn(page);
         }
 
-        return new float[] {x1 + width, y1 + height};
+        return new float[] { x1 + width, y1 + height };
     }
 
     public float[] DrawTextLine(
