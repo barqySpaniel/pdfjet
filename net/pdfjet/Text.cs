@@ -16,25 +16,16 @@ using System.IO;
 namespace PDFjet.NET {
 public class Text : IDrawable {
     private List<Paragraph> paragraphs;
-    private Font font;
-    private Font fallbackFont;
-    private float fontSize;
     private float x1;
     private float y1;
     private float width;
     private float xText;
     private float yText;
-    private float leading;
-    private float paragraphLeading;
+    private float paragraphLeading = 24f;
     private bool border = false;
 
     public Text(List<Paragraph> paragraphs) {
         this.paragraphs = paragraphs;
-        this.font = paragraphs[0].lines[0].GetFont();
-        this.fallbackFont = paragraphs[0].lines[0].GetFallbackFont();
-        this.fontSize = font.size;
-        this.leading = font.GetBodyHeight(fontSize);
-        this.paragraphLeading = 2*leading;
     }
 
     public void SetPosition(double x, double y) {
@@ -55,17 +46,8 @@ public class Text : IDrawable {
         return this;
     }
 
-    public void SetFontSize(float fontSize) {
-        this.fontSize = fontSize;
-    }
-
     public Text SetWidth(float width) {
         this.width = width;
-        return this;
-    }
-
-    public Text SetLeading(float leading) {
-        this.leading = leading;
         return this;
     }
 
