@@ -140,12 +140,12 @@ public class Text implements Drawable {
                     new TextLine(textLine.font, buf.toString())
                             .setFallbackFont(textLine.getFallbackFont())
                             .setFontSize(textLine.getFontSize())
-                            .setLocation(xText, yText + textLine.getVerticalOffset())
                             .setTextColor(textLine.getTextColor())
                             .setColorMap(textLine.getColorMap())
                             .setUnderline(textLine.getUnderline())
                             .setStrikeout(textLine.getStrikeout())
                             .setLanguage(textLine.getLanguage())
+                            .setLocation(xText, yText)
                             .drawOn(page);
                 }
                 xText = x1;
@@ -158,12 +158,12 @@ public class Text implements Drawable {
             new TextLine(textLine.font, buf.toString())
                     .setFallbackFont(textLine.fallbackFont)
                     .setFontSize(textLine.getFontSize())
-                    .setLocation(xText, yText + textLine.getVerticalOffset())
                     .setTextColor(textLine.getTextColor())
                     .setColorMap(textLine.getColorMap())
                     .setUnderline(textLine.getUnderline())
                     .setStrikeout(textLine.getStrikeout())
                     .setLanguage(textLine.getLanguage())
+                    .setLocation(xText, yText)
                     .drawOn(page);
         }
 

@@ -142,12 +142,12 @@ public class Text : IDrawable {
                     new TextLine(textLine.font, buf.ToString())
                             .SetFallbackFont(textLine.GetFallbackFont())
                             .SetFontSize(textLine.GetFontSize())
-                            .SetLocation(xText, yText + textLine.GetVerticalOffset())
                             .SetTextColor(textLine.GetTextColor())
                             .SetColorMap(textLine.GetColorMap())
                             .SetUnderline(textLine.GetUnderline())
                             .SetStrikeout(textLine.GetStrikeout())
                             .SetLanguage(textLine.GetLanguage())
+                            .SetLocation(xText, yText)
                             .DrawOn(page);
                 }
                 xText = x1;
@@ -160,18 +160,18 @@ public class Text : IDrawable {
             new TextLine(textLine.font, buf.ToString())
                     .SetFallbackFont(textLine.fallbackFont)
                     .SetFontSize(textLine.GetFontSize())
-                    .SetLocation(xText, yText + textLine.GetVerticalOffset())
                     .SetTextColor(textLine.GetTextColor())
                     .SetColorMap(textLine.GetColorMap())
                     .SetUnderline(textLine.GetUnderline())
                     .SetStrikeout(textLine.GetStrikeout())
                     .SetLanguage(textLine.GetLanguage())
+                    .SetLocation(xText, yText)
                     .DrawOn(page);
         }
 
         return new float[] {
                 xText + textLine.font.StringWidth(textLine.fallbackFont, buf.ToString()),
-                yText};
+                yText };
     }
 
     private bool StringIsCJK(String str) {
