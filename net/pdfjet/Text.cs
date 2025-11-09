@@ -82,7 +82,7 @@ public class Text : IDrawable {
         Paragraph lastParagraph = paragraphs[paragraphs.Count - 1];
         TextLine lastTextLine = lastParagraph.GetTextLines()[lastParagraph.GetTextLines().Count - 1];
         float height = ((yText - paragraphLeading) - y1) + lastTextLine.font.GetDescent(lastTextLine.fontSize);
-        if (page != null && border) {
+        if (border) {
             Rect rect = new Rect(x1, y1, width, height);
             rect.DrawOn(page);
         }

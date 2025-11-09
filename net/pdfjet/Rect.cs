@@ -138,6 +138,10 @@ public class Rect  : IDrawable {
     }
 
     public float[] DrawOn(Page page) {
+        if (page == null) {
+            return new float[] {x + w, y + h};
+        }
+
         const float k = 0.55228f;
         page.Append("q\n");
         if (this.r == 0.0f) {

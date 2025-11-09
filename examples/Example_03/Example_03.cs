@@ -72,6 +72,9 @@ public class Example_03 {
                 new TextLine(f2, paragraphNumber.ToString() + ".")
                         .SetLocation(p.xText - 15f, p.yText)
                         .DrawOn(page);
+                new Line(p.x1 - 3f, p.y1, p.x1 - 3f, p.y2)
+                        .SetColor(Color.navy)
+                        .SetWidth(1f).DrawOn(page);
                 paragraphNumber++;
             }
         }
