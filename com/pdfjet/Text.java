@@ -78,7 +78,9 @@ public class Text implements Drawable {
             yText += paragraphLeading;
         }
 
-        float height = yText - y1; // ((yText - paragraphLeading) - y1); // + textLine.font.getDescent(textLine.font.size);
+        Paragraph lastParagraph = paragraphs.get(paragraphs.size() - 1);
+        TextLine lastTextLine = lastParagraph.getTextLines().get(lastParagraph.getTextLines().size() - 1);
+        float height = ((yText - paragraphLeading) - y1) + lastTextLine.font.getDescent(lastTextLine.fontSize);
         if (page != null && border) {
             Rect rect = new Rect(x1, y1, width, height);
             rect.drawOn(page);
