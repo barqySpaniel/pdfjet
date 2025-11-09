@@ -286,9 +286,7 @@ public class TextLine implements Drawable {
      * @return the height.
      */
     public float getHeight() {
-        float ascent = Math.max(font.ascent, fallbackFont.ascent);
-        float descent = Math.max(font.descent, fallbackFont.descent);
-        return ascent + descent;
+        return font.getBodyHeight(this.fontSize);
     }
 
     /**

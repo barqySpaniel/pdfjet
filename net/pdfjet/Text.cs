@@ -148,7 +148,7 @@ public class Text : IDrawable {
                         .SetLocation(xText, yText)
                         .DrawOn(page);
                 xText = x1;
-                yText += leading;
+                yText += textLine.GetHeight();
                 buf.Length = 0;
                 buf.Append(token + Single.space);
             }

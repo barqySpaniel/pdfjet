@@ -146,7 +146,7 @@ public class Text implements Drawable {
                         .setLocation(xText, yText)
                         .drawOn(page);
                 xText = x1;
-                yText += leading;
+                yText += textLine.getHeight();
                 buf.setLength(0);
                 buf.append(token + Single.space);
             }
