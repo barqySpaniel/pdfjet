@@ -1,6 +1,7 @@
 package examples;
 
 import java.io.*;
+import java.util.*;
 import com.pdfjet.*;
 
 /**
@@ -10,67 +11,90 @@ public class Example_03 {
     public Example_03() throws Exception {
         PDF pdf = new PDF(
                 new BufferedOutputStream(new FileOutputStream("Example_03.pdf")));
-        pdf.setCompliance(Compliance.PDF_UA_1);
 
-        pdf.setKeywords("React Vue Java Python");
-        // Font f1 = new Font(pdf, CoreFont.HELVETICA);
-        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        Font f1 = new Font(pdf, CoreFont.HELVETICA);
+        f1.setSize(10f);
 
-        Image image1 = new Image(pdf, "images/ee-map.png");
-        Image image2 = new Image(pdf, "images/fruit.jpg");
-        Image image3 = new Image(pdf, "images/mt-map.bmp");
+        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        f2.setSize(10f);
 
-        Page page = new Page(pdf, A4.PORTRAIT);
+        Font f3 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
+        f3.setSize(10f);
 
-        TextLine text = new TextLine(f1,
-                "React The map below is an embedded PNG image");
-        text.setLocation(20f, 20f);
-        text.setStrikeout(true);
-        text.setUnderline(true);
-        text.setURIAction("https://en.wikipedia.org/wiki/European_Union");
-        float[] point = text.drawOn(page);
+        Page page = new Page(pdf, Letter.PORTRAIT);
 
-        image1.setLocation(90f, point[1] + f1.getDescent() + 5f);
-        image1.scaleBy(2f/3f);
-        image1.drawOn(page);
+        List<Paragraph> paragraphs = new ArrayList<Paragraph>();
+        Paragraph paragraph = new Paragraph()
+                .add(new TextLine(f1,
+"The small business centres offer practical resources, from step-by-step info on setting up your business to sample business plans to a range of business-related articles and books in our resource libraries.")
+                        .setUnderline(true))
+                .add(new TextLine(f2, "This text is bold!").setColor(Color.blue));
+        paragraphs.add(paragraph);
 
-        text.setText("JPG image file embedded once and drawn 3 times");
-        text.setLocation(90f, 550f);
-        point = text.drawOn(page);
+        paragraph = new Paragraph()
+                .add(new TextLine(f1,
+"The centres also offer free one-on-one consultations with business advisors who can review your business plan and make recommendations to improve it.")
+                        .setUnderline(true))
+                .add(new TextLine(f3, "This text is using italic font.").setColor(Color.green));
+        paragraphs.add(paragraph);
 
-        image2.setLocation(90f, point[1] + f1.getDescent());
-        image2.scaleBy(0.5f);
-        image2.drawOn(page);
-
-        image2.setLocation(260f, point[1] + f1.getDescent());
-        image2.scaleBy(0.5f);
-        image2.rotateClockwise(90);
-        image2.drawOn(page);
-
-        image2.setLocation(350f, point[1] + f1.getDescent());
-        image2.rotateClockwise(0);
-        image2.scaleBy(0.5f);
-        image2.drawOn(page);
-
-        text.setText("The map on the right is an embedded BMP image");
-        text.setUnderline(true);
-        text.setVerticalOffset(3f);
-        text.setStrikeout(true);
-        text.setTextDirection(15);
-        text.setLocation(90f, 800f);
+        Text text = new Text(paragraphs);
+        text.setLocation(70f, 50f);
+        text.setWidth(500f);
+        text.setBorder(true);
         text.drawOn(page);
 
-        image3.setLocation(390f, 630f);
-        image3.scaleBy(0.5f);
-        image3.drawOn(page);
+        int paragraphNumber = 1;
+        for (Paragraph p : paragraphs) {
+            if (p.startsWith("**")) {
+                paragraphNumber = 1;
+            } else {
+                new TextLine(f2, String.valueOf(paragraphNumber) + ".")
+                        .setLocation(p.xText - 15f, p.yText)
+                        .drawOn(page);
+                paragraphNumber++;
+            }
+        }
 
-        Page page2 = new Page(pdf, A4.PORTRAIT);
-        float[] xy = image1.drawOn(page2);
+        Map<String, Integer> colorMap = new HashMap<String, Integer>();
+        colorMap.put("Physics", Color.red);
+        colorMap.put("physics", Color.red);
+        colorMap.put("Experimentation", Color.orange);
+        colorMap.put("that", Color.blue);
+        paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
+        float f2size = f2.getSize();
+        for (Paragraph p : paragraphs) {
+            if (p.startsWith("**")) {
+                f2.setSize(24.0);
+                p.getTextLines().get(0).setFont(f2);
+                p.getTextLines().get(0).setColor(Color.navy);
+            } else {
+                p.setColor(Color.gray);
+                p.setColorMap(colorMap);
+            }
+        }
+        f2.setSize(f2size);
 
-        Box box = new Box();
-        box.setLocation(xy[0], xy[1]);
-        box.setSize(20f, 20f);
-        box.drawOn(page2);
+        text = new Text(paragraphs);
+        text.setLocation(70f, 150f);
+        text.setWidth(500f);
+        text.setBorder(true);
+        text.drawOn(page);
+
+        paragraphNumber = 1;
+        for (Paragraph p : paragraphs) {
+            if (p.startsWith("**")) {
+                paragraphNumber = 1;
+            } else {
+                new TextLine(f2, String.valueOf(paragraphNumber) + ".")
+                        .setLocation(p.xText - 15f, p.yText)
+                        .drawOn(page);
+                new Line(p.x1 - 3f, p.y1, p.x1 - 3f, p.y2)
+                        .setColor(Color.navy)
+                        .setWidth(1f).drawOn(page);
+                paragraphNumber++;
+            }
+        }
 
         pdf.complete();
     }
