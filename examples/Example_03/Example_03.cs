@@ -1,12 +1,11 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Diagnostics;
 using PDFjet.NET;
-using System.Reflection;
 
 /**
- *  Example_03.cs
- *
+ * Example_03.java
  */
 public class Example_03 {
     public Example_03() {
@@ -14,90 +13,74 @@ public class Example_03 {
                 new FileStream("Example_03.pdf", FileMode.Create)));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
+        f1.SetSize(10f);
 
-        Image image3 = new Image(pdf, "images/ee-map.png");
-        Image image2 = new Image(pdf, "images/fruit.jpg");
-        Image image1 = new Image(pdf, "images/mt-map.bmp");
+        Font f2 = new Font(pdf, CoreFont.HELVETICA_BOLD);
+        f2.SetSize(10f);
 
-        Page page = new Page(pdf, A4.PORTRAIT);
+        Font f3 = new Font(pdf, CoreFont.HELVETICA_OBLIQUE);
+        f3.SetSize(10f);
 
-//        float[] xy = page.AddHeader(new TextLine(f1, "This is a header!"));
-//        page.AddFooter(new TextLine(f1, "And this is a footer."));
-//        TextLine text = new TextLine(f1,
-//                "The map below is an embedded PNG image");
-//        text.SetLocation(90f, 30f);
-//        text.SetURIAction("https://en.wikipedia.org/wiki/European_Union");
-//        xy = text.DrawOn(page);
+        Page page = new Page(pdf, Letter.PORTRAIT);
 
-        // image1.SetLocation(90f, xy[1] + f1.GetDescent());
-        image1.SetLocation(100f, 100f);
-        image1.ScaleBy(1f/2f);
-        image1.DrawOn(page);
-        image1.RotateBy(45);
-        image1.DrawOn(page);
+        List<Paragraph> paragraphs = new List<Paragraph>();
+        Paragraph paragraph = new Paragraph()
+                .Add(new TextLine(f1,
+"The small business centres offer practical resources, from step-by-step info on setting up your business to sample business plans to a range of business-related articles and books in our resource libraries.")
+                        .SetUnderline(true))
+                .Add(new TextLine(f2, "This text is bold!").SetColor(Color.blue));
+        paragraphs.Add(paragraph);
 
-        Point point = new Point(400f, 400f);
-        point.SetShape(Point.STAR);
-        point.SetRadius(30f);
-        point.SetFillColor(Color.blue);
-        point.DrawOn(page);
+        paragraph = new Paragraph()
+                .Add(new TextLine(f1,
+"The centres also offer free one-on-one consultations with business advisors who can review your business plan and make recommendations to improve it.")
+                        .SetUnderline(true))
+                .Add(new TextLine(f3, "This text is using italic font.").SetColor(Color.green));
+        paragraphs.Add(paragraph);
 
-        Line line = new Line(350f, 400f, 450f, 550f);
-        line.SetWidth(3f);
-        line.DrawOn(page);
+        Text text = new Text(paragraphs);
+        text.SetLocation(70f, 50f);
+        text.SetWidth(500f);
+        text.SetBorder(true);
+        text.DrawOn(page);
 
-        Arc arc = new Arc();
-        arc.SetStartPointToEndOf(line);
-        arc.SetRadius(45f);
-        // arc.SetSweepDegreesCW(180f); // Clockwise
-        arc.SetSweepDegreesCCW(180f);   // Counter Clockwise
-        arc.SetStrokeWidth(3f);
-        arc.SetStrokeColor(Color.blue);
-        arc.DrawOn(page);
+        paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
+        int paragraphNumber = 1;
+        Dictionary<String, int> colorMap = new Dictionary<String, int>();
+        colorMap["Physics"] = Color.red;
+        colorMap["physics"] = Color.red;
+        colorMap["Experimentation"] = Color.orange;
+        paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
+        float f2size = f2.GetSize();
+        foreach (Paragraph p in paragraphs) {
+            if (p.StartsWith("**")) {
+                f2.SetSize(24.0);
+                p.GetTextLines()[0].SetFont(f2);
+                p.GetTextLines()[0].SetColor(Color.navy);
+            } else {
+                p.SetColor(Color.gray);
+                p.SetColorMap(colorMap);
+            }
+        }
+        f2.SetSize(f2size);
 
-        arc.SetSweepDegreesCW(90f);    // Clockwise
-        arc.DrawOn(page);
+        text = new Text(paragraphs);
+        text.SetLocation(70f, 150f);
+        text.SetWidth(500f);
+        text.SetBorder(true);
+        text.DrawOn(page);
 
-//        text.SetText(
-//                "JPG image file embedded once and drawn 3 times");
-//        text.SetLocation(90f, 550f);
-//        xy = text.DrawOn(page);
-//
-//        image2.SetLocation(90f, xy[1] + f1.GetDescent());
-//        image2.ScaleBy(0.5f);
-//        image2.DrawOn(page);
-//
-//        image2.SetLocation(260f, xy[1] + f1.GetDescent());
-//        image2.RotateClockwise(90);
-//        image2.ScaleBy(0.5f);
-//        image2.DrawOn(page);
-//
-//        image2.SetLocation(350f, xy[1] + f1.GetDescent());
-//        image2.RotateClockwise(0);
-//        image2.ScaleBy(0.5f);
-//        image2.DrawOn(page);
-//
-//        text.SetText(
-//                "The map on the right is an embedded BMP image");
-//        text.SetUnderline(true);
-//        text.SetVerticalOffset(3f);
-//        text.SetStrikeout(true);
-//        // text.SetTextDirection(45);
-//        text.SetLocation(90f, 800f);
-//        text.DrawOn(page);
-//
-//        image3.SetLocation(390f, 630f);
-//        // image3.ScaleBy(0.25f);
-//        image3.RotateBy(75);
-//        image3.DrawOn(page);
-//
-//        Page page2 = new Page(pdf, A4.PORTRAIT);
-//        xy = image1.DrawOn(page2);
-//
-//        box = new Box();
-//        box.SetLocation(xy[0], xy[1]);
-//        box.SetSize(20f, 20f);
-//        box.DrawOn(page2);
+        paragraphNumber = 1;
+        foreach (Paragraph p in paragraphs) {
+            if (p.StartsWith("**")) {
+                paragraphNumber = 1;
+            } else {
+                new TextLine(f2, paragraphNumber.ToString() + ".")
+                        .SetLocation(p.xText - 15f, p.yText)
+                        .DrawOn(page);
+                paragraphNumber++;
+            }
+        }
 
         pdf.Complete();
     }
