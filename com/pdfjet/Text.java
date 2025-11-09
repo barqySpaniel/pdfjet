@@ -129,43 +129,39 @@ public class Text implements Drawable {
         }
 
         StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < tokens.length; i++) {
-            String token = (i == 0) ? tokens[i] : (Single.space + tokens[i]);
+        for (String token : tokens) {
+            token += Single.space;
             float lineWidth = textLine.font.stringWidth(textLine.fallbackFont, buf.toString());
             float tokenWidth = textLine.font.stringWidth(textLine.fallbackFont, token);
             if ((lineWidth + tokenWidth) < ((this.x1 + this.width) - this.xText)) {
                 buf.append(token);
             } else {
-                if (page != null) {
-                    new TextLine(textLine.font, buf.toString())
-                            .setFallbackFont(textLine.getFallbackFont())
-                            .setFontSize(textLine.getFontSize())
-                            .setTextColor(textLine.getTextColor())
-                            .setColorMap(textLine.getColorMap())
-                            .setUnderline(textLine.getUnderline())
-                            .setStrikeout(textLine.getStrikeout())
-                            .setLanguage(textLine.getLanguage())
-                            .setLocation(xText, yText)
-                            .drawOn(page);
-                }
+                new TextLine(textLine.font, buf.toString())
+                        .setFallbackFont(textLine.getFallbackFont())
+                        .setFontSize(textLine.getFontSize())
+                        .setTextColor(textLine.getTextColor())
+                        .setColorMap(textLine.getColorMap())
+                        .setUnderline(textLine.getUnderline())
+                        .setStrikeout(textLine.getStrikeout())
+                        .setLanguage(textLine.getLanguage())
+                        .setLocation(xText, yText)
+                        .drawOn(page);
                 xText = x1;
                 yText += leading;
                 buf.setLength(0);
-                buf.append(tokens[i]);
+                buf.append(token);
             }
         }
-        if (page != null) {
-            new TextLine(textLine.font, buf.toString())
-                    .setFallbackFont(textLine.fallbackFont)
-                    .setFontSize(textLine.getFontSize())
-                    .setTextColor(textLine.getTextColor())
-                    .setColorMap(textLine.getColorMap())
-                    .setUnderline(textLine.getUnderline())
-                    .setStrikeout(textLine.getStrikeout())
-                    .setLanguage(textLine.getLanguage())
-                    .setLocation(xText, yText)
-                    .drawOn(page);
-        }
+        new TextLine(textLine.font, buf.toString())
+                .setFallbackFont(textLine.fallbackFont)
+                .setFontSize(textLine.getFontSize())
+                .setTextColor(textLine.getTextColor())
+                .setColorMap(textLine.getColorMap())
+                .setUnderline(textLine.getUnderline())
+                .setStrikeout(textLine.getStrikeout())
+                .setLanguage(textLine.getLanguage())
+                .setLocation(xText, yText)
+                .drawOn(page);
 
         return new float[] {
                 xText + textLine.font.stringWidth(textLine.fallbackFont, buf.toString()),

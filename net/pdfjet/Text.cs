@@ -138,36 +138,32 @@ public class Text : IDrawable {
             if ((lineWidth + tokenWidth) < (this.x1 + this.width) - this.xText) {
                 buf.Append(token);
             } else {
-                if (page != null) {
-                    new TextLine(textLine.font, buf.ToString())
-                            .SetFallbackFont(textLine.GetFallbackFont())
-                            .SetFontSize(textLine.GetFontSize())
-                            .SetTextColor(textLine.GetTextColor())
-                            .SetColorMap(textLine.GetColorMap())
-                            .SetUnderline(textLine.GetUnderline())
-                            .SetStrikeout(textLine.GetStrikeout())
-                            .SetLanguage(textLine.GetLanguage())
-                            .SetLocation(xText, yText)
-                            .DrawOn(page);
-                }
+                new TextLine(textLine.font, buf.ToString())
+                        .SetFallbackFont(textLine.GetFallbackFont())
+                        .SetFontSize(textLine.GetFontSize())
+                        .SetTextColor(textLine.GetTextColor())
+                        .SetColorMap(textLine.GetColorMap())
+                        .SetUnderline(textLine.GetUnderline())
+                        .SetStrikeout(textLine.GetStrikeout())
+                        .SetLanguage(textLine.GetLanguage())
+                        .SetLocation(xText, yText)
+                        .DrawOn(page);
                 xText = x1;
                 yText += leading;
                 buf.Length = 0;
                 buf.Append(tokens[i]);
             }
         }
-        if (page != null) {
-            new TextLine(textLine.font, buf.ToString())
-                    .SetFallbackFont(textLine.fallbackFont)
-                    .SetFontSize(textLine.GetFontSize())
-                    .SetTextColor(textLine.GetTextColor())
-                    .SetColorMap(textLine.GetColorMap())
-                    .SetUnderline(textLine.GetUnderline())
-                    .SetStrikeout(textLine.GetStrikeout())
-                    .SetLanguage(textLine.GetLanguage())
-                    .SetLocation(xText, yText)
-                    .DrawOn(page);
-        }
+        new TextLine(textLine.font, buf.ToString())
+                .SetFallbackFont(textLine.fallbackFont)
+                .SetFontSize(textLine.GetFontSize())
+                .SetTextColor(textLine.GetTextColor())
+                .SetColorMap(textLine.GetColorMap())
+                .SetUnderline(textLine.GetUnderline())
+                .SetStrikeout(textLine.GetStrikeout())
+                .SetLanguage(textLine.GetLanguage())
+                .SetLocation(xText, yText)
+                .DrawOn(page);
 
         return new float[] {
                 xText + textLine.font.StringWidth(textLine.fallbackFont, buf.ToString()),
