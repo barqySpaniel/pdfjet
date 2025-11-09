@@ -552,9 +552,12 @@ public class TextLine implements Drawable {
         if (underline) {
             page.setPenWidth(font.underlineThickness);
             page.setPenColor(color);
-            float lineLength = font.stringWidth(fallbackFont, text);
-            double xAdjust = font.underlinePosition * Math.sin(radians) + verticalOffset;
-            double yAdjust = font.underlinePosition * Math.cos(radians) + verticalOffset;
+            double lineLength = font.stringWidth(fallbackFont, fontSize, text);
+            if (this.isLastToken) {
+                lineLength -= font.stringWidth(fallbackFont, fontSize, Single.space);
+            }
+            double xAdjust = font.underlinePosition * Math.sin(radians);
+            double yAdjust = font.underlinePosition * Math.cos(radians);
             double x2 = x + lineLength * Math.cos(radians);
             double y2 = y - lineLength * Math.sin(radians);
             page.addBMC(structureType, language, text, "Underlined text: " + text);
@@ -567,7 +570,10 @@ public class TextLine implements Drawable {
         if (strikeout) {
             page.setPenWidth(font.underlineThickness);
             page.setPenColor(color);
-            float lineLength = font.stringWidth(fallbackFont, text);
+            double lineLength = font.stringWidth(fallbackFont, fontSize, text);
+            if (this.isLastToken) {
+                lineLength -= font.stringWidth(fallbackFont, fontSize, Single.space);
+            }
             double xAdjust = (font.bodyHeight / 4.0) * Math.sin(radians);
             double yAdjust = (font.bodyHeight / 4.0) * Math.cos(radians);
             double x2 = x + lineLength * Math.cos(radians);
