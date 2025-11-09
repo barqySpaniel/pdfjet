@@ -42,7 +42,6 @@ import java.io.*;
 
 /**
  * Used to embed JPG images in the PDF document.
- *
  */
 class JPGImage {
     static final char M_SOF0  = (char) 0x00C0;  // Start Of Frame N

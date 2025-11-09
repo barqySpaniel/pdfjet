@@ -38,12 +38,11 @@ final public class Image implements Drawable {
     private String altDescription = Single.space;
 
     /**
-     *  Convenience constructor for the Image class.
+     * Convenience constructor for the Image class.
      *
-     *  @param pdf the PDF to which we add this image.
-     *  @param filePath the file path to the image file.
-     *  @throws Exception  If an input or output exception occurred
-     *
+     * @param pdf the PDF to which we add this image.
+     * @param filePath the file path to the image file.
+     * @throws Exception  If an input or output exception occurred
      */
     public Image(PDF pdf, String filePath) throws Exception {
         this(pdf, new FileInputStream(filePath),
@@ -52,13 +51,12 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  The main constructor for the Image class.
+     * The main constructor for the Image class.
      *
-     *  @param pdf the PDF to which we add this image.
-     *  @param inputStream the input stream to read the image from.
-     *  @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
-     *  @throws Exception  If an input or output exception occurred
-     *
+     * @param pdf the PDF to which we add this image.
+     * @param inputStream the input stream to read the image from.
+     * @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
+     * @throws Exception  If an input or output exception occurred
      */
     public Image(PDF pdf, InputStream inputStream, int imageType) throws Exception {
         byte[] data;
@@ -100,12 +98,12 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Constructor used to attach images to existing PDF.
+     * Constructor used to attach images to existing PDF.
      *
-     *  @param objects the map to which we add this image.
-     *  @param inputStream the input stream to read the image from.
-     *  @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
-     *  @throws Exception  If an input or output exception occurred
+     * @param objects the map to which we add this image.
+     * @param inputStream the input stream to read the image from.
+     * @param imageType ImageType.JPG, ImageType.PNG and ImageType.BMP.
+     * @throws Exception  If an input or output exception occurred
      */
     public Image(List<PDFobj> objects, InputStream inputStream, int imageType) throws Exception {
         byte[] data;
@@ -202,31 +200,31 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Sets the position of this image on the page to (x, y).
+     * Sets the position of this image on the page to (x, y).
      *
-     *  @param x the x coordinate of the top left corner of the image.
-     *  @param y the y coordinate of the top left corner of the image.
+     * @param x the x coordinate of the top left corner of the image.
+     * @param y the y coordinate of the top left corner of the image.
      */
     public void setPosition(float x, float y) {
         setLocation(x, y);
     }
 
     /**
-     *  Sets the position of this image on the page to (x, y).
+     * Sets the position of this image on the page to (x, y).
      *
-     *  @param x the x coordinate of the top left corner of the image.
-     *  @param y the y coordinate of the top left corner of the image.
+     * @param x the x coordinate of the top left corner of the image.
+     * @param y the y coordinate of the top left corner of the image.
      */
     public void setPosition(double x, double y) {
         setLocation(x, y);
     }
 
     /**
-     *  Sets the location of this image on the page to (x, y).
+     * Sets the location of this image on the page to (x, y).
      *
-     *  @param x the x coordinate of the top left corner of the image.
-     *  @param y the y coordinate of the top left corner of the image.
-     *  @return this Image object.
+     * @param x the x coordinate of the top left corner of the image.
+     * @param y the y coordinate of the top left corner of the image.
+     * @return this Image object.
      */
     public Image setLocation(float x, float y) {
         this.x = x;
@@ -246,32 +244,32 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Scales this image by the specified factor.
+     * Scales this image by the specified factor.
      *
-     *  @param factor the factor used to scale the image.
-     *  @return this Image object.
+     * @param factor the factor used to scale the image.
+     * @return this Image object.
      */
     public Image scaleBy(double factor) {
         return this.scaleBy((float) factor, (float) factor);
     }
 
     /**
-     *  Scales this image by the specified factor.
+     * Scales this image by the specified factor.
      *
-     *  @param factor the factor used to scale the image.
-     *  @return this Image object.
+     * @param factor the factor used to scale the image.
+     * @return this Image object.
      */
     public Image scaleBy(float factor) {
         return this.scaleBy(factor, factor);
     }
 
     /**
-     *  Scales this image by the specified width and height factor.
-     *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
+     * Scales this image by the specified width and height factor.
+     * <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
      *
-     *  @param widthFactor the factor used to scale the width of the image
-     *  @param heightFactor the factor used to scale the height of the image
-     *  @return this Image object.
+     * @param widthFactor the factor used to scale the width of the image
+     * @param heightFactor the factor used to scale the height of the image
+     * @return this Image object.
      */
     public Image scaleBy(float widthFactor, float heightFactor) {
         this.w *= widthFactor;
@@ -302,9 +300,9 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Places this image in the specified box.
+     * Places this image in the specified box.
      *
-     *  @param box the specified box.
+     * @param box the specified box.
      */
     public void placeIn(Box box) {
         xBox = box.x;
@@ -312,28 +310,28 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Sets the URI for the "click box" action.
+     * Sets the URI for the "click box" action.
      *
-     *  @param uri the URI
+     * @param uri the URI
      */
     public void setURIAction(String uri) {
         this.uri = uri;
     }
 
     /**
-     *  Sets the destination key for the action.
+     * Sets the destination key for the action.
      *
-     *  @param key the destination name.
+     * @param key the destination name.
      */
     public void setGoToAction(String key) {
         this.key = key;
     }
 
     /**
-     *  Sets the image rotation to the specified number of degrees.
+     * Sets the image rotation to the specified number of degrees.
      *
-     *  @param degrees the number of degrees.
-     *  @throws Exception if there is an issue.
+     * @param degrees the number of degrees.
+     * @throws Exception if there is an issue.
      */
     public void rotateClockwise(int degrees) throws Exception {
         if (degrees != 0 && degrees != 90 && degrees != 180 && degrees != 270) {
@@ -343,10 +341,10 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Sets the alternate description of this image.
+     * Sets the alternate description of this image.
      *
-     *  @param altDescription the alternate description of the image.
-     *  @return this Image.
+     * @param altDescription the alternate description of the image.
+     * @return this Image.
      */
     public Image setAltDescription(String altDescription) {
         this.altDescription = altDescription;
@@ -354,10 +352,10 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Sets the actual text for this image.
+     * Sets the actual text for this image.
      *
-     *  @param actualText the actual text for the image.
-     *  @return this Image.
+     * @param actualText the actual text for the image.
+     * @return this Image.
      */
     public Image setActualText(String actualText) {
         this.actualText = actualText;
@@ -365,11 +363,11 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Draws this image on the specified page.
+     * Draws this image on the specified page.
      *
-     *  @param page the page to draw this image on.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception If an input or output exception occurred
+     * @param page the page to draw this image on.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception If an input or output exception occurred
      */
     public float[] drawOn(Page page) throws Exception {
         page.addBMC(StructElem.P, language, actualText, altDescription);
@@ -469,20 +467,20 @@ final public class Image implements Drawable {
     }
 
     /**
-     *  Returns the width of this image when drawn on the page.
-     *  The scaling is take into account.
+     * Returns the width of this image when drawn on the page.
+     * The scaling is take into account.
      *
-     *  @return w - the width of this image.
+     * @return w - the width of this image.
      */
     public float getWidth() {
         return this.w;
     }
 
     /**
-     *  Returns the height of this image when drawn on the page.
-     *  The scaling is take into account.
+     * Returns the height of this image when drawn on the page.
+     * The scaling is take into account.
      *
-     *  @return h - the height of this image.
+     * @return h - the height of this image.
      */
     public float getHeight() {
         return this.h;
