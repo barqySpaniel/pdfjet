@@ -23,7 +23,6 @@ public class Text implements Drawable {
     private float width;
     private float xText;
     private float yText;
-    private float leading;
     private float paragraphLeading;
     private boolean border = false;
 
@@ -32,8 +31,7 @@ public class Text implements Drawable {
         this.font = paragraphs.get(0).lines.get(0).getFont();
         this.fallbackFont = paragraphs.get(0).lines.get(0).getFallbackFont();
         this.fontSize = font.size;
-        this.leading = font.getBodyHeight(fontSize);
-        this.paragraphLeading = 2 * leading;
+        this.paragraphLeading = 12f;
     }
 
     public void setPosition(float x, float y) {
@@ -60,11 +58,6 @@ public class Text implements Drawable {
 
     public Text setWidth(float width) {
         this.width = width;
-        return this;
-    }
-
-    public Text setLeading(float leading) {
-        this.leading = leading;
         return this;
     }
 
