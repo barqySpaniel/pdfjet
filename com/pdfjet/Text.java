@@ -70,9 +70,6 @@ public class Text implements Drawable {
             for (TextLine textLine : paragraph.lines) {
                 float[] point = drawTextLine(page, xText, yText, textLine);
                 xText = point[0];
-                if (textLine.isLastToken) {
-                    xText += textLine.font.stringWidth(textLine.fallbackFont, Single.space);
-                }
                 yText = point[1];
             }
             paragraph.x2 = xText;
