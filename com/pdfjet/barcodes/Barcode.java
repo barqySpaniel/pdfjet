@@ -9,9 +9,9 @@ package com.pdfjet;
 import java.util.*;
 
 /**
- *  Used to create one dimensional barcodes - EAN-13, UPC-A, Code 39 and Code 128.
+ * Used to create one dimensional barcodes - EAN-13, UPC-A, Code 39 and Code 128.
  *
- *  Please see Example_11.
+ * Please see Example_11.
  */
 public class Barcode implements Drawable {
     /** Specifies EAN13 barcode */
@@ -50,10 +50,10 @@ public class Barcode implements Drawable {
     private Map<Character, String> tableB = new HashMap<Character, String>();
 
     /**
-     *  The constructor.
+     * The constructor.
      *
-     *  @param barcodeType the type of the barcode.
-     *  @param text the content text of the barcode.
+     * @param barcodeType the type of the barcode.
+     * @param text the content text of the barcode.
      */
     public Barcode(int barcodeType, String text) throws Exception {
         this.barcodeType = barcodeType;
@@ -118,31 +118,31 @@ public class Barcode implements Drawable {
     }
 
     /**
-     *  Sets the position where this barcode will be drawn on the page.
+     * Sets the position where this barcode will be drawn on the page.
      *
-     *  @param x1 the x coordinate of the top left corner of the barcode.
-     *  @param y1 the y coordinate of the top left corner of the barcode.
+     * @param x1 the x coordinate of the top left corner of the barcode.
+     * @param y1 the y coordinate of the top left corner of the barcode.
      */
     public void setPosition(float x1, float y1) {
         setLocation(x1, y1);
     }
 
     /**
-     *  Sets the position where this barcode will be drawn on the page.
+     * Sets the position where this barcode will be drawn on the page.
      *
-     *  @param x1 the x coordinate of the top left corner of the barcode.
-     *  @param y1 the y coordinate of the top left corner of the barcode.
+     * @param x1 the x coordinate of the top left corner of the barcode.
+     * @param y1 the y coordinate of the top left corner of the barcode.
      */
     public void setPosition(double x1, double y1) {
         setLocation(x1, y1);
     }
 
     /**
-     *  Sets the location where this barcode will be drawn on the page.
+     * Sets the location where this barcode will be drawn on the page.
      *
-     *  @param x1 the x coordinate of the top left corner of the barcode.
-     *  @param y1 the y coordinate of the top left corner of the barcode.
-     *  @return this Barcode object.
+     * @param x1 the x coordinate of the top left corner of the barcode.
+     * @param y1 the y coordinate of the top left corner of the barcode.
+     * @return this Barcode object.
      */
     public Barcode setLocation(float x1, float y1) {
         this.x1 = x1;
@@ -151,82 +151,82 @@ public class Barcode implements Drawable {
     }
 
     /**
-     *  Sets the location where this barcode will be drawn on the page.
+     * Sets the location where this barcode will be drawn on the page.
      *
-     *  @param x1 the x coordinate of the top left corner of the barcode.
-     *  @param y1 the y coordinate of the top left corner of the barcode.
-     *  @return this Barcode object.
+     * @param x1 the x coordinate of the top left corner of the barcode.
+     * @param y1 the y coordinate of the top left corner of the barcode.
+     * @return this Barcode object.
      */
     public Barcode setLocation(double x1, double y1) {
         return setLocation((float) x1, (float) y1);
     }
 
     /**
-     *  Sets the module length of this barcode.
-     *  The default value is 0.75
+     * Sets the module length of this barcode.
+     * The default value is 0.75
      *
-     *  @param moduleLength the specified module length.
+     * @param moduleLength the specified module length.
      */
     public void setModuleLength(double moduleLength) {
         this.m1 = (float) moduleLength;
     }
 
     /**
-     *  Sets the module length of this barcode.
-     *  The default value is 0.75
+     * Sets the module length of this barcode.
+     * The default value is 0.75
      *
-     *  @param moduleLength the specified module length.
+     * @param moduleLength the specified module length.
      */
     public void setModuleLength(float moduleLength) {
         this.m1 = moduleLength;
     }
 
     /**
-     *  Sets the bar height factor.
-     *  The height of the bars is the moduleLength * barHeightFactor
-     *  The default value is 50.0
+     * Sets the bar height factor.
+     * The height of the bars is the moduleLength * barHeightFactor
+     * The default value is 50.0
      *
-     *  @param barHeightFactor the specified bar height factor.
+     * @param barHeightFactor the specified bar height factor.
      */
     public void setBarHeightFactor(double barHeightFactor) {
         this.barHeightFactor = (float) barHeightFactor;
     }
 
     /**
-     *  Sets the bar height factor.
-     *  The height of the bars is the moduleLength * barHeightFactor
-     *  The default value is 50.0f
+     * Sets the bar height factor.
+     * The height of the bars is the moduleLength * barHeightFactor
+     * The default value is 50.0f
      *
-     *  @param barHeightFactor the specified bar height factor.
+     * @param barHeightFactor the specified bar height factor.
      */
     public void setBarHeightFactor(float barHeightFactor) {
         this.barHeightFactor = barHeightFactor;
     }
 
     /**
-     *  Sets the drawing direction for this font.
+     * Sets the drawing direction for this font.
      *
-     *  @param direction the specified direction.
+     * @param direction the specified direction.
      */
     public void setDirection(int direction) {
         this.direction = direction;
     }
 
     /**
-     *  Sets the font to be used with this barcode.
+     * Sets the font to be used with this barcode.
      *
-     *  @param font the specified font.
+     * @param font the specified font.
      */
     public void setFont(Font font) {
         this.font = font;
     }
 
     /**
-     *  Draws this barcode on the specified page.
+     * Draws this barcode on the specified page.
      *
-     *  @param page the specified page.
-     *  @return x and y coordinates of the bottom right corner of this component.
-     *  @throws Exception  If an input or output exception occurred
+     * @param page the specified page.
+     * @return x and y coordinates of the bottom right corner of this component.
+     * @throws Exception  If an input or output exception occurred
      */
     public float[] drawOn(Page page) throws Exception {
         if (barcodeType == Barcode.EAN_13) {
