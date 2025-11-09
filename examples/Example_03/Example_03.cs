@@ -45,32 +45,25 @@ public class Example_03 {
         text.DrawOn(page);
 
         paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
-        int paragraphNumber = 1;
         Dictionary<String, int> colorMap = new Dictionary<String, int>();
         colorMap["Physics"] = Color.red;
-        colorMap["physics"] = Color.red;
-        colorMap["Experimentation"] = Color.orange;
-        paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
-        float f2size = f2.GetSize();
+        colorMap["Extraordinary"] = Color.blue;
         foreach (Paragraph p in paragraphs) {
             if (p.StartsWith("**")) {
-                f2.SetSize(24.0);
-                p.GetTextLines()[0].SetFont(f2);
+                p.GetTextLines()[0].SetFont(f2).SetFontSize(18f);
                 p.GetTextLines()[0].SetColor(Color.navy);
             } else {
                 p.SetColor(Color.gray);
                 p.SetColorMap(colorMap);
             }
         }
-        f2.SetSize(f2size);
-
         text = new Text(paragraphs);
         text.SetLocation(70f, 150f);
         text.SetWidth(500f);
         text.SetBorder(true);
         text.DrawOn(page);
 
-        paragraphNumber = 1;
+        int paragraphNumber = 1;
         foreach (Paragraph p in paragraphs) {
             if (p.StartsWith("**")) {
                 paragraphNumber = 1;
