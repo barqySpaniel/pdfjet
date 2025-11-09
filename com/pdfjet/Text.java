@@ -15,9 +15,6 @@ import java.util.*;
  */
 public class Text implements Drawable {
     private final List<Paragraph> paragraphs;
-    private final Font font;
-    private final Font fallbackFont;
-    private float fontSize;
     private float x1;
     private float y1;
     private float width;
@@ -28,9 +25,6 @@ public class Text implements Drawable {
 
     public Text(List<Paragraph> paragraphs) {
         this.paragraphs = paragraphs;
-        this.font = paragraphs.get(0).lines.get(0).getFont();
-        this.fallbackFont = paragraphs.get(0).lines.get(0).getFallbackFont();
-        this.fontSize = font.size;
         this.paragraphLeading = 24f;
     }
 
@@ -52,10 +46,6 @@ public class Text implements Drawable {
         return setLocation((float) x, (float) y);
     }
 
-    public void setFontSize(float fontSize) {
-        this.fontSize = fontSize;
-    }
-
     public Text setWidth(float width) {
         this.width = width;
         return this;
@@ -72,7 +62,7 @@ public class Text implements Drawable {
 
     public float[] drawOn(Page page) throws Exception {
         this.xText = x1;
-        this.yText = y1 + font.getAscent(fontSize);
+        this.yText = y1 + paragraphs.get(0).getTextLines().get(0).getFont().getAscent();
         for (Paragraph paragraph : paragraphs) {
             StringBuilder buf = new StringBuilder();
             for (TextLine textLine : paragraph.lines) {
@@ -80,28 +70,29 @@ public class Text implements Drawable {
             }
 
             int numberOfTextLines = paragraph.lines.size();
+            TextLine textLine = null;
             for (int i = 0; i < numberOfTextLines; i++) {
-                TextLine textLine = paragraph.lines.get(i);
+                textLine = paragraph.lines.get(i);
                 if (i == 0) {
                     paragraph.x1 = x1;
-                    paragraph.y1 = yText - font.getAscent(fontSize);
+                    paragraph.y1 = yText - textLine.font.getAscent();
                     paragraph.xText = xText;
                     paragraph.yText = yText;
                 }
-                float[] xy = drawTextLine(page, xText, yText, textLine);
-                xText = xy[0];
+                float[] point = drawTextLine(page, xText, yText, textLine);
+                xText = point[0];
                 if (textLine.isLastToken) {
-                    xText += font.stringWidth(fallbackFont, Single.space);
+                    xText += textLine.font.stringWidth(textLine.fallbackFont, Single.space);
                 }
-                yText = xy[1];
+                yText = point[1];
             }
             paragraph.x2 = xText;
-            paragraph.y2 = yText + font.getDescent(fontSize);
+            paragraph.y2 = yText + textLine.font.getDescent(textLine.font.size);
             xText = x1;
             yText += paragraphLeading;
         }
 
-        float height = ((yText - paragraphLeading) - y1) + font.getDescent(fontSize);
+        float height = ((yText - paragraphLeading) - y1); // + textLine.font.getDescent(textLine.font.size);
         if (page != null && border) {
             Rect rect = new Rect(x1, y1, width, height);
             rect.drawOn(page);
