@@ -17,6 +17,7 @@ public class Text implements Drawable {
     private final List<Paragraph> paragraphs;
     private final Font font;
     private final Font fallbackFont;
+    private float fontSize;
     private float x1;
     private float y1;
     private float width;
@@ -30,7 +31,8 @@ public class Text implements Drawable {
         this.paragraphs = paragraphs;
         this.font = paragraphs.get(0).lines.get(0).getFont();
         this.fallbackFont = paragraphs.get(0).lines.get(0).getFallbackFont();
-        this.leading = font.getBodyHeight();
+        this.fontSize = font.size;
+        this.leading = font.getBodyHeight(fontSize);
         this.paragraphLeading = 2 * leading;
     }
 
@@ -50,6 +52,10 @@ public class Text implements Drawable {
 
     public Text setLocation(double x, double y) {
         return setLocation((float) x, (float) y);
+    }
+
+    public void setFontSize(float fontSize) {
+        this.fontSize = fontSize;
     }
 
     public Text setWidth(float width) {
@@ -73,7 +79,7 @@ public class Text implements Drawable {
 
     public float[] drawOn(Page page) throws Exception {
         this.xText = x1;
-        this.yText = y1 + font.ascent;
+        this.yText = y1 + font.getAscent(fontSize);
         for (Paragraph paragraph : paragraphs) {
             StringBuilder buf = new StringBuilder();
             for (TextLine textLine : paragraph.lines) {
@@ -85,7 +91,7 @@ public class Text implements Drawable {
                 TextLine textLine = paragraph.lines.get(i);
                 if (i == 0) {
                     paragraph.x1 = x1;
-                    paragraph.y1 = yText - font.ascent;
+                    paragraph.y1 = yText - font.getAscent(fontSize);
                     paragraph.xText = xText;
                     paragraph.yText = yText;
                 }
@@ -97,12 +103,12 @@ public class Text implements Drawable {
                 yText = xy[1];
             }
             paragraph.x2 = xText;
-            paragraph.y2 = yText + font.descent;
+            paragraph.y2 = yText + font.getDescent(fontSize);
             xText = x1;
             yText += paragraphLeading;
         }
 
-        float height = ((yText - paragraphLeading) - y1) + font.descent;
+        float height = ((yText - paragraphLeading) - y1) + font.getDescent(fontSize);
         if (page != null && border) {
             Rect rect = new Rect(x1, y1, width, height);
             rect.drawOn(page);

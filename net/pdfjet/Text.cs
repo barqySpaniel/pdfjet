@@ -18,7 +18,7 @@ public class Text : IDrawable {
     private List<Paragraph> paragraphs;
     private Font font;
     private Font fallbackFont;
-    private float fontSize = 12f;
+    private float fontSize;
     private float x1;
     private float y1;
     private float width;
@@ -32,6 +32,7 @@ public class Text : IDrawable {
         this.paragraphs = paragraphs;
         this.font = paragraphs[0].lines[0].GetFont();
         this.fallbackFont = paragraphs[0].lines[0].GetFallbackFont();
+        this.fontSize = font.size;
         this.leading = font.GetBodyHeight(fontSize);
         this.paragraphLeading = 2*leading;
     }
@@ -79,7 +80,7 @@ public class Text : IDrawable {
 
     public float[] DrawOn(Page page) {
         this.xText = x1;
-        this.yText = y1 + font.GetAscent();
+        this.yText = y1 + font.GetAscent(fontSize);
         foreach (Paragraph paragraph in paragraphs) {
             StringBuilder buf = new StringBuilder();
             foreach (TextLine textLine in paragraph.lines) {
@@ -103,7 +104,7 @@ public class Text : IDrawable {
                 yText = point[1];
             }
             paragraph.x2 = xText;
-            paragraph.y2 = yText + font.GetDescent();
+            paragraph.y2 = yText + font.GetDescent(fontSize);
             xText = x1;
             yText += paragraphLeading;
         }
