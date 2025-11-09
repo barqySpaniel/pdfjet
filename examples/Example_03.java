@@ -50,8 +50,7 @@ public class Example_03 {
         paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
         for (Paragraph p : paragraphs) {
             if (p.startsWith("**")) {
-                p.getTextLines().get(0).setFont(f2).setFontSize(18f);
-                p.getTextLines().get(0).setColor(Color.navy);
+                p.getTextLines().get(0).setFont(f2).setFontSize(18f).setColor(Color.navy);
             } else {
                 p.setColor(Color.darkgray);
                 p.setColorMap(colorMap);

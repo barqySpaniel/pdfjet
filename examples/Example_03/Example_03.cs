@@ -51,8 +51,7 @@ public class Example_03 {
         paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
         foreach (Paragraph p in paragraphs) {
             if (p.StartsWith("**")) {
-                p.GetTextLines()[0].SetFont(f2).SetFontSize(18f);
-                p.GetTextLines()[0].SetColor(Color.navy);
+                p.GetTextLines()[0].SetFont(f2).SetFontSize(18f).SetColor(Color.navy);
             } else {
                 p.SetColor(Color.darkgray);
                 p.SetColorMap(colorMap);
