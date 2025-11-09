@@ -44,44 +44,27 @@ public class Example_03 {
         text.setBorder(true);
         text.drawOn(page);
 
-        int paragraphNumber = 1;
-        for (Paragraph p : paragraphs) {
-            if (p.startsWith("**")) {
-                paragraphNumber = 1;
-            } else {
-                new TextLine(f2, String.valueOf(paragraphNumber) + ".")
-                        .setLocation(p.xText - 15f, p.yText)
-                        .drawOn(page);
-                paragraphNumber++;
-            }
-        }
-
         Map<String, Integer> colorMap = new HashMap<String, Integer>();
         colorMap.put("Physics", Color.red);
-        colorMap.put("physics", Color.red);
-        colorMap.put("Experimentation", Color.orange);
-        colorMap.put("that", Color.blue);
+        colorMap.put("Extraordinary", Color.blue);
         paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
-        float f2size = f2.getSize();
         for (Paragraph p : paragraphs) {
             if (p.startsWith("**")) {
                 f2.setSize(24.0);
-                p.getTextLines().get(0).setFont(f2);
+                p.getTextLines().get(0).setFont(f2).setFontSize(18f);
                 p.getTextLines().get(0).setColor(Color.navy);
             } else {
                 p.setColor(Color.gray);
                 p.setColorMap(colorMap);
             }
         }
-        f2.setSize(f2size);
-
         text = new Text(paragraphs);
         text.setLocation(70f, 150f);
         text.setWidth(500f);
         text.setBorder(true);
         text.drawOn(page);
 
-        paragraphNumber = 1;
+        int paragraphNumber = 1;
         for (Paragraph p : paragraphs) {
             if (p.startsWith("**")) {
                 paragraphNumber = 1;
