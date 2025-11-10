@@ -305,14 +305,13 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		return nil, errors.New("a valid Page object is required")
 	}
 
+	page.appendString("q\n")
 	page.SetPenWidth(textBlock.borderWidth)
-
 	ascent := textBlock.font.ascent
 	descent := textBlock.font.descent
 	leading := (ascent + descent) * textBlock.lineSpacing
 
 	textLines := textBlock.getTextLinesWithOffsets()
-
 	switch textBlock.textAlignment {
 	case alignment.Right:
 		textBlock.rightAlignText(textLines)
@@ -320,6 +319,17 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		textBlock.centerText(textLines)
 	default:
 	}
+
+	rect := NewRect(
+		textBlock.x,
+		textBlock.y,
+		textBlock.width,
+		maxFloat32(textBlock.height, float32(len(textLines))*leading+2*textBlock.textPadding))
+	// TODO:	rect.SetTextColor(textBlock.textColor)
+	// TODO:	rect.SetBorderWidth(textBlock.borderWidth)
+	rect.SetBorderColor(textBlock.borderColor)
+	rect.SetCornerRadius(textBlock.borderCornerRadius)
+	rect.DrawOn(page)
 
 	page.AddBMC("P", textBlock.uriLanguage, textBlock.textContent, "")
 	page.drawTextBlock(
@@ -331,11 +341,6 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		textBlock.textColor,
 		textBlock.keywordHighlightColors)
 	page.AddEMC()
-
-	//rect := NewRect(textBlock.x, textBlock.y, textBlock.width, textBlockHeight+2*textBlock.textPadding)
-	//rect.SetBorderColor(textBlock.borderColor)
-	//rect.SetCornerRadius(textBlock.borderCornerRadius)
-	//rect.DrawOn(page)
 
 	// You can uncomment and adapt if required.
 	/*
