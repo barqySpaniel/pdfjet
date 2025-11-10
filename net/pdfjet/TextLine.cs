@@ -179,7 +179,6 @@ public class TextLine : IDrawable {
         return this.fallbackFont;
     }
 
-
     public TextLine SetColor(int color) {
         return SetTextColor(color);
     }
@@ -528,7 +527,6 @@ public class TextLine : IDrawable {
         }
 
         page.SetTextDirection(degrees);
-
         page.SetBrushColor(textColor);
         page.AddBMC(structureType, language, text, altDescription);
         page.DrawString(font, fallbackFont, fontSize, text, x, y, textColor, colorMap);
