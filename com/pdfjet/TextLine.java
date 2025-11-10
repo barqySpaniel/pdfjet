@@ -19,10 +19,9 @@ public class TextLine implements Drawable {
     protected float fontSize;
     protected String text;
     protected boolean isLastToken = false;  // We need this for underline and strikeout to work properly!
-
-    float xOffset;      // The horizontal offset (from the X coordinate)
-    boolean underline = false;
-    boolean strikeout = false;
+    protected float xOffset;                // The horizontal offset (from the X coordinate)
+    protected boolean underline = false;
+    protected boolean strikeout = false;
 
     private int degrees = 0;
     private float[] textColor = new float[] {0f, 0f, 0f};

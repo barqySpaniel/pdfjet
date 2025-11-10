@@ -19,8 +19,7 @@ public class TextLine : IDrawable {
     internal float fontSize;
     internal String text;
     internal bool isLastToken = false;  // We need this for underline and strikeout to work properly!
-
-    internal float xOffset = 0f;
+    internal float xOffset = 0f;        // The horizontal offset (from the X coordinate)
     internal bool underline = false;
     internal bool strikeout = false;
 
