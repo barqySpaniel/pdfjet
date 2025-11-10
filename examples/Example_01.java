@@ -71,6 +71,7 @@ public class Example_01 {
         textBlock.setTextPadding(10f);
         textBlock.setBorderColor(Color.blue);
         textBlock.setBorderCornerRadius(10f);
+        textBlock.setUnderline(true);
         textBlock.drawOn(page);
 
         // Complete the PDF document creation

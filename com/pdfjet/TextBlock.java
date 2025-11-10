@@ -237,6 +237,10 @@ public class TextBlock {
         return textLines.toArray(new TextLineWithOffset[] {});
     }
 
+    public void setUnderline(boolean underline) {
+        this.underline = underline;
+    }
+
     private void rightAlignText(TextLineWithOffset[] textLines) {
         for (TextLineWithOffset textLineWithOffset : textLines) {
             textLineWithOffset.xOffset = this.width - font.stringWidth(textLineWithOffset.textLine);
@@ -249,6 +253,12 @@ public class TextBlock {
         }
     }
 
+    private void underlineText(TextLineWithOffset[] textLines) {
+        for (TextLineWithOffset textLineWithOffset : textLines) {
+            textLineWithOffset.underline = true;
+        }
+    }
+
     public float[] drawOn(Page page) throws Exception {
         if (page == null) {
             throw new IllegalArgumentException("A valid Page object is required.");
@@ -257,7 +267,6 @@ public class TextBlock {
         float ascent = this.font.getAscent(fontSize);
         float descent = this.font.getDescent(fontSize);
         float leading = (ascent + descent) * this.lineSpacing;
-
         TextLineWithOffset[] textLines = getTextLinesWithOffsets();
         if (page == null) {
             return new float[] {
@@ -272,6 +281,9 @@ public class TextBlock {
             rightAlignText(textLines);
         } else if (textAlignment == Alignment.CENTER) {
             centerText(textLines);
+        }
+        if (underline) {
+            underlineText(textLines);
         }
 
         Rect rect = new Rect(

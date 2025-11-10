@@ -526,15 +526,14 @@ final public class Page {
         }
         append("ET\n");
 
-        yText = y;
+        float yLine = y + font.getBodyHeight(fontSize);
         for (TextLineWithOffset textLine : textLines) {
             if (textLine.underline) {
-                moveTo(x + textLine.xOffset,
-                    yText + font.getBodyHeight(fontSize));
-                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine),
-                    yText + font.getBodyHeight(fontSize));
+                moveTo(x + textLine.xOffset, yLine);
+                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine), yLine);
+                strokePath();
             }
-            yText += leading;
+            yLine += leading;
         }
     }
 
