@@ -2020,7 +2020,7 @@ final public class Page {
     void drawTextBlock(
             Font font,
             float fontSize,
-            TextLineWithOffset[] textLines,
+            TextLine[] textLines,
             float x,
             float y,
             float leading,
@@ -2033,7 +2033,7 @@ final public class Page {
         append("BT\n");
         setTextFont(font, fontSize);
         float yText = y;
-        for (TextLineWithOffset textLine : textLines) {
+        for (TextLine textLine : textLines) {
             append("1 0 0 1 ");
             append(x + textLine.xOffset);
             append(' ');
@@ -2043,25 +2043,25 @@ final public class Page {
                 setBrushColor(color);
                 if (font.isCoreFont) {
                     append("[<");
-                    drawASCIIString(font, textLine.textLine);
+                    drawASCIIString(font, textLine.text);
                     append(">] TJ\n");
                 } else {
                     append("<");
-                    drawUnicodeString(font, textLine.textLine);
+                    drawUnicodeString(font, textLine.text);
                     append("> Tj\n");
                 }
             } else {
-                drawColoredString(font, textLine.textLine, color, highlightColors);
+                drawColoredString(font, textLine.text, color, highlightColors);
             }
             yText += leading;
         }
         append("ET\n");
 
         float yLine = y + font.getBodyHeight(fontSize);
-        for (TextLineWithOffset textLine : textLines) {
+        for (TextLine textLine : textLines) {
             if (textLine.underline) {
                 moveTo(x + textLine.xOffset, yLine);
-                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine), yLine);
+                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.text), yLine);
                 strokePath();
             }
             yLine += leading;

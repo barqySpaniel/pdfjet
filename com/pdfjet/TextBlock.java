@@ -189,73 +189,71 @@ public class TextBlock {
         return numOfCJK > (chars.length / 2);
     }
 
-    private TextLineWithOffset[] getTextLinesWithOffsets() {
-        List<TextLineWithOffset> textLines = new ArrayList<>();
+    private TextLine[] getTextLinesWithOffsets() {
+        List<TextLine> textLines = new ArrayList<>();
 
         float textAreaWidth = this.width - 2 * this.textPadding;
         this.textContent = this.textContent.replace("\r\n", "\n").trim();
         String[] lines = this.textContent.split("\n");
         for (String line : lines) {
-            if (this.font.stringWidth(this.fallbackFont, line) <= textAreaWidth) {
-                textLines.add(new TextLineWithOffset(line, 0f));
+            if (font.stringWidth(fallbackFont, line) <= textAreaWidth) {
+                textLines.add(new TextLine(font, line));
             } else {
                 if (textIsCJK(line)) {
                     StringBuilder sb = new StringBuilder();
                     for (char ch : line.toCharArray()) {
-                        if (this.font.stringWidth(
-                                this.fallbackFont, sb.toString() + ch) <= textAreaWidth) {
+                        if (font.stringWidth(fallbackFont, sb.toString() + ch) <= textAreaWidth) {
                             sb.append(ch);
                         } else {
-                            textLines.add(new TextLineWithOffset(sb.toString(), 0f));
+                            textLines.add(new TextLine(font, sb.toString()));
                             sb.setLength(0);
                             sb.append(ch);
                         }
                     }
                     if (sb.length() > 0) {
-                        textLines.add(new TextLineWithOffset(sb.toString(), 0f));
+                        textLines.add(new TextLine(font, sb.toString()));
                     }
                 } else {
                     StringBuilder sb = new StringBuilder();
                     String[] tokens = line.split("\\s+");
                     for (String token : tokens) {
-                        if (this.font.stringWidth(
-                                this.fallbackFont, sb.toString() + token) <= textAreaWidth) {
+                        if (font.stringWidth(fallbackFont, sb.toString() + token) <= textAreaWidth) {
                             sb.append(token).append(" ");
                         } else {
-                            textLines.add(new TextLineWithOffset(sb.toString().trim(), 0f));
+                            textLines.add(new TextLine(font, sb.toString().trim()));
                             sb.setLength(0);
                             sb.append(token).append(" ");
                         }
                     }
                     if (sb.toString().trim().length() > 0) {
-                        textLines.add(new TextLineWithOffset(sb.toString().trim(), 0f));
+                        textLines.add(new TextLine(font, sb.toString().trim()));
                     }
                 }
             }
         }
 
-        return textLines.toArray(new TextLineWithOffset[] {});
+        return textLines.toArray(new TextLine[] {});
     }
 
     public void setUnderline(boolean underline) {
         this.underline = underline;
     }
 
-    private void rightAlignText(TextLineWithOffset[] textLines) {
-        for (TextLineWithOffset textLineWithOffset : textLines) {
-            textLineWithOffset.xOffset = this.width - font.stringWidth(textLineWithOffset.textLine);
+    private void rightAlignText(TextLine[] textLines) {
+        for (TextLine textLine : textLines) {
+            textLine.xOffset = this.width - font.stringWidth(textLine.text);
         }
     }
 
-    private void centerText(TextLineWithOffset[] textLines) {
-        for (TextLineWithOffset textLineWithOffset : textLines) {
-            textLineWithOffset.xOffset = (this.width - font.stringWidth(textLineWithOffset.textLine)) / 2f;
+    private void centerText(TextLine[] textLines) {
+        for (TextLine textLine : textLines) {
+            textLine.xOffset = (this.width - font.stringWidth(textLine.text)) / 2f;
         }
     }
 
-    private void underlineText(TextLineWithOffset[] textLines) {
-        for (TextLineWithOffset textLineWithOffset : textLines) {
-            textLineWithOffset.underline = true;
+    private void underlineText(TextLine[] textLines) {
+        for (TextLine textLine : textLines) {
+            textLine.underline = true;
         }
     }
 
@@ -267,7 +265,7 @@ public class TextBlock {
         float ascent = this.font.getAscent(fontSize);
         float descent = this.font.getDescent(fontSize);
         float leading = (ascent + descent) * this.lineSpacing;
-        TextLineWithOffset[] textLines = getTextLinesWithOffsets();
+        TextLine[] textLines = getTextLinesWithOffsets();
         if (page == null) {
             return new float[] {
                 this.width,

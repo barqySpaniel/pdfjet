@@ -1,6 +1,6 @@
 package com.pdfjet;
 
-class TextLineWithOffset {
+class TextLineWithOffset {      // TODO: We don't really need this class!!!
     String textLine;    // A single line of text
     float xOffset;      // The horizontal offset (from the X coordinate)
     boolean underline = false;
