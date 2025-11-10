@@ -49,6 +49,7 @@ public class Example_01 {
         textBlock.setLocation(50f, 50f);
         textBlock.setWidth(473f);   // Why 473f? To match the Google Fonts samples.
         textBlock.setTextPadding(10f);
+        textBlock.setBorderColor(Color.blue);
         textBlock.setKeywordHighlightColors(map);
         float[] xy = textBlock.drawOn(page);
 
