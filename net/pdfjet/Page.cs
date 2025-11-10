@@ -544,58 +544,6 @@ public class Page {
         }
     }
 
-    internal void DrawTextBlock(
-            Font font,
-            float fontSize,
-            TextLineWithOffset[] textLines,
-            float x,
-            float y,
-            float leading,
-            float[] color,
-            Dictionary<String, Int32> highlightColors) {
-        if (textLines == null || textLines.Length == 0) {
-            return;
-        }
-
-        Append("BT\n");
-        SetTextFont(font, fontSize);
-        float yText = y;
-        foreach (TextLineWithOffset textLine in textLines) {
-            Append("1 0 0 1 ");
-            Append(x + textLine.xOffset);
-            Append(' ');
-            Append(height - (yText + font.GetAscent(fontSize)));
-            Append(" Tm\n");
-            if (highlightColors == null) {
-                SetBrushColor(color);
-                if (font.isCoreFont) {
-                    Append("[<");
-                    DrawASCIIString(font, textLine.textLine);
-                    Append(">] TJ\n");
-                } else {
-                    Append("<");
-                    DrawUnicodeString(font, textLine.textLine);
-                    Append("> Tj\n");
-                }
-            } else {
-                DrawColoredString(font, textLine.textLine, color, highlightColors);
-            }
-            yText += leading;
-        }
-        Append("ET\n");
-
-        yText = y;
-        foreach (TextLineWithOffset textLine in textLines) {
-            if (textLine.underline) {
-                MoveTo(x + textLine.xOffset,
-                    yText + font.GetBodyHeight(fontSize));
-                LineTo(x + textLine.xOffset + font.StringWidth(fontSize, textLine.textLine),
-                    yText + font.GetBodyHeight(fontSize));
-            }
-            yText += leading;
-        }
-    }
-
     internal void DrawUnicodeString(Font font, String str) {
         if (str == null || str.Length == 0) {
             return;
@@ -1948,6 +1896,55 @@ public class Page {
         }
     }
 
+    internal void DrawTextBlock(
+            Font font,
+            float fontSize,
+            TextLine[] textLines,
+            float x,
+            float y,
+            float leading,
+            float[] color,
+            Dictionary<String, Int32> highlightColors) {
+        if (textLines == null || textLines.Length == 0) {
+            return;
+        }
 
+        Append("BT\n");
+        SetTextFont(font, fontSize);
+        float yText = y;
+        foreach (TextLine textLine in textLines) {
+            Append("1 0 0 1 ");
+            Append(x + textLine.xOffset);
+            Append(' ');
+            Append(height - (yText + font.GetAscent(fontSize)));
+            Append(" Tm\n");
+            if (highlightColors == null) {
+                SetBrushColor(color);
+                if (font.isCoreFont) {
+                    Append("[<");
+                    DrawASCIIString(font, textLine.text);
+                    Append(">] TJ\n");
+                } else {
+                    Append("<");
+                    DrawUnicodeString(font, textLine.text);
+                    Append("> Tj\n");
+                }
+            } else {
+                DrawColoredString(font, textLine.text, color, highlightColors);
+            }
+            yText += leading;
+        }
+        Append("ET\n");
+
+        float yLine = y + font.GetBodyHeight(fontSize);
+        foreach (TextLine textLine in textLines) {
+            if (textLine.underline) {
+                MoveTo(x + textLine.xOffset, yLine);
+                LineTo(x + textLine.xOffset + font.StringWidth(fontSize, textLine.text), yLine);
+                StrokePath();
+            }
+            yLine += leading;
+        }
+    }
 }   // End of Page.cs
 }   // End of namespace PDFjet.NET

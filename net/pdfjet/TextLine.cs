@@ -20,8 +20,10 @@ public class TextLine : IDrawable {
     internal String text;
     internal bool isLastToken = false;  // We need this for underline and strikeout to work properly!
 
-    private bool underline = false;
-    private bool strikeout = false;
+    internal float xOffset = 0f;
+    internal bool underline = false;
+    internal bool strikeout = false;
+
     private int degrees = 0;
     private float[] textColor = new float[] {0f, 0f, 0f};
     private float[] lineColor = new float[] {0f, 0f, 0f};

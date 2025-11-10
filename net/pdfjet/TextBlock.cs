@@ -232,8 +232,8 @@ namespace PDFjet.NET {
             return numOfCJK > (chars.Length / 2);
         }
 
-        private TextLineWithOffset[] GetTextLinesWithOffsets() {
-            List<TextLineWithOffset> textLines = new List<TextLineWithOffset>();
+        private TextLine[] GetTextLinesWithOffsets() {
+            List<TextLine> textLines = new List<TextLine>();
 
             float textAreaWidth = this.width - 2 * this.textPadding;
             this.textContent = this.textContent.Replace("\r\n", "\n").Trim();
@@ -242,12 +242,12 @@ namespace PDFjet.NET {
                 String line = str;
                 if (textIsArabic) {
                     line = Bidi.ReorderVisually(line);
-                    textLines.Add(new TextLineWithOffset(line, 0f));
+                    textLines.Add(new TextLine(font, line));
                     continue;
                 }
 
                 if (this.font.StringWidth(fallbackFont, fontSize, line) <= textAreaWidth) {
-                    textLines.Add(new TextLineWithOffset(line, 0f));
+                    textLines.Add(new TextLine(font, line));
                 } else {
                     if (TextIsCJK(line)) {
                         StringBuilder sb = new StringBuilder();
@@ -255,13 +255,13 @@ namespace PDFjet.NET {
                             if (this.font.StringWidth(fallbackFont, fontSize, sb.ToString() + ch) <= textAreaWidth) {
                                 sb.Append(ch);
                             } else {
-                                textLines.Add(new TextLineWithOffset(sb.ToString(), 0f));
+                                textLines.Add(new TextLine(font, sb.ToString()));
                                 sb.Clear();
                                 sb.Append(ch);
                             }
                         }
                         if (sb.Length > 0) {
-                            textLines.Add(new TextLineWithOffset(sb.ToString(), 0f));
+                            textLines.Add(new TextLine(font, sb.ToString()));
                         }
                     } else {
                         StringBuilder sb = new StringBuilder();
@@ -270,13 +270,13 @@ namespace PDFjet.NET {
                             if (this.font.StringWidth(fallbackFont, fontSize, sb.ToString() + token) <= textAreaWidth) {
                                 sb.Append(token).Append(" ");
                             } else {
-                                textLines.Add(new TextLineWithOffset(sb.ToString().Trim(), 0f));
+                                textLines.Add(new TextLine(font, sb.ToString().Trim()));
                                 sb.Clear();
                                 sb.Append(token).Append(" ");
                             }
                         }
                         if (sb.ToString().Trim().Length > 0) {
-                            textLines.Add(new TextLineWithOffset(sb.ToString().Trim(), 0f));
+                            textLines.Add(new TextLine(font, sb.ToString().Trim()));
                         }
                     }
                 }
@@ -285,36 +285,36 @@ namespace PDFjet.NET {
             return textLines.ToArray();
         }
 
-        private void RightAlignText(TextLineWithOffset[] textLines) {
-            foreach (TextLineWithOffset textLineWithOffset in textLines) {
-                textLineWithOffset.xOffset =
-                    this.width - font.StringWidth(fallbackFont, fontSize, textLineWithOffset.textLine);
+        private void RightAlignText(TextLine[] textLines) {
+            foreach (TextLine textLine in textLines) {
+                textLine.xOffset =
+                    this.width - font.StringWidth(fallbackFont, fontSize, textLine.text);
             }
         }
 
-        private void CenterText(TextLineWithOffset[] textLines) {
-            foreach (TextLineWithOffset textLineWithOffset in textLines) {
-                textLineWithOffset.xOffset =
-                    (this.width - font.StringWidth(fallbackFont, fontSize, textLineWithOffset.textLine)) / 2f;
+        private void CenterText(TextLine[] textLines) {
+            foreach (TextLine textLine in textLines) {
+                textLine.xOffset =
+                    (this.width - font.StringWidth(fallbackFont, fontSize, textLine.text)) / 2f;
             }
         }
 
-        private void ReorderVisually(TextLineWithOffset[] textLines) {
-            foreach (TextLineWithOffset textLineWithOffset in textLines) {
-                textLineWithOffset.textLine = Bidi.ReorderVisually(textLineWithOffset.textLine);
+        private void ReorderVisually(TextLine[] textLines) {
+            foreach (TextLine textLine in textLines) {
+                textLine.text = Bidi.ReorderVisually(textLine.text);
             }
         }
 
         public float[] DrawOn(Page page) {
-            if (page == null) {
-                Console.WriteLine("A valid Page object is required.");
-            }
+//            if (page == null) {
+//                Console.WriteLine("A valid Page object is required.");
+//            }
 
             float ascent = this.font.GetAscent(fontSize);
             float descent = this.font.GetDescent(fontSize);
             float leading = (ascent + descent) * this.lineSpacing;
 
-            TextLineWithOffset[] textLines = GetTextLinesWithOffsets();
+            TextLine[] textLines = GetTextLinesWithOffsets();
             if (page == null) {
                 return new float[] {
                     this.width,
