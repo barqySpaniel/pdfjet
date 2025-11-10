@@ -2017,7 +2017,7 @@ final public class Page {
         append(" cm\n");
     }
 
-    void drawTextBlock(
+    protected void drawTextBlock(
             Font font,
             float fontSize,
             TextLine[] textLines,

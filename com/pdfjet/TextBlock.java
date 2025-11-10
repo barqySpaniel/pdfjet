@@ -258,7 +258,7 @@ public class TextBlock {
     }
 
     public float[] drawOn(Page page) throws Exception {
-        if (page == null) {
+        if (page == null) {     // TODO: We don't need this??
             throw new IllegalArgumentException("A valid Page object is required.");
         }
 
