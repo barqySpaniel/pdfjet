@@ -343,6 +343,7 @@ func (page *Page) drawASCIIString(font *Font, text string) {
 
 func (page *Page) drawTextBlock(
 	font *Font,
+	fontSize float32,
 	textLines []TextLineWithOffset,
 	x float32,
 	y float32,
@@ -355,7 +356,6 @@ func (page *Page) drawTextBlock(
 
 	page.appendString("BT\n")
 	page.SetTextFont(font)
-
 	yText := y
 	for _, textLine := range textLines {
 		page.appendString("1 0 0 1 ")
@@ -380,6 +380,17 @@ func (page *Page) drawTextBlock(
 		yText += leading
 	}
 	page.appendString("ET\n")
+
+	yText = y
+	for _, textLine := range textLines {
+		if textLine.underline {
+			page.MoveTo(x+textLine.xOffset,
+				yText+font.GetBodyHeight(fontSize))
+			page.LineTo(x+textLine.xOffset+font.StringWidth(nil, fontSize, textLine.textLine),
+				yText+font.GetBodyHeight(fontSize))
+		}
+		yText += leading
+	}
 }
 
 func (page *Page) drawUnicodeString(font *Font, text string) {

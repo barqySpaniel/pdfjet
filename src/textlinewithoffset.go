@@ -8,6 +8,8 @@ package pdfjet
  */
 
 type TextLineWithOffset struct {
-	textLine string
-	xOffset  float32
+	textLine  string
+	xOffset   float32
+	underline bool
+	strikeout bool
 }

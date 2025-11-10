@@ -23,6 +23,7 @@ type TextBlock struct {
 	height                 float32
 	font                   *Font
 	fallbackFont           *Font
+	fontSize               float32
 	textContent            string
 	lineSpacing            float32
 	textColor              int32
@@ -53,6 +54,7 @@ func NewTextBlock(font *Font, textContent string) *TextBlock {
 	textBlock.width = 500.0
 	textBlock.height = 500.0
 	textBlock.font = font
+	textBlock.fontSize = 12.0
 
 	textBlock.textContent = textContent
 	textBlock.lineSpacing = 1.0
@@ -334,6 +336,7 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 	page.AddBMC("P", textBlock.uriLanguage, textBlock.textContent, "")
 	page.drawTextBlock(
 		textBlock.font,
+		textBlock.fontSize,
 		textLines,
 		textBlock.x+textBlock.textPadding,
 		textBlock.y+textBlock.textPadding,
