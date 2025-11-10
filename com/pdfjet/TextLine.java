@@ -14,31 +14,24 @@ import java.util.Map;
 public class TextLine implements Drawable {
     protected float x;
     protected float y;
-
     protected Font font;
     protected Font fallbackFont;
     protected float fontSize;
     protected String text;
+    protected boolean isLastToken = false;  // We need this for underline and strikeout to work properly!
 
-    private String uri;
-    private String key;
-
-    protected boolean isLastToken = true;
     private boolean underline = false;
     private boolean strikeout = false;
-
     private int degrees = 0;
-    private int color = Color.black;
-
-    private float xBox;     // The x and y coordinates of the top left corner
-    private float yBox;     // of a box where this text line is placed in
-
+    private float[] textColor = new float[] {0f, 0f, 0f};
+    private float[] lineColor = new float[] {0f, 0f, 0f};
     private int textEffect = Effect.NORMAL;
     private float verticalOffset = 0f;
 
+    private String uri;
+    private String key;
     private String language = null;
     private String altDescription = null;
-
     private String uriLanguage = null;
     private String uriActualText = null;
     private String uriAltDescription = null;
@@ -161,7 +154,7 @@ public class TextLine implements Drawable {
      * @return this TextLine.
      */
     public TextLine setFontSize(float fontSize) {
-        this.font.setSize(fontSize);
+        this.fontSize = fontSize;
         return this;
     }
 
@@ -200,48 +193,60 @@ public class TextLine implements Drawable {
         return this.fallbackFont;
     }
 
-    /**
-     * Sets the color for this text line.
-     *
-     * @param color the color is specified as an integer.
-     * @return this TextLine.
-     */
-    public TextLine setTextColor(int color) {
-        this.color = color;
-        return this;
-    }
-
     public TextLine setColor(int color) {
         return setTextColor(color);
     }
 
-    /**
-     * Sets the pen color.
-     * See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-     *
-     * @param color the color.
-     * @return this TextLine.
-     */
-    public TextLine setTextColor(int[] color) {
-        this.color = color[0] << 16 | color[1] << 8 | color[2];
+    public TextLine setTextColor(int color) {
+        if (color == Color.transparent) {
+            this.textColor = null;
+            return this;
+        }
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        setTextColor(r, g, b);
         return this;
     }
 
-    public TextLine setColor(int[] color) {
-        return setTextColor(color);
+    public TextLine setTextColor(float r, float g, float b) {
+        this.textColor = new float[] {r, g, b};
+        return this;
     }
 
-    /**
-     * Returns the text line color.
-     *
-     * @return the text line color.
-     */
-    public int getTextColor() {
-        return this.color;
+    public TextLine setTextColor(float[] rgbColor) {
+        this.textColor = rgbColor;
+        return this;
     }
 
-    public int getColor() {
-        return this.color;
+    public float[] getTextColor() {
+        return textColor;
+    }
+
+    public TextLine setLineColor(int color) {
+        if (color == Color.transparent) {
+            this.textColor = null;
+            return this;
+        }
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        setLineColor(r, g, b);
+        return this;
+    }
+
+    public TextLine setLineColor(float r, float g, float b) {
+        this.lineColor = new float[] {r, g, b};
+        return this;
+    }
+
+    public TextLine setLineColor(float[] rgbColor) {
+        this.lineColor = rgbColor;
+        return this;
+    }
+
+    public float[] getLineColor() {
+        return lineColor;
     }
 
     /**
@@ -475,49 +480,6 @@ public class TextLine implements Drawable {
         return this;
     }
 
-    /**
-     * Places this text line in the specified box.
-     *
-     * @param box the specified box.
-     * @return this TextLine.
-     */
-    public TextLine placeIn(Box box) {
-        placeIn(box, 0f, 0f);
-        return this;
-    }
-
-    /**
-     * Places this text line in the box at the specified offset.
-     *
-     * @param box the specified box.
-     * @param xOffset the x offset from the top left corner of the box.
-     * @param yOffset the y offset from the top left corner of the box.
-     * @return this TextLine.
-     */
-    public TextLine placeIn(
-            Box box,
-            double xOffset,
-            double yOffset) {
-        return placeIn(box, (float) xOffset, (float) yOffset);
-    }
-
-    /**
-     * Places this text line in the box at the specified offset.
-     *
-     * @param box the specified box.
-     * @param xOffset the x offset from the top left corner of the box.
-     * @param yOffset the y offset from the top left corner of the box.
-     * @return this TextLine.
-     */
-    public TextLine placeIn(
-            Box box,
-            float xOffset,
-            float yOffset) {
-        xBox = box.x + xOffset;
-        yBox = box.y + yOffset;
-        return this;
-    }
-
     public TextLine setColorMap(Map<String, Integer> colorMap) {
         this.colorMap = colorMap;
         return this;
@@ -540,24 +502,21 @@ public class TextLine implements Drawable {
         }
 
         page.setTextDirection(degrees);
-        x += xBox;
-        y += yBox;
-
-        page.setBrushColor(color);
+        page.setBrushColor(textColor);
         page.addBMC(structureType, language, text, altDescription);
-        page.drawString(font, fallbackFont, text, x, y, color, colorMap);
+        page.drawString(font, fallbackFont, fontSize, text, x, y, textColor, colorMap);
         page.addEMC();
 
         double radians = Math.PI * degrees / 180.0;
         if (underline) {
-            page.setPenWidth(font.underlineThickness);
-            page.setPenColor(color);
+            page.setPenWidth(font.getUnderlineThickness(fontSize));
+            page.setPenColor(lineColor);
             double lineLength = font.stringWidth(fallbackFont, fontSize, text);
             if (this.isLastToken) {
                 lineLength -= font.stringWidth(fallbackFont, fontSize, Single.space);
             }
-            double xAdjust = font.underlinePosition * Math.sin(radians);
-            double yAdjust = font.underlinePosition * Math.cos(radians);
+            double xAdjust = font.getUnderlinePosition(fontSize) * Math.sin(radians);
+            double yAdjust = font.getUnderlinePosition(fontSize) * Math.cos(radians);
             double x2 = x + lineLength * Math.cos(radians);
             double y2 = y - lineLength * Math.sin(radians);
             page.addBMC(structureType, language, text, "Underlined text: " + text);
@@ -568,14 +527,14 @@ public class TextLine implements Drawable {
         }
 
         if (strikeout) {
-            page.setPenWidth(font.underlineThickness);
-            page.setPenColor(color);
+            page.setPenWidth(font.getUnderlineThickness(fontSize));
+            page.setPenColor(lineColor);
             double lineLength = font.stringWidth(fallbackFont, fontSize, text);
             if (this.isLastToken) {
                 lineLength -= font.stringWidth(fallbackFont, fontSize, Single.space);
             }
-            double xAdjust = (font.bodyHeight / 4.0) * Math.sin(radians);
-            double yAdjust = (font.bodyHeight / 4.0) * Math.cos(radians);
+            double xAdjust = (font.getBodyHeight(fontSize) / 4.0) * Math.sin(radians);
+            double yAdjust = (font.getBodyHeight(fontSize) / 4.0) * Math.cos(radians);
             double x2 = x + lineLength * Math.cos(radians);
             double y2 = y - lineLength * Math.sin(radians);
             page.addBMC(structureType, language, text, "Strikethrough text: " + text);
@@ -589,8 +548,8 @@ public class TextLine implements Drawable {
             page.addAnnotation(new Annotation(
                     Annotation.Link,
                     x,
-                    y - font.getAscent(),       // TODO: font.getAscent(fontSize)
-                    x + font.stringWidth(fallbackFont, text),
+                    y - font.getAscent(),
+                    x + font.stringWidth(fallbackFont, fontSize, text),
                     y + font.getDescent(),
                     null,   // Vertices
                     null,   // Fill Color

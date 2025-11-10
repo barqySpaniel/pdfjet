@@ -13,6 +13,7 @@ package com.pdfjet;
 public class Cell {
     protected Font font;
     protected Font fallbackFont;
+    protected float fontSize;
     protected String text;
     protected Image image;
     protected Barcode barcode;
@@ -21,16 +22,22 @@ public class Cell {
     protected TextColumn textColumn;
     protected Point point;
     protected CompositeTextLine compositeTextLine;
-    protected float width = 50f;
+    protected float width = 75f;     // TODO: Rename to cellWidth
     protected float topPadding = 2f;
     protected float bottomPadding = 2f;
     protected float leftPadding = 2f;
     protected float rightPadding = 2f;
-    protected float lineWidth = 0f;
 
-    private int background = -1;
-    private int pen = Color.black;
-    private int brush = Color.black;
+    protected float lineWidth = 0f;  // TODO: Rename to borderWidth
+
+    protected float[] backgroundColor;
+    protected float[] textColor = new float[] {0f, 0f, 0f};
+    protected float strokeWidth;
+    protected float[] strokeColor;
+    protected String strokePattern = "[] 0";    // Solid
+
+    protected int colspan = 1;
+
     // Cell properties
     // Colspan:
     // bits 0 to 15
@@ -58,6 +65,8 @@ public class Cell {
      */
     public Cell(Font font) {
         this.font = font;
+        this.fontSize = font.getSize();
+        this.fallbackFont = font;
     }
 
     /**
@@ -68,6 +77,8 @@ public class Cell {
      */
     public Cell(Font font, String text) {
         this.font = font;
+        this.fontSize = font.getSize();
+        this.fallbackFont = font;
         this.text = text;
     }
 
@@ -80,6 +91,7 @@ public class Cell {
      */
     public Cell(Font font, Font fallbackFont, String text) {
         this.font = font;
+        this.fontSize = font.getSize();
         this.fallbackFont = fallbackFont;
         this.text = text;
     }
@@ -345,48 +357,12 @@ public class Cell {
     }
 
     /**
-     *  Sets the background to the specified color.
+     *  Sets the text color.
      *
-     *  @param color the color specified as 0xRRGGBB integer.
+     *  @param textColor the text color.
      */
-    public void setBgColor(int color) {
-        this.background = color;
-    }
-
-    /**
-     *  Returns the background color of this cell.
-     *
-     *  @return the background colo specified as 0xRRGGBB integer.
-     */
-    public int getBgColor() {
-        return this.background;
-    }
-
-    /**
-     *  Sets the pen color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void setPenColor(int color) {
-        this.pen = color;
-    }
-
-    /**
-     *  Returns the pen color.
-     *
-     *  @return the color specified as 0xRRGGBB integer.
-     */
-    public int getPenColor() {
-        return pen;
-    }
-
-    /**
-     *  Sets the brush color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void setBrushColor(int color) {
-        this.brush = color;
+    public void setBrushColor(float[] textColor) {
+        this.textColor = textColor;
     }
 
     /**
@@ -394,8 +370,8 @@ public class Cell {
      *
      * @return the brush color.
      */
-    public int getBrushColor() {
-        return brush;
+    public float[] getBrushColor() {
+        return textColor;
     }
 
     /**
@@ -404,8 +380,8 @@ public class Cell {
      *  @param color the color specified as 0xRRGGBB integer.
      */
     public void setFgColor(int color) {
-        this.pen = color;
-        this.brush = color;
+// TODO:        this.pen = color;
+//         this.brush = color;
     }
 
     protected void setProperties(int properties) {
@@ -573,7 +549,7 @@ public class Cell {
             float y,
             float w,
             float h) throws Exception {
-        if (background != Color.transparent) {
+        if (backgroundColor != null) {
             drawBackground(page, x, y, w, h);
         }
 
@@ -654,7 +630,7 @@ public class Cell {
             float y,
             float cellW,
             float cellH) {
-        page.setBrushColor(background);
+        page.setBrushColor(backgroundColor);
         page.fillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth);
     }
 
@@ -664,7 +640,7 @@ public class Cell {
             float y,
             float cellW,
             float cellH) {
-        page.setPenColor(pen);
+        page.setPenColor(strokeColor);
         page.setPenWidth(lineWidth);
         if (getBorder(Border.TOP) ||
                 getBorder(Border.BOTTOM) ||
@@ -710,21 +686,21 @@ public class Cell {
         float xText;
         float yText;
         if (valign == Align.TOP) {
-            yText = y + font.ascent + this.topPadding;
+            yText = y + font.getAscent(fontSize) + this.topPadding;
         } else if (valign == Align.CENTER) {
-            yText = y + cellH/2 + font.ascent/2;
+            yText = y + cellH/2 + font.getAscent(fontSize)/2;
         } else if (valign == Align.BOTTOM) {
             yText = (y + cellH) - this.bottomPadding;
         } else {
             throw new Exception("Invalid vertical text alignment option.");
         }
 
-        page.setPenColor(pen);
+        page.setPenColor(strokeColor);
         if (getTextAlignment() == Align.RIGHT) {
             if (compositeTextLine == null) {
                 xText = (x + cellW) - (font.stringWidth(text) + this.rightPadding);
                 page.addBMC(StructElem.P, text, text);
-                page.drawString(font, fallbackFont, text, xText, yText, brush, null);
+                page.drawString(font, fallbackFont, fontSize, text, xText, yText, textColor, null);
                 page.addEMC();
                 if (getUnderline()) {
                     underlineText(page, font, text, xText, yText);
@@ -744,7 +720,7 @@ public class Cell {
                 xText = x + this.leftPadding +
                         (((cellW - (leftPadding + rightPadding)) - font.stringWidth(text)) / 2);
                 page.addBMC(StructElem.P, text, text);
-                page.drawString(font, fallbackFont, text, xText, yText, brush, null);
+                page.drawString(font, fallbackFont, fontSize, text, xText, yText, textColor, null);
                 page.addEMC();
                 if (getUnderline()) {
                     underlineText(page, font, text, xText, yText);
@@ -764,7 +740,7 @@ public class Cell {
             xText = x + this.leftPadding;
             if (compositeTextLine == null) {
                 page.addBMC(StructElem.P, text, text);
-                page.drawString(font, fallbackFont, text, xText, yText, brush, null);
+                page.drawString(font, fallbackFont, fontSize, text, xText, yText, textColor, null);
                 page.addEMC();
                 if (getUnderline()) {
                     underlineText(page, font, text, xText, yText);

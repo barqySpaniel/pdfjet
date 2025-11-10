@@ -9,90 +9,97 @@ package com.pdfjet;
 import java.util.*;
 
 public class Rect implements Drawable {
-    private float x;
-    private float y;
+    protected float x;
+    protected float y;
     private float w;
     private float h;
     private float r;
-    private int borderColor;
-    private float width;
-    private String pattern;
-    private boolean fillShape;
+
+    private float[] fillColor;
+    private float borderWidth;
+    private float[] borderColor = new float[] {0f, 0f, 0f};
+    private String borderPattern = "[] 0";
+
     private String uri;
     private String key;
-    private String language;
-    private String altDescription;
-    private String actualText;
-    private String structureType;
+    private String language = "en-US";
+    private String actualText = null;
+    private String altDescription = null;
 
     /**
-     * Creates new Rect object.
+     * The default constructor.
      */
     public Rect() {
-        this.borderColor = Color.black;
-        this.width = 0.0f;
-        this.pattern = "[] 0";
-        this.altDescription = Single.space;
-        this.actualText = Single.space;
-        this.structureType = "P"; // StructureType.P; TODO
     }
 
-    /**
-     * Creates a rect object.
-     * @param x the x coordinate of the top left corner of this rect when drawn on the page.
-     * @param y the y coordinate of the top left corner of this rect when drawn on the page.
-     * @param w the width of this rect.
-     * @param h the height of this rect.
-     */
     public Rect(float x, float y, float w, float h) {
-        this();
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
     }
 
-    /**
-     * Sets the location of this rect on the page.
-     * @param x the x coordinate of the top left corner of this rect when drawn on the page.
-     * @param y the y coordinate of the top left corner of this rect when drawn on the page.
-     * @return this Rect.
-     */
-    public Rect setLocation(float x, float y) {
+    public Rect(double x, double y, double w, double h) {
+        this.x = (float) x;
+        this.y = (float) y;
+        this.w = (float) w;
+        this.h = (float) h;
+    }
+
+    public void setLocation(float x, float y) {
         this.x = x;
         this.y = y;
-        return this;
     }
 
     public void setPosition(float x, float y) {
-        this.x = x;
-        this.y = y;
+        setLocation(x, y);
     }
 
-    /**
-     * Sets the size of this rect.
-     * @param w the width of this rect.
-     * @param h the height of this rect.
-     */
+    public void setPosition(double x, double y) {
+        setLocation((float) x, (float) y);
+    }
+
     public void setSize(float w, float h) {
         this.w = w;
         this.h = h;
     }
 
-    /**
-     * Sets the color for this rect.
-     * @param color the color specified as an integer.
-     */
-    public void setBorderColor(int borderColor) {
-        this.borderColor = borderColor;
+    public void setFillColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        setFillColor(r, g, b);
     }
 
-    /**
-     * Sets the width of this line.
-     * @param width the width.
-     */
-    public void setLineWidth(float width) {
-        this.width = width;
+    public void setFillColor(float r, float g, float b) {
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void setFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
+    }
+
+    public void setBorderWidth(float borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+
+    public void setBorderColor(int color) {
+        if (color == Color.transparent) {
+            this.borderColor = null;
+            return;
+        }
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        setBorderColor(r, g, b);
+    }
+
+    public void setBorderColor(float r, float g, float b) {
+        this.borderColor = new float[] {r, g, b};
+    }
+
+    public void setBorderColor(float[] rgbColor) {
+        this.borderColor = rgbColor;
     }
 
     /**
@@ -145,7 +152,7 @@ public class Rect implements Drawable {
      * @return this Rect.
      */
     public Rect setStructureType(String structureType) {
-        this.structureType = structureType;
+// TODO:        this.structureType = structureType;
         return this;
     }
 
@@ -153,8 +160,8 @@ public class Rect implements Drawable {
      * Sets the line dash pattern that controls the pattern of dashes and gaps used to stroke paths.
      * @param pattern the line dash pattern.
      */
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
+    public void setBorderPattern(String borderPattern) {
+        this.borderPattern = borderPattern;
     }
 
     /**
@@ -163,7 +170,7 @@ public class Rect implements Drawable {
      * @param fillShape the value used to set the private fillShape variable.
      */
     public void setFillShape(boolean fillShape) {
-        this.fillShape = fillShape;
+// TODO:        this.fillShape = fillShape;
     }
 
     /**
@@ -197,24 +204,29 @@ public class Rect implements Drawable {
         }
 
         final float k = 0.55228f;
-        page.addArtifactBMC();
-        page.saveGraphicsState();
-        page.setBrushColor(this.borderColor);
-        page.setPenColor(this.borderColor);
-        page.setPenWidth(this.width);
-        page.setStrokePattern(this.pattern);
+        page.append("q\n");
         if (this.r == 0.0f) {
-            page.moveTo(this.x, this.y);
-            page.lineTo(this.x + this.w, this.y);
-            page.lineTo(this.x + this.w, this.y + this.h);
-            page.lineTo(this.x, this.y + this.h);
-            if (this.fillShape) {
+            if (this.fillColor != null) {
+                page.moveTo(this.x, this.y);
+                page.lineTo(this.x + this.w, this.y);
+                page.lineTo(this.x + this.w, this.y + this.h);
+                page.lineTo(this.x, this.y + this.h);
+                page.lineTo(this.x, this.y);
+                page.setBrushColor(this.fillColor);
                 page.fillPath();
-            } else {
+            }
+            if (borderColor != null) {
+                page.moveTo(this.x, this.y);
+                page.lineTo(this.x + this.w, this.y);
+                page.lineTo(this.x + this.w, this.y + this.h);
+                page.lineTo(this.x, this.y + this.h);
+                page.setPenColor(this.borderColor);
+                page.setPenWidth(this.borderWidth);
+                page.setStrokePattern(this.borderPattern);
                 page.closePath();
             }
         } else {
-            List<Point> points = new ArrayList<>();
+            List<Point> points = new ArrayList<Point>();
             points.add(new Point((this.x + this.r), this.y));
             points.add(new Point((this.x + this.w) - this.r, this.y));
             points.add(new Point((this.x + this.w - this.r) + this.r * k, this.y, Point.CONTROL_POINT_C));
@@ -232,28 +244,52 @@ public class Rect implements Drawable {
             points.add(new Point(this.x, (this.y + this.r) - this.r * k, Point.CONTROL_POINT_C));
             points.add(new Point((this.x + this.r) - this.r * k, this.y, Point.CONTROL_POINT_C));
             points.add(new Point((this.x + this.r), this.y));
-            page.drawPath(points, PathOperator.STROKE);
+
+            if (fillColor != null && borderColor == null) {
+                page.drawPath(points, PathOperator.FILL);
+            } else if (fillColor == null && borderColor != null) {
+                page.drawPath(points, PathOperator.STROKE);
+            } else if (fillColor != null && borderColor != null) {
+                page.drawPath(points, PathOperator.FILL_AND_STROKE);
+            }
+
+            if (borderColor != null && borderPattern != null) {
+                page.setStrokePattern(borderPattern);
+            }
+            if (fillColor != null && borderColor != null) {
+                page.setBrushColor(fillColor);
+                page.setPenWidth(borderWidth);
+                page.setPenColor(borderColor);
+                page.append("B\n");
+            } else if (fillColor != null && borderColor == null) {
+                page.setBrushColor(fillColor);
+                page.append("f\n");
+            } else if (fillColor == null && borderColor != null) {
+                page.setPenWidth(borderWidth);
+                page.setPenColor(borderColor);
+                page.append("S\n");
+            }
         }
-        page.restoreGraphicsState();
-        page.addEMC();
+        page.append("Q\n");
 
         if (this.uri != null || this.key != null) {
-            page.addAnnotation(new Annotation(
-                Annotation.Link,
-                this.x,
-                this.y,
-                this.x + this.w,
-                this.y + this.h,
-                null,       // Vertices
-                null,       // Fill Color
-                0f,         // Transparency
-                null,       // Title
-                null,       // Contents
-                this.uri,
-                this.key,
-                this.language,
-                this.actualText,
-                this.altDescription));
+// TODO:
+//             page.addAnnotation(new Annotation(
+//                 Annotation.Link,
+//                 this.x,
+//                 this.y,
+//                 this.x + this.w,
+//                 this.y + this.h,
+//                 null,       // Vertices
+//                 null,       // Fill Color
+//                 0f,         // Transparency
+//                 null,       // Title
+//                 null,       // Contents
+//                 this.uri,
+//                 this.key,
+//                 this.language,
+//                 this.actualText,
+//                 this.altDescription));
         }
 
         return new float[] { this.x + this.w, this.y + this.h };

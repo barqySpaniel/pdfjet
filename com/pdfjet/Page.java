@@ -299,12 +299,13 @@ final public class Page {
      *  @param y the y coordinate.
      */
     public void drawString(
-            Font font1,
-            Font font2,
+            Font font,
+            Font fallbackFont,
+            float fontSize,
             String str,
             float x,
             float y) {
-        drawString(font1, font2, str, x, y, Color.black, null);
+        drawString(font, fallbackFont, fontSize, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
     /**
@@ -324,21 +325,22 @@ final public class Page {
     public void drawString(
             Font font,
             Font fallbackFont,
+            float fontSize,
             String str,
             float x,
             float y,
-            int brush,
-            Map<String, Integer> colors) {
+            float[] color,
+            Map<String, Integer> highlightColors) {
         if (font.isCoreFont || font.isCJK || fallbackFont == null || fallbackFont.isCoreFont || fallbackFont.isCJK) {
-            drawString(font, str, x, y, brush, colors);
+            drawString(font, fontSize, str, x, y, color, highlightColors);
         } else {
             Font activeFont = font;
             StringBuilder buf = new StringBuilder();
             for (int i = 0; i < str.length(); i++) {
                 int ch = str.charAt(i);
                 if (activeFont.unicodeToGID[ch] == 0) {
-                    drawString(activeFont, buf.toString(), x, y, brush, colors);
-                    x += activeFont.stringWidth(buf.toString());
+                    drawString(activeFont, fontSize, buf.toString(), x, y, color, highlightColors);
+                    x += activeFont.stringWidth(fontSize, buf.toString());
                     buf.setLength(0);
                     // Switch the active font
                     if (activeFont == font) {
@@ -349,7 +351,7 @@ final public class Page {
                 }
                 buf.append((char) ch);
             }
-            drawString(activeFont, buf.toString(), x, y, brush, colors);
+            drawString(activeFont, fontSize, buf.toString(), x, y, color, highlightColors);
         }
     }
 
@@ -365,18 +367,20 @@ final public class Page {
      */
     public void drawString(
             Font font,
+            double fontSize,
             String str,
             double x,
             double y) {
-        drawString(font, str, (float) x, (float) y);
+        drawString(font, (float) fontSize, str, (float) x, (float) y);
     }
 
     public void drawString(
             Font font,
+            float fontSize,
             String str,
             float x,
             float y) {
-        drawString(font, str, x, y, Color.black, null);
+        drawString(font, fontSize, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
     /**
@@ -393,16 +397,17 @@ final public class Page {
      */
     public void drawString(
             Font font,
+            float fontSize,
             String str,
             float x,
             float y,
-            int brush,
-            Map<String, Integer> colors) {
+            float[] color,
+            Map<String, Integer> highlightColors) {
         if (str == null || str.isEmpty()) {
             return;
         }
         append("BT\n");
-        setTextFont(font);
+        setTextFont(font, fontSize);
 
         if (renderingMode != 0) {
             append(renderingMode);
@@ -437,8 +442,8 @@ final public class Page {
         append(height - y);
         append(" Tm\n");
 
-        if (colors == null) {
-            setBrushColor(brush);
+        if (highlightColors == null) {
+            setBrushColor(color);
             if (font.isCoreFont) {
                 append("[<");
                 drawASCIIString(font, str);
@@ -450,7 +455,7 @@ final public class Page {
             }
 
         } else {
-            drawColoredString(font, str, brush, colors);
+            drawColoredString(font, str, color, highlightColors);
         }
         append("ET\n");
     }
@@ -481,21 +486,22 @@ final public class Page {
         }
     }
 
-    float drawTextBlock(
+    void drawTextBlock(
             Font font,
+            float fontSize,
             TextLineWithOffset[] textLines,
             float x,
             float y,
             float leading,
             Direction direction,
-            Integer textColor,
+            float[] color,
             Map<String, Integer> highlightColors) {
         if (textLines == null || textLines.length == 0) {
-            return textLines.length * leading;
+            return;
         }
 
         append("BT\n");
-        setTextFont(font);
+        setTextFont(font, fontSize);
 
         float xText = x;
         float yText = y;
@@ -504,18 +510,18 @@ final public class Page {
                 append("1 0 0 1 ");
                 append(xText + textLine.xOffset);
                 append(' ');
-                append(height - (yText + font.ascent));
+                append(height - (yText + font.getAscent(fontSize)));
                 append(" Tm\n");
             } else {                // BOTTOM_TO_TOP
                 append("0 1 -1 0 ");
-                append(xText + font.ascent);
+                append(xText + font.getAscent(fontSize));
                 append(' ');
                 append(yText);
                 append(" Tm\n");
             }
 
             if (highlightColors == null) {
-                setBrushColor(textColor);
+                setBrushColor(color);
                 if (font.isCoreFont) {
                     append("[<");
                     drawASCIIString(font, textLine.textLine);
@@ -526,7 +532,7 @@ final public class Page {
                     append("> Tj\n");
                 }
             } else {
-                drawColoredString(font, textLine.textLine, textColor, highlightColors);
+                drawColoredString(font, textLine.textLine, color, highlightColors);
             }
 
             if (direction == Direction.LEFT_TO_RIGHT) {
@@ -535,10 +541,19 @@ final public class Page {
                 xText += leading;
             }
         }
-
         append("ET\n");
 
-        return textLines.length * leading;
+        xText = x;
+        yText = y;
+        for (TextLineWithOffset textLine : textLines) {
+            if (textLine.underline) {
+                moveTo(xText + textLine.xOffset,
+                    yText + font.getBodyHeight(fontSize));
+                lineTo(xText + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine),
+                    yText + font.getBodyHeight(fontSize));
+            }
+            yText += leading;
+        }
     }
 
     public void drawUnicodeString(Font font, String str) {
@@ -767,8 +782,8 @@ final public class Page {
     }
 
     /**
-     *  Sets the line width to the default.
-     *  The default is the finest line width.
+     * Sets the line width to the default.
+     * The default is the finest line width.
      */
     public void setDefaultLineWidth() {
         append(0f);
@@ -776,27 +791,26 @@ final public class Page {
     }
 
     /**
-     *  The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
-     *  It is specified by a dash array and a dash phase.
-     *  The elements of the dash array are positive numbers that specify the lengths of
-     *  alternating dashes and gaps.
-     *  The dash phase specifies the distance into the dash pattern at which to start the dash.
-     *  The elements of both the dash array and the dash phase are expressed in user space units.
-     *  <pre>
-     *  Examples of line dash patterns:
+     * The line dash pattern controls the pattern of dashes and gaps used to stroke paths.
+     * It is specified by a dash array and a dash phase.
+     * The elements of the dash array are positive numbers that specify the lengths of
+     * alternating dashes and gaps.
+     * The dash phase specifies the distance into the dash pattern at which to start the dash.
+     * The elements of both the dash array and the dash phase are expressed in user space units.
+     * <pre>
+     * Examples of line dash patterns:
      *
-     *      "[Array] Phase"     Appearance          Description
-     *      _______________     _________________   ____________________________________
+     *     "[Array] Phase"     Appearance          Description
+     *     _______________     _________________   ____________________________________
+     *     "[] 0"              -----------------   Solid line
+     *     "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
+     *     "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
+     *     "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
+     *     "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
+     *     "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
+     * </pre>
      *
-     *      "[] 0"              -----------------   Solid line
-     *      "[3] 0"             ---   ---   ---     3 units on, 3 units off, ...
-     *      "[2] 1"             -  --  --  --  --   1 on, 2 off, 2 on, 2 off, ...
-     *      "[2 1] 0"           -- -- -- -- -- --   2 on, 1 off, 2 on, 1 off, ...
-     *      "[3 5] 6"             ---     ---       2 off, 3 on, 5 off, 3 on, 5 off, ...
-     *      "[2 3] 11"          -   --   --   --    1 on, 3 off, 2 on, 3 off, 2 on, ...
-     *  </pre>
-     *
-     *  @param pattern the line dash pattern.
+     * @param pattern the line dash pattern.
      */
     public void setStrokePattern(String pattern) {
         this.strokePattern = pattern;
@@ -805,7 +819,7 @@ final public class Page {
     }
 
     /**
-     *  Sets the default line dash pattern - solid line.
+     * Sets the default line dash pattern - solid line.
      */
     public void setDefaultLinePattern() {
         append("[] 0");
@@ -813,18 +827,18 @@ final public class Page {
     }
 
     /**
-     *  Sets the pen width that will be used to draw lines and splines on this page.
+     * Sets the pen width that will be used to draw lines and splines on this page.
      *
-     *  @param width the pen width.
+     * @param width the pen width.
      */
     public void setPenWidth(double width) {
         setPenWidth((float) width);
     }
 
     /**
-     *  Sets the pen width that will be used to draw lines and splines on this page.
+     * Sets the pen width that will be used to draw lines and splines on this page.
      *
-     *  @param width the pen width.
+     * @param width the pen width.
      */
     public void setPenWidth(float width) {
         append(width);
@@ -836,10 +850,10 @@ final public class Page {
     }
 
     /**
-     *  Sets the current line cap style.
+     * Sets the current line cap style.
      *
-     *  @param style the cap style of the current line.
-     *  Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
+     * @param style the cap style of the current line.
+     * Supported values: CapStyle.BUTT, CapStyle.ROUND and CapStyle.PROJECTING_SQUARE
      */
     public void setLineCapStyle(CapStyle style) {
         append(lineCapStyle.ordinal());
@@ -847,9 +861,9 @@ final public class Page {
     }
 
     /**
-     *  Sets the line join style.
+     * Sets the line join style.
      *
-     *  @param style the line join style code. Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
+     * @param style the line join style code. Supported values: JoinStyle.MITER, JoinStyle.ROUND and JoinStyle.BEVEL
      */
     public void setLineJoinStyle(JoinStyle style) {
         append(lineJoinStyle.ordinal());
@@ -857,20 +871,20 @@ final public class Page {
     }
 
     /**
-     *  Moves the pen to the point with coordinates (x, y) on the page.
+     * Moves the pen to the point with coordinates (x, y) on the page.
      *
-     *  @param x the x coordinate of new pen position.
-     *  @param y the y coordinate of new pen position.
+     * @param x the x coordinate of new pen position.
+     * @param y the y coordinate of new pen position.
      */
     public void moveTo(double x, double y) {
         moveTo((float) x, (float) y);
     }
 
     /**
-     *  Moves the pen to the point with coordinates (x, y) on the page.
+     * Moves the pen to the point with coordinates (x, y) on the page.
      *
-     *  @param x the x coordinate of new pen position.
-     *  @param y the y coordinate of new pen position.
+     * @param x the x coordinate of new pen position.
+     * @param y the y coordinate of new pen position.
      */
     public void moveTo(float x, float y) {
         append(x);
@@ -880,22 +894,22 @@ final public class Page {
     }
 
     /**
-     *  Draws a line from the current pen position to the point with coordinates (x, y),
-     *  using the current pen width and stroke color.
-     *  Make sure you call strokePath(), closePath() or fillPath() after the last call to this method.
-     *  @param x the x coordinate of the new pen position.
-     *  @param y the y coordinate of the new pen position.
+     * Draws a line from the current pen position to the point with coordinates (x, y),
+     * using the current pen width and stroke color.
+     * Make sure you call strokePath(), closePath() or fillPath() after the last call to this method.
+     * @param x the x coordinate of the new pen position.
+     * @param y the y coordinate of the new pen position.
      */
     public void lineTo(double x, double y) {
         lineTo((float) x, (float) y);
     }
 
     /**
-     *  Draws a line from the current pen position to the point with coordinates (x, y),
-     *  using the current pen width and stroke color.
-     *  Make sure you call strokePath(), closePath() or fillPath() after the last call to this method.
-     *  @param x the x coordinate of the new pen position.
-     *  @param y the y coordinate of the new pen position.
+     * Draws a line from the current pen position to the point with coordinates (x, y),
+     * using the current pen width and stroke color.
+     * Make sure you call strokePath(), closePath() or fillPath() after the last call to this method.
+     * @param x the x coordinate of the new pen position.
+     * @param y the y coordinate of the new pen position.
      */
     public void lineTo(float x, float y) {
         append(x);
@@ -905,51 +919,51 @@ final public class Page {
     }
 
     /**
-     *  Draws the path using the current pen color.
+     * Draws the path using the current pen color.
      */
     public void strokePath() {
         append("S\n");
     }
 
     /**
-     *  Closes the path and draws it using the current pen color.
+     * Closes the path and draws it using the current pen color.
      */
     public void closePath() {
         append("s\n");
     }
 
     /**
-     *  Closes and fills the path with the current brush color.
+     * Closes and fills the path with the current brush color.
      */
     public void fillPath() {
         append("f\n");
     }
 
     /**
-     *  Draws the outline of the specified rectangle on the page.
-     *  The left and right edges of the rectangle are at x and x + w.
-     *  The top and bottom edges are at y and y + h.
-     *  The rectangle is drawn using the current pen color.
+     * Draws the outline of the specified rectangle on the page.
+     * The left and right edges of the rectangle are at x and x + w.
+     * The top and bottom edges are at y and y + h.
+     * The rectangle is drawn using the current pen color.
      *
-     *  @param x the x coordinate of the rectangle to be drawn.
-     *  @param y the y coordinate of the rectangle to be drawn.
-     *  @param w the width of the rectangle to be drawn.
-     *  @param h the height of the rectangle to be drawn.
+     * @param x the x coordinate of the rectangle to be drawn.
+     * @param y the y coordinate of the rectangle to be drawn.
+     * @param w the width of the rectangle to be drawn.
+     * @param h the height of the rectangle to be drawn.
      */
     public void drawRect(double x, double y, double w, double h) {
         drawRect((float) x, (float) y, (float) w, (float) h);
     }
 
     /**
-     *  Draws the outline of the specified rectangle on the page.
-     *  The left and right edges of the rectangle are at x and x + w.
-     *  The top and bottom edges are at y and y + h.
-     *  The rectangle is drawn using the current pen color.
+     * Draws the outline of the specified rectangle on the page.
+     * The left and right edges of the rectangle are at x and x + w.
+     * The top and bottom edges are at y and y + h.
+     * The rectangle is drawn using the current pen color.
      *
-     *  @param x the x coordinate of the rectangle to be drawn.
-     *  @param y the y coordinate of the rectangle to be drawn.
-     *  @param w the width of the rectangle to be drawn.
-     *  @param h the height of the rectangle to be drawn.
+     * @param x the x coordinate of the rectangle to be drawn.
+     * @param y the y coordinate of the rectangle to be drawn.
+     * @param w the width of the rectangle to be drawn.
+     * @param h the height of the rectangle to be drawn.
      */
     public void drawRect(float x, float y, float w, float h) {
         moveTo(x, y);
@@ -960,30 +974,30 @@ final public class Page {
     }
 
     /**
-     *  Fills the specified rectangle on the page.
-     *  The left and right edges of the rectangle are at x and x + w.
-     *  The top and bottom edges are at y and y + h.
-     *  The rectangle is drawn using the current pen color.
+     * Fills the specified rectangle on the page.
+     * The left and right edges of the rectangle are at x and x + w.
+     * The top and bottom edges are at y and y + h.
+     * The rectangle is drawn using the current pen color.
      *
-     *  @param x the x coordinate of the rectangle to be drawn.
-     *  @param y the y coordinate of the rectangle to be drawn.
-     *  @param w the width of the rectangle to be drawn.
-     *  @param h the height of the rectangle to be drawn.
+     * @param x the x coordinate of the rectangle to be drawn.
+     * @param y the y coordinate of the rectangle to be drawn.
+     * @param w the width of the rectangle to be drawn.
+     * @param h the height of the rectangle to be drawn.
      */
     public void fillRect(double x, double y, double w, double h) {
         fillRect((float) x, (float) y, (float) w, (float) h);
     }
 
     /**
-     *  Fills the specified rectangle on the page.
-     *  The left and right edges of the rectangle are at x and x + w.
-     *  The top and bottom edges are at y and y + h.
-     *  The rectangle is drawn using the current brush color.
+     * Fills the specified rectangle on the page.
+     * The left and right edges of the rectangle are at x and x + w.
+     * The top and bottom edges are at y and y + h.
+     * The rectangle is drawn using the current brush color.
      *
-     *  @param x the x coordinate of the rectangle to be drawn.
-     *  @param y the y coordinate of the rectangle to be drawn.
-     *  @param w the width of the rectangle to be drawn.
-     *  @param h the height of the rectangle to be drawn.
+     * @param x the x coordinate of the rectangle to be drawn.
+     * @param y the y coordinate of the rectangle to be drawn.
+     * @param w the width of the rectangle to be drawn.
+     * @param h the height of the rectangle to be drawn.
      */
     public void fillRect(float x, float y, float w, float h) {
         moveTo(x, y);
@@ -1049,13 +1063,12 @@ final public class Page {
     }
 
     /**
-     *  Draws a circle on the page.
+     * Draws a circle on the page.
+     * The outline of the circle is drawn using the current pen color.
      *
-     *  The outline of the circle is drawn using the current pen color.
-     *
-     *  @param x the x coordinate of the center of the circle to be drawn.
-     *  @param y the y coordinate of the center of the circle to be drawn.
-     *  @param r the radius of the circle to be drawn.
+     * @param x the x coordinate of the center of the circle to be drawn.
+     * @param y the y coordinate of the center of the circle to be drawn.
+     * @param r the radius of the circle to be drawn.
      */
     public void drawCircle(
             double x,
@@ -1065,12 +1078,12 @@ final public class Page {
     }
 
     /**
-     *  Draws a circle on the page.
-     *  The outline of the circle is drawn using the current pen color.
+     * Draws a circle on the page.
+     * The outline of the circle is drawn using the current pen color.
      *
-     *  @param x the x coordinate of the center of the circle to be drawn.
-     *  @param y the y coordinate of the center of the circle to be drawn.
-     *  @param r the radius of the circle to be drawn.
+     * @param x the x coordinate of the center of the circle to be drawn.
+     * @param y the y coordinate of the center of the circle to be drawn.
+     * @param r the radius of the circle to be drawn.
      */
     public void drawCircle(
             float x,
@@ -1080,12 +1093,12 @@ final public class Page {
     }
 
     /**
-     *  Draws the specified circle on the page and fills it with the current brush color.
+     * Draws the specified circle on the page and fills it with the current brush color.
      *
-     *  @param x the x coordinate of the center of the circle to be drawn.
-     *  @param y the y coordinate of the center of the circle to be drawn.
-     *  @param r the radius of the circle to be drawn.
-     *  @param operation must be PathOperator.STROKE, PathOperator.CLOSE_AND_STROKE or PathOperator.FILL.
+     * @param x the x coordinate of the center of the circle to be drawn.
+     * @param y the y coordinate of the center of the circle to be drawn.
+     * @param r the radius of the circle to be drawn.
+     * @param operation must be PathOperator.STROKE, PathOperator.CLOSE_AND_STROKE or PathOperator.FILL.
      */
     public void drawCircle(
             double x,
@@ -1096,12 +1109,12 @@ final public class Page {
     }
 
     /**
-     *  Draws the specified circle on the page and fills it with the current brush color.
+     * Draws the specified circle on the page and fills it with the current brush color.
      *
-     *  @param x the x coordinate of the center of the circle to be drawn.
-     *  @param y the y coordinate of the center of the circle to be drawn.
-     *  @param r the radius of the circle to be drawn.
-     *  @param pathOperator must be PathOperator.STROKE, PathOperator.CLOSE_AND_STROKE or PathOperator.FILL.
+     * @param x the x coordinate of the center of the circle to be drawn.
+     * @param y the y coordinate of the center of the circle to be drawn.
+     * @param r the radius of the circle to be drawn.
+     * @param pathOperator must be PathOperator.STROKE, PathOperator.CLOSE_AND_STROKE or PathOperator.FILL.
      */
     public void drawCircle(
             float x,
@@ -1112,12 +1125,12 @@ final public class Page {
     }
 
     /**
-     *  Draws an ellipse on the page using the current pen color.
+     * Draws an ellipse on the page using the current pen color.
      *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
+     * @param x the x coordinate of the center of the ellipse to be drawn.
+     * @param y the y coordinate of the center of the ellipse to be drawn.
+     * @param r1 the horizontal radius of the ellipse to be drawn.
+     * @param r2 the vertical radius of the ellipse to be drawn.
      */
     public void drawEllipse(
             double x,
@@ -1128,12 +1141,12 @@ final public class Page {
     }
 
     /**
-     *  Draws an ellipse on the page using the current pen color.
+     * Draws an ellipse on the page using the current pen color.
      *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
+     * @param x the x coordinate of the center of the ellipse to be drawn.
+     * @param y the y coordinate of the center of the ellipse to be drawn.
+     * @param r1 the horizontal radius of the ellipse to be drawn.
+     * @param r2 the vertical radius of the ellipse to be drawn.
      */
     public void drawEllipse(
             float x,
@@ -1144,12 +1157,12 @@ final public class Page {
     }
 
     /**
-     *  Fills an ellipse on the page using the current pen color.
+     * Fills an ellipse on the page using the current pen color.
      *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
+     * @param x the x coordinate of the center of the ellipse to be drawn.
+     * @param y the y coordinate of the center of the ellipse to be drawn.
+     * @param r1 the horizontal radius of the ellipse to be drawn.
+     * @param r2 the vertical radius of the ellipse to be drawn.
      */
     public void fillEllipse(
             double x,
@@ -1160,12 +1173,12 @@ final public class Page {
     }
 
     /**
-     *  Fills an ellipse on the page using the current pen color.
+     * Fills an ellipse on the page using the current pen color.
      *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
+     * @param x the x coordinate of the center of the ellipse to be drawn.
+     * @param y the y coordinate of the center of the ellipse to be drawn.
+     * @param r1 the horizontal radius of the ellipse to be drawn.
+     * @param r2 the vertical radius of the ellipse to be drawn.
      */
     public void fillEllipse(
             float x,
@@ -1176,13 +1189,13 @@ final public class Page {
     }
 
     /**
-     *  Draws an ellipse on the page and fills it using the current brush color.
+     * Draws an ellipse on the page and fills it using the current brush color.
      *
-     *  @param x the x coordinate of the center of the ellipse to be drawn.
-     *  @param y the y coordinate of the center of the ellipse to be drawn.
-     *  @param r1 the horizontal radius of the ellipse to be drawn.
-     *  @param r2 the vertical radius of the ellipse to be drawn.
-     *  @param operation the operation.
+     * @param x the x coordinate of the center of the ellipse to be drawn.
+     * @param y the y coordinate of the center of the ellipse to be drawn.
+     * @param r1 the horizontal radius of the ellipse to be drawn.
+     * @param r2 the vertical radius of the ellipse to be drawn.
+     * @param operation the operation.
      */
     private void drawEllipse(
             float x,
@@ -1220,10 +1233,10 @@ final public class Page {
     }
 
     /**
-     *  Draws a point on the page using the current pen color.
+     * Draws a point on the page using the current pen color.
      *
-     *  @param p the point.
-     *  @throws Exception  If an input or output exception occurred
+     * @param p the point.
+     * @throws Exception  If an input or output exception occurred
      */
     public void drawPoint(Point p) throws Exception {
         if (p.shape != Point.INVISIBLE) {
@@ -1302,10 +1315,10 @@ final public class Page {
     }
 
     /**
-     *  Sets the text rendering mode.
+     * Sets the text rendering mode.
      *
-     *  @param mode the rendering mode.
-     *  @throws Exception  If an input or output exception occurred
+     * @param mode the rendering mode.
+     * @throws Exception  If an input or output exception occurred
      */
     public void setTextRenderingMode(int mode) throws Exception {
         if (mode >= 0 && mode <= 7) {
@@ -1344,14 +1357,14 @@ final public class Page {
     }
 
     /**
-     *  Draws a cubic Bézier curve starting from the current point to the end point p3
+     * Draws a cubic Bézier curve starting from the current point to the end point p3
      *
-     *  @param x1 first control point x
-     *  @param y1 first control point y
-     *  @param x2 second control point x
-     *  @param y2 second control point y
-     *  @param x3 end point x
-     *  @param y3 end point y
+     * @param x1 first control point x
+     * @param y1 first control point y
+     * @param x2 second control point x
+     * @param y2 second control point y
+     * @param x3 end point x
+     * @param y3 end point y
      */
     public void curveTo(
         float x1, float y1, float x2, float y2, float x3, float y3) {
@@ -1428,14 +1441,14 @@ final public class Page {
     }
 
     /**
-     *  Draws a Bézier curve starting from the current point.
-     *  <strong>Please note:</strong> You must call the fillPath,
-     *  closePath or strokePath method after the last bezierCurveTo call.
-     *  <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
+     * Draws a Bézier curve starting from the current point.
+     * <strong>Please note:</strong> You must call the fillPath,
+     * closePath or strokePath method after the last bezierCurveTo call.
+     * <p><i>Author:</i> <strong>Pieter Libin</strong>, pieter@emweb.be</p>
      *
-     *  @param p1 first control point
-     *  @param p2 second control point
-     *  @param p3 end point
+     * @param p1 first control point
+     * @param p2 second control point
+     * @param p3 end point
      */
     public void bezierCurveTo(Point p1, Point p2, Point p3) {
         append(p1);
@@ -1445,6 +1458,10 @@ final public class Page {
     }
 
     public void setTextFont(Font font) {
+        setTextFont(font, font.size);
+    }
+
+    public void setTextFont(Font font, float fontSize) {
         this.font = font;
         if (font.fontID != null) {
             append('/');
@@ -1454,7 +1471,7 @@ final public class Page {
             append(font.objNumber);
         }
         append(Token.SPACE);
-        append(font.size);
+        append(fontSize);
         append(" Tf\n");
     }
 
@@ -1498,7 +1515,7 @@ final public class Page {
     }
 
     /**
-     *  Clips the path.
+     * Clips the path.
      */
     public void clipPath() {
         append("W\n");
@@ -1524,7 +1541,7 @@ final public class Page {
     }
 
     /**
-     *  Saves the graphics state. Please see Example_31.
+     * Saves the graphics state. Please see Example_31.
      */
     public void saveGraphicsState() {
         append("q\n");
@@ -1533,9 +1550,9 @@ final public class Page {
     }
 
     /**
-     *  Sets the graphics state. Please see Example_31.
+     * Sets the graphics state. Please see Example_31.
      *
-     *  @param gs the graphics state to use.
+     * @param gs the graphics state to use.
      */
     public void setGraphicsState(GraphicsState gs) {
         StringBuilder sb = new StringBuilder();
@@ -1556,7 +1573,7 @@ final public class Page {
     }
 
     /**
-     *  Restores the graphics state. Please see Example_31.
+     * Restores the graphics state. Please see Example_31.
      */
     public void restoreGraphicsState() {
         append("Q\n");
@@ -1699,11 +1716,11 @@ final public class Page {
     }
 
     private void drawWord(
-            Font font, StringBuilder buf, int color, Map<String, Integer> colors) {
+            Font font, StringBuilder buf, float[] color, Map<String, Integer> highlightColors) {
         if (buf.length() > 0) {
             String str = buf.toString();
-            if (colors.containsKey(str.toLowerCase())) {
-                setBrushColor(colors.get(str.toLowerCase()));
+            if (highlightColors.containsKey(str.toLowerCase())) {
+                setBrushColor(highlightColors.get(str.toLowerCase()));
             } else {
                 setBrushColor(color);
             }
@@ -1725,22 +1742,22 @@ final public class Page {
     private void drawColoredString(
             Font font,
             String str,
-            int brush,
-            Map<String, Integer> colors) {
+            float[] color,
+            Map<String, Integer> highlightColors) {
         StringBuilder buf1 = new StringBuilder();
         StringBuilder buf2 = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
             if (Character.isLetterOrDigit(ch)) {
-                drawWord(font, buf2, brush, colors);
+                drawWord(font, buf2, color, highlightColors);
                 buf1.append(ch);
             } else {
-                drawWord(font, buf1, brush, colors);
+                drawWord(font, buf1, color, highlightColors);
                 buf2.append(ch);
             }
         }
-        drawWord(font, buf1, brush, colors);
-        drawWord(font, buf2, brush, colors);
+        drawWord(font, buf1, color, highlightColors);
+        drawWord(font, buf2, color, highlightColors);
     }
 
     void setStructElementsPageObjNumber(int pageObjNumber) {
@@ -1861,10 +1878,10 @@ final public class Page {
     }
 
     public void drawString(
-            Font font, String str, float x, float y, float dx) {
+            Font font, float fontSize, String str, float x, float y, float dx) {
         float x1 = x;
         for (int i = 0; i < str.length(); i++) {
-            drawString(font, str.substring(i, i + 1), x1, y);
+            drawString(font, fontSize, str.substring(i, i + 1), x1, y);
             x1 += dx;
         }
     }

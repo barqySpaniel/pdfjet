@@ -285,15 +285,16 @@ public class Table {
      * @param color the color specified as an integer.
      */
     public void setTextColorInColumn(int index, int color) {
-        for (List<Cell> row : tableData) {
-            if (index < row.size()) {
-                Cell cell = row.get(index);
-                cell.setBrushColor(color);
-                if (cell.textBox != null) {
-                    cell.textBox.setBrushColor(color);
-                }
-            }
-        }
+// TODO:
+//         for (List<Cell> row : tableData) {
+//             if (index < row.size()) {
+//                 Cell cell = row.get(index);
+//                 cell.setBrushColor(color);
+//                 if (cell.textBox != null) {
+//                     cell.textBox.setBrushColor(color);
+//                 }
+//             }
+//         }
     }
 
     /**
@@ -321,15 +322,16 @@ public class Table {
      * @param color the color specified as an integer.
      */
     public void setTextColorInRow(int index, int color) {
-        if (index < tableData.size()) {
-            List<Cell> row = tableData.get(index);
-            for (Cell cell : row) {
-                cell.setBrushColor(color);
-                if (cell.textBox != null) {
-                    cell.textBox.setBrushColor(color);
-                }
-            }
-        }
+// TODO:
+//         if (index < tableData.size()) {
+//             List<Cell> row = tableData.get(index);
+//             for (Cell cell : row) {
+//                 cell.setBrushColor(color);
+//                 if (cell.textBox != null) {
+//                     cell.textBox.setBrushColor(color);
+//                 }
+//             }
+//         }
     }
 
     /**
@@ -592,7 +594,7 @@ public class Table {
     public void setCellBordersColor(int color) {
         for (List<Cell> row : tableData) {
             for (Cell cell : row) {
-                cell.setPenColor(color);
+// TODO:                cell.setPenColor(color);
             }
         }
     }
@@ -713,8 +715,8 @@ public class Table {
                     cell2.setLeftPadding(cell.leftPadding);
                     cell2.setRightPadding(cell.rightPadding);
                     cell2.setLineWidth(cell.lineWidth);
-                    cell2.setBgColor(cell.getBgColor());
-                    cell2.setPenColor(cell.getPenColor());
+// TODO:                    cell2.setBgColor(cell.getBgColor());
+// TODO:                    cell2.setPenColor(cell.getPenColor());
                     cell2.setBrushColor(cell.getBrushColor());
                     cell2.setProperties(cell.getProperties());
                     cell2.setVerTextAlignment(cell.getVerTextAlignment());

@@ -24,11 +24,12 @@ import java.util.*;
  * </p>
  *
  * This class was originally developed by Ronald Bourret.
- * It was completely rewritten in 2013 by Eugene Dragoev.
+ * It was completely rewritten in 2013 by Evgeni Dragoev.
  */
 public class TextBox implements Drawable {
     protected Font font;
     protected Font fallbackFont;
+    protected float fontSize = 12f;
     protected String text;
     protected float x;
     protected float y;
@@ -76,6 +77,7 @@ public class TextBox implements Drawable {
      */
     public TextBox(Font font) {
         this.font = font;
+        this.fontSize = font.size;
     }
 
     /**
@@ -86,6 +88,7 @@ public class TextBox implements Drawable {
      */
     public TextBox(Font font, String text) {
         this.font = font;
+        this.fontSize = font.size;
         this.text = text;
     }
 
@@ -111,6 +114,7 @@ public class TextBox implements Drawable {
      */
     public TextBox(Font font, String text, float width, float height) {
         this.font = font;
+        this.fontSize = font.size;
         this.text = text;
         this.width = width;
         this.height = height;
@@ -132,6 +136,10 @@ public class TextBox implements Drawable {
      */
     public Font getFont() {
         return font;
+    }
+
+    public void setFontSize(float fontSize) {
+        this.fontSize = fontSize;
     }
 
     /**
@@ -363,8 +371,7 @@ public class TextBox implements Drawable {
     /**
      * Sets the background to the specified color.
      *
-     * @param color the color specified as array of integer values from 0x00 to
-     *              0xFF.
+     * @param color the color specified as array of integer values from 0x00 to 0xFF.
      */
     public void setBgColor(int[] color) {
         this.background = color[0] << 16 | color[1] << 8 | color[2];
@@ -411,8 +418,7 @@ public class TextBox implements Drawable {
     /**
      * Sets the foreground pen and brush colors to the specified color.
      *
-     * @param color the color specified as an array of double values from 0.0 to
-     *              1.0.
+     * @param color the color as an array of double values from 0.0 to 1.0.
      */
     public void setFgColor(double[] color) {
         setPenColor(new int[] { (int) color[0], (int) color[1], (int) color[2] });
@@ -593,7 +599,7 @@ public class TextBox implements Drawable {
     }
 
     /**
-     * Sets the srikeout flag.
+     * Sets the strikeout flag.
      * In the flag is true - draw strikeout line through the text.
      *
      * @param strikeout the strikeout flag.
@@ -669,6 +675,9 @@ public class TextBox implements Drawable {
     }
 
     private void drawBorders(Page page) {
+        if (page == null) {
+            return;
+        }
         page.addArtifactBMC();
         page.setPenColor(pen);
         page.setPenWidth(lineWidth);
@@ -775,7 +784,7 @@ public class TextBox implements Drawable {
      */
     public float[] drawOn(Page page) {
         String[] lines = getTextLines();
-        float leading = font.ascent + font.descent + spacing;
+        float leading = font.getAscent(fontSize) + font.getDescent(fontSize) + spacing;
         if (height > 0f) { // TextBox with fixed height
             if ((lines.length*leading - spacing) > (height - 2*margin)) {
                 List<String> list = new ArrayList<String>();
@@ -804,22 +813,22 @@ public class TextBox implements Drawable {
                 }
                 page.setPenColor(this.pen);
                 page.setBrushColor(this.brush);
-                page.setPenWidth(this.font.underlineThickness);
+                page.setPenWidth(this.font.getUnderlineThickness(fontSize));
             }
             float xText = x + margin;
-            float yText = y + margin + font.ascent;
+            float yText = y + margin + font.getAscent(fontSize);
             if (textDirection == Direction.LEFT_TO_RIGHT) {
                 if (valign == Align.TOP) {
-                    yText = y + margin + font.ascent;
+                    yText = y + margin + font.getAscent(fontSize);
                 } else if (valign == Align.BOTTOM) {
                     yText = (y + height) - (Float.valueOf(lines.length)*leading + margin);
-                    yText += font.ascent;
+                    yText += font.getAscent(fontSize);
                 } else if (valign == Align.CENTER) {
                     yText = y + (height - Float.valueOf(lines.length)*leading)/2;
-                    yText += font.ascent;
+                    yText += font.getAscent(fontSize);
                 }
             } else {
-                yText = x + margin + font.ascent;
+                yText = x + margin + font.getAscent(fontSize);
             }
             for (String line : lines) {
                 if (textDirection == Direction.LEFT_TO_RIGHT) {
@@ -856,7 +865,7 @@ public class TextBox implements Drawable {
                 page.setPenWidth(this.font.underlineThickness);
             }
             float xText = x + margin;
-            float yText = y + margin + font.ascent;
+            float yText = y + margin + font.getAscent(fontSize);
             for (String line : lines) {
                 if (textDirection == Direction.LEFT_TO_RIGHT) {
                     if (getTextAlignment() == Align.LEFT) {
@@ -879,7 +888,7 @@ public class TextBox implements Drawable {
                     yText -= leading;
                 }
             }
-            height = ((yText - y) - (font.ascent + spacing)) + margin;
+            height = ((yText - y) - (font.getAscent(fontSize) + spacing)) + margin;
         }
         if (page != null) {
             drawBorders(page);
@@ -917,14 +926,14 @@ public class TextBox implements Drawable {
             Map<String, Integer> colors) {
         page.addBMC(StructElem.P, language, text, altDescription);
         if (textDirection == Direction.LEFT_TO_RIGHT) {
-            page.drawString(font, fallbackFont, text, xText, yText, color, colors);
+// TODO            page.drawString(font, fallbackFont, fontSize, text, xText, yText, color, colors);
         } else if (textDirection == Direction.BOTTOM_TO_TOP) {
             page.setTextDirection(90);
-            page.drawString(font, fallbackFont, text, yText, xText + height, color, colors);
+// TODO            page.drawString(font, fallbackFont, fontSize, text, yText, xText + height, color, colors);
         } else if (textDirection == Direction.TOP_TO_BOTTOM) {
             page.setTextDirection(270);
-            page.drawString(font, fallbackFont, text,
-                    (yText + width) - (margin + 2*font.ascent), xText, color, colors);
+//             page.drawString(font, fallbackFont, fontSize, text,
+//                     (yText + width) - (margin + 2*font.ascent), xText, color, colors);
         }
         page.addEMC();
         if (textDirection == Direction.LEFT_TO_RIGHT) {

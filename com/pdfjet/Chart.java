@@ -299,12 +299,13 @@ public class Chart implements Drawable {
         roundXAxisMinAndMaxValues();
         roundYAxisMinAndMaxValues();
 
-        // Draw chart title
-        page.drawString(
-                f1,
-                title,
-                x1 + ((w - f1.stringWidth(title)) / 2),
-                y1 + 1.5f * f1.bodyHeight);
+// TODO:
+//         // Draw chart title
+//         page.drawString(
+//                 f1,
+//                 title,
+//                 x1 + ((w - f1.stringWidth(title)) / 2),
+//                 y1 + 1.5f * f1.bodyHeight);
 
         float topMargin = 2.5f * f1.bodyHeight;
         float leftMargin = getLongestAxisYLabelWidth() + 2f * f2.bodyHeight;
@@ -378,20 +379,24 @@ public class Chart implements Drawable {
         // Draw the Y axis title
         page.setBrushColor(Color.black);
         page.setTextDirection(90);
-        page.drawString(
-                f1,
-                yAxisTitle,
-                x1 + f1.bodyHeight,
-                y8 - ((y8 - y5) - f1.stringWidth(yAxisTitle)) / 2);
+
+// TODO:
+//         page.drawString(
+//                 f1,
+//                 yAxisTitle,
+//                 x1 + f1.bodyHeight,
+//                 y8 - ((y8 - y5) - f1.stringWidth(yAxisTitle)) / 2);
 
         // Draw the X axis title
         page.setTextDirection(0);
-        page.drawString(
-                f1,
-                xAxisTitle,
-                x5 + ((x6 - x5) - f1.stringWidth(xAxisTitle)) / 2,
-                y4 - f1.bodyHeight / 2);
 
+// TODO:
+//         page.drawString(
+//                 f1,
+//                 xAxisTitle,
+//                 x5 + ((x6 - x5) - f1.stringWidth(xAxisTitle)) / 2,
+//                 y4 - f1.bodyHeight / 2);
+//
         page.setDefaultLineWidth();
         page.setDefaultLinePattern();
         page.setPenColor(Color.black);
@@ -513,7 +518,7 @@ public class Chart implements Drawable {
         page.setBrushColor(Color.black);
         for (int i = 0; i < (xAxisGridLines + 1); i++) {
             String label = nf.format(xMin + ((xMax - xMin) / xAxisGridLines) * i);
-            page.drawString(f2, label, x - (f2.stringWidth(label) / 2), y);
+// TODO:            page.drawString(f2, label, x - (f2.stringWidth(label) / 2), y);
             x += step;
         }
     }
@@ -525,7 +530,7 @@ public class Chart implements Drawable {
         page.setBrushColor(Color.black);
         for (int i = 0; i < (yAxisGridLines + 1); i++) {
             String label = nf.format(yMin + ((yMax - yMin) / yAxisGridLines) * i);
-            page.drawString(f2, label, x, y);
+// TODO:            page.drawString(f2, label, x, y);
             y -= step;
         }
     }
@@ -543,7 +548,7 @@ public class Chart implements Drawable {
                 if (point.getText() != null) {
                     page.setBrushColor(point.getTextColor());
                     page.setTextDirection(point.getTextDirection());
-                    page.drawString(f2, point.getText(), point.x, point.y);
+// TODO:                    page.drawString(f2, point.getText(), point.x, point.y);
                 }
             }
             for (int j = 0; j < points.size(); j++) {

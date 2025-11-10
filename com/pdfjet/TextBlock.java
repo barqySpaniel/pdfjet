@@ -18,14 +18,17 @@ public class TextBlock {
     private float height;
     private Font font;
     private Font fallbackFont;
+    private float fontSize = 12f;
     private String textContent;
-    private float lineSpacing;
-    private Integer textColor;
+    private float lineSpacing = 1.0f;
+    private float[] textColor;
     private Map<String, Integer> keywordHighlightColors;
     private float textPadding;
-    private float borderWidth;
-    private float borderCornerRadius;
-    private int borderColor;
+    private float[] fillColor;
+    private float borderWidth = 0f;
+    private float[] borderColor;
+    private float borderCornerRadius = 0.0f;
+
     private String language;
     private String altDescription;
     private String uri;
@@ -33,7 +36,8 @@ public class TextBlock {
     private String uriLanguage;
     private String uriActualText;
     private String uriAltDescription;
-    private Direction textDirection;
+    private Direction textDirection = Direction.LEFT_TO_RIGHT;
+    // private Direction textDirection = Direction.BOTTOM_TO_TOP;
     private Alignment textAlignment;
     private boolean underline;
     private boolean strikeout;
@@ -45,26 +49,15 @@ public class TextBlock {
      * @param textContent the text content.
      */
     public TextBlock(Font font, String textContent) {
+        this.font = font;
+        this.fontSize = font.size;
+        this.fallbackFont = font;
         this.x = 0.0f;
         this.y = 0.0f;
         this.width = 500.0f;
-        this.height = 500.0f;
-        this.font = font;
+        this.height = 0.0f;
         this.textContent = textContent;
-        this.lineSpacing = 1.0f;
-        this.textColor = Color.black;
-        this.textPadding = 0.0f;
-        this.textDirection = Direction.LEFT_TO_RIGHT;
-        this.textAlignment = Alignment.LEFT;
-
-        this.borderWidth = 0.0f;
-        this.borderCornerRadius = 0.0f;
-        this.borderColor = Color.black;
-
-        this.language = "en-US";
-        this.altDescription = "";
-        this.underline = false;
-        this.strikeout = false;
+        this.textColor = new float[] {0f, 0f, 0f};      // Black color
     }
 
     /**
@@ -90,20 +83,16 @@ public class TextBlock {
 
     public void setFont(Font font) {
         this.font = font;
+        this.fallbackFont = font;
     }
 
     public void setFallbackFont(Font font) {
         this.fallbackFont = font;
     }
 
-    public void setFontSize(float size) {
-        this.font.setSize(size);
-    }
-
-    public void setFallbackFontSize(float size) {
-        if (this.fallbackFont != null) {
-            this.fallbackFont.setSize(size);
-        }
+    public TextBlock setFontSize(float fontSize) {
+        this.fontSize = fontSize;
+        return this;
     }
 
     public void setText(String text) {
@@ -145,15 +134,26 @@ public class TextBlock {
         this.borderWidth = borderWidth;
     }
 
-    public void setBorderColor(int borderColor) {
-        this.borderColor = borderColor;
+    public void setBorderColor(int color) {
+        if (color == Color.transparent) {
+            this.borderColor = null;
+            return;
+        }
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.borderColor = new float[] {r, g, b};
+    }
+
+    public void setBorderColor(float[] rgbColor) {
+        this.borderColor = rgbColor;
     }
 
     public void setLineSpacing(float textLineHeight) {
         this.lineSpacing = textLineHeight;
     }
 
-    public void setTextColor(int textColor) {
+    public void setTextColor(float[] textColor) {
         this.textColor = textColor;
     }
 
@@ -198,13 +198,14 @@ public class TextBlock {
     private TextLineWithOffset[] getTextLinesWithOffsets() {
         List<TextLineWithOffset> textLines = new ArrayList<>();
 
-        float textAreaWidth;
-        if (this.textDirection == Direction.LEFT_TO_RIGHT) {
-            textAreaWidth = this.width - 2 * this.textPadding;
-        } else {
-            // When writing text vertically!
-            textAreaWidth = this.height - 2 * this.textPadding;
-        }
+//         float textAreaWidth = 0f;
+//         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
+//             textAreaWidth = this.width - 2 * this.textPadding;
+//         } else if (this.textDirection == Direction.BOTTOM_TO_TOP) {
+//             textAreaWidth = this.height - 2 * this.textPadding;
+//         }
+
+        float textAreaWidth = this.width - 2 * this.textPadding;
 
         this.textContent = this.textContent.replace("\r\n", "\n").trim();
         String[] lines = this.textContent.split("\n");
@@ -267,22 +268,33 @@ public class TextBlock {
             throw new IllegalArgumentException("A valid Page object is required.");
         }
 
-        page.setPenWidth(this.borderWidth);
-
-        float ascent = this.font.getAscent();
-        float descent = this.font.getDescent();
+        float ascent = this.font.getAscent(fontSize);
+        float descent = this.font.getDescent(fontSize);
         float leading = (ascent + descent) * this.lineSpacing;
 
         TextLineWithOffset[] textLines = getTextLinesWithOffsets();
-        if (textAlignment == Alignment.RIGHT) {
-            rightAlignText(textLines);
-        } else if (textAlignment == Alignment.CENTER) {
-            centerText(textLines);
+        if (page == null) {
+            return new float[] {
+                this.width,
+                Math.max(this.height, textLines.length * leading + 2 * this.textPadding)
+            };
         }
 
+        Rect rect = new Rect(
+            this.x,
+            this.y,
+            this.width,
+            Math.max(this.height, textLines.length * leading + 2 * this.textPadding));
+        rect.setFillColor(this.fillColor);
+        rect.setBorderWidth(this.borderWidth);
+        rect.setBorderColor(this.borderColor);
+        rect.setCornerRadius(this.borderCornerRadius);
+        rect.drawOn(page);
+
         page.addBMC(StructElem.P, this.language, this.textContent, null);
-        float textBlockHeight = page.drawTextBlock(
+        page.drawTextBlock(
             this.font,
+            this.fontSize,
             textLines,
             this.x + this.textPadding,
             this.y + this.textPadding,
@@ -291,29 +303,11 @@ public class TextBlock {
             this.textColor,
             keywordHighlightColors);
         page.addEMC();
+        page.append("Q\n");
 
-        page.addArtifactBMC();
-        Rect rect = new Rect(this.x, this.y, this.width, textBlockHeight + 2 * this.textPadding);
-        rect.setBorderColor(this.borderColor);
-        rect.setCornerRadius(this.borderCornerRadius);
-        rect.drawOn(page);
-        page.addEMC();
-
-/*
-        if (this.textDirection == Direction.LEFT_TO_RIGHT &&
-                (this.uri != null || this.key != null)) {
-            page.addAnnotation(new Annotation(
-                this.uri,
-                this.key, // The destination name
-                this.x,
-                this.y,
-                this.x + this.width,
-                this.y + this.height,
-                this.uriLanguage,
-                this.uriActualText,
-                this.uriAltDescription));
-        }
-*/
-        return new float[] { this.x + this.width, this.y + textBlockHeight + 2 * this.textPadding };
+        return new float[] {
+            this.x + this.width,
+            Math.max(this.y + this.height, this.y + textLines.length * leading + 2 * this.textPadding)
+        };
     }
 }

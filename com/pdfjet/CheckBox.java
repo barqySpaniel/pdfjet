@@ -240,7 +240,7 @@ public class CheckBox implements Drawable {
         if (uri != null) {
             page.setBrushColor(Color.blue);
         }
-        page.drawString(font, label, x + 3f*w/2f, y + font.ascent);
+// TODO:        page.drawString(font, label, x + 3f*w/2f, y + font.ascent);
         page.setPenWidth(0f);
         page.setPenColor(Color.black);
         page.setBrushColor(Color.black);

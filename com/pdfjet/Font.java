@@ -446,6 +446,14 @@ final public class Font {
         return getAscent(fontSize) + getDescent(fontSize);
     }
 
+    public float getUnderlineThickness(float fontSize) {
+        return (fontUnderlineThickness * fontSize / unitsPerEm);
+    }
+
+    public float getUnderlinePosition(float fontSize) {
+        return  -(fontUnderlinePosition * fontSize / unitsPerEm) + underlineThickness / 2.0f;
+    }
+
     /**
      * Returns the height of this font.
      *
