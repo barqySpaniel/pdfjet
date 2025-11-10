@@ -486,57 +486,6 @@ final public class Page {
         }
     }
 
-    void drawTextBlock(
-            Font font,
-            float fontSize,
-            TextLineWithOffset[] textLines,
-            float x,
-            float y,
-            float leading,
-            float[] color,
-            Map<String, Integer> highlightColors) {
-        if (textLines == null || textLines.length == 0) {
-            return;
-        }
-
-        append("BT\n");
-        setTextFont(font, fontSize);
-        float yText = y;
-        for (TextLineWithOffset textLine : textLines) {
-            append("1 0 0 1 ");
-            append(x + textLine.xOffset);
-            append(' ');
-            append(height - (yText + font.getAscent(fontSize)));
-            append(" Tm\n");
-            if (highlightColors == null) {
-                setBrushColor(color);
-                if (font.isCoreFont) {
-                    append("[<");
-                    drawASCIIString(font, textLine.textLine);
-                    append(">] TJ\n");
-                } else {
-                    append("<");
-                    drawUnicodeString(font, textLine.textLine);
-                    append("> Tj\n");
-                }
-            } else {
-                drawColoredString(font, textLine.textLine, color, highlightColors);
-            }
-            yText += leading;
-        }
-        append("ET\n");
-
-        float yLine = y + font.getBodyHeight(fontSize);
-        for (TextLineWithOffset textLine : textLines) {
-            if (textLine.underline) {
-                moveTo(x + textLine.xOffset, yLine);
-                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine), yLine);
-                strokePath();
-            }
-            yLine += leading;
-        }
-    }
-
     public void drawUnicodeString(Font font, String str) {
         if (str == null || str.isEmpty()) {
             return;
@@ -1984,7 +1933,7 @@ final public class Page {
     }
 
     /**
-     *  Draws a string at the currect location.
+     *  Draws a string at the correct location.
      *  @param str the string.
      */
     void drawText(String str, float x, float y) {
@@ -2066,5 +2015,56 @@ final public class Page {
         append(" ");
         append(-centerY);
         append(" cm\n");
+    }
+
+    void drawTextBlock(
+            Font font,
+            float fontSize,
+            TextLineWithOffset[] textLines,
+            float x,
+            float y,
+            float leading,
+            float[] color,
+            Map<String, Integer> highlightColors) {
+        if (textLines == null || textLines.length == 0) {
+            return;
+        }
+
+        append("BT\n");
+        setTextFont(font, fontSize);
+        float yText = y;
+        for (TextLineWithOffset textLine : textLines) {
+            append("1 0 0 1 ");
+            append(x + textLine.xOffset);
+            append(' ');
+            append(height - (yText + font.getAscent(fontSize)));
+            append(" Tm\n");
+            if (highlightColors == null) {
+                setBrushColor(color);
+                if (font.isCoreFont) {
+                    append("[<");
+                    drawASCIIString(font, textLine.textLine);
+                    append(">] TJ\n");
+                } else {
+                    append("<");
+                    drawUnicodeString(font, textLine.textLine);
+                    append("> Tj\n");
+                }
+            } else {
+                drawColoredString(font, textLine.textLine, color, highlightColors);
+            }
+            yText += leading;
+        }
+        append("ET\n");
+
+        float yLine = y + font.getBodyHeight(fontSize);
+        for (TextLineWithOffset textLine : textLines) {
+            if (textLine.underline) {
+                moveTo(x + textLine.xOffset, yLine);
+                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine), yLine);
+                strokePath();
+            }
+            yLine += leading;
+        }
     }
 }   // End of Page.java
