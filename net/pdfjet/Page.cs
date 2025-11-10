@@ -559,11 +559,10 @@ public class Page {
 
         Append("BT\n");
         SetTextFont(font, fontSize);
-        float xText = x;
         float yText = y;
         foreach (TextLineWithOffset textLine in textLines) {
             Append("1 0 0 1 ");
-            Append(xText + textLine.xOffset);
+            Append(x + textLine.xOffset);
             Append(' ');
             Append(height - (yText + font.GetAscent(fontSize)));
             Append(" Tm\n");
@@ -585,13 +584,12 @@ public class Page {
         }
         Append("ET\n");
 
-        xText = x;
         yText = y;
         foreach (TextLineWithOffset textLine in textLines) {
             if (textLine.underline) {
-                MoveTo(xText + textLine.xOffset,
+                MoveTo(x + textLine.xOffset,
                     yText + font.GetBodyHeight(fontSize));
-                LineTo(xText + textLine.xOffset + font.StringWidth(fontSize, textLine.textLine),
+                LineTo(x + textLine.xOffset + font.StringWidth(fontSize, textLine.textLine),
                     yText + font.GetBodyHeight(fontSize));
             }
             yText += leading;

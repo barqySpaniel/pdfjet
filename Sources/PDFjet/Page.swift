@@ -401,39 +401,26 @@ public class Page {
     }
 
     final func drawTextBlock(
-        _ font: Font,
-        _ textLines: [TextLineWithOffset],
-        _ x: Float,
-        _ y: Float,
-        _ leading: Float,
-        _ direction: Direction,
-        _ textColor: Int32,
-        _ highlightColors: Dictionary<String, Int32>) -> Float {
-
+            _ font: Font,
+            _ textLines: [TextLineWithOffset],
+            _ x: Float,
+            _ y: Float,
+            _ leading: Float,
+            _ textColor: Int32,
+            _ highlightColors: Dictionary<String, Int32>) {
         if textLines.count == 0 {
-            return Float(textLines.count) * leading
+            return
         }
 
         append("BT\n")
         setTextFont(font)
-
-        var xText: Float = x
         var yText: Float = y
         for textLine in textLines {
-            if (direction == Direction.LEFT_TO_RIGHT) {
-                append("1 0 0 1 ")
-                append(xText + textLine.xOffset)
-                append(Token.space)
-                append(height - (yText + font.ascent))
-                append(" Tm\n")
-            } else {                // BOTTOM_TO_TOP
-                append("0 1 -1 0 ")
-                append(xText + font.ascent)
-                append(Token.space)
-                append(yText)
-                append(" Tm\n")
-            }
-
+            append("1 0 0 1 ")
+            append(x + textLine.xOffset)
+            append(Token.space)
+            append(height - (yText + font.ascent))
+            append(" Tm\n")
             if highlightColors.count == 0 {
                 setBrushColor(textColor)
                 if font.isCoreFont {
@@ -448,17 +435,9 @@ public class Page {
             } else {
                 drawColoredString(font, textLine.textLine, textColor, highlightColors)
             }
-
-            if (direction == Direction.LEFT_TO_RIGHT) {
-                yText += leading
-            } else {
-                xText += leading
-            }
+            yText += leading
         }
-
         append("ET\n")
-
-        return Float(textLines.count) * leading
     }
 
     private final func drawUnicodeString(_ font: Font, _ text: String) {

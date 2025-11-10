@@ -501,12 +501,10 @@ final public class Page {
 
         append("BT\n");
         setTextFont(font, fontSize);
-
-        float xText = x;
         float yText = y;
         for (TextLineWithOffset textLine : textLines) {
             append("1 0 0 1 ");
-            append(xText + textLine.xOffset);
+            append(x + textLine.xOffset);
             append(' ');
             append(height - (yText + font.getAscent(fontSize)));
             append(" Tm\n");
@@ -528,13 +526,12 @@ final public class Page {
         }
         append("ET\n");
 
-        xText = x;
         yText = y;
         for (TextLineWithOffset textLine : textLines) {
             if (textLine.underline) {
-                moveTo(xText + textLine.xOffset,
+                moveTo(x + textLine.xOffset,
                     yText + font.getBodyHeight(fontSize));
-                lineTo(xText + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine),
+                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.textLine),
                     yText + font.getBodyHeight(fontSize));
             }
             yText += leading;
