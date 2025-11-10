@@ -493,7 +493,6 @@ final public class Page {
             float x,
             float y,
             float leading,
-            Direction direction,
             float[] color,
             Map<String, Integer> highlightColors) {
         if (textLines == null || textLines.length == 0) {
@@ -506,20 +505,11 @@ final public class Page {
         float xText = x;
         float yText = y;
         for (TextLineWithOffset textLine : textLines) {
-            if (direction == Direction.LEFT_TO_RIGHT) {
-                append("1 0 0 1 ");
-                append(xText + textLine.xOffset);
-                append(' ');
-                append(height - (yText + font.getAscent(fontSize)));
-                append(" Tm\n");
-            } else {                // BOTTOM_TO_TOP
-                append("0 1 -1 0 ");
-                append(xText + font.getAscent(fontSize));
-                append(' ');
-                append(yText);
-                append(" Tm\n");
-            }
-
+            append("1 0 0 1 ");
+            append(xText + textLine.xOffset);
+            append(' ');
+            append(height - (yText + font.getAscent(fontSize)));
+            append(" Tm\n");
             if (highlightColors == null) {
                 setBrushColor(color);
                 if (font.isCoreFont) {
@@ -534,12 +524,7 @@ final public class Page {
             } else {
                 drawColoredString(font, textLine.textLine, color, highlightColors);
             }
-
-            if (direction == Direction.LEFT_TO_RIGHT) {
-                yText += leading;
-            } else {
-                xText += leading;
-            }
+            yText += leading;
         }
         append("ET\n");
 

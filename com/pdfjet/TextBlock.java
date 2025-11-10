@@ -198,15 +198,7 @@ public class TextBlock {
     private TextLineWithOffset[] getTextLinesWithOffsets() {
         List<TextLineWithOffset> textLines = new ArrayList<>();
 
-//         float textAreaWidth = 0f;
-//         if (this.textDirection == Direction.LEFT_TO_RIGHT) {
-//             textAreaWidth = this.width - 2 * this.textPadding;
-//         } else if (this.textDirection == Direction.BOTTOM_TO_TOP) {
-//             textAreaWidth = this.height - 2 * this.textPadding;
-//         }
-
         float textAreaWidth = this.width - 2 * this.textPadding;
-
         this.textContent = this.textContent.replace("\r\n", "\n").trim();
         String[] lines = this.textContent.split("\n");
         for (String line : lines) {
@@ -299,7 +291,6 @@ public class TextBlock {
             this.x + this.textPadding,
             this.y + this.textPadding,
             leading * this.lineSpacing,
-            this.textDirection,
             this.textColor,
             keywordHighlightColors);
         page.addEMC();
