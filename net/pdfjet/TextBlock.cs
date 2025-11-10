@@ -27,6 +27,7 @@ namespace PDFjet.NET {
         private float borderWidth = 0f;
         private float[] borderColor;
 
+        private Alignment textAlignment = Alignment.LEFT;
         private float borderCornerRadius = 0.0f;
 
         private string language = "en-US";
@@ -36,8 +37,6 @@ namespace PDFjet.NET {
 //        private string uriLanguage = "en-US";
 //        private string uriActualText;
 //        private string uriAltDescription;
-        private Direction textDirection = Direction.LEFT_TO_RIGHT;
-        private Alignment textAlignment = Alignment.LEFT;
 //        private bool underline = false;
 //        private bool strikeout = false;
         private bool textIsArabic = false;
@@ -203,10 +202,6 @@ namespace PDFjet.NET {
             return this.fillColor;
         }
 
-        public void SetTextDirection(Direction textDirection) {
-            this.textDirection = textDirection;
-        }
-
         public void SetKeywordHighlightColors(Dictionary<string, int> map) {
             this.keywordHighlightColors = new Dictionary<string, int>();
             foreach (var key in map.Keys) {
@@ -240,13 +235,9 @@ namespace PDFjet.NET {
         private TextLineWithOffset[] GetTextLinesWithOffsets() {
             List<TextLineWithOffset> textLines = new List<TextLineWithOffset>();
 
-            float textAreaWidth = this.textDirection == Direction.LEFT_TO_RIGHT
-                ? this.width - 2 * this.textPadding
-                : this.height - 2 * this.textPadding;
-
+            float textAreaWidth = this.width - 2 * this.textPadding;
             this.textContent = this.textContent.Replace("\r\n", "\n").Trim();
             string[] lines = this.textContent.Split('\n');
-
             foreach (String str in lines) {
                 String line = str;
                 if (textIsArabic) {
@@ -315,6 +306,10 @@ namespace PDFjet.NET {
         }
 
         public float[] DrawOn(Page page) {
+            if (page == null) {
+                Console.WriteLine("A valid Page object is required.");
+            }
+
             float ascent = this.font.GetAscent(fontSize);
             float descent = this.font.GetDescent(fontSize);
             float leading = (ascent + descent) * this.lineSpacing;
@@ -354,7 +349,6 @@ namespace PDFjet.NET {
                 this.x + this.textPadding,
                 this.y + this.textPadding,
                 leading * this.lineSpacing,
-                this.textDirection,
                 this.textColor,
                 this.keywordHighlightColors);
             page.AddEMC();

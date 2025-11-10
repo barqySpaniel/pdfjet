@@ -551,7 +551,6 @@ public class Page {
             float x,
             float y,
             float leading,
-            Direction direction,
             float[] color,
             Dictionary<String, Int32> highlightColors) {
         if (textLines == null || textLines.Length == 0) {
@@ -563,20 +562,11 @@ public class Page {
         float xText = x;
         float yText = y;
         foreach (TextLineWithOffset textLine in textLines) {
-            if (direction == Direction.LEFT_TO_RIGHT) {
-                Append("1 0 0 1 ");
-                Append(xText + textLine.xOffset);
-                Append(' ');
-                Append(height - (yText + font.GetAscent(fontSize)));
-                Append(" Tm\n");
-            } else {                // BOTTOM_TO_TOP
-                Append("0 1 -1 0 ");
-                Append(xText + font.GetAscent(fontSize));
-                Append(' ');
-                Append(yText);
-                Append(" Tm\n");
-            }
-
+            Append("1 0 0 1 ");
+            Append(xText + textLine.xOffset);
+            Append(' ');
+            Append(height - (yText + font.GetAscent(fontSize)));
+            Append(" Tm\n");
             if (highlightColors == null) {
                 SetBrushColor(color);
                 if (font.isCoreFont) {
@@ -591,12 +581,7 @@ public class Page {
             } else {
                 DrawColoredString(font, textLine.textLine, color, highlightColors);
             }
-
-            if (direction == Direction.LEFT_TO_RIGHT) {
-                yText += leading;
-            } else {
-                xText += leading;
-            }
+            yText += leading;
         }
         Append("ET\n");
 

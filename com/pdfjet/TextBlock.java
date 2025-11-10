@@ -36,8 +36,6 @@ public class TextBlock {
     private String uriLanguage;
     private String uriActualText;
     private String uriAltDescription;
-    private Direction textDirection = Direction.LEFT_TO_RIGHT;
-    // private Direction textDirection = Direction.BOTTOM_TO_TOP;
     private Alignment textAlignment;
     private boolean underline;
     private boolean strikeout;
@@ -166,10 +164,6 @@ public class TextBlock {
         return this;
     }
 
-    public void setTextDirection(Direction textDirection) {
-        this.textDirection = textDirection;
-    }
-
     public void setKeywordHighlightColors(Map<String, Integer> map) {
         this.keywordHighlightColors = new HashMap<>();
         for (String key : map.keySet()) {
@@ -270,6 +264,14 @@ public class TextBlock {
                 this.width,
                 Math.max(this.height, textLines.length * leading + 2 * this.textPadding)
             };
+        }
+
+        page.append("q\n");
+        page.setPenWidth(this.borderWidth);
+        if (textAlignment == Alignment.RIGHT) {
+            rightAlignText(textLines);
+        } else if (textAlignment == Alignment.CENTER) {
+            centerText(textLines);
         }
 
         Rect rect = new Rect(
