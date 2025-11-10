@@ -18,7 +18,6 @@ import (
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/corefont"
-	"github.com/edragoev1/pdfjet/src/direction"
 	"github.com/edragoev1/pdfjet/src/fastfloat"
 	"github.com/edragoev1/pdfjet/src/operator"
 	"github.com/edragoev1/pdfjet/src/shape"
@@ -348,34 +347,22 @@ func (page *Page) drawTextBlock(
 	x float32,
 	y float32,
 	leading float32,
-	direction direction.Direction,
 	textColor int32,
-	highlightColors map[string]int32) float32 {
-
+	highlightColors map[string]int32) {
 	if len(textLines) == 0 {
-		return float32(len(textLines)) * leading
+		return
 	}
 
 	page.appendString("BT\n")
 	page.SetTextFont(font)
 
-	xText := x
 	yText := y
 	for _, textLine := range textLines {
-		if direction == LeftToRight {
-			page.appendString("1 0 0 1 ")
-			page.appendFloat32(xText + textLine.xOffset)
-			page.appendString(" ")
-			page.appendFloat32(page.height - (yText + font.ascent))
-			page.appendString(" Tm\n")
-		} else { // BOTTOM_TO_TOP
-			page.appendString("0 1 -1 0 ")
-			page.appendFloat32(xText + font.ascent)
-			page.appendString(" ")
-			page.appendFloat32(yText)
-			page.appendString(" Tm\n")
-		}
-
+		page.appendString("1 0 0 1 ")
+		page.appendFloat32(x + textLine.xOffset)
+		page.appendString(" ")
+		page.appendFloat32(page.height - (yText + font.ascent))
+		page.appendString(" Tm\n")
 		if highlightColors == nil {
 			page.SetBrushColor(textColor)
 			if font.isCoreFont {
@@ -390,17 +377,9 @@ func (page *Page) drawTextBlock(
 		} else {
 			page.drawColoredString(page.font, textLine.textLine, textColor, highlightColors)
 		}
-
-		if direction == LeftToRight {
-			yText += leading
-		} else {
-			xText += leading
-		}
+		yText += leading
 	}
-
 	page.appendString("ET\n")
-
-	return float32(len(textLines)) * leading
 }
 
 func (page *Page) drawUnicodeString(font *Font, text string) {

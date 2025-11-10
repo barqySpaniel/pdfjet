@@ -13,7 +13,6 @@ import (
 
 	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
-	"github.com/edragoev1/pdfjet/src/direction"
 )
 
 // TextBlock creates block of line-wrapped text.
@@ -38,7 +37,6 @@ type TextBlock struct {
 	uriLanguage            string
 	uriActualText          string
 	uriAltDescription      string
-	textDirection          direction.Direction
 	textAlignment          int
 	underline              bool
 	strikeout              bool
@@ -60,7 +58,6 @@ func NewTextBlock(font *Font, textContent string) *TextBlock {
 	textBlock.lineSpacing = 1.0
 	textBlock.textColor = color.Black
 	textBlock.textPadding = 0.0
-	textBlock.textDirection = direction.LeftToRight
 	textBlock.textAlignment = alignment.Left
 	textBlock.keywordHighlightColors = make(map[string]int32)
 
@@ -215,10 +212,6 @@ func (textBlock *TextBlock) SetURIAction(uri string) *TextBlock {
 	return textBlock
 }
 
-func (textBlock *TextBlock) SetTextDirection(textDirection direction.Direction) {
-	textBlock.textDirection = textDirection
-}
-
 func (textBlock *TextBlock) SetKeywordHighlightColors(keywordHighlightColors map[string]int32) {
 	for key, value := range keywordHighlightColors {
 		textBlock.keywordHighlightColors[strings.ToLower(key)] = value
@@ -228,14 +221,7 @@ func (textBlock *TextBlock) SetKeywordHighlightColors(keywordHighlightColors map
 func (textBlock *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
 	var textLines []TextLineWithOffset
 
-	var textAreaWidth float32
-	if textBlock.textDirection == direction.LeftToRight {
-		textAreaWidth = textBlock.width - 2*textBlock.textPadding
-	} else {
-		// When writing text vertically!
-		textAreaWidth = textBlock.height - 2*textBlock.textPadding
-	}
-
+	var textAreaWidth float32 = textBlock.width - 2*textBlock.textPadding
 	textBlock.textContent = strings.ReplaceAll(textBlock.textContent, "\r\n", "\n")
 	textBlock.textContent = strings.TrimSpace(textBlock.textContent)
 	lines := strings.Split(textBlock.textContent, "\n")
@@ -302,6 +288,14 @@ func (textBlock *TextBlock) centerText(textLines []TextLineWithOffset) {
 	}
 }
 
+// maxFloat32 returns the greater of a and b.
+func maxFloat32(a, b float32) float32 {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 // DrawOn draws text block on the specified page at specified location.
 // @param page the Page where the TextBlock is to be drawn.
 // @param draw flag specifying if text block component should actually be drawn on the page.
@@ -328,21 +322,20 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 	}
 
 	page.AddBMC("P", textBlock.uriLanguage, textBlock.textContent, "")
-	textBlockHeight := page.drawTextBlock(
+	page.drawTextBlock(
 		textBlock.font,
 		textLines,
 		textBlock.x+textBlock.textPadding,
 		textBlock.y+textBlock.textPadding,
 		leading*textBlock.lineSpacing,
-		textBlock.textDirection,
 		textBlock.textColor,
 		textBlock.keywordHighlightColors)
 	page.AddEMC()
 
-	rect := NewRect(textBlock.x, textBlock.y, textBlock.width, textBlockHeight+2*textBlock.textPadding)
-	rect.SetBorderColor(textBlock.borderColor)
-	rect.SetCornerRadius(textBlock.borderCornerRadius)
-	rect.DrawOn(page)
+	//rect := NewRect(textBlock.x, textBlock.y, textBlock.width, textBlockHeight+2*textBlock.textPadding)
+	//rect.SetBorderColor(textBlock.borderColor)
+	//rect.SetCornerRadius(textBlock.borderCornerRadius)
+	//rect.DrawOn(page)
 
 	// You can uncomment and adapt if required.
 	/*
@@ -362,5 +355,10 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		}
 	*/
 
-	return []float32{textBlock.x + textBlock.width, textBlock.y + textBlockHeight + 2*textBlock.textPadding}, nil
+	return []float32{
+		textBlock.x + textBlock.width,
+		maxFloat32(
+			textBlock.y+textBlock.height,
+			textBlock.y+(float32(len(textLines))*leading)+(2*textBlock.textPadding)),
+	}, nil
 }
