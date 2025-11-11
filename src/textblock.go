@@ -17,20 +17,21 @@ import (
 
 // TextBlock creates block of line-wrapped text.
 type TextBlock struct {
-	x                      float32
-	y                      float32
-	width                  float32
-	height                 float32
-	font                   *Font
-	fallbackFont           *Font
-	fontSize               float32
-	textContent            string
-	lineSpacing            float32
-	textColor              int32
-	textPadding            float32
-	borderWidth            float32
-	borderCornerRadius     float32
-	borderColor            int32
+	x                  float32
+	y                  float32
+	width              float32
+	height             float32
+	font               *Font
+	fallbackFont       *Font
+	fontSize           float32
+	textContent        string
+	lineSpacing        float32
+	textColor          int32
+	textPadding        float32
+	borderWidth        float32
+	borderCornerRadius float32
+	borderColor        int32
+
 	language               string
 	altDescription         string
 	uri                    *string
@@ -156,7 +157,7 @@ func (textBlock *TextBlock) SetTextPadding(padding float32) {
 	textBlock.textPadding = padding
 }
 
-// SetBorderWidth sets the border line width.
+// SetBorderWidth sets the border width.
 // @param lineWidth float
 func (textBlock *TextBlock) SetBorderWidth(borderWidth float32) {
 	textBlock.borderWidth = borderWidth
@@ -220,48 +221,47 @@ func (textBlock *TextBlock) SetKeywordHighlightColors(keywordHighlightColors map
 	}
 }
 
-func (textBlock *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
-	var textLines []TextLineWithOffset
+func (textBlock *TextBlock) getTextLinesWithOffsets() []*TextLine {
+	var textLines []*TextLine
 
-	var textAreaWidth float32 = textBlock.width - 2*textBlock.textPadding
+	var textAreaWidth = textBlock.width - 2*textBlock.textPadding
 	textBlock.textContent = strings.ReplaceAll(textBlock.textContent, "\r\n", "\n")
 	textBlock.textContent = strings.TrimSpace(textBlock.textContent)
 	lines := strings.Split(textBlock.textContent, "\n")
-
 	for _, line := range lines {
 		if textBlock.font.StringWidth(textBlock.fallbackFont, textBlock.font.size, line) <= textAreaWidth {
 			textLines = append(
 				textLines,
-				TextLineWithOffset{textLine: line, xOffset: 0})
+				NewTextLine(textBlock.font, line))
 		} else {
 			if textBlock.textIsCJK(line) {
 				var sb strings.Builder
 				for _, ch := range line {
-					if textBlock.font.StringWidth(textBlock.fallbackFont, textBlock.font.size, sb.String()+string(ch)) <= textAreaWidth {
+					if textBlock.font.StringWidth(textBlock.fallbackFont,
+						textBlock.font.size, sb.String()+string(ch)) <= textAreaWidth {
 						sb.WriteRune(ch)
 					} else {
 						textLines = append(
 							textLines,
-							TextLineWithOffset{textLine: sb.String(), xOffset: 0})
+							NewTextLine(textBlock.font, sb.String()))
 						sb.Reset()
 						sb.WriteRune(ch)
 					}
 				}
 				if sb.Len() > 0 {
-					textLines = append(
-						textLines,
-						TextLineWithOffset{textLine: sb.String(), xOffset: 0})
+					textLines = append(textLines, NewTextLine(textBlock.font, sb.String()))
 				}
 			} else {
 				var sb strings.Builder
 				tokens := strings.Fields(line) // Split by whitespace
 				for _, token := range tokens {
-					if textBlock.font.StringWidth(textBlock.fallbackFont, textBlock.font.size, sb.String()+token) <= textAreaWidth {
+					if textBlock.font.StringWidth(textBlock.fallbackFont,
+						textBlock.font.size, sb.String()+token) <= textAreaWidth {
 						sb.WriteString(token + " ")
 					} else {
 						textLines = append(
 							textLines,
-							TextLineWithOffset{textLine: strings.TrimSpace(sb.String()), xOffset: 0})
+							NewTextLine(textBlock.font, strings.TrimSpace(sb.String())))
 						sb.Reset()
 						sb.WriteString(token + " ")
 					}
@@ -269,7 +269,7 @@ func (textBlock *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
 				if sb.Len() > 0 {
 					textLines = append(
 						textLines,
-						TextLineWithOffset{textLine: strings.TrimSpace(sb.String()), xOffset: 0})
+						NewTextLine(textBlock.font, strings.TrimSpace(sb.String())))
 				}
 			}
 		}
@@ -278,15 +278,17 @@ func (textBlock *TextBlock) getTextLinesWithOffsets() []TextLineWithOffset {
 	return textLines
 }
 
-func (textBlock *TextBlock) rightAlignText(textLines []TextLineWithOffset) {
-	for _, textLineWithOffset := range textLines {
-		textLineWithOffset.xOffset = textBlock.width - textBlock.font.stringWidth(textBlock.font.size, textLineWithOffset.textLine)
+func (textBlock *TextBlock) rightAlignText(textLines []*TextLine) {
+	for _, textLine := range textLines {
+		textLine.xOffset = textBlock.width -
+			textBlock.font.stringWidth(textBlock.font.size, textLine.text)
 	}
 }
 
-func (textBlock *TextBlock) centerText(textLines []TextLineWithOffset) {
-	for _, textLineWithOffset := range textLines {
-		textLineWithOffset.xOffset = (textBlock.width - textBlock.font.stringWidth(textBlock.font.size, textLineWithOffset.textLine)) / 2.0
+func (textBlock *TextBlock) centerText(textLines []*TextLine) {
+	for _, textLine := range textLines {
+		textLine.xOffset = (textBlock.width -
+			textBlock.font.stringWidth(textBlock.font.size, textLine.text)) / 2.0
 	}
 }
 
@@ -327,7 +329,7 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		textBlock.y,
 		textBlock.width,
 		maxFloat32(textBlock.height, float32(len(textLines))*leading+2*textBlock.textPadding))
-	// TODO:	rect.SetTextColor(textBlock.textColor)
+	// rect.SetTextColor(textBlock.textColor)
 	// TODO:	rect.SetBorderWidth(textBlock.borderWidth)
 	rect.SetBorderColor(textBlock.borderColor)
 	rect.SetCornerRadius(textBlock.borderCornerRadius)

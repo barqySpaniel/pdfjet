@@ -22,6 +22,7 @@ type TextLine struct {
 	font, fallbackFont *Font
 	fontSize           float32
 	isLastToken        bool
+	xOffset            float32
 	underline          bool
 	strikeout          bool
 	underlineTTS       string

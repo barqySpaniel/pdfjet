@@ -341,58 +341,6 @@ func (page *Page) drawASCIIString(font *Font, text string) {
 	}
 }
 
-func (page *Page) drawTextBlock(
-	font *Font,
-	fontSize float32,
-	textLines []TextLineWithOffset,
-	x float32,
-	y float32,
-	leading float32,
-	textColor int32,
-	highlightColors map[string]int32) {
-	if len(textLines) == 0 {
-		return
-	}
-
-	page.appendString("BT\n")
-	page.SetTextFont(font)
-	yText := y
-	for _, textLine := range textLines {
-		page.appendString("1 0 0 1 ")
-		page.appendFloat32(x + textLine.xOffset)
-		page.appendString(" ")
-		page.appendFloat32(page.height - (yText + font.ascent))
-		page.appendString(" Tm\n")
-		if highlightColors == nil {
-			page.SetBrushColor(textColor)
-			if font.isCoreFont {
-				page.appendString("[<")
-				page.drawASCIIString(font, textLine.textLine)
-				page.appendString(">] TJ\n")
-			} else {
-				page.appendString("<")
-				page.drawUnicodeString(page.font, textLine.textLine)
-				page.appendString("> Tj\n")
-			}
-		} else {
-			page.drawColoredString(page.font, textLine.textLine, textColor, highlightColors)
-		}
-		yText += leading
-	}
-	page.appendString("ET\n")
-
-	yText = y
-	for _, textLine := range textLines {
-		if textLine.underline {
-			page.MoveTo(x+textLine.xOffset,
-				yText+font.GetBodyHeight(fontSize))
-			page.LineTo(x+textLine.xOffset+font.StringWidth(nil, fontSize, textLine.textLine),
-				yText+font.GetBodyHeight(fontSize))
-		}
-		yText += leading
-	}
-}
-
 func (page *Page) drawUnicodeString(font *Font, text string) {
 	runes := []rune(text)
 	if font.isCJK {
@@ -1636,4 +1584,56 @@ func (page *Page) RotateAroundCenter(centerX, centerY, degrees float32) {
 	page.appendString(" ")
 	page.appendFloat32(-centerY)
 	page.appendString(" cm\n")
+}
+
+func (page *Page) drawTextBlock(
+	font *Font,
+	fontSize float32,
+	textLines []*TextLine,
+	x float32,
+	y float32,
+	leading float32,
+	textColor int32,
+	highlightColors map[string]int32) {
+
+	if len(textLines) == 0 {
+		return
+	}
+
+	page.appendString("BT\n")
+	page.SetTextFont(font)
+	yText := y
+	for _, textLine := range textLines {
+		page.appendString("1 0 0 1 ")
+		page.appendFloat32(x + textLine.xOffset)
+		page.appendString(" ")
+		page.appendFloat32(page.height - (yText + font.ascent))
+		page.appendString(" Tm\n")
+		if highlightColors == nil {
+			page.SetBrushColor(textColor)
+			if font.isCoreFont {
+				page.appendString("[<")
+				page.drawASCIIString(font, textLine.text)
+				page.appendString(">] TJ\n")
+			} else {
+				page.appendString("<")
+				page.drawUnicodeString(page.font, textLine.text)
+				page.appendString("> Tj\n")
+			}
+		} else {
+			page.drawColoredString(page.font, textLine.text, textColor, highlightColors)
+		}
+		yText += leading
+	}
+	page.appendString("ET\n")
+
+	yLine := y + font.GetBodyHeight(fontSize)
+	for _, textLine := range textLines {
+		if textLine.underline {
+			page.MoveTo(x+textLine.xOffset, yLine)
+			page.LineTo(x+textLine.xOffset+font.StringWidth(nil, fontSize, textLine.text), yLine)
+			page.StrokePath()
+		}
+		yLine += leading
+	}
 }
