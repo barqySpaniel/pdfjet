@@ -459,14 +459,14 @@ public class Page {
             String str,
             float x,
             float y,
-            float[] color,
+            float[] textColor,
             Dictionary<String, Int32> highlightColors) {
         if (str == null || str.Equals("")) {
             return;
         }
+
         Append("BT\n");
         SetTextFont(font, fontSize);
-
         if (renderingMode != 0) {
             Append(renderingMode);
             Append(" Tr\n");
@@ -501,7 +501,7 @@ public class Page {
         Append(" Tm\n");
 
         if (highlightColors == null) {
-            SetBrushColor(color);
+            SetBrushColor(textColor);
             if (font.isCoreFont) {
                 Append("[<");
                 DrawASCIIString(font, str);
@@ -512,7 +512,7 @@ public class Page {
                 Append("> Tj\n");
             }
         } else {
-            DrawColoredString(font, str, color, highlightColors);
+            DrawColoredString(font, str, textColor, highlightColors);
         }
         Append("ET\n");
     }

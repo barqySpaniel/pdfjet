@@ -329,17 +329,21 @@ final public class Page {
             String str,
             float x,
             float y,
-            float[] color,
+            float[] textColor,
             Map<String, Integer> highlightColors) {
-        if (font.isCoreFont || font.isCJK || fallbackFont == null || fallbackFont.isCoreFont || fallbackFont.isCJK) {
-            drawString(font, fontSize, str, x, y, color, highlightColors);
+        if (font.isCoreFont ||
+                font.isCJK ||
+                fallbackFont == null ||
+                fallbackFont.isCoreFont ||
+                fallbackFont.isCJK) {
+            drawString(font, fontSize, str, x, y, textColor, highlightColors);
         } else {
             Font activeFont = font;
             StringBuilder buf = new StringBuilder();
             for (int i = 0; i < str.length(); i++) {
                 int ch = str.charAt(i);
                 if (activeFont.unicodeToGID[ch] == 0) {
-                    drawString(activeFont, fontSize, buf.toString(), x, y, color, highlightColors);
+                    drawString(activeFont, fontSize, buf.toString(), x, y, textColor, highlightColors);
                     x += activeFont.stringWidth(fontSize, buf.toString());
                     buf.setLength(0);
                     // Switch the active font
@@ -351,7 +355,7 @@ final public class Page {
                 }
                 buf.append((char) ch);
             }
-            drawString(activeFont, fontSize, buf.toString(), x, y, color, highlightColors);
+            drawString(activeFont, fontSize, buf.toString(), x, y, textColor, highlightColors);
         }
     }
 
@@ -401,14 +405,14 @@ final public class Page {
             String str,
             float x,
             float y,
-            float[] color,
+            float[] textColor,
             Map<String, Integer> highlightColors) {
         if (str == null || str.isEmpty()) {
             return;
         }
+
         append("BT\n");
         setTextFont(font, fontSize);
-
         if (renderingMode != 0) {
             append(renderingMode);
             append(" Tr\n");
@@ -443,7 +447,7 @@ final public class Page {
         append(" Tm\n");
 
         if (highlightColors == null) {
-            setBrushColor(color);
+            setBrushColor(textColor);
             if (font.isCoreFont) {
                 append("[<");
                 drawASCIIString(font, str);
@@ -455,7 +459,7 @@ final public class Page {
             }
 
         } else {
-            drawColoredString(font, str, color, highlightColors);
+            drawColoredString(font, str, textColor, highlightColors);
         }
         append("ET\n");
     }
