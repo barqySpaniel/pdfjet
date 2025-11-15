@@ -28,14 +28,14 @@ public class Example_41 {
                 .Add(new TextLine(f1,
 "The small business centres offer practical resources, from step-by-step info on setting up your business to sample business plans to a range of business-related articles and books in our resource libraries.")
                         .SetUnderline(true))
-                .Add(new TextLine(f2, "This text is bold!").SetColor(Color.blue));
+                .Add(new TextLine(f2, "This text is bold!").SetTextColor(Color.blue));
         paragraphs.Add(paragraph);
 
         paragraph = new Paragraph()
                 .Add(new TextLine(f1,
 "The centres also offer free one-on-one consultations with business advisors who can review your business plan and make recommendations to improve it.")
                         .SetUnderline(true))
-                .Add(new TextLine(f3, "This text is using italic font.").SetColor(Color.green));
+                .Add(new TextLine(f3, "This text is using italic font.").SetTextColor(Color.green));
         paragraphs.Add(paragraph);
 
         Text text = new Text(paragraphs);
@@ -56,7 +56,7 @@ public class Example_41 {
             if (p.StartsWith("**")) {
                 f2.SetSize(24.0);
                 p.GetTextLines()[0].SetFont(f2);
-                p.GetTextLines()[0].SetColor(Color.navy);
+                p.GetTextLines()[0].SetTextColor(Color.navy);
             } else {
                 p.SetColor(Color.gray);
                 p.SetColorMap(colorMap);

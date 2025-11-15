@@ -28,14 +28,14 @@ public class Example_03 {
                 .Add(new TextLine(f1,
 "The small business centres offer practical resources, from step-by-step info on setting up your business to sample business plans to a range of business-related articles and books in our resource libraries.")
                         .SetUnderline(true))
-                .Add(new TextLine(f2, "This text is bold!").SetColor(Color.blue));
+                .Add(new TextLine(f2, "This text is bold!").SetTextColor(Color.blue));
         paragraphs.Add(paragraph);
 
         paragraph = new Paragraph()
                 .Add(new TextLine(f1,
 "The centres also offer free one-on-one consultations with business advisors who can review your business plan and make recommendations to improve it.")
                         .SetUnderline(true))
-                .Add(new TextLine(f3, "This text is using italic font.").SetColor(Color.green));
+                .Add(new TextLine(f3, "This text is using italic font.").SetTextColor(Color.green));
         paragraphs.Add(paragraph);
 
         Text text = new Text(paragraphs);
@@ -51,7 +51,7 @@ public class Example_03 {
         paragraphs = Text.paragraphsFromFile(f1, "data/physics.txt");
         foreach (Paragraph p in paragraphs) {
             if (p.StartsWith("**")) {
-                p.GetTextLines()[0].SetFont(f2).SetFontSize(18f).SetColor(Color.navy);
+                p.GetTextLines()[0].SetFont(f2).SetFontSize(18f).SetTextColor(Color.navy);
             } else {
                 p.SetColor(Color.darkgray);
                 p.SetColorMap(colorMap);

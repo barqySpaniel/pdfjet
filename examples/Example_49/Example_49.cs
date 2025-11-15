@@ -23,20 +23,20 @@ public class Example_49 {
 
         Paragraph paragraph1 = new Paragraph()
                 .Add(new TextLine(f1, "Hello"))
-                .Add(new TextLine(f1, "W").SetColor(Color.black))
-                .Add(new TextLine(f1, "o").SetColor(Color.red))
-                .Add(new TextLine(f1, "r").SetColor(Color.green))
-                .Add(new TextLine(f1, "l").SetColor(Color.blue))
-                .Add(new TextLine(f1, "d").SetColor(Color.black))
+                .Add(new TextLine(f1, "W").SetTextColor(Color.black))
+                .Add(new TextLine(f1, "o").SetTextColor(Color.red))
+                .Add(new TextLine(f1, "r").SetTextColor(Color.green))
+                .Add(new TextLine(f1, "l").SetTextColor(Color.blue))
+                .Add(new TextLine(f1, "d").SetTextColor(Color.black))
                 .Add(new TextLine(f1, "$").SetVerticalOffset(f1.GetAscent() - f2.GetAscent()))
-                .Add(new TextLine(f2, "29.95").SetColor(Color.blue))
+                .Add(new TextLine(f2, "29.95").SetTextColor(Color.blue))
                 .SetAlignment(Align.RIGHT);
 
         Paragraph paragraph2 = new Paragraph()
                 .Add(new TextLine(f1, "Hello"))
                 .Add(new TextLine(f1, "World"))
                 .Add(new TextLine(f1, "$"))
-                .Add(new TextLine(f2, "29.95").SetColor(Color.blue))
+                .Add(new TextLine(f2, "29.95").SetTextColor(Color.blue))
                 .SetAlignment(Align.RIGHT);
 
         TextColumn column = new TextColumn();

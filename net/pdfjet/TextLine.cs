@@ -26,6 +26,7 @@ public class TextLine : IDrawable {
     private int degrees = 0;
     private float[] textColor = new float[] {0f, 0f, 0f};
     private float[] lineColor = new float[] {0f, 0f, 0f};
+    private Dictionary<String, int> colorMap = null;
     private int textEffect = Effect.NORMAL;
     private float verticalOffset = 0f;
 
@@ -38,7 +39,7 @@ public class TextLine : IDrawable {
     private String uriAltDescription = null;
 
     private String structureType = StructElem.P;
-    private Dictionary<String, int> colorMap = null;
+
 
     /**
      * Constructor for creating text line objects.
@@ -180,6 +181,7 @@ public class TextLine : IDrawable {
         return this.fallbackFont;
     }
 
+    [Obsolete]
     public TextLine SetColor(int color) {
         return SetTextColor(color);
     }
@@ -192,7 +194,7 @@ public class TextLine : IDrawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetTextColor(r, g, b);
+        this.textColor = new float[] {r, g, b};
         return this;
     }
 
@@ -218,7 +220,7 @@ public class TextLine : IDrawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        SetLineColor(r, g, b);
+        this.lineColor = new float[] {r, g, b};
         return this;
     }
 
@@ -234,6 +236,15 @@ public class TextLine : IDrawable {
 
     public float[] GetLineColor() {
         return lineColor;
+    }
+
+    public TextLine SetColorMap(Dictionary<String, int> colorMap) {
+        this.colorMap = colorMap;
+        return this;
+    }
+
+    public Dictionary<String, int> GetColorMap() {
+        return this.colorMap;
     }
 
     /**
@@ -503,15 +514,6 @@ public class TextLine : IDrawable {
     public float Advance(float leading) {
         this.y += leading;
         return this.y;
-    }
-
-    public TextLine SetColorMap(Dictionary<String, int> colorMap) {
-        this.colorMap = colorMap;
-        return this;
-    }
-
-    public Dictionary<String, int> GetColorMap() {
-        return this.colorMap;
     }
 
     /**

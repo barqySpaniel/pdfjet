@@ -23,19 +23,19 @@ public class Example_25 {
         composite.SetFontSize(24f);
 
         TextLine text1 = new TextLine(f1, "C");
-        text1.SetColor(Color.dodgerblue);
+        text1.SetTextColor(Color.dodgerblue);
 
         TextLine text2 = new TextLine(f2, "6");
         text2.SetTextEffect(Effect.SUBSCRIPT);
 
         TextLine text3 = new TextLine(f1, "H");
-        text3.SetColor(Color.dodgerblue);
+        text3.SetTextColor(Color.dodgerblue);
 
         TextLine text4 = new TextLine(f2, "12");
         text4.SetTextEffect(Effect.SUBSCRIPT);
 
         TextLine text5 = new TextLine(f1, "O");
-        text5.SetColor(Color.dodgerblue);
+        text5.SetTextColor(Color.dodgerblue);
 
         TextLine text6 = new TextLine(f2, "6");
         text6.SetTextEffect(Effect.SUBSCRIPT);
