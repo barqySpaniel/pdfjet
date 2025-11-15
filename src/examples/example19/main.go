@@ -8,7 +8,6 @@ import (
 	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/content"
-	"github.com/edragoev1/pdfjet/src/direction"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -29,8 +28,6 @@ func Example19() {
 	textBlock.SetTextColor(color.Black)
 	textBlock.SetTextPadding(10.0)
 	textBlock.SetBorderColor(color.Blue)
-	textBlock.SetTextDirection(direction.LeftToRight)
-	// textBlock.SetTextDirection(direction.BottomToTop)
 	textBlock.SetTextAlignment(alignment.Left)
 	// textBlock.SetTextAlignment(alignment.Right)
 	// textBlock.SetTextAlignment(alignment.Center)
