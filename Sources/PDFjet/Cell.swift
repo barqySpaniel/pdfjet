@@ -29,7 +29,7 @@ public class Cell {
     var rightPadding: Float = 2.0
     var lineWidth: Float = 0.0
 
-    var backgroundColor: [Float]? = nil
+    var backgroundColor: [Float] = [1.0, 1.0, 1.0]
     var textColor: [Float] = [0.0, 0.0, 0.0]
     var strokeWidth: Float = 0.0
     var strokeColor: [Float] = [0.0, 0.0, 0.0]
@@ -322,38 +322,6 @@ public class Cell {
         return self.lineWidth
     }
 
-    /**
-     * Sets the background to the specified color.
-     */
-    public func setBackgroundColor(_ backgroundColor: [Float]) {
-        self.backgroundColor = backgroundColor
-    }
-
-    /**
-     * Returns the background color of this cell.
-     */
-    public func getBackgroundColor() -> [Float] {
-        return self.backgroundColor!
-    }
-
-    public func getStrokeColor() -> [Float] {
-        return self.strokeColor
-    }
-
-    /**
-     * Sets the brush color.
-     */
-    public func setTextColor(_ textColor: [Float]) {
-        self.textColor = textColor
-    }
-
-    /**
-     * Returns the text color.
-     */
-    public func getTextColor() -> [Float] {
-        return self.textColor
-    }
-
     public func setTextColor(_ color: Int32) {
         let r = Float(((color >> 16) & 0xff))/255.0
         let g = Float(((color >>  8) & 0xff))/255.0
@@ -365,12 +333,31 @@ public class Cell {
         self.textColor = [r, g, b]
     }
 
-    func setStrokeWidth(_ strokeWidth: Float) {
-        self.strokeWidth = strokeWidth
+    public func setTextColor(_ textColor: [Float]) {
+        self.textColor = textColor
     }
 
-    func getStrokeWidth() -> Float {
-        return self.strokeWidth
+    public func getTextColor() -> [Float] {
+        return self.textColor
+    }
+
+    public func setBackgroundColor(_ color: Int32) {
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.backgroundColor = [r, g, b]
+    }
+
+    func setBackgroundColor(_ r: Float, _ g: Float, _ b: Float) {
+        self.backgroundColor = [r, g, b]
+    }
+
+    public func setBackgroundColor(_ backgroundColor: [Float]) {
+        self.backgroundColor = backgroundColor
+    }
+
+    public func getBackgroundColor() -> [Float] {
+        return self.backgroundColor
     }
 
     func setStrokeColor(_ color: Int32) {
@@ -386,6 +373,18 @@ public class Cell {
 
     func setStrokeColor(_ rgbColor: [Float]) {
         self.strokeColor = rgbColor
+    }
+
+    public func getStrokeColor() -> [Float] {
+        return self.strokeColor
+    }
+
+    func setStrokeWidth(_ strokeWidth: Float) {
+        self.strokeWidth = strokeWidth
+    }
+
+    func getStrokeWidth() -> Float {
+        return self.strokeWidth
     }
 
     func setProperties(_ properties: UInt32) {
@@ -545,9 +544,9 @@ public class Cell {
             _ y: Float,
             _ w: Float,
             _ h: Float) {
-        if backgroundColor != nil {
+        // if backgroundColor != nil {
             drawBackground(page, x, y, w, h)
-        }
+        // }
 
         if textBox != nil {
             textBox!.setLocation(x + leftPadding, y + topPadding)
@@ -609,7 +608,7 @@ public class Cell {
             _ y: Float,
             _ cellW: Float,
             _ cellH: Float) {
-        page.setBrushColor(backgroundColor!)
+        page.setBrushColor(backgroundColor)
         page.fillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth)
     }
 

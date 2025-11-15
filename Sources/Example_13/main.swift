@@ -9,8 +9,9 @@ public class Example_13 {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_13.pdf", append: false)!)
 
         let f1 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        let f2 = Font(pdf, CoreFont.HELVETICA)
         f1.setSize(7.0)
+
+        let f2 = Font(pdf, CoreFont.HELVETICA)
         f2.setSize(7.0)
 
         var tableData = [[Cell]]()
@@ -61,9 +62,9 @@ public class Example_13 {
             cell = column[i]
             cell.setTextAlignment(Align.CENTER)
             if Int(cell.getText()!)! > 40 {
-                cell.setBgColor(Color.darkseagreen)
+                cell.setBackgroundColor(Color.darkseagreen)
             } else {
-                cell.setBgColor(Color.yellow)
+                cell.setBackgroundColor(Color.yellow)
             }
         }
 
@@ -109,7 +110,7 @@ public class Example_13 {
     public func blankOutColumn(_ table: Table, _ index: Int) {
         let column = table.getColumnAtIndex(index)
         for cell in column {
-            cell.setBgColor(Color.white)
+            cell.setBackgroundColor(Color.white)
             cell.setBorder(Border.TOP, false)
             cell.setBorder(Border.BOTTOM, false)
         }
@@ -121,7 +122,7 @@ public class Example_13 {
             _ color: Int32) {
         let row = table.getRowAtIndex(index)
         for cell in row {
-            cell.setBgColor(color)
+            cell.setBackgroundColor(color)
         }
     }
 

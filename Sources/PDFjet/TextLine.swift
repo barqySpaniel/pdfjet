@@ -43,8 +43,8 @@ public class TextLine : Drawable {
 
     private var structureType = StructElem.P
 
-    private var strokeColor: [Float] = [0.0, 0.0, 0.0]
     private var textColor: [Float] = [0.0, 0.0, 0.0]
+    private var lineColor: [Float] = [0.0, 0.0, 0.0]
     private var colorMap: [String: Int32]
 
     ///
@@ -185,21 +185,20 @@ public class TextLine : Drawable {
     }
 
     @discardableResult
-    public func setTextColor(_ textColor: [Float]) -> TextLine {
-        self.textColor = textColor
-        return self
+    public func setColor(_ color: Int32) -> TextLine {
+        return setTextColor(color)
     }
 
     @discardableResult
     public func setTextColor(_ color: Int32) -> TextLine {
         if color == Color.transparent {
-            // self.textColor = nil // TODO
             return self
         }
         let r = Float(((color >> 16) & 0xff))/255.0
         let g = Float(((color >>  8) & 0xff))/255.0
         let b = Float(((color)       & 0xff))/255.0
-        return setTextColor(r, g, b)
+        self.textColor = [r, g, b]
+        return self
     }
 
     @discardableResult
@@ -208,8 +207,42 @@ public class TextLine : Drawable {
         return self
     }
 
+    @discardableResult
+    public func setTextColor(_ textColor: [Float]) -> TextLine {
+        self.textColor = textColor
+        return self
+    }
+
     public func getTextColor() -> [Float] {
         return self.textColor
+    }
+
+    @discardableResult
+    public func setLineColor(_ color: Int32) -> TextLine {
+        if color == Color.transparent {
+            return self
+        }
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.lineColor = [r, g, b]
+        return self
+    }
+
+    @discardableResult
+    public func setLineColor(_ r: Float, _ g: Float, _ b: Float) -> TextLine {
+        self.lineColor = [r, g, b]
+        return self
+    }
+
+    @discardableResult
+    public func setLineColor(_ lineColor: [Float]) -> TextLine {
+        self.lineColor = lineColor
+        return self
+    }
+
+    public func getLineColor() -> [Float] {
+        return self.lineColor
     }
 
     ///
@@ -530,7 +563,7 @@ public class TextLine : Drawable {
         let radians = Float.pi * Float(degrees) / 180.0
         if underline {
             page!.setPenWidth(font!.underlineThickness)
-            page!.setPenColor(strokeColor)
+            page!.setPenColor(lineColor)
             var lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
             if (self.isLastToken) {
                 lineLength -= font!.stringWidth(fallbackFont, fontSize, Single.space);
@@ -548,7 +581,7 @@ public class TextLine : Drawable {
 
         if strikeout {
             page!.setPenWidth(font!.underlineThickness)
-            page!.setPenColor(strokeColor)
+            page!.setPenColor(lineColor)
             var lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
             if (self.isLastToken) {
                 lineLength -= font!.stringWidth(fallbackFont, fontSize, Single.space);
