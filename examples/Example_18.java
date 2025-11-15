@@ -53,6 +53,7 @@ public class Example_18 {
             page.setBrushColor(Color.black);
             page.drawString(
                     font,
+                    font.getSize(),
                     footer,
                     (page.getWidth() - font.stringWidth(footer))/2f,
                     (page.getHeight() - 5f));

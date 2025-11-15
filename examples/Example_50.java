@@ -47,74 +47,74 @@ class Example_50 {
         page.setBrushColor(Color.blue);
 
         // First Name and Initial
-        page.drawString(f2, "Иван", x, y);
+        page.drawString(f2, f2.getSize(), "Иван", x, y);
 
         // Last Name
-        page.drawString(f3, "Jones", x + 258f, y);
+        page.drawString(f3, f3.getSize(), "Jones", x + 258f, y);
 
         // Social Insurance Number
-        page.drawString(f1, stripSpacesAndDashes("243-590-129"), x + 437f, y, dx);
+        page.drawString(f1, f1.getSize(), stripSpacesAndDashes("243-590-129"), x + 437f, y, dx);
 
         // Last Name at Birth
-        page.drawString(f1, "Culverton", x, y += dy);
+        page.drawString(f1, f1.getSize(), "Culverton", x, y += dy);
 
         // Mailing Address
-        page.drawString(f1, "10 Elm Street", x, y += dy);
+        page.drawString(f1, f1.getSize(), "10 Elm Street", x, y += dy);
 
         // City
-        page.drawString(f1, "Toronto", x, y + dy);
+        page.drawString(f1, f1.getSize(), "Toronto", x, y + dy);
 
         // Province or Territory
-        page.drawString(f1, "Ontario", x + 365f, y += dy);
+        page.drawString(f1, f1.getSize(), "Ontario", x + 365f, y += dy);
 
         // Postal Code
-        page.drawString(f1, stripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
+        page.drawString(f1, f1.getSize(), stripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
 
         // Home Address
-        page.drawString(f1, "10 Oak Road", x, y += dy);
+        page.drawString(f1, f1.getSize(), "10 Oak Road", x, y += dy);
 
         // City
         y += dy;
-        page.drawString(f1, "Toronto", x, y);
+        page.drawString(f1, f1.getSize(), "Toronto", x, y);
 
         // Previous Province or Territory
-        page.drawString(f1, "Ontario", x + 365f, y);
+        page.drawString(f1, f1.getSize(), "Ontario", x + 365f, y);
 
         // Postal Code
-        page.drawString(f1, stripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
+        page.drawString(f1, f1.getSize(), stripSpacesAndDashes("L7B 2E9"), x + 482f, y, dx);
 
         // Home telephone number
-        page.drawString(f1, "905-222-3333", x, y + dy);
+        page.drawString(f1, f1.getSize(), "905-222-3333", x, y + dy);
         // Work telephone number
-        page.drawString(f1, "416-567-9903", x + 279f, y += dy);
+        page.drawString(f1, f1.getSize(), "416-567-9903", x + 279f, y += dy);
 
         // Previous province or territory
-        page.drawString(f1, "British Columbia", x + 452f, y += dy);
+        page.drawString(f1, f1.getSize(), "British Columbia", x + 452f, y += dy);
 
         // Move date from previous province or territory
         y += dy;
-        page.drawString(f1, stripSpacesAndDashes("2016-04-12"), x + 452f, y, dx);
+        page.drawString(f1, f1.getSize(), stripSpacesAndDashes("2016-04-12"), x + 452f, y, dx);
 
         // Date new marital status began
-        page.drawString(f1, stripSpacesAndDashes("2014-11-02"), x + 452f, 467f, dx);
+        page.drawString(f1, f1.getSize(), stripSpacesAndDashes("2014-11-02"), x + 452f, 467f, dx);
 
         // First name of spouse
         y = 521f;
-        page.drawString(f1, "Melanie", x, y);
+        page.drawString(f1, f1.getSize(), "Melanie", x, y);
         // Last name of spouse
-        page.drawString(f1, "Jones", x + 258f, y);
+        page.drawString(f1, f1.getSize(), "Jones", x + 258f, y);
 
         // Social Insurance number of spouse
-        page.drawString(f1, stripSpacesAndDashes("192-760-427"), x + 437f, y, dx);
+        page.drawString(f1, f1.getSize(), stripSpacesAndDashes("192-760-427"), x + 437f, y, dx);
 
         // Spouse or common-law partner's address
-        page.drawString(f1, "12 Smithfield Drive", x, 554f);
+        page.drawString(f1, f1.getSize(), "12 Smithfield Drive", x, 554f);
 
         // Signature Date
-        page.drawString(f1, "2016-08-07", x + 475f, 615f);
+        page.drawString(f1, f1.getSize(), "2016-08-07", x + 475f, 615f);
 
         // Signature Date of spouse
-        page.drawString(f1, "2016-08-07", x + 475f, 651f);
+        page.drawString(f1, f1.getSize(), "2016-08-07", x + 475f, 651f);
 
         // Female Checkbox 1
         // CheckBox.xMark(page, 477.5f, 197.5f, 7f);

@@ -308,6 +308,17 @@ public class Cell {
         this.rightPadding = padding;
     }
 
+    public void setStrokeColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.strokeColor = new float[] {r, g, b};
+    }
+
+    public void setStrokeColor(float[] strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+
     /**
      *  Returns the cell height.
      *
@@ -365,6 +376,17 @@ public class Cell {
         this.textColor = textColor;
     }
 
+    public void setTextColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.textColor = new float[] {r, b, b};
+    }
+
+    public void setTextColor(float[] textColor) {
+        this.textColor = textColor;
+    }
+
     /**
      *  Returns the brush color.
      *
@@ -374,14 +396,19 @@ public class Cell {
         return textColor;
     }
 
-    /**
-     *  Sets the pen and brush colors to the specified color.
-     *
-     *  @param color the color specified as 0xRRGGBB integer.
-     */
-    public void setFgColor(int color) {
-// TODO:        this.pen = color;
-//         this.brush = color;
+    public float[] getTextColor() {
+        return textColor;
+    }
+
+    public void setBackgroundColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.backgroundColor = new float[] {r, b, b};
+    }
+
+    public void setBackgroundColor(float[] color) {
+        this.backgroundColor = backgroundColor;
     }
 
     protected void setProperties(int properties) {

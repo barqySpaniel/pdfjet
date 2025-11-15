@@ -66,9 +66,9 @@ final public class Example_13 {
             try {
                 cell.setTextAlignment(Align.CENTER);
                 if (Integer.valueOf(cell.getText()) > 40) {
-                    cell.setBgColor(Color.darkseagreen);
+                    cell.setBackgroundColor(Color.darkseagreen);
                 } else {
-                    cell.setBgColor(Color.yellow);
+                    cell.setBackgroundColor(Color.yellow);
                 }
             } catch (Exception e) {
             }
@@ -122,7 +122,7 @@ final public class Example_13 {
     public void blankOutColumn(Table table, int index) throws Exception {
         List<Cell> column = table.getColumnAtIndex(index);
         for (Cell cell : column) {
-            cell.setBgColor(Color.white);
+            cell.setBackgroundColor(Color.white);
             cell.setBorder(Border.TOP, false);
             cell.setBorder(Border.BOTTOM, false);
         }
@@ -131,7 +131,7 @@ final public class Example_13 {
     public void setBgColorForRow(Table table, int index, int color) throws Exception {
         List<Cell> row = table.getRowAtIndex(index);
         for (Cell cell : row) {
-            cell.setBgColor(color);
+            cell.setBackgroundColor(color);
         }
     }
 

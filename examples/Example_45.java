@@ -5,8 +5,7 @@ import java.util.*;
 import com.pdfjet.*;
 
 /**
- *  Example_45.java
- *
+ * Example_45.java
  */
 public class Example_45 {
     public Example_45() throws Exception {
@@ -73,7 +72,7 @@ public class Example_45 {
         float dy = f3.getBodyHeight();
         List<String> lines = Text.readLines("data/languages/english.txt");
         for (String line : lines) {
-            page.drawString(f3, line, x, y, Color.gray, colors);
+            page.drawString(f3, f3.getSize(), line, x, y, new float[] {0.25f, 0.25f, 0.25f}, colors);
             y += dy;
         }
 
