@@ -26,6 +26,7 @@ public class TextLine implements Drawable {
     private int degrees = 0;
     private float[] textColor = new float[] {0f, 0f, 0f};
     private float[] lineColor = new float[] {0f, 0f, 0f};
+    private Map<String, Integer> colorMap = null;
     private int textEffect = Effect.NORMAL;
     private float verticalOffset = 0f;
 
@@ -38,7 +39,7 @@ public class TextLine implements Drawable {
     private String uriAltDescription = null;
 
     private String structureType = StructElem.P;
-    private Map<String, Integer> colorMap = null;
+
 
     /**
      * Constructor for creating text line objects.
@@ -194,6 +195,10 @@ public class TextLine implements Drawable {
         return this.fallbackFont;
     }
 
+    /**
+     * @deprecated Use {@link #setTextColor(int color)} instead.
+     */
+    @Deprecated
     public TextLine setColor(int color) {
         return setTextColor(color);
     }
@@ -206,7 +211,7 @@ public class TextLine implements Drawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        setTextColor(r, g, b);
+        this.textColor = new float[] {r, g, b};
         return this;
     }
 
@@ -232,7 +237,7 @@ public class TextLine implements Drawable {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
-        setLineColor(r, g, b);
+        this.lineColor = new float[] {r, g, b};
         return this;
     }
 
@@ -248,6 +253,15 @@ public class TextLine implements Drawable {
 
     public float[] getLineColor() {
         return lineColor;
+    }
+
+    public TextLine setColorMap(Map<String, Integer> colorMap) {
+        this.colorMap = colorMap;
+        return this;
+    }
+
+    public Map<String, Integer> getColorMap() {
+        return this.colorMap;
     }
 
     /**
@@ -479,15 +493,6 @@ public class TextLine implements Drawable {
     public TextLine setStructureType(String structureType) {
         this.structureType = structureType;
         return this;
-    }
-
-    public TextLine setColorMap(Map<String, Integer> colorMap) {
-        this.colorMap = colorMap;
-        return this;
-    }
-
-    public Map<String, Integer> getColorMap() {
-        return this.colorMap;
     }
 
     /**

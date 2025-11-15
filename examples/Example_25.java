@@ -31,9 +31,9 @@ public class Example_25 {
         TextLine text5 = new TextLine(f5, "O");
         TextLine text6 = new TextLine(f6, "6");
 
-        text1.setColor(Color.dodgerblue);
-        text3.setColor(Color.dodgerblue);
-        text5.setColor(Color.dodgerblue);
+        text1.setTextColor(Color.dodgerblue);
+        text3.setTextColor(Color.dodgerblue);
+        text5.setTextColor(Color.dodgerblue);
 
         text2.setTextEffect(Effect.SUBSCRIPT);
         text4.setTextEffect(Effect.SUBSCRIPT);

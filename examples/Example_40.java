@@ -111,7 +111,6 @@ final public class Example_40 {
         point.setX(x);
         point.setY(0f);
         point.setShape(Point.INVISIBLE);
-        point.setColor(color);
         point.setStrokeWidth(w);
         point.setText(text);
         point.setTextColor(textColor);

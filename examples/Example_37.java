@@ -20,7 +20,7 @@ class Example_37 {
 
         TextLine text = new TextLine(f1, "This is a test!");
         text.setLocation(150f, 350f);
-        text.setColor(Color.peru);
+        text.setTextColor(Color.peru);
 
         List<PDFobj> pages = pdf.getPageObjects(objects);
         for (PDFobj pageObj : pages) {

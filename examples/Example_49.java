@@ -23,20 +23,20 @@ public class Example_49 {
 
         Paragraph paragraph1 = new Paragraph()
                 .add(new TextLine(f1, "Hello"))
-                .add(new TextLine(f1, "W").setColor(Color.black))
-                .add(new TextLine(f1, "o").setColor(Color.red))
-                .add(new TextLine(f1, "r").setColor(Color.green))
-                .add(new TextLine(f1, "l").setColor(Color.blue))
-                .add(new TextLine(f1, "d").setColor(Color.black))
+                .add(new TextLine(f1, "W").setTextColor(Color.black))
+                .add(new TextLine(f1, "o").setTextColor(Color.red))
+                .add(new TextLine(f1, "r").setTextColor(Color.green))
+                .add(new TextLine(f1, "l").setTextColor(Color.blue))
+                .add(new TextLine(f1, "d").setTextColor(Color.black))
                 .add(new TextLine(f1, "$").setVerticalOffset(f1.getAscent() - f2.getAscent()))
-                .add(new TextLine(f2, "29.95").setColor(Color.blue))
+                .add(new TextLine(f2, "29.95").setTextColor(Color.blue))
                 .setAlignment(Align.RIGHT);
 
         Paragraph paragraph2 = new Paragraph()
                 .add(new TextLine(f1, "Hello"))
                 .add(new TextLine(f1, "World"))
                 .add(new TextLine(f1, "$"))
-                .add(new TextLine(f2, "29.95").setColor(Color.blue))
+                .add(new TextLine(f2, "29.95").setTextColor(Color.blue))
                 .setAlignment(Align.RIGHT);
 
         TextColumn column = new TextColumn();
