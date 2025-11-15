@@ -26,6 +26,7 @@ import Foundation
 public class TextBox : Drawable {
     var font: Font?
     var fallbackFont: Font?
+    var fontSize: Float = 12.0
     var text: String?
     var x: Float = 0.0
     var y: Float = 0.0
@@ -35,11 +36,13 @@ public class TextBox : Drawable {
     var margin: Float = 0.0
     var lineWidth: Float = 0.0
 
-    private var background = Color.transparent
-    private var pen = Color.black
-    private var brush = Color.black
+    private var backgroundColor: [Float]?
+    private var strokeColor: [Float] = [0.0, 0.0, 0.0]
+    private var textColor: [Float] = [0.0, 0.0, 0.0]
     private var valign = Align.TOP
     private var colors: [String : Int32]?
+
+
     // TextBox properties
     // Future use:
     // bits 0 to 15
@@ -284,19 +287,8 @@ public class TextBox : Drawable {
     /// @param color the color specified as 0xRRGGBB integer.
     ///
     @discardableResult
-    public func setBgColor(_ color: Int32) -> TextBox {
-        self.background = color
-        return self
-    }
-
-    ///
-    /// Sets the background to the specified color.
-    ///
-    /// @param color the color specified as array of integer values from 0x00 to 0xFF.
-    ///
-    @discardableResult
-    public func setBgColor(_ color: [Int32]) -> TextBox {
-        self.background = color[0] << 16 | color[1] << 8 | color[2]
+    public func setBackgroundColor(_ backgroundColor: [Float]) -> TextBox {
+        self.backgroundColor = backgroundColor
         return self
     }
 
@@ -305,32 +297,8 @@ public class TextBox : Drawable {
     ///
     /// @return int the color as 0xRRGGBB integer.
     ///
-    public func getBgColor() -> Int32 {
-        return self.background
-    }
-
-    ///
-    /// Sets the pen and brush colors to the specified color.
-    ///
-    /// @param color the color specified as 0xRRGGBB integer.
-    ///
-    @discardableResult
-    public func setFgColor(_ color: Int32) -> TextBox {
-        self.pen = color
-        self.brush = color
-        return self
-    }
-
-    ///
-    /// Sets the pen and brush colors to the specified color.
-    ///
-    /// @param color the color specified as 0xRRGGBB integer.
-    ///
-    @discardableResult
-    public func setFgColor(_ color: [Int32]) -> TextBox {
-        self.pen = color[0] << 16 | color[1] << 8 | color[2]
-        self.brush = pen
-        return self
+    public func getBackgroundColor() -> [Float] {
+        return self.backgroundColor!
     }
 
     ///
@@ -339,60 +307,33 @@ public class TextBox : Drawable {
     /// @param color the color specified as 0xRRGGBB integer.
     ///
     @discardableResult
-    public func setPenColor(_ color: Int32) -> TextBox {
-        self.pen = color
+    public func setStrokeColor(_ strokeColor: [Float]) -> TextBox {
+        self.strokeColor = strokeColor
         return self
     }
 
-    ///
-    /// Sets the pen color.
-    ///
-    /// @param color the color specified as an array of int values from 0x00 to 0xFF.
-    ///
-    @discardableResult
-    public func setPenColor(_ color: [Int32]) -> TextBox {
-        self.pen = color[0] << 16 | color[1] << 8 | color[2]
-        return self
+    public func getStrokeColor() -> [Float] {
+        return self.strokeColor
+    }
+
+    public func setTextColor(_ textColor: [Float]) {
+        self.textColor = textColor
     }
 
     ///
-    /// Returns the pen color as 0xRRGGBB integer.
+    /// Returns the text color.
     ///
-    /// @return int the pen color.
+    /// @return int the text color.
     ///
-    public func getPenColor() -> Int32 {
-        return self.pen
+    public func getTextColor() -> [Float] {
+        return self.textColor
     }
 
-    ///
-    /// Sets the brush color.
-    ///
-    /// @param color the color specified as 0xRRGGBB integer.
-    ///
-    @discardableResult
-    public func setBrushColor(_ color: Int32) -> TextBox {
-        self.brush = color
-        return self
-    }
-
-    ///
-    /// Sets the brush color.
-    ///
-    /// @param color the color specified as an array of int values from 0x00 to 0xFF.
-    ///
-    @discardableResult
-    public func setBrushColor(_ color: [Int32]) -> TextBox {
-        self.brush = color[0] << 16 | color[1] << 8 | color[2]
-        return self
-    }
-
-    ///
-    /// Returns the brush color.
-    ///
-    /// @return int the brush color specified as 0xRRGGBB integer.
-    ///
-    public func getBrushColor() -> Int32 {
-        return self.brush
+    public func setTextColor(_ color: Int32) {
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.textColor = [r, g, b]
     }
 
     ///
@@ -561,7 +502,7 @@ public class TextBox : Drawable {
     }
 
     private func drawBorders(_ page: Page) {
-        page.setPenColor(pen)
+        page.setPenColor(strokeColor)
         page.setPenWidth(lineWidth)
         if getBorder(Border.ALL) {
             page.drawRect(x, y, width, height)
@@ -665,7 +606,7 @@ public class TextBox : Drawable {
     /// @return x and y coordinates of the bottom right corner of this component.
     ///
     @discardableResult
-    public func drawOn(_ page: Page?) -> [Float32] {
+    public func drawOn(_ page: Page?) -> [Float] {
         var lines = getTextLines()
         let leading = font!.ascent + font!.descent + spacing
         if height > 0.0 {   // TextBox with fixed height
@@ -695,12 +636,12 @@ public class TextBox : Drawable {
                 }
             }
             if page != nil {
-                if getBgColor() != Color.transparent {
-                    page!.setBrushColor(background)
+                if backgroundColor != nil {
+                    page!.setBrushColor(backgroundColor)
                     page!.fillRect(x, y, width, height)
                 }
-                page!.setPenColor(self.pen)
-                page!.setBrushColor(self.brush)
+                page!.setPenColor(self.strokeColor)
+                page!.setBrushColor(self.textColor)
                 page!.setPenWidth(self.font!.underlineThickness)
             }
             var xText = x + margin
@@ -731,7 +672,7 @@ public class TextBox : Drawable {
                     xText = y + margin
                 }
                 if page != nil {
-                    drawTextLine(page, font!, fallbackFont, line, xText, yText, brush, colors)
+                    drawTextLine(page, font!, fallbackFont, line, xText, yText, textColor, colors)
                 }
                 if textDirection == Direction.LEFT_TO_RIGHT ||
                         textDirection == Direction.BOTTOM_TO_TOP {
@@ -742,12 +683,12 @@ public class TextBox : Drawable {
             }
         } else {    // TextBox that expands to fit the content
             if page != nil {
-                if getBgColor() != Color.transparent {
-                    page!.setBrushColor(background)
+                if backgroundColor != nil {
+                    page!.setBrushColor(backgroundColor)
                     page!.fillRect(x, y, width, (Float32(lines.count) * leading - spacing) + 2*margin)
                 }
-                page!.setPenColor(self.pen)
-                page!.setBrushColor(self.brush)
+                page!.setPenColor(self.strokeColor)
+                page!.setBrushColor(self.textColor)
                 page!.setPenWidth(self.font!.underlineThickness)
             }
             var xText = x + margin
@@ -765,7 +706,7 @@ public class TextBox : Drawable {
                     xText = x + margin
                 }
                 if page != nil {
-                    drawTextLine(page, font!, fallbackFont, line, xText, yText, brush, colors)
+                    drawTextLine(page, font!, fallbackFont, line, xText, yText, textColor, colors)
                 }
                 if textDirection == Direction.LEFT_TO_RIGHT ||
                         textDirection == Direction.BOTTOM_TO_TOP {
@@ -802,18 +743,20 @@ public class TextBox : Drawable {
             _ text: String,
             _ xText: Float,
             _ yText: Float,
-            _ color: Int32,
-            _ colors: [String : Int32]?) {
+            _ textColor: [Float],
+            _ highlightColors: [String : Int32]?) {
         page!.addBMC(StructElem.P, language, text, altDescription);
         if (textDirection == Direction.LEFT_TO_RIGHT) {
-            page!.drawString(font, fallbackFont, text, xText, yText, color, colors);
+            page!.drawString(font, fallbackFont, fontSize,
+                text, xText, yText, textColor, highlightColors);
         } else if (textDirection == Direction.BOTTOM_TO_TOP) {
             page!.setTextDirection(90);
-            page!.drawString(font, fallbackFont, text, yText, xText + height, color, colors);
+            page!.drawString(font, fallbackFont, fontSize,
+                text, yText, xText + height, textColor, highlightColors);
         } else if (textDirection == Direction.TOP_TO_BOTTOM) {
             page!.setTextDirection(270);
-            page!.drawString(font, fallbackFont, text,
-                    (yText + width) - (margin + 2*font.ascent), xText, color, colors);
+            page!.drawString(font, fallbackFont, fontSize,
+                text, (yText + width) - (margin + 2*font.ascent), xText, textColor, highlightColors);
         }
         page!.addEMC();
         if textDirection == Direction.LEFT_TO_RIGHT {

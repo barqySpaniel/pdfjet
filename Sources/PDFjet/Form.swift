@@ -20,8 +20,8 @@ public class Form : Drawable {
     private var numberOfRows = 0
     private var rowLength: Float = 500.0
     private var rowHeight: Float = 12.0
-    private var labelColor: Int32 = Color.black
-    private var valueColor: Int32 = Color.blue
+    private var labelColor: [Float] = [0.0, 0.0, 0.0]
+    private var valueColor: [Float] = [0.0, 0.0, 1.0]
 
     public init(_ fields: [Field]) {
         self.fields = fields
@@ -75,13 +75,13 @@ public class Form : Drawable {
     }
 
     @discardableResult
-    public func setLabelColor(_ labelColor: Int32) -> Form {
+    public func setLabelColor(_ labelColor: [Float]) -> Form {
         self.labelColor = labelColor
         return self
     }
 
     @discardableResult
-    public func setValueColor(_ valueColor: Int32) -> Form {
+    public func setValueColor(_ valueColor: [Float]) -> Form {
         self.valueColor = valueColor
         return self
     }
@@ -139,7 +139,7 @@ public class Form : Drawable {
                     let color = (i == 0) ? labelColor : valueColor
                     TextLine(font, field.values[i])
                             .setFontSize(fontSize)
-                            .setColor(color)
+                            .setTextColor(color)
                             .placeIn(box, field.x + font.descent, yField - font.descent)
                             .setAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
                             .drawOn(page)

@@ -66,9 +66,9 @@ public class Paragraph {
         return lines![0].getText()!.hasPrefix(token)
     }
 
-    public func setColor(_ color: Int32) {
+    public func setColor(_ color: [Float]) {
         for line in lines! {
-            line.setColor(color)
+            line.setTextColor(color)
         }
     }
 

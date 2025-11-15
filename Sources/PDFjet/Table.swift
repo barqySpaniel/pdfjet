@@ -226,13 +226,13 @@ public class Table {
     /// @param index the index of the specified column.
     /// @param color the color specified as an integer.
     ///
-    public func setTextColorInColumn(_ index: Int, _ color: Int32) {
+    public func setTextColorInColumn(_ index: Int, _ textColor: [Float]) {
         for row in tableData {
             if index < row.count {
                 let cell = row[index]
-                cell.setBrushColor(color)
+                cell.setTextColor(textColor)
                 if cell.textBox != nil {
-                    cell.textBox!.setBrushColor(color)
+                    cell.textBox!.setTextColor(textColor)
                 }
             }
         }
@@ -266,9 +266,9 @@ public class Table {
         if index < tableData.count {
             let row = tableData[index]
             for cell in row {
-                cell.setBrushColor(color)
+                cell.setTextColor(color)
                 if cell.textBox != nil {
-                    cell.textBox!.setBrushColor(color)
+                    cell.textBox!.setTextColor(color)
                 }
             }
         }
@@ -434,7 +434,7 @@ public class Table {
                     j += 1
                 }
                 if page != nil {
-                    page!.setBrushColor(cell.getBrushColor())
+                    page!.setBrushColor(cell.getTextColor())
                     if i == (numOfHeaderRows - 1) {
                         cell.setBorder(Border.BOTTOM, true)
                     }
@@ -468,7 +468,7 @@ public class Table {
                     i += 1
                 }
                 if page != nil {
-                    page!.setBrushColor(cell.getBrushColor())
+                    page!.setBrushColor(cell.getTextColor())
                     cell.drawOn(page!, x, y, w, h)
                 }
                 x += w
@@ -504,7 +504,7 @@ public class Table {
     ///
     /// Returns the width of this table when drawn on a page.
     ///
-    /// @return the widht of this table.
+    /// @return the width of this table.
     ///
     public func getWidth() -> Float {
         var table_width: Float = 0.0
@@ -545,7 +545,7 @@ public class Table {
     public func setCellBordersColor(_ color: Int32) {
         for row in tableData {
             for cell in row {
-                cell.setPenColor(color)
+                cell.setStrokeColor(color)
             }
         }
     }
@@ -665,9 +665,9 @@ public class Table {
                     cell2.setLeftPadding(cell.leftPadding)
                     cell2.setRightPadding(cell.rightPadding)
                     cell2.setLineWidth(cell.lineWidth)
-                    cell2.setBgColor(cell.getBgColor())
-                    cell2.setPenColor(cell.getPenColor())
-                    cell2.setBrushColor(cell.getBrushColor())
+                    cell2.setBackgroundColor(cell.getBackgroundColor())
+                    cell2.setStrokeColor(cell.getStrokeColor())
+                    cell2.setTextColor(cell.getTextColor())
                     cell2.setProperties(cell.getProperties())
                     cell2.setVerTextAlignment(cell.getVerTextAlignment())
                     cell2.setTopPadding(0.0)

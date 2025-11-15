@@ -1,28 +1,11 @@
-import Foundation
-
 /**
  * TextBlock.swift
  *
- * ©2025 PDFjet Software
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * Copyright (c) 2025 PDFjet Software
+ * Licensed under the MIT License. See LICENSE file in the project root.
  */
+import Foundation
+
 public class TextBlock : Drawable {
     private var x: Float = 0.0
     private var y: Float = 0.0
@@ -30,9 +13,10 @@ public class TextBlock : Drawable {
     private var height: Float = 500.0
     private var font: Font
     private var fallbackFont: Font?
+    private var fontSize: Float = 12.0
     private var textContent: String
     private var textLineHeight: Float = 1.0
-    private var textColor: Int32 = Color.black
+    private var textColor: [Float] = [0.0, 0.0, 0.0]
     private var textPadding: Float = 0.0
     private var borderWidth: Float = 0.5
     private var borderCornerRadius: Float = 0.0
@@ -49,7 +33,9 @@ public class TextBlock : Drawable {
     private var underline: Bool = false
     private var strikeout: Bool = false
 
-    private var colors: [String: Int32]?
+    private var lineSpacing: Float = 12.0    // TODO
+
+    private var highlightColors: [String: Int32]?
 
     public init(_ font: Font, _ textContent: String) {
         self.font = font
@@ -125,11 +111,19 @@ public class TextBlock : Drawable {
     }
 
     public func setTextColor(_ color: Int32) {
-        self.textColor = color
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.textColor = [r, g, b]
     }
 
-    public func setHighlightColors(_ colors: [String: Int32]) {
-        self.colors = colors
+    public func setTextColor(_ r: Float, _ g: Float, _ b: Float) -> TextBlock {
+        self.textColor = [r, g, b]
+        return self
+    }
+
+    public func setHighlightColors(_ highlightColors: [String: Int32]) {
+        self.highlightColors = highlightColors
     }
 
     public func setTextAlignment(_ alignment: Alignment) {
@@ -150,8 +144,8 @@ public class TextBlock : Drawable {
         return numOfCJK > chars.count / 2
     }
 
-    private func getTextLines() -> [String] {
-        var list = [String]()
+    private func getTextLines() -> [TextLine] {
+        var list = [TextLine]()
 
         let textAreaWidth: Float
         if textDirection == Direction.LEFT_TO_RIGHT {
@@ -160,11 +154,12 @@ public class TextBlock : Drawable {
             textAreaWidth = height - 2 * textPadding
         }
 
-        textContent = textContent.replacingOccurrences(of: "\r\n", with: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+        textContent = textContent.replacingOccurrences(
+            of: "\r\n", with: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
         let lines = textContent.split(separator: "\n", omittingEmptySubsequences: false).map { String($0) }
         for line in lines {
             if font.stringWidth(fallbackFont, line) <= textAreaWidth {
-                list.append(line)
+                list.append(TextLine(font, line))
             } else {
                 if textIsCJK(line) {
                     var sb = ""
@@ -172,12 +167,12 @@ public class TextBlock : Drawable {
                         if font.stringWidth(fallbackFont, sb + String(ch)) <= textAreaWidth {
                             sb.append(ch)
                         } else {
-                            list.append(sb)
+                            list.append(TextLine(font, sb))
                             sb = String(ch)
                         }
                     }
                     if !sb.isEmpty {
-                        list.append(sb)
+                        list.append(TextLine(font, sb))
                     }
                 } else {
                     var sb = ""
@@ -187,19 +182,20 @@ public class TextBlock : Drawable {
                             sb.append(token)
                             sb.append(" ")
                         } else {
-                            list.append(sb.trimmingCharacters(in: .whitespaces))
+                            list.append(TextLine(font, sb.trimmingCharacters(in: .whitespaces)))
                             sb = token + " "
                         }
                     }
                     if !sb.trimmingCharacters(in: .whitespaces).isEmpty {
-                        list.append(sb.trimmingCharacters(in: .whitespaces))
+                        list.append(TextLine(font, sb.trimmingCharacters(in: .whitespaces)))
                     }
                 }
             }
         }
+
         return list
     }
-
+/*
     @discardableResult
     public func drawOn(_ page: Page?) -> [Float] {
         page!.setBrushColor(textColor)
@@ -226,15 +222,15 @@ public class TextBlock : Drawable {
                     xText = x + (width - font.stringWidth(fallbackFont, line)) / 2
                 }
                 if page != nil {
-                    drawTextLine(
-                        page!,
-                        font,
-                        fallbackFont,
-                        line,
-                        xText,
-                        yText,
-                        textColor,
-                        colors)
+//                     drawTextLine(
+//                         page!,
+//                         font,
+//                         fallbackFont,
+//                         line,
+//                         xText,
+//                         yText,
+//                         textColor,
+//                         highlightColors)
                 }
                 yText += leading
             }
@@ -242,15 +238,15 @@ public class TextBlock : Drawable {
             xText = x + textPadding + ascent
             yText = y + height - textPadding
             for line in lines {
-                drawTextLine(
-                    page,
-                    font,
-                    fallbackFont,
-                    line,
-                    xText,
-                    yText,
-                    textColor,
-                    colors)
+//                 drawTextLine(
+//                     page,
+//                     font,
+//                     fallbackFont,
+//                     line,
+//                     xText,
+//                     yText,
+//                     textColor,
+//                     highlightColors)
                 xText += leading
             }
         case Direction.TOP_TO_BOTTOM:
@@ -288,21 +284,23 @@ public class TextBlock : Drawable {
         return [x + width, y + height]
     }
 
-    private func drawTextLine(
+    @discardableResult
+    public func drawTextLine(
         _ page: Page?,
         _ font: Font,
         _ fallbackFont: Font?,
+        _ fontSize: Float,
         _ text: String,
         _ xText: Float,
         _ yText: Float,
-        _ brush: Int32,
-        _ colors: [String: Int32]?) {
+        _ textColor: [Float],
+        _ highlightColors: [String: Int32]?) -> [Float] {
 
         page!.addBMC("P", language, text, altDescription)
         if textDirection == Direction.BOTTOM_TO_TOP {
             page!.setTextDirection(90)
         }
-        page!.drawString(font, fallbackFont, text, xText, yText, brush, colors)
+        page!.drawString(font, fallbackFont, fontSize, text, xText, yText, textColor, highlightColors)
         page!.addEMC()
         if textDirection == Direction.LEFT_TO_RIGHT {
             let lineLength = font.stringWidth(fallbackFont, text)
@@ -322,7 +320,7 @@ public class TextBlock : Drawable {
             }
         }
     }
-
+*/
     @discardableResult
     public func setURIAction(_ uri: String) -> TextBlock {
         self.uri = uri
@@ -331,5 +329,53 @@ public class TextBlock : Drawable {
 
     public func setTextDirection(_ direction: Direction) {
         self.textDirection = direction
+    }
+
+    @discardableResult
+    public func drawOn(_ page: Page?) -> [Float] {
+        let ascent = font.getAscent(fontSize)
+        let descent = font.getDescent(fontSize)
+        let leading = (ascent + descent) * lineSpacing
+        let textLines = getTextLines()
+        if page == nil {
+            return [width, max(height, Float(textLines.count) * leading + 2 * textPadding)]
+        }
+
+        page!.append("q\n")
+        page!.setPenWidth(borderWidth)
+        if textAlignment == Alignment.RIGHT {
+            // rightAlignText(textLines)    // TODO:
+        } else if textAlignment == Alignment.CENTER {
+            // centerText(textLines)
+        }
+        if underline {
+            // underlineText(textLines)
+        }
+
+//         let rect = Rect(
+//             x,
+//             y,
+//             width,
+//             max(height, Float(textLines.count) * leading + 2 * textPadding))
+//         // rect.setFillColor(fillColor) // TODO
+//         rect.setBorderWidth(borderWidth)
+//         rect.setBorderColor(borderColor)
+//         rect.setCornerRadius(borderCornerRadius)
+//         rect.drawOn(page)
+
+        // page!.addBMC(StructElem.P, language, textContent, null)
+        page!.drawTextBlock(
+            font,
+            fontSize,
+            textLines,
+            x + textPadding,
+            y + textPadding,
+            leading * lineSpacing,
+            textColor,
+            highlightColors)
+        // page!.addEMC()
+        page!.append("Q\n")
+
+        return [x + width, max(y + height, y + Float(textLines.count) * leading + 2 * textPadding)]
     }
 }

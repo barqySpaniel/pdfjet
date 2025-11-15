@@ -13,6 +13,7 @@ import Foundation
 public class Cell {
     var font: Font?
     var fallbackFont: Font?
+    var fontSize: Float = 12.0
     var text: String?
     var image: Image?
     var barcode: Barcode?
@@ -27,9 +28,13 @@ public class Cell {
     var leftPadding: Float = 2.0
     var rightPadding: Float = 2.0
     var lineWidth: Float = 0.0
-    private var background: Int32?
-    private var pen: Int32 = Color.black
-    private var brush: Int32 = Color.black
+
+    var backgroundColor: [Float]? = nil
+    var textColor: [Float] = [0.0, 0.0, 0.0]
+    var strokeWidth: Float = 0.0
+    var strokeColor: [Float] = [0.0, 0.0, 0.0]
+    var strokePattern: String = "[] 0"  // Solid
+
     // Cell properties
     // Colspan:
     // bits 0 to 15
@@ -319,62 +324,68 @@ public class Cell {
 
     /**
      * Sets the background to the specified color.
-     *
-     * @param color the color specified as 0xRRGGBB integer.
      */
-    public func setBgColor(_ color: Int32?) {
-        self.background = color
+    public func setBackgroundColor(_ backgroundColor: [Float]) {
+        self.backgroundColor = backgroundColor
     }
 
     /**
      * Returns the background color of this cell.
      */
-    public func getBgColor() -> Int32? {
-        return self.background
+    public func getBackgroundColor() -> [Float] {
+        return self.backgroundColor!
     }
 
-    /**
-     * Sets the pen color.
-     *
-     * @param color the color specified as 0xRRGGBB integer.
-     */
-    public func setPenColor(_ color: Int32) {
-        self.pen = color
-    }
-
-    /**
-     * Returns the pen color.
-     */
-    public func getPenColor() -> Int32 {
-        return pen
+    public func getStrokeColor() -> [Float] {
+        return self.strokeColor
     }
 
     /**
      * Sets the brush color.
-     *
-     * @param color the color specified as 0xRRGGBB integer.
      */
-    public func setBrushColor(_ color: Int32) {
-        self.brush = color
+    public func setTextColor(_ textColor: [Float]) {
+        self.textColor = textColor
     }
 
     /**
-     * Returns the brush color.
-     *
-     * @return the brush color.
+     * Returns the text color.
      */
-    public func getBrushColor() -> Int32 {
-        return brush
+    public func getTextColor() -> [Float] {
+        return self.textColor
     }
 
-    /**
-     * Sets the pen and brush colors to the specified color.
-     *
-     * @param color the color specified as 0xRRGGBB integer.
-     */
-    public func setFgColor(_ color: Int32) {
-        self.pen = color
-        self.brush = color
+    public func setTextColor(_ color: Int32) {
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.textColor = [r, g, b]
+    }
+
+    func setTextColor(_ r: Float, _ g: Float, _ b: Float) {
+        self.textColor = [r, g, b]
+    }
+
+    func setStrokeWidth(_ strokeWidth: Float) {
+        self.strokeWidth = strokeWidth
+    }
+
+    func getStrokeWidth() -> Float {
+        return self.strokeWidth
+    }
+
+    func setStrokeColor(_ color: Int32) {
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.strokeColor = [r, g, b]
+    }
+
+    func setStrokeColor(_ r: Float, _ g: Float, _ b: Float) {
+        self.strokeColor = [r, g, b]
+    }
+
+    func setStrokeColor(_ rgbColor: [Float]) {
+        self.strokeColor = rgbColor
     }
 
     func setProperties(_ properties: UInt32) {
@@ -534,7 +545,7 @@ public class Cell {
             _ y: Float,
             _ w: Float,
             _ h: Float) {
-        if background != nil {
+        if backgroundColor != nil {
             drawBackground(page, x, y, w, h)
         }
 
@@ -598,7 +609,7 @@ public class Cell {
             _ y: Float,
             _ cellW: Float,
             _ cellH: Float) {
-        page.setBrushColor(background!)
+        page.setBrushColor(backgroundColor!)
         page.fillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth)
     }
 
@@ -608,7 +619,7 @@ public class Cell {
             _ y: Float,
             _ cellW: Float,
             _ cellH: Float) {
-        page.setPenColor(pen)
+        page.setPenColor(strokeColor)
         page.setPenWidth(lineWidth)
         if getBorder(Border.TOP) &&
                 getBorder(Border.BOTTOM) &&
@@ -669,12 +680,12 @@ public class Cell {
             Swift.print("Invalid vertical text alignment option.")
         }
 
-        page.setPenColor(pen)
+        page.setPenColor(strokeColor)
         if getTextAlignment() == Align.RIGHT {
             if compositeTextLine == nil {
                 xText = (x + cellW) - (font!.stringWidth(text) + self.rightPadding)
                 page.addBMC(StructElem.P, text!, text!)
-                page.drawString(font!, fallbackFont, text!, xText!, yText!, brush, nil)
+                page.drawString(font!, fallbackFont, fontSize, text!, xText!, yText!, textColor, nil)
                 page.addEMC()
                 if getUnderline() {
                     underlineText(page, font!, text!, xText!, yText!)
@@ -694,7 +705,7 @@ public class Cell {
                 xText = x + self.leftPadding +
                         (((cellW - (leftPadding + rightPadding)) - font!.stringWidth(text)) / 2)
                 page.addBMC(StructElem.P, text!, text!)
-                page.drawString(font!, fallbackFont, text!, xText!, yText!, brush, nil)
+                page.drawString(font!, fallbackFont, fontSize, text!, xText!, yText!, textColor, nil)
                 page.addEMC()
                 if getUnderline() {
                     underlineText(page, font!, text!, xText!, yText!)
@@ -714,7 +725,7 @@ public class Cell {
             xText = x + self.leftPadding
             if compositeTextLine == nil {
                 page.addBMC(StructElem.P, text!, text!)
-                page.drawString(font!, fallbackFont, text!, xText!, yText!, brush, nil)
+                page.drawString(font!, fallbackFont, fontSize, text!, xText!, yText!, textColor, nil)
                 page.addEMC()
                 if getUnderline() {
                     underlineText(page, font!, text!, xText!, yText!)

@@ -235,12 +235,13 @@ public class Page {
     }
 
     public final func drawString(
-            _ font1: Font,
-            _ font2: Font?,
+            _ font: Font,
+            _ fallbackFont: Font?,
+            _ fontSize: Float,
             _ str: String?,
             _ xOrig: Float,
             _ yOrig: Float) {
-        drawString(font1, font2, str, xOrig, yOrig, Color.black, nil)
+        drawString(font, fallbackFont, fontSize, str, xOrig, yOrig, [0.0, 0.0, 0.0], nil)
     }
 
     ///
@@ -258,21 +259,26 @@ public class Page {
     public final func drawString(
             _ font: Font,
             _ fallbackFont: Font?,
+            _ fontSize: Float,
             _ str: String?,
             _ xOrig: Float,
             _ yOrig: Float,
-            _ brush: Int32,
-            _ colors: [String : Int32]?) {
+            _ textColor: [Float],
+            _ highlightColors: [String : Int32]?) {
         var x = xOrig
         let y = yOrig
-        if (font.isCoreFont || font.isCJK || fallbackFont == nil || fallbackFont!.isCoreFont || fallbackFont!.isCJK) {
-            drawString(font, str, x, y, brush, colors)
+        if (font.isCoreFont ||
+                font.isCJK ||
+                fallbackFont == nil ||
+                fallbackFont!.isCoreFont ||
+                fallbackFont!.isCJK) {
+            drawString(font, fontSize, str, x, y, textColor, highlightColors)
         } else {
             var activeFont = font
             var buf = String()
             for scalar in str!.unicodeScalars {
                 if activeFont.unicodeToGID![Int(scalar.value)] == 0 {
-                    drawString(activeFont, buf, x, y, brush, colors)
+                    drawString(activeFont, fontSize, buf, x, y, textColor, highlightColors)
                     x += activeFont.stringWidth(buf)
                     buf = ""
                     // Switch the font
@@ -284,16 +290,17 @@ public class Page {
                 }
                 buf.append(String(scalar))
             }
-            drawString(activeFont, buf, x, y, brush, colors)
+            drawString(activeFont, fontSize, buf, x, y, textColor, highlightColors)
         }
     }
 
     public final func drawString(
             _ font: Font,
+            _ fontSize: Float,
             _ text: String?,
             _ x: Float,
             _ y: Float) {
-        drawString(font, text, x, y, Color.black, nil)
+        drawString(font, fontSize, text, x, y, [0.0, 0.0, 0.0], nil)
     }
 
     ///
@@ -308,17 +315,18 @@ public class Page {
     ///
     public final func drawString(
             _ font: Font,
+            _ fontSize: Float,
             _ text: String?,
             _ x: Float,
             _ y: Float,
-            _ textColor: Int32,
-            _ colors: [String : Int32]?) {
+            _ textColor: [Float],
+            _ highlightColors: [String : Int32]?) {
         if text == nil || text! == "" {
             return
         }
-        append(Token.beginText)
-        setTextFont(font)
 
+        append(Token.beginText)
+        setTextFont(font, fontSize)
         if self.renderingMode != 0 {
             append(renderingMode)
             append(" Tr\n")
@@ -352,7 +360,7 @@ public class Page {
         append(self.height - y)
         append(" Tm\n")
 
-        if (colors == nil) {
+        if highlightColors == nil {
             setBrushColor(textColor)
             if font.isCoreFont {
                 append("[<")
@@ -364,7 +372,7 @@ public class Page {
                 append("> Tj\n")
             }
         } else {
-            drawColoredString(font, text!, textColor, colors!)
+            drawColoredString(font, text!, textColor, highlightColors!)
         }
         append(Token.endText)
     }
@@ -398,46 +406,6 @@ public class Page {
                 }
             }
         }
-    }
-
-    final func drawTextBlock(
-            _ font: Font,
-            _ textLines: [TextLineWithOffset],
-            _ x: Float,
-            _ y: Float,
-            _ leading: Float,
-            _ textColor: Int32,
-            _ highlightColors: Dictionary<String, Int32>) {
-        if textLines.count == 0 {
-            return
-        }
-
-        append("BT\n")
-        setTextFont(font)
-        var yText: Float = y
-        for textLine in textLines {
-            append("1 0 0 1 ")
-            append(x + textLine.xOffset)
-            append(Token.space)
-            append(height - (yText + font.ascent))
-            append(" Tm\n")
-            if highlightColors.count == 0 {
-                setBrushColor(textColor)
-                if font.isCoreFont {
-                    append("[<")
-                    drawASCIIString(font, textLine.textLine)
-                    append(">] TJ\n")
-                } else {
-                    append("<")
-                    drawUnicodeString(font, textLine.textLine)
-                    append("> Tj\n")
-                }
-            } else {
-                drawColoredString(font, textLine.textLine, textColor, highlightColors)
-            }
-            yText += leading
-        }
-        append("ET\n")
     }
 
     private final func drawUnicodeString(_ font: Font, _ text: String) {
@@ -1262,6 +1230,10 @@ public class Page {
     }
 
     public func setTextFont(_ font: Font) {
+        setTextFont(font, font.size);
+    }
+
+    public func setTextFont(_ font: Font, _ fontSize: Float) {
         self.font = font
         if font.fontID != nil {
             append("/")
@@ -1271,7 +1243,7 @@ public class Page {
             append(font.objNumber)
         }
         append(Token.space)
-        append(font.size)
+        append(fontSize)
         append(" Tf\n")
     }
 
@@ -1472,13 +1444,13 @@ public class Page {
     private func drawWord(
             _ font: Font,
             _ str: inout String,
-            _ brush: Int32,
-            _ colors: [String : Int32]) {
+            _ textColor: [Float],
+            _ highlightColors: [String : Int32]) {
         if str != "" {
-            if colors[str] != nil {
-                setBrushColor(colors[str]!)
+            if highlightColors[str] != nil {
+                setBrushColor(highlightColors[str]!)
             } else {
-                setBrushColor(brush)
+                setBrushColor(textColor)
             }
 
             if font.isCoreFont {
@@ -1497,21 +1469,21 @@ public class Page {
     func drawColoredString(
             _ font: Font,
             _ text: String,
-            _ brush: Int32,
-            _ colors: [String : Int32]) {
+            _ color: [Float],
+            _ highlightColors: [String : Int32]) {
         var buf1 = String()
         var buf2 = String()
         for scalar in text.unicodeScalars {
             if isLetterOrDigit(scalar) {
-                drawWord(font, &buf2, brush, colors)
+                drawWord(font, &buf2, color, highlightColors)
                 buf1.append(String(scalar))
             } else {
-                drawWord(font, &buf1, brush, colors)
+                drawWord(font, &buf1, color, highlightColors)
                 buf2.append(String(scalar))
             }
         }
-        drawWord(font, &buf1, brush, colors)
-        drawWord(font, &buf2, brush, colors)
+        drawWord(font, &buf1, color, highlightColors)
+        drawWord(font, &buf2, color, highlightColors)
     }
 
     func setStructElementsPageObjNumber(
@@ -1619,7 +1591,7 @@ public class Page {
         append(content)
         endTransform()
     }
-
+/*
     public func drawString(
             _ font: Font,
             _ str: String,
@@ -1633,7 +1605,7 @@ public class Page {
             x1 += dx
         }
     }
-
+*/
     private func isLetterOrDigit(_ scalar: UnicodeScalar) -> Bool {
         if (scalar.value >= 65 && scalar.value <= 90) ||
             (scalar.value >= 97 && scalar.value <= 122) ||
@@ -1693,7 +1665,7 @@ public class Page {
         let offset = (hypotenuse - stringWidth) / 2.0
         let angle = atan(self.height / self.width)
         let watermark = TextLine(font)
-        watermark.setColor(Color.lightgrey)
+        watermark.setTextColor(Color.lightgrey)
         watermark.setText(text)
         watermark.setLocation(
                 Float(offset * cos(angle)),
@@ -1862,5 +1834,56 @@ public class Page {
         append(Token.space)
         append(-centerY)
         append(" cm\n")
+    }
+
+    func drawTextBlock(
+            _ font: Font,
+            _ fontSize: Float,
+            _ textLines: [TextLine],
+            _ x: Float,
+            _ y: Float,
+            _ leading: Float,
+            _ color: [Float],
+            _ highlightColors: Dictionary<String, Int32>?) {
+        if textLines.count == 0 {
+            return
+        }
+
+        append("BT\n")
+        setTextFont(font, fontSize)
+        var yText: Float = y
+        for textLine in textLines {
+            append("1 0 0 1 ")
+            append(x + textLine.xOffset)
+            append(" ")
+            append(height - (yText + font.getAscent(fontSize)))
+            append(" Tm\n")
+            if highlightColors == nil {
+                setBrushColor(color)
+                if font.isCoreFont {
+                    append("[<")
+                    drawASCIIString(font, textLine.text!)
+                    append(">] TJ\n")
+                } else {
+                    append("<")
+                    drawUnicodeString(font, textLine.text!)
+                    append("> Tj\n")
+                }
+            } else {
+                drawColoredString(font, textLine.text!, color, highlightColors!)
+            }
+            yText += leading
+        }
+        append("ET\n")
+
+        var yLine = y + font.getBodyHeight(fontSize)
+        for textLine in textLines {
+            if textLine.underline {
+                moveTo(x + textLine.xOffset, yLine)
+                lineTo(x + textLine.xOffset + font.stringWidth(fontSize, textLine.text), yLine)
+                strokePath()
+            }
+            yLine += leading
+        }
     }
 }   // End of Page.swift

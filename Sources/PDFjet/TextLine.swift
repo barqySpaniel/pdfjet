@@ -22,11 +22,11 @@ public class TextLine : Drawable {
     private var key: String?
 
     var isLastToken: Bool = false
-    private var underline = false
-    private var strikeout = false
+    var xOffset: Float = 0.0
+    var underline = false
+    var strikeout = false
 
     private var degrees = 0
-    private var color = Color.black
 
     private var xBox: Float = 0.0
     private var yBox: Float = 0.0
@@ -42,6 +42,9 @@ public class TextLine : Drawable {
     private var uriAltDescription: String?
 
     private var structureType = StructElem.P
+
+    private var strokeColor: [Float] = [0.0, 0.0, 0.0]
+    private var textColor: [Float] = [0.0, 0.0, 0.0]
     private var colorMap: [String: Int32]
 
     ///
@@ -181,48 +184,32 @@ public class TextLine : Drawable {
         return self.fallbackFont
     }
 
-    ///
-    /// Sets the color of the text line.
-    ///
-    /// - Parameter color the color is specified as an integer.
-    /// - Returns: the TextLine.
-    ///
     @discardableResult
-    public func setColor(_ color: Int32) -> TextLine {
-        self.color = color
+    public func setTextColor(_ textColor: [Float]) -> TextLine {
+        self.textColor = textColor
         return self
     }
 
     @discardableResult
     public func setTextColor(_ color: Int32) -> TextLine {
-        self.color = color
-        return self
+        if color == Color.transparent {
+            // self.textColor = nil // TODO
+            return self
+        }
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        return setTextColor(r, g, b)
     }
 
-    ///
-    /// Sets the pen color.
-    ///
-    /// - Parameter color the color.
-    ///   See the Color class for predefined values or define your own using 0x00RRGGBB packed integers.
-    /// - Returns: the TextLine.
-    ///
     @discardableResult
-    public func setColor(_ color: [Int32]) -> TextLine {
-        self.color = color[0] << 16 | color[1] << 8 | color[2]
+    public func setTextColor(_ r: Float, _ g: Float, _ b: Float) -> TextLine {
+        self.textColor = [r, g, b]
         return self
     }
 
-    ///
-    /// Returns the text line color.
-    ///
-    /// - Returns: the text line color.
-    ///
-    public func getColor() -> Int32 {
-        return self.color
-    }
-
-    public func getTextColor() -> Int32 {
-        return self.color
+    public func getTextColor() -> [Float] {
+        return self.textColor
     }
 
     ///
@@ -535,15 +522,15 @@ public class TextLine : Drawable {
         self.x += xBox
         self.y += yBox
 
-        page!.setBrushColor(color)
+        page!.setBrushColor(textColor)
         page!.addBMC(structureType, language, text!, altDescription!)
-        page!.drawString(font!, fallbackFont, text, self.x, self.y, color, colorMap)
+        page!.drawString(font!, fallbackFont, fontSize, text, self.x, self.y, textColor, colorMap)
         page!.addEMC()
 
         let radians = Float.pi * Float(degrees) / 180.0
         if underline {
             page!.setPenWidth(font!.underlineThickness)
-            page!.setPenColor(color)
+            page!.setPenColor(strokeColor)
             var lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
             if (self.isLastToken) {
                 lineLength -= font!.stringWidth(fallbackFont, fontSize, Single.space);
@@ -561,7 +548,7 @@ public class TextLine : Drawable {
 
         if strikeout {
             page!.setPenWidth(font!.underlineThickness)
-            page!.setPenColor(color)
+            page!.setPenColor(strokeColor)
             var lineLength = font!.stringWidth(fallbackFont, fontSize, text!)
             if (self.isLastToken) {
                 lineLength -= font!.stringWidth(fallbackFont, fontSize, Single.space);

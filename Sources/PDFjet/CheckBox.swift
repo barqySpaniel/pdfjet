@@ -203,7 +203,7 @@ public class CheckBox : Drawable {
         if uri != nil {
             page!.setBrushColor(Color.blue)
         }
-        page!.drawString(font, label, x + 3.0*w/2.0, y + font.ascent)
+        page!.drawString(font, 36.0, label, x + 3.0*w/2.0, y + font.ascent)     // TODO
         page!.setPenWidth(0.0)
         page!.setPenColor(Color.black)
         page!.setBrushColor(Color.black)
