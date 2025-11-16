@@ -222,7 +222,7 @@ public class Example_38 {
         cell.setBorder(Border.TOP, topBorder)
         cell.setBorder(Border.BOTTOM, bottomBorder)
         cell.setTextAlignment(Align.CENTER)
-        cell.setBgColor(Color.lightblue)
+        cell.setBackgroundColor(Color.lightblue)
         cell.setLineWidth(0.5)
         return cell
     }
