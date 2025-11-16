@@ -103,7 +103,7 @@ public class BigTable {
         return pages;
     }
 
-    private void drawTextAndLine(String[] fields, Font font) throws Exception {
+    private void drawTextAndLine(String[] fields) throws Exception {
         if (page == null) {     // The first page
             page = new Page(pdf, pageSize, Page.DETACHED);
             pages.add(page);
@@ -153,9 +153,7 @@ public class BigTable {
         page.setPenColor(original);
         // page.addEMC();
 
-        
         // page.addBMC(StructElem.TR, language, "", "");
-        page.setTextFont(font);
         page.setBrushColor(Color.black);
         for (int i = 0; i < this.numberOfColumns; i++) {
             String text = fields[i];
@@ -164,7 +162,7 @@ public class BigTable {
                 xText = (vertLines[i + 1] - this.padding) - font.stringWidth(text);
             }
             // page.addBMC(StructElem.TD, language, "", "");
-            page.drawText(text, xText, this.yText);
+            page.drawTextLine(font, text, xText, this.yText);
             // page.addEMC();
         }
         // page.addEMC();
@@ -283,7 +281,7 @@ public class BigTable {
             if (fields.length < this.numberOfColumns) {
                 continue;
             }
-            this.drawTextAndLine(fields, f2);
+            this.drawTextAndLine(fields);
         }
         reader.close();
         drawTheVerticalLines();

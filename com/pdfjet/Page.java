@@ -33,27 +33,28 @@ final public class Page {
     int renderingMode = 0;
     float width;
     float height;
-    List<Integer> contents;
-    List<Annotation> annots;
-    List<Destination> destinations;
+
+    final List<Integer> contents = new ArrayList<Integer>();
+    final List<Annotation> annots = new ArrayList<Annotation>();
+    final List<Destination> destinations= new ArrayList<Destination>();
+    final List<State> savedStates = new ArrayList<State>();
+
     float[] cropBox = null;
     float[] bleedBox = null;
     float[] trimBox = null;
     float[] artBox = null;
 
-    private Font font;
     private float[] brushColor = {0f, 0f, 0f};
     private float[] penColor = {0f, 0f, 0f};
-    private float penWidth = 0.6f;
     private float[] penCMYK = {0f, 0f, 0f, 1f};
     private float[] brushCMYK = {0f, 0f, 0f, 1f};
+
+    private float penWidth = 0.6f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String strokePattern = "[] 0";
 
-    private final List<State> savedStates = new ArrayList<State>();
     private int mcid = 0;
-
     private float savedHeight = Float.MAX_VALUE;
 
     /*
@@ -104,9 +105,9 @@ final public class Page {
      */
     public Page(PDF pdf, float[] pageSize, boolean addPageToPDF) throws Exception {
         this.pdf = pdf;
-        contents = new ArrayList<Integer>();
-        annots = new ArrayList<Annotation>();
-        destinations = new ArrayList<Destination>();
+//         contents = new ArrayList<Integer>();
+//         annots = new ArrayList<Annotation>();
+//         destinations = new ArrayList<Destination>();
         width = pageSize[0];
         height = pageSize[1];
         buf = new ByteArrayOutputStream(8192);
@@ -1391,12 +1392,7 @@ final public class Page {
         append("c\n");
     }
 
-    public void setTextFont(Font font) {
-        setTextFont(font, font.size);
-    }
-
-    public void setTextFont(Font font, float fontSize) {
-        this.font = font;
+    private void setTextFont(Font font, float fontSize) {
         if (font.fontID != null) {
             append('/');
             append(font.fontID);
@@ -1407,10 +1403,6 @@ final public class Page {
         append(Token.SPACE);
         append(fontSize);
         append(" Tf\n");
-    }
-
-    public Font getTextFont() {
-        return this.font;
     }
 
     // Code provided by:
@@ -1884,7 +1876,7 @@ final public class Page {
     public float[] addHeader(TextLine textLine, float offset) throws Exception {
         textLine.setLocation((getWidth() - textLine.getWidth())/2, offset);
         float[] xy = textLine.drawOn(this);
-        xy[1] += font.descent;
+        xy[1] += textLine.font.descent;
         return xy;
     }
 
@@ -1940,8 +1932,9 @@ final public class Page {
      *  Draws a string at the correct location.
      *  @param str the string.
      */
-    void drawText(String str, float x, float y) {
+    protected void drawTextLine(Font font, String str, float x, float y) {
         append("BT\n");
+        setTextFont(font, font.size);
         append(x);
         append(Token.SPACE);
         append(height - y);
