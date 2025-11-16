@@ -127,7 +127,6 @@ public class BigTable {
         }
 
         drawFieldsAndLine(fields, f2);
-        // Advance to next line and check pagination
         this.yText +=  f2.ascent + f2.descent;
         if (this.yText > (this.page.height - this.bottomMargin)) {
             drawTheVerticalLines();

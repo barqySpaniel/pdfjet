@@ -62,7 +62,7 @@ namespace PDFjet.NET {
             return pages;
         }
 
-        private void DrawTextAndLine(string[] fields, Font font) {
+        private void DrawTextAndLine(string[] fields) {
             if (page == null) {
                 page = new Page(pdf, pageSize, Page.DETACHED);
                 pages.Add(page);
@@ -85,8 +85,8 @@ namespace PDFjet.NET {
                 startNewPage = false;
             }
 
-            DrawFieldsAndLine(fields, font);
-            this.yText += font.ascent + font.descent;
+            DrawFieldsAndLine(fields, f2);
+            this.yText += f2.ascent + f2.descent;
             if (this.yText > (this.page.GetHeight() - this.bottomMargin)) {
                 DrawTheVerticalLines();
                 startNewPage = true;
@@ -242,7 +242,7 @@ namespace PDFjet.NET {
                     if (fields.Length < this.numberOfColumns) {
                         continue;
                     }
-                    this.DrawTextAndLine(fields, f2);
+                    this.DrawTextAndLine(fields);
                 }
             }
             DrawTheVerticalLines();
