@@ -39,15 +39,15 @@ final public class Page {
     final List<Destination> destinations= new ArrayList<Destination>();
     final List<State> savedStates = new ArrayList<State>();
 
+    protected float[] cropBox = null;
+    protected float[] bleedBox = null;
+    protected float[] trimBox = null;
+    protected float[] artBox = null;
+
     private float[] brushColor = {0f, 0f, 0f};
     private float[] penColor = {0f, 0f, 0f};
     private float[] penCMYK = {0f, 0f, 0f, 1f};
     private float[] brushCMYK = {0f, 0f, 0f, 1f};
-
-    float[] cropBox = null;
-    float[] bleedBox = null;
-    float[] trimBox = null;
-    float[] artBox = null;
 
     private float penWidth = 0.6f;
     private CapStyle lineCapStyle = CapStyle.BUTT;

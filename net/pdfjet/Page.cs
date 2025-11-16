@@ -38,16 +38,15 @@ public class Page {
     internal byte[] tm2;
     internal byte[] tm3;
 
-    // internal Font font;
-    internal float[] brushColor = {0f, 0f, 0f};
-    internal float[] penColor = {0f, 0f, 0f};
-    internal float[] penCMYK = {0f, 0f, 0f, 1f};
-    internal float[] brushCMYK = {0f, 0f, 0f, 1f};
-
     internal float[] cropBox;
     internal float[] bleedBox;
     internal float[] trimBox;
     internal float[] artBox;
+
+    private float[] brushColor = {0f, 0f, 0f};
+    private float[] penColor = {0f, 0f, 0f};
+    private float[] penCMYK = {0f, 0f, 0f, 1f};
+    private float[] brushCMYK = {0f, 0f, 0f, 1f};
 
     internal float penWidth = 0.6f;
     internal CapStyle lineCapStyle = CapStyle.BUTT;
