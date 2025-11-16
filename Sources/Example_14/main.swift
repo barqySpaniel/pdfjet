@@ -60,7 +60,7 @@ public class Example_14 {
                     cell!.setBorder(Border.RIGHT, true)
 
                     cell!.setColSpan(3)
-                    cell!.setBgColor(Color.darkseagreen)
+                    cell!.setBackgroundColor(Color.darkseagreen)
                     cell!.setLineWidth(1.0)
                     cell!.setTextAlignment(Align.RIGHT)
                 }

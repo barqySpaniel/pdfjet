@@ -43,12 +43,12 @@ public class Example_15 {
                 composite.addComponent(line3)
                 if i == 0 || j == 0 {
                     cell.setCompositeTextLine(composite)
-                    cell.setBgColor(Color.deepskyblue)
+                    cell.setBackgroundColor(Color.deepskyblue)
                 } else {
-                    cell.setBgColor(Color.dodgerblue)
+                    cell.setBackgroundColor(Color.dodgerblue)
                 }
-                cell.setPenColor(Color.lightgray)
-                cell.setBrushColor(Color.black)
+                cell.setStrokeColor(Color.lightgray)
+                cell.setTextColor(Color.black)
                 row.append(cell)
             }
             tableData.append(row)

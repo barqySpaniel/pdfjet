@@ -329,7 +329,7 @@ public class Cell {
         self.textColor = [r, g, b]
     }
 
-    func setTextColor(_ r: Float, _ g: Float, _ b: Float) {
+    public func setTextColor(_ r: Float, _ g: Float, _ b: Float) {
         self.textColor = [r, g, b]
     }
 
@@ -348,7 +348,7 @@ public class Cell {
         self.backgroundColor = [r, g, b]
     }
 
-    func setBackgroundColor(_ r: Float, _ g: Float, _ b: Float) {
+    public func setBackgroundColor(_ r: Float, _ g: Float, _ b: Float) {
         self.backgroundColor = [r, g, b]
     }
 
@@ -360,18 +360,18 @@ public class Cell {
         return self.backgroundColor
     }
 
-    func setStrokeColor(_ color: Int32) {
+    public func setStrokeColor(_ color: Int32) {
         let r = Float(((color >> 16) & 0xff))/255.0
         let g = Float(((color >>  8) & 0xff))/255.0
         let b = Float(((color)       & 0xff))/255.0
         self.strokeColor = [r, g, b]
     }
 
-    func setStrokeColor(_ r: Float, _ g: Float, _ b: Float) {
+    public func setStrokeColor(_ r: Float, _ g: Float, _ b: Float) {
         self.strokeColor = [r, g, b]
     }
 
-    func setStrokeColor(_ rgbColor: [Float]) {
+    public func setStrokeColor(_ rgbColor: [Float]) {
         self.strokeColor = rgbColor
     }
 
