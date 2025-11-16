@@ -38,22 +38,23 @@ public class Page {
     internal byte[] tm2;
     internal byte[] tm3;
 
-    internal Font font;
+    // internal Font font;
     internal float[] brushColor = {0f, 0f, 0f};
     internal float[] penColor = {0f, 0f, 0f};
-    internal float penWidth = 0.6f;
     internal float[] penCMYK = {0f, 0f, 0f, 1f};
     internal float[] brushCMYK = {0f, 0f, 0f, 1f};
-    internal CapStyle lineCapStyle = CapStyle.BUTT;
-    internal JoinStyle lineJoinStyle = JoinStyle.MITER;
-    internal String strokePattern = "[] 0";
-
-    internal float rotateDegrees = 0f;
 
     internal float[] cropBox;
     internal float[] bleedBox;
     internal float[] trimBox;
     internal float[] artBox;
+
+    internal float penWidth = 0.6f;
+    internal CapStyle lineCapStyle = CapStyle.BUTT;
+    internal JoinStyle lineJoinStyle = JoinStyle.MITER;
+    internal String strokePattern = "[] 0";
+
+    internal float rotateDegrees = 0f;
 
     internal readonly List<StructElem> structElements = new List<StructElem>();
     internal readonly List<State> savedStates = new List<State>();
@@ -257,7 +258,7 @@ public class Page {
     public float[] AddHeader(TextLine textLine, float offset) {
         textLine.SetLocation((GetWidth() - textLine.GetWidth())/2, offset);
         float[] xy = textLine.DrawOn(this);
-        xy[1] += font.GetDescent();
+        xy[1] += textLine.font.GetDescent();
         return xy;
     }
 
@@ -1398,8 +1399,7 @@ public class Page {
         SetTextFont(font, font.size);
     }
 
-    public void SetTextFont(Font font, float fontSize) {
-        this.font = font;
+    private void SetTextFont(Font font, float fontSize) {
         if (font.fontID != null) {
             Append('/');
             Append(font.fontID);
@@ -1410,10 +1410,6 @@ public class Page {
         Append(Token.Space);
         Append(fontSize);
         Append(" Tf\n");
-    }
-
-    public Font GetTextFont() {
-        return this.font;
     }
 
     // Code provided by:
@@ -1806,7 +1802,7 @@ public class Page {
      * Draws a string at the specified location.
      * @param str the string.
      */
-    internal void DrawText(Font font, String str, float x, float y) {
+    internal void DrawTextLine(Font font, String str, float x, float y) {
         Append("BT\n");
         SetTextLocation(x, y);
         SetTextFont(font, font.size);

@@ -120,7 +120,7 @@ namespace PDFjet.NET {
                 if (alignment[i] == Alignment.RIGHT) {
                     xText = (vertLines[i + 1] - this.padding) - font.StringWidth(text);
                 }
-                page.DrawText(font, text, xText, this.yText);
+                page.DrawTextLine(font, text, xText, this.yText);
             }
             page.AddEMC();
         }
