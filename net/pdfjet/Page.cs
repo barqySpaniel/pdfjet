@@ -32,11 +32,6 @@ public class Page {
     internal float height;
 
     internal int renderingMode = 0;
-    internal float[] tmx = {1f, 0f, 0f, 1f};
-    internal byte[] tm0;
-    internal byte[] tm1;
-    internal byte[] tm2;
-    internal byte[] tm3;
 
     internal float[] cropBox;
     internal float[] bleedBox;
@@ -47,6 +42,12 @@ public class Page {
     private float[] penColor = {0f, 0f, 0f};
     private float[] penCMYK = {0f, 0f, 0f, 1f};
     private float[] brushCMYK = {0f, 0f, 0f, 1f};
+
+    private float[] tmx = {1f, 0f, 0f, 1f};
+    private byte[] tm0;
+    private byte[] tm1;
+    private byte[] tm2;
+    private byte[] tm3;
 
     internal float penWidth = 0.6f;
     internal CapStyle lineCapStyle = CapStyle.BUTT;

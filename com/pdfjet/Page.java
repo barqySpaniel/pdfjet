@@ -25,11 +25,7 @@ final public class Page {
     PDFobj pageObj;
     int objNumber;
     ByteArrayOutputStream buf;
-    float[] tmx = new float[] {1f, 0f, 0f, 1f};
-    byte[] tm0;   // Used for caching tm values
-    byte[] tm1;
-    byte[] tm2;
-    byte[] tm3;
+
     int renderingMode = 0;
     float width;
     float height;
@@ -48,6 +44,12 @@ final public class Page {
     private float[] penColor = {0f, 0f, 0f};
     private float[] penCMYK = {0f, 0f, 0f, 1f};
     private float[] brushCMYK = {0f, 0f, 0f, 1f};
+
+    private float[] tmx = new float[] {1f, 0f, 0f, 1f};
+    private byte[] tm0;   // Used for caching tm values
+    private byte[] tm1;
+    private byte[] tm2;
+    private byte[] tm3;
 
     private float penWidth = 0.6f;
     private CapStyle lineCapStyle = CapStyle.BUTT;
