@@ -1806,7 +1806,10 @@ public class Page {
      * Draws a string at the specified location.
      * @param str the string.
      */
-    internal void DrawText(String str) {
+    internal void DrawText(Font font, String str, float x, float y) {
+        Append("BT\n");
+        SetTextLocation(x, y);
+        SetTextFont(font, font.size);
         if (font.isCoreFont) {
             Append("[<");
             DrawASCIIString(font, str);
@@ -1816,6 +1819,7 @@ public class Page {
             DrawUnicodeString(font, str);
             Append("> Tj\n");
         }
+        Append("ET\n");
     }
 
     internal void ScaleAndRotate(float x, float y, float w, float h, float degrees) {

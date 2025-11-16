@@ -14,7 +14,7 @@ namespace PDFjet.NET {
         private Page page;
         private float[] widths;
         private string[] headerFields;
-        private int[] alignment;
+        private Alignment[] alignment;
         private float[] vertLines;
         private float bottomMargin = 20.0f;
         private float padding = 2.0f;
@@ -46,7 +46,7 @@ namespace PDFjet.NET {
             this.numberOfColumns = numberOfColumns;
         }
 
-        public void SetTextAlignment(int column, int alignment) {
+        public void SetTextAlignment(int column, Alignment alignment) {
             this.alignment[column] = alignment;
         }
 
@@ -113,20 +113,14 @@ namespace PDFjet.NET {
             string rowText = GetRowText(fields);
             // page.AddBMC(StructElem.P, language, rowText, rowText);
             page.SetPenWidth(0f);
-            page.SetTextFont(font);
             page.SetBrushColor(Color.black);
             for (int i = 0; i < this.numberOfColumns; i++) {
-                string text = fields[i];
-                float xText1 = vertLines[i] + this.padding;
-                float xText2 = vertLines[i + 1] - this.padding;
-                page.Append("BT\n");
-                if (alignment[i] == Align.LEFT) {
-                    page.SetTextLocation(xText1, this.yText);
-                } else if (alignment[i] == Align.RIGHT) {
-                    page.SetTextLocation(xText2 - font.StringWidth(text), this.yText);
+                String text = fields[i];
+                float xText = vertLines[i] + this.padding;
+                if (alignment[i] == Alignment.RIGHT) {
+                    xText = (vertLines[i + 1] - this.padding) - font.StringWidth(text);
                 }
-                page.DrawText(text);
-                page.Append("ET\n");
+                page.DrawText(font, text, xText, this.yText);
             }
             page.AddEMC();
         }
@@ -169,7 +163,7 @@ namespace PDFjet.NET {
             return buf.ToString();
         }
 
-        private uint GetAlignment(string str) {
+        private Alignment GetAlignment(string str) {
             System.Text.StringBuilder buf = new System.Text.StringBuilder();
             if (str.StartsWith("(") && str.EndsWith(")")) {
                 str = str.Substring(1, str.Length - 2);
@@ -182,10 +176,10 @@ namespace PDFjet.NET {
             }
             try {
                 double.Parse(buf.ToString());
-                return Align.RIGHT;
+                return Alignment.RIGHT;
             }
             catch (FormatException) {
-                return Align.LEFT;
+                return Alignment.LEFT;
             }
         }
 
@@ -195,7 +189,7 @@ namespace PDFjet.NET {
             this.vertLines = new float[this.numberOfColumns + 1];
             this.headerFields = new string[this.numberOfColumns];
             this.widths = new float[this.numberOfColumns];
-            this.alignment = new int[this.numberOfColumns];
+            this.alignment = new Alignment[this.numberOfColumns];
 
             int rowNumber = 0;
             using (StreamReader reader = new StreamReader(fileName)) {
@@ -212,7 +206,7 @@ namespace PDFjet.NET {
                     }
                     if (rowNumber == 1) {
                         for (int i = 0; i < this.numberOfColumns; i++) {
-                            alignment[i] = (int)GetAlignment(fields[i]);
+                            alignment[i] = GetAlignment(fields[i]);
                         }
                     }
                     for (int i = 0; i < this.numberOfColumns; i++) {

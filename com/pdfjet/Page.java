@@ -1934,11 +1934,8 @@ final public class Page {
      */
     protected void drawTextLine(Font font, String str, float x, float y) {
         append("BT\n");
+        setTextLocation(x, y);
         setTextFont(font, font.size);
-        append(x);
-        append(Token.SPACE);
-        append(height - y);
-        append(" Td\n");
         if (font.isCoreFont) {
             append("[<");
             drawASCIIString(font, str);
