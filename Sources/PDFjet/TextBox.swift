@@ -281,6 +281,21 @@ public class TextBox : Drawable {
         return spacing
     }
 
+    @discardableResult
+    public func setBackgroundColor(_ color: Int32) -> TextBox {
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.backgroundColor = [r, g, b]
+        return self
+    }
+
+    @discardableResult
+    public func setBackgroundColor(_ r: Float, _ g: Float, _ b: Float) -> TextBox {
+        self.backgroundColor = [r, g, b]
+        return self
+    }
+
     ///
     /// Sets the background to the specified color.
     ///
