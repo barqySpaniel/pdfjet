@@ -69,7 +69,7 @@ public class Example_45 {
         let dy = f3.getBodyHeight()
         let lines = try Text.readLines("data/languages/english.txt")
         for line in lines {
-            page.drawString(f3, line, x, y, Color.black, colors)
+            page.drawString(f3, f3.getSize(), line, x, y, [0.0, 0.0, 0.0], colors)
             y += dy
         }
 
