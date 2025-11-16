@@ -296,6 +296,14 @@ public class Page {
 
     public final func drawString(
             _ font: Font,
+            _ text: String?,
+            _ x: Float,
+            _ y: Float) {
+        drawString(font, font.size, text, x, y, [0.0, 0.0, 0.0], nil)
+    }
+
+    public final func drawString(
+            _ font: Font,
             _ fontSize: Float,
             _ text: String?,
             _ x: Float,
@@ -1591,7 +1599,7 @@ public class Page {
         append(content)
         endTransform()
     }
-/*
+
     public func drawString(
             _ font: Font,
             _ str: String,
@@ -1605,7 +1613,7 @@ public class Page {
             x1 += dx
         }
     }
-*/
+
     private func isLetterOrDigit(_ scalar: UnicodeScalar) -> Bool {
         if (scalar.value >= 65 && scalar.value <= 90) ||
             (scalar.value >= 97 && scalar.value <= 122) ||
