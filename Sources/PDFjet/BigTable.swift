@@ -114,20 +114,14 @@ public class BigTable {
         // let rowText = getRowText(row: fields)
         // page!.addBMC(StructElem.P, language, rowText, rowText)
         page!.setPenWidth(0.0)
-        page!.setTextFont(font)
         page!.setBrushColor(Color.black)
         for i in 0..<numberOfColumns {
             let text = fields[i]
-            let xText1 = vertLines[i] + self.padding
-            let xText2 = vertLines[i + 1] - self.padding
-            page!.beginText()
-            if alignment[i] == Alignment.LEFT {
-                page!.setTextLocation(xText1, self.yText)
-            } else if alignment[i] == Alignment.RIGHT {
-                page!.setTextLocation(xText2 - font.stringWidth(text), self.yText)
+            var xText = vertLines[i] + self.padding
+            if alignment[i] == Alignment.RIGHT {
+                xText = (vertLines[i + 1] - self.padding) - font.stringWidth(text)
             }
-            page!.drawText(text)
-            page!.endText()
+            page!.drawTextLine(font, text, xText, self.yText)
         }
         // page!.addEMC()
     }

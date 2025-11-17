@@ -1243,8 +1243,8 @@ public class Page {
         setTextFont(font, font.size);
     }
 
-    public func setTextFont(_ font: Font, _ fontSize: Float) {
-        self.font = font
+    private func setTextFont(_ font: Font, _ fontSize: Float) {
+//        self.font = font
         if font.fontID != nil {
             append("/")
             append(font.fontID!)
@@ -1257,9 +1257,9 @@ public class Page {
         append(" Tf\n")
     }
 
-    public func getTextFont() -> Font? {
-        return self.font
-    }
+//     public func getTextFont() -> Font? {
+//         return self.font
+//     }
 
     // Original code provided by:
     // Dominique Andre Gunia <contact@dgunia.de>
@@ -1699,7 +1699,7 @@ public class Page {
     public func addHeader(_ textLine: TextLine, _ offset: Float) throws -> [Float] {
         textLine.setLocation((getWidth() - textLine.getWidth())/2, offset)
         var xy = textLine.drawOn(self)
-        xy[1] += font!.descent
+        xy[1] += textLine.font!.descent
         return xy
     }
 
@@ -1715,24 +1715,24 @@ public class Page {
     }
 
     /**
-     *  Begin text block.
+     * Begin text block.
      */
     func beginText() {
         append(Token.beginText)
     }
 
     /**
-     *  End the text block.
+     * End the text block.
      */
     func endText() {
         append(Token.endText)
     }
 
     /**
-     *  Sets the text location.
+     * Sets the text location.
      *
-     *  @param x the x coordinate of new text location.
-     *  @param y the y coordinate of new text location.
+     * @param x the x coordinate of new text location.
+     * @param y the y coordinate of new text location.
      */
     func setTextLocation(_ x: Float, _ y: Float) {
         append(x)
@@ -1742,8 +1742,8 @@ public class Page {
     }
 
     /**
-     *  Sets the text leading.
-     *  @param leading the leading.
+     * Sets the text leading.
+     * @param leading the leading.
      */
     func setTextLeading(_ leading: Float) {
         append(leading)
@@ -1768,19 +1768,23 @@ public class Page {
     }
 
     /**
-     *  Draws a string at the currect location.
-     *  @param str the string.
+     * Draws a string at the correct location.
+     * @param str the string.
      */
-    func drawText(_ str: String) {
-        if (font!.isCoreFont) {
+    func drawTextLine(_ font: Font, _ str: String, _ x: Float, _ y: Float) {
+        append(Token.beginText)
+        setTextLocation(x, y)
+        setTextFont(font, font.size)
+        if font.isCoreFont {
             append("[<")
-            drawASCIIString(font!, str)
+            drawASCIIString(font, str)
             append(">] TJ\n")
         } else {
             append("<")
-            drawUnicodeString(font!, str)
+            drawUnicodeString(font, str)
             append("> Tj\n")
         }
+        append(Token.endText)
     }
 
     func scaleAndRotate(_ x: Float, _ y: Float, _ w: Float, _ h: Float, _ degrees: Float) {
