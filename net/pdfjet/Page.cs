@@ -632,7 +632,6 @@ public class Page {
         Append(Token.Space);
         Append(b);
         Append(" rg\n");
-        // Set the brush color
         this.brushColor = new float[] {r, g, b};
     }
 
@@ -1395,11 +1394,7 @@ public class Page {
         Append("c\n");
     }
 
-    public void SetTextFont(Font font) {
-        SetTextFont(font, font.size);
-    }
-
-    private void SetTextFont(Font font, float fontSize) {
+    public void SetTextFont(Font font, float fontSize) {
         if (font.fontID != null) {
             Append('/');
             Append(font.fontID);
@@ -1803,9 +1798,7 @@ public class Page {
      * @param str the string.
      */
     internal void DrawTextLine(Font font, String str, float x, float y) {
-        Append("BT\n");
         SetTextLocation(x, y);
-        SetTextFont(font, font.size);
         if (font.isCoreFont) {
             Append("[<");
             DrawASCIIString(font, str);
@@ -1815,7 +1808,6 @@ public class Page {
             DrawUnicodeString(font, str);
             Append("> Tj\n");
         }
-        Append("ET\n");
     }
 
     internal void ScaleAndRotate(float x, float y, float w, float h, float degrees) {

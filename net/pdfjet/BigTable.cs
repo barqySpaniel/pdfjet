@@ -114,6 +114,9 @@ namespace PDFjet.NET {
             // page.AddBMC(StructElem.P, language, rowText, rowText);
             page.SetPenWidth(0f);
             page.SetBrushColor(Color.black);
+
+            page.Append("BT\n");
+            page.SetTextFont(font, font.size);
             for (int i = 0; i < this.numberOfColumns; i++) {
                 String text = fields[i];
                 float xText = vertLines[i] + this.padding;
@@ -122,6 +125,8 @@ namespace PDFjet.NET {
                 }
                 page.DrawTextLine(font, text, xText, this.yText);
             }
+            page.Append("ET\n");
+
             page.AddEMC();
         }
 

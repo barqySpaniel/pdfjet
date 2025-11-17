@@ -154,6 +154,7 @@ public class BigTable {
 
         // page.addBMC(StructElem.TR, language, "", "");
         page.setBrushColor(Color.black);
+
         page.append("BT\n");
         page.setTextFont(font, font.size);
         for (int i = 0; i < this.numberOfColumns; i++) {
@@ -165,6 +166,7 @@ public class BigTable {
             page.drawTextLine(font, text, xText, this.yText);
         }
         page.append("ET\n");
+
         // page.addEMC();
     }
 
