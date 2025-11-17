@@ -200,7 +200,7 @@ public class TextBlock : Drawable {
                     }
                 } else {
                     var sb = ""
-                    let tokens = line.split(separator: " ").map { String($0) }
+                    let tokens = line.split(whereSeparator: \.isWhitespace).map(String.init)
                     for token in tokens {
                         if font.stringWidth(fallbackFont, sb + token) <= textAreaWidth {
                             sb.append(token)
