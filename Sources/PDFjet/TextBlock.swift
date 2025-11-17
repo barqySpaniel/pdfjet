@@ -217,10 +217,9 @@ public class TextBlock : Drawable {
                 }
             }
         }
+        // We need the following line to match the behaviour of the Java, .NET and Go versions.
+        if textLines.last!.text!.isEmpty { textLines.removeLast() }
 
-        if textLines.last!.text == "" {
-            textLines.removeLast()
-        }
         return textLines
     }
 
@@ -282,7 +281,6 @@ public class TextBlock : Drawable {
 
         page!.append("Q\n")
 
-print(textLines.count)
         return [x + width, max(y + height, y + Float(textLines.count) * leading + 2 * textPadding)]
     }
 }
