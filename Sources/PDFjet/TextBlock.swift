@@ -216,8 +216,8 @@ public class TextBlock : Drawable {
                             sb = token + " "
                         }
                     }
-                    if !sb.trimmingCharacters(in: .whitespaces).isEmpty {
-                        list.append(TextLine(font, sb.trimmingCharacters(in: .whitespaces)))
+                    if !sb.trim().isEmpty {
+                        list.append(TextLine(font, sb.trim()))
                     }
                 }
             }
@@ -284,6 +284,7 @@ public class TextBlock : Drawable {
 
         page!.append("Q\n")
 
+print(textLines.count)
         return [x + width, max(y + height, y + Float(textLines.count) * leading + 2 * textPadding)]
     }
 }
