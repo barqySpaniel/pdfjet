@@ -180,8 +180,8 @@ namespace PDFjet.NET {
             this.borderColor = rgbColor;
         }
 
-        public void SetLineSpacing(float textLineHeight) {
-            this.lineSpacing = textLineHeight;
+        public void SetLineSpacing(float lineSpacing) {
+            this.lineSpacing = lineSpacing;
         }
 
         public void SetTextColor(float[] textColor) {
@@ -348,7 +348,7 @@ namespace PDFjet.NET {
                 textLines,
                 this.x + this.textPadding,
                 this.y + this.textPadding,
-                leading * this.lineSpacing,
+                leading,
                 this.textColor,
                 this.keywordHighlightColors);
             page.AddEMC();

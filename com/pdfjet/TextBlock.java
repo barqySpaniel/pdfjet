@@ -147,8 +147,8 @@ public class TextBlock {
         this.borderColor = rgbColor;
     }
 
-    public void setLineSpacing(float textLineHeight) {
-        this.lineSpacing = textLineHeight;
+    public void setLineSpacing(float lineSpacing) {
+        this.lineSpacing = lineSpacing;
     }
 
     public void setTextColor(float[] textColor) {
@@ -189,12 +189,11 @@ public class TextBlock {
         return numOfCJK > (chars.length / 2);
     }
 
-    private TextLine[] getTextLinesWithOffsets() {
+    private TextLine[] getTextLines() {
         List<TextLine> textLines = new ArrayList<>();
 
         float textAreaWidth = this.width - 2 * this.textPadding;
-        this.textContent = this.textContent.replace("\r\n", "\n").trim();
-        String[] lines = this.textContent.split("\n");
+        String[] lines = this.textContent.split("\r?\n");
         for (String line : lines) {
             if (font.stringWidth(fallbackFont, line) <= textAreaWidth) {
                 textLines.add(new TextLine(font, line));
@@ -265,7 +264,7 @@ public class TextBlock {
         float ascent = this.font.getAscent(fontSize);
         float descent = this.font.getDescent(fontSize);
         float leading = (ascent + descent) * this.lineSpacing;
-        TextLine[] textLines = getTextLinesWithOffsets();
+        TextLine[] textLines = getTextLines();
         if (page == null) {
             return new float[] {
                 this.width,
@@ -302,7 +301,7 @@ public class TextBlock {
             textLines,
             this.x + this.textPadding,
             this.y + this.textPadding,
-            leading * this.lineSpacing,
+            leading,
             this.textColor,
             keywordHighlightColors);
         page.addEMC();

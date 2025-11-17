@@ -33,7 +33,7 @@ public class TextBlock : Drawable {
     private var underline: Bool = false
     private var strikeout: Bool = false
 
-    private var lineSpacing: Float = 12.0    // TODO
+    private var lineSpacing: Float = 1.0
 
     private var highlightColors: [String: Int32]?
 
@@ -126,6 +126,10 @@ public class TextBlock : Drawable {
         self.highlightColors = highlightColors
     }
 
+    public func setLineSpacing(_ lineSpacing: Float) {
+        self.lineSpacing = lineSpacing
+    }
+
     public func setTextAlignment(_ alignment: Alignment) {
         self.textAlignment = alignment
     }
@@ -154,9 +158,7 @@ public class TextBlock : Drawable {
             textAreaWidth = height - 2 * textPadding
         }
 
-        textContent = textContent.replacingOccurrences(
-            of: "\r\n", with: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
-        let lines = textContent.split(separator: "\n", omittingEmptySubsequences: false).map { String($0) }
+        let lines = textContent.components(separatedBy: .newlines)
         for line in lines {
             if font.stringWidth(fallbackFont, line) <= textAreaWidth {
                 list.append(TextLine(font, line))
@@ -370,7 +372,7 @@ public class TextBlock : Drawable {
             textLines,
             x + textPadding,
             y + textPadding,
-            leading * lineSpacing,
+            leading,
             textColor,
             highlightColors)
         // page!.addEMC()

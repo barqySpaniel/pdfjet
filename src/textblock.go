@@ -169,9 +169,9 @@ func (textBlock *TextBlock) SetBorderColor(borderColor int32) {
 	textBlock.borderColor = borderColor
 }
 
-// SetTextLineHeight sets the extra leading between lines of text.
+// SetLineSpacing sets the extra leading between lines of text.
 // @param lineHeight
-func (textBlock *TextBlock) SetTextLineHeight(lineSpacing float32) {
+func (textBlock *TextBlock) SetLineSpacing(lineSpacing float32) {
 	textBlock.lineSpacing = lineSpacing
 }
 
@@ -342,7 +342,7 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		textLines,
 		textBlock.x+textBlock.textPadding,
 		textBlock.y+textBlock.textPadding,
-		leading*textBlock.lineSpacing,
+		leading,
 		textBlock.textColor,
 		textBlock.keywordHighlightColors)
 	page.AddEMC()
