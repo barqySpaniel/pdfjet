@@ -19,16 +19,17 @@ namespace PDFjet.NET {
         private float fontSize = 12f;
         private string textContent;
         private float lineSpacing = 1.0f;
-        private float[] textColor;
         private Dictionary<string, int> keywordHighlightColors;
         private float textPadding = 0.0f;
 
         private float[] fillColor;
-        private float borderWidth = 0f;
+        private float[] textColor = new float[] {0f, 0f, 0f};
         private float[] borderColor;
+        private float borderWidth = 0.5f;
+        private float borderCornerRadius = 0.0f;
 
         private Alignment textAlignment = Alignment.LEFT;
-        private float borderCornerRadius = 0.0f;
+
 
         private string language = "en-US";
 //        private string altDescription = "";
