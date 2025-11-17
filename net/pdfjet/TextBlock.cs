@@ -343,16 +343,18 @@ namespace PDFjet.NET {
                 UnderlineText(textLines);
             }
 
-            Rect rect = new Rect(
-                this.x,
-                this.y,
-                this.width,
-                MathF.Max(this.height, textLines.Length * leading + 2 * this.textPadding));
-            rect.SetFillColor(this.fillColor);
-            rect.SetBorderWidth(this.borderWidth);
-            rect.SetBorderColor(this.borderColor);
-            rect.SetCornerRadius(this.borderCornerRadius);
-            rect.DrawOn(page);
+            if (borderColor != null) {
+                Rect rect = new Rect(
+                    this.x,
+                    this.y,
+                    this.width,
+                    MathF.Max(this.height, textLines.Length * leading + 2 * this.textPadding));
+                rect.SetFillColor(this.fillColor);
+                rect.SetBorderWidth(this.borderWidth);
+                rect.SetBorderColor(this.borderColor);
+                rect.SetCornerRadius(this.borderCornerRadius);
+                rect.DrawOn(page);
+            }
 
             page.AddBMC(StructElem.P, this.language, this.textContent, null);
             page.DrawTextBlock(
