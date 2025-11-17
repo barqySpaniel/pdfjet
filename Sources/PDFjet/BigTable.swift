@@ -111,7 +111,6 @@ public class BigTable {
         page!.strokePath()
         page!.setPenColor(original)
 
-        // let rowText = getRowText(row: fields)
         // page!.addBMC(StructElem.P, language, rowText, rowText)
         page!.setPenWidth(0.0)
         page!.setBrushColor(Color.black)
@@ -158,14 +157,6 @@ public class BigTable {
         page!.strokePath()
         page!.setPenColor(original)
         // page!.addEMC()
-    }
-
-    private func getRowText(row: [String]) -> String {
-        var buf = ""
-        for field in row {
-            buf += field + " "
-        }
-        return buf
     }
 
     private func getAlignment(_ str: String) -> Alignment {
