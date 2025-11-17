@@ -205,7 +205,6 @@ public class TextBlock {
                             sb.append(ch);
                         } else {
                             textLines.add(new TextLine(font, sb.toString()));
-                            sb.setLength(0);
                             sb.append(ch);
                         }
                     }
@@ -217,11 +216,12 @@ public class TextBlock {
                     String[] tokens = line.split("\\s+");
                     for (String token : tokens) {
                         if (font.stringWidth(fallbackFont, sb.toString() + token) <= textAreaWidth) {
-                            sb.append(token).append(" ");
+                            sb.append(token);
+                            sb.append(" ");
                         } else {
                             textLines.add(new TextLine(font, sb.toString().trim()));
                             sb.setLength(0);
-                            sb.append(token).append(" ");
+                            sb.append(token + " ");
                         }
                     }
                     if (sb.toString().trim().length() > 0) {
