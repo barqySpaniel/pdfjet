@@ -1935,6 +1935,7 @@ final public class Page {
      */
     protected void drawTextLine(Font font, String str, float x, float y) {
         setTextLocation(x, y);
+        setTextFont(font, font.size);
         if (font.isCoreFont) {
             append("[<");
             drawASCIIString(font, str);

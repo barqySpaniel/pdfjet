@@ -151,17 +151,16 @@ public class BigTable {
         page.setPenColor(original);
         page.setBrushColor(Color.black);
 
-        page.append("BT\n");
-        page.setTextFont(font, font.size);
         for (int i = 0; i < this.numberOfColumns; i++) {
             String text = fields[i];
             float xText = vertLines[i] + this.padding;
             if (alignment[i] == Alignment.RIGHT) {
                 xText = (vertLines[i + 1] - this.padding) - font.stringWidth(text);
             }
+            page.append("BT\n");
             page.drawTextLine(font, text, xText, this.yText);
+            page.append("ET\n");
         }
-        page.append("ET\n");
     }
 
     private void highlightRow(Page page, Font font, int color) {
