@@ -22,12 +22,6 @@ public class Page {
     internal var pdf: PDF
     internal var pageObj: PDFobj?
     internal var objNumber = 0
-    internal var buf = [UInt8]()
-    internal var tmx: [Float] = [1.0, 0.0, 0.0, 1.0]
-    internal var tm0: [UInt8]
-    internal var tm1: [UInt8]
-    internal var tm2: [UInt8]
-    internal var tm3: [UInt8]
     internal var renderingMode = 0
     internal var width: Float = 0.0
     internal var height: Float = 0.0
@@ -39,6 +33,13 @@ public class Page {
     internal var trimBox: [Float]?
     internal var artBox: [Float]?
     internal var structures = [StructElem]()
+
+    internal var buf = [UInt8]()
+    internal var tmx: [Float] = [1.0, 0.0, 0.0, 1.0]
+    internal var tm0: [UInt8]
+    internal var tm1: [UInt8]
+    internal var tm2: [UInt8]
+    internal var tm3: [UInt8]
 
     private var penColor: [Float] = [0.0, 0.0, 0.0]
     private var brushColor: [Float] = [0.0, 0.0, 0.0]
