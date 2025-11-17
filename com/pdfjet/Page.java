@@ -21,19 +21,19 @@ import java.util.*;
  * </pre>
  */
 final public class Page {
-    PDF pdf;
-    PDFobj pageObj;
-    int objNumber;
-    ByteArrayOutputStream buf;
+    protected PDF pdf;
+    protected PDFobj pageObj;
+    protected int objNumber;
+    protected ByteArrayOutputStream buf;
 
-    int renderingMode = 0;
-    float width;
-    float height;
+    protected int renderingMode = 0;
+    protected float width;
+    protected float height;
 
-    final List<Integer> contents = new ArrayList<Integer>();
-    final List<Annotation> annots = new ArrayList<Annotation>();
-    final List<Destination> destinations= new ArrayList<Destination>();
-    final List<State> savedStates = new ArrayList<State>();
+    protected final List<Integer> contents = new ArrayList<Integer>();
+    protected final List<Annotation> annots = new ArrayList<Annotation>();
+    protected final List<Destination> destinations= new ArrayList<Destination>();
+    protected final List<State> savedStates = new ArrayList<State>();
 
     protected float[] cropBox = null;
     protected float[] bleedBox = null;
