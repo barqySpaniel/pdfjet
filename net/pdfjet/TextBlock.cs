@@ -37,7 +37,7 @@ namespace PDFjet.NET {
 //        private string uriLanguage = "en-US";
 //        private string uriActualText;
 //        private string uriAltDescription;
-//        private bool underline = false;
+        private bool underline = false;
 //        private bool strikeout = false;
         private bool textIsArabic = false;
 
@@ -285,6 +285,10 @@ namespace PDFjet.NET {
             return textLines.ToArray();
         }
 
+        public void SetUnderline(bool underline) {
+            this.underline = underline;
+        }
+
         private void RightAlignText(TextLine[] textLines) {
             foreach (TextLine textLine in textLines) {
                 textLine.xOffset =
@@ -296,6 +300,12 @@ namespace PDFjet.NET {
             foreach (TextLine textLine in textLines) {
                 textLine.xOffset =
                     (this.width - font.StringWidth(fallbackFont, fontSize, textLine.text)) / 2f;
+            }
+        }
+
+        private void UnderlineText(TextLine[] textLines) {
+            foreach (TextLine textLine in textLines) {
+                textLine.underline = true;
             }
         }
 
@@ -313,7 +323,6 @@ namespace PDFjet.NET {
             float ascent = this.font.GetAscent(fontSize);
             float descent = this.font.GetDescent(fontSize);
             float leading = (ascent + descent) * this.lineSpacing;
-
             TextLine[] textLines = GetTextLinesWithOffsets();
             if (page == null) {
                 return new float[] {
@@ -328,6 +337,9 @@ namespace PDFjet.NET {
                 RightAlignText(textLines);
             } else if (textAlignment == Alignment.CENTER) {
                 CenterText(textLines);
+            }
+            if (underline) {
+                UnderlineText(textLines);
             }
 
             Rect rect = new Rect(

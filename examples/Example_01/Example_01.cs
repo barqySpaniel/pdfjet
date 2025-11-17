@@ -55,11 +55,11 @@ public class Example_01 {
         // Add Bulgarian text from a file with a blue border and rounded corners
         textBlock = new TextBlock(font, Content.OfTextFile("data/languages/bulgarian.txt"));
         textBlock.SetLocation(50f, xy[1] + 30f);
-        textBlock.SetWidth(430f);
+        textBlock.SetWidth(473f);
         textBlock.SetTextPadding(10f);
-        // textBlock.SetFillColor(Color.azure);
         textBlock.SetBorderColor(Color.blue);
         textBlock.SetBorderCornerRadius(10f);
+        textBlock.SetUnderline(true);
         textBlock.DrawOn(page);  // Draw the Bulgarian text
 
         // Complete the PDF document creation
