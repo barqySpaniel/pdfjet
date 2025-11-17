@@ -94,7 +94,6 @@ namespace PDFjet.NET {
         }
 
         private void DrawFieldsAndLine(string[] fields, Font font) {
-            // page.AddArtifactBMC();
             if (this.highlightRow) {
                 HighlightRow(page, font, highlightColor);
                 this.highlightRow = false;
@@ -108,15 +107,9 @@ namespace PDFjet.NET {
             page.LineTo(vertLines[this.numberOfColumns], this.yText - font.ascent);
             page.StrokePath();
             page.SetPenColor(original);
-            // page.AddEMC();
-
-            string rowText = GetRowText(fields);
-            // page.AddBMC(StructElem.P, language, rowText, rowText);
             page.SetPenWidth(0f);
             page.SetBrushColor(Color.black);
 
-            page.Append("BT\n");
-            page.SetTextFont(font, font.size);
             for (int i = 0; i < this.numberOfColumns; i++) {
                 String text = fields[i];
                 float xText = vertLines[i] + this.padding;
@@ -125,9 +118,6 @@ namespace PDFjet.NET {
                 }
                 page.DrawTextLine(font, text, xText, this.yText);
             }
-            page.Append("ET\n");
-
-            page.AddEMC();
         }
 
         private void HighlightRow(Page page, Font font, int color) {
@@ -142,7 +132,6 @@ namespace PDFjet.NET {
         }
 
         private void DrawTheVerticalLines() {
-            // page.AddArtifactBMC();
             float[] original = page.GetPenColor();
             page.SetPenColor(penColor);
             for (int i = 0; i <= this.numberOfColumns; i++) {
@@ -156,16 +145,6 @@ namespace PDFjet.NET {
             page.LineTo(vertLines[this.numberOfColumns], this.yText - f2.ascent);
             page.StrokePath();
             page.SetPenColor(original);
-            // page.AddEMC();
-        }
-
-        private string GetRowText(string[] row) {
-            System.Text.StringBuilder buf = new System.Text.StringBuilder();
-            foreach (string field in row) {
-                buf.Append(field);
-                buf.Append(" ");
-            }
-            return buf.ToString();
         }
 
         private Alignment GetAlignment(string str) {
@@ -182,8 +161,7 @@ namespace PDFjet.NET {
             try {
                 double.Parse(buf.ToString());
                 return Alignment.RIGHT;
-            }
-            catch (FormatException) {
+            } catch (FormatException) {
                 return Alignment.LEFT;
             }
         }

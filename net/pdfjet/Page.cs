@@ -1798,7 +1798,9 @@ public class Page {
      * @param str the string.
      */
     internal void DrawTextLine(Font font, String str, float x, float y) {
+        Append("BT\n");
         SetTextLocation(x, y);
+        SetTextFont(font, font.size);
         if (font.isCoreFont) {
             Append("[<");
             DrawASCIIString(font, str);
@@ -1808,6 +1810,7 @@ public class Page {
             DrawUnicodeString(font, str);
             Append("> Tj\n");
         }
+        Append("ET\n");
     }
 
     internal void ScaleAndRotate(float x, float y, float w, float h, float degrees) {
