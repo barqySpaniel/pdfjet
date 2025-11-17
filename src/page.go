@@ -1604,6 +1604,7 @@ func (page *Page) drawTextBlock(
 	}
 
 	page.appendString("BT\n")
+	page.SetBrushColor(textColor)
 	page.SetTextFont(font, fontSize)
 	yText := y
 	for _, textLine := range textLines {
@@ -1613,7 +1614,6 @@ func (page *Page) drawTextBlock(
 		page.appendFloat32(page.height - (yText + font.ascent))
 		page.appendString(" Tm\n")
 		if highlightColors == nil {
-			page.SetBrushColor(textColor)
 			if font.isCoreFont {
 				page.appendString("[<")
 				page.drawASCIIString(font, textLine.text)

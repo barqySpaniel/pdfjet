@@ -1855,6 +1855,7 @@ public class Page {
         }
 
         append("BT\n")
+        setBrushColor(color)
         setTextFont(font, fontSize)
         var yText: Float = y
         for textLine in textLines {
@@ -1864,7 +1865,6 @@ public class Page {
             append(height - (yText + font.getAscent(fontSize)))
             append(" Tm\n")
             if highlightColors == nil {
-                setBrushColor(color)
                 if font.isCoreFont {
                     append("[<")
                     drawASCIIString(font, textLine.text!)
