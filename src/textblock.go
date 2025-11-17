@@ -66,7 +66,7 @@ func NewTextBlock(font *Font, textContent string) *TextBlock {
 
 	textBlock.borderWidth = 0.5
 	textBlock.borderCornerRadius = 0.0
-	textBlock.borderColor = color.Black
+	textBlock.borderColor = color.Transparent
 
 	textBlock.language = "en-US"
 	textBlock.altDescription = ""
@@ -324,16 +324,18 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 	default:
 	}
 
-	rect := NewRect(
-		textBlock.x,
-		textBlock.y,
-		textBlock.width,
-		maxFloat32(textBlock.height, float32(len(textLines))*leading+2*textBlock.textPadding))
-	// rect.SetTextColor(textBlock.textColor)
-	// TODO:	rect.SetBorderWidth(textBlock.borderWidth)
-	rect.SetBorderColor(textBlock.borderColor)
-	rect.SetCornerRadius(textBlock.borderCornerRadius)
-	rect.DrawOn(page)
+	if textBlock.borderColor != color.Transparent {
+		rect := NewRect(
+			textBlock.x,
+			textBlock.y,
+			textBlock.width,
+			maxFloat32(textBlock.height, float32(len(textLines))*leading+2*textBlock.textPadding))
+		// rect.SetTextColor(textBlock.textColor)
+		// TODO:	rect.SetBorderWidth(textBlock.borderWidth)
+		rect.SetBorderColor(textBlock.borderColor)
+		rect.SetCornerRadius(textBlock.borderCornerRadius)
+		rect.DrawOn(page)
+	}
 
 	page.AddBMC("P", textBlock.uriLanguage, textBlock.textContent, "")
 	page.drawTextBlock(
