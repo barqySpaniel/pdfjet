@@ -110,13 +110,9 @@ public class BigTable {
         page!.lineTo(vertLines[numberOfColumns], self.yText - font.ascent)
         page!.strokePath()
         page!.setPenColor(original)
-
-        // page!.addBMC(StructElem.P, language, rowText, rowText)
         page!.setPenWidth(0.0)
         page!.setBrushColor(Color.black)
 
-        page!.append(Token.beginText)
-        page!.setTextFont(font, font.size)
         for i in 0..<numberOfColumns {
             let text = fields[i]
             var xText = vertLines[i] + self.padding
@@ -125,9 +121,6 @@ public class BigTable {
             }
             page!.drawTextLine(font, text, xText, self.yText)
         }
-        page!.append(Token.endText)
-
-        // page!.addEMC()
     }
 
     private func highlightRow(page: Page, font: Font, color: Int32) {
@@ -142,7 +135,6 @@ public class BigTable {
     }
 
     private func drawTheVerticalLines() {
-        // page!.addArtifactBMC()
         let original = page!.getPenColor()
         page!.setPenColor(penColor)
         for i in 0...numberOfColumns {
@@ -156,7 +148,6 @@ public class BigTable {
         page!.lineTo(vertLines[numberOfColumns], self.yText - f2.ascent)
         page!.strokePath()
         page!.setPenColor(original)
-        // page!.addEMC()
     }
 
     private func getAlignment(_ str: String) -> Alignment {

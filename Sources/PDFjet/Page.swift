@@ -1763,7 +1763,9 @@ public class Page {
      * @param str the string.
      */
     internal func drawTextLine(_ font: Font, _ str: String, _ x: Float, _ y: Float) {
+        append(Token.beginText)
         setTextLocation(x, y)
+        setTextFont(font, font.size)
         if font.isCoreFont {
             append("[<")
             drawASCIIString(font, str)
@@ -1773,6 +1775,7 @@ public class Page {
             drawUnicodeString(font, str)
             append("> Tj\n")
         }
+        append(Token.endText)
     }
 
     func scaleAndRotate(_ x: Float, _ y: Float, _ w: Float, _ h: Float, _ degrees: Float) {
