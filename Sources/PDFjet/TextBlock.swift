@@ -218,6 +218,9 @@ public class TextBlock : Drawable {
             }
         }
 
+        if textLines.last!.text == "" {
+            textLines.removeLast()
+        }
         return textLines
     }
 

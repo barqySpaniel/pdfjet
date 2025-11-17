@@ -309,6 +309,7 @@ public class TextBlock {
         page.addEMC();
         page.append("Q\n");
 
+System.out.println(textLines.length);
         return new float[] {
             this.x + this.width,
             Math.max(this.y + this.height, this.y + textLines.length * leading + 2 * this.textPadding)
