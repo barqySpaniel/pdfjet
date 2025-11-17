@@ -283,16 +283,18 @@ public class TextBlock {
             underlineText(textLines);
         }
 
-        Rect rect = new Rect(
-            this.x,
-            this.y,
-            this.width,
-            Math.max(this.height, textLines.length * leading + 2 * this.textPadding));
-        rect.setFillColor(this.fillColor);
-        rect.setBorderWidth(this.borderWidth);
-        rect.setBorderColor(this.borderColor);
-        rect.setCornerRadius(this.borderCornerRadius);
-        rect.drawOn(page);
+        if (borderColor != null) {
+            Rect rect = new Rect(
+                this.x,
+                this.y,
+                this.width,
+                Math.max(this.height, textLines.length * leading + 2 * this.textPadding));
+            rect.setFillColor(this.fillColor);
+            rect.setBorderWidth(this.borderWidth);
+            rect.setBorderColor(this.borderColor);
+            rect.setCornerRadius(this.borderCornerRadius);
+            rect.drawOn(page);
+        }
 
         page.addBMC(StructElem.P, this.language, this.textContent, null);
         page.drawTextBlock(
