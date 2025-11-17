@@ -57,7 +57,6 @@ final public class Page {
     private String strokePattern = "[] 0";
 
     private int mcid = 0;
-    private float savedHeight = Float.MAX_VALUE;
 
     /*
      * From Android's Matrix object:
