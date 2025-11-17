@@ -127,22 +127,21 @@ public class BigTable {
         }
 
         drawFieldsAndLine(fields, f2);
-        this.yText +=  f2.ascent + f2.descent;
+        this.yText += f2.ascent + f2.descent;
         if (this.yText > (this.page.height - this.bottomMargin)) {
             drawTheVerticalLines();
             startNewPage = true;
         }
-        // page.addEMC();
     }
 
     private void drawFieldsAndLine(String[] fields, Font font) {
-        // page.addArtifactBMC();
         if (this.highlightRow) {
             highlightRow(page, font, highlightColor);
             this.highlightRow = false;
         } else {
             this.highlightRow = true;
         }
+
         // Draw the line above the text.
         float[] original = page.getPenColor();
         page.setPenColor(penColor);
@@ -150,9 +149,6 @@ public class BigTable {
         page.lineTo(vertLines[this.numberOfColumns], this.yText - font.ascent);
         page.strokePath();
         page.setPenColor(original);
-        // page.addEMC();
-
-        // page.addBMC(StructElem.TR, language, "", "");
         page.setBrushColor(Color.black);
 
         page.append("BT\n");
@@ -166,13 +162,8 @@ public class BigTable {
             page.drawTextLine(font, text, xText, this.yText);
         }
         page.append("ET\n");
-
-        // page.addEMC();
     }
 
-    /**
-     * highlightRow fills a row's background with highlight color
-     */
     private void highlightRow(Page page, Font font, int color) {
         float[] original = page.getBrushColor();
         page.setBrushColor(color);
@@ -185,7 +176,6 @@ public class BigTable {
     }
 
     private void drawTheVerticalLines() {
-        // page.addArtifactBMC();
         float[] original = page.getPenColor();
         page.setPenColor(penColor);
         for (int i = 0; i <= this.numberOfColumns; i++) {
@@ -200,7 +190,6 @@ public class BigTable {
         page.lineTo(vertLines[this.numberOfColumns], this.yText - f2.ascent);
         page.strokePath();
         page.setPenColor(original);
-        // page.addEMC();
     }
 
     private Alignment getAlignment(String str) {
@@ -275,15 +264,14 @@ public class BigTable {
     }
 
     public void complete() throws Exception {
-        BufferedReader reader =
-                new BufferedReader(new FileReader(this.fileName));
+        BufferedReader reader = new BufferedReader(new FileReader(this.fileName));
         String line = null;
         while ((line = reader.readLine()) != null) {
             String[] fields = line.split(this.delimiter);
             if (fields.length < this.numberOfColumns) {
                 continue;
             }
-            this.drawTextAndLine(fields);
+            drawTextAndLine(fields);
         }
         reader.close();
         drawTheVerticalLines();
