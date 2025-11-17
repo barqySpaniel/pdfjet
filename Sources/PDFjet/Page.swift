@@ -18,26 +18,27 @@ import Foundation
 ///
 public class Page {
     public static let DETACHED = false
-    var pdf: PDF
-    var pageObj: PDFobj?
-    var objNumber = 0
-    var buf = [UInt8]()
-    var tmx: [Float] = [1.0, 0.0, 0.0, 1.0]
-    var tm0: [UInt8]
-    var tm1: [UInt8]
-    var tm2: [UInt8]
-    var tm3: [UInt8]
-    var renderingMode = 0
-    var width: Float = 0.0
-    var height: Float = 0.0
-    var contents = [Int]()
-    var annots: [Annotation]?
-    var destinations: [Destination]?
-    var cropBox: [Float]?
-    var bleedBox: [Float]?
-    var trimBox: [Float]?
-    var artBox: [Float]?
-    var structures = [StructElem]()
+
+    internal var pdf: PDF
+    internal var pageObj: PDFobj?
+    internal var objNumber = 0
+    internal var buf = [UInt8]()
+    internal var tmx: [Float] = [1.0, 0.0, 0.0, 1.0]
+    internal var tm0: [UInt8]
+    internal var tm1: [UInt8]
+    internal var tm2: [UInt8]
+    internal var tm3: [UInt8]
+    internal var renderingMode = 0
+    internal var width: Float = 0.0
+    internal var height: Float = 0.0
+    internal var contents = [Int]()
+    internal var annots: [Annotation]?
+    internal var destinations: [Destination]?
+    internal var cropBox: [Float]?
+    internal var bleedBox: [Float]?
+    internal var trimBox: [Float]?
+    internal var artBox: [Float]?
+    internal var structures = [StructElem]()
 
     private var penColor: [Float] = [0.0, 0.0, 0.0]
     private var brushColor: [Float] = [0.0, 0.0, 0.0]
