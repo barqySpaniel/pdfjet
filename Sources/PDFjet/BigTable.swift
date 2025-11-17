@@ -115,6 +115,9 @@ public class BigTable {
         // page!.addBMC(StructElem.P, language, rowText, rowText)
         page!.setPenWidth(0.0)
         page!.setBrushColor(Color.black)
+
+        page!.append(Token.beginText)
+        page!.setTextFont(font, font.size)
         for i in 0..<numberOfColumns {
             let text = fields[i]
             var xText = vertLines[i] + self.padding
@@ -123,6 +126,8 @@ public class BigTable {
             }
             page!.drawTextLine(font, text, xText, self.yText)
         }
+        page!.append(Token.endText)
+
         // page!.addEMC()
     }
 

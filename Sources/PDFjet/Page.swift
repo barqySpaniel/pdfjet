@@ -1239,11 +1239,11 @@ public class Page {
         append("c\n")
     }
 
-    public func setTextFont(_ font: Font) {
-        setTextFont(font, font.size);
-    }
+//     public func setTextFont(_ font: Font) {
+//         setTextFont(font, font.size);
+//     }
 
-    private func setTextFont(_ font: Font, _ fontSize: Float) {
+    internal func setTextFont(_ font: Font, _ fontSize: Float) {
         if font.fontID != nil {
             append("/")
             append(font.fontID!)
@@ -1766,10 +1766,8 @@ public class Page {
      * Draws a string at the correct location.
      * @param str the string.
      */
-    func drawTextLine(_ font: Font, _ str: String, _ x: Float, _ y: Float) {
-        append(Token.beginText)
+    internal func drawTextLine(_ font: Font, _ str: String, _ x: Float, _ y: Float) {
         setTextLocation(x, y)
-        setTextFont(font, font.size)
         if font.isCoreFont {
             append("[<")
             drawASCIIString(font, str)
@@ -1779,7 +1777,6 @@ public class Page {
             drawUnicodeString(font, str)
             append("> Tj\n")
         }
-        append(Token.endText)
     }
 
     func scaleAndRotate(_ x: Float, _ y: Float, _ w: Float, _ h: Float, _ degrees: Float) {
