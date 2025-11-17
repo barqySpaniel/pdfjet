@@ -1491,7 +1491,9 @@ func (page *Page) SetTextRise(rise float32) {
 }
 
 func (page *Page) DrawTextLine(font *Font, str string, x float32, y float32) {
+	page.BeginText()
 	page.SetTextLocation(x, y)
+	page.SetTextFont(font, font.size)
 	if font.isCoreFont {
 		page.appendString("[<")
 		page.drawASCIIString(font, str)
@@ -1501,6 +1503,7 @@ func (page *Page) DrawTextLine(font *Font, str string, x float32, y float32) {
 		page.drawUnicodeString(font, str)
 		page.appendString("> Tj\n")
 	}
+	page.EndText()
 }
 
 func (page *Page) appendInteger(value int) {

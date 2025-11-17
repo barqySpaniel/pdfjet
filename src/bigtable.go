@@ -130,7 +130,6 @@ func (bt *BigTable) drawTextAndLine(fields []string) error {
 }
 
 func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
-	// bt.page.AddArtifactBMC()
 	if bt.highlight {
 		bt.highlightRow(bt.page, font, bt.highlightColor)
 		bt.highlight = false
@@ -144,26 +143,17 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 	bt.page.LineTo(bt.vertLines[bt.numberOfColumns], bt.yText-font.ascent)
 	bt.page.StrokePath()
 	bt.page.SetPenColorRGB(original)
-	// bt.page.AddEMC()
-
-	// bt.page.AddBMC("P", bt.language, rowText, rowText)
 	bt.page.SetPenWidth(0.0)
 	bt.page.SetBrushColor(color.Black)
 
-	bt.page.BeginText()
-	bt.page.SetTextFont(font, font.size)
 	for i := 0; i < bt.numberOfColumns; i++ {
 		text := fields[i]
 		xText := bt.vertLines[i] + bt.padding
 		if bt.alignment[i] == alignment.Right {
 			xText = (bt.vertLines[i+1] - bt.padding) - font.StringWidth(font, font.size, text)
 		}
-
 		bt.page.DrawTextLine(font, text, xText, bt.yText)
 	}
-	bt.page.EndText()
-
-	// bt.page.AddEMC()
 }
 
 func (bt *BigTable) highlightRow(page *Page, font *Font, color int32) {
