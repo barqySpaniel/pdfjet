@@ -1891,10 +1891,10 @@ final public class Page {
     }
 
     /**
-     *  Sets the text location.
+     * Sets the text location.
      *
-     *  @param x the x coordinate of new text location.
-     *  @param y the y coordinate of new text location.
+     * @param x the x coordinate of new text location.
+     * @param y the y coordinate of new text location.
      */
     private void setTextLocation(float x, float y) {
         append(x);
@@ -1904,8 +1904,8 @@ final public class Page {
     }
 
     /**
-     *  Sets the text leading.
-     *  @param leading the leading.
+     * Sets the text leading.
+     * @param leading the leading.
      */
     private void setTextLeading(float leading) {
         append(leading);
@@ -1913,7 +1913,7 @@ final public class Page {
     }
 
     /**
-     *  Advance to the next line.
+     * Advance to the next line.
      */
     private void nextLine() {
         append("T*\n");
@@ -1930,8 +1930,8 @@ final public class Page {
     }
 
     /**
-     *  Draws a string at the correct location.
-     *  @param str the string.
+     * Draws a string at the correct location.
+     * @param str the string.
      */
     protected void drawTextLine(Font font, String str, float x, float y) {
         setTextLocation(x, y);

@@ -127,7 +127,7 @@ public class BigTable {
         }
 
         drawFieldsAndLine(fields, f2);
-        this.yText += f2.ascent + f2.descent;
+        this.yText += f2.descent + f2.ascent;
         if (this.yText > (this.page.height - this.bottomMargin)) {
             drawTheVerticalLines();
             startNewPage = true;
