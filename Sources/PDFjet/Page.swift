@@ -1239,10 +1239,6 @@ public class Page {
         append("c\n")
     }
 
-//     public func setTextFont(_ font: Font) {
-//         setTextFont(font, font.size);
-//     }
-
     internal func setTextFont(_ font: Font, _ fontSize: Float) {
         if font.fontID != nil {
             append("/")

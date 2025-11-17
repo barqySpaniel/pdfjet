@@ -149,6 +149,9 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 	// bt.page.AddBMC("P", bt.language, rowText, rowText)
 	bt.page.SetPenWidth(0.0)
 	bt.page.SetBrushColor(color.Black)
+
+	bt.page.BeginText()
+	bt.page.SetTextFont(font, font.size)
 	for i := 0; i < bt.numberOfColumns; i++ {
 		text := fields[i]
 		xText := bt.vertLines[i] + bt.padding
@@ -158,6 +161,8 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 
 		bt.page.DrawTextLine(font, text, xText, bt.yText)
 	}
+	bt.page.EndText()
+
 	// bt.page.AddEMC()
 }
 
