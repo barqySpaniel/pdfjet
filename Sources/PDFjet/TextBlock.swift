@@ -16,11 +16,14 @@ public class TextBlock : Drawable {
     private var fontSize: Float = 12.0
     private var textContent: String
     private var textLineHeight: Float = 1.0
-    private var textColor: [Float] = [0.0, 0.0, 0.0]
     private var textPadding: Float = 0.0
+
+    private var fillColor: [Float]?
+    private var textColor: [Float] = [0.0, 0.0, 0.0]
+    private var borderColor: [Float]?
     private var borderWidth: Float = 0.5
     private var borderCornerRadius: Float = 0.0
-    private var borderColor: Int32 = Color.black
+
     private var language: String = "en-US"
     private var altDescription: String = ""
     private var uri: String?
@@ -102,10 +105,6 @@ public class TextBlock : Drawable {
         self.borderWidth = width
     }
 
-    public func setBorderColor(_ color: Int32) {
-        self.borderColor = color
-    }
-
     public func setTextLineHeight(_ lineHeight: Float) {
         self.textLineHeight = lineHeight
     }
@@ -117,8 +116,37 @@ public class TextBlock : Drawable {
         self.textColor = [r, g, b]
     }
 
+    public func setTextColor(_ textColor: [Float]) -> TextBlock {
+        self.textColor = textColor
+        return self
+    }
+
     public func setTextColor(_ r: Float, _ g: Float, _ b: Float) -> TextBlock {
         self.textColor = [r, g, b]
+        return self
+    }
+
+    public func setFillColor(_ color: Int32) {
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.fillColor = [r, g, b]
+    }
+
+    public func setFillColor(_ fillColor: [Float]?) -> TextBlock {
+        self.fillColor = fillColor
+        return self
+    }
+
+    public func setBorderColor(_ color: Int32) {
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.borderColor = [r, g, b]
+    }
+
+    public func setBorderColor(_ borderColor: [Float]?) -> TextBlock {
+        self.borderColor = borderColor
         return self
     }
 
@@ -354,16 +382,18 @@ public class TextBlock : Drawable {
             // underlineText(textLines)
         }
 
-//         let rect = Rect(
-//             x,
-//             y,
-//             width,
-//             max(height, Float(textLines.count) * leading + 2 * textPadding))
-//         // rect.setFillColor(fillColor) // TODO
-//         rect.setBorderWidth(borderWidth)
-//         rect.setBorderColor(borderColor)
-//         rect.setCornerRadius(borderCornerRadius)
-//         rect.drawOn(page)
+        if borderColor != nil {
+            let rect = Rect(
+                x,
+                y,
+                width,
+                max(height, Float(textLines.count) * leading + 2 * textPadding))
+            // rect.setFillColor(fillColor) // TODO
+            // rect.setBorderWidth(borderWidth)
+            rect.setBorderColor(borderColor)
+            rect.setCornerRadius(borderCornerRadius)
+            rect.drawOn(page)
+        }
 
         // page!.addBMC(StructElem.P, language, textContent, null)
         page!.drawTextBlock(
@@ -376,6 +406,7 @@ public class TextBlock : Drawable {
             textColor,
             highlightColors)
         // page!.addEMC()
+
         page!.append("Q\n")
 
         return [x + width, max(y + height, y + Float(textLines.count) * leading + 2 * textPadding)]

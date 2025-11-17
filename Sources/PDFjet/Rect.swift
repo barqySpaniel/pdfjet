@@ -12,27 +12,24 @@ public class Rect : Drawable {
     private var w: Float = 0.0
     private var h: Float = 0.0
     private var r: Float = 0.0
-    private var color: Int32
-    private var width: Float
-    private var pattern: String
-    private var fillShape: Bool = false
+
+    private var fillColor: [Float]?
+    private var borderColor: [Float] = [0.0, 0.0, 0.0]
+    private var borderWidth: Float = 0.0
+    private var borderPattern: String = "[] 0"
+
     private var uri: String?
     private var key: String?
     private var language: String?
-    private var altDescription: String
-    private var actualText: String
-    private var structureType: String
+    private var altDescription: String?
+    private var actualText: String?
+
+    // private var structureType: String
 
     /**
      * Creates new Rect object.
      */
     public init() {
-        self.color = Color.black
-        self.width = 0.0
-        self.pattern = "[] 0"
-        self.altDescription = Single.space
-        self.actualText = Single.space
-        self.structureType = "P" // StructureType.P; TODO
     }
 
     /**
@@ -87,12 +84,19 @@ public class Rect : Drawable {
         self.h = h
     }
 
-    /**
-     * Sets the color for this rect.
-     * - Parameter color: the color specified as an integer.
-     */
+    public func setFillColor(_ fillColor: [Float]?) {
+        self.fillColor = fillColor
+    }
+
     public func setBorderColor(_ color: Int32) {
-        self.color = color
+        let r = Float(((color >> 16) & 0xff))/255.0
+        let g = Float(((color >>  8) & 0xff))/255.0
+        let b = Float(((color)       & 0xff))/255.0
+        self.borderColor = [r, g, b]
+    }
+
+    public func setBorderColor(_ borderColor: [Float]?) {
+        self.borderColor = borderColor!
     }
 
     /**
@@ -100,7 +104,7 @@ public class Rect : Drawable {
      * - Parameter width: the width.
      */
     public func setLineWidth(_ width: Float) {
-        self.width = width
+        self.w = width
     }
 
     /**
@@ -149,40 +153,27 @@ public class Rect : Drawable {
         return self
     }
 
-    /**
-     * Sets the type of the structure.
-     * - Parameter structureType: the structure type.
-     * - Returns: this Rect.
-     */
-    @discardableResult
-    public func setStructureType(_ structureType: String) -> Rect {
-        self.structureType = structureType
-        return self
-    }
+//     /**
+//      * Sets the type of the structure.
+//      * - Parameter structureType: the structure type.
+//      * - Returns: this Rect.
+//      */
+//     @discardableResult
+//     public func setStructureType(_ structureType: String) -> Rect {
+//         self.structureType = structureType
+//         return self
+//     }
 
-    /**
-     * Sets the line dash pattern that controls the pattern of dashes and gaps used to stroke paths.
-     * - Parameter pattern: the line dash pattern.
-     */
-    public func setPattern(_ pattern: String) {
-        self.pattern = pattern
-    }
-
-    /**
-     * Sets the private fillShape variable.
-     * If the value of fillShape is true - the rect is filled with the current brush color.
-     * - Parameter fillShape: the value used to set the private fillShape variable.
-     */
-    public func setFillShape(_ fillShape: Bool) {
-        self.fillShape = fillShape
+    public func setBorderPattern(_ borderPattern: String) {
+        self.borderPattern = borderPattern
     }
 
     /**
      * Places this rect in the another rect.
      * - Parameters:
-     *   - rect: the other rect.
-     *   - xOffset: the x offset from the top left corner of the rect.
-     *   - yOffset: the y offset from the top left corner of the rect.
+     * - rect: the other rect.
+     * - xOffset: the x offset from the top left corner of the rect.
+     * - yOffset: the y offset from the top left corner of the rect.
      */
     public func placeIn(rect: Rect, xOffset: Float, yOffset: Float) {
         self.x = rect.x + xOffset
@@ -208,30 +199,30 @@ public class Rect : Drawable {
     public func drawOn(_ page: Page?) -> [Float] {
         let k: Float = 0.5517
 
-        page!.addBMC(
-                self.structureType,
-                self.language,
-                self.actualText,
-                self.altDescription)
+//         page!.addBMC(
+//                 self.structureType,
+//                 self.language,
+//                 self.actualText,
+//                 self.altDescription)
 
         if self.r == 0.0 {
             page!.moveTo(self.x, self.y)
             page!.lineTo(self.x + self.w, self.y)
             page!.lineTo(self.x + self.w, self.y + self.h)
             page!.lineTo(self.x, self.y + self.h)
-            if self.fillShape {
-                page!.setBrushColor(self.color)
+            if self.fillColor != nil {
+                page!.setBrushColor(self.fillColor!)
                 page!.fillPath()
             } else {
-                page!.setPenWidth(self.width)
-                page!.setPenColor(self.color)
-                page!.setLinePattern(self.pattern)
+                page!.setPenWidth(self.w)
+                page!.setPenColor(self.borderColor)
+                page!.setLinePattern(self.borderPattern)
                 page!.closePath()
             }
         } else {
-            page!.setPenWidth(self.width)
-            page!.setPenColor(self.color)
-            page!.setLinePattern(self.pattern)
+            page!.setPenWidth(self.borderWidth)
+            page!.setPenColor(self.borderColor)
+            page!.setLinePattern(self.borderPattern)
 
             var points: [Point] = []
             points.append(Point(self.x + self.r, self.y))
@@ -254,20 +245,20 @@ public class Rect : Drawable {
 
             page!.drawPath(points, PathOperator.stroke)
         }
-        page!.addEMC()
+//        page!.addEMC()
 
-        if self.uri != nil || self.key != nil {
-            page!.addAnnotation(Annotation(
-                self.uri,
-                self.key,
-                self.x,
-                self.y,
-                self.x + self.w,
-                self.y + self.h,
-                self.language,
-                self.actualText,
-                self.altDescription))
-        }
+//         if self.uri != nil || self.key != nil {
+//             page!.addAnnotation(Annotation(
+//                 self.uri,
+//                 self.key,
+//                 self.x,
+//                 self.y,
+//                 self.x + self.w,
+//                 self.y + self.h,
+//                 self.language,
+//                 self.actualText,
+//                 self.altDescription))
+//         }
 
         return [self.x + self.w, self.y + self.h]
     }

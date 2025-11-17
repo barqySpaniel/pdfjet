@@ -42,7 +42,7 @@ public class Example_01 {
                 contentsOfFile: "data/languages/bulgarian.txt", encoding: .utf8)
         let textBlock3 = TextBlock(font, bulgarianText)
         textBlock3.setLocation(50, xy[1] + 30)  // Set location below Greek text
-        textBlock3.setWidth(430)                // Set width for Bulgarian text block
+        textBlock3.setWidth(473)                // Set width for Bulgarian text block
         textBlock3.setTextPadding(10)           // Set padding around the Bulgarian text
         textBlock3.setBorderColor(Color.blue)   // Blue border for the Bulgarian text
         textBlock3.setBorderCornerRadius(10)    // Set rounded corners for the border
