@@ -16,8 +16,8 @@ public class Rect  : IDrawable {
     private float r;
 
     private float[] fillColor;
-    private float borderWidth;
     private float[] borderColor = new float[] {0f, 0f, 0f};
+    private float borderWidth;
     private string borderPattern = "[] 0";
 
     private string uri;
@@ -128,8 +128,8 @@ public class Rect  : IDrawable {
         return this;
     }
 
-    public void SetBorderPattern(String pattern) {
-        this.borderPattern = pattern;
+    public void SetBorderPattern(String borderPattern) {
+        this.borderPattern = borderPattern;
     }
 
     public void ScaleBy(float factor) {
@@ -145,7 +145,7 @@ public class Rect  : IDrawable {
         const float k = 0.55228f;
         page.Append("q\n");
         if (this.r == 0.0f) {
-            if (this.fillColor != null) {
+            if (fillColor != null) {
                 page.MoveTo(this.x, this.y);
                 page.LineTo(this.x + this.w, this.y);
                 page.LineTo(this.x + this.w, this.y + this.h);
