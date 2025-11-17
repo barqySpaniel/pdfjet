@@ -179,13 +179,7 @@ public class TextBlock : Drawable {
     private func getTextLines() -> [TextLine] {
         var textLines = [TextLine]()
 
-        let textAreaWidth: Float
-        if textDirection == Direction.LEFT_TO_RIGHT {
-            textAreaWidth = width - 2 * textPadding
-        } else {
-            textAreaWidth = height - 2 * textPadding
-        }
-
+        let textAreaWidth = self.width - 2 * self.textPadding
         let lines = textContent.components(separatedBy: .newlines)
         for line in lines {
             if font.stringWidth(fallbackFont, line) <= textAreaWidth {
