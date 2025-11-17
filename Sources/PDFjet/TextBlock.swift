@@ -382,7 +382,7 @@ public class TextBlock : Drawable {
             // underlineText(textLines)
         }
 
-        if borderColor != nil {
+        if self.borderColor != nil {
             let rect = Rect(
                 x,
                 y,
@@ -390,7 +390,7 @@ public class TextBlock : Drawable {
                 max(height, Float(textLines.count) * leading + 2 * textPadding))
             // rect.setFillColor(fillColor) // TODO
             // rect.setBorderWidth(borderWidth)
-            rect.setBorderColor(borderColor)
+            rect.setBorderColor(self.borderColor)
             rect.setCornerRadius(borderCornerRadius)
             rect.drawOn(page)
         }

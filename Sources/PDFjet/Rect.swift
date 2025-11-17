@@ -206,19 +206,25 @@ public class Rect : Drawable {
 //                 self.altDescription)
 
         if self.r == 0.0 {
-            page!.moveTo(self.x, self.y)
-            page!.lineTo(self.x + self.w, self.y)
-            page!.lineTo(self.x + self.w, self.y + self.h)
-            page!.lineTo(self.x, self.y + self.h)
-            if self.fillColor != nil {
-                page!.setBrushColor(self.fillColor!)
+            if fillColor != nil {
+                page!.setBrushColor(self.fillColor)
+                page!.moveTo(self.x, self.y)
+                page!.lineTo(self.x + self.w, self.y)
+                page!.lineTo(self.x + self.w, self.y + self.h)
+                page!.lineTo(self.x, self.y + self.h)
+                page!.lineTo(self.x, self.y)
                 page!.fillPath()
-            } else {
-                page!.setPenWidth(self.w)
-                page!.setPenColor(self.borderColor)
-                page!.setLinePattern(self.borderPattern)
-                page!.closePath()
             }
+//            if borderColor != nil {
+                page!.setPenColor(self.borderColor)
+                page!.setPenWidth(self.borderWidth)
+                // page!.setStrokePattern(self.borderPattern) // TODO
+                page!.moveTo(self.x, self.y)
+                page!.lineTo(self.x + self.w, self.y)
+                page!.lineTo(self.x + self.w, self.y + self.h)
+                page!.lineTo(self.x, self.y + self.h)
+                page!.closePath()
+//            }
         } else {
             page!.setPenWidth(self.borderWidth)
             page!.setPenColor(self.borderColor)

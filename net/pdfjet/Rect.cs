@@ -146,24 +146,24 @@ public class Rect  : IDrawable {
         page.Append("q\n");
         if (this.r == 0.0f) {
             if (fillColor != null) {
+                page.SetBrushColor(this.fillColor);
                 page.MoveTo(this.x, this.y);
                 page.LineTo(this.x + this.w, this.y);
                 page.LineTo(this.x + this.w, this.y + this.h);
                 page.LineTo(this.x, this.y + this.h);
                 page.LineTo(this.x, this.y);
-                page.SetBrushColor(this.fillColor);
                 page.FillPath();
             }
-            if (borderColor != null) {
+//            if (borderColor != null) {
+                page.SetPenColor(this.borderColor);
+                page.SetPenWidth(this.borderWidth);
+                page.SetStrokePattern(this.borderPattern);
                 page.MoveTo(this.x, this.y);
                 page.LineTo(this.x + this.w, this.y);
                 page.LineTo(this.x + this.w, this.y + this.h);
                 page.LineTo(this.x, this.y + this.h);
-                page.SetPenColor(this.borderColor);
-                page.SetPenWidth(this.borderWidth);
-                page.SetStrokePattern(this.borderPattern);
                 page.ClosePath();
-            }
+//            }
         } else {
             List<Point> points = new List<Point> {
                 new Point((this.x + this.r), this.y),
