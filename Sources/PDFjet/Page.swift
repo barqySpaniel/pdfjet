@@ -1244,7 +1244,6 @@ public class Page {
     }
 
     private func setTextFont(_ font: Font, _ fontSize: Float) {
-//        self.font = font
         if font.fontID != nil {
             append("/")
             append(font.fontID!)
@@ -1256,10 +1255,6 @@ public class Page {
         append(fontSize)
         append(" Tf\n")
     }
-
-//     public func getTextFont() -> Font? {
-//         return self.font
-//     }
 
     // Original code provided by:
     // Dominique Andre Gunia <contact@dgunia.de>
@@ -1751,7 +1746,7 @@ public class Page {
     }
 
     /**
-     *  Advance to the next line.
+     * Advance to the next line.
      */
     func nextLine() {
         append("T*\n")
