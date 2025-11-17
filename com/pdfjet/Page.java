@@ -1934,6 +1934,7 @@ final public class Page {
      * @param str the string.
      */
     protected void drawTextLine(Font font, String str, float x, float y) {
+        append("BT\n");
         setTextLocation(x, y);
         setTextFont(font, font.size);
         if (font.isCoreFont) {
@@ -1945,6 +1946,7 @@ final public class Page {
             drawUnicodeString(font, str);
             append("> Tj\n");
         }
+        append("ET\n");
     }
 
     void scaleAndRotate(float x, float y, float w, float h, float degrees) {

@@ -157,9 +157,7 @@ public class BigTable {
             if (alignment[i] == Alignment.RIGHT) {
                 xText = (vertLines[i + 1] - this.padding) - font.stringWidth(text);
             }
-            page.append("BT\n");
             page.drawTextLine(font, text, xText, this.yText);
-            page.append("ET\n");
         }
     }
 
