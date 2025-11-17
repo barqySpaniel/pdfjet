@@ -177,7 +177,7 @@ public class TextBlock : Drawable {
     }
 
     private func getTextLines() -> [TextLine] {
-        var list = [TextLine]()
+        var textLines = [TextLine]()
 
         let textAreaWidth: Float
         if textDirection == Direction.LEFT_TO_RIGHT {
@@ -189,7 +189,7 @@ public class TextBlock : Drawable {
         let lines = textContent.components(separatedBy: .newlines)
         for line in lines {
             if font.stringWidth(fallbackFont, line) <= textAreaWidth {
-                list.append(TextLine(font, line))
+                textLines.append(TextLine(font, line))
             } else {
                 if textIsCJK(line) {
                     var sb = ""
@@ -197,12 +197,12 @@ public class TextBlock : Drawable {
                         if font.stringWidth(fallbackFont, sb + String(ch)) <= textAreaWidth {
                             sb.append(ch)
                         } else {
-                            list.append(TextLine(font, sb))
+                            textLines.append(TextLine(font, sb))
                             sb = String(ch)
                         }
                     }
                     if !sb.isEmpty {
-                        list.append(TextLine(font, sb))
+                        textLines.append(TextLine(font, sb))
                     }
                 } else {
                     var sb = ""
@@ -212,18 +212,19 @@ public class TextBlock : Drawable {
                             sb.append(token)
                             sb.append(" ")
                         } else {
-                            list.append(TextLine(font, sb.trimmingCharacters(in: .whitespaces)))
+                            textLines.append(TextLine(font, sb.trim()))
+                            sb = ""
                             sb = token + " "
                         }
                     }
                     if !sb.trim().isEmpty {
-                        list.append(TextLine(font, sb.trim()))
+                        textLines.append(TextLine(font, sb.trim()))
                     }
                 }
             }
         }
 
-        return list
+        return textLines
     }
 
     @discardableResult
