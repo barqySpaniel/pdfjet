@@ -1393,7 +1393,7 @@ final public class Page {
         append("c\n");
     }
 
-    private void setTextFont(Font font, float fontSize) {
+    protected void setTextFont(Font font, float fontSize) {
         if (font.fontID != null) {
             append('/');
             append(font.fontID);
@@ -1934,9 +1934,7 @@ final public class Page {
      *  @param str the string.
      */
     protected void drawTextLine(Font font, String str, float x, float y) {
-        append("BT\n");
         setTextLocation(x, y);
-        setTextFont(font, font.size);
         if (font.isCoreFont) {
             append("[<");
             drawASCIIString(font, str);
@@ -1946,7 +1944,6 @@ final public class Page {
             drawUnicodeString(font, str);
             append("> Tj\n");
         }
-        append("ET\n");
     }
 
     void scaleAndRotate(float x, float y, float w, float h, float degrees) {
