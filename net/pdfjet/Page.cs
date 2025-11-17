@@ -1905,6 +1905,7 @@ public class Page {
         }
 
         Append("BT\n");
+        SetBrushColor(color);
         SetTextFont(font, fontSize);
         float yText = y;
         foreach (TextLine textLine in textLines) {
@@ -1914,7 +1915,6 @@ public class Page {
             Append(height - (yText + font.GetAscent(fontSize)));
             Append(" Tm\n");
             if (highlightColors == null) {
-                SetBrushColor(color);
                 if (font.isCoreFont) {
                     Append("[<");
                     DrawASCIIString(font, textLine.text);
