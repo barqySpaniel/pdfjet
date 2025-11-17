@@ -409,6 +409,7 @@ func (textLine *TextLine) DrawOn(page *Page) []float32 {
 	page.DrawStringUsingColorMap(
 		textLine.font,
 		textLine.fallbackFont,
+		textLine.font.size,
 		textLine.text,
 		textLine.x,
 		textLine.y,

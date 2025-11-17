@@ -109,7 +109,9 @@ func (radioButton *RadioButton) DrawOn(page *Page) []float32 {
 	if radioButton.uri != nil {
 		page.SetBrushColor(color.Blue)
 	}
-	page.DrawStringUsingColorMap(radioButton.font, nil, radioButton.label, radioButton.x+3*radioButton.r1, radioButton.y, color.Black, nil)
+	page.DrawStringUsingColorMap(
+		radioButton.font, radioButton.font, radioButton.font.size, radioButton.label,
+		radioButton.x+3*radioButton.r1, radioButton.y, color.Black, nil)
 	page.SetPenWidth(0.0)
 	page.SetBrushColor(color.Black)
 

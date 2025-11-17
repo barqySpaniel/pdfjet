@@ -665,13 +665,14 @@ func (textBox *TextBox) DrawTextLine(
 	page.AddBMC("P", textBox.language, text, textBox.altDescription)
 	switch textBox.textDirection {
 	case direction.LeftToRight:
-		page.DrawStringUsingColorMap(font, fallbackFont, text, xText, yText, brush, colors)
+		page.DrawStringUsingColorMap(font, fallbackFont, font.size, text, xText, yText, brush, colors)
 	case direction.BottomToTop:
 		page.SetTextDirection(90)
-		page.DrawStringUsingColorMap(font, fallbackFont, text, yText, xText+textBox.height, textBox.brush, colors)
+		page.DrawStringUsingColorMap(
+			font, fallbackFont, font.size, text, yText, xText+textBox.height, textBox.brush, colors)
 	case direction.TopToBottom:
 		page.SetTextDirection(270)
-		page.DrawStringUsingColorMap(font, fallbackFont, text,
+		page.DrawStringUsingColorMap(font, fallbackFont, font.size, text,
 			(yText+textBox.width)-(textBox.margin+2*font.ascent), xText, textBox.brush, colors)
 	}
 	page.AddEMC()

@@ -14,6 +14,7 @@ import (
 	"strings"
 
 	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 )
 
@@ -94,7 +95,7 @@ func (bt *BigTable) GetPages() []*Page {
 	return bt.pages
 }
 
-func (bt *BigTable) drawTextAndLine(fields []string, font *Font) error {
+func (bt *BigTable) drawTextAndLine(fields []string) error {
 	if bt.page == nil { // First page
 		bt.page = NewPageDetached(bt.pdf, bt.pageSize)
 		bt.pages = append(bt.pages, bt.page)
@@ -118,8 +119,8 @@ func (bt *BigTable) drawTextAndLine(fields []string, font *Font) error {
 		bt.startNewPage = false
 	}
 
-	bt.drawFieldsAndLine(fields, font)
-	bt.yText += font.descent + font.ascent
+	bt.drawFieldsAndLine(fields, bt.f2)
+	bt.yText += bt.f2.descent + bt.f2.ascent
 	if bt.yText > (bt.page.height - bt.bottomMargin) {
 		bt.drawTheVerticalLines()
 		bt.startNewPage = true
@@ -147,21 +148,15 @@ func (bt *BigTable) drawFieldsAndLine(fields []string, font *Font) {
 
 	// bt.page.AddBMC("P", bt.language, rowText, rowText)
 	bt.page.SetPenWidth(0.0)
-	bt.page.SetTextFont(font)
 	bt.page.SetBrushColor(color.Black)
 	for i := 0; i < bt.numberOfColumns; i++ {
 		text := fields[i]
-		xText1 := bt.vertLines[i] + bt.padding
-		xText2 := bt.vertLines[i+1] - bt.padding
-		bt.page.BeginText()
-		switch bt.alignment[i] {
-		case align.Left: // Align Left
-			bt.page.SetTextLocation(xText1, bt.yText)
-		case align.Right: // Align Right
-			bt.page.SetTextLocation(xText2-font.StringWidth(nil, font.size, text), bt.yText)
+		xText := bt.vertLines[i] + bt.padding
+		if bt.alignment[i] == alignment.Right {
+			xText = (bt.vertLines[i+1] - bt.padding) - font.StringWidth(font, font.size, text)
 		}
-		bt.page.DrawText(text)
-		bt.page.EndText()
+
+		bt.page.DrawTextLine(font, text, xText, bt.yText)
 	}
 	// bt.page.AddEMC()
 }
@@ -295,7 +290,7 @@ func (bt *BigTable) Complete() error {
 		if len(fields) < bt.numberOfColumns {
 			continue
 		}
-		if err := bt.drawTextAndLine(fields, bt.f2); err != nil {
+		if err := bt.drawTextAndLine(fields); err != nil {
 			return err
 		}
 	}

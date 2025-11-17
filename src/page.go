@@ -39,31 +39,34 @@ type Page struct {
 	buf           []byte
 	pageObj       *PDFobj
 	objNumber     int
-	tmx           [4]float32
-	tm0           []byte
-	tm1           []byte
-	tm2           []byte
-	tm3           []byte
 	renderingMode int
 	width         float32
 	height        float32
 	contents      []int
 	annots        []*Annotation
 	destinations  []*Destination
-	cropBox       []float32
-	bleedBox      []float32
-	trimBox       []float32
-	artBox        []float32
 	structures    []*StructElem
-	penColor      [3]float32
-	brushColor    [3]float32
-	penCMYK       [4]float32
-	brushCMYK     [4]float32
+
+	cropBox  []float32
+	bleedBox []float32
+	trimBox  []float32
+	artBox   []float32
+
+	penColor   [3]float32
+	brushColor [3]float32
+	penCMYK    [4]float32
+	brushCMYK  [4]float32
+
+	tmx [4]float32
+	tm0 []byte
+	tm1 []byte
+	tm2 []byte
+	tm3 []byte
+
 	penWidth      float32
 	lineCapStyle  int
 	lineJoinStyle int
 	linePattern   string
-	font          *Font
 	savedStates   []*State
 	mcid          int
 	savedHeight   float32
@@ -218,7 +221,7 @@ func (page *Page) DrawLine(x1, y1, x2, y2 float32) {
 
 // DrawString draws a string using the specified font1 and font2 at the x, y location.
 func (page *Page) DrawString(font1 *Font, font2 *Font, text string, x, y float32) {
-	page.DrawStringUsingColorMap(font1, font2, text, x, y, color.Black, nil)
+	page.DrawStringUsingColorMap(font1, font2, font1.size, text, x, y, color.Black, nil)
 }
 
 // DrawStringUsingColorMap draws the text given by the specified string,
@@ -226,15 +229,15 @@ func (page *Page) DrawString(font1 *Font, font2 *Font, text string, x, y float32
 // If the main font is missing some glyphs - the fallback font is used.
 // The baseline of the leftmost character is at position (x, y) on the page.
 func (page *Page) DrawStringUsingColorMap(
-	font, fallbackFont *Font, text string, x, y float32, brush int32, colors map[string]int32) {
+	font, fallbackFont *Font, fontSize float32, text string, x, y float32, brush int32, colors map[string]int32) {
 	if font.isCoreFont || font.isCJK || fallbackFont == nil || fallbackFont.isCoreFont || fallbackFont.isCJK {
-		page.drawString(font, text, x, y, brush, colors)
+		page.drawString(font, fontSize, text, x, y, brush, colors)
 	} else {
 		activeFont := font
 		var buf strings.Builder
 		for _, ch := range text {
 			if activeFont.unicodeToGID[ch] == 0 {
-				page.drawString(activeFont, buf.String(), x, y, brush, colors)
+				page.drawString(activeFont, fontSize, buf.String(), x, y, brush, colors)
 				x += activeFont.stringWidth(activeFont.size, buf.String())
 				buf.Reset()
 				// Switch the active font
@@ -246,7 +249,7 @@ func (page *Page) DrawStringUsingColorMap(
 			}
 			buf.WriteRune(ch)
 		}
-		page.drawString(activeFont, buf.String(), x, y, brush, colors)
+		page.drawString(activeFont, fontSize, buf.String(), x, y, brush, colors)
 	}
 }
 
@@ -258,12 +261,13 @@ func (page *Page) DrawStringUsingColorMap(
 // @param str the string to be drawn.
 // @param x the x coordinate.
 // @param y the y coordinate.
-func (page *Page) drawString(font *Font, str string, x, y float32, brush int32, colors map[string]int32) {
+func (page *Page) drawString(
+	font *Font, fontSize float32, str string, x, y float32, brush int32, colors map[string]int32) {
 	if str == "" {
 		return
 	}
 	page.appendString("BT\n")
-	page.SetTextFont(font)
+	page.SetTextFont(font, fontSize)
 
 	if page.renderingMode != 0 {
 		page.appendInteger(page.renderingMode)
@@ -332,7 +336,7 @@ func (page *Page) drawASCIIString(font *Font, text string) {
 			for i := 2; i < len(font.metrics[c1]); i += 2 {
 				if font.metrics[c1][i] == int(c2) {
 					page.appendString(">")
-					page.appendInteger(-page.font.metrics[c1][i+1])
+					page.appendInteger(-font.metrics[c1][i+1])
 					page.appendString("<")
 					break
 				}
@@ -1084,9 +1088,8 @@ func (page *Page) BezierCurveTo(p1, p2, p3 *Point) {
 	page.appendString("c\n")
 }
 
-// SetTextFont sets the text fonts.
-func (page *Page) SetTextFont(font *Font) {
-	page.font = font
+// SetTextFont sets the text font.
+func (page *Page) SetTextFont(font *Font, fontSize float32) {
 	if font.fontID != "" {
 		page.appendByte('/')
 		page.appendString(font.fontID)
@@ -1095,12 +1098,8 @@ func (page *Page) SetTextFont(font *Font) {
 		page.appendInteger(font.objNumber)
 	}
 	page.appendByte(token.Space)
-	page.appendFloat32(font.size)
+	page.appendFloat32(fontSize)
 	page.appendString(" Tf\n")
-}
-
-func (page *Page) GetTextFont() *Font {
-	return page.font
 }
 
 // DrawRectRoundCorners draws rectangle with rounded corners.
@@ -1373,7 +1372,7 @@ func (page *Page) DrawContents(
 func (page *Page) DrawArrayOfCharacters(font *Font, text string, x, y, dx float32) {
 	x1 := x
 	for i := 0; i < len(text); i++ {
-		page.DrawStringUsingColorMap(font, nil, text[i:i+1], x1, y, color.Black, nil)
+		page.DrawStringUsingColorMap(font, nil, font.size, text[i:i+1], x1, y, color.Black, nil)
 		x1 += dx
 	}
 }
@@ -1440,7 +1439,7 @@ func (page *Page) AddHeader(textLine *TextLine) []float32 {
 func (page *Page) AddHeaderOffsetBy(textLine *TextLine, offset float32) []float32 {
 	textLine.SetLocation((page.GetWidth()-textLine.GetWidth())/2, offset)
 	xy := textLine.DrawOn(page)
-	xy[1] += page.font.descent
+	xy[1] += textLine.font.descent
 	return xy
 }
 
@@ -1491,16 +1490,20 @@ func (page *Page) SetTextRise(rise float32) {
 	page.appendString(" Ts\n")
 }
 
-func (page *Page) DrawText(str string) {
-	if page.font.isCoreFont {
+func (page *Page) DrawTextLine(font *Font, str string, x float32, y float32) {
+	page.BeginText()
+	page.SetTextLocation(x, y)
+	page.SetTextFont(font, font.size)
+	if font.isCoreFont {
 		page.appendString("[<")
-		page.drawASCIIString(page.font, str)
+		page.drawASCIIString(font, str)
 		page.appendString(">] TJ\n")
 	} else {
 		page.appendString("<")
-		page.drawUnicodeString(page.font, str)
+		page.drawUnicodeString(font, str)
 		page.appendString("> Tj\n")
 	}
+	page.EndText()
 }
 
 func (page *Page) appendInteger(value int) {
@@ -1601,7 +1604,7 @@ func (page *Page) drawTextBlock(
 	}
 
 	page.appendString("BT\n")
-	page.SetTextFont(font)
+	page.SetTextFont(font, fontSize)
 	yText := y
 	for _, textLine := range textLines {
 		page.appendString("1 0 0 1 ")
@@ -1617,11 +1620,11 @@ func (page *Page) drawTextBlock(
 				page.appendString(">] TJ\n")
 			} else {
 				page.appendString("<")
-				page.drawUnicodeString(page.font, textLine.text)
+				page.drawUnicodeString(font, textLine.text)
 				page.appendString("> Tj\n")
 			}
 		} else {
-			page.drawColoredString(page.font, textLine.text, textColor, highlightColors)
+			page.drawColoredString(font, textLine.text, textColor, highlightColors)
 		}
 		yText += leading
 	}

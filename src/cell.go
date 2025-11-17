@@ -557,7 +557,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		if cell.compositeTextLine == nil {
 			xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
 			page.AddBMC("Span", "", *cell.text, *cell.text)
-			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, *cell.text, xText, yText, cell.brush, nil)
+			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.brush, nil)
 			page.AddEMC()
 			if cell.GetUnderline() {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
@@ -577,7 +577,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 			xText = x + cell.leftPadding +
 				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
 			page.AddBMC("Span", "", *cell.text, *cell.text)
-			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, *cell.text, xText, yText, cell.brush, nil)
+			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.brush, nil)
 			page.AddEMC()
 			if cell.GetUnderline() {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
@@ -597,7 +597,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		xText = x + cell.leftPadding
 		if cell.compositeTextLine == nil {
 			page.AddBMC("Span", "", *cell.text, *cell.text)
-			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, *cell.text, xText, yText, cell.brush, nil)
+			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.brush, nil)
 			page.AddEMC()
 			if cell.GetUnderline() {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
