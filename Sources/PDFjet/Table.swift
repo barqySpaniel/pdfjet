@@ -582,7 +582,7 @@ public class Table {
         }
     }
 
-    // Sets the bottom border on all cells in the last row.
+    // Sets the bottom border of all cells in the last row.
     private func setBottomBorderOnLastRow() {
         let firstRow = tableData[0]
         for cell in firstRow {
