@@ -57,8 +57,8 @@ public class Table {
             let fields = line.components(separatedBy: delimiterRegex!)
             for field in fields {
                 if lineNumber == 0 {
-                    let cell = Cell(f1)
-                    cell.setTextBox(TextBox(f1, field))
+                    let cell = Cell(f1, field)
+                    // cell.setTextBox(TextBox(f1, field)) // TODO
                     row.append(cell)
                 } else {
                     row.append(Cell(f2, field))
