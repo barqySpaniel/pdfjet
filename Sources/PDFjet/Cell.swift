@@ -620,43 +620,34 @@ public class Cell {
             _ cellH: Float) {
         page.setPenColor(strokeColor)
         page.setPenWidth(lineWidth)
-        if getBorder(Border.TOP) &&
-                getBorder(Border.BOTTOM) &&
-                getBorder(Border.LEFT) &&
-                getBorder(Border.RIGHT) {
+        let qWidth: Float = lineWidth / 4
+        if getBorder(Border.TOP) {
             page.addBMC(StructElem.P, Single.space, Single.space)
-            page.drawRect(x, y, cellW, cellH)
+            page.moveTo(x - qWidth, y)
+            page.lineTo(x + cellW, y)
+            page.strokePath()
             page.addEMC()
-        } else {
-            let qWidth: Float = lineWidth / 4
-            if getBorder(Border.TOP) {
-                page.addBMC(StructElem.P, Single.space, Single.space)
-                page.moveTo(x - qWidth, y)
-                page.lineTo(x + cellW, y)
-                page.strokePath()
-                page.addEMC()
-            }
-            if getBorder(Border.BOTTOM) {
-                page.addBMC(StructElem.P, Single.space, Single.space)
-                page.moveTo(x - qWidth, y + cellH)
-                page.lineTo(x + cellW, y + cellH)
-                page.strokePath()
-                page.addEMC()
-            }
-            if getBorder(Border.LEFT) {
-                page.addBMC(StructElem.P, Single.space, Single.space)
-                page.moveTo(x, y - qWidth)
-                page.lineTo(x, y + cellH + qWidth)
-                page.strokePath()
-                page.addEMC()
-            }
-            if getBorder(Border.RIGHT) {
-                page.addBMC(StructElem.P, Single.space, Single.space)
-                page.moveTo(x + cellW, y - qWidth)
-                page.lineTo(x + cellW, y + cellH + qWidth)
-                page.strokePath()
-                page.addEMC()
-            }
+        }
+        if getBorder(Border.BOTTOM) {
+            page.addBMC(StructElem.P, Single.space, Single.space)
+            page.moveTo(x - qWidth, y + cellH)
+            page.lineTo(x + cellW, y + cellH)
+            page.strokePath()
+            page.addEMC()
+        }
+        if getBorder(Border.LEFT) {
+            page.addBMC(StructElem.P, Single.space, Single.space)
+            page.moveTo(x, y - qWidth)
+            page.lineTo(x, y + cellH + qWidth)
+            page.strokePath()
+            page.addEMC()
+        }
+        if getBorder(Border.RIGHT) {
+            page.addBMC(StructElem.P, Single.space, Single.space)
+            page.moveTo(x + cellW, y - qWidth)
+            page.lineTo(x + cellW, y + cellH + qWidth)
+            page.strokePath()
+            page.addEMC()
         }
     }
 

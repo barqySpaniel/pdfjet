@@ -59,9 +59,9 @@ public class Cell {
     private int valign = Align.TOP;
 
     /**
-     *  Creates a cell object and sets the font.
+     * Creates a cell object and sets the font.
      *
-     *  @param font the font.
+     * @param font the font.
      */
     public Cell(Font font) {
         this.font = font;
@@ -70,10 +70,10 @@ public class Cell {
     }
 
     /**
-     *  Creates a cell object and sets the font and the cell text.
+     * Creates a cell object and sets the font and the cell text.
      *
-     *  @param font the font.
-     *  @param text the text.
+     * @param font the font.
+     * @param text the text.
      */
     public Cell(Font font, String text) {
         this.font = font;
@@ -83,11 +83,11 @@ public class Cell {
     }
 
     /**
-     *  Creates a cell object and sets the font, fallback font and the cell text.
+     * Creates a cell object and sets the font, fallback font and the cell text.
      *
-     *  @param font the font.
-     *  @param fallbackFont the fallback font.
-     *  @param text the text.
+     * @param font the font.
+     * @param fallbackFont the fallback font.
+     * @param text the text.
      */
     public Cell(Font font, Font fallbackFont, String text) {
         this.font = font;
@@ -97,63 +97,63 @@ public class Cell {
     }
 
     /**
-     *  Sets the font for this cell.
+     * Sets the font for this cell.
      *
-     *  @param font the font.
+     * @param font the font.
      */
     public void setFont(Font font) {
         this.font = font;
     }
 
     /**
-     *  Sets the fallback font for this cell.
+     * Sets the fallback font for this cell.
      *
-     *  @param fallbackFont the fallback font.
+     * @param fallbackFont the fallback font.
      */
     public void setFallbackFont(Font fallbackFont) {
         this.fallbackFont = fallbackFont;
     }
 
     /**
-     *  Returns the font used by this cell.
+     * Returns the font used by this cell.
      *
-     *  @return the font.
+     * @return the font.
      */
     public Font getFont() {
         return this.font;
     }
 
     /**
-     *  Returns the fallback font used by this cell.
+     * Returns the fallback font used by this cell.
      *
-     *  @return the fallback font.
+     * @return the fallback font.
      */
     public Font getFallbackFont() {
         return this.fallbackFont;
     }
 
     /**
-     *  Sets the cell text.
+     * Sets the cell text.
      *
-     *  @param text the cell text.
+     * @param text the cell text.
      */
     public void setText(String text) {
         this.text = text;
     }
 
     /**
-     *  Returns the cell text.
+     * Returns the cell text.
      *
-     *  @return the cell text.
+     * @return the cell text.
      */
     public String getText() {
         return this.text;
     }
 
     /**
-     *  Sets the image inside this cell.
+     * Sets the image inside this cell.
      *
-     *  @param image the image.
+     * @param image the image.
      */
     public void setImage(Image image) {
         this.image = image;
@@ -161,9 +161,9 @@ public class Cell {
     }
 
     /**
-     *  Sets the barcode inside this cell.
+     * Sets the barcode inside this cell.
      *
-     *  @param barcode the barcode.
+     * @param barcode the barcode.
      */
     public void setBarcode(Barcode barcode) {
         this.barcode = barcode;
@@ -171,28 +171,28 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell image.
+     * Returns the cell image.
      *
-     *  @return the image.
+     * @return the image.
      */
     public Image getImage() {
         return this.image;
     }
 
     /**
-     *  Sets the point inside this cell.
-     *  See the Point class and Example_09 for more information.
+     * Sets the point inside this cell.
+     * See the Point class and Example_09 for more information.
      *
-     *  @param point the point.
+     * @param point the point.
      */
     public void setPoint(Point point) {
         this.point = point;
     }
 
     /**
-     *  Returns the cell point.
+     * Returns the cell point.
      *
-     *  @return the point.
+     * @return the point.
      */
     public Point getPoint() {
         return this.point;
@@ -238,9 +238,9 @@ public class Cell {
     }
 
     /**
-     *  Sets the width of this cell.
+     * Sets the width of this cell.
      *
-     *  @param width the specified width.
+     * @param width the specified width.
      */
     public void setWidth(float width) {
         this.width = width;
@@ -252,54 +252,54 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell width.
+     * Returns the cell width.
      *
-     *  @return the cell width.
+     * @return the cell width.
      */
     public float getWidth() {
         return this.width;
     }
 
     /**
-     *  Sets the top padding of this cell.
+     * Sets the top padding of this cell.
      *
-     *  @param padding the top padding.
+     * @param padding the top padding.
      */
     public void setTopPadding(float padding) {
         this.topPadding = padding;
     }
 
     /**
-     *  Sets the bottom padding of this cell.
+     * Sets the bottom padding of this cell.
      *
-     *  @param padding the bottom padding.
+     * @param padding the bottom padding.
      */
     public void setBottomPadding(float padding) {
         this.bottomPadding = padding;
     }
 
     /**
-     *  Sets the left padding of this cell.
+     * Sets the left padding of this cell.
      *
-     *  @param padding the left padding.
+     * @param padding the left padding.
      */
     public void setLeftPadding(float padding) {
         this.leftPadding = padding;
     }
 
     /**
-     *  Sets the right padding of this cell.
+     * Sets the right padding of this cell.
      *
-     *  @param padding the right padding.
+     * @param padding the right padding.
      */
     public void setRightPadding(float padding) {
         this.rightPadding = padding;
     }
 
     /**
-     *  Sets the top, bottom, left and right paddings of this cell.
+     * Sets the top, bottom, left and right paddings of this cell.
      *
-     *  @param padding the right padding.
+     * @param padding the right padding.
      */
     public void setPadding(float padding) {
         this.topPadding = padding;
@@ -320,10 +320,10 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell height.
+     * Returns the cell height.
      *
-     *  @param width the cell width.
-     *  @return the cell height.
+     * @param width the cell width.
+     * @return the cell height.
      */
     public float getHeight(float width) throws Exception {
         float cellHeight = 0f;
@@ -368,9 +368,9 @@ public class Cell {
     }
 
     /**
-     *  Sets the text color.
+     * Sets the text color.
      *
-     *  @param textColor the text color.
+     * @param textColor the text color.
      */
     public void setBrushColor(float[] textColor) {
         this.textColor = textColor;
@@ -388,7 +388,7 @@ public class Cell {
     }
 
     /**
-     *  Returns the brush color.
+     * Returns the brush color.
      *
      * @return the brush color.
      */
@@ -420,9 +420,9 @@ public class Cell {
     }
 
     /**
-     *  Sets the column span private variable.
+     * Sets the column span private variable.
      *
-     *  @param colspan the specified column span value.
+     * @param colspan the specified column span value.
      */
     public void setColSpan(int colspan) {
         this.properties &= 0x00FF0000;
@@ -430,19 +430,19 @@ public class Cell {
     }
 
     /**
-     *  Returns the column span private variable value.
+     * Returns the column span private variable value.
      *
-     *  @return the column span value.
+     * @return the column span value.
      */
     public int getColSpan() {
         return (this.properties & 0x0000FFFF);
     }
 
     /**
-     *  Sets the cell border object.
+     * Sets the cell border object.
      *
-     *  @param border the border object.
-     *  @param visible the visibility of the border.
+     * @param border the border object.
+     * @param visible the visibility of the border.
      */
     public void setBorder(int border, boolean visible) {
         if (visible) {
@@ -453,10 +453,10 @@ public class Cell {
     }
 
     /**
-     *  Returns the cell border object.
+     * Returns the cell border object.
      *
-     *  @param border the border.
-     *  @return the cell border object.
+     * @param border the border.
+     * @return the cell border object.
      */
     public boolean getBorder(int border) {
         return (this.properties & border) != 0;
@@ -475,10 +475,10 @@ public class Cell {
     }
 
     /**
-     *  Sets the cell text alignment.
+     * Sets the cell text alignment.
      *
-     *  @param alignment the alignment code.
-     *  Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
+     * @param alignment the alignment code.
+     * Supported values: Align.LEFT, Align.RIGHT and Align.CENTER.
      */
     public void setTextAlignment(int alignment) {
         this.properties &= 0x00CFFFFF;
@@ -486,38 +486,38 @@ public class Cell {
     }
 
     /**
-     *  Returns the text alignment.
+     * Returns the text alignment.
      *
-     *  @return the text horizontal alignment code.
+     * @return the text horizontal alignment code.
      */
     public int getTextAlignment() {
         return (this.properties & 0x00300000);
     }
 
     /**
-     *  Sets the cell text vertical alignment.
+     * Sets the cell text vertical alignment.
      *
-     *  @param alignment the alignment code.
-     *  Supported values: Align.TOP, Align.CENTER and Align.BOTTOM.
+     * @param alignment the alignment code.
+     * Supported values: Align.TOP, Align.CENTER and Align.BOTTOM.
      */
     public void setVerTextAlignment(int alignment) {
         this.valign = alignment;
     }
 
     /**
-     *  Returns the cell text vertical alignment.
+     * Returns the cell text vertical alignment.
      *
-     *  @return the vertical alignment code.
+     * @return the vertical alignment code.
      */
     public int getVerTextAlignment() {
         return this.valign;
     }
 
     /**
-     *  Sets the underline text parameter.
-     *  If the value of the underline variable is 'true' - the text is underlined.
+     * Sets the underline text parameter.
+     * If the value of the underline variable is 'true' - the text is underlined.
      *
-     *  @param underline the underline text parameter.
+     * @param underline the underline text parameter.
      */
     public void setUnderline(boolean underline) {
         if (underline) {
@@ -669,12 +669,6 @@ public class Cell {
             float cellH) {
         page.setPenColor(strokeColor);
         page.setPenWidth(lineWidth);
-        if (getBorder(Border.TOP) ||
-                getBorder(Border.BOTTOM) ||
-                getBorder(Border.LEFT) ||
-                getBorder(Border.RIGHT)) {
-            page.addArtifactBMC();
-        }
         float qWidth = lineWidth / 4;
         if (getBorder(Border.TOP)) {
             page.moveTo(x - qWidth, y);
@@ -695,12 +689,6 @@ public class Cell {
             page.moveTo(x + cellW, y - qWidth);
             page.lineTo(x + cellW, y + cellH + qWidth);
             page.strokePath();
-        }
-        if (getBorder(Border.TOP) ||
-                getBorder(Border.BOTTOM) ||
-                getBorder(Border.LEFT) ||
-                getBorder(Border.RIGHT)) {
-            page.addEMC();
         }
     }
 
