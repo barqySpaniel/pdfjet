@@ -18,16 +18,16 @@ public class Example_02 {
         let page = Page(pdf, Letter.PORTRAIT)
 
         var text = try String(contentsOfFile: "data/languages/japanese.txt", encoding: .utf8)
-        var textBox = TextBox(font1, text)
-        textBox.setLocation(50.0, 50.0)
-        textBox.setWidth(415.0)
-        textBox.drawOn(page)
+        var textBlock = TextBlock(font1, text)
+        textBlock.setLocation(50.0, 50.0)
+        textBlock.setWidth(415.0)
+        textBlock.drawOn(page)
 
         text = try String(contentsOfFile: "data/languages/korean.txt", encoding: .utf8)
-        textBox = TextBox(font2, text)
-        textBox.setLocation(50.0, 450.0)
-        textBox.setWidth(415.0)
-        textBox.drawOn(page)
+        textBlock = TextBlock(font2, text)
+        textBlock.setLocation(50.0, 450.0)
+        textBlock.setWidth(415.0)
+        textBlock.drawOn(page)
 
         pdf.complete()
     }

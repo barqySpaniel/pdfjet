@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import com.pdfjet.*;
 
 /**
- *  Example_02.java
+ * Example_02.java
  */
 public class Example_02 {
     public Example_02() throws Exception {
@@ -21,17 +21,15 @@ public class Example_02 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        TextBox textBox = new TextBox(font1, new String(
-                Files.readAllBytes(Paths.get("data/languages/japanese.txt"))));
-        textBox.setLocation(50f, 50f);
-        textBox.setWidth(415f);
-        textBox.drawOn(page);
+        TextBlock textBlock = new TextBlock(font1, Content.ofTextFile("data/languages/japanese.txt"));
+        textBlock.setLocation(50f, 50f);
+        textBlock.setWidth(415f);
+        textBlock.drawOn(page);
 
-        textBox = new TextBox(font2, new String(
-                Files.readAllBytes(Paths.get("data/languages/korean.txt"))));
-        textBox.setLocation(50f, 450f);
-        textBox.setWidth(415f);
-        textBox.drawOn(page);
+        textBlock = new TextBlock(font2, Content.ofTextFile("data/languages/korean.txt"));
+        textBlock.setLocation(50f, 450f);
+        textBlock.setWidth(415f);
+        textBlock.drawOn(page);
 
         pdf.complete();
     }

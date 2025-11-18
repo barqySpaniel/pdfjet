@@ -205,11 +205,12 @@ public class TextBlock {
                             sb.append(ch);
                         } else {
                             textLines.add(new TextLine(font, sb.toString()));
+                            sb.setLength(0);
                             sb.append(ch);
                         }
                     }
-                    if (sb.length() > 0) {
-                        textLines.add(new TextLine(font, sb.toString()));
+                    if (sb.toString().trim().length() > 0) {
+                        textLines.add(new TextLine(font, sb.toString().trim()));
                     }
                 } else {
                     StringBuilder sb = new StringBuilder();

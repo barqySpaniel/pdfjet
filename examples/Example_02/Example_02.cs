@@ -19,17 +19,17 @@ public class Example_02 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        TextBox textBox = new TextBox(font1,
+        TextBlock textBlock = new TextBlock(font1,
                 File.ReadAllText("data/languages/japanese.txt"));
-        textBox.SetLocation(50f, 50f);
-        textBox.SetWidth(415f);
-        textBox.DrawOn(page);
+        textBlock.SetLocation(50f, 50f);
+        textBlock.SetWidth(415f);
+        textBlock.DrawOn(page);
 
-        textBox = new TextBox(font2,
+        textBlock = new TextBlock(font2,
                 File.ReadAllText("data/languages/korean.txt"));
-        textBox.SetLocation(50f, 450f);
-        textBox.SetWidth(415f);
-        textBox.DrawOn(page);
+        textBlock.SetLocation(50f, 450f);
+        textBlock.SetWidth(415f);
+        textBlock.DrawOn(page);
 
         pdf.Complete();
     }

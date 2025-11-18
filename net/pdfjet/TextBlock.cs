@@ -253,7 +253,7 @@ namespace PDFjet.NET {
                     if (TextIsCJK(line)) {
                         StringBuilder sb = new StringBuilder();
                         foreach (char ch in line.ToCharArray()) {
-                            if (this.font.StringWidth(fallbackFont, fontSize, sb.ToString() + ch) <= textAreaWidth) {
+                            if (font.StringWidth(fallbackFont, fontSize, sb.ToString() + ch) <= textAreaWidth) {
                                 sb.Append(ch);
                             } else {
                                 textLines.Add(new TextLine(font, sb.ToString()));
@@ -261,8 +261,8 @@ namespace PDFjet.NET {
                                 sb.Append(ch);
                             }
                         }
-                        if (sb.Length > 0) {
-                            textLines.Add(new TextLine(font, sb.ToString()));
+                        if (sb.ToString().Trim().Length > 0) {
+                            textLines.Add(new TextLine(font, sb.ToString().Trim()));
                         }
                     } else {
                         StringBuilder sb = new StringBuilder();
