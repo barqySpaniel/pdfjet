@@ -259,6 +259,10 @@ public class Cell {
         self.leftPadding = padding
     }
 
+    public func getLeftPadding() -> Float {
+        return self.leftPadding
+    }
+
     /**
      * Sets the right padding of this cell.
      *
@@ -266,6 +270,10 @@ public class Cell {
      */
     public func setRightPadding(_ padding: Float) {
         self.rightPadding = padding
+    }
+
+    public func getRightPadding() -> Float {
+        return self.rightPadding
     }
 
     /**
@@ -302,24 +310,6 @@ public class Cell {
             cellHeight = fontHeight + topPadding + bottomPadding
         }
         return cellHeight
-    }
-
-    /**
-     * Sets the border line width.
-     *
-     * @param lineWidth the border line width.
-     */
-    public func setLineWidth(_ lineWidth: Float) {
-        self.lineWidth = lineWidth
-    }
-
-    /**
-     * Returns the border line width.
-     *
-     * @return the border line width.
-     */
-    public func getLineWidth() -> Float {
-        return self.lineWidth
     }
 
     public func setTextColor(_ color: Int32) {
@@ -609,7 +599,7 @@ public class Cell {
             _ cellW: Float,
             _ cellH: Float) {
         page.setBrushColor(backgroundColor)
-        page.fillRect(x, y + lineWidth / 2, cellW, cellH + lineWidth)
+        page.fillRect(x, y + strokeWidth / 2, cellW, cellH + strokeWidth)
     }
 
     private func drawBorders(
@@ -619,8 +609,8 @@ public class Cell {
             _ cellW: Float,
             _ cellH: Float) {
         page.setPenColor(strokeColor)
-        page.setPenWidth(lineWidth)
-        let qWidth: Float = lineWidth / 4.0
+        page.setPenWidth(strokeWidth)
+        let qWidth: Float = strokeWidth / 4.0
         if getBorder(Border.TOP) {
             // page.addBMC(StructElem.P, Single.space, Single.space)
             page.moveTo(x - qWidth, y)

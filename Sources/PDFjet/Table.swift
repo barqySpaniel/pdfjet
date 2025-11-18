@@ -558,7 +558,7 @@ public class Table {
     public func setCellBordersWidth(_ width: Float) {
         for row in tableData {
             for cell in row {
-                cell.setLineWidth(width)
+                cell.setStrokeWidth(width)
             }
         }
     }
@@ -662,9 +662,9 @@ public class Table {
                     let cell2 = Cell(cell.getFont())
                     cell2.setFallbackFont(cell.getFallbackFont())
                     cell2.setWidth(cell.getWidth())
-                    cell2.setLeftPadding(cell.leftPadding)
-                    cell2.setRightPadding(cell.rightPadding)
-                    cell2.setLineWidth(cell.lineWidth)
+                    cell2.setLeftPadding(cell.getLeftPadding())
+                    cell2.setRightPadding(cell.getRightPadding())
+                    cell2.setStrokeWidth(cell.getStrokeWidth())
                     cell2.setBackgroundColor(cell.getBackgroundColor())
                     cell2.setStrokeColor(cell.getStrokeColor())
                     cell2.setTextColor(cell.getTextColor())
