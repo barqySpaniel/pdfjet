@@ -7,6 +7,8 @@ package alignment
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
+type Alignment int
+
 // Used to specify the text alignment in textblock.go
 const (
 	Left = iota

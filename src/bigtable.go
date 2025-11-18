@@ -13,7 +13,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/edragoev1/pdfjet/src/align"
 	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 )
@@ -30,7 +29,7 @@ type BigTable struct {
 	page            *Page
 	widths          []float32
 	headerFields    []string
-	alignment       []int
+	alignment       map[int]alignment.Alignment
 	vertLines       []float32
 	bottomMargin    float32
 	padding         float32
@@ -76,7 +75,7 @@ func (bt *BigTable) SetNumberOfColumns(numberOfColumns int) {
 }
 
 // SetTextAlignment sets text alignment for a column
-func (bt *BigTable) SetTextAlignment(column, alignment int) {
+func (bt *BigTable) SetTextAlignment(column int, alignment alignment.Alignment) {
 	bt.alignment[column] = alignment
 }
 
@@ -185,7 +184,7 @@ func (bt *BigTable) drawTheVerticalLines() {
 	// bt.page.AddEMC()
 }
 
-func (bt *BigTable) getAlignment(str string) int {
+func (bt *BigTable) getAlignment(str string) alignment.Alignment {
 	var buf strings.Builder
 	if strings.HasPrefix(str, "(") && strings.HasSuffix(str, ")") {
 		str = str[1 : len(str)-1]
@@ -196,11 +195,10 @@ func (bt *BigTable) getAlignment(str string) int {
 			buf.WriteByte(ch)
 		}
 	}
-	_, err := strconv.ParseFloat(buf.String(), 64)
-	if err == nil {
-		return align.Right
+	if _, err := strconv.ParseFloat(buf.String(), 64); err == nil {
+		return alignment.Right
 	}
-	return align.Left
+	return alignment.Left
 }
 
 // SetTableData sets the table data from file
@@ -210,7 +208,7 @@ func (bt *BigTable) SetTableData(fileName, delimiter string) error {
 	bt.vertLines = make([]float32, bt.numberOfColumns+1)
 	bt.headerFields = make([]string, bt.numberOfColumns)
 	bt.widths = make([]float32, bt.numberOfColumns)
-	bt.alignment = make([]int, bt.numberOfColumns)
+	bt.alignment = make(map[int]alignment.Alignment)
 
 	file, err := os.Open(fileName)
 	if err != nil {
