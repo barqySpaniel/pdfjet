@@ -11,9 +11,11 @@ dotnet build PDFjet.csproj -c release
 for i in {1..50}
 do
     if [ $i -lt 10 ]; then
-        dotnet build examples/Example_0$i/Example_0$i.csproj -c release &
+        # dotnet build examples/Example_0$i/Example_0$i.csproj -c release &
+        dotnet build examples/Example_0$i/Example_0$i.csproj -c release
     else
-        dotnet build examples/Example_$i/Example_$i.csproj -c release &
+        # dotnet build examples/Example_$i/Example_$i.csproj -c release &
+        dotnet build examples/Example_$i/Example_$i.csproj -c release
     fi
 done
 wait
