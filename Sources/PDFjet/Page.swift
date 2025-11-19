@@ -28,13 +28,14 @@ public class Page {
     internal var contents = [Int]()
     internal var annots: [Annotation]?
     internal var destinations: [Destination]?
+    internal var structures = [StructElem]()
+    internal var buf = [UInt8]()
+
     internal var cropBox: [Float]?
     internal var bleedBox: [Float]?
     internal var trimBox: [Float]?
     internal var artBox: [Float]?
-    internal var structures = [StructElem]()
 
-    internal var buf = [UInt8]()
     internal var tmx: [Float] = [1.0, 0.0, 0.0, 1.0]
     internal var tm0: [UInt8]
     internal var tm1: [UInt8]
@@ -46,7 +47,8 @@ public class Page {
     private var penCMYK: [Float] = [0.0, 0.0, 0.0, 1.0]
     private var brushCMYK: [Float] = [0.0, 0.0, 0.0, 1.0]
 
-    private var penWidth: Float = 0.0
+    private var penWidth: Float = 0.5
+
     private var lineCapStyle = CapStyle.BUTT
     private var lineJoinStyle = JoinStyle.MITER
     private var linePattern: String = "[] 0"
@@ -648,11 +650,7 @@ public class Page {
     /// The default is the finest line width.
     ///
     public func setDefaultLineWidth() {
-        if self.penWidth != 0.0 {
-            self.penWidth = 0.0
-            append(self.penWidth)
-            append(" w\n")
-        }
+        append("0 w\n")
     }
 
     ///

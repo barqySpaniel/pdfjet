@@ -51,7 +51,8 @@ final public class Page {
     private byte[] tm2;
     private byte[] tm3;
 
-    private float penWidth = 0.6f;
+    private float penWidth = 0.5f;
+
     private CapStyle lineCapStyle = CapStyle.BUTT;
     private JoinStyle lineJoinStyle = JoinStyle.MITER;
     private String strokePattern = "[] 0";
