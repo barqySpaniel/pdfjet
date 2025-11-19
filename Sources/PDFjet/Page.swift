@@ -701,11 +701,13 @@ public class Page {
     /// - Parameter width the pen width.
     ///
     public func setPenWidth(_ width: Float) {
-        if self.penWidth != width {
-            self.penWidth = width
-            append(self.penWidth)
-            append(" w\n")
-        }
+        self.penWidth = width
+        append(width)
+        append(" w\n")
+    }
+
+    public func getPenWidth() -> Float {
+        return self.penWidth;
     }
 
     ///

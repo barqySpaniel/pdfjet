@@ -778,6 +778,7 @@ final public class Page {
      * @param width the pen width.
      */
     public void setPenWidth(float width) {
+        this.penWidth = width;
         append(width);
         append(" w\n");
     }

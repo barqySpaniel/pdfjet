@@ -639,11 +639,13 @@ func (page *Page) SetDefaultLinePattern() {
 
 // SetPenWidth sets the penColor width that will be used to draw lines and splines on this page.
 func (page *Page) SetPenWidth(width float32) {
-	if page.penWidth != width {
-		page.penWidth = width
-		page.appendFloat32(page.penWidth)
-		page.appendString(" w\n")
-	}
+	page.penWidth = width
+	page.appendFloat32(width)
+	page.appendString(" w\n")
+}
+
+func (page *Page) GetPenWidth() float32 {
+	return page.penWidth
 }
 
 // SetLineCapStyle sets the current line cap style.
