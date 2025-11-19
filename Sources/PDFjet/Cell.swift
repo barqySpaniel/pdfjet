@@ -369,6 +369,10 @@ public class Cell {
         return self.strokeColor
     }
 
+    public func setLineWidth(_ width: Float) {
+        self.strokeWidth = width
+    }
+
     func setStrokeWidth(_ strokeWidth: Float) {
         self.strokeWidth = strokeWidth
     }
