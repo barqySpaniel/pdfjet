@@ -147,7 +147,8 @@ public class TextColumn implements Drawable {
     /**
      * Sets the text alignment.
      *
-     * @param alignment the specified alignment code. Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
+     * @param alignment the specified alignment code.
+     *                  Supported values: Align.LEFT, Align.RIGHT. Align.CENTER and Align.JUSTIFY
      */
     public void setAlignment(int alignment) {
         this.alignment = alignment;
@@ -156,7 +157,7 @@ public class TextColumn implements Drawable {
     /**
      * Sets the spacing between the lines in this text column.
      *
-     * @param spacing the specified spacing value.
+     * @param lineSpacing the line spacing value.
      */
     public void setLineSpacing(double lineSpacing) {
         this.lineSpacing = (float) lineSpacing;
@@ -165,7 +166,7 @@ public class TextColumn implements Drawable {
     /**
      * Sets the spacing between the lines in this text column.
      *
-     * @param spacing the specified spacing value.
+     * @param lineSpacing the line spacing value.
      */
     public void setLineSpacing(float lineSpacing) {
         this.lineSpacing = lineSpacing;

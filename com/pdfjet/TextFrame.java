@@ -159,10 +159,10 @@ public class TextFrame implements Drawable {
         boolean testForFit = true;
         for (String token : tokens) {
             if (testForFit && textLine.getStringWidth(sb1.toString() + token) < this.w) {
-                sb1.append(token + Single.space);
+                sb1.append(token).append(Single.space);
             } else {
                 testForFit = false;
-                sb2.append(token + Single.space);
+                sb2.append(token).append(Single.space);
             }
         }
         textLine.setText(sb1.toString().trim());
