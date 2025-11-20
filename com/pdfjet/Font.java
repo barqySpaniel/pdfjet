@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Used to create font objects.
- * The font objects must added to the PDF before they can be used to draw text.
+ * The font objects must be added to the PDF before they can be used to draw text.
  */
 final public class Font {
     /** Is this a stream font? */
@@ -314,11 +314,11 @@ final public class Font {
             this.bodyHeight = this.ascent + this.descent;
             return this;
         }
-        this.ascent = Float.valueOf(fontAscent) * size / Float.valueOf(unitsPerEm);
-        this.descent = -Float.valueOf(fontDescent) * size / Float.valueOf(unitsPerEm);
+        this.ascent = (float) fontAscent * size / (float) unitsPerEm;
+        this.descent = -(float) fontDescent * size / (float) unitsPerEm;
         this.bodyHeight = this.ascent + this.descent;
-        this.underlineThickness = (Float.valueOf(fontUnderlineThickness) * size / Float.valueOf(unitsPerEm));
-        this.underlinePosition = -(Float.valueOf(fontUnderlinePosition) * size / Float.valueOf(unitsPerEm))
+        this.underlineThickness = ((float) fontUnderlineThickness * size / (float) unitsPerEm);
+        this.underlinePosition = -((float) fontUnderlinePosition * size / (float) unitsPerEm)
                 + underlineThickness / 2.0f;
         return this;
     }
