@@ -22,18 +22,18 @@ public class OptionalContentGroup {
     protected int objNumber;
     protected String name;
 
-    private PDF pdf;
+    private final PDF pdf;
     private int ocgNumber = -1;
     private boolean visible;
     private boolean printable;
     private boolean exportable;
-    private List<Drawable> components;
+    private final List<Drawable> components;
 
     /**
      * Creates OptionalContentGroup object
      *
-     * @param name the name of the group
-     * @param state the initial state for this group
+     * @param pdf the PDF.
+     * @param name the name of the group.
      */
     public OptionalContentGroup(PDF pdf, String name) throws Exception {
         this.pdf = pdf;
@@ -115,7 +115,7 @@ public class OptionalContentGroup {
             this.ocgNumber = pdf.groups.size();
         }
 
-        if (components.size() > 0) {
+        if (!components.isEmpty()) {
             page.append("/OC /OC");
             page.append(ocgNumber);
             page.append(" BDC\n");
