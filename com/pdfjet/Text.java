@@ -93,7 +93,7 @@ public class Text implements Drawable {
         this.xText = x;
         this.yText = y;
 
-        String[] tokens = null;
+        String[] tokens;
         if (stringIsCJK(textLine.text)) {
             tokens = tokenizeCJK(textLine, this.width);
         } else {
@@ -105,7 +105,7 @@ public class Text implements Drawable {
             float runLength = textLine.font.stringWidth(textLine.fallbackFont, buf.toString());
             float tokenWidth = textLine.font.stringWidth(textLine.fallbackFont, token + Single.space);
             if ((runLength + tokenWidth) < ((this.x1 + this.width) - this.xText)) {
-                buf.append(token + Single.space);
+                buf.append(token).append(Single.space);
             } else {
                 new TextLine(textLine.font, buf.toString())
                         .setFallbackFont(textLine.getFallbackFont())
@@ -120,7 +120,7 @@ public class Text implements Drawable {
                 xText = x1;
                 yText += textLine.getHeight();
                 buf.setLength(0);
-                buf.append(token + Single.space);
+                buf.append(token).append(Single.space);
             }
         }
         new TextLine(textLine.font, buf.toString())
@@ -158,7 +158,7 @@ public class Text implements Drawable {
     }
 
     private String[] tokenizeCJK(TextLine textLine, float textWidth) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < textLine.text.length(); i++) {
             char ch = textLine.text.charAt(i);
@@ -170,14 +170,14 @@ public class Text implements Drawable {
                 buf.append(ch);
             }
         }
-        if (buf.toString().length() > 0) {
+        if (!buf.toString().isEmpty()) {
             list.add(buf.toString());
         }
         return list.toArray(new String[] {});
     }
 
     public static List<Paragraph> paragraphsFromFile(Font f1, String filePath) throws Exception {
-        List<Paragraph> paragraphs = new ArrayList<Paragraph>();
+        List<Paragraph> paragraphs = new ArrayList<>();
         String contents = Content.ofTextFile(filePath);
         Paragraph paragraph = new Paragraph();
         TextLine textLine = new TextLine(f1);
@@ -198,7 +198,7 @@ public class Text implements Drawable {
                 sb.append(ch);
             }
         }
-        if (!sb.toString().equals("")) {
+        if (!sb.toString().isEmpty()) {
             textLine.setText(sb.toString());
             paragraph.add(textLine);
             paragraphs.add(paragraph);
@@ -207,7 +207,7 @@ public class Text implements Drawable {
     }
 
     public static List<String> readLines(String filePath) throws IOException {
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = new ArrayList<>();
         FileInputStream stream = new FileInputStream(filePath);
         StringBuilder buffer = new StringBuilder();
         int ch;
