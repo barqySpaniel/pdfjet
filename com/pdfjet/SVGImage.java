@@ -103,9 +103,9 @@ public class SVGImage {
             } else if (token && ch == '\"') {
                 token = false;
                 if (param.equals("width")) {
-                    this.w = Float.valueOf(buf.toString());
+                    this.w = Float.parseFloat(buf.toString());
                 } else if (param.equals("height")) {
-                    this.h = Float.valueOf(buf.toString());
+                    this.h = Float.parseFloat(buf.toString());
                 } else if (param.equals("viewBox")) {
                     this.viewBox = buf.toString();
                 } else if (param.equals("data")) {
@@ -126,7 +126,7 @@ public class SVGImage {
                     }
                 } else if (param.equals("stroke-width")) {
                     try {
-                        float strokeWidth = Float.valueOf(buf.toString());
+                        float strokeWidth = Float.parseFloat(buf.toString());
                         if (header) {
                             this.strokeWidth = strokeWidth;
                         } else {
@@ -152,10 +152,10 @@ public class SVGImage {
         float[] box = new float[4];
         if (viewBox != null) {
             String[] list = viewBox.trim().split("\\s+");
-            box[0] = Float.valueOf(list[0]);
-            box[1] = Float.valueOf(list[1]);
-            box[2] = Float.valueOf(list[2]);
-            box[3] = Float.valueOf(list[3]);
+            box[0] = Float.parseFloat(list[0]);
+            box[1] = Float.parseFloat(list[1]);
+            box[2] = Float.parseFloat(list[2]);
+            box[3] = Float.parseFloat(list[3]);
         }
         for (SVGPath path : paths) {
             path.operations = SVG.getOperations(path.data);
@@ -290,8 +290,7 @@ public class SVGImage {
      */
     public float[] drawOn(Page page) {
         page.addBMC(StructElem.P, language, actualText, altDescription);
-        for (int i = 0; i < paths.size(); i++) {
-            SVGPath path = paths.get(i);
+        for (SVGPath path : paths) {
             drawPath(path, page);
         }
         page.addEMC();
