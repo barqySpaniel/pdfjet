@@ -31,13 +31,12 @@ public class Example_27 {
         float x = 50f;
         float y = 50f;
 
-        TextBox textBox = new TextBox(f1, new String(
-                Files.readAllBytes(Paths.get("data/languages/thai.txt"))));
-        textBox.setLocation(50f, 50f);
-        textBox.setWidth(430f);
-        textBox.drawOn(page);
+        TextBlock textBlock = new TextBlock(f1, Content.ofTextFile("data/languages/thai.txt"));
+        textBlock.setLocation(50f, 50f);
+        textBlock.setWidth(430f);
+        textBlock.drawOn(page);
 
-        y += 200f;
+        y += 250f;
 
         String str = "כך נראית תחתית הטבלה עם סיום הפלייאוף התחתון:";
         str = Bidi.reorderVisually(str);
