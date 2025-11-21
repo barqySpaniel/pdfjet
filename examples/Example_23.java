@@ -4,18 +4,16 @@ import java.io.*;
 import com.pdfjet.*;
 
 /**
- *  Example_23.java
+ * Example_23.java
  */
 public class Example_23 {
     public Example_23() throws Exception {
         PDF pdf = new PDF(new FileOutputStream("Example_23.pdf"));
-        Font f1 = new Font(
-                pdf,
-                new FileInputStream("fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream"),
-                Font.STREAM);
-        Font f2 = new Font(pdf, CoreFont.HELVETICA);
 
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.setSize(72f);
+
+        Font f2 = new Font(pdf, CoreFont.HELVETICA);
         f2.setSize(24f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
@@ -26,9 +24,9 @@ public class Example_23 {
         float x1 = 90f;
         float y1 = 50f;
 
-        TextLine textline = new TextLine(f2, "(x1, y1)");
-        textline.setLocation(x1, y1 - 15f);
-        textline.drawOn(page);
+        TextLine textLine = new TextLine(f2, "(x1, y1)");
+        textLine.setLocation(x1, y1 - 15f);
+        textLine.drawOn(page);
 
         TextBox textBox = new TextBox(f1, buf.toString());
         textBox.setLocation(x1, y1);
@@ -114,9 +112,9 @@ public class Example_23 {
         p2.drawOn(page);
 
         f2.setSize(24f);
-        TextLine textline2 = new TextLine(f2, "(x2, y2)");
-        textline2.setLocation(x2 - 80f, y2 + 30f);
-        textline2.drawOn(page);
+        TextLine textLine2 = new TextLine(f2, "(x2, y2)");
+        textLine2.setLocation(x2 - 80f, y2 + 30f);
+        textLine2.drawOn(page);
 
         Box box = new Box();
         box.setLocation(xy[0], xy[1]);
@@ -151,5 +149,4 @@ public class Example_23 {
         long time1 = System.currentTimeMillis();
         TextUtils.printDuration("Example_73", time0, time1);
     }
-
 }   // End of Example_23.java
