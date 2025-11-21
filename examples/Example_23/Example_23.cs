@@ -34,8 +34,6 @@ public class Example_23 {
         TextBox textBox = new TextBox(f1, buf.ToString());
         textBox.SetLocation(x1, y1);
         textBox.SetWidth(500f);
-//        textBox.SetMargin(0f);
-//        textBox.SetSpacing(0f);
         textBox.SetFillColor(Color.lightgreen);
         textBox.SetTextColor(Color.black);
         float[] xy = textBox.DrawOn(page);

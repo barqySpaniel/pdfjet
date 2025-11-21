@@ -31,7 +31,6 @@ public class Example_23 {
         TextBox textBox = new TextBox(f1, buf.toString());
         textBox.setLocation(x1, y1);
         textBox.setWidth(500f);
-        // textBox.setHeight(230f); // Test the appending of "..."
         textBox.setMargin(0f);
         textBox.setSpacing(0f);
         textBox.setBgColor(Color.lightgreen);
