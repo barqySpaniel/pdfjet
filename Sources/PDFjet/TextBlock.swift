@@ -93,6 +93,14 @@ public class TextBlock : Drawable {
         self.height = 0.0
     }
 
+    public func getWidth() -> Float {
+        return self.width
+    }
+
+    public func getHeight() -> Float {
+        return self.height
+    }
+
     public func setBorderCornerRadius(_ radius: Float) {
         self.borderCornerRadius = radius
     }

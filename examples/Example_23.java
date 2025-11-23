@@ -34,8 +34,7 @@ public class Example_23 {
         textBlock.setTextColor(Color.black);
         float[] xy = textBlock.drawOn(page);
 
-        float x2 = x1 + textBlock.getWidth();
-        float y2 = y1 + textBlock.getHeight();
+        float x2 = xy[0];
 
         f2.setSize(18f);
 

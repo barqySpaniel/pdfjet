@@ -37,7 +37,7 @@ public class Example_23 {
         float[] xy = textBox.DrawOn(page);
 
         float x2 = x1 + textBox.GetWidth();
-        float y2 = y1 + textBox.GetHeight();
+        // float y2 = y1 + textBox.GetHeight();
 
         f2.SetSize(18f);
 
@@ -104,17 +104,15 @@ public class Example_23 {
 
         Point p1 = new Point(x1, y1);
         p1.SetRadius(5f);
-        // p1.SetFillShape(true);
         p1.DrawOn(page);
 
-        Point p2 = new Point(x2, y2);
+        Point p2 = new Point(xy[0], xy[1]);
         p2.SetRadius(5f);
-        // p2.SetFillShape(true);
         p2.DrawOn(page);
 
         f2.SetSize(24f);
         TextLine textLine2 = new TextLine(f2, "(x2, y2)");
-        textLine2.SetLocation(x2 - 80f, y2 + 30f);
+        textLine2.SetLocation(xy[0] - 80f, xy[1] + 30f);
         textLine2.DrawOn(page);
 
         Box box = new Box();
