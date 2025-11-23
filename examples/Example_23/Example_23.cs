@@ -127,25 +127,6 @@ public class Example_23 {
         pdf.Complete();
     }
 
-    public void DrawTextAndLines(
-            String text, Page page, Font font, float x, float y) {
-        TextLine textLine = new TextLine(font, text);
-        textLine.SetLocation(x, y);
-        textLine.DrawOn(page);
-
-        Line ascenderLine = new Line(x, y - font.GetAscent(), x + 100f, y - font.GetAscent(font.GetSize()));
-        ascenderLine.SetWidth(2f);
-        ascenderLine.DrawOn(page);
-
-        Line line = new Line(x, y, x + 100f, y);
-        line.SetWidth(2f);
-        line.DrawOn(page);
-
-        Line descenderLine = new Line(x, y + font.GetDescent(), x + 100f, y + font.GetDescent(font.GetSize()));
-        descenderLine.SetWidth(2f);
-        descenderLine.DrawOn(page);
-    }
-
     public static void Main(String[] args) {
         Stopwatch sw = Stopwatch.StartNew();
         long time0 = sw.ElapsedMilliseconds;

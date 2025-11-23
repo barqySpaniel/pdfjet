@@ -123,25 +123,6 @@ public class Example_23 {
         pdf.complete();
     }
 
-    public void drawTextAndLines(
-            String text, Page page, Font font, float x, float y) throws Exception {
-        TextLine textLine = new TextLine(font, text);
-        textLine.setLocation(x, y);
-        textLine.drawOn(page);
-
-        Line ascenderLine = new Line(x, y - font.getAscent(), x + 100f, y - font.getAscent());
-        ascenderLine.setWidth(2f);
-        ascenderLine.drawOn(page);
-
-        Line line = new Line(x, y, x + 100f, y);
-        line.setWidth(2f);
-        line.drawOn(page);
-
-        Line descenderLine = new Line(x, y + font.getDescent(), x + 100f, y + font.getDescent());
-        descenderLine.setWidth(2f);
-        descenderLine.drawOn(page);
-    }
-
     public static void main(String[] args) throws Exception {
         long time0 = System.currentTimeMillis();
         new Example_23();
