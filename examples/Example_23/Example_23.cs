@@ -21,9 +21,6 @@ public class Example_23 {
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        StringBuilder buf = new StringBuilder();
-        buf.Append("Heya, World! This is a test to show the functionality of a TextBox.");
-
         float x1 = 90f;
         float y1 = 50f;
 
@@ -31,7 +28,8 @@ public class Example_23 {
         textLine.SetLocation(x1, y1 - 15f);
         textLine.DrawOn(page);
 
-        TextBox textBox = new TextBox(f1, buf.ToString());
+        TextBox textBox = new TextBox(f1,
+            "Heya, World! This is a test to show the functionality of a TextBox.");
         textBox.SetLocation(x1, y1);
         textBox.SetWidth(500f);
         textBox.SetFillColor(Color.lightgreen);

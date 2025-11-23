@@ -8,109 +8,113 @@ public class Example_23 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_23.pdf", append: false)!)
 
-        let f1 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        let f2 = Font(pdf, CoreFont.HELVETICA)
-        let f3 = Font(pdf, CoreFont.HELVETICA_BOLD)
-        f3.setSize(7.0 * 0.583)
+        let f1 = new Font(pdf, IBMPlexSans.Regular)
+        f1.setSize(72.0)
 
-        let image1 = try Image(pdf, "images/mt-map.png")
-        image1.scaleBy(0.75)
-
-        var tableData = [[Cell]]()
-
-        var row = [Cell]()
-        row.append(Cell(f1, "Hello"))
-        row.append(Cell(f1, "World"))
-        row.append(Cell(f1, "Next Column"))
-        row.append(Cell(f1, "CompositeTextLine"))
-        tableData.append(row)
-
-        row = [Cell]()
-        row.append(Cell(f2, "This is a test:"))
-        // cell = Cell(f2,
-        //         "Here we are going to test the wrapAroundCellText method.\n\nWe will create a table and place it near the bottom of the page. When we draw this table the text will wrap around the column edge and stay within the column.\n\nSo - let's  see how this is working?")
-        let cell = Cell(f2, "Here we are going to test the AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA method.")
-        cell.setColSpan(2)
-        row.append(cell)
-        row.append(Cell(f2))    // We need an empty cell here because the previous cell had colSpan == 2
-        row.append(Cell(f2, "Test 456"))
-        tableData.append(row)
-
-        // row = [Cell]()
-        // row.append(Cell(f2,
-        //         // "Another row.\n\n\nMake sure that this line of text will be wrapped around correctly too."))
-        //         "Another row. Make sure that this line of text will be wrapped around correctly too."))
-        // row.append(Cell(f2, "Yahoo!"))
-        // row.append(Cell(f2, "Test 789"))
-
-        // let composite = CompositeTextLine(0.0, 0.0)
-        // composite.setFontSize(12.0)
-        // let line1 = TextLine(f2, "Composite Text Line")
-        // let line2 = TextLine(f3, "Superscript")
-        // let line3 = TextLine(f3, "Subscript")
-        // line2.setTextEffect(Effect.SUPERSCRIPT)
-        // line3.setTextEffect(Effect.SUBSCRIPT)
-        // composite.addComponent(line1)
-        // composite.addComponent(line2)
-        // composite.addComponent(line3)
-
-        // cell = Cell(f2)
-        // cell.setCompositeTextLine(composite)
-        // cell.setBgColor(Color.peachpuff)
-        // row.append(cell)
-
-        // tableData.append(row)
+        let f2 = new Font(pdf, CoreFont.HELVETICA)
+        f2.setSize(24.0)
 
         let page = Page(pdf, Letter.PORTRAIT)
-        let table = Table()
-        table.setData(tableData, Table.WITH_1_HEADER_ROW)
-        table.setLocation(50.0, 50.0)
-        table.setColumnWidth(0, 100.0)
-        table.setColumnWidth(1, 100.0)
-        table.setColumnWidth(2, 100.0)
-        table.setColumnWidth(3, 150.0)
-        table.drawOn(page)
 
-        // // let numOfPages = try table.getNumberOfPages(page)
-        // while true {
-        //     table.drawOn(page)
-        //     if !table.hasMoreData() {
-        //         break
-        //     }
-        //     page = Page(pdf, Letter.PORTRAIT)
-        //     table.setLocation(50.0, 50.0)
-        // }
+        var x1 = 90.0
+        var y1 = 50.0
 
-        // // Populate and draw the second table.
-        // tableData = [[Cell]]()
+        let textLine = TextLine(f2, "(x1, y1)")
+        textLine.setLocation(x1, y1 - 15.0)
+        textLine.drawOn(page)
 
-        // row = [Cell]()
-        // row.append(Cell(f1))
-        // row.append(Cell(f2))
-        // tableData.append(row)
+        let textBlock = new TextBlock(f1,
+            "Heya, World! This is a test to show the functionality of a TextBlock.")
+        textBlock.setLocation(x1, y1)
+        textBlock.setWidth(500.0)
+        textBlock.setBorderColor(Color.lightgreen)
+        textBlock.setFillColor(Color.lightgreen)
+        textBlock.setTextColor(Color.black)
+        let xy = textBlock.drawOn(page)
 
-        // row = [Cell]()
-        // row.append(Cell(f1, "Hello, World!"))
-        // row.append(Cell(f2, "This is a test."))
-        // tableData.append(row)
+        var x2 = x1 + textBlock.getWidth()
+        var y2 = y1 + textBlock.getHeight()
 
-        // tableData[0][0].setImage(image1)
+        f2.setSize(18.0)
 
-        // table = Table()
-        // table.setData(tableData)
-        // table.setLocation(50.0, 450.0)
-        // table.setColumnWidth(0, 260.0)
-        // table.setColumnWidth(1, 260.0)
+        // Text on the left
+        let ascentText = new TextLine(f2, "Ascent")
+        ascentText.setLocation(x1 - 85.0, y1 + 40.0)
+        ascentText.drawOn(page)
 
-        // var buf = String()
-        // buf.append("Name: 20200306_050741\n")
-        // buf.append("Recorded: 2018:09:28 18:28:43\n")
+        let descentText = new TextLine(f2, "Descent")
+        descentText.setLocation(x1 - 85.0, y1 + f1.getAscent() + 15.0)
+        descentText.drawOn(page)
 
-        // let textBox = TextBox(f1, buf)
-        // textBox.setWidth(400.0)
-        // textBox.setBorder(Border.NONE)
-        // tableData[0][1].setTextBox(textBox)
-        // table.drawOn(page)
+        // Line beside the text ascent
+        let blueLine = Line(
+            x1 - 10.0,
+            y1,
+            x1 - 10.0,
+            y1 + f1.getAscent())
+        blueLine.setColor(Color.blue)
+        blueLine.setWidth(3.0)
+        blueLine.drawOn(page)
+
+        // Line beside the text descent
+        Line redLine = new Line(
+            x1 - 10.0,
+            y1 + f1.getAscent(),
+            x1 - 10.0,
+            y1 + f1.getAscent() + f1.getDescent())
+        redLine.setColor(Color.red)
+        redLine.setWidth(3.0)
+        redLine.drawOn(page)
+
+        // Lines for first line of text
+        Line text_line1 = new Line(
+                x1,
+                y1 + f1.getAscent(),
+                x2,
+                y1 + f1.getAscent())
+        text_line1.drawOn(page)
+
+        Line descent_line1 = new Line(
+                x1,
+                y1 + (f1.getAscent() + f1.getDescent()),
+                x2,
+                y1 + (f1.getAscent() + f1.getDescent()))
+        descent_line1.drawOn(page)
+
+        // Lines for second line of text
+        float curr_y = y1 + f1.getBodyHeight()
+
+        Line text_line2 = new Line(
+                x1,
+                curr_y + f1.getAscent(),
+                x2,
+                curr_y + f1.getAscent())
+        text_line2.drawOn(page)
+
+        Line descent_line2 = new Line(
+                x1,
+                curr_y + f1.getAscent() + f1.getDescent(),
+                x2,
+                curr_y + f1.getAscent() + f1.getDescent())
+        descent_line2.drawOn(page)
+
+        let p1 = Point(x1, y1)
+        p1.setRadius(5.0)
+        p1.drawOn(page)
+
+        let p2 = Point(xy[0], xy[1])
+        p2.setRadius(5.0)
+        p2.drawOn(page)
+
+        f2.setSize(24.0)
+        let textLine2 = new TextLine(f2, "(x2, y2)")
+        textLine2.setLocation(xy[0] - 80.0, xy[1] + 30.0)
+        textLine2.drawOn(page)
+
+        let box = new Box()
+        box.setLocation(xy[0], xy[1])
+        box.setSize(20.0, 20.0)
+        box.drawOn(page)
 
         pdf.complete()
     }
