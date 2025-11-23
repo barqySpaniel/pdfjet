@@ -19,7 +19,7 @@ public class Example_23 {
         Page page = new Page(pdf, Letter.PORTRAIT);
 
         StringBuilder buf = new StringBuilder();
-        buf.append("Heya, World! This is a test to show the functionality of a TextBox.");
+        buf.append("Heya, World! This is a test to show the functionality of a TextBlock.");
 
         float x1 = 90f;
         float y1 = 50f;
@@ -28,16 +28,16 @@ public class Example_23 {
         textLine.setLocation(x1, y1 - 15f);
         textLine.drawOn(page);
 
-        TextBox textBox = new TextBox(f1, buf.toString());
-        textBox.setLocation(x1, y1);
-        textBox.setWidth(500f);
-        textBox.setMargin(0f);
-        textBox.setSpacing(0f);
-        textBox.setBgColor(Color.lightgreen);
-        float[] xy = textBox.drawOn(page);
+        TextBlock textBlock = new TextBlock(f1, buf.toString());
+        textBlock.setLocation(x1, y1);
+        textBlock.setWidth(500f);
+        // textBlock.setMargin(0f);
+        // textBlock.setSpacing(0f);
+        textBlock.setBackgroundColor(Color.lightgreen);
+        float[] xy = textBlock.drawOn(page);
 
-        float x2 = x1 + textBox.getWidth();
-        float y2 = y1 + textBox.getHeight();
+        float x2 = x1 + textBlock.getWidth();
+        float y2 = y1 + textBlock.getHeight();
 
         f2.setSize(18f);
 
@@ -106,13 +106,15 @@ public class Example_23 {
         p1.setRadius(5f);
         p1.drawOn(page);
 
-        Point p2 = new Point(x2, y2);
+        // Point p2 = new Point(x2, y2);
+        Point p2 = new Point(xy[0], xy[1]);
         p2.setRadius(5f);
         p2.drawOn(page);
 
         f2.setSize(24f);
         TextLine textLine2 = new TextLine(f2, "(x2, y2)");
-        textLine2.setLocation(x2 - 80f, y2 + 30f);
+        // textLine2.setLocation(x2 - 80f, y2 + 30f);
+        textLine2.setLocation(xy[0] - 80f, xy[1] + 30f);
         textLine2.drawOn(page);
 
         Box box = new Box();
@@ -125,9 +127,9 @@ public class Example_23 {
 
     public void drawTextAndLines(
             String text, Page page, Font font, float x, float y) throws Exception {
-        TextLine textline = new TextLine(font, text);
-        textline.setLocation(x, y);
-        textline.drawOn(page);
+        TextLine textLine = new TextLine(font, text);
+        textLine.setLocation(x, y);
+        textLine.drawOn(page);
 
         Line ascenderLine = new Line(x, y - font.getAscent(), x + 100f, y - font.getAscent());
         ascenderLine.setWidth(2f);

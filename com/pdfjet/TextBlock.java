@@ -120,6 +120,14 @@ public class TextBlock {
         this.height = 0.0f;
     }
 
+    public float getWidth() {
+        return this.width;
+    }
+
+    public float getHeight() {
+        return this.height;
+    }
+
     public void setBorderCornerRadius(float borderCornerRadius) {
         this.borderCornerRadius = borderCornerRadius;
     }
@@ -153,6 +161,17 @@ public class TextBlock {
 
     public void setTextColor(float[] textColor) {
         this.textColor = textColor;
+    }
+
+    public void setBackgroundColor(int color) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void setBackgroundColor(float[] fillColor) {
+        this.fillColor = fillColor;
     }
 
     public void setTextAlignment(Alignment textAlignment) {
