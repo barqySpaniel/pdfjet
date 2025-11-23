@@ -31,9 +31,8 @@ public class Example_23 {
         TextBlock textBlock = new TextBlock(f1, buf.toString());
         textBlock.setLocation(x1, y1);
         textBlock.setWidth(500f);
-        // textBlock.setMargin(0f);
-        // textBlock.setSpacing(0f);
-        textBlock.setBackgroundColor(Color.lightgreen);
+        textBlock.setFillColor(Color.lightgreen);
+        textBlock.setTextColor(Color.black);
         float[] xy = textBlock.drawOn(page);
 
         float x2 = x1 + textBlock.getWidth();
@@ -46,9 +45,9 @@ public class Example_23 {
         ascent_text.setLocation(x1 - 85f, y1 + 40f);
         ascent_text.drawOn(page);
 
-        TextLine descent_text = new TextLine(f2, "Descent");
-        descent_text.setLocation(x1 - 85f, y1 + f1.getAscent() + 15f);
-        descent_text.drawOn(page);
+        TextLine descentText = new TextLine(f2, "Descent");
+        descentText.setLocation(x1 - 85f, y1 + f1.getAscent() + 15f);
+        descentText.drawOn(page);
 
         // Line beside the text ascent
         Line blueLine = new Line(
@@ -106,14 +105,12 @@ public class Example_23 {
         p1.setRadius(5f);
         p1.drawOn(page);
 
-        // Point p2 = new Point(x2, y2);
         Point p2 = new Point(xy[0], xy[1]);
         p2.setRadius(5f);
         p2.drawOn(page);
 
         f2.setSize(24f);
         TextLine textLine2 = new TextLine(f2, "(x2, y2)");
-        // textLine2.setLocation(x2 - 80f, y2 + 30f);
         textLine2.setLocation(xy[0] - 80f, xy[1] + 30f);
         textLine2.drawOn(page);
 

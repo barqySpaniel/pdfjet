@@ -48,9 +48,9 @@ public class Example_23 {
         ascent_text.SetLocation(x1 - 85f, y1 + 40f);
         ascent_text.DrawOn(page);
 
-        TextLine descent_text = new TextLine(f2, "Descent");
-        descent_text.SetLocation(x1 - 85f, y1 + f1.GetAscent(f1.GetSize()) + 15f);
-        descent_text.DrawOn(page);
+        TextLine descentText = new TextLine(f2, "Descent");
+        descentText.SetLocation(x1 - 85f, y1 + f1.GetAscent(f1.GetSize()) + 15f);
+        descentText.DrawOn(page);
 
         // Line beside the text ascent
         Line ascentLine = new Line(

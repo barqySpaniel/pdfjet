@@ -140,6 +140,21 @@ public class TextBlock {
         this.borderWidth = borderWidth;
     }
 
+    public void setTextColor(int color) {
+        if (color == Color.transparent) {
+            this.textColor = null;
+            return;
+        }
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.textColor = new float[] {r, g, b};
+    }
+
+    public void setTextColor(float[] rgbColor) {
+        this.textColor = rgbColor;
+    }
+
     public void setBorderColor(int color) {
         if (color == Color.transparent) {
             this.borderColor = null;
@@ -159,15 +174,26 @@ public class TextBlock {
         this.lineSpacing = lineSpacing;
     }
 
-    public void setTextColor(float[] textColor) {
-        this.textColor = textColor;
-    }
-
     public void setBackgroundColor(int color) {
         float r = ((color >> 16) & 0xff)/255f;
         float g = ((color >>  8) & 0xff)/255f;
         float b = ((color)       & 0xff)/255f;
         this.fillColor = new float[] {r, g, b};
+    }
+
+    public void setFillColor(int color) {
+        if (color == Color.transparent) {
+            this.fillColor = null;
+            return;
+        }
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        this.fillColor = new float[] {r, g, b};
+    }
+
+    public void setFillColor(float[] rgbColor) {
+        this.fillColor = rgbColor;
     }
 
     public void setBackgroundColor(float[] fillColor) {
