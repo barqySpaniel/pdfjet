@@ -5,6 +5,7 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
+	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
@@ -37,86 +38,83 @@ func Example23() {
 	// textBox.SetTextColor(color.Black)
 	xy := textBox.DrawOn(page)
 
-	/*
-		float x2 = x1 + textBox.GetWidth();
-		// float y2 = y1 + textBox.GetHeight();
+	// x2 := x1 + textBox.GetWidth()
+	f2.SetSize(18.0)
 
-		f2.SetSize(18f);
+	// Text on the left
+	ascentText := pdfjet.NewTextLine(f2, "Ascent")
+	ascentText.SetLocation(x1-85.0, y1+40.0)
+	ascentText.DrawOn(page)
 
-		// Text on the left
-		TextLine ascent_text = new TextLine(f2, "Ascent");
-		ascent_text.SetLocation(x1 - 85f, y1 + 40f);
-		ascent_text.DrawOn(page);
+	descentText := pdfjet.NewTextLine(f2, "Descent")
+	descentText.SetLocation(x1-85.0, y1+f1.GetAscent(f1.GetSize())+15.0)
+	descentText.DrawOn(page)
 
-		TextLine descentText = new TextLine(f2, "Descent");
-		descentText.SetLocation(x1 - 85f, y1 + f1.GetAscent(f1.GetSize()) + 15f);
-		descentText.DrawOn(page);
+	// Line beside the text ascent
+	ascentLine := pdfjet.NewLine(
+		x1-10.0,
+		y1,
+		x1-10.0,
+		y1+f1.GetAscent(f1.GetSize()))
+	ascentLine.SetColor(color.Blue)
+	ascentLine.SetWidth(3.0)
+	ascentLine.DrawOn(page)
 
-		// Line beside the text ascent
-		Line ascentLine = new Line(
-			x1 - 10f,
-			y1,
-			x1 - 10f,
-			y1 + f1.GetAscent());
-		ascentLine.SetColor(Color.blue);
-		ascentLine.SetWidth(3f);
-		ascentLine.DrawOn(page);
+	// Line beside the text descent
+	descentLine := pdfjet.NewLine(
+		x1-10.0,
+		y1+f1.GetAscent(f1.GetSize()),
+		x1-10.0,
+		y1+f1.GetAscent(f1.GetSize())+f1.GetDescent(f1.GetSize()))
+	descentLine.SetColor(color.Red)
+	descentLine.SetWidth(3.0)
+	descentLine.DrawOn(page)
 
-		// Line beside the text descent
-		Line descentLine = new Line(
-			x1 - 10f,
-			y1 + f1.GetAscent(f1.GetSize()),
-			x1 - 10f,
-			y1 + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
-		descentLine.SetColor(Color.red);
-		descentLine.SetWidth(3f);
-		descentLine.DrawOn(page);
+	// Lines for first line of text
+	textLine1 := pdfjet.NewLine(
+		x1,
+		y1+f1.GetAscent(f1.GetSize()),
+		xy[1],
+		y1+f1.GetAscent(f1.GetSize()))
+	textLine1.DrawOn(page)
 
-		// Lines for first line of text
-		Line text_line1 = new Line(
-			x1,
-			y1 + f1.GetAscent(f1.GetSize()),
-			x2,
-			y1 + f1.GetAscent(f1.GetSize()));
-		text_line1.DrawOn(page);
+	descentLine1 := pdfjet.NewLine(
+		x1,
+		y1+(f1.GetAscent(f1.GetSize())+f1.GetDescent(f1.GetSize())),
+		xy[1],
+		y1+(f1.GetAscent(f1.GetSize())+f1.GetDescent(f1.GetSize())))
+	descentLine1.DrawOn(page)
 
-		Line descent_line1 = new Line(
-			x1,
-			y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())),
-			x2,
-			y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())));
-		descent_line1.DrawOn(page);
+	// Lines for second line of text
+	curr_y := y1 + f1.GetBodyHeight(f1.GetSize())
 
-		// Lines for second line of text
-		float curr_y = y1 + f1.GetBodyHeight(f1.GetSize());
+	textLine2 := pdfjet.NewLine(
+		x1,
+		curr_y+f1.GetAscent(f1.GetSize()),
+		xy[1],
+		curr_y+f1.GetAscent(f1.GetSize()))
+	textLine2.DrawOn(page)
 
-		Line text_line2 = new Line(
-			x1,
-			curr_y + f1.GetAscent(f1.GetSize()),
-			x2,
-			curr_y + f1.GetAscent(f1.GetSize()));
-		text_line2.DrawOn(page);
+	descentLine2 := pdfjet.NewLine(
+		x1,
+		curr_y+f1.GetAscent(f1.GetSize())+f1.GetDescent(f1.GetSize()),
+		xy[1],
+		curr_y+f1.GetAscent(f1.GetSize())+f1.GetDescent(f1.GetSize()))
+	descentLine2.DrawOn(page)
 
-		Line descent_line2 = new Line(
-			x1,
-			curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()),
-			x2,
-			curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
-		descent_line2.DrawOn(page);
+	p1 := pdfjet.NewPoint(x1, y1)
+	p1.SetRadius(5.0)
+	p1.DrawOn(page)
 
-		Point p1 = new Point(x1, y1);
-		p1.SetRadius(5f);
-		p1.DrawOn(page);
+	p2 := pdfjet.NewPoint(xy[0], xy[1])
+	p2.SetRadius(5.0)
+	p2.DrawOn(page)
 
-		Point p2 = new Point(xy[0], xy[1]);
-		p2.SetRadius(5f);
-		p2.DrawOn(page);
+	f2.SetSize(24.0)
+	textLine3 := pdfjet.NewTextLine(f2, "(x2, y2)")
+	textLine3.SetLocation(xy[0]-80.0, xy[1]+30.0)
+	textLine3.DrawOn(page)
 
-		f2.SetSize(24f);
-		TextLine textLine2 = new TextLine(f2, "(x2, y2)");
-		textLine2.SetLocation(xy[0] - 80f, xy[1] + 30f);
-		textLine2.DrawOn(page);
-	*/
 	box := pdfjet.NewBox()
 	box.SetLocation(xy[0], xy[1])
 	box.SetSize(20.0, 20.0)
