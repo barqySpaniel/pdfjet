@@ -29,11 +29,12 @@ public class Example_23 {
         textLine.DrawOn(page);
 
         TextBlock textBlock = new TextBlock(f1,
-            "Heya, World! This is a test to show the functionality of a TextBlock.");
+            "Hello, World! This example shows the functionality of the TextBlock.");
         textBlock.SetLocation(x1, y1);
         textBlock.SetWidth(500f);
+        textBlock.SetBorderColor(Color.lightgreen);
         textBlock.SetFillColor(Color.lightgreen);
-        // textBlock.SetTextColor(Color.black);
+        textBlock.SetTextColor(Color.black);
         float[] xy = textBlock.DrawOn(page);
 
         TextLine ascentText = new TextLine(f2, "Ascent");

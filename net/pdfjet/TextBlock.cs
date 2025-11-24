@@ -189,6 +189,13 @@ namespace PDFjet.NET {
             this.textColor = textColor;
         }
 
+        public void SetTextColor(int color) {
+            float r = ((color >> 16) & 0xff)/255f;
+            float g = ((color >>  8) & 0xff)/255f;
+            float b = ((color)       & 0xff)/255f;
+            this.textColor = new float[] {r, g, b};
+        }
+
         public TextBlock SetTextAlignment(Alignment textAlignment) {
             this.textAlignment = textAlignment;
             return this;
