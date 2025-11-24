@@ -42,6 +42,7 @@ public class TextBlock : Drawable {
 
     public init(_ font: Font, _ textContent: String) {
         self.font = font
+        self.fontSize = font.size
         self.textContent = textContent
     }
 
@@ -268,7 +269,7 @@ public class TextBlock : Drawable {
                 y,
                 width,
                 max(height, Float(textLines.count) * leading + 2 * textPadding))
-            // rect.setFillColor(fillColor) // TODO
+            rect.setFillColor(fillColor)
             // rect.setBorderWidth(borderWidth)
             rect.setBorderColor(self.borderColor)
             rect.setCornerRadius(borderCornerRadius)

@@ -24,7 +24,7 @@ public class Example_23 {
         textLine.drawOn(page)
 
         let textBlock = TextBlock(f1,
-            "Heya, World! This is a test to show the functionality of a TextBlock.")
+            "Hello, World! This example shows the functionality of the TextBlock.")
         textBlock.setLocation(x1, y1)
         textBlock.setWidth(500.0)
         textBlock.setBorderColor(Color.lightgreen)
