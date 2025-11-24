@@ -8,11 +8,9 @@ package pdfjet
  */
 
 import (
-	"errors"
 	"strings"
 
 	"github.com/edragoev1/pdfjet/src/alignment"
-	"github.com/edragoev1/pdfjet/src/color"
 )
 
 // TextBlock creates block of line-wrapped text.
@@ -130,6 +128,11 @@ func (textBlock *TextBlock) SetLocation(x, y float32) {
 	textBlock.y = y
 }
 
+func (textBlock *TextBlock) SetPosition(x, y float32) {
+	textBlock.x = x
+	textBlock.y = y
+}
+
 // SetSize sets the size of the textBlock.
 // @param w the width of the text block.
 // @param h the height of the text block.
@@ -171,6 +174,13 @@ func (textBlock *TextBlock) SetBorderColorRGB(borderColor [3]float32) {
 	textBlock.borderColor = borderColor
 }
 
+func (textBlock *TextBlock) SetBorderColor(color int32) {
+	r := float32((color>>16)&0xff) / 255.0
+	g := float32((color>>8)&0xff) / 255.0
+	b := float32((color)&0xff) / 255.0
+	textBlock.borderColor = [3]float32{r, g, b}
+}
+
 // SetLineSpacing sets the extra leading between lines of text.
 // @param lineHeight
 func (textBlock *TextBlock) SetLineSpacing(lineSpacing float32) {
@@ -188,7 +198,7 @@ func (textBlock *TextBlock) SetTextColor(color int32) {
 	r := float32((color>>16)&0xff) / 255.0
 	g := float32((color>>8)&0xff) / 255.0
 	b := float32((color)&0xff) / 255.0
-	textBlock.textColor = [3]float32{r, b, b}
+	textBlock.textColor = [3]float32{r, g, b}
 }
 
 // SetHighlightColors sets the text colors map.
@@ -314,9 +324,9 @@ func maxFloat32(a, b float32) float32 {
 // @param page the Page where the TextBlock is to be drawn.
 // @param draw flag specifying if text block component should actually be drawn on the page.
 // @return x and y coordinates of the bottom right corner of text block component.
-func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
+func (textBlock *TextBlock) DrawOn(page *Page) [2]float32 {
 	if page == nil {
-		return nil, errors.New("a valid Page object is required")
+		return [2]float32{0.0, 0.0} // nil, errors.New("a valid Page object is required")
 	}
 
 	page.appendString("q\n")
@@ -343,7 +353,7 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 	// rect.SetFillColorRGB(textBlock.fillColor)
 	// rect.SetTextColorRGB(textBlock.textColor)
 	// TODO:	rect.SetBorderWidth(textBlock.borderWidth)
-	rect.SetBorderColor(textBlock.borderColor)
+	rect.SetBorderColorRGB(textBlock.borderColor)
 	rect.SetCornerRadius(textBlock.borderCornerRadius)
 	rect.DrawOn(page)
 	// }
@@ -378,10 +388,10 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 		}
 	*/
 
-	return []float32{
+	return [2]float32{
 		textBlock.x + textBlock.width,
 		maxFloat32(
 			textBlock.y+textBlock.height,
 			textBlock.y+(float32(len(textLines))*leading)+(2*textBlock.textPadding)),
-	}, nil
+	}
 }

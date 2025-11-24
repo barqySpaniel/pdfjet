@@ -37,10 +37,7 @@ func Example02() {
 	textBlock := pdfjet.NewTextBlock(font1, content.OfTextFile("data/languages/japanese.txt"))
 	textBlock.SetLocation(50.0, 50.0)
 	textBlock.SetWidth(415.0)
-	_, err := textBlock.DrawOn(page)
-	if err != nil {
-		return
-	}
+	_ = textBlock.DrawOn(page)
 
 	// Create and draw Korean text block:
 	// - Content loaded from korean.txt file
@@ -50,10 +47,7 @@ func Example02() {
 	textBlock = pdfjet.NewTextBlock(font2, content.OfTextFile("data/languages/korean.txt"))
 	textBlock.SetLocation(50.0, 450.0)
 	textBlock.SetWidth(415.0)
-	_, err = textBlock.DrawOn(page)
-	if err != nil {
-		return
-	}
+	_ = textBlock.DrawOn(page)
 
 	// Finalize the PDF document
 	pdf.Complete()

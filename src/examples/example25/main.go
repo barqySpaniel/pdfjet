@@ -34,9 +34,9 @@ func Example25() {
 	text5 := pdfjet.NewTextLine(f5, "O")
 	text6 := pdfjet.NewTextLine(f6, "6")
 
-	text1.SetColor(color.DodgerBlue)
-	text3.SetColor(color.DodgerBlue)
-	text5.SetColor(color.DodgerBlue)
+	text1.SetTextColor(color.DodgerBlue)
+	text3.SetTextColor(color.DodgerBlue)
+	text5.SetTextColor(color.DodgerBlue)
 
 	text2.SetTextEffect(effect.Subscript)
 	text4.SetTextEffect(effect.Subscript)

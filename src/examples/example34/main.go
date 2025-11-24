@@ -66,8 +66,8 @@ func Example34() {
 	table.SetData(tableData, pdfjet.TableWith2HeaderRows)
 	table.SetCellBordersWidth(0.0)
 	table.SetLocation(70.0, 30.0)
-	table.SetTextColorInRow(6, color.Blue)
-	table.SetTextColorInRow(39, color.Red)
+	//table.SetTextColorInRow(6, color.Blue)	// TODO
+	//table.SetTextColorInRow(39, color.Red)
 	table.SetFontInRow(26, f3)
 	table.RemoveLineBetweenRows(0, 1)
 	table.SetColumnWidths()

@@ -167,7 +167,7 @@ func (checkBox *CheckBox) DrawOn(page Page) []float32 {
 	}
 	page.DrawStringUsingColorMap(
 		checkBox.font, checkBox.font, checkBox.font.size,
-		checkBox.label, checkBox.x+3.0*checkBox.w/2.0, checkBox.y, color.Black, nil)
+		checkBox.label, checkBox.x+3.0*checkBox.w/2.0, checkBox.y, [3]float32{0.0, 0.0, 0.0}, nil)
 	page.SetPenWidth(0.0)
 	page.SetPenColor(color.Black)
 	page.SetBrushColor(color.Black)

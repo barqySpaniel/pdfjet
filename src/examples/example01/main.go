@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
@@ -36,10 +35,7 @@ func Example01() {
 	textBlock.SetWidth(473) // Why 473f? To match the Google Fonts samples.
 	textBlock.SetTextPadding(10)
 	textBlock.SetKeywordHighlightColors(colorMap)
-	xy, err := textBlock.DrawOn(page)
-	if err != nil {
-		log.Fatal(err)
-	}
+	xy := textBlock.DrawOn(page)
 
 	// Draw a blue rectangle near the English text block
 	rect := pdfjet.NewRect(xy[0], xy[1], 30.0, 30.0)
@@ -52,10 +48,7 @@ func Example01() {
 	textBlock.SetLocation(50.0, xy[1]+30.0)
 	textBlock.SetWidth(430.0)
 	textBlock.SetTextPadding(10.0)
-	xy, err = textBlock.DrawOn(page)
-	if err != nil {
-		log.Fatal(err)
-	}
+	xy = textBlock.DrawOn(page)
 
 	// Bulgarian text block with blue border and rounded corners
 	textBlock = pdfjet.NewTextBlock(font1,

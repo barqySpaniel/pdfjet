@@ -187,7 +187,7 @@ func (chart *Chart) DrawOn(page *Page) {
 		chart.title,
 		chart.x1+((chart.w-chart.f1.stringWidth(chart.f1.size, chart.title))/2),
 		chart.y1+1.5*chart.f1.bodyHeight,
-		color.Black,
+		[3]float32{0.0, 0.0, 0.0},
 		nil)
 
 	topMargin := 2.5 * chart.f1.bodyHeight
@@ -261,7 +261,7 @@ func (chart *Chart) DrawOn(page *Page) {
 		chart.yAxisTitle,
 		chart.x1+chart.f1.bodyHeight,
 		chart.y8-((chart.y8-chart.y5)-chart.f1.stringWidth(chart.f1.size, chart.yAxisTitle))/2,
-		color.Black,
+		[3]float32{0.0, 0.0, 0.0},
 		nil)
 
 	// Draw the X axis title
@@ -272,7 +272,7 @@ func (chart *Chart) DrawOn(page *Page) {
 		chart.xAxisTitle,
 		chart.x5+((chart.x6-chart.x5)-chart.f1.stringWidth(chart.f1.size, chart.xAxisTitle))/2,
 		chart.y4-chart.f1.bodyHeight/2,
-		color.Black,
+		[3]float32{0.0, 0.0, 0.0},
 		nil)
 
 	page.SetDefaultLineWidth()
@@ -396,7 +396,7 @@ func (chart *Chart) DrawXAxisLabels(page *Page) {
 	for i := 0; i < (chart.xAxisGridLines + 1); i++ {
 		label := fmt.Sprintf("%.2f", chart.xMin+((chart.xMax-chart.xMin)/float32(chart.xAxisGridLines))*float32(i))
 		page.drawString(
-			chart.f2, chart.f2.size, label, x-(chart.f2.stringWidth(chart.f2.size, label)/2), y, color.Black, nil)
+			chart.f2, chart.f2.size, label, x-(chart.f2.stringWidth(chart.f2.size, label)/2), y, [3]float32{0.0, 0.0, 0.0}, nil)
 		x += step
 	}
 }
@@ -409,7 +409,7 @@ func (chart *Chart) DrawYAxisLabels(page *Page) {
 	page.SetBrushColor(color.Black)
 	for i := 0; i < (chart.yAxisGridLines + 1); i++ {
 		label := fmt.Sprintf("%.2f", chart.yMin+((chart.yMax-chart.yMin)/float32(chart.yAxisGridLines))*float32(i))
-		page.drawString(chart.f2, chart.f2.size, label, x, y, color.Black, nil)
+		page.drawString(chart.f2, chart.f2.size, label, x, y, [3]float32{0.0, 0.0, 0.0}, nil)
 		y -= step
 	}
 }
@@ -426,7 +426,7 @@ func (chart *Chart) drawPathsAndPoints(page *Page, chartData [][]*Point) {
 			if point.GetText() != "" {
 				page.SetBrushColor(point.GetTextColor())
 				page.SetTextDirection(point.GetTextDirection())
-				page.drawString(chart.f2, chart.f2.size, point.text, point.x, point.y, color.Black, nil)
+				page.drawString(chart.f2, chart.f2.size, point.text, point.x, point.y, [3]float32{0.0, 0.0, 0.0}, nil)
 			}
 		}
 		for j := 0; j < len(points); j++ {

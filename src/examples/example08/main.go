@@ -6,7 +6,6 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
-	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -47,8 +46,8 @@ func Example08() {
 	table.SetLocation(30.0, 30.0)
 	// table.SetFirstPageTopMargin(150.0)
 	table.SetBottomMargin(15.0)
-	table.SetTextColorInRow(12, color.Blue)
-	table.SetTextColorInRow(13, color.Red)
+	table.SetTextColorInRow(12, [3]float32{0.0, 0.0, 1.0})
+	table.SetTextColorInRow(13, [3]float32{0.1, 0.0, 0.0})
 	table.SetFontInRow(14, f3)
 
 	pages := make([]*pdfjet.Page, 0)

@@ -7,9 +7,7 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
-	"github.com/edragoev1/pdfjet/src/border"
 	"github.com/edragoev1/pdfjet/src/color"
-	"github.com/edragoev1/pdfjet/src/direction"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -43,20 +41,19 @@ func Example16() {
 	}
 
 	f1.SetSize(15.0)
-	textBox := pdfjet.NewTextBox(f1)
-	textBox.SetText(string(buf))
+	textBox := pdfjet.NewTextBlock(f1, string(buf))
 	textBox.SetLocation(100.0, 50.0)
 	textBox.SetWidth(400.0)
-	textBox.SetLineHeight(1.2)
-	// If no height is specified the height will be calculated based on the text.
-	textBox.SetHeight(450.0)
-	textBox.SetTextDirection(direction.LeftToRight)
-	// textBox.SetTextDirection(direction.BottomToTop)
-	// textBox.SetVerticalAlignment(align.Top)
-	// textBox.SetVerticalAlignment(align.Center)
-	textBox.SetBgColor(color.WhiteSmoke)
-	textBox.SetTextColors(colors)
-	textBox.SetBorder(border.All)
+	//textBox.SetLineHeight(1.2)		// TODO
+	//// If no height is specified the height will be calculated based on the text.
+	//textBox.SetHeight(450.0)
+	//textBox.SetTextDirection(direction.LeftToRight)
+	//// textBox.SetTextDirection(direction.BottomToTop)
+	//// textBox.SetVerticalAlignment(align.Top)
+	//// textBox.SetVerticalAlignment(align.Center)
+	//textBox.SetBgColor(color.WhiteSmoke)
+	//textBox.SetTextColors(colors)
+	//textBox.SetBorder(border.All)
 	xy := textBox.DrawOn(page)
 
 	page.SetGraphicsState(pdfjet.NewGraphicsState()) // Reset GS

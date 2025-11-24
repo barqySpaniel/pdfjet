@@ -42,16 +42,15 @@ func Example30() {
 	group.SetPrintable(true)
 	group.DrawOn(page)
 
-	textBox := pdfjet.NewTextBox(f1)
-	textBox.SetText("Blue Layer Text")
-	textBox.SetLocation(350.0, 130.0)
+	textBlock := pdfjet.NewTextBlock(f1, "Blue Layer Text")
+	textBlock.SetLocation(350.0, 130.0)
 
 	line := pdfjet.NewLine(350.0, 150.0, 550.0, 150.0)
 	line.SetWidth(2.0)
 	line.SetColor(color.Blue)
 
 	group = pdfjet.NewOptionalContentGroup(pdf, "blue")
-	group.Add(textBox)
+	group.Add(textBlock)
 	group.Add(line)
 	group.SetVisible(true)
 	group.DrawOn(page)

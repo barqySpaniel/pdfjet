@@ -1387,7 +1387,7 @@ func (page *Page) AddWatermark(font *Font, text string) {
 	offset := (hypotenuse - stringWidth) / 2.0
 	angle := math.Atan(float64(page.height / page.width))
 	watermark := NewTextLine(font, "")
-	watermark.SetColor(color.LightGray)
+	watermark.SetTextColor(color.LightGray)
 	watermark.SetText(text)
 	watermark.SetLocation(
 		offset*float32(math.Cos(angle)),

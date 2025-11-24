@@ -25,7 +25,7 @@ func Example37(fileName string) {
 
 	text := pdfjet.NewTextLine(font1, "This is a test!")
 	text.SetLocation(50.0, 350.0)
-	text.SetColor(color.Peru)
+	text.SetTextColor(color.Peru)
 
 	pages := pdf.GetPageObjects(objects)
 	for _, pageObj := range pages {

@@ -24,16 +24,17 @@ type Cell struct {
 	barcode           *Barcode
 	point             *Point
 	compositeTextLine *CompositeTextLine
-	textBox           *TextBox
+	textBlock         *TextBlock
 	width             float32
 	topPadding        float32
 	bottomPadding     float32
 	leftPadding       float32
 	rightPadding      float32
 	lineWidth         float32
-	background        [3]float32
-	pen               [3]float32
-	brush             [3]float32
+
+	background [3]float32
+	pen        [3]float32
+	textColor  [3]float32
 
 	// Cell properties
 	// Colspan:
@@ -158,10 +159,10 @@ func (cell *Cell) GetCompositeTextLine() *CompositeTextLine {
 	return cell.compositeTextLine
 }
 
-// SetTextBox sets the composite text object.
+// SetTextBlock sets the composite text object.
 // @param compositeTextLine the composite text object.
-func (cell *Cell) SetTextBox(textBox *TextBox) {
-	cell.textBox = textBox
+func (cell *Cell) SetTextBlock(textBlock *TextBlock) {
+	cell.textBlock = textBlock
 }
 
 // GetCompositeTextLine returns the composite text object.
@@ -174,8 +175,8 @@ func (cell *Cell) SetTextBox(textBox *TextBox) {
 // @param width the specified width.
 func (cell *Cell) SetWidth(width float32) {
 	cell.width = width
-	if cell.textBox != nil {
-		cell.textBox.SetWidth(cell.width - (cell.leftPadding + cell.rightPadding))
+	if cell.textBlock != nil {
+		cell.textBlock.SetWidth(cell.width - (cell.leftPadding + cell.rightPadding))
 	}
 }
 
@@ -222,9 +223,9 @@ func (cell *Cell) SetPadding(padding float32) {
 // @return the cell height.
 func (cell *Cell) GetHeight(width float32) float32 {
 	cellHeight := float32(0.0)
-	if cell.textBox != nil {
-		cell.textBox.SetWidth(width)
-		cellHeight = (cell.textBox.DrawOn(nil)[1] - cell.textBox.y) + cell.topPadding + cell.bottomPadding
+	if cell.textBlock != nil {
+		cell.textBlock.SetWidth(width)
+		cellHeight = (cell.textBlock.DrawOn(nil)[1] - cell.textBlock.y) + cell.topPadding + cell.bottomPadding
 	} else if cell.image != nil {
 		cellHeight = cell.image.GetHeight() + cell.topPadding + cell.bottomPadding
 	} else if cell.barcode != nil {
@@ -241,9 +242,9 @@ func (cell *Cell) GetHeight(width float32) float32 {
 
 func (cell *Cell) GetHeightHeader(width float32) float32 {
 	cellHeight := float32(0.0)
-	if cell.textBox != nil {
-		cell.textBox.SetWidth(width)
-		cellHeight = (cell.textBox.DrawOn(nil)[1] - cell.textBox.y) + cell.topPadding + cell.bottomPadding
+	if cell.textBlock != nil {
+		cell.textBlock.SetWidth(width)
+		cellHeight = (cell.textBlock.DrawOn(nil)[1] - cell.textBlock.y) + cell.topPadding + cell.bottomPadding
 	} else if cell.image != nil {
 		cellHeight = cell.image.GetHeight() + cell.topPadding + cell.bottomPadding
 	} else if cell.barcode != nil {
@@ -292,14 +293,14 @@ func (cell *Cell) GetPenColor() [3]float32 {
 
 // SetBrushColor sets the brushColor color.
 // @param color the color specified as 0xRRGGBB integer.
-func (cell *Cell) SetBrushColor(color [3]float32) {
-	cell.brush = color
+func (cell *Cell) SetBrushColor(textColor [3]float32) {
+	cell.textColor = textColor
 }
 
-// GetBrushColor returns the brushColor color.
+// GetTextColor returns the text color.
 // @return the brushColor color.
-func (cell *Cell) GetBrushColor() [3]float32 {
-	return cell.brush
+func (cell *Cell) GetTextColor() [3]float32 {
+	return cell.textColor
 }
 
 // SetProperties sets the properties.
@@ -421,10 +422,10 @@ func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 	//	cell.drawBackground(page, x, y, w, h)
 	//}
 
-	if cell.textBox != nil {
-		cell.textBox.SetLocation(x+cell.leftPadding, y+cell.topPadding)
-		cell.textBox.SetWidth(w - (cell.leftPadding + cell.rightPadding))
-		cell.textBox.DrawOn(page)
+	if cell.textBlock != nil {
+		cell.textBlock.SetLocation(x+cell.leftPadding, y+cell.topPadding)
+		cell.textBlock.SetWidth(w - (cell.leftPadding + cell.rightPadding))
+		cell.textBlock.DrawOn(page)
 	} else if cell.image != nil {
 		if cell.GetTextAlignment() == align.Left {
 			cell.image.SetLocation(x+cell.leftPadding, y+cell.topPadding)
@@ -537,7 +538,8 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		if cell.compositeTextLine == nil {
 			xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
 			page.AddBMC("Span", "", *cell.text, *cell.text)
-			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.brush, nil)
+			page.DrawStringUsingColorMap(
+				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
 			page.AddEMC()
 			if cell.GetUnderline() {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
@@ -557,7 +559,8 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 			xText = x + cell.leftPadding +
 				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
 			page.AddBMC("Span", "", *cell.text, *cell.text)
-			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.brush, nil)
+			page.DrawStringUsingColorMap(
+				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
 			page.AddEMC()
 			if cell.GetUnderline() {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
@@ -577,7 +580,8 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		xText = x + cell.leftPadding
 		if cell.compositeTextLine == nil {
 			page.AddBMC("Span", "", *cell.text, *cell.text)
-			page.DrawStringUsingColorMap(cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.brush, nil)
+			page.DrawStringUsingColorMap(
+				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
 			page.AddEMC()
 			if cell.GetUnderline() {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
@@ -633,9 +637,4 @@ func (cell *Cell) StrikeoutText(page *Page, font *Font, text string, x, y float3
 	page.LineTo(x+font.stringWidth(cell.font.size, text), y-font.ascent/3.0)
 	page.StrokePath()
 	page.AddEMC()
-}
-
-// GetTextBox returns the cell's text box.
-func (cell *Cell) GetTextBox() *TextBox {
-	return cell.textBox
 }

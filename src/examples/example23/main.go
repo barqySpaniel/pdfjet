@@ -36,7 +36,7 @@ func Example23() {
 	textBlock.SetWidth(500.0)
 	// textBlock.SetFillColor(color.LightGreen)
 	textBlock.SetTextColor(color.Black)
-	xy, _ := textBlock.DrawOn(page)
+	xy := textBlock.DrawOn(page)
 
 	// Text on the left
 	ascentText := pdfjet.NewTextLine(f2, "Ascent")

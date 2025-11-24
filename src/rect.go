@@ -75,10 +75,17 @@ func (rect *Rect) SetSize(w, h float32) {
 	rect.h = h
 }
 
-// SetBorderColor sets the color for this rectangle.
+// SetBorderColorRGB sets the color for this rectangle.
 // @param color the color specified as an integer.
-func (rect *Rect) SetBorderColor(borderColor [3]float32) {
+func (rect *Rect) SetBorderColorRGB(borderColor [3]float32) {
 	rect.borderColor = borderColor
+}
+
+func (rect *Rect) SetBorderColor(color int32) {
+	r := float32((color>>16)&0xff) / 255.0
+	g := float32((color>>8)&0xff) / 255.0
+	b := float32((color)&0xff) / 255.0
+	rect.borderColor = [3]float32{r, g, b}
 }
 
 // SetLineWidth sets the width of this line.

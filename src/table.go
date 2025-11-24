@@ -79,9 +79,8 @@ func NewTableFromFile(f1, f2 *Font, fileName string) *Table {
 		for _, field := range fields {
 			if lineNumber == 0 {
 				cell := NewCell(f1, "")
-				textBox := NewTextBox(f1)
-				textBox.SetText(field)
-				cell.SetTextBox(textBox)
+				textBox := NewTextBlock(f1, field)
+				cell.SetTextBlock(textBox)
 				row = append(row, cell)
 			} else {
 				row = append(row, NewCell(f2, field))
@@ -189,8 +188,8 @@ func (table *Table) SetTextAlignInColumn(index, alignment int) {
 		if index < len(row) {
 			cell := row[index]
 			cell.SetTextAlignment(alignment)
-			if cell.textBox != nil {
-				cell.textBox.SetTextAlignment(alignment)
+			if cell.textBlock != nil {
+				cell.textBlock.SetTextAlignment(alignment)
 			}
 		}
 	}
@@ -204,8 +203,8 @@ func (table *Table) SetTextColorInColumn(index int, color [3]float32) {
 		if index < len(row) {
 			cell := row[index]
 			cell.SetBrushColor(color)
-			if cell.textBox != nil {
-				cell.textBox.SetBrushColor(color)
+			if cell.textBlock != nil {
+				cell.textBlock.SetTextColorRGB(color)
 			}
 		}
 	}
@@ -219,8 +218,8 @@ func (table *Table) SetFontInColumn(index int, font *Font) {
 		if index < len(row) {
 			cell := row[index]
 			cell.font = font
-			if cell.textBox != nil {
-				cell.textBox.font = font
+			if cell.textBlock != nil {
+				cell.textBlock.font = font
 			}
 		}
 	}
@@ -234,8 +233,8 @@ func (table *Table) SetTextColorInRow(index int, color [3]float32) {
 		row := table.tableData[index]
 		for _, cell := range row {
 			cell.SetBrushColor(color)
-			if cell.textBox != nil {
-				cell.textBox.SetBrushColor(color)
+			if cell.textBlock != nil {
+				cell.textBlock.SetTextColorRGB(color)
 			}
 		}
 	}
@@ -249,8 +248,8 @@ func (table *Table) SetFontInRow(index int, font *Font) {
 		row := table.tableData[index]
 		for _, cell := range row {
 			cell.font = font
-			if cell.textBox != nil {
-				cell.textBox.font = font
+			if cell.textBlock != nil {
+				cell.textBlock.font = font
 			}
 		}
 	}
@@ -264,8 +263,8 @@ func (table *Table) SetColumnWidth(index int, width float32) {
 		if index < len(row) {
 			cell := row[index]
 			cell.SetWidth(width)
-			if cell.textBox != nil {
-				cell.textBox.SetWidth(width - (cell.leftPadding + cell.rightPadding))
+			if cell.textBlock != nil {
+				cell.textBlock.SetWidth(width - (cell.leftPadding + cell.rightPadding))
 			}
 		}
 	}
@@ -377,7 +376,7 @@ func (table *Table) drawHeaderRows(page *Page, pageNumber int) [2]float32 {
 				w += row[j].width
 				j++
 			}
-			page.SetBrushColor(cell.GetBrushColor())
+			page.SetBrushColorRGB(cell.GetTextColor())
 			if i == (table.numOfHeaderRows - 1) {
 				cell.SetBorder(border.Bottom, true)
 			}
@@ -409,7 +408,7 @@ func (table *Table) drawTableRows(page *Page, xy [2]float32) [2]float32 {
 				i++
 			}
 			if page != nil {
-				page.SetBrushColorRGB(cell.GetBrushColor())
+				page.SetBrushColorRGB(cell.GetTextColor())
 				cell.DrawOn(page, x, y, w, h)
 			}
 			x += w
@@ -536,11 +535,11 @@ func (table *Table) SetColumnWidths() {
 		for i := 0; i < len(row); i++ {
 			cell := row[i]
 			if cell.GetColSpan() == 1 {
-				if cell.textBox != nil {
-					tokens := strings.Fields(cell.textBox.text)
+				if cell.textBlock != nil {
+					tokens := strings.Fields(cell.textBlock.GetText())
 					for _, token := range tokens {
-						tokenWidth := cell.textBox.font.StringWidth(
-							cell.textBox.fallbackFont, cell.textBox.font.size, token)
+						tokenWidth := cell.textBlock.font.StringWidth(
+							cell.textBlock.fallbackFont, cell.textBlock.font.size, token)
 						tokenWidth += cell.leftPadding + cell.rightPadding
 						if tokenWidth > maxColWidths[i] {
 							maxColWidths[i] = tokenWidth
@@ -595,7 +594,7 @@ func (table *Table) addExtraTableRows() [][]*Cell {
 				cell2.SetLineWidth(cell.lineWidth)
 				cell2.SetBgColor(cell.GetBgColor())
 				cell2.SetPenColor(cell.GetPenColor())
-				cell2.SetBrushColor(cell.GetBrushColor())
+				cell2.SetBrushColor(cell.GetTextColor()) // TODO
 				cell2.SetProperties(cell.GetProperties())
 				cell2.SetVerTextAlignment(cell.GetVerTextAlignment())
 				cell2.SetTopPadding(0.0)

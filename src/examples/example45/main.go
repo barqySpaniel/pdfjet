@@ -90,7 +90,7 @@ func Example45() {
 	leading := f3.GetBodyHeight(f3.GetSize())
 	lines := pdfjet.ReadTextLines("data/languages/english.txt")
 	for _, line := range lines {
-		page.DrawStringUsingColorMap(f3, f3, f3.GetSize(), line, x, y, color.Black, colors)
+		page.DrawStringUsingColorMap(f3, f3, f3.GetSize(), line, x, y, [3]float32{0.0, 0.0, 0.0}, colors)
 		y += leading
 	}
 

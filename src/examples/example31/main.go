@@ -8,7 +8,6 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/border"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
@@ -45,14 +44,13 @@ func Example31() {
 		log.Fatal(err)
 	}
 
-	textBox := pdfjet.NewTextBox(font1)
-	textBox.SetText(buf.String())
-	textBox.SetLocation(500.0, 300.0)
-	textBox.SetFallbackFont(font2)
-	textBox.SetLocation(50.0, 50.0)
-	textBox.SetBorder(border.Left)
-	textBox.SetBorder(border.Right)
-	textBox.DrawOn(page)
+	textBlock := pdfjet.NewTextBlock(font1, buf.String())
+	textBlock.SetLocation(500.0, 300.0)
+	textBlock.SetFallbackFont(font2)
+	textBlock.SetLocation(50.0, 50.0)
+	//textBlock.SetBorder(border.Left)
+	//textBlock.SetBorder(border.Right)
+	textBlock.DrawOn(page)
 
 	str := "असम के बाद UP में भी CM कैंडिडेट का ऐलान करेगी BJP?"
 	textLine := pdfjet.NewTextLine(font1, str)

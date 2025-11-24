@@ -81,7 +81,7 @@ func (paragraph *Paragraph) StartsWith(token string) bool {
 
 func (paragraph *Paragraph) SetColor(color int32) {
 	for _, line := range paragraph.lines {
-		line.SetColor(color)
+		line.SetTextColor(color)
 	}
 }
 

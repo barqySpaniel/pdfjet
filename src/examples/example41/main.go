@@ -49,7 +49,7 @@ func Example41() {
 		if p.StartsWith("**") {
 			f2.SetSize(24.0)
 			p.GetTextLines()[0].SetFont(f2)
-			p.GetTextLines()[0].SetColor(color.Navy)
+			p.GetTextLines()[0].SetTextColor(color.Navy)
 		} else {
 			p.SetColor(color.Gray)
 			p.SetColorMap(colorMap)
