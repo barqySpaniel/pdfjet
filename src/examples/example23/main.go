@@ -30,22 +30,22 @@ func Example23() {
 	textLine.SetLocation(x1, y1-15.0)
 	textLine.DrawOn(page)
 
-	textBox := pdfjet.NewTextBox(f1)
-	textBox.SetText("Heya, World! This is a test to show the functionality of a TextBox.")
-	textBox.SetLocation(x1, y1)
-	textBox.SetWidth(500.0)
-	// textBox.SetFillColor(color.LightGreen)
-	// textBox.SetTextColor(color.Black)
-	xy := textBox.DrawOn(page)
-
-	f2.SetSize(18.0)
+	textBlock := pdfjet.NewTextBlock(f1,
+		"Heya, World! This is a test to show the functionality of a TextBlock.")
+	textBlock.SetLocation(x1, y1)
+	textBlock.SetWidth(500.0)
+	// textBlock.SetFillColor(color.LightGreen)
+	textBlock.SetTextColor(color.Black)
+	xy, _ := textBlock.DrawOn(page)
 
 	// Text on the left
 	ascentText := pdfjet.NewTextLine(f2, "Ascent")
+	ascentText.SetFontSize(18.0)
 	ascentText.SetLocation(x1-85.0, y1+40.0)
 	ascentText.DrawOn(page)
 
 	descentText := pdfjet.NewTextLine(f2, "Descent")
+	descentText.SetFontSize(18.0)
 	descentText.SetLocation(x1-85.0, y1+f1.GetAscent(f1.GetSize())+15.0)
 	descentText.DrawOn(page)
 
