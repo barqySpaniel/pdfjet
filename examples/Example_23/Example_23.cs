@@ -36,16 +36,13 @@ public class Example_23 {
         textBox.SetTextColor(Color.black);
         float[] xy = textBox.DrawOn(page);
 
-        float x2 = xy[0];
-
-        f2.SetSize(18f);
-
-        // Text on the left
-        TextLine ascent_text = new TextLine(f2, "Ascent");
-        ascent_text.SetLocation(x1 - 85f, y1 + 40f);
-        ascent_text.DrawOn(page);
+        TextLine ascentText = new TextLine(f2, "Ascent");
+        ascentText.SetFontSize(18f);
+        ascentText.SetLocation(x1 - 85f, y1 + 40f);
+        ascentText.DrawOn(page);
 
         TextLine descentText = new TextLine(f2, "Descent");
+        descentText.SetFontSize(18f);
         descentText.SetLocation(x1 - 85f, y1 + f1.GetAscent(f1.GetSize()) + 15f);
         descentText.DrawOn(page);
 
@@ -73,14 +70,14 @@ public class Example_23 {
         Line textLine1 = new Line(
                 x1,
                 y1 + f1.GetAscent(f1.GetSize()),
-                x2,
+                xy[1],
                 y1 + f1.GetAscent(f1.GetSize()));
         textLine1.DrawOn(page);
 
         Line descentLine1 = new Line(
                 x1,
                 y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())),
-                x2,
+                xy[1],
                 y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())));
         descentLine1.DrawOn(page);
 
@@ -90,14 +87,14 @@ public class Example_23 {
         Line textLine2 = new Line(
                 x1,
                 curr_y + f1.GetAscent(f1.GetSize()),
-                x2,
+                xy[1],
                 curr_y + f1.GetAscent(f1.GetSize()));
         textLine2.DrawOn(page);
 
         Line descentLine2 = new Line(
                 x1,
                 curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()),
-                x2,
+                xy[1],
                 curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
         descentLine2.DrawOn(page);
 
@@ -109,8 +106,8 @@ public class Example_23 {
         p2.SetRadius(5f);
         p2.DrawOn(page);
 
-        f2.SetSize(24f);
         TextLine textLine3 = new TextLine(f2, "(x2, y2)");
+        textLine3.SetFontSize(24f);
         textLine3.SetLocation(xy[0] - 80f, xy[1] + 30f);
         textLine3.DrawOn(page);
 
