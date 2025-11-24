@@ -68,36 +68,36 @@ public class Example_23 {
         redLine.drawOn(page);
 
         // Lines for first line of text
-        Line text_line1 = new Line(
+        Line textLine1 = new Line(
                 x1,
                 y1 + f1.getAscent(),
                 x2,
                 y1 + f1.getAscent());
-        text_line1.drawOn(page);
+        textLine1.drawOn(page);
 
-        Line descent_line1 = new Line(
+        Line descentLine1 = new Line(
                 x1,
                 y1 + (f1.getAscent() + f1.getDescent()),
                 x2,
                 y1 + (f1.getAscent() + f1.getDescent()));
-        descent_line1.drawOn(page);
+        descentLine1.drawOn(page);
 
         // Lines for second line of text
         float curr_y = y1 + f1.getBodyHeight();
 
-        Line text_line2 = new Line(
+        Line textLine2 = new Line(
                 x1,
                 curr_y + f1.getAscent(),
                 x2,
                 curr_y + f1.getAscent());
-        text_line2.drawOn(page);
+        textLine2.drawOn(page);
 
-        Line descent_line2 = new Line(
+        Line descentLine2 = new Line(
                 x1,
                 curr_y + f1.getAscent() + f1.getDescent(),
                 x2,
                 curr_y + f1.getAscent() + f1.getDescent());
-        descent_line2.drawOn(page);
+        descentLine2.drawOn(page);
 
         Point p1 = new Point(x1, y1);
         p1.setRadius(5f);
@@ -108,9 +108,9 @@ public class Example_23 {
         p2.drawOn(page);
 
         f2.setSize(24f);
-        TextLine textLine2 = new TextLine(f2, "(x2, y2)");
-        textLine2.setLocation(xy[0] - 80f, xy[1] + 30f);
-        textLine2.drawOn(page);
+        TextLine textLine3 = new TextLine(f2, "(x2, y2)");
+        textLine3.setLocation(xy[0] - 80f, xy[1] + 30f);
+        textLine3.drawOn(page);
 
         Box box = new Box();
         box.setLocation(xy[0], xy[1]);

@@ -66,19 +66,19 @@ public class Example_23 {
         redLine.drawOn(page)
 
         // Lines for first line of text
-        let text_line1 = Line(
+        let textLine1 = Line(
                 x1,
                 y1 + f1.getAscent(),
                 x2,
                 y1 + f1.getAscent())
-        text_line1.drawOn(page)
+        textLine1.drawOn(page)
 
-        let descent_line1 = Line(
+        let descentLine1 = Line(
                 x1,
                 y1 + (f1.getAscent() + f1.getDescent()),
                 x2,
                 y1 + (f1.getAscent() + f1.getDescent()))
-        descent_line1.drawOn(page)
+        descentLine1.drawOn(page)
 
         // Lines for second line of text
         let curr_y = y1 + f1.getBodyHeight()
@@ -90,12 +90,12 @@ public class Example_23 {
                 curr_y + f1.getAscent())
         text_line2.drawOn(page)
 
-        let descent_line2 = Line(
+        let descentLine2 = Line(
                 x1,
                 curr_y + f1.getAscent() + f1.getDescent(),
                 x2,
                 curr_y + f1.getAscent() + f1.getDescent())
-        descent_line2.drawOn(page)
+        descentLine2.drawOn(page)
 
         let p1 = Point(x1, y1)
         p1.setRadius(5.0)

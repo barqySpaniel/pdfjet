@@ -38,7 +38,6 @@ func Example23() {
 	// textBox.SetTextColor(color.Black)
 	xy := textBox.DrawOn(page)
 
-	// x2 := x1 + textBox.GetWidth()
 	f2.SetSize(18.0)
 
 	// Text on the left
