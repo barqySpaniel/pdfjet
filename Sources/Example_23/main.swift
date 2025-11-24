@@ -32,16 +32,14 @@ public class Example_23 {
         textBlock.setTextColor(Color.black)
         let xy = textBlock.drawOn(page)
 
-        let x2 = xy[0]
-
-        f2.setSize(18.0)
-
         // Text on the left
         let ascentText = TextLine(f2, "Ascent")
+        ascentText.setFontSize(18.0)
         ascentText.setLocation(x1 - 85.0, y1 + 40.0)
         ascentText.drawOn(page)
 
         let descentText = TextLine(f2, "Descent")
+        descentText.setFontSize(18.0)
         descentText.setLocation(x1 - 85.0, y1 + f1.getAscent() + 15.0)
         descentText.drawOn(page)
 
@@ -69,31 +67,31 @@ public class Example_23 {
         let textLine1 = Line(
                 x1,
                 y1 + f1.getAscent(),
-                x2,
+                xy[0],
                 y1 + f1.getAscent())
         textLine1.drawOn(page)
 
         let descentLine1 = Line(
                 x1,
                 y1 + (f1.getAscent() + f1.getDescent()),
-                x2,
+                xy[0],
                 y1 + (f1.getAscent() + f1.getDescent()))
         descentLine1.drawOn(page)
 
         // Lines for second line of text
         let curr_y = y1 + f1.getBodyHeight()
 
-        let text_line2 = Line(
+        let textLine2 = Line(
                 x1,
                 curr_y + f1.getAscent(),
-                x2,
+                xy[0],
                 curr_y + f1.getAscent())
-        text_line2.drawOn(page)
+        textLine2.drawOn(page)
 
         let descentLine2 = Line(
                 x1,
                 curr_y + f1.getAscent() + f1.getDescent(),
-                x2,
+                xy[0],
                 curr_y + f1.getAscent() + f1.getDescent())
         descentLine2.drawOn(page)
 
@@ -105,10 +103,10 @@ public class Example_23 {
         p2.setRadius(5.0)
         p2.drawOn(page)
 
-        f2.setSize(24.0)
-        let textLine2 = TextLine(f2, "(x2, y2)")
-        textLine2.setLocation(xy[0] - 80.0, xy[1] + 30.0)
-        textLine2.drawOn(page)
+        let textLine3 = TextLine(f2, "(x2, y2)")
+        textLine3.setFontSize(24.0)
+        textLine3.setLocation(xy[0] - 80.0, xy[1] + 30.0)
+        textLine3.drawOn(page)
 
         let box = Box()
         box.setLocation(xy[0], xy[1])
