@@ -5,7 +5,7 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
-	"github.com/edragoev1/pdfjet/src/color"
+	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
@@ -14,55 +14,113 @@ import (
 func Example23() {
 	pdf := pdfjet.NewPDFFile("Example_23.pdf")
 
-	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Bold)
-	f2 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
-	f3 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.SemiBold)
+	f1 := pdfjet.NewFontFromFile(pdf, IBMPlexSans.Regular)
+	f1.SetSize(72.0)
 
-	// What is this?
-	f3.SetSize(7.0 * 0.583)
+	f2 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
+	f2.SetSize(24.0)
 
-	image1 := pdfjet.NewImageFromFile(pdf, "images/mt-map.png")
-	image1.ScaleBy(0.75)
+	page := pdfjet.NewPage(pdf, letter.Portrait)
 
-	tableData := make([][]*pdfjet.Cell, 0)
+	x1 := float32(90.0)
+	y1 := float32(50.0)
 
-	row := make([]*pdfjet.Cell, 0)
-	row = append(row, pdfjet.NewCell(f1, "Hello"))
-	row = append(row, pdfjet.NewCell(f1, "World"))
-	row = append(row, pdfjet.NewCell(f1, "Next Column"))
-	row = append(row, pdfjet.NewCell(f1, "CompositeTextLine"))
-	tableData = append(tableData, row)
+	textLine := pdfjet.NewTextLine(f2, "(x1, y1)")
+	textLine.SetLocation(x1, y1-15.0)
+	textLine.DrawOn(page)
 
-	row = make([]*pdfjet.Cell, 0)
-	row = append(row, pdfjet.NewCell(f2, "This is a test:"))
-	// textBox := TextBox(f2,
-	// 	"Here we are going to test the wrapAroundCellTextmethod.\n\nWe will create a table and place it near the bottom of the page. When we draw this table the text will wrap around the column edge and stay within the column.\n\nSo - let's  see how this is working?")
-	// textBox.SetTextAlignment(align.Right)
-	// cell := pdfjet.NewCell(f2, "Yahoo! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA Hello World!")
-	cell := pdfjet.NewCell(f2, "Yahoo! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAAAAAAAAAAAAAA Hello World!")
-	cell.SetBgColor(color.AliceBlue)
-	// cell.SetTextBox(textBox)
-	cell.SetColSpan(2)
-	row = append(row, cell)
-	row = append(row, pdfjet.NewCell(f2, "")) // We need an empty cell here because the previous cell had colSpan == 2
-	row = append(row, pdfjet.NewCell(f2, "Test 456"))
-	tableData = append(tableData, row)
+	textBox := pdfjet.NewTextBox(f1)
+	textBox.SetText("Heya, World! This is a test to show the functionality of a TextBox.")
+	textBox.SetLocation(x1, y1)
+	textBox.SetWidth(500.0)
+	// textBox.SetFillColor(color.LightGreen)
+	// textBox.SetTextColor(color.Black)
+	xy := textBox.DrawOn(page)
 
-	table := pdfjet.NewTable()
-	table.SetData(tableData, 1) // One header row
-	table.SetLocation(50.0, 50.0)
-	table.SetFirstPageTopMargin(650.0)
-	table.SetBottomMargin(15.0)
-	table.SetColumnWidth(0, 100.0)
-	table.SetColumnWidth(1, 100.0)
-	table.SetColumnWidth(2, 100.0)
-	table.SetColumnWidth(3, 150.0)
+	/*
+		float x2 = x1 + textBox.GetWidth();
+		// float y2 = y1 + textBox.GetHeight();
 
-	pages := make([]*pdfjet.Page, 0)
-	table.DrawOnPages(pdf, &pages, letter.Portrait)
-	for _, page := range pages {
-		pdf.AddPage(page)
-	}
+		f2.SetSize(18f);
+
+		// Text on the left
+		TextLine ascent_text = new TextLine(f2, "Ascent");
+		ascent_text.SetLocation(x1 - 85f, y1 + 40f);
+		ascent_text.DrawOn(page);
+
+		TextLine descentText = new TextLine(f2, "Descent");
+		descentText.SetLocation(x1 - 85f, y1 + f1.GetAscent(f1.GetSize()) + 15f);
+		descentText.DrawOn(page);
+
+		// Line beside the text ascent
+		Line ascentLine = new Line(
+			x1 - 10f,
+			y1,
+			x1 - 10f,
+			y1 + f1.GetAscent());
+		ascentLine.SetColor(Color.blue);
+		ascentLine.SetWidth(3f);
+		ascentLine.DrawOn(page);
+
+		// Line beside the text descent
+		Line descentLine = new Line(
+			x1 - 10f,
+			y1 + f1.GetAscent(f1.GetSize()),
+			x1 - 10f,
+			y1 + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
+		descentLine.SetColor(Color.red);
+		descentLine.SetWidth(3f);
+		descentLine.DrawOn(page);
+
+		// Lines for first line of text
+		Line text_line1 = new Line(
+			x1,
+			y1 + f1.GetAscent(f1.GetSize()),
+			x2,
+			y1 + f1.GetAscent(f1.GetSize()));
+		text_line1.DrawOn(page);
+
+		Line descent_line1 = new Line(
+			x1,
+			y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())),
+			x2,
+			y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())));
+		descent_line1.DrawOn(page);
+
+		// Lines for second line of text
+		float curr_y = y1 + f1.GetBodyHeight(f1.GetSize());
+
+		Line text_line2 = new Line(
+			x1,
+			curr_y + f1.GetAscent(f1.GetSize()),
+			x2,
+			curr_y + f1.GetAscent(f1.GetSize()));
+		text_line2.DrawOn(page);
+
+		Line descent_line2 = new Line(
+			x1,
+			curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()),
+			x2,
+			curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
+		descent_line2.DrawOn(page);
+
+		Point p1 = new Point(x1, y1);
+		p1.SetRadius(5f);
+		p1.DrawOn(page);
+
+		Point p2 = new Point(xy[0], xy[1]);
+		p2.SetRadius(5f);
+		p2.DrawOn(page);
+
+		f2.SetSize(24f);
+		TextLine textLine2 = new TextLine(f2, "(x2, y2)");
+		textLine2.SetLocation(xy[0] - 80f, xy[1] + 30f);
+		textLine2.DrawOn(page);
+	*/
+	box := pdfjet.NewBox()
+	box.SetLocation(xy[0], xy[1])
+	box.SetSize(20.0, 20.0)
+	box.DrawOn(page)
 
 	pdf.Complete()
 }
