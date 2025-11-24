@@ -61,7 +61,7 @@ public class Example_23 {
                 x1 - 10f,
                 y1 + f1.GetAscent(f1.GetSize()),
                 x1 - 10f,
-                y1 + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
+                y1 + f1.GetBodyHeight(f1.GetSize()));
         descentLine.SetColor(Color.red);
         descentLine.SetWidth(3f);
         descentLine.DrawOn(page);
@@ -76,9 +76,9 @@ public class Example_23 {
 
         Line descentLine1 = new Line(
                 x1,
-                y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())),
+                y1 + f1.GetBodyHeight(f1.GetSize()),
                 xy[1],
-                y1 + (f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize())));
+                y1 + f1.GetBodyHeight(f1.GetSize()));
         descentLine1.DrawOn(page);
 
         // Lines for second line of text
@@ -93,9 +93,9 @@ public class Example_23 {
 
         Line descentLine2 = new Line(
                 x1,
-                curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()),
+                curr_y + f1.GetBodyHeight(f1.GetSize()),
                 xy[1],
-                curr_y + f1.GetAscent(f1.GetSize()) + f1.GetDescent(f1.GetSize()));
+                curr_y + f1.GetBodyHeight(f1.GetSize()));
         descentLine2.DrawOn(page);
 
         Point p1 = new Point(x1, y1);
