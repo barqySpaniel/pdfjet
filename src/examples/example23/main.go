@@ -31,7 +31,7 @@ func Example23() {
 	textLine.DrawOn(page)
 
 	textBlock := pdfjet.NewTextBlock(f1,
-		"Heya, World! This is a test to show the functionality of a TextBlock.")
+		"Hello, World! This example shows the functionality of the TextBlock.")
 	textBlock.SetLocation(x1, y1)
 	textBlock.SetWidth(500.0)
 	// textBlock.SetFillColor(color.LightGreen)

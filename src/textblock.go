@@ -55,7 +55,7 @@ func NewTextBlock(font *Font, textContent string) *TextBlock {
 	textBlock.width = 500.0
 	textBlock.height = 500.0
 	textBlock.font = font
-	textBlock.fontSize = 12.0
+	textBlock.fontSize = font.size
 
 	textBlock.textContent = textContent
 	textBlock.lineSpacing = 1.0
