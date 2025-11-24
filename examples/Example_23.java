@@ -26,7 +26,7 @@ public class Example_23 {
         textLine.drawOn(page);
 
         TextBlock textBlock = new TextBlock(f1,
-            "Heya, World! This is a test to show the functionality of a TextBlock.");
+            "Hello, World! This example shows the functionality of the TextBlock.");
         textBlock.setLocation(x1, y1);
         textBlock.setWidth(500f);
         textBlock.setBorderColor(Color.lightgreen);
@@ -34,16 +34,14 @@ public class Example_23 {
         textBlock.setTextColor(Color.black);
         float[] xy = textBlock.drawOn(page);
 
-        float x2 = xy[0];
-
-        f2.setSize(18f);
-
         // Text on the left
-        TextLine ascent_text = new TextLine(f2, "Ascent");
-        ascent_text.setLocation(x1 - 85f, y1 + 40f);
-        ascent_text.drawOn(page);
+        TextLine ascentText = new TextLine(f2, "Ascent");
+        ascentText.setFontSize(18f);
+        ascentText.setLocation(x1 - 85f, y1 + 40f);
+        ascentText.drawOn(page);
 
         TextLine descentText = new TextLine(f2, "Descent");
+        descentText.setFontSize(18f);
         descentText.setLocation(x1 - 85f, y1 + f1.getAscent() + 15f);
         descentText.drawOn(page);
 
@@ -71,14 +69,14 @@ public class Example_23 {
         Line textLine1 = new Line(
                 x1,
                 y1 + f1.getAscent(),
-                x2,
+                xy[0],
                 y1 + f1.getAscent());
         textLine1.drawOn(page);
 
         Line descentLine1 = new Line(
                 x1,
                 y1 + (f1.getAscent() + f1.getDescent()),
-                x2,
+                xy[0],
                 y1 + (f1.getAscent() + f1.getDescent()));
         descentLine1.drawOn(page);
 
@@ -88,14 +86,14 @@ public class Example_23 {
         Line textLine2 = new Line(
                 x1,
                 curr_y + f1.getAscent(),
-                x2,
+                xy[0],
                 curr_y + f1.getAscent());
         textLine2.drawOn(page);
 
         Line descentLine2 = new Line(
                 x1,
                 curr_y + f1.getAscent() + f1.getDescent(),
-                x2,
+                xy[0],
                 curr_y + f1.getAscent() + f1.getDescent());
         descentLine2.drawOn(page);
 
