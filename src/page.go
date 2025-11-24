@@ -221,7 +221,7 @@ func (page *Page) DrawLine(x1, y1, x2, y2 float32) {
 
 // DrawString draws a string using the specified font1 and font2 at the x, y location.
 func (page *Page) DrawString(font1 *Font, font2 *Font, text string, x, y float32) {
-	page.DrawStringUsingColorMap(font1, font2, font1.size, text, x, y, color.Black, nil)
+	page.DrawStringUsingColorMap(font1, font2, font1.size, text, x, y, [3]float32{0.0, 0.0, 0.0}, nil)
 }
 
 // DrawStringUsingColorMap draws the text given by the specified string,
@@ -229,7 +229,7 @@ func (page *Page) DrawString(font1 *Font, font2 *Font, text string, x, y float32
 // If the main font is missing some glyphs - the fallback font is used.
 // The baseline of the leftmost character is at position (x, y) on the page.
 func (page *Page) DrawStringUsingColorMap(
-	font, fallbackFont *Font, fontSize float32, text string, x, y float32, brush int32, colors map[string]int32) {
+	font, fallbackFont *Font, fontSize float32, text string, x, y float32, brush [3]float32, colors map[string]int32) {
 	if font.isCoreFont || font.isCJK || fallbackFont == nil || fallbackFont.isCoreFont || fallbackFont.isCJK {
 		page.drawString(font, fontSize, text, x, y, brush, colors)
 	} else {
@@ -262,7 +262,7 @@ func (page *Page) DrawStringUsingColorMap(
 // @param x the x coordinate.
 // @param y the y coordinate.
 func (page *Page) drawString(
-	font *Font, fontSize float32, str string, x, y float32, brush int32, colors map[string]int32) {
+	font *Font, fontSize float32, str string, x, y float32, brush [3]float32, colors map[string]int32) {
 	if str == "" {
 		return
 	}
@@ -303,7 +303,7 @@ func (page *Page) drawString(
 	page.appendString(" Tm\n")
 
 	if colors == nil {
-		page.SetBrushColor(brush)
+		page.SetBrushColorRGB(brush)
 		if font.isCoreFont {
 			page.appendString("[<")
 			page.drawASCIIString(font, str)
@@ -1237,12 +1237,12 @@ func (page *Page) appendPoint(point *Point) {
 	page.appendString(" ")
 }
 
-func (page *Page) drawWord(font *Font, buf *strings.Builder, brush int32, colors map[string]int32) {
+func (page *Page) drawWord(font *Font, buf *strings.Builder, brush [3]float32, colors map[string]int32) {
 	if buf.Len() > 0 {
 		if brushColor, ok := colors[strings.ToLower(buf.String())]; ok {
 			page.SetBrushColor(brushColor)
 		} else {
-			page.SetBrushColor(brush)
+			page.SetBrushColorRGB(brush)
 		}
 
 		if font.isCoreFont {
@@ -1259,7 +1259,7 @@ func (page *Page) drawWord(font *Font, buf *strings.Builder, brush int32, colors
 	}
 }
 
-func (page *Page) drawColoredString(font *Font, str string, brush int32, colors map[string]int32) {
+func (page *Page) drawColoredString(font *Font, str string, brush [3]float32, colors map[string]int32) {
 	var buf1 strings.Builder
 	var buf2 strings.Builder
 	for _, ch := range str {
@@ -1374,7 +1374,7 @@ func (page *Page) DrawContents(
 func (page *Page) DrawArrayOfCharacters(font *Font, text string, x, y, dx float32) {
 	x1 := x
 	for i := 0; i < len(text); i++ {
-		page.DrawStringUsingColorMap(font, nil, font.size, text[i:i+1], x1, y, color.Black, nil)
+		page.DrawStringUsingColorMap(font, nil, font.size, text[i:i+1], x1, y, [3]float32{0.0, 0.0, 0.0}, nil)
 		x1 += dx
 	}
 }
@@ -1598,7 +1598,7 @@ func (page *Page) drawTextBlock(
 	x float32,
 	y float32,
 	leading float32,
-	textColor int32,
+	textColor [3]float32,
 	highlightColors map[string]int32) {
 
 	if len(textLines) == 0 {
@@ -1606,7 +1606,7 @@ func (page *Page) drawTextBlock(
 	}
 
 	page.appendString("BT\n")
-	page.SetBrushColor(textColor)
+	page.SetBrushColorRGB(textColor)
 	page.SetTextFont(font, fontSize)
 	yText := y
 	for _, textLine := range textLines {

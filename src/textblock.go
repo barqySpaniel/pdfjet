@@ -17,20 +17,22 @@ import (
 
 // TextBlock creates block of line-wrapped text.
 type TextBlock struct {
-	x                  float32
-	y                  float32
-	width              float32
-	height             float32
-	font               *Font
-	fallbackFont       *Font
-	fontSize           float32
-	textContent        string
-	lineSpacing        float32
-	textColor          int32
-	textPadding        float32
+	x            float32
+	y            float32
+	width        float32
+	height       float32
+	font         *Font
+	fallbackFont *Font
+	fontSize     float32
+	textContent  string
+	lineSpacing  float32
+	textPadding  float32
+
+	fillColor          [3]float32
+	textColor          [3]float32
+	borderColor        [3]float32
 	borderWidth        float32
 	borderCornerRadius float32
-	borderColor        int32
 
 	language               string
 	altDescription         string
@@ -59,14 +61,14 @@ func NewTextBlock(font *Font, textContent string) *TextBlock {
 
 	textBlock.textContent = textContent
 	textBlock.lineSpacing = 1.0
-	textBlock.textColor = color.Black
+	textBlock.textColor = [3]float32{0.0, 0.0, 0.0}
 	textBlock.textPadding = 0.0
 	textBlock.textAlignment = alignment.Left
 	textBlock.keywordHighlightColors = make(map[string]int32)
 
 	textBlock.borderWidth = 0.5
 	textBlock.borderCornerRadius = 0.0
-	textBlock.borderColor = color.Transparent
+	// textBlock.borderColor = color.Transparent TODO:
 
 	textBlock.language = "en-US"
 	textBlock.altDescription = ""
@@ -163,9 +165,9 @@ func (textBlock *TextBlock) SetBorderWidth(borderWidth float32) {
 	textBlock.borderWidth = borderWidth
 }
 
-// SetBorderColor sets the penColor color.
+// SetBorderColorRGB sets the penColor color.
 // @param color the color specified as 0xRRGGBB integer.
-func (textBlock *TextBlock) SetBorderColor(borderColor int32) {
+func (textBlock *TextBlock) SetBorderColorRGB(borderColor [3]float32) {
 	textBlock.borderColor = borderColor
 }
 
@@ -175,10 +177,18 @@ func (textBlock *TextBlock) SetLineSpacing(lineSpacing float32) {
 	textBlock.lineSpacing = lineSpacing
 }
 
+// SetTextColorRGB sets the text color.
+func (textBlock *TextBlock) SetTextColorRGB(textColor [3]float32) {
+	textBlock.textColor = textColor
+}
+
 // SetTextColor sets the text color.
 // @param color the color specified as 0xRRGGBB integer.
-func (textBlock *TextBlock) SetTextColor(textColor int32) {
-	textBlock.textColor = textColor
+func (textBlock *TextBlock) SetTextColor(color int32) {
+	r := float32((color>>16)&0xff) / 255.0
+	g := float32((color>>8)&0xff) / 255.0
+	b := float32((color)&0xff) / 255.0
+	textBlock.textColor = [3]float32{r, b, b}
 }
 
 // SetHighlightColors sets the text colors map.
@@ -324,18 +334,19 @@ func (textBlock *TextBlock) DrawOn(page *Page) ([]float32, error) {
 	default:
 	}
 
-	if textBlock.borderColor != color.Transparent {
-		rect := NewRect(
-			textBlock.x,
-			textBlock.y,
-			textBlock.width,
-			maxFloat32(textBlock.height, float32(len(textLines))*leading+2*textBlock.textPadding))
-		// rect.SetTextColor(textBlock.textColor)
-		// TODO:	rect.SetBorderWidth(textBlock.borderWidth)
-		rect.SetBorderColor(textBlock.borderColor)
-		rect.SetCornerRadius(textBlock.borderCornerRadius)
-		rect.DrawOn(page)
-	}
+	// if textBlock.borderColor != nil {  // TODO
+	rect := NewRect(
+		textBlock.x,
+		textBlock.y,
+		textBlock.width,
+		maxFloat32(textBlock.height, float32(len(textLines))*leading+2*textBlock.textPadding))
+	// rect.SetFillColorRGB(textBlock.fillColor)
+	// rect.SetTextColorRGB(textBlock.textColor)
+	// TODO:	rect.SetBorderWidth(textBlock.borderWidth)
+	rect.SetBorderColor(textBlock.borderColor)
+	rect.SetCornerRadius(textBlock.borderCornerRadius)
+	rect.DrawOn(page)
+	// }
 
 	page.AddBMC("P", textBlock.uriLanguage, textBlock.textContent, "")
 	page.drawTextBlock(

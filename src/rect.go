@@ -8,7 +8,6 @@ package pdfjet
  */
 
 import (
-	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/operator"
 	"github.com/edragoev1/pdfjet/src/single"
 	"github.com/edragoev1/pdfjet/src/structtype"
@@ -17,11 +16,17 @@ import (
 // Rect is used to create rectangular shapes on a page.
 // Also used to for layout purposes. See the placeIn method in the Image and TextLine classes.
 type Rect struct {
-	x, y, w, h     float32
-	r              float32
-	color          int32
-	width          float32
-	pattern        string
+	x float32
+	y float32
+	w float32
+	h float32
+	r float32
+
+	fillColor     [3]float32
+	borderWidth   float32
+	borderColor   [3]float32
+	borderPattern string
+
 	fillShape      bool
 	uri            *string
 	key            *string
@@ -42,9 +47,11 @@ func NewRect(x, y, w, h float32) *Rect {
 	rect.y = y
 	rect.w = w
 	rect.h = h
-	rect.color = color.Black
-	rect.width = 0.0
-	rect.pattern = "[] 0"
+
+	rect.borderColor = [3]float32{0.0, 0.0, 0.0}
+	rect.borderWidth = 0.0
+	rect.borderPattern = "[] 0"
+
 	rect.altDescription = single.Space
 	rect.actualText = single.Space
 	rect.structureType = structtype.P
@@ -70,14 +77,14 @@ func (rect *Rect) SetSize(w, h float32) {
 
 // SetBorderColor sets the color for this rectangle.
 // @param color the color specified as an integer.
-func (rect *Rect) SetBorderColor(color int32) {
-	rect.color = color
+func (rect *Rect) SetBorderColor(borderColor [3]float32) {
+	rect.borderColor = borderColor
 }
 
 // SetLineWidth sets the width of this line.
 // @param width the width.
-func (rect *Rect) SetLineWidth(width float32) {
-	rect.width = width
+func (rect *Rect) SetLineWidth(borderWidth float32) {
+	rect.borderWidth = borderWidth
 }
 
 // SetCornerRadius sets the corner radius.
@@ -142,8 +149,8 @@ func (rect *Rect) SetStructureType(structureType string) *Rect {
 // </pre>
 //
 // @param pattern the line dash pattern.
-func (rect *Rect) SetPattern(pattern string) {
-	rect.pattern = pattern
+func (rect *Rect) SetPattern(borderPattern string) {
+	rect.borderPattern = borderPattern
 }
 
 // SetFillShape sets the private fillShape variable.
@@ -182,18 +189,18 @@ func (rect *Rect) DrawOn(page *Page) []float32 {
 		page.LineTo(rect.x+rect.w, rect.y+rect.h)
 		page.LineTo(rect.x, rect.y+rect.h)
 		if rect.fillShape {
-			page.SetBrushColor(rect.color)
+			page.SetBrushColorRGB(rect.fillColor)
 			page.FillPath()
 		} else {
-			page.SetPenWidth(rect.width)
-			page.SetPenColor(rect.color)
-			page.SetLinePattern(rect.pattern)
+			page.SetPenWidth(rect.borderWidth)
+			page.SetPenColorRGB(rect.borderColor)
+			page.SetLinePattern(rect.borderPattern)
 			page.ClosePath()
 		}
 	} else {
-		page.SetPenWidth(rect.width)
-		page.SetPenColor(rect.color)
-		page.SetLinePattern(rect.pattern)
+		page.SetPenWidth(rect.borderWidth)
+		page.SetPenColorRGB(rect.borderColor)
+		page.SetLinePattern(rect.borderPattern)
 
 		points := make([]*Point, 0)
 		points = append(points, NewPoint(rect.x+rect.r, rect.y))

@@ -12,7 +12,6 @@ import (
 
 	"github.com/edragoev1/pdfjet/src/align"
 	"github.com/edragoev1/pdfjet/src/border"
-	"github.com/edragoev1/pdfjet/src/color"
 )
 
 // Cell is used to create table cell objects.
@@ -32,9 +31,9 @@ type Cell struct {
 	leftPadding       float32
 	rightPadding      float32
 	lineWidth         float32
-	background        int32
-	pen               int32
-	brush             int32
+	background        [3]float32
+	pen               [3]float32
+	brush             [3]float32
 
 	// Cell properties
 	// Colspan:
@@ -76,9 +75,9 @@ func NewCell(font *Font, text string) *Cell {
 	cell.leftPadding = 2.0
 	cell.rightPadding = 2.0
 	cell.lineWidth = 0.0
-	cell.background = color.White
-	cell.pen = color.Black
-	cell.brush = color.Black
+	//cell.background = color.White		// TODO:
+	//cell.pen = color.Black
+	//cell.brush = color.Black
 	cell.properties = 0x00050001 // Set only left and top borders!
 	cell.valign = align.Top
 	return cell
@@ -271,43 +270,36 @@ func (cell *Cell) GetLineWidth() float32 {
 
 // SetBgColor sets the background to the specified color.
 // @param color the color specified as 0xRRGGBB integer.
-func (cell *Cell) SetBgColor(color int32) {
+func (cell *Cell) SetBgColor(color [3]float32) {
 	cell.background = color
 }
 
 // GetBgColor returns the background color of this cell.
-func (cell *Cell) GetBgColor() int32 {
+func (cell *Cell) GetBgColor() [3]float32 {
 	return cell.background
 }
 
 // SetPenColor sets the penColor color.
 // @param color the color specified as 0xRRGGBB integer.
-func (cell *Cell) SetPenColor(color int32) {
+func (cell *Cell) SetPenColor(color [3]float32) {
 	cell.pen = color
 }
 
 // GetPenColor returns the penColor color.
-func (cell *Cell) GetPenColor() int32 {
+func (cell *Cell) GetPenColor() [3]float32 {
 	return cell.pen
 }
 
 // SetBrushColor sets the brushColor color.
 // @param color the color specified as 0xRRGGBB integer.
-func (cell *Cell) SetBrushColor(color int32) {
+func (cell *Cell) SetBrushColor(color [3]float32) {
 	cell.brush = color
 }
 
 // GetBrushColor returns the brushColor color.
 // @return the brushColor color.
-func (cell *Cell) GetBrushColor() int32 {
+func (cell *Cell) GetBrushColor() [3]float32 {
 	return cell.brush
-}
-
-// SetFgColor sets the penColor and brushColor colors to the specified color.
-// @param color the color specified as 0xRRGGBB integer.
-func (cell *Cell) SetFgColor(color int32) {
-	cell.pen = color
-	cell.brush = color
 }
 
 // SetProperties sets the properties.
@@ -425,9 +417,9 @@ func (cell *Cell) SetURIAction(uri *string) {
 
 // DrawOn draws the point, text and borders of this cell.
 func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
-	if cell.background != color.White {
-		cell.drawBackground(page, x, y, w, h)
-	}
+	//if cell.background != color.White {		// TODO
+	//	cell.drawBackground(page, x, y, w, h)
+	//}
 
 	if cell.textBox != nil {
 		cell.textBox.SetLocation(x+cell.leftPadding, y+cell.topPadding)
@@ -487,12 +479,12 @@ func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 }
 
 func (cell *Cell) drawBackground(page *Page, x, y, wCell, hCell float32) {
-	page.SetBrushColor(cell.background)
+	page.SetBrushColorRGB(cell.background)
 	page.FillRect(x, y+cell.lineWidth/2, wCell, hCell+cell.lineWidth)
 }
 
 func (cell *Cell) drawBorders(page *Page, x, y, cellW, cellH float32) {
-	page.SetPenColor(cell.pen)
+	page.SetPenColorRGB(cell.pen)
 	page.SetPenWidth(cell.lineWidth)
 	qWidth := cell.lineWidth / 4.0
 	if cell.GetBorder(border.Top) {
@@ -540,7 +532,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		log.Fatal("Invalid vertical text alignment option.")
 	}
 
-	page.SetPenColor(cell.pen)
+	page.SetPenColorRGB(cell.pen)
 	if cell.GetTextAlignment() == align.Right {
 		if cell.compositeTextLine == nil {
 			xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)

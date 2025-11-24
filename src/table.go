@@ -199,7 +199,7 @@ func (table *Table) SetTextAlignInColumn(index, alignment int) {
 // SetTextColorInColumn sets the color of the text in the specified column.
 // @param index the index of the specified column.
 // @param color the color specified as an integer.
-func (table *Table) SetTextColorInColumn(index int, color int32) {
+func (table *Table) SetTextColorInColumn(index int, color [3]float32) {
 	for _, row := range table.tableData {
 		if index < len(row) {
 			cell := row[index]
@@ -229,7 +229,7 @@ func (table *Table) SetFontInColumn(index int, font *Font) {
 // SetTextColorInRow sets the color of the text in the specified row.
 // @param index the index of the specified row.
 // @param color the color specified as an integer.
-func (table *Table) SetTextColorInRow(index int, color int32) {
+func (table *Table) SetTextColorInRow(index int, color [3]float32) {
 	if index < len(table.tableData) {
 		row := table.tableData[index]
 		for _, cell := range row {
@@ -409,7 +409,7 @@ func (table *Table) drawTableRows(page *Page, xy [2]float32) [2]float32 {
 				i++
 			}
 			if page != nil {
-				page.SetBrushColor(cell.GetBrushColor())
+				page.SetBrushColorRGB(cell.GetBrushColor())
 				cell.DrawOn(page, x, y, w, h)
 			}
 			x += w
@@ -468,9 +468,9 @@ func (table *Table) SetCellBorders(borders bool) {
 	}
 }
 
-// SetCellBordersColor sets the color of the cell border lines.
-// @param color the color of the cell border lines.
-func (table *Table) SetCellBordersColor(color int32) {
+// SetCellBordersColor sets the color of the cell borders.
+// @param color the color of the cell borders.
+func (table *Table) SetCellBordersColor(color [3]float32) {
 	for _, row := range table.tableData {
 		for _, cell := range row {
 			cell.SetPenColor(color)
