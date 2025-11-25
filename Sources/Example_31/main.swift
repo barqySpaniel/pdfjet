@@ -8,25 +8,20 @@ public class Example_31 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_31.pdf", append: false)!)
 
-        let f1 = try Font(pdf, NotoSans.Regular)
+        let f1 = try Font(pdf, "fonts/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf.stream")
         f1.setSize(15.0)
-
-        let f2 = try Font(pdf, "fonts/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf.stream")
-        f2.setSize(15.0)
 
         let page = Page(pdf, Letter.PORTRAIT)
 
         let str = try String(contentsOfFile: "data/marathi.txt", encoding: .utf8)
 
-        let textBlock = TextBlock(f2, str)
+        let textBlock = TextBlock(f1, str)
         textBlock.setWidth(500.0)
-        // textBlock.setFallbackFont(f2)
         textBlock.setLocation(50.0, 50.0)
         textBlock.setBorderColor(Color.blue)
         textBlock.drawOn(page)
 
         let textLine = TextLine(f1, "असम के बाद UP में भी CM कैंडिडेट का ऐलान करेगी BJP?")
-        textLine.setFallbackFont(f2)
         textLine.setLocation(50.0, 175.0)
         textLine.drawOn(page)
 
@@ -35,8 +30,8 @@ public class Example_31 {
         page.fillRect(50.0, 200.0, 200.0, 200.0)
 
         let gs = GraphicsState()
-        gs.setAlphaStroking(0.5)        // The stroking alpha constant
-        gs.setAlphaNonStroking(0.5)     // The nonstroking alpha constant
+        gs.setAlphaStroking(0.5)    // The stroking alpha constant
+        gs.setAlphaNonStroking(0.5) // The non-stroking alpha constant
         page.setGraphicsState(gs)
 
         page.setPenColor(Color.green)
