@@ -18,12 +18,12 @@ public class Example_31 {
 
         let str = try String(contentsOfFile: "data/marathi.txt", encoding: .utf8)
 
-        let textBox = TextBox(f1, str, 500.0, 300.0)
-        textBox.setFallbackFont(f2)
-        textBox.setLocation(50.0, 50.0)
-        textBox.setBorder(Border.LEFT)
-        textBox.setBorder(Border.RIGHT)
-        textBox.drawOn(page)
+        let textBlock = TextBlock(f2, str)
+        textBlock.setWidth(500.0)
+        // textBlock.setFallbackFont(f2)
+        textBlock.setLocation(50.0, 50.0)
+        textBlock.setBorderColor(Color.blue)
+        textBlock.drawOn(page)
 
         let textLine = TextLine(f1, "असम के बाद UP में भी CM कैंडिडेट का ऐलान करेगी BJP?")
         textLine.setFallbackFont(f2)
