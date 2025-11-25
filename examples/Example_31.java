@@ -9,17 +9,12 @@ import com.pdfjet.*;
 public class Example_31 {
     public Example_31() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_31.pdf")));
+                new BufferedOutputStream(new FileOutputStream("Example_31.pdf")));
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
-        // Font f1 = new Font(pdf, "fonts/Noto/NotoSansDevanagari-Regular.ttf.stream");
-        Font f1 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, "fonts/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf.stream");
         f1.setSize(15f);
-
-        Font f2 = new Font(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream");
-        f2.setSize(15f);
 
         StringBuilder buf = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -31,7 +26,6 @@ public class Example_31 {
         reader.close();
 
         TextBox textBox = new TextBox(f1, buf.toString(), 500f, 300f);
-        textBox.setFallbackFont(f2);
         textBox.setLocation(50f, 50f);
         textBox.setBorder(Border.LEFT);
         textBox.setBorder(Border.RIGHT);
@@ -39,20 +33,17 @@ public class Example_31 {
 
         String str = "असम के बाद UP में भी CM कैंडिडेट का ऐलान करेगी BJP?";
         TextLine textLine = new TextLine(f1, str);
-        textLine.setFallbackFont(f2);
         textLine.setLocation(50f, 175f);
         textLine.drawOn(page);
-
 
         page.setPenColor(Color.blue);
         page.setBrushColor(Color.blue);
         page.fillRect(50f, 200f, 200f, 200f);
 
         GraphicsState gs = new GraphicsState();
-        gs.setAlphaStroking(0.5f);          // The stroking alpha constant
-        gs.setAlphaNonStroking(0.5f);       // The nonstroking alpha constant
+        gs.setAlphaStroking(0.5f);      // The stroking alpha constant
+        gs.setAlphaNonStroking(0.5f);   // The non-stroking alpha constant
         page.setGraphicsState(gs);
-
         page.setPenColor(Color.green);
         page.setBrushColor(Color.green);
         page.fillRect(100f, 250f, 200f, 200f);
