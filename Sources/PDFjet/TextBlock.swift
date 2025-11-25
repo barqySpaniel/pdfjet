@@ -7,16 +7,16 @@
 import Foundation
 
 public class TextBlock : Drawable {
-    private var x: Float = 0.0
-    private var y: Float = 0.0
-    private var width: Float = 500.0
-    private var height: Float = 500.0
-    private var font: Font
-    private var fallbackFont: Font?
-    private var fontSize: Float = 12.0
-    private var textContent: String
-    private var textLineHeight: Float = 1.0
-    private var textPadding: Float = 0.0
+    internal var x: Float = 0.0
+    internal var y: Float = 0.0
+    internal var width: Float = 500.0
+    internal var height: Float = 500.0
+    internal var font: Font
+    internal var fallbackFont: Font?
+    internal var fontSize: Float = 12.0
+    internal var textContent: String
+    internal var textLineHeight: Float = 1.0
+    internal var textPadding: Float = 0.0
 
     private var fillColor: [Float]?
     private var textColor: [Float] = [0.0, 0.0, 0.0]
@@ -125,11 +125,13 @@ public class TextBlock : Drawable {
         self.textColor = [r, g, b]
     }
 
+    @discardableResult
     public func setTextColor(_ textColor: [Float]) -> TextBlock {
         self.textColor = textColor
         return self
     }
 
+    @discardableResult
     public func setTextColor(_ r: Float, _ g: Float, _ b: Float) -> TextBlock {
         self.textColor = [r, g, b]
         return self
@@ -142,6 +144,7 @@ public class TextBlock : Drawable {
         self.fillColor = [r, g, b]
     }
 
+    @discardableResult
     public func setFillColor(_ fillColor: [Float]?) -> TextBlock {
         self.fillColor = fillColor
         return self
@@ -154,6 +157,7 @@ public class TextBlock : Drawable {
         self.borderColor = [r, g, b]
     }
 
+    @discardableResult
     public func setBorderColor(_ borderColor: [Float]?) -> TextBlock {
         self.borderColor = borderColor
         return self

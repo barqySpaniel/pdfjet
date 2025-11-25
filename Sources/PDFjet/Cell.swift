@@ -11,13 +11,12 @@ import Foundation
  * See the Table class for more information.
  */
 public class Cell {
-    var font: Font?
-    var fallbackFont: Font?
-    var fontSize: Float = 12.0
+    internal var font: Font?
+    internal var fallbackFont: Font?
+    internal var fontSize: Float = 12.0
     var text: String?
     var image: Image?
     var barcode: Barcode?
-    var textBox: TextBox?
     var textBlock: TextBlock?
     var textColumn: TextColumn?
     var point: Point?
@@ -168,10 +167,6 @@ public class Cell {
         self.text = nil
     }
 
-    public func setTextBox(_ textBox: TextBox) {
-        self.textBox = textBox
-    }
-
     /**
      * Sets the point inside this cell.
      * See the Point class and Example_09 for more information.
@@ -218,8 +213,8 @@ public class Cell {
      */
     public func setWidth(_ width: Float) {
         self.width = width
-        if self.textBox != nil {
-            self.textBox!.setWidth(self.width - (self.leftPadding + self.rightPadding))
+        if self.textBlock != nil {
+            self.textBlock!.setWidth(self.width - (self.leftPadding + self.rightPadding))
         }
     }
 
@@ -295,9 +290,9 @@ public class Cell {
      */
     public func getHeight(_ width: Float) -> Float {
         var cellHeight = Float(0.0)
-        if textBox != nil {
-            textBox!.setWidth(width)
-            cellHeight = (textBox!.drawOn(nil)[1] - textBox!.y) + topPadding + bottomPadding
+        if textBlock != nil {
+            textBlock!.setWidth(width)
+            cellHeight = (textBlock!.drawOn(nil)[1] - textBlock!.y) + topPadding + bottomPadding
         } else if image != nil {
             cellHeight = image!.getHeight() + topPadding + bottomPadding
         } else if barcode != nil {
@@ -542,10 +537,10 @@ public class Cell {
             drawBackground(page, x, y, w, h)
         // }
 
-        if textBox != nil {
-            textBox!.setLocation(x + leftPadding, y + topPadding)
-            textBox!.setWidth(w - (leftPadding + rightPadding))
-            textBox!.drawOn(page)
+        if textBlock != nil {
+            textBlock!.setLocation(x + leftPadding, y + topPadding)
+            textBlock!.setWidth(w - (leftPadding + rightPadding))
+            textBlock!.drawOn(page)
         } else if image != nil {
             if (getTextAlignment() == Align.LEFT) {
                 image!.setLocation(x + leftPadding, y + topPadding)
@@ -763,7 +758,7 @@ public class Cell {
         page.addEMC()
     }
 
-    public func getTextBox() -> TextBox? {
-        return textBox
+    public func getTextBlock() -> TextBlock? {
+        return textBlock
     }
 }   // End of Cell.swift

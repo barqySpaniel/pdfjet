@@ -31,14 +31,14 @@ public class Example_19 {
         image1.scaleBy(0.75)
         image1.drawOn(page)
 
-        var textBox = TextBox(f1)
-        textBox.setText("Geometry arose independently in a number of early cultures as a practical way for dealing with lengths, areas, and volumes.")
-        textBox.setLocation(x2, y1)
-        textBox.setWidth(w2)
-        // textBox.setTextAlignment(Align.RIGHT)
-        // textBox.setTextAlignment(Align.CENTER)
-        textBox.setBorders(true)
-        let xy = textBox.drawOn(page)
+        var textBlock = TextBlock(f1,
+            "Geometry arose independently in a number of early cultures as a practical way for dealing with lengths, areas, and volumes.")
+        textBlock.setLocation(x2, y1)
+        textBlock.setWidth(w2)
+        // textBlock.setTextAlignment(Align.RIGHT)
+        // textBlock.setTextAlignment(Align.CENTER)
+        textBlock.setBorderColor(Color.black)
+        let xy = textBlock.drawOn(page)
 
         // Draw the second row image and text:
         let image2 = try Image(pdf, "images/ee-map.png")
@@ -46,20 +46,17 @@ public class Example_19 {
         image2.scaleBy(1.0/3.0)
         image2.drawOn(page)
 
-        textBox = TextBox(f1)
-        textBox.setText(try Content.ofTextFile("data/latin.txt"))
-        textBox.setWidth(w2)
-        textBox.setLocation(x2, xy[1] + 10.0)
-        textBox.setBorders(true)
-        textBox.drawOn(page)
+        textBlock = TextBlock(f1, try Content.ofTextFile("data/latin.txt"))
+        textBlock.setWidth(w2)
+        textBlock.setLocation(x2, xy[1] + 10.0)
+        textBlock.setBorderColor(Color.red)
+        textBlock.drawOn(page)
 
-        textBox = TextBox(f1)
-        textBox.setFallbackFont(f2)
-        textBox.setText(try Content.ofTextFile("data/chinese.txt"))
-        textBox.setLocation(x1, 530.0)
-        textBox.setWidth(350.0)
-        textBox.setBorders(true)
-        textBox.drawOn(page)
+        textBlock = TextBlock(f2, try Content.ofTextFile("data/chinese.txt"))
+        textBlock.setLocation(x1, 530.0)
+        textBlock.setWidth(350.0)
+        textBlock.setBorderColor(Color.blue)
+        textBlock.drawOn(page)
 
         pdf.complete()
     }

@@ -213,8 +213,8 @@ public class Table {
             if index < row.count {
                 let cell = row[index]
                 cell.setTextAlignment(alignment)
-                if cell.textBox != nil {
-                    cell.textBox!.setTextAlignment(alignment)
+                if cell.textBlock != nil {
+                    // cell.textBlock!.setTextAlignment(alignment)         // TODO
                 }
             }
         }
@@ -231,8 +231,8 @@ public class Table {
             if index < row.count {
                 let cell = row[index]
                 cell.setTextColor(textColor)
-                if cell.textBox != nil {
-                    cell.textBox!.setTextColor(textColor)
+                if cell.textBlock != nil {
+                    cell.textBlock!.setTextColor(textColor)
                 }
             }
         }
@@ -249,8 +249,8 @@ public class Table {
             if index < row.count {
                 let cell = row[index]
                 cell.font = font
-                if cell.textBox != nil {
-                    cell.textBox!.font = font
+                if cell.textBlock != nil {
+                    cell.textBlock!.font = font
                 }
             }
         }
@@ -267,8 +267,8 @@ public class Table {
             let row = tableData[index]
             for cell in row {
                 cell.setTextColor(color)
-                if cell.textBox != nil {
-                    cell.textBox!.setTextColor(color)
+                if cell.textBlock != nil {
+                    cell.textBlock!.setTextColor(color)
                 }
             }
         }
@@ -285,8 +285,8 @@ public class Table {
             let row = tableData[index]
             for cell in row {
                 cell.font = font
-                if cell.textBox != nil {
-                    cell.textBox!.font = font
+                if cell.textBlock != nil {
+                    cell.textBlock!.font = font
                 }
             }
         }
@@ -303,8 +303,8 @@ public class Table {
             if index < row.count {
                 let cell = row[index]
                 cell.setWidth(width)
-                if cell.textBox != nil {
-                    cell.textBox!.setWidth(width - (cell.leftPadding + cell.rightPadding))
+                if cell.textBlock != nil {
+                    cell.textBlock!.setWidth(width - (cell.leftPadding + cell.rightPadding))
                 }
             }
         }
@@ -608,10 +608,10 @@ public class Table {
             while i < row.count {
                 let cell = row[i]
                 if cell.getColSpan() == 1 {
-                    if cell.textBox != nil {
-                        let tokens = cell.textBox!.text!.components(separatedBy: .whitespaces)
+                    if cell.textBlock != nil {
+                        let tokens = cell.textBlock!.textContent.components(separatedBy: .whitespaces)
                         for token in tokens {
-                            var tokenWidth = cell.textBox!.font!.stringWidth(cell.textBox!.fallbackFont, token)
+                            var tokenWidth = cell.textBlock!.font.stringWidth(cell.textBlock!.fallbackFont, token)
                             tokenWidth += cell.leftPadding + cell.rightPadding
                             if (tokenWidth > maxColWidths[i]) {
                                 maxColWidths[i] = tokenWidth

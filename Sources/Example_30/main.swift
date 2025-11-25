@@ -34,8 +34,7 @@ public class Example_30 {
         group.setPrintable(false)
         group.drawOn(page)
 
-        let textBox = TextBox(font)
-        textBox.setText("Blue Layer Text")
+        let textBox = TextBlock(font, "Blue Layer Text")
         textBox.setLocation(350.0, 130.0)
 
         var line = Line()
