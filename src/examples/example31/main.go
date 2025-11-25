@@ -21,11 +21,8 @@ func Example31() {
 	pdf.SetKeywords("Hello World This is a test")
 	pdf.SetCreator("Application Name")
 
-	font1 := pdfjet.NewFontFromFile(pdf, "fonts/NotoSansTC/NotoSansTC-Regular.ttf.stream")
-	font2 := pdfjet.NewFontFromFile(pdf, "fonts/NotoSans/NotoSans-Regular.ttf.stream")
-
-	font1.SetSize(15.0)
-	font2.SetSize(15.0)
+	f1 := pdfjet.NewFontFromFile(pdf, "fonts/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf.stream")
+	f1.SetSize(15.0)
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
@@ -44,17 +41,15 @@ func Example31() {
 		log.Fatal(err)
 	}
 
-	textBlock := pdfjet.NewTextBlock(font1, buf.String())
+	textBlock := pdfjet.NewTextBlock(f1, buf.String())
 	textBlock.SetLocation(500.0, 300.0)
-	textBlock.SetFallbackFont(font2)
 	textBlock.SetLocation(50.0, 50.0)
 	//textBlock.SetBorder(border.Left)
 	//textBlock.SetBorder(border.Right)
 	textBlock.DrawOn(page)
 
 	str := "असम के बाद UP में भी CM कैंडिडेट का ऐलान करेगी BJP?"
-	textLine := pdfjet.NewTextLine(font1, str)
-	textLine.SetFallbackFont(font2)
+	textLine := pdfjet.NewTextLine(f1, str)
 	textLine.SetLocation(50.0, 175.0)
 	textLine.DrawOn(page)
 
@@ -64,7 +59,7 @@ func Example31() {
 
 	gs := pdfjet.NewGraphicsState()
 	gs.SetAlphaStroking(0.5)    // The stroking alpha constant
-	gs.SetAlphaNonStroking(0.5) // The nonstroking alpha constant
+	gs.SetAlphaNonStroking(0.5) // The non-stroking alpha constant
 	page.SetGraphicsState(gs)
 
 	page.SetPenColor(color.Green)
