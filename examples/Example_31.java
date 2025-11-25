@@ -16,16 +16,8 @@ public class Example_31 {
         Font f1 = new Font(pdf, "fonts/NotoSansDevanagari/NotoSansDevanagari-Regular.ttf.stream");
         f1.setSize(15f);
 
-        StringBuilder buf = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(
-                new FileInputStream("data/marathi.txt"), "UTF-8"));
-        String line = null;
-        while ((line = reader.readLine()) != null) {
-            buf.append(line + "\n");
-        }
-        reader.close();
-
-        TextBox textBox = new TextBox(f1, buf.toString(), 500f, 300f);
+        TextBox textBox = new TextBox(f1, Content.ofTextFile("data/languages/english.txt"));
+        textBox.setWidth(500f);
         textBox.setLocation(50f, 50f);
         textBox.setBorder(Border.LEFT);
         textBox.setBorder(Border.RIGHT);
