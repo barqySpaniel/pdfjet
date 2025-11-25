@@ -4,39 +4,38 @@ import java.io.*;
 import com.pdfjet.*;
 
 /**
- *  Example_24.java
+ * Example_24.java
  */
 public class Example_24 {
     public Example_24() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_24.pdf")));
+                new BufferedOutputStream(new FileOutputStream("Example_24.pdf")));
 
         Font font = new Font(pdf, CoreFont.HELVETICA);
 
-        Image image_00 = new Image(pdf, "images/gr-map.jpg");
-        Image image_02 = new Image(pdf, "images/ee-map.png");
-        Image image_03 = new Image(pdf, "images/rgb24pal.bmp");
+        Image image1 = new Image(pdf, "images/gr-map.jpg");
+        Image image2 = new Image(pdf, "images/ee-map.png");
+        Image image3 = new Image(pdf, "images/rgb24pal.bmp");
 
         Page page = new Page(pdf, Letter.PORTRAIT);
-        TextLine textline_00 = new TextLine(font, "This is a JPEG image.");
-        textline_00.setTextDirection(0);
-        textline_00.setLocation(50f, 50f);
-        float[] point = textline_00.drawOn(page);
-        image_00.setLocation(50f, point[1]).scaleBy(0.25f).drawOn(page);
+        TextLine textLine1 = new TextLine(font, "This is a JPEG image.");
+        textLine1.setTextDirection(0);
+        textLine1.setLocation(50f, 50f);
+        float[] point = textLine1.drawOn(page);
+        image1.setLocation(50f, point[1] + 5f).scaleBy(0.25f).drawOn(page);
 
         page = new Page(pdf, Letter.PORTRAIT);
-        TextLine textline_02 = new TextLine(font, "This is a PNG image.");
-        textline_02.setTextDirection(0);
-        textline_02.setLocation(50f, 50f);
-        point = textline_02.drawOn(page);
-        image_02.setLocation(50f, point[1]).scaleBy(0.75f).drawOn(page);
+        TextLine textLine2 = new TextLine(font, "This is a PNG image.");
+        textLine2.setTextDirection(0);
+        textLine2.setLocation(50f, 50f);
+        point = textLine2.drawOn(page);
+        image2.setLocation(50f, point[1] + 5f).scaleBy(0.75f).drawOn(page);
 
-        TextLine textline_03 = new TextLine(font, "This is a BMP image.");
-        textline_03.setTextDirection(0);
-        textline_03.setLocation(50f, 620f);
-        point = textline_03.drawOn(page);
-        image_03.setLocation(50f, point[1]).scaleBy(0.75f).drawOn(page);
+        TextLine textLine3 = new TextLine(font, "This is a BMP image.");
+        textLine3.setTextDirection(0);
+        textLine3.setLocation(50f, 620f);
+        point = textLine3.drawOn(page);
+        image3.setLocation(50f, point[1] + 5f).scaleBy(0.75f).drawOn(page);
 
         pdf.complete();
     }

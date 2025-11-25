@@ -5,12 +5,12 @@ import java.util.*;
 import com.pdfjet.*;
 
 /**
- *  Example_49.java
+ * Example_49.java
  */
 public class Example_49 {
     public Example_49() throws Exception {
         PDF pdf = new PDF(
-            new BufferedOutputStream(new FileOutputStream("Example_49.pdf")));
+                new BufferedOutputStream(new FileOutputStream("Example_49.pdf")));
         pdf.setCompliance(Compliance.PDF_UA_1);
 
         Font f1 = new Font(pdf, SourceSerif4.Regular);

@@ -5,7 +5,7 @@ import java.util.*;
 import com.pdfjet.*;
 
 /**
- *  Example_50.java
+ * Example_50.java
  */
 class Example_50 {
     public Example_50(String fileNumber, String fileName) throws Exception {

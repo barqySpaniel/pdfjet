@@ -4,15 +4,15 @@ import java.io.*;
 import com.pdfjet.*;
 
 /**
- *  Example_48.java
+ * Example_48.java
  */
 public class Example_48 {
     public Example_48() throws Exception {
         PDF pdf = new PDF(
-            new BufferedOutputStream(new FileOutputStream("Example_48.pdf")));
+                new BufferedOutputStream(new FileOutputStream("Example_48.pdf")));
         pdf.setCompliance(Compliance.PDF_UA_1);
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
         f1.setSize(14f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
