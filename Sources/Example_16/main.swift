@@ -31,21 +31,21 @@ public class Example_16 {
         let latinText = try String(contentsOfFile: "data/languages/english.txt", encoding: String.Encoding.utf8)
 
         f1.setSize(15.0)
-        let textBox = TextBox(f1, latinText)
-        textBox.setLocation(100.0, 50.0)
-        textBox.setWidth(400.0)
+        let textBlock = TextBlock(f1, latinText)
+        textBlock.setLocation(100.0, 50.0)
+        textBlock.setWidth(400.0)
         // If no height is specified the height will be calculated based on the text.
-        textBox.setHeight(450.0)
+        // textBlock.setHeight(450.0)
 
         // textBox.setTextDirection(Direction.TOP_TO_BOTTOM)
         // textBox.setTextDirection(Direction.BOTTOM_TO_TOP)
         // textBox.setVerticalAlignment(Align.TOP)
         // textBox.setVerticalAlignment(Align.BOTTOM)
         // textBox.setVerticalAlignment(Align.CENTER)
-        textBox.setBackgroundColor(Color.whitesmoke);
-        textBox.setTextColors(colors)
-        textBox.setBorder(Border.ALL)
-        let xy = textBox.drawOn(page)
+        // textBlock.setBackgroundColor(Color.whitesmoke);
+        // textBlock.setTextColors(colors)
+        textBlock.setBorderColor(Color.blue)
+        let xy = textBlock.drawOn(page)
 
         page.setGraphicsState(GraphicsState())      // Reset GS
 
