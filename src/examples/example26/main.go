@@ -4,8 +4,6 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/JetBrainsMono"
-	"github.com/edragoev1/pdfjet/src/SourceSerif4"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
@@ -16,101 +14,65 @@ import (
 func Example26() {
 	pdf := pdfjet.NewPDFFile("Example_26.pdf")
 
-	font1 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	font2 := pdfjet.NewFontFromFile(pdf, SourceSerif4.Regular)
-	font3 := pdfjet.NewFontFromFile(pdf, JetBrainsMono.Regular)
-	image := pdfjet.NewImageFromFile(pdf, "images/ee-map.png")
+	f1 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
-	flag := pdfjet.NewBoxAt(85.0, 85.0, 64.0, 32.0)
-	path := pdfjet.NewPath()
+	var x float32 = 50.0
+	var y float32 = 50.0
 
-	path.Add(pdfjet.NewPoint(13.0, 0.0))
-	path.Add(pdfjet.NewPoint(15.5, 4.5))
+	checkBox := pdfjet.NewCheckBox(f1, "Hello")
+	checkBox.SetLocation(x, y)
+	checkBox.SetCheckmark(color.Blue)
+	// checkBox.Check(mark.CHECK)
+	checkBox.DrawOn(page)
 
-	path.Add(pdfjet.NewPoint(18.0, 3.5))
-	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
-	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
-	path.Add(pdfjet.NewPoint(20.5, 7.5))
+	y += 30.0
+	checkBox = pdfjet.NewCheckBox(f1, "World!")
+	checkBox.SetLocation(x, y)
+	checkBox.SetCheckmark(color.Blue)
+	// checkBox.SetURIAction("http://pdfjet.com")
+	// checkBox.Check(Mark.CHECK)
+	checkBox.DrawOn(page)
 
-	path.Add(pdfjet.NewPoint(21.0, 9.5))
-	path.Add(pdfjet.NewPoint(25.0, 9.0))
-	path.Add(pdfjet.NewPoint(24.0, 13.0))
-	path.Add(pdfjet.NewPoint(25.5, 14.0))
-	path.Add(pdfjet.NewPoint(19.0, 19.0))
-	path.Add(pdfjet.NewPoint(20.0, 21.5))
-	path.Add(pdfjet.NewPoint(13.5, 20.5))
-	path.Add(pdfjet.NewPoint(13.5, 27.0))
-	path.Add(pdfjet.NewPoint(12.5, 27.0))
-	path.Add(pdfjet.NewPoint(12.5, 20.5))
-	path.Add(pdfjet.NewPoint(6.0, 21.5))
-	path.Add(pdfjet.NewPoint(7.0, 19.0))
-	path.Add(pdfjet.NewPoint(0.5, 14.0))
-	path.Add(pdfjet.NewPoint(2.0, 13.0))
-	path.Add(pdfjet.NewPoint(1.0, 9.0))
-	path.Add(pdfjet.NewPoint(5.0, 9.5))
+	y += 30.0
+	checkBox = pdfjet.NewCheckBox(f1, "This is a test.")
+	checkBox.SetLocation(x, y)
+	// checkBox.SetURIAction("http://pdfjet.com")
+	checkBox.DrawOn(page)
 
-	path.Add(pdfjet.NewPoint(5.5, 7.5))
-	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
-	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
-	path.Add(pdfjet.NewPoint(8.0, 3.5))
+	y += 30.0
+	radioButton := pdfjet.NewRadioButton(f1, "Hello, World!")
+	radioButton.SetLocation(x, y)
+	// radioButton.Select(true)
+	radioButton.DrawOn(page)
 
-	path.Add(pdfjet.NewPoint(10.5, 4.5))
-	path.SetClosePath(true)
-	path.SetColor(color.Red)
-	path.SetFillShape(true)
-	path.PlaceIn(flag, 19.0, 3.0)
+	radioButton = pdfjet.NewRadioButton(f1, "Yes")
+	radioButton.SetLocation(x+100.0, 50.0)
+	// radioButton.SetURIAction("http://pdfjet.com")
+	// radioButton.Select(true)
+	xy := radioButton.DrawOn(page)
 
-	path.DrawOn(page)
+	radioButton = pdfjet.NewRadioButton(f1, "No")
+	radioButton.SetLocation(xy[0], 50.0)
+	xy = radioButton.DrawOn(page)
+
+	radioButton = pdfjet.NewRadioButton(f1, "Hello")
+	radioButton.SetLocation(xy[0], 50.0)
+	// radioButton.SetCheckmark(Color.blue)
+	// radioButton.Check(Mark.X)
+	xy = radioButton.DrawOn(page)
+
+	checkBox = pdfjet.NewCheckBox(f1, "Yahoo")
+	checkBox.SetLocation(xy[0], 50.0)
+	checkBox.SetCheckmark(color.Blue)
+	// checkBox.Check(Mark.CHECK)
+	checkBox.DrawOn(page)
 
 	box := pdfjet.NewBox()
-	box.SetSize(16.0, 32.0)
-	box.SetColor(color.Red)
-	box.SetFillShape(true)
-	box.PlaceIn(flag, 0.0, 0.0)
-	box.DrawOn(page)
-	box.PlaceIn(flag, 48.0, 0.0)
-	box.DrawOn(page)
-
-	path.ScaleBy(15.0)
-	path.SetFillShape(false)
-	xy := path.DrawOn(page)
-
-	box = pdfjet.NewBox()
 	box.SetLocation(xy[0], xy[1])
 	box.SetSize(20.0, 20.0)
 	box.DrawOn(page)
-
-	font1.SetSize(24.0)
-	textField := pdfjet.NewTextLine(font1, "Hello, World!")
-	textField.SetLocation(300.0, 300.0)
-	textField.SetTextColor(color.BlanchedAlmond)
-	textField.DrawOn(page)
-
-	font2.SetSize(24.0)
-	textField2 := pdfjet.NewTextLine(font2, "This is great!")
-	textField2.SetLocation(400.0, 400.0)
-	textField2.SetTextColor(color.Blue)
-	textField2.SetStrikeout(true)
-	textField2.SetUnderline(true)
-	textField2.DrawOn(page)
-
-	font2.SetSize(14.0)
-	textField2 = pdfjet.NewTextLine(font2, "This is great!")
-	textField2.SetLocation(400.0, 500.0)
-	textField2.SetTextColor(color.Blue)
-	textField2.DrawOn(page)
-
-	font3.SetSize(24.0)
-	textField2 = pdfjet.NewTextLine(font3, "This is great!")
-	textField2.SetLocation(400.0, 600.0)
-	textField2.SetTextColor(color.Blue)
-	textField2.DrawOn(page)
-
-	image.SetLocation(100.0, 500.0)
-	image.ScaleBy(0.5)
-	image.DrawOn(page)
 
 	pdf.Complete()
 }

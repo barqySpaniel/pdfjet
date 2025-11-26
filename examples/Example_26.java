@@ -4,13 +4,12 @@ import java.io.*;
 import com.pdfjet.*;
 
 /**
- *  Example_26.java
+ * Example_26.java
  */
 public class Example_26 {
     public Example_26() throws Exception {
         PDF pdf = new PDF(
-                new BufferedOutputStream(
-                        new FileOutputStream("Example_26.pdf")));
+                new BufferedOutputStream(new FileOutputStream("Example_26.pdf")));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA_BOLD);
         f1.setSize(10f);
