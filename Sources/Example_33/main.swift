@@ -7,9 +7,10 @@ import PDFjet
 public class Example_33 {
     public init() throws {
         let pdf = PDF(OutputStream(toFileAtPath: "Example_33.pdf", append: false)!)
+
         let page = Page(pdf, Letter.PORTRAIT)
 
-        var image = SVGImage(stream: InputStream(fileAtPath: "images/svg-test/europe.svg")!)
+        var image = SVGImage(fileAtPath: "images/svg-test/europe.svg")
         image.setLocation(-150.0, 0.0)
         var xy = image.drawOn(page)
 
@@ -41,13 +42,12 @@ public class Example_33 {
         image.setLocation(xy[0], 670.0)
         xy = image.drawOn(page)
 
-        image = SVGImage(fileAtPath: "images/svg-test/menu-image.svg")
+        image = SVGImage(fileAtPath: "images/svg-test/menu-icon.svg")
         image.setLocation(xy[0], 670.0)
         xy = image.drawOn(page)
 
-        image = SVGImage(fileAtPath: "images/svg-test/menu-image-close.svg")
+        image = SVGImage(fileAtPath: "images/svg-test/menu-icon-close.svg")
         image.setLocation(xy[0], 670.0)
-        image.scaleBy(2.0)
         image.drawOn(page)
 
         pdf.complete()
