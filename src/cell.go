@@ -40,22 +40,9 @@ type Cell struct {
 	leftBorder   bool
 	rightBorder  bool
 
-	// Cell properties
-	// Colspan:
-	// bits 0 to 15
-	// Border:
-	// bit 16 - top
-	// bit 17 - bottom
-	// bit 18 - left
-	// bit 19 - right
-	// Text Alignment:
-	// bit 20
-	// bit 21
-	// Future use:
-	// bits 22 to 31
-	properties uint32
-	uri, key   *string
-	valign     int
+	textAlignment int
+	uri, key      *string
+	valign        int
 
 	underline bool
 	strikeout bool
@@ -83,7 +70,6 @@ func NewCell(font *Font, text string) *Cell {
 	//cell.background = color.White		// TODO:
 	//cell.pen = color.Black
 	//cell.brush = color.Black
-	cell.properties = 0x00050001 // Set only left and top borders!
 	cell.valign = align.Top
 	return cell
 }
@@ -294,16 +280,6 @@ func (cell *Cell) GetTextColor() [3]float32 {
 	return cell.textColor
 }
 
-// SetProperties sets the properties.
-func (cell *Cell) SetProperties(properties uint32) {
-	cell.properties = properties
-}
-
-// GetProperties returns the properties.
-func (cell *Cell) GetProperties() uint32 {
-	return cell.properties
-}
-
 // SetColSpan sets the column span func (cell *Cell) variable.
 // @param colspan the specified column span value.
 func (cell *Cell) SetColSpan(colspan int) {
@@ -354,15 +330,14 @@ func (cell *Cell) GetRightBorder() bool {
 // SetTextAlignment sets the cell text alignment.
 // @param alignment the alignment code.
 // Supported values: align.Left, align.Right and align.Center
-func (cell *Cell) SetTextAlignment(alignment int) {
-	cell.properties &= 0x00CFFFFF
-	cell.properties |= uint32(alignment) & 0x00300000
+func (cell *Cell) SetTextAlignment(textAlignment int) {
+	cell.textAlignment = textAlignment
 }
 
 // GetTextAlignment returns the text alignment.
 // @return the text horizontal alignment code.
 func (cell *Cell) GetTextAlignment() int {
-	return int(cell.properties & 0x00300000)
+	return cell.textAlignment
 }
 
 // SetVerTextAlignment sets the cell text vertical alignment.
