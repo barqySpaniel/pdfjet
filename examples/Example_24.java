@@ -40,12 +40,10 @@ public class Example_24 {
         pdf.complete();
     }
 
-
     public static void main(String[] args) throws Exception {
         long time0 = System.currentTimeMillis();
         new Example_24();
         long time1 = System.currentTimeMillis();
         TextUtils.printDuration("Example_24", time0, time1);
     }
-
 }   // End of Example_24.java

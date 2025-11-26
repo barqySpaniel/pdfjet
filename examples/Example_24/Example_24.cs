@@ -13,31 +13,29 @@ public class Example_24 {
 
         Font font = new Font(pdf, CoreFont.HELVETICA);
 
-        Image image_00 = new Image(pdf, "images/gr-map.jpg");
-        Image image_02 = new Image(pdf, "images/ee-map.png");
-        Image image_03 = new Image(pdf, "images/rgb24pal.bmp");
+        Image image1 = new Image(pdf, "images/gr-map.jpg");
+        Image image2 = new Image(pdf, "images/ee-map.png");
+        Image image3 = new Image(pdf, "images/rgb24pal.bmp");
 
         Page page = new Page(pdf, Letter.PORTRAIT);
-        TextLine textline_00 = new TextLine(font, "This is a JPEG image.");
-        textline_00.SetTextDirection(0);
-        textline_00.SetLocation(50f, 50f);
-        float[] point = textline_00.DrawOn(page);
-        image_00.SetLocation(50f, point[1]).ScaleBy(0.25f).DrawOn(page);
+        TextLine textLine1 = new TextLine(font, "This is a JPEG image.");
+        textLine1.SetTextDirection(0);
+        textLine1.SetLocation(50f, 50f);
+        float[] point = textLine1.DrawOn(page);
+        image1.SetLocation(50f, point[1] + 5f).ScaleBy(0.25f).DrawOn(page);
 
         page = new Page(pdf, Letter.PORTRAIT);
-        TextLine textline_02 = new TextLine(font, "This is a PNG image.");
-        textline_02.SetTextDirection(0);
-        textline_02.SetLocation(50f, 50f);
-        point = textline_02.DrawOn(page);
-        image_02.SetLocation(50f, point[1]).ScaleBy(0.75f).DrawOn(page);
+        TextLine textLine2 = new TextLine(font, "This is a PNG image.");
+        textLine2.SetTextDirection(0);
+        textLine2.SetLocation(50f, 50f);
+        point = textLine2.DrawOn(page);
+        image2.SetLocation(50f, point[1] + 5f).ScaleBy(0.75f).DrawOn(page);
 
-        TextLine textline_03 = new TextLine(font, "This is a BMP image.");
-        textline_03.SetTextDirection(0);
-        textline_03.SetLocation(50f, 620f);
-        point = textline_03.DrawOn(page);
-        image_03.SetLocation(50f, point[1]).ScaleBy(0.75f).DrawOn(page);
-
-        new Image(pdf, "images/fruit.jpg");
+        TextLine textLine3 = new TextLine(font, "This is a BMP image.");
+        textLine3.SetTextDirection(0);
+        textLine3.SetLocation(50f, 620f);
+        point = textLine3.DrawOn(page);
+        image3.SetLocation(50f, point[1] + 5f).ScaleBy(0.75f).DrawOn(page);
 
         pdf.Complete();
     }
