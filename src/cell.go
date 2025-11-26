@@ -46,11 +46,8 @@ type Cell struct {
 	// Text Alignment:
 	// bit 20
 	// bit 21
-	// Text Decoration:
-	// bit 22 - underline
-	// bit 23 - strikeout
 	// Future use:
-	// bits 24 to 31
+	// bits 22 to 31
 	properties uint32
 	uri, key   *string
 	valign     int
@@ -559,20 +556,16 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 
 // UnderlineText underlines the cell text.
 func (cell *Cell) UnderlineText(page *Page, font *Font, text string, x, y float32) {
-	page.AddBMC("Span", "", "underline", "underline")
 	page.SetPenWidth(font.underlineThickness)
 	page.MoveTo(x, y+font.descent)
 	page.LineTo(x+font.stringWidth(cell.font.size, text), y+font.descent)
 	page.StrokePath()
-	page.AddEMC()
 }
 
 // StrikeoutText strikes out the cell text.
 func (cell *Cell) StrikeoutText(page *Page, font *Font, text string, x, y float32) {
-	page.AddBMC("Span", "", "strike out", "strike out")
 	page.SetPenWidth(font.underlineThickness)
 	page.MoveTo(x, y-font.ascent/3.0)
 	page.LineTo(x+font.stringWidth(cell.font.size, text), y-font.ascent/3.0)
 	page.StrokePath()
-	page.AddEMC()
 }
