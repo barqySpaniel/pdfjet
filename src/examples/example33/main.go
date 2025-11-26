@@ -50,7 +50,7 @@ func Example33() {
 
 	image = pdfjet.NewSVGImageFromFile("images/svg-test/menu-icon-close.svg")
 	image.SetLocation(xy[0], 670.0)
-	xy = image.DrawOn(page)
+	image.DrawOn(page)
 
 	pdf.Complete()
 }

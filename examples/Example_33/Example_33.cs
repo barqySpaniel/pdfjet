@@ -4,7 +4,7 @@ using System.Diagnostics;
 using PDFjet.NET;
 
 /**
- *  Example_33.cs
+ * Example_33.cs
  */
 public class Example_33 {
     public Example_33() {
@@ -51,7 +51,7 @@ public class Example_33 {
 
         image = new SVGImage("images/svg-test/menu-icon-close.svg");
         image.SetLocation(xy[0], 670f);
-        xy = image.DrawOn(page);
+        image.DrawOn(page);
 
         pdf.Complete();
     }
