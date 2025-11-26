@@ -4,114 +4,39 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/JetBrainsMono"
-	"github.com/edragoev1/pdfjet/src/SourceSerif4"
-	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
-// Example24 draws the Canadian flag using a Path object that contains both lines
-// and curve segments. Every curve segment must have exactly 2 control points.
 func Example24() {
 	pdf := pdfjet.NewPDFFile("Example_24.pdf")
 
 	font := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
-	font2 := pdfjet.NewFontFromFile(pdf, SourceSerif4.Regular)
-	font3 := pdfjet.NewFontFromFile(pdf, JetBrainsMono.Regular)
-	image := pdfjet.NewImageFromFile(pdf, "images/ee-map.png")
+
+	image1 := pdfjet.NewImageFromFile(pdf, "images/gr-map.jpg")
+	image2 := pdfjet.NewImageFromFile(pdf, "images/ee-map.png")
+	image3 := pdfjet.NewImageFromFile(pdf, "images/rgb24pal.bmp")
 
 	page := pdfjet.NewPage(pdf, letter.Portrait)
 
-	flag := pdfjet.NewBoxAt(85.0, 85.0, 64.0, 32.0)
+	textLine1 := pdfjet.NewTextLine(font, "This is a JPEG image.")
+	textLine1.SetTextDirection(0)
+	textLine1.SetLocation(50.0, 50.0)
+	point := textLine1.DrawOn(page)
+	image1.SetLocation(50.0, point[1]+5.0).ScaleBy(0.25).DrawOn(page)
 
-	path := pdfjet.NewPath()
+	page = pdfjet.NewPage(pdf, letter.Portrait)
+	textLine2 := pdfjet.NewTextLine(font, "This is a PNG image.")
+	textLine2.SetTextDirection(0)
+	textLine2.SetLocation(50.0, 50.0)
+	point = textLine2.DrawOn(page)
+	image2.SetLocation(50.0, point[1]+5.0).ScaleBy(0.75).DrawOn(page)
 
-	path.Add(pdfjet.NewPoint(13.0, 0.0))
-	path.Add(pdfjet.NewPoint(15.5, 4.5))
-
-	path.Add(pdfjet.NewPoint(18.0, 3.5))
-	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
-	path.Add(pdfjet.NewControlPointC(15.5, 13.5))
-	path.Add(pdfjet.NewPoint(20.5, 7.5))
-
-	path.Add(pdfjet.NewPoint(21.0, 9.5))
-	path.Add(pdfjet.NewPoint(25.0, 9.0))
-	path.Add(pdfjet.NewPoint(24.0, 13.0))
-	path.Add(pdfjet.NewPoint(25.5, 14.0))
-	path.Add(pdfjet.NewPoint(19.0, 19.0))
-	path.Add(pdfjet.NewPoint(20.0, 21.5))
-	path.Add(pdfjet.NewPoint(13.5, 20.5))
-	path.Add(pdfjet.NewPoint(13.5, 27.0))
-	path.Add(pdfjet.NewPoint(12.5, 27.0))
-	path.Add(pdfjet.NewPoint(12.5, 20.5))
-	path.Add(pdfjet.NewPoint(6.0, 21.5))
-	path.Add(pdfjet.NewPoint(7.0, 19.0))
-	path.Add(pdfjet.NewPoint(0.5, 14.0))
-	path.Add(pdfjet.NewPoint(2.0, 13.0))
-	path.Add(pdfjet.NewPoint(1.0, 9.0))
-	path.Add(pdfjet.NewPoint(5.0, 9.5))
-
-	path.Add(pdfjet.NewPoint(5.5, 7.5))
-	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
-	path.Add(pdfjet.NewControlPointC(10.5, 13.5))
-	path.Add(pdfjet.NewPoint(8.0, 3.5))
-
-	path.Add(pdfjet.NewPoint(10.5, 4.5))
-	path.SetClosePath(true)
-	path.SetColor(color.Red)
-	path.SetFillShape(true)
-	path.PlaceIn(flag, 19.0, 3.0)
-
-	path.DrawOn(page)
-
-	box := pdfjet.NewBox()
-	box.SetSize(16.0, 32.0)
-	box.SetColor(color.Red)
-	box.SetFillShape(true)
-	box.PlaceIn(flag, 0.0, 0.0)
-	box.DrawOn(page)
-	box.PlaceIn(flag, 48.0, 0.0)
-	box.DrawOn(page)
-
-	path.ScaleBy(15.0)
-	path.SetFillShape(false)
-	xy := path.DrawOn(page)
-
-	box = pdfjet.NewBox()
-	box.SetLocation(xy[0], xy[1])
-	box.SetSize(20.0, 20.0)
-	box.DrawOn(page)
-
-	font.SetSize(24.0)
-	textField := pdfjet.NewTextLine(font, "Hello, World!")
-	textField.SetLocation(300.0, 300.0)
-	textField.SetTextColor(color.BlanchedAlmond)
-	textField.DrawOn(page)
-
-	font2.SetSize(24.0)
-	textField2 := pdfjet.NewTextLine(font2, "This is great!")
-	textField2.SetLocation(400.0, 400.0)
-	textField2.SetTextColor(color.Blue)
-	textField2.SetStrikeout(true)
-	textField2.SetUnderline(true)
-	textField2.DrawOn(page)
-
-	font2.SetSize(14.0)
-	textField2 = pdfjet.NewTextLine(font2, "This is great!")
-	textField2.SetLocation(400.0, 500.0)
-	textField2.SetTextColor(color.Blue)
-	textField2.DrawOn(page)
-
-	font3.SetSize(24.0)
-	textField2 = pdfjet.NewTextLine(font3, "This is great!")
-	textField2.SetLocation(400.0, 600.0)
-	textField2.SetTextColor(color.Blue)
-	textField2.DrawOn(page)
-
-	image.SetLocation(100.0, 500.0)
-	image.ScaleBy(0.5)
-	image.DrawOn(page)
+	textLine3 := pdfjet.NewTextLine(font, "This is a BMP image.")
+	textLine3.SetTextDirection(0)
+	textLine3.SetLocation(50.0, 620.0)
+	point = textLine3.DrawOn(page)
+	image3.SetLocation(50.0, point[1]+5.0).ScaleBy(0.75).DrawOn(page)
 
 	pdf.Complete()
 }
