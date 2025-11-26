@@ -15,7 +15,6 @@ import (
 	"strings"
 
 	"github.com/edragoev1/pdfjet/src/align"
-	"github.com/edragoev1/pdfjet/src/border"
 )
 
 // Table is used to create table objects and draw them on a page.
@@ -169,11 +168,11 @@ func (table *Table) RemoveLineBetweenRows(index1, index2 int) {
 	for i := index1; i < index2; i++ {
 		row := table.tableData[i]
 		for _, cell := range row {
-			cell.SetBorder(border.Bottom, false)
+			cell.SetBottomBorder(false)
 		}
 		row = table.tableData[i+1]
 		for _, cell := range row {
-			cell.SetBorder(border.Top, false)
+			cell.SetTopBorder(false)
 		}
 	}
 }
@@ -378,7 +377,7 @@ func (table *Table) drawHeaderRows(page *Page, pageNumber int) [2]float32 {
 			}
 			page.SetBrushColorRGB(cell.GetTextColor())
 			if i == (table.numOfHeaderRows - 1) {
-				cell.SetBorder(border.Bottom, true)
+				cell.SetBottomBorder(true)
 			}
 			cell.DrawOn(page, x, y, w, h)
 			x += w
@@ -459,10 +458,13 @@ func (table *Table) GetRowsRendered() int {
 }
 
 // SetCellBorders sets all table cells borders to <strong>false</strong> or <strong>true</strong>.
-func (table *Table) SetCellBorders(borders bool) {
+func (table *Table) SetCellBorders(border bool) {
 	for _, row := range table.tableData {
 		for _, cell := range row {
-			cell.SetBorders(borders)
+			cell.SetTopBorder(border)
+			cell.SetBottomBorder(border)
+			cell.SetLeftBorder(border)
+			cell.SetRightBorder(border)
 		}
 	}
 }
@@ -490,7 +492,7 @@ func (table *Table) SetCellBordersWidth(width float32) {
 // Sets the right border on all cells in the last column.
 func (table *Table) setRightBorderOnLastColumn() {
 	for _, row := range table.tableData {
-		if !row[0].GetBorder(border.Left) {
+		if !row[0].GetLeftBorder() {
 			return
 		}
 	}
@@ -503,7 +505,7 @@ func (table *Table) setRightBorderOnLastColumn() {
 			i += cell.GetColSpan()
 		}
 		if cell != nil {
-			cell.SetBorder(border.Right, true)
+			cell.SetRightBorder(true)
 		}
 	}
 }
@@ -512,14 +514,14 @@ func (table *Table) setRightBorderOnLastColumn() {
 func (table *Table) setBottomBorderOnLastRow() {
 	firstRow := table.tableData[0]
 	for _, cell := range firstRow {
-		if !cell.GetBorder(border.Top) {
+		if !cell.GetTopBorder() {
 			return
 		}
 	}
 	// Only run this code if all the cells in the first row have top border.
 	lastRow := table.tableData[len(table.tableData)-1]
 	for _, cell := range lastRow {
-		cell.SetBorder(border.Bottom, true)
+		cell.SetBottomBorder(true)
 	}
 }
 
@@ -598,7 +600,7 @@ func (table *Table) addExtraTableRows() [][]*Cell {
 				cell2.SetProperties(cell.GetProperties())
 				cell2.SetVerTextAlignment(cell.GetVerTextAlignment())
 				cell2.SetTopPadding(0.0)
-				cell2.SetBorder(border.Top, false)
+				cell2.SetTopBorder(false)
 				row2 = append(row2, cell2)
 			}
 			tableData2 = append(tableData2, row2)

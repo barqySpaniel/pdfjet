@@ -11,7 +11,6 @@ import (
 	"log"
 
 	"github.com/edragoev1/pdfjet/src/align"
-	"github.com/edragoev1/pdfjet/src/border"
 )
 
 // Cell is used to create table cell objects.
@@ -34,6 +33,12 @@ type Cell struct {
 	background [3]float32
 	pen        [3]float32
 	textColor  [3]float32
+
+	colspan      int
+	topBorder    bool
+	bottomBorder bool
+	leftBorder   bool
+	rightBorder  bool
 
 	// Cell properties
 	// Colspan:
@@ -302,39 +307,48 @@ func (cell *Cell) GetProperties() uint32 {
 // SetColSpan sets the column span func (cell *Cell) variable.
 // @param colspan the specified column span value.
 func (cell *Cell) SetColSpan(colspan int) {
-	cell.properties &= 0x00FF0000
-	cell.properties |= uint32(colspan) & 0x0000FFFF
+	cell.colspan = colspan
 }
 
 // GetColSpan returns the column span func (cell *Cell) variable value.
 // @return the column span value.
 func (cell *Cell) GetColSpan() int {
-	return int(cell.properties & 0x0000FFFF)
+	return cell.colspan
 }
 
-// SetBorder sets the cell border object.
+// SetTopBorder sets the cell border object.
 // @param border the border object.
-func (cell *Cell) SetBorder(border int, visible bool) {
-	if visible {
-		cell.properties |= uint32(border)
-	} else {
-		cell.properties &= ^uint32(border) & 0x00FFFFFF
-	}
+func (cell *Cell) SetTopBorder(topBorder bool) {
+	cell.topBorder = topBorder
 }
 
-// GetBorder returns the cell border object.
-// @return the cell border object.
-func (cell *Cell) GetBorder(border int) bool {
-	return (cell.properties & uint32(border)) != 0
+// GetTopBorder returns the cell border object.
+func (cell *Cell) GetTopBorder() bool {
+	return cell.topBorder
 }
 
-// SetBorders sets all cell borders to true or false.
-func (cell *Cell) SetBorders(borders bool) {
-	if borders {
-		cell.properties &= 0x00FFFFFF
-	} else {
-		cell.properties &= 0x00F0FFFF
-	}
+func (cell *Cell) SetBottomBorder(bottomBorder bool) {
+	cell.bottomBorder = bottomBorder
+}
+
+func (cell *Cell) GetBottomBorder() bool {
+	return cell.bottomBorder
+}
+
+func (cell *Cell) SetLeftBorder(leftBorder bool) {
+	cell.leftBorder = leftBorder
+}
+
+func (cell *Cell) GetLeftBorder() bool {
+	return cell.leftBorder
+}
+
+func (cell *Cell) SetRightBorder(rightBorder bool) {
+	cell.rightBorder = rightBorder
+}
+
+func (cell *Cell) GetRightBorder() bool {
+	return cell.rightBorder
 }
 
 // SetTextAlignment sets the cell text alignment.
@@ -466,22 +480,22 @@ func (cell *Cell) drawBorders(page *Page, x, y, cellW, cellH float32) {
 	page.SetPenColorRGB(cell.pen)
 	page.SetPenWidth(cell.lineWidth)
 	qWidth := cell.lineWidth / 4.0
-	if cell.GetBorder(border.Top) {
+	if cell.topBorder {
 		page.MoveTo(x-qWidth, y)
 		page.LineTo(x+cellW, y)
 		page.StrokePath()
 	}
-	if cell.GetBorder(border.Bottom) {
+	if cell.bottomBorder {
 		page.MoveTo(x-qWidth, y+cellH)
 		page.LineTo(x+cellW, y+cellH)
 		page.StrokePath()
 	}
-	if cell.GetBorder(border.Left) {
+	if cell.leftBorder {
 		page.MoveTo(x, y-qWidth)
 		page.LineTo(x, y+cellH+qWidth)
 		page.StrokePath()
 	}
-	if cell.GetBorder(border.Right) {
+	if cell.rightBorder {
 		page.MoveTo(x+cellW, y-qWidth)
 		page.LineTo(x+cellW, y+cellH+qWidth)
 		page.StrokePath()
