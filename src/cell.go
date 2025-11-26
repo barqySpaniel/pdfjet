@@ -55,6 +55,9 @@ type Cell struct {
 	properties uint32
 	uri, key   *string
 	valign     int
+
+	underline bool
+	strikeout bool
 }
 
 // NewEmptyCell creates a cell object and sets the font.
@@ -217,38 +220,38 @@ func (cell *Cell) SetPadding(padding float32) {
 // @return the cell height.
 func (cell *Cell) GetHeight(width float32) float32 {
 	cellHeight := float32(0.0)
-	if cell.textBlock != nil {
+	if cell.text != nil {
+		fontHeight := cell.font.GetHeight()
+		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
+			fontHeight = cell.fallbackFont.GetHeight()
+		}
+		cellHeight = fontHeight + cell.topPadding + cell.bottomPadding
+	} else if cell.textBlock != nil {
 		cell.textBlock.SetWidth(width)
 		cellHeight = (cell.textBlock.DrawOn(nil)[1] - cell.textBlock.y) + cell.topPadding + cell.bottomPadding
 	} else if cell.image != nil {
 		cellHeight = cell.image.GetHeight() + cell.topPadding + cell.bottomPadding
 	} else if cell.barcode != nil {
 		cellHeight = cell.barcode.GetHeight() + cell.topPadding + cell.bottomPadding
-	} else if cell.text != nil {
-		fontHeight := cell.font.GetHeight()
-		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
-			fontHeight = cell.fallbackFont.GetHeight()
-		}
-		cellHeight = fontHeight + cell.topPadding + cell.bottomPadding
 	}
 	return cellHeight
 }
 
 func (cell *Cell) GetHeightHeader(width float32) float32 {
 	cellHeight := float32(0.0)
-	if cell.textBlock != nil {
+	if cell.text != nil {
+		fontHeight := cell.font.GetHeight()
+		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
+			fontHeight = cell.fallbackFont.GetHeight()
+		}
+		cellHeight = fontHeight + cell.topPadding + cell.bottomPadding
+	} else if cell.textBlock != nil {
 		cell.textBlock.SetWidth(width)
 		cellHeight = (cell.textBlock.DrawOn(nil)[1] - cell.textBlock.y) + cell.topPadding + cell.bottomPadding
 	} else if cell.image != nil {
 		cellHeight = cell.image.GetHeight() + cell.topPadding + cell.bottomPadding
 	} else if cell.barcode != nil {
 		cellHeight = cell.barcode.GetHeight() + cell.topPadding + cell.bottomPadding
-	} else if cell.text != nil {
-		fontHeight := cell.font.GetHeight()
-		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
-			fontHeight = cell.fallbackFont.GetHeight()
-		}
-		cellHeight = fontHeight + cell.topPadding + cell.bottomPadding
 	}
 	return cellHeight
 }
@@ -382,33 +385,25 @@ func (cell *Cell) GetVerTextAlignment() int {
 // If the value of the underline variable is 'true' - the text is underlined.
 // @param underline the underline text parameter.
 func (cell *Cell) SetUnderline(underline bool) {
-	if underline {
-		cell.properties |= 0x00400000
-	} else {
-		cell.properties &= 0x00BFFFFF
-	}
+	cell.underline = underline
 }
 
 // GetUnderline returns the underline text parameter.
 // @return the underline text parameter.
 func (cell *Cell) GetUnderline() bool {
-	return (cell.properties & 0x00400000) != 0
+	return cell.underline
 }
 
 // SetStrikeout sets the strikeout text parameter.
 // @param strikeout the strikeout text parameter.
 func (cell *Cell) SetStrikeout(strikeout bool) {
-	if strikeout {
-		cell.properties |= 0x00800000
-	} else {
-		cell.properties &= 0x007FFFFF
-	}
+	cell.strikeout = strikeout
 }
 
 // GetStrikeout returns the strikeout text parameter.
 // @return the strikeout text parameter.
 func (cell *Cell) GetStrikeout() bool {
-	return (cell.properties & 0x00800000) != 0
+	return cell.strikeout
 }
 
 // SetURIAction sets the URI action.
@@ -452,31 +447,31 @@ func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 	}
 
 	cell.drawBorders(page, x, y, w, h)
-	if cell.point != nil {
-		switch cell.point.align {
-		case align.Left:
-			cell.point.x = x + 2*cell.point.r
-		case align.Right:
-			cell.point.x = (x + w) - cell.rightPadding/2
-		}
-		cell.point.y = y + h/2
-		page.SetBrushColor(cell.point.GetColor())
-
-		if cell.point.uri != nil {
-			page.AddAnnotation(NewAnnotation(
-				cell.point.uri,
-				nil,
-				cell.point.x-cell.point.r,
-				cell.point.y-cell.point.r,
-				cell.point.x+cell.point.r,
-				cell.point.y+cell.point.r,
-				"",
-				"",
-				""))
-		}
-
-		page.DrawPoint(cell.point)
-	}
+	//if cell.point != nil {
+	//	switch cell.point.align {
+	//	case align.Left:
+	//		cell.point.x = x + 2*cell.point.r
+	//	case align.Right:
+	//		cell.point.x = (x + w) - cell.rightPadding/2
+	//	}
+	//	cell.point.y = y + h/2
+	//	page.SetBrushColor(cell.point.GetColor())
+	//
+	//	if cell.point.uri != nil {
+	//		page.AddAnnotation(NewAnnotation(
+	//			cell.point.uri,
+	//			nil,
+	//			cell.point.x-cell.point.r,
+	//			cell.point.y-cell.point.r,
+	//			cell.point.x+cell.point.r,
+	//			cell.point.y+cell.point.r,
+	//			"",
+	//			"",
+	//			""))
+	//	}
+	//
+	//	page.DrawPoint(cell.point)
+	//}
 }
 
 func (cell *Cell) drawBackground(page *Page, x, y, wCell, hCell float32) {
@@ -526,89 +521,78 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 	}
 
 	page.SetPenColorRGB(cell.pen)
-	if cell.GetTextAlignment() == align.Right {
+	if cell.GetTextAlignment() == align.Left {
+		xText = x + cell.leftPadding
 		if cell.compositeTextLine == nil {
-			xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
-			page.AddBMC("Span", "", *cell.text, *cell.text)
 			page.DrawStringUsingColorMap(
 				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
-			page.AddEMC()
-			if cell.GetUnderline() {
+			if cell.underline {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
 			}
-			if cell.GetStrikeout() {
+			if cell.strikeout {
+				cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
+			}
+		} else {
+			cell.compositeTextLine.SetLocation(xText, yText)
+			cell.compositeTextLine.DrawOn(page)
+		}
+	} else if cell.GetTextAlignment() == align.Right {
+		if cell.compositeTextLine == nil {
+			xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
+			page.DrawStringUsingColorMap(
+				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
+			if cell.underline {
+				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
+			}
+			if cell.strikeout {
 				cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
 			}
 		} else {
 			xText = (x + wCell) - (cell.compositeTextLine.GetWidth() + cell.rightPadding)
 			cell.compositeTextLine.SetLocation(xText, yText)
-			page.AddBMC("Span", "", *cell.text, *cell.text)
 			cell.compositeTextLine.DrawOn(page)
-			page.AddEMC()
 		}
 	} else if cell.GetTextAlignment() == align.Center {
 		if cell.compositeTextLine == nil {
+			print("are we here??")
 			xText = x + cell.leftPadding +
 				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
-			page.AddBMC("Span", "", *cell.text, *cell.text)
 			page.DrawStringUsingColorMap(
 				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
-			page.AddEMC()
-			if cell.GetUnderline() {
+			if cell.underline {
 				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
 			}
-			if cell.GetStrikeout() {
+			if cell.strikeout {
 				cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
 			}
 		} else {
 			xText = x + cell.leftPadding +
 				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.compositeTextLine.GetWidth()) / 2)
 			cell.compositeTextLine.SetLocation(xText, yText)
-			page.AddBMC("Span", "", *cell.text, *cell.text)
 			cell.compositeTextLine.DrawOn(page)
-			page.AddEMC()
-		}
-	} else if cell.GetTextAlignment() == align.Left {
-		xText = x + cell.leftPadding
-		if cell.compositeTextLine == nil {
-			page.AddBMC("Span", "", *cell.text, *cell.text)
-			page.DrawStringUsingColorMap(
-				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
-			page.AddEMC()
-			if cell.GetUnderline() {
-				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
-			}
-			if cell.GetStrikeout() {
-				cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
-			}
-		} else {
-			cell.compositeTextLine.SetLocation(xText, yText)
-			page.AddBMC("Span", "", *cell.text, *cell.text)
-			cell.compositeTextLine.DrawOn(page)
-			page.AddEMC()
 		}
 	} else {
 		log.Fatal("Invalid Text Alignment!")
 	}
 
-	if cell.uri != nil || cell.key != nil {
-		var w float32
-		if cell.compositeTextLine != nil {
-			w = cell.compositeTextLine.GetWidth()
-		} else {
-			w = cell.font.stringWidth(cell.font.size, *cell.text)
-		}
-		page.AddAnnotation(NewAnnotation(
-			cell.uri,
-			nil,
-			xText,
-			yText-cell.font.ascent,
-			xText+w,
-			yText+cell.font.descent,
-			"",
-			"",
-			""))
-	}
+	//if cell.uri != nil || cell.key != nil {
+	//	var w float32
+	//	if cell.compositeTextLine != nil {
+	//		w = cell.compositeTextLine.GetWidth()
+	//	} else {
+	//		w = cell.font.stringWidth(cell.font.size, *cell.text)
+	//	}
+	//	page.AddAnnotation(NewAnnotation(
+	//		cell.uri,
+	//		nil,
+	//		xText,
+	//		yText-cell.font.ascent,
+	//		xText+w,
+	//		yText+cell.font.descent,
+	//		"",
+	//		"",
+	//		""))
+	//}
 }
 
 // UnderlineText underlines the cell text.
