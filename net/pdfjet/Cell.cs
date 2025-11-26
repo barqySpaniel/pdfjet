@@ -586,7 +586,9 @@ public class Cell {
             DrawBackground(page, x, y, w, h);
         }
 
-        if (textBox != null) {
+        if (text != null && !text.Equals("")) {
+            DrawText(page, x, y, w, h);
+        } else if (textBox != null) {
             textBox.SetPosition(x + leftPadding, y + topPadding);
             textBox.SetWidth(w - (leftPadding + rightPadding));
             textBox.DrawOn(page);
@@ -622,8 +624,6 @@ public class Cell {
             } catch (Exception e) {
                 Console.WriteLine(e.ToString());
             }
-        } else if (text != null && !text.Equals("")) {
-            DrawText(page, x, y, w, h);
         }
 
         DrawBorders(page, x, y, w, h);

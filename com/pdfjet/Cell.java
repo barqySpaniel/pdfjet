@@ -580,7 +580,9 @@ public class Cell {
             drawBackground(page, x, y, w, h);
         }
 
-        if (textBox != null) {
+        if (text != null && !text.equals("")) {
+            drawText(page, x, y, w, h);
+        } else if (textBox != null) {
             textBox.setLocation(x + leftPadding, y + topPadding);
             textBox.setWidth(w - (leftPadding + rightPadding));
             textBox.drawOn(page);
@@ -616,8 +618,6 @@ public class Cell {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (text != null && !text.equals("")) {
-            drawText(page, x, y, w, h);
         }
 
         drawBorders(page, x, y, w, h);

@@ -537,7 +537,9 @@ public class Cell {
             drawBackground(page, x, y, w, h)
         // }
 
-        if textBlock != nil {
+        if text != nil && text != "" {
+            drawText(page, x, y, w, h)
+        } else if textBlock != nil {
             textBlock!.setLocation(x + leftPadding, y + topPadding)
             textBlock!.setWidth(w - (leftPadding + rightPadding))
             textBlock!.drawOn(page)
@@ -562,8 +564,6 @@ public class Cell {
                 let barcodeWidth = barcode!.drawOn(nil)[0]
                 barcode!.drawOnPageAtLocation(page, (x + w) - (barcodeWidth + leftPadding), y + topPadding)
             }
-        } else if text != nil && text != "" {
-            drawText(page, x, y, w, h)
         }
 
         drawBorders(page, x, y, w, h)
