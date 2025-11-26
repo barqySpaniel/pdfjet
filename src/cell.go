@@ -17,20 +17,19 @@ import (
 // Cell is used to create table cell objects.
 // See the Table class for more information.
 type Cell struct {
-	font              *Font
-	fallbackFont      *Font
-	text              *string
-	image             *Image
-	barcode           *Barcode
-	point             *Point
-	compositeTextLine *CompositeTextLine
-	textBlock         *TextBlock
-	width             float32
-	topPadding        float32
-	bottomPadding     float32
-	leftPadding       float32
-	rightPadding      float32
-	lineWidth         float32
+	font          *Font
+	fallbackFont  *Font
+	text          *string
+	textBlock     *TextBlock
+	image         *Image
+	barcode       *Barcode
+	point         *Point
+	width         float32
+	topPadding    float32
+	bottomPadding float32
+	leftPadding   float32
+	rightPadding  float32
+	lineWidth     float32
 
 	background [3]float32
 	pen        [3]float32
@@ -150,20 +149,7 @@ func (cell *Cell) GetPoint() *Point {
 	return cell.point
 }
 
-// SetCompositeTextLine sets the composite text object.
-// @param compositeTextLine the composite text object.
-func (cell *Cell) SetCompositeTextLine(compositeTextLine *CompositeTextLine) {
-	cell.compositeTextLine = compositeTextLine
-}
-
-// GetCompositeTextLine returns the composite text object.
-// @return the composite text object.
-func (cell *Cell) GetCompositeTextLine() *CompositeTextLine {
-	return cell.compositeTextLine
-}
-
 // SetTextBlock sets the composite text object.
-// @param compositeTextLine the composite text object.
 func (cell *Cell) SetTextBlock(textBlock *TextBlock) {
 	cell.textBlock = textBlock
 }
@@ -523,65 +509,41 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 	page.SetPenColorRGB(cell.pen)
 	if cell.GetTextAlignment() == align.Left {
 		xText = x + cell.leftPadding
-		if cell.compositeTextLine == nil {
-			page.DrawStringUsingColorMap(
-				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
-			if cell.underline {
-				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
-			}
-			if cell.strikeout {
-				cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
-			}
-		} else {
-			cell.compositeTextLine.SetLocation(xText, yText)
-			cell.compositeTextLine.DrawOn(page)
+		page.DrawStringUsingColorMap(
+			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
+		if cell.underline {
+			cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
+		}
+		if cell.strikeout {
+			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
 		}
 	} else if cell.GetTextAlignment() == align.Right {
-		if cell.compositeTextLine == nil {
-			xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
-			page.DrawStringUsingColorMap(
-				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
-			if cell.underline {
-				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
-			}
-			if cell.strikeout {
-				cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
-			}
-		} else {
-			xText = (x + wCell) - (cell.compositeTextLine.GetWidth() + cell.rightPadding)
-			cell.compositeTextLine.SetLocation(xText, yText)
-			cell.compositeTextLine.DrawOn(page)
+		xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
+		page.DrawStringUsingColorMap(
+			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
+		if cell.underline {
+			cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
+		}
+		if cell.strikeout {
+			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
 		}
 	} else if cell.GetTextAlignment() == align.Center {
-		if cell.compositeTextLine == nil {
-			print("are we here??")
-			xText = x + cell.leftPadding +
-				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
-			page.DrawStringUsingColorMap(
-				cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
-			if cell.underline {
-				cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
-			}
-			if cell.strikeout {
-				cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
-			}
-		} else {
-			xText = x + cell.leftPadding +
-				(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.compositeTextLine.GetWidth()) / 2)
-			cell.compositeTextLine.SetLocation(xText, yText)
-			cell.compositeTextLine.DrawOn(page)
+		xText = x + cell.leftPadding +
+			(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
+		page.DrawStringUsingColorMap(
+			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
+		if cell.underline {
+			cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
+		}
+		if cell.strikeout {
+			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
 		}
 	} else {
 		log.Fatal("Invalid Text Alignment!")
 	}
 
 	//if cell.uri != nil || cell.key != nil {
-	//	var w float32
-	//	if cell.compositeTextLine != nil {
-	//		w = cell.compositeTextLine.GetWidth()
-	//	} else {
-	//		w = cell.font.stringWidth(cell.font.size, *cell.text)
-	//	}
+	//	var w float32 = cell.font.stringWidth(cell.font.size, *cell.text)
 	//	page.AddAnnotation(NewAnnotation(
 	//		cell.uri,
 	//		nil,
