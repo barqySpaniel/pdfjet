@@ -276,9 +276,8 @@ func (cell *Cell) GetPenColor() [3]float32 {
 	return cell.pen
 }
 
-// SetBrushColor sets the brushColor color.
-// @param color the color specified as 0xRRGGBB integer.
-func (cell *Cell) SetBrushColor(textColor [3]float32) {
+// SetTextColor sets the text color.
+func (cell *Cell) SetTextColor(textColor [3]float32) {
 	cell.textColor = textColor
 }
 

@@ -201,7 +201,7 @@ func (table *Table) SetTextColorInColumn(index int, color [3]float32) {
 	for _, row := range table.tableData {
 		if index < len(row) {
 			cell := row[index]
-			cell.SetBrushColor(color)
+			cell.SetTextColor(color)
 			if cell.textBlock != nil {
 				cell.textBlock.SetTextColorRGB(color)
 			}
@@ -231,7 +231,7 @@ func (table *Table) SetTextColorInRow(index int, color [3]float32) {
 	if index < len(table.tableData) {
 		row := table.tableData[index]
 		for _, cell := range row {
-			cell.SetBrushColor(color)
+			cell.SetTextColor(color)
 			if cell.textBlock != nil {
 				cell.textBlock.SetTextColorRGB(color)
 			}
@@ -596,7 +596,7 @@ func (table *Table) addExtraTableRows() [][]*Cell {
 				cell2.SetLineWidth(cell.lineWidth)
 				cell2.SetBgColorRGB(cell.GetBgColor())
 				cell2.SetPenColor(cell.GetPenColor())
-				cell2.SetBrushColor(cell.GetTextColor())
+				cell2.SetTextColor(cell.GetTextColor())
 				cell2.SetTopBorder(cell.GetTopBorder())
 				cell2.SetBottomBorder(cell.GetBottomBorder())
 				cell2.SetLeftBorder(cell.GetLeftBorder())
