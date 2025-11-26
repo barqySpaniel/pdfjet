@@ -80,16 +80,16 @@ func (cell *Cell) SetFont(font *Font) {
 	cell.font = font
 }
 
-// SetFallbackFont sets the fallback font for this cell.
-// @param fallbackFont the fallback font.
-func (cell *Cell) SetFallbackFont(fallbackFont *Font) {
-	cell.fallbackFont = fallbackFont
-}
-
 // GetFont returns the font used by this cell.
 // @return the font.
 func (cell *Cell) GetFont() *Font {
 	return cell.font
+}
+
+// SetFallbackFont sets the fallback font for this cell.
+// @param fallbackFont the fallback font.
+func (cell *Cell) SetFallbackFont(fallbackFont *Font) {
+	cell.fallbackFont = fallbackFont
 }
 
 // GetFallbackFont returns the fallback font used by this cell.
@@ -126,6 +126,10 @@ func (cell *Cell) SetBarcode(barcode *Barcode) {
 	cell.text = nil
 }
 
+func (cell *Cell) GetBarcode() *Barcode {
+	return cell.barcode
+}
+
 // SetPoint sets the point inside this cell.
 // See the Point class and Example_09 for more information.
 func (cell *Cell) SetPoint(point *Point) {
@@ -140,6 +144,10 @@ func (cell *Cell) GetPoint() *Point {
 // SetTextBlock sets the composite text object.
 func (cell *Cell) SetTextBlock(textBlock *TextBlock) {
 	cell.textBlock = textBlock
+}
+
+func (cell *Cell) GetTextBlock() *TextBlock {
+	return cell.textBlock
 }
 
 // SetWidth sets the width of this cell.
