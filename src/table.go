@@ -592,9 +592,9 @@ func (table *Table) addExtraTableRows() [][]*Cell {
 				cell2.SetLeftPadding(cell.leftPadding)
 				cell2.SetRightPadding(cell.rightPadding)
 				cell2.SetLineWidth(cell.lineWidth)
-				cell2.SetBgColor(cell.GetBgColor())
+				cell2.SetBgColorRGB(cell.GetBgColor())
 				cell2.SetPenColor(cell.GetPenColor())
-				cell2.SetBrushColor(cell.GetTextColor()) // TODO
+				cell2.SetBrushColor(cell.GetTextColor())
 				cell2.SetProperties(cell.GetProperties())
 				cell2.SetVerTextAlignment(cell.GetVerTextAlignment())
 				cell2.SetTopPadding(0.0)

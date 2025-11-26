@@ -165,12 +165,6 @@ func (cell *Cell) SetTextBlock(textBlock *TextBlock) {
 	cell.textBlock = textBlock
 }
 
-// GetCompositeTextLine returns the composite text object.
-// @return the composite text object.
-// func (cell *Cell) GetCompositeTextLine() *TextBox {
-//	   return cell.textBox
-// }
-
 // SetWidth sets the width of this cell.
 // @param width the specified width.
 func (cell *Cell) SetWidth(width float32) {
@@ -269,10 +263,16 @@ func (cell *Cell) GetLineWidth() float32 {
 	return cell.lineWidth
 }
 
-// SetBgColor sets the background to the specified color.
-// @param color the color specified as 0xRRGGBB integer.
-func (cell *Cell) SetBgColor(color [3]float32) {
+// SetBgColorRGB sets the background to the specified color.
+func (cell *Cell) SetBgColorRGB(color [3]float32) {
 	cell.background = color
+}
+
+func (cell *Cell) SetBgColor(color int32) {
+	r := float32((color>>16)&0xff) / 255.0
+	g := float32((color>>8)&0xff) / 255.0
+	b := float32((color)&0xff) / 255.0
+	cell.background = [3]float32{r, g, b}
 }
 
 // GetBgColor returns the background color of this cell.
@@ -419,10 +419,12 @@ func (cell *Cell) SetURIAction(uri *string) {
 // DrawOn draws the point, text and borders of this cell.
 func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 	//if cell.background != color.White {		// TODO
-	//	cell.drawBackground(page, x, y, w, h)
+	// cell.drawBackground(page, x, y, w, h)
 	//}
 
-	if cell.textBlock != nil {
+	if cell.text != nil {
+		cell.DrawText(page, x, y, w, h)
+	} else if cell.textBlock != nil {
 		cell.textBlock.SetLocation(x+cell.leftPadding, y+cell.topPadding)
 		cell.textBlock.SetWidth(w - (cell.leftPadding + cell.rightPadding))
 		cell.textBlock.DrawOn(page)
@@ -447,8 +449,6 @@ func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 			barcodeWidth := cell.barcode.DrawOn(nil)[0]
 			cell.barcode.drawOnPageAtLocation(page, (x+w)-(barcodeWidth+cell.leftPadding), y+cell.topPadding)
 		}
-	} else if cell.text != nil {
-		cell.DrawText(page, x, y, w, h)
 	}
 
 	cell.drawBorders(page, x, y, w, h)
@@ -489,32 +489,24 @@ func (cell *Cell) drawBorders(page *Page, x, y, cellW, cellH float32) {
 	page.SetPenWidth(cell.lineWidth)
 	qWidth := cell.lineWidth / 4.0
 	if cell.GetBorder(border.Top) {
-		// page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 		page.MoveTo(x-qWidth, y)
 		page.LineTo(x+cellW, y)
 		page.StrokePath()
-		// page.AddEMC()
 	}
 	if cell.GetBorder(border.Bottom) {
-		// page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 		page.MoveTo(x-qWidth, y+cellH)
 		page.LineTo(x+cellW, y+cellH)
 		page.StrokePath()
-		// page.AddEMC()
 	}
 	if cell.GetBorder(border.Left) {
-		// page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 		page.MoveTo(x, y-qWidth)
 		page.LineTo(x, y+cellH+qWidth)
 		page.StrokePath()
-		// page.AddEMC()
 	}
 	if cell.GetBorder(border.Right) {
-		// page.AddBMC(structtype.P, single.Space, single.Space, single.Space)
 		page.MoveTo(x+cellW, y-qWidth)
 		page.LineTo(x+cellW, y+cellH+qWidth)
 		page.StrokePath()
-		// page.AddEMC()
 	}
 }
 
