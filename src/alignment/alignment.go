@@ -11,7 +11,10 @@ type Alignment int
 
 // Used to specify the text alignment in textblock.go
 const (
-	Left = iota
+	Top = iota
+	Bottom
+	Left
 	Right
 	Center
+	Justify
 )

@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 )
 
 // Table is used to create table objects and draw them on a page.
@@ -156,7 +156,7 @@ func (table *Table) RightAlignNumbers() {
 				}
 				_, err := strconv.ParseFloat(buf.String(), 64)
 				if err == nil {
-					cell.SetTextAlignment(align.Right)
+					cell.SetTextAlignment(alignment.Right)
 				}
 			}
 		}

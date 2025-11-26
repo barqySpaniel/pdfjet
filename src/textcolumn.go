@@ -11,7 +11,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/single"
 )
 
@@ -47,7 +47,7 @@ func (textColumn *TextColumn) TextColumn() {
 // @param rotateByDegrees the specified rotation angle in degrees.
 func NewTextColumn(rotateByDegrees int) *TextColumn {
 	textColumn := new(TextColumn)
-	textColumn.alignment = align.Left
+	textColumn.alignment = alignment.Left
 	textColumn.lineSpacing = 1.3
 	textColumn.paragraphSpacing = 1.0
 	textColumn.rotate = rotateByDegrees
@@ -227,7 +227,7 @@ func (textColumn *TextColumn) moveToNextParagraph(paragraphSpacing float32) []fl
 }
 
 func (textColumn *TextColumn) drawLineOfText(page *Page, textLines []*TextLine) {
-	if textColumn.alignment == align.Justify {
+	if textColumn.alignment == alignment.Justify {
 		var sumOfWordWidths float32
 		for _, textLine := range textLines {
 			sumOfWordWidths += textLine.GetWidth()
@@ -273,7 +273,7 @@ func (textColumn *TextColumn) drawNonJustifiedLine(page *Page, textLines []*Text
 		runLength += textLine.GetWidth()
 	}
 
-	if textColumn.alignment == align.Center {
+	if textColumn.alignment == alignment.Center {
 		if textColumn.rotate == 0 {
 			textColumn.x1 = textColumn.x + ((textColumn.w - runLength) / 2)
 		} else if textColumn.rotate == 90 {
@@ -281,7 +281,7 @@ func (textColumn *TextColumn) drawNonJustifiedLine(page *Page, textLines []*Text
 		} else if textColumn.rotate == 270 {
 			textColumn.y1 = textColumn.y + ((textColumn.w - runLength) / 2)
 		}
-	} else if textColumn.alignment == align.Right {
+	} else if textColumn.alignment == alignment.Right {
 		if textColumn.rotate == 0 {
 			textColumn.x1 = textColumn.x + (textColumn.w - runLength)
 		} else if textColumn.rotate == 90 {

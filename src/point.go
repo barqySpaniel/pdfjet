@@ -8,7 +8,7 @@ package pdfjet
  */
 
 import (
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/shape"
 )
@@ -47,7 +47,7 @@ func NewPoint(x, y float32) *Point {
 	point.r = 2.0
 	point.shape = shape.Circle
 	point.color = color.Black
-	point.align = align.Right
+	point.align = alignment.Right
 	point.lineWidth = 0.0
 	point.linePattern = "[] 0"
 	return point

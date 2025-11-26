@@ -10,7 +10,7 @@ package pdfjet
 import (
 	"strings"
 
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 )
 
 // Paragraph describes paragraph objects.
@@ -25,7 +25,7 @@ type Paragraph struct {
 func NewParagraph() *Paragraph {
 	paragraph := new(Paragraph)
 	paragraph.lines = make([]*TextLine, 0)
-	paragraph.alignment = align.Left
+	paragraph.alignment = alignment.Left
 	return paragraph
 }
 

@@ -10,7 +10,7 @@ package pdfjet
 import (
 	"log"
 
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 )
 
 // Cell is used to create table cell objects.
@@ -70,7 +70,7 @@ func NewCell(font *Font, text string) *Cell {
 	//cell.background = color.White		// TODO:
 	//cell.pen = color.Black
 	//cell.brush = color.Black
-	cell.valign = align.Top
+	cell.valign = alignment.Top
 	return cell
 }
 
@@ -403,23 +403,23 @@ func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 		cell.textBlock.SetWidth(w - (cell.leftPadding + cell.rightPadding))
 		cell.textBlock.DrawOn(page)
 	} else if cell.image != nil {
-		if cell.GetTextAlignment() == align.Left {
+		if cell.GetTextAlignment() == alignment.Left {
 			cell.image.SetLocation(x+cell.leftPadding, y+cell.topPadding)
 			cell.image.DrawOn(page)
-		} else if cell.GetTextAlignment() == align.Center {
+		} else if cell.GetTextAlignment() == alignment.Center {
 			cell.image.SetLocation((x+w/2.0)-cell.image.GetWidth()/2.0, y+cell.topPadding)
 			cell.image.DrawOn(page)
-		} else if cell.GetTextAlignment() == align.Right {
+		} else if cell.GetTextAlignment() == alignment.Right {
 			cell.image.SetLocation((x+w)-(cell.image.GetWidth()+cell.leftPadding), y+cell.topPadding)
 			cell.image.DrawOn(page)
 		}
 	} else if cell.barcode != nil {
-		if cell.GetTextAlignment() == align.Left {
+		if cell.GetTextAlignment() == alignment.Left {
 			cell.barcode.drawOnPageAtLocation(page, x+cell.leftPadding, y+cell.topPadding)
-		} else if cell.GetTextAlignment() == align.Center {
+		} else if cell.GetTextAlignment() == alignment.Center {
 			barcodeWidth := cell.barcode.DrawOn(nil)[0]
 			cell.barcode.drawOnPageAtLocation(page, (x+w/2.0)-barcodeWidth/2.0, y+cell.topPadding)
-		} else if cell.GetTextAlignment() == align.Right {
+		} else if cell.GetTextAlignment() == alignment.Right {
 			barcodeWidth := cell.barcode.DrawOn(nil)[0]
 			cell.barcode.drawOnPageAtLocation(page, (x+w)-(barcodeWidth+cell.leftPadding), y+cell.topPadding)
 		}
@@ -489,18 +489,18 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 	var xText float32
 	var yText float32
 	switch cell.valign {
-	case align.Top:
+	case alignment.Top:
 		yText = y + cell.font.ascent + cell.topPadding
-	case align.Center:
+	case alignment.Center:
 		yText = y + hCell/2.0 + cell.font.ascent/2.0
-	case align.Bottom:
+	case alignment.Bottom:
 		yText = (y + hCell) - cell.bottomPadding
 	default:
 		log.Fatal("Invalid vertical text alignment option.")
 	}
 
 	page.SetPenColorRGB(cell.pen)
-	if cell.GetTextAlignment() == align.Left {
+	if cell.GetTextAlignment() == alignment.Left {
 		xText = x + cell.leftPadding
 		page.DrawStringUsingColorMap(
 			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
@@ -510,7 +510,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		if cell.strikeout {
 			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
 		}
-	} else if cell.GetTextAlignment() == align.Right {
+	} else if cell.GetTextAlignment() == alignment.Right {
 		xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
 		page.DrawStringUsingColorMap(
 			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
@@ -520,7 +520,7 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 		if cell.strikeout {
 			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
 		}
-	} else if cell.GetTextAlignment() == align.Center {
+	} else if cell.GetTextAlignment() == alignment.Center {
 		xText = x + cell.leftPadding +
 			(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
 		page.DrawStringUsingColorMap(
