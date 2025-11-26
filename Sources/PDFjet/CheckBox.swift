@@ -22,6 +22,7 @@ public class CheckBox : Drawable {
     private var checkWidth: Float?
     private var mark = 0
     private var font: Font
+    private var fontSize: Float = 12.0
     private var label: String = ""
     private var uri: String?
     private var language: String?
@@ -44,7 +45,7 @@ public class CheckBox : Drawable {
     ///
     @discardableResult
     public func setFontSize(_ fontSize: Float) -> CheckBox {
-        self.font.setSize(fontSize)
+        self.fontSize = fontSize
         return self
     }
 
@@ -203,7 +204,7 @@ public class CheckBox : Drawable {
         if uri != nil {
             page!.setBrushColor(Color.blue)
         }
-        page!.drawString(font, 36.0, label, x + 3.0*w/2.0, y + font.ascent)     // TODO
+        page!.drawString(font, fontSize, label, x + 3.0*w/2.0, y + font.ascent)
         page!.setPenWidth(0.0)
         page!.setPenColor(Color.black)
         page!.setBrushColor(Color.black)
