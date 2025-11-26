@@ -7,10 +7,9 @@ import (
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
+	"github.com/edragoev1/pdfjet/src/mark"
 )
 
-// Example26 draws the Canadian flag using a Path object that contains both lines
-// and curve segments. Every curve segment must have exactly 2 control points.
 func Example26() {
 	pdf := pdfjet.NewPDFFile("Example_26.pdf")
 
@@ -24,7 +23,7 @@ func Example26() {
 	checkBox := pdfjet.NewCheckBox(f1, "Hello")
 	checkBox.SetLocation(x, y)
 	checkBox.SetCheckmark(color.Blue)
-	// checkBox.Check(mark.CHECK)
+	checkBox.Check(mark.Check)
 	checkBox.DrawOn(page)
 
 	y += 30.0
@@ -32,7 +31,7 @@ func Example26() {
 	checkBox.SetLocation(x, y)
 	checkBox.SetCheckmark(color.Blue)
 	// checkBox.SetURIAction("http://pdfjet.com")
-	// checkBox.Check(Mark.CHECK)
+	checkBox.Check(mark.Check)
 	checkBox.DrawOn(page)
 
 	y += 30.0
@@ -44,13 +43,13 @@ func Example26() {
 	y += 30.0
 	radioButton := pdfjet.NewRadioButton(f1, "Hello, World!")
 	radioButton.SetLocation(x, y)
-	// radioButton.Select(true)
+	radioButton.SelectButton(true)
 	radioButton.DrawOn(page)
 
 	radioButton = pdfjet.NewRadioButton(f1, "Yes")
 	radioButton.SetLocation(x+100.0, 50.0)
 	// radioButton.SetURIAction("http://pdfjet.com")
-	// radioButton.Select(true)
+	radioButton.SelectButton(true)
 	xy := radioButton.DrawOn(page)
 
 	radioButton = pdfjet.NewRadioButton(f1, "No")
@@ -60,14 +59,14 @@ func Example26() {
 	radioButton = pdfjet.NewRadioButton(f1, "Hello")
 	radioButton.SetLocation(xy[0], 50.0)
 	// radioButton.SetCheckmark(Color.blue)
-	// radioButton.Check(Mark.X)
+	radioButton.SelectButton(true)
 	xy = radioButton.DrawOn(page)
 
 	checkBox = pdfjet.NewCheckBox(f1, "Yahoo")
 	checkBox.SetLocation(xy[0], 50.0)
 	checkBox.SetCheckmark(color.Blue)
-	// checkBox.Check(Mark.CHECK)
-	checkBox.DrawOn(page)
+	checkBox.Check(mark.Check)
+	xy = checkBox.DrawOn(page)
 
 	box := pdfjet.NewBox()
 	box.SetLocation(xy[0], xy[1])

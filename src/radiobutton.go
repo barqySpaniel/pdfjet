@@ -103,7 +103,7 @@ func (radioButton *RadioButton) DrawOn(page *Page) []float32 {
 	page.DrawCircle(radioButton.x+radioButton.r1, yBox+radioButton.r1, radioButton.r1)
 
 	if radioButton.selected {
-		page.DrawCircle(radioButton.x+radioButton.r1, yBox+radioButton.r1, radioButton.r2)
+		page.FillCircle(radioButton.x+radioButton.r1, yBox+radioButton.r1, radioButton.r2)
 	}
 
 	if radioButton.uri != nil {
