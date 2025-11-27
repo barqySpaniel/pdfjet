@@ -63,17 +63,6 @@ public class Cell {
     private var strikeout: Bool
 
     /**
-     * Creates a cell object and sets the font.
-     *
-     * @param font the font.
-     */
-//     public init(_ font: Font?) {
-//         self.font = font
-//         self.underline = false
-//         self.strikeout = false
-//     }
-
-    /**
      * Creates a cell object and sets the font and the cell text.
      *
      * @param font the font.
