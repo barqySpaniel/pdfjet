@@ -83,20 +83,6 @@ public class Cell {
     }
 
     /**
-     * Creates a cell object and sets the font, fallback font and the cell text.
-     *
-     * @param font the font.
-     * @param fallbackFont the fallback font.
-     * @param text the text.
-     */
-    public Cell(Font font, Font fallbackFont, String text) {
-        this.font = font;
-        this.fontSize = font.getSize();
-        this.fallbackFont = fallbackFont;
-        this.text = text;
-    }
-
-    /**
      * Sets the font for this cell.
      *
      * @param font the font.
