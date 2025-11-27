@@ -180,10 +180,18 @@ func (cell *Cell) SetLeftPadding(padding float32) {
 	cell.leftPadding = padding
 }
 
+func (cell *Cell) GetLeftPadding() float32 {
+	return cell.leftPadding
+}
+
 // SetRightPadding sets the right padding of this cell.
 // @param padding the right padding.
 func (cell *Cell) SetRightPadding(padding float32) {
 	cell.rightPadding = padding
+}
+
+func (cell *Cell) GetRightPadding() float32 {
+	return cell.rightPadding
 }
 
 // SetPadding sets the top, bottom, left and right paddings of this cell.
