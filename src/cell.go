@@ -62,6 +62,7 @@ func NewCell(font *Font, text string) *Cell {
 	cell.font = font
 	cell.text = text
 	cell.width = 50.0
+	cell.colspan = 1
 	cell.topPadding = 2.0
 	cell.bottomPadding = 2.0
 	cell.leftPadding = 2.0
@@ -70,6 +71,7 @@ func NewCell(font *Font, text string) *Cell {
 	//cell.background = color.White		// TODO:
 	//cell.pen = color.Black
 	//cell.brush = color.Black
+	cell.textAlignment = alignment.Left
 	cell.valign = alignment.Top
 	return cell
 }

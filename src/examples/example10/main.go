@@ -6,7 +6,7 @@ import (
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
 	"github.com/edragoev1/pdfjet/src/IBMPlexSans"
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/letter"
 )
@@ -42,7 +42,7 @@ func Example10() {
 	column.SetParagraphSpacing(1.0) // 1.0 x line spacing
 
 	p1 := pdfjet.NewParagraph()
-	p1.SetAlignment(align.Center)
+	p1.SetAlignment(alignment.Center)
 	p1.Add(pdfjet.NewTextLine(f2, "Switzerland"))
 
 	p2 := pdfjet.NewParagraph()
@@ -66,7 +66,7 @@ func Example10() {
 	p3 := pdfjet.NewParagraph()
 	// p3.SetAlignment(align.Left)
 	// p3.SetAlignment(align.Right)
-	p3.SetAlignment(align.Justify)
+	p3.SetAlignment(alignment.Justify)
 	text := pdfjet.NewTextLine(f1, buf.String())
 	p3.Add(text)
 
@@ -96,7 +96,7 @@ func Example10() {
 	buf.WriteString("2004-05 to 1.8% annually and to 2.9% in 2006.")
 
 	p5 := pdfjet.NewParagraph()
-	p5.SetAlignment(align.Justify)
+	p5.SetAlignment(alignment.Justify)
 	text = pdfjet.NewTextLine(f1, buf.String())
 	p5.Add(text)
 

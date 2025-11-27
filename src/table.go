@@ -675,9 +675,9 @@ func (table *Table) wrapAroundCellText() {
 func getNumVerCells(row []*Cell, index int) int {
 	cell := row[index]
 	numOfVerCells := 1
-	if cell.text == "" {
-		return numOfVerCells
-	}
+	//if cell.text == "" {
+	//	return numOfVerCells
+	//}
 	cellWidth := getTotalWidth(row, index)
 	tokens := strings.Fields(cell.text)
 	var buf strings.Builder

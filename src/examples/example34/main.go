@@ -9,7 +9,7 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
@@ -39,7 +39,7 @@ func Example34() {
 	p1.SetRadius(2.0)
 	p1.SetColor(color.DarkOliveGreen)
 	p1.SetFillShape(true)
-	p1.SetAlignment(align.Right)
+	p1.SetAlignment(alignment.Right)
 	p1.SetURIAction(&uri)
 	tableData[4][3].SetPoint(p1)
 
@@ -49,7 +49,7 @@ func Example34() {
 	p1.SetRadius(2.5)
 	p1.SetColor(color.Blue)
 	p1.SetFillShape(true)
-	p1.SetAlignment(align.Right)
+	p1.SetAlignment(alignment.Right)
 	p1.SetURIAction(&uri)
 	tableData[5][3].SetPoint(p1)
 
@@ -59,7 +59,7 @@ func Example34() {
 	p1.SetRadius(3.0)
 	p1.SetColor(color.Red)
 	p1.SetFillShape(true)
-	p1.SetAlignment(align.Right)
+	p1.SetAlignment(alignment.Right)
 	p1.SetURIAction(&uri)
 	tableData[6][3].SetPoint(p1)
 
