@@ -146,6 +146,7 @@ func (cell *Cell) GetPoint() *Point {
 // SetTextBlock sets the composite text object.
 func (cell *Cell) SetTextBlock(textBlock *TextBlock) {
 	cell.textBlock = textBlock
+	cell.text = ""
 }
 
 func (cell *Cell) GetTextBlock() *TextBlock {

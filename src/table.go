@@ -537,7 +537,13 @@ func (table *Table) SetColumnWidths() {
 		for i := 0; i < len(row); i++ {
 			cell := row[i]
 			if cell.GetColSpan() == 1 {
-				if cell.textBlock != nil {
+				if cell.text != "" {
+					textWidth := cell.font.StringWidth(cell.fallbackFont, cell.font.size, cell.text)
+					textWidth += cell.leftPadding + cell.rightPadding
+					if textWidth > maxColWidths[i] {
+						maxColWidths[i] = textWidth
+					}
+				} else if cell.textBlock != nil {
 					tokens := strings.Fields(cell.textBlock.GetText())
 					for _, token := range tokens {
 						tokenWidth := cell.textBlock.font.StringWidth(
@@ -556,12 +562,6 @@ func (table *Table) SetColumnWidths() {
 					barcodeWidth := cell.barcode.DrawOn(nil)[0] + cell.leftPadding + cell.rightPadding
 					if barcodeWidth > maxColWidths[i] {
 						maxColWidths[i] = barcodeWidth
-					}
-				} else if cell.text != "" {
-					textWidth := cell.font.StringWidth(cell.fallbackFont, cell.font.size, cell.text)
-					textWidth += cell.leftPadding + cell.rightPadding
-					if textWidth > maxColWidths[i] {
-						maxColWidths[i] = textWidth
 					}
 				}
 			}
@@ -675,9 +675,9 @@ func (table *Table) wrapAroundCellText() {
 func getNumVerCells(row []*Cell, index int) int {
 	cell := row[index]
 	numOfVerCells := 1
-	//if cell.text == "" {
-	//	return numOfVerCells
-	//}
+	if cell.text == "" {
+		return numOfVerCells
+	}
 	cellWidth := getTotalWidth(row, index)
 	tokens := strings.Fields(cell.text)
 	var buf strings.Builder
