@@ -54,6 +54,9 @@ public class Cell {
     private var uri: String?
     private var valign = Align.TOP
 
+    private var underline: Bool = false
+    private var strikeout: Bool = false
+
     /**
      * Creates a cell object and sets the font.
      *
@@ -482,11 +485,7 @@ public class Cell {
      * @param underline the underline text parameter.
      */
     public func setUnderline(_ underline: Bool) {
-        if underline {
-            self.properties |= 0x00400000
-        } else {
-            self.properties &= 0x00BFFFFF
-        }
+        self.underline = underline
     }
 
     /**
@@ -495,7 +494,7 @@ public class Cell {
      * @return the underline text parameter.
      */
     public func getUnderline() -> Bool {
-        return (properties & 0x00400000) != 0
+        return self.underline
     }
 
     /**
@@ -504,11 +503,7 @@ public class Cell {
      * @param strikeout the strikeout text parameter.
      */
     public func setStrikeout(_ strikeout: Bool) {
-        if strikeout {
-            self.properties |= 0x00800000
-        } else {
-            self.properties &= 0x007FFFFF
-        }
+        self.strikeout = strikeout
     }
 
     /**
@@ -517,7 +512,7 @@ public class Cell {
      * @return the strikeout text parameter.
      */
     public func getStrikeout() -> Bool{
-        return (properties & 0x00800000) != 0
+        return self.strikeout
     }
 
     public func setURIAction(_ uri: String) {
