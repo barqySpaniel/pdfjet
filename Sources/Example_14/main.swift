@@ -30,7 +30,7 @@ public class Example_14 {
                 } else {
                     cell = Cell(f2)
                 }
-                cell!.setBorders(false)
+                cell!.setAllBorders(false)
 
                 // WITH:
                 cell!.setTopPadding(10.0)
@@ -40,26 +40,22 @@ public class Example_14 {
 
                 cell!.setText("Hello \(i) \(j)")
                 if i == 0 {
-                    cell!.setBorder(Border.TOP, true)
+                    cell!.setTopBorder(true)
                     cell!.setUnderline(true)
                     cell!.setUnderline(false)
                 }
                 if i == 4 {
-                    cell!.setBorder(Border.BOTTOM, true)
+                    cell!.setBottomBorder(true)
                 }
                 if j == 0 {
-                    cell!.setBorder(Border.LEFT, true)
+                    cell!.setLeftBorder(true)
                 }
                 if j == 4 {
-                    cell!.setBorder(Border.RIGHT, true)
+                    cell!.setRightBorder(true)
                 }
 
                 if i == 2 && j == 2 {
-                    cell!.setBorder(Border.TOP, true)
-                    cell!.setBorder(Border.BOTTOM, true)
-                    cell!.setBorder(Border.LEFT, true)
-                    cell!.setBorder(Border.RIGHT, true)
-
+                    cell!.setAllBorders(true)
                     cell!.setColSpan(3)
                     cell!.setBackgroundColor(Color.darkseagreen)
                     cell!.setLineWidth(1.0)

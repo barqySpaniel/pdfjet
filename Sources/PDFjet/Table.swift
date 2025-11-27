@@ -191,11 +191,11 @@ public class Table {
         while j < index2 {
             var row = tableData[j]
             for cell in row {
-                cell.setBorder(Border.BOTTOM, false)
+                cell.setBottomBorder(false)
             }
             row = tableData[j + 1]
             for cell in row {
-                cell.setBorder(Border.TOP, false)
+                cell.setTopBorder(false)
             }
             j += 1
         }
@@ -436,7 +436,7 @@ public class Table {
                 if page != nil {
                     page!.setBrushColor(cell.getTextColor())
                     if i == (numOfHeaderRows - 1) {
-                        cell.setBorder(Border.BOTTOM, true)
+                        cell.setBottomBorder(true)
                     }
                     cell.drawOn(page!, x, y, w, h)
                 }
@@ -529,10 +529,13 @@ public class Table {
     ///
     /// Sets all table cells borders to <strong>false</strong> or <strong>true</strong>.
     ///
-    public func setCellBorders(_ borders: Bool) {
+    public func setCellBorders(_ border: Bool) {
         for row in tableData {
             for cell in row {
-                cell.setBorders(borders)
+                cell.setTopBorder(border)
+                cell.setBottomBorder(border)
+                cell.setLeftBorder(border)
+                cell.setRightBorder(border)
             }
         }
     }
@@ -566,7 +569,7 @@ public class Table {
     // Sets the right border on all cells in the last column.
     private func setRightBorderOnLastColumn() {
         for row in tableData {
-            if row[0].getBorder(Border.LEFT) == false {
+            if row[0].getLeftBorder() {
                 return
             }
         }
@@ -578,7 +581,7 @@ public class Table {
                 cell = row[i]
                 i += Int(cell!.getColSpan())
             }
-            cell!.setBorder(Border.RIGHT, true)
+            cell!.setRightBorder(true)
         }
     }
 
@@ -586,14 +589,14 @@ public class Table {
     private func setBottomBorderOnLastRow() {
         let firstRow = tableData[0]
         for cell in firstRow {
-            if cell.getBorder(Border.TOP) == false {
+            if cell.topBorder == false {
                 return
             }
         }
         // Only run this code if all the cells in the first row have top border.
         let lastRow = tableData[tableData.count - 1]
         for cell in lastRow {
-            cell.setBorder(Border.BOTTOM, true)
+            cell.setBottomBorder(true)
         }
     }
 
@@ -671,7 +674,7 @@ public class Table {
                     cell2.setProperties(cell.getProperties())
                     cell2.setVerTextAlignment(cell.getVerTextAlignment())
                     cell2.setTopPadding(0.0)
-                    cell2.setBorder(Border.TOP, false)
+                    cell2.setTopBorder(false)
                     row2.append(cell2)
                 }
                 tableData2.append(row2)

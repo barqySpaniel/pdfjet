@@ -54,8 +54,13 @@ public class Cell {
     private var uri: String?
     private var valign = Align.TOP
 
-    private var underline: Bool = false
-    private var strikeout: Bool = false
+    internal var topBorder: Bool = true
+    internal var bottomBorder: Bool = true
+    internal var leftBorder: Bool = true
+    internal var rightBorder: Bool = true
+
+    private var underline: Bool
+    private var strikeout: Bool
 
     /**
      * Creates a cell object and sets the font.
@@ -64,6 +69,8 @@ public class Cell {
      */
     public init(_ font: Font?) {
         self.font = font
+        self.underline = false
+        self.strikeout = false
     }
 
     /**
@@ -75,6 +82,8 @@ public class Cell {
     public init(_ font: Font?, _ text: String?) {
         self.font = font
         self.text = text
+        self.underline = false
+        self.strikeout = false
     }
 
     /**
@@ -88,6 +97,8 @@ public class Cell {
         self.font = font
         self.fallbackFont = fallbackFont
         self.text = text
+        self.underline = false
+        self.strikeout = false
     }
 
     /**
@@ -406,37 +417,43 @@ public class Cell {
         return (self.properties & 0x0000FFFF)
     }
 
-    /**
-     * Sets the cell border object.
-     *
-     * @param border the border object.
-     */
-    public func setBorder(_ border: UInt32, _ visible: Bool) {
-        if visible {
-            self.properties |= border
-        } else {
-            self.properties &= (~border & 0x00FFFFFF)
-        }
+    public func setAllBorders(_ visible: Bool) {
+        self.topBorder = visible
+        self.bottomBorder = visible
+        self.leftBorder = visible
+        self.rightBorder = visible
     }
 
-    /**
-     * Returns the cell border object.
-     *
-     * @return the cell border object.
-     */
-    public func getBorder(_ border: UInt32) -> Bool {
-        return (self.properties & border) != 0
+    public func setTopBorder(_ topBorder: Bool) {
+        self.topBorder = topBorder
     }
 
-    /**
-     * Sets all cell borders.
-     */
-    public func setBorders(_ borders: Bool) {
-        if borders {
-            self.properties &= 0x00FFFFFF
-        } else {
-            self.properties &= 0x00F0FFFF
-        }
+    public func getTopBorder() -> Bool {
+        return self.topBorder
+    }
+
+    public func setBottomBorder(_ bottomBorder: Bool) {
+        self.bottomBorder = bottomBorder
+    }
+
+    public func getBottomBorder() -> Bool {
+        return self.bottomBorder
+    }
+
+    public func setLeftBorder(_ leftBorder: Bool) {
+        self.leftBorder = leftBorder
+    }
+
+    public func getLeftBorder() -> Bool {
+        return self.leftBorder
+    }
+
+    public func setRightBorder(_ rightBorder: Bool) {
+        self.rightBorder = rightBorder
+    }
+
+    public func getRightBorder() -> Bool {
+        return self.rightBorder
     }
 
     /**
@@ -605,33 +622,25 @@ public class Cell {
         page.setPenColor(strokeColor)
         page.setPenWidth(strokeWidth)
         let qWidth: Float = strokeWidth / 4.0
-        if getBorder(Border.TOP) {
-            // page.addBMC(StructElem.P, Single.space, Single.space)
+        if topBorder {
             page.moveTo(x - qWidth, y)
             page.lineTo(x + cellW, y)
             page.strokePath()
-            // page.addEMC()
         }
-        if getBorder(Border.BOTTOM) {
-            // page.addBMC(StructElem.P, Single.space, Single.space)
+        if bottomBorder {
             page.moveTo(x - qWidth, y + cellH)
             page.lineTo(x + cellW, y + cellH)
             page.strokePath()
-            // page.addEMC()
         }
-        if getBorder(Border.LEFT) {
-            // page.addBMC(StructElem.P, Single.space, Single.space)
+        if leftBorder {
             page.moveTo(x, y - qWidth)
             page.lineTo(x, y + cellH + qWidth)
             page.strokePath()
-            // page.addEMC()
         }
-        if getBorder(Border.RIGHT) {
-            // page.addBMC(StructElem.P, Single.space, Single.space)
+        if rightBorder {
             page.moveTo(x + cellW, y - qWidth)
             page.lineTo(x + cellW, y + cellH + qWidth)
             page.strokePath()
-            // page.addEMC()
         }
     }
 
