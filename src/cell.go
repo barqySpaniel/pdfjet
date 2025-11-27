@@ -48,12 +48,6 @@ type Cell struct {
 	strikeout bool
 }
 
-// NewEmptyCell creates a cell object and sets the font.
-// @param font the font.
-func NewEmptyCell(font *Font) *Cell {
-	return NewCell(font, "")
-}
-
 // NewCell creates a cell object and sets the font and the cell text.
 // @param font the font.
 // @param text the text.

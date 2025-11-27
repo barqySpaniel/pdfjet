@@ -588,7 +588,7 @@ func (table *Table) addExtraTableRows() [][]*Cell {
 		for i := 1; i < maxNumVerCells; i++ {
 			row2 := make([]*Cell, 0)
 			for _, cell := range row {
-				cell2 := NewEmptyCell(cell.GetFont())
+				cell2 := NewCell(cell.GetFont(), "")
 				cell2.SetFallbackFont(cell.GetFallbackFont())
 				cell2.SetWidth(cell.GetWidth())
 				cell2.SetLeftPadding(cell.leftPadding)
