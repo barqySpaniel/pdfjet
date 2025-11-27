@@ -4,14 +4,15 @@ using System.Diagnostics;
 using PDFjet.NET;
 
 /**
- *  Example_11.cs
+ * Example_11.cs
  */
 public class Example_11 {
     public Example_11() {
         PDF pdf = new PDF( new BufferedStream(
                 new FileStream("Example_11.pdf", FileMode.Create)));
 
-        Font f1 = new Font(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream");
+        Font f1 = new Font(pdf, IBMPlexSans.Regular);
+        f1.SetSize(12f);
 
         Page page = new Page(pdf, Letter.PORTRAIT);
 
