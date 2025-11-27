@@ -87,21 +87,6 @@ public class Cell {
     }
 
     /**
-     * Creates a cell object and sets the font, fallback font and the cell text.
-     *
-     * @param font the font.
-     * @param fallbackFont the fallback font.
-     * @param text the text.
-     */
-    public init(_ font: Font?, _ fallbackFont: Font?, _ text: String?) {
-        self.font = font
-        self.fallbackFont = fallbackFont
-        self.text = text
-        self.underline = false
-        self.strikeout = false
-    }
-
-    /**
      * Sets the font for this cell.
      *
      * @param font the font.
