@@ -18,7 +18,7 @@ import (
 type Cell struct {
 	font          *Font
 	fallbackFont  *Font
-	text          *string
+	text          string
 	textBlock     *TextBlock
 	image         *Image
 	barcode       *Barcode
@@ -60,7 +60,7 @@ func NewEmptyCell(font *Font) *Cell {
 func NewCell(font *Font, text string) *Cell {
 	cell := new(Cell)
 	cell.font = font
-	cell.text = &text
+	cell.text = text
 	cell.width = 50.0
 	cell.topPadding = 2.0
 	cell.bottomPadding = 2.0
@@ -101,18 +101,18 @@ func (cell *Cell) GetFallbackFont() *Font {
 // SetText sets the cell text.
 // @param text the cell text.
 func (cell *Cell) SetText(text string) {
-	cell.text = &text
+	cell.text = text
 }
 
 // GetText returns the cell text.
 func (cell *Cell) GetText() string {
-	return *cell.text
+	return cell.text
 }
 
 // SetImage sets the image inside this cell.
 func (cell *Cell) SetImage(image *Image) {
 	cell.image = image
-	cell.text = nil
+	cell.text = ""
 }
 
 // GetImage returns the cell image.
@@ -123,7 +123,7 @@ func (cell *Cell) GetImage() *Image {
 // SetBarcode -- TODO:
 func (cell *Cell) SetBarcode(barcode *Barcode) {
 	cell.barcode = barcode
-	cell.text = nil
+	cell.text = ""
 }
 
 func (cell *Cell) GetBarcode() *Barcode {
@@ -202,7 +202,7 @@ func (cell *Cell) SetPadding(padding float32) {
 // @return the cell height.
 func (cell *Cell) GetHeight(width float32) float32 {
 	cellHeight := float32(0.0)
-	if cell.text != nil {
+	if cell.text != "" {
 		fontHeight := cell.font.GetHeight()
 		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
 			fontHeight = cell.fallbackFont.GetHeight()
@@ -221,7 +221,7 @@ func (cell *Cell) GetHeight(width float32) float32 {
 
 func (cell *Cell) GetHeightHeader(width float32) float32 {
 	cellHeight := float32(0.0)
-	if cell.text != nil {
+	if cell.text != "" {
 		fontHeight := cell.font.GetHeight()
 		if cell.fallbackFont != nil && cell.fallbackFont.GetHeight() > fontHeight {
 			fontHeight = cell.fallbackFont.GetHeight()
@@ -396,7 +396,7 @@ func (cell *Cell) DrawOn(page *Page, x, y, w, h float32) {
 	// cell.drawBackground(page, x, y, w, h)
 	//}
 
-	if cell.text != nil {
+	if cell.text != "" {
 		cell.DrawText(page, x, y, w, h)
 	} else if cell.textBlock != nil {
 		cell.textBlock.SetLocation(x+cell.leftPadding, y+cell.topPadding)
@@ -503,33 +503,33 @@ func (cell *Cell) DrawText(page *Page, x, y, wCell, hCell float32) {
 	if cell.GetTextAlignment() == alignment.Left {
 		xText = x + cell.leftPadding
 		page.DrawStringUsingColorMap(
-			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
+			cell.font, cell.fallbackFont, cell.font.size, cell.text, xText, yText, cell.textColor, nil)
 		if cell.underline {
-			cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
+			cell.UnderlineText(page, cell.font, cell.text, xText, yText)
 		}
 		if cell.strikeout {
-			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
+			cell.StrikeoutText(page, cell.font, cell.text, xText, yText)
 		}
 	} else if cell.GetTextAlignment() == alignment.Right {
-		xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, *cell.text) + cell.rightPadding)
+		xText = (x + wCell) - (cell.font.stringWidth(cell.font.size, cell.text) + cell.rightPadding)
 		page.DrawStringUsingColorMap(
-			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
+			cell.font, cell.fallbackFont, cell.font.size, cell.text, xText, yText, cell.textColor, nil)
 		if cell.underline {
-			cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
+			cell.UnderlineText(page, cell.font, cell.text, xText, yText)
 		}
 		if cell.strikeout {
-			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
+			cell.StrikeoutText(page, cell.font, cell.text, xText, yText)
 		}
 	} else if cell.GetTextAlignment() == alignment.Center {
 		xText = x + cell.leftPadding +
-			(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, *cell.text)) / 2)
+			(((wCell - (cell.leftPadding + cell.rightPadding)) - cell.font.stringWidth(cell.font.size, cell.text)) / 2)
 		page.DrawStringUsingColorMap(
-			cell.font, cell.fallbackFont, cell.font.size, *cell.text, xText, yText, cell.textColor, nil)
+			cell.font, cell.fallbackFont, cell.font.size, cell.text, xText, yText, cell.textColor, nil)
 		if cell.underline {
-			cell.UnderlineText(page, cell.font, *cell.text, xText, yText)
+			cell.UnderlineText(page, cell.font, cell.text, xText, yText)
 		}
 		if cell.strikeout {
-			cell.StrikeoutText(page, cell.font, *cell.text, xText, yText)
+			cell.StrikeoutText(page, cell.font, cell.text, xText, yText)
 		}
 	} else {
 		log.Fatal("Invalid Text Alignment!")

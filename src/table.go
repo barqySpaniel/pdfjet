@@ -139,9 +139,9 @@ func (table *Table) RightAlignNumbers() {
 	var buf strings.Builder
 	for _, row := range table.tableData {
 		for _, cell := range row {
-			if cell.text != nil {
+			if cell.text != "" {
 				buf.Reset()
-				runes := []rune(*cell.text)
+				runes := []rune(cell.text)
 				var index1 = 0
 				var index2 = len(runes)
 				if len(runes) > 2 && runes[0] == '(' && runes[len(runes)-1] == ')' {
@@ -557,8 +557,8 @@ func (table *Table) SetColumnWidths() {
 					if barcodeWidth > maxColWidths[i] {
 						maxColWidths[i] = barcodeWidth
 					}
-				} else if cell.text != nil {
-					textWidth := cell.font.StringWidth(cell.fallbackFont, cell.font.size, *cell.text)
+				} else if cell.text != "" {
+					textWidth := cell.font.StringWidth(cell.fallbackFont, cell.font.size, cell.text)
 					textWidth += cell.leftPadding + cell.rightPadding
 					if textWidth > maxColWidths[i] {
 						maxColWidths[i] = textWidth
@@ -631,7 +631,7 @@ func (table *Table) wrapAroundCellText() {
 		row := tableData2[i]
 		for j := 0; j < len(row); j++ {
 			cell := row[j]
-			if cell.text != nil {
+			if cell.text != "" {
 				cellWidth := getTotalWidth(row, j)
 				tokens := strings.Fields(cell.GetText())
 				var n = 0
@@ -675,11 +675,11 @@ func (table *Table) wrapAroundCellText() {
 func getNumVerCells(row []*Cell, index int) int {
 	cell := row[index]
 	numOfVerCells := 1
-	if cell.text == nil {
+	if cell.text == "" {
 		return numOfVerCells
 	}
 	cellWidth := getTotalWidth(row, index)
-	tokens := strings.Fields(*cell.text)
+	tokens := strings.Fields(cell.text)
 	var buf strings.Builder
 	for _, token := range tokens {
 		if cell.font.StringWidth(cell.fallbackFont, cell.font.size, token) > cellWidth {

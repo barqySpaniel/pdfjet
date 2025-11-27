@@ -4,7 +4,7 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/align"
+	"github.com/edragoev1/pdfjet/src/alignment"
 	"github.com/edragoev1/pdfjet/src/color"
 	"github.com/edragoev1/pdfjet/src/corefont"
 	"github.com/edragoev1/pdfjet/src/letter"
@@ -232,7 +232,7 @@ func getCell(
 	cell.SetBottomBorder(bottomBorder)
 	cell.SetLeftBorder(true)
 	cell.SetRightBorder(true)
-	cell.SetTextAlignment(align.Center)
+	cell.SetTextAlignment(alignment.Center)
 	cell.SetBgColor(color.LightBlue)
 	cell.SetLineWidth(0.5)
 	return cell
