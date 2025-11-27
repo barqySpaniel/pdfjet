@@ -16,14 +16,14 @@ public class Example_15 {
 
         var tableData = [[Cell]]()
         var row = [Cell]()
-        var cell = Cell(f1)
+        var cell = Cell(f1, "")
         for i in 0..<60 {
             row = [Cell]()
             for j in 0..<5 {
                 if i == 0 {
-                    cell = Cell(f1)
+                    cell = Cell(f1, "")
                 } else {
-                    cell = Cell(f2)
+                    cell = Cell(f2, "")
                 }
                 // cell.setNoBorders()
                 cell.setTopPadding(10.0)

@@ -79,7 +79,7 @@ public class Example_34 {
             let dataRowColumns = dataRow.count
             if dataRowColumns < numOfColumns {
                 for _ in 0..<(numOfColumns - dataRowColumns) {
-                    dataRow.append(Cell(f2))
+                    dataRow.append(Cell(f2, ""))
                 }
                 dataRow[dataRowColumns - 1].setColSpan(UInt32(numOfColumns - dataRowColumns) + 1)
             }

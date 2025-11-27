@@ -73,7 +73,7 @@ public class Table {
             } else if row.count < numberOfFields {
                 let diff = numberOfFields - row.count
                 for _ in 0..<diff {
-                    row.append(Cell(f2))
+                    row.append(Cell(f2, ""))
                 }
                 tableData.append(row)
             } else {
@@ -662,7 +662,7 @@ public class Table {
             for _ in 1..<maxNumVerCells {
                 var row2 = [Cell]()
                 for cell in row {
-                    let cell2 = Cell(cell.getFont())
+                    let cell2 = Cell(cell.getFont(), "")
                     cell2.setFallbackFont(cell.getFallbackFont())
                     cell2.setWidth(cell.getWidth())
                     cell2.setLeftPadding(cell.getLeftPadding())

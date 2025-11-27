@@ -109,17 +109,17 @@ public func addTableToChart(
             point.setFillShape(true)
             point.setAlignment(Align.LEFT)
 
-            var cell = Cell(f2)
+            var cell = Cell(f2, "")
             cell.setPoint(point)
             cell.setText("")
 
             tableRow.append(cell)
 
-            cell = Cell(f1)
+            cell = Cell(f1, "")
             cell.setText(point.getText())
             tableRow.append(cell)
 
-            cell = Cell(f2)
+            cell = Cell(f2, "")
             cell.setText(point.getURIAction())
             tableRow.append(cell)
 

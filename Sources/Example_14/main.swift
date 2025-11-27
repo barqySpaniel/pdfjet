@@ -17,7 +17,6 @@ public class Example_14 {
         let page = Page(pdf, A4.PORTRAIT)
 
         let table = Table()
-        // table.setCellMargin(10.0)
 
         var tableData = [[Cell]]()
         var row: [Cell]?
@@ -26,13 +25,12 @@ public class Example_14 {
             row = [Cell]()
             for j in 0..<5 {
                 if i == 0 {
-                    cell = Cell(f1)
+                    cell = Cell(f1, "")
                 } else {
-                    cell = Cell(f2)
+                    cell = Cell(f2, "")
                 }
                 cell!.setAllBorders(false)
 
-                // WITH:
                 cell!.setTopPadding(10.0)
                 cell!.setBottomPadding(10.0)
                 cell!.setLeftPadding(10.0)

@@ -215,7 +215,7 @@ public class Example_38 {
             _ text: String,
             _ topBorder: Bool,
             _ bottomBorder: Bool) -> Cell {
-        let cell = Cell(font)
+        let cell = Cell(font, "")
         cell.setColSpan(colSpan)
         cell.setWidth(50.0)
         cell.setText(text)
