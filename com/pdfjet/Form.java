@@ -218,17 +218,12 @@ public class Form implements Drawable {
                     new TextLine(font, field.values[i])
                             .setFontSize(fontSize)
                             .setTextColor(color)
-                            // TODO .placeIn(box, field.x + font.descent, yField - font.descent)
                             .setAltDescription((i == 0) ? field.altDescription[i] : (field.altDescription[i] + ","))
                             .drawOn(page);
                     if (i == (field.values.length - 1)) {
-                        new Line(0f, 0f, rowLength, 0f)
-                                // TODO: .placeIn(box, 0f, yField)
-                                .drawOn(page);
+                        new Line(0f, 0f, rowLength, 0f).drawOn(page);
                         if (field.x != 0f) {
-                            new Line(0f, -(field.values.length-1)*rowHeight, 0f, 0f)
-                                    // TODO: .placeIn(box, field.x, yField)
-                                    .drawOn(page);
+                            new Line(0f, -(field.values.length-1)*rowHeight, 0f, 0f).drawOn(page);
                         }
                     }
                 }
