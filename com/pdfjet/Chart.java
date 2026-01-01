@@ -392,6 +392,7 @@ public class Chart implements Drawable {
         // Draw the X axis title
         page.setTextDirection(0);
 
+        page.setBrushColor(Color.white);
         page.drawString(
                 f1,
                 f1,
@@ -518,10 +519,10 @@ public class Chart implements Drawable {
         float x = x5;
         float y = y8 + f2.bodyHeight;
         float step = (x6 - x5) / xAxisGridLines;
-        page.setBrushColor(Color.black);
+        page.setBrushColor(Color.white);	// TODO
         for (int i = 0; i < (xAxisGridLines + 1); i++) {
             String label = nf.format(xMin + ((xMax - xMin) / xAxisGridLines) * i);
-            page.drawString(f2, f2, 14f, label, x - (f2.stringWidth(label) / 2), y);
+            page.drawString(f2, f2, 14f, label, x - (f2.stringWidth(label) / 2), y);	// TODO
             x += step;
         }
     }
