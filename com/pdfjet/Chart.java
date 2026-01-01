@@ -299,13 +299,14 @@ public class Chart implements Drawable {
         roundXAxisMinAndMaxValues();
         roundYAxisMinAndMaxValues();
 
-// TODO:
-//         // Draw chart title
-//         page.drawString(
-//                 f1,
-//                 title,
-//                 x1 + ((w - f1.stringWidth(title)) / 2),
-//                 y1 + 1.5f * f1.bodyHeight);
+        // Draw chart title
+        page.drawString(
+                f1,
+                f1,
+                16f,
+                title,
+                x1 + ((w - f1.stringWidth(title)) / 2),
+                y1 + 1.5f * f1.bodyHeight);
 
         float topMargin = 2.5f * f1.bodyHeight;
         float leftMargin = getLongestAxisYLabelWidth() + 2f * f2.bodyHeight;
@@ -380,23 +381,25 @@ public class Chart implements Drawable {
         page.setBrushColor(Color.black);
         page.setTextDirection(90);
 
-// TODO:
-//         page.drawString(
-//                 f1,
-//                 yAxisTitle,
-//                 x1 + f1.bodyHeight,
-//                 y8 - ((y8 - y5) - f1.stringWidth(yAxisTitle)) / 2);
+        page.drawString(
+                f1,
+                f1,
+                16f,
+                yAxisTitle,
+                x1 + f1.bodyHeight,
+                y8 - ((y8 - y5) - f1.stringWidth(yAxisTitle)) / 2);
 
         // Draw the X axis title
         page.setTextDirection(0);
 
-// TODO:
-//         page.drawString(
-//                 f1,
-//                 xAxisTitle,
-//                 x5 + ((x6 - x5) - f1.stringWidth(xAxisTitle)) / 2,
-//                 y4 - f1.bodyHeight / 2);
-//
+        page.drawString(
+                f1,
+                f1,
+                16f,
+                xAxisTitle,
+                x5 + ((x6 - x5) - f1.stringWidth(xAxisTitle)) / 2,
+                y4 - f1.bodyHeight / 2);
+
         page.setDefaultLineWidth();
         page.setDefaultLinePattern();
         page.setPenColor(Color.black);
