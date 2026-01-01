@@ -521,7 +521,7 @@ public class Chart implements Drawable {
         page.setBrushColor(Color.black);
         for (int i = 0; i < (xAxisGridLines + 1); i++) {
             String label = nf.format(xMin + ((xMax - xMin) / xAxisGridLines) * i);
-// TODO:            page.drawString(f2, label, x - (f2.stringWidth(label) / 2), y);
+            page.drawString(f2, f2, 14f, label, x - (f2.stringWidth(label) / 2), y);
             x += step;
         }
     }
@@ -533,7 +533,7 @@ public class Chart implements Drawable {
         page.setBrushColor(Color.black);
         for (int i = 0; i < (yAxisGridLines + 1); i++) {
             String label = nf.format(yMin + ((yMax - yMin) / yAxisGridLines) * i);
-// TODO:            page.drawString(f2, label, x, y);
+            page.drawString(f2, f2, 14f, label, x, y);
             y -= step;
         }
     }
@@ -551,7 +551,7 @@ public class Chart implements Drawable {
                 if (point.getText() != null) {
                     page.setBrushColor(point.getTextColor());
                     page.setTextDirection(point.getTextDirection());
-// TODO:                    page.drawString(f2, point.getText(), point.x, point.y);
+                    page.drawString(f2, f2, 14f, point.getText(), point.x, point.y);
                 }
             }
             for (int j = 0; j < points.size(); j++) {
