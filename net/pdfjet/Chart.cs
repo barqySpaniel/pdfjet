@@ -525,14 +525,13 @@ public class Chart : IDrawable {
                         null);
                 }
             }
-            for (int j = 0; j < points.Count; j++) {
-                point = points[j];
-                if (point.GetShape() != Point.INVISIBLE) {
-                    page.SetPenWidth(point.strokeWidth);
-                    page.SetStrokePattern(point.strokePattern);
-                    page.SetPenColor(point.strokeColor);
-                    page.SetBrushColor(point.fillColor);
-                    page.DrawPoint(point);
+            foreach (Point point2 in points) {
+                if (point2.GetShape() != Point.INVISIBLE) {
+                    page.SetPenWidth(point2.strokeWidth);
+                    page.SetStrokePattern(point2.strokePattern);
+                    page.SetPenColor(point2.strokeColor);
+                    page.SetBrushColor(point2.fillColor);
+                    page.DrawPoint(point2);
                 }
             }
         }
