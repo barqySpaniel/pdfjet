@@ -504,8 +504,7 @@ public class Chart : IDrawable {
 
     private void DrawPathsAndPoints(
             Page page, List<List<Point>> chartData) {
-        for (int i = 0; i < chartData.Count; i++) {
-            List<Point> points = chartData[i];
+        foreach (List<Point> points in chartData) {
             Point point = points[0];
             if (point.drawPath) {
                 page.SetPenColor(point.strokeColor);
