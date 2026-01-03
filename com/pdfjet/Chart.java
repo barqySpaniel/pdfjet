@@ -554,6 +554,17 @@ public class Chart implements Drawable {
                     page.setBrushColor(point.getTextColor());
                     page.setTextDirection(point.getTextDirection());
                     page.drawString(f2, fontSize, point.getText(), point.x, point.y);
+/*
+                    page.drawString(
+                        f2,
+                        null,
+                        fontSize,
+                        point.getText(),
+                        point.x + 1.5f*f2.getDescent(),
+                        point.y,
+                        point.getTextColor(),
+                        null);
+*/
                 }
             }
             for (int i = 0; i < points.size(); i++) {
