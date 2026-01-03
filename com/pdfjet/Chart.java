@@ -543,8 +543,7 @@ public class Chart implements Drawable {
 
     private void drawPathsAndPoints(
             Page page, List<List<Point>> chartData) throws Exception {
-        for (int i = 0; i < chartData.size(); i++) {
-            List<Point> points = chartData.get(i);
+        for (List<Point> points : chartData) {
             Point point = points.get(0);
             if (point.drawPath) {
                 page.setPenColor(point.color);
@@ -557,13 +556,14 @@ public class Chart implements Drawable {
                     page.drawString(f2, fontSize, point.getText(), point.x, point.y);
                 }
             }
-            for (Point point2 : points) {
-                if (point2.getShape() != Point.INVISIBLE) {
-                    page.setPenWidth(point2.strokeWidth);
-                    page.setStrokePattern(point2.strokePattern);
-                    page.setPenColor(point2.color);
-                    page.setBrushColor(point2.color);
-                    page.drawPoint(point2);
+            for (int i = 0; i < points.size(); i++) {
+		point = points.get(i);
+                if (point.getShape() != Point.INVISIBLE) {
+                    page.setPenWidth(point.strokeWidth);
+                    page.setStrokePattern(point.strokePattern);
+                    page.setPenColor(point.color);
+                    page.setBrushColor(point.color);
+                    page.drawPoint(point);
                 }
             }
         }
