@@ -311,6 +311,21 @@ final public class Page {
         drawString(font, fallbackFont, fontSize, str, x, y, new float[] {0f, 0f, 0f}, null);
     }
 
+    public void drawString(
+            Font font,
+            Font fallbackFont,
+            float fontSize,
+            String str,
+            float x,
+            float y,
+            Integer color,
+            Map<String, Integer> colors) {
+        float r = ((color >> 16) & 0xff)/255f;
+        float g = ((color >>  8) & 0xff)/255f;
+        float b = ((color)       & 0xff)/255f;
+        drawString(font, fallbackFont, fontSize, str, x, y, new float[] {r, g, b}, colors);
+    }
+
     /**
      *  Draws the text given by the specified string,
      *  using the specified main font and the current brush color.
