@@ -553,8 +553,6 @@ public class Chart implements Drawable {
                 if (point.getText() != null) {
                     page.setBrushColor(point.getTextColor());
                     page.setTextDirection(point.getTextDirection());
-                    page.drawString(f2, fontSize, point.getText(), point.x, point.y);
-/*
                     page.drawString(
                         f2,
                         null,
@@ -564,7 +562,6 @@ public class Chart implements Drawable {
                         point.y,
                         point.getTextColor(),
                         null);
-*/
                 }
             }
             for (int i = 0; i < points.size(); i++) {
