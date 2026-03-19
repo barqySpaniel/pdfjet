@@ -13,11 +13,11 @@ public class Example_46 {
             new BufferedOutputStream(new FileOutputStream("Example_46.pdf")));
         // pdf.setCompliance(Compliance.PDF_UA_1);
 
-        var passwords = new Passwords();
+        Passwords passwords = new Passwords();
         passwords.setUserPassword("hello");
         passwords.setOwnerPassword("world");
 
-        var permissions = new Permissions();
+        Permissions permissions = new Permissions();
         permissions.setPermissions(
             UserAccess.PRINT.getValue() |               // Set both to allow the user to print
             UserAccess.PRINT_HIGH_QUALITY.getValue() |  // this document with high quality

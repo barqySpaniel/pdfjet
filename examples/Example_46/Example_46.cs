@@ -5,7 +5,7 @@ using System.IO;
 using PDFjet.NET;
 
 /**
- *  Example_46.cs
+ * Example_46.cs
  */
 public class Example_46 {
     public Example_46() {
@@ -21,9 +21,10 @@ public class Example_46 {
         permissions.SetPermissions(
             UserAccess.Print |               // Set both to allow the user to print
             UserAccess.PrintHighQuality |    // this document with high quality
-            UserAccess.ModifyContents |
-            UserAccess.CopyContents |
+            // UserAccess.ModifyContents |
+            // UserAccess.CopyContents |
             UserAccess.AssembleDocument);
+        Console.WriteLine(permissions.ToString());
 
         pdf.SetEncryption(new Encryption(pdf, passwords, permissions));
 
