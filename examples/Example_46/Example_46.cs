@@ -24,7 +24,7 @@ public class Example_46 {
             // UserAccess.ModifyContents |
             // UserAccess.CopyContents |
             UserAccess.AssembleDocument);
-        Console.WriteLine(permissions.ToString());
+        // Console.WriteLine(permissions.ToString());
 
         pdf.SetEncryption(new Encryption(pdf, passwords, permissions));
 
