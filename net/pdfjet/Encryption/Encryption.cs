@@ -42,7 +42,7 @@ public class Encryption {
     /// Creates a new encryption dictionary and adds it to the PDF.
     /// </summary>
     /// <param name="pdf">The parent PDF document.</param>
-// TODO:
+    /// TODO:
     /// <param name="userPassword">The user password string.</param>
     /// <param name="ownerPassword">The owner password string.</param>
     public Encryption(PDF pdf, Passwords passwords, Permissions permissions) {

@@ -21,11 +21,11 @@ public class Example_46 {
         permissions.setPermissions(
             UserAccess.PRINT.getValue() |               // Set both to allow the user to print
             UserAccess.PRINT_HIGH_QUALITY.getValue() |  // this document with high quality
-            UserAccess.MODIFY_CONTENTS.getValue() |
-            UserAccess.COPY_CONTENTS.getValue() |
+            // UserAccess.MODIFY_CONTENTS.getValue() |
+            // UserAccess.COPY_CONTENTS.getValue() |
             UserAccess.ASSEMBLE_DOCUMENT.getValue(), true);
 
-        // pdf.setEncryption(new Encryption(pdf, passwords, permissions));
+        pdf.setEncryption(new Encryption(pdf, passwords, permissions));
 
         Font f1 = new Font(pdf, CoreFont.HELVETICA);
         // Font f1 = new Font(pdf, IBMPlexSans.Regular);
