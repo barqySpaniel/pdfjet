@@ -37,10 +37,11 @@ public class AES128 {
 
         try {
             // ---------- AES-128-CBC, no padding ----------
+            Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+
             SecretKeySpec keySpec = new SecretKeySpec(key, "AES");
             IvParameterSpec ivSpec = new IvParameterSpec(iv);
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
 
             // ---------- encrypt in one shot ----------

@@ -1,7 +1,7 @@
 /**
  * Encryption.java
  *
- * Copyright (c) 2025 PDFjet Software
+ * Copyright (c) 2026 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 package com.pdfjet;
@@ -13,6 +13,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+// import java.math.BigInteger;
+
 import com.pdfjet.*;
 
 public class Encryption {
@@ -160,6 +162,7 @@ public class Encryption {
      */
     private byte[] computeHash(byte[] password, byte[] salt, byte[] U) throws Exception {
         // Take the SHA-256 hash of the original input
+        sha256.reset();
         byte[] K = sha256.digest(concatenate(password, salt, U));
 
         // Perform the following steps (a)-(d) 64 times or more:
@@ -178,23 +181,19 @@ public class Encryption {
 
             // c) & d) Determine hash algorithm and compute hash
             int algorithm = nextHashAlgorithm(E);
-            switch (algorithm) {
-                case 0:
-                    K = sha256.digest(E);
-                    sha256.reset();
-                    break;
-                case 1:
-                    K = sha384.digest(E);
-                    sha384.reset();
-                    break;
-                case 2:
-                    K = sha512.digest(E);
-                    sha512.reset();
-                    break;
+            if (algorithm == 0) {
+                sha256.reset();
+                K = sha256.digest(E);
+            } else if (algorithm == 1) {
+                sha384.reset();
+                K = sha384.digest(E);
+            } else if (algorithm == 2) {
+                sha512.reset();
+                K = sha512.digest(E);
             }
 
             // Termination check (For rounds 64+ only)
-            if (round >= 64 && E[E.length - 1] <= (round - 32)) {
+            if (round >= 64 && (E[E.length - 1] & 0xFF) <= (round - 32)) {
                 break;
             }
         }
@@ -207,13 +206,9 @@ public class Encryption {
     private byte[] computeK1(byte[] password, byte[] K, byte[] U) {
         stream.reset();
         for (int i = 0; i < 64; i++) {
-            try {
-                stream.write(password);
-                stream.write(K);
-                stream.write(U);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to compute K1", e);
-            }
+            stream.write(password, 0, password.length);
+            stream.write(K, 0, K.length);
+            stream.write(U, 0, U.length);
         }
         return stream.toByteArray();
     }
@@ -225,9 +220,15 @@ public class Encryption {
         if (E.length < 16) {
             throw new IllegalArgumentException("The input array must be at least 16 bytes long.");
         }
+
+        // Alternative code that also works and follows the specification exactly!
+        // BigInteger sum = new BigInteger(1, Arrays.copyOf(E, 16));    // 1 = force positive (unsigned)
+        // BigInteger reminder = sum.mod(new BigInteger("3"));
+        // return reminder.intValueExact();
+
         int sum = 0;
         for (int i = 0; i < 16; i++) {
-            sum += E[i] & 0xFF; // Convert to unsigned
+            sum += (E[i] & 0xFF);   // Convert to unsigned
         }
         return sum % 3;
     }
@@ -250,9 +251,6 @@ public class Encryption {
 
         byte[] userValidationSalt = new byte[8];
         byte[] userKeySalt = new byte[8];
-        System.arraycopy(randomBytes, 0, userValidationSalt, 0, 8);
-        System.arraycopy(randomBytes, 8, userKeySalt, 0, 8);
-
         byte[] hash = computeHash(userPasswordBytes, userValidationSalt, new byte[] {});
         byte[] U = concatenate(hash, userValidationSalt, userKeySalt);
 
@@ -272,9 +270,6 @@ public class Encryption {
 
         byte[] ownerValidationSalt = new byte[8];
         byte[] ownerKeySalt = new byte[8];
-        System.arraycopy(randomBytes, 0, ownerValidationSalt, 0, 8);
-        System.arraycopy(randomBytes, 8, ownerKeySalt, 0, 8);
-
         byte[] hash = computeHash(ownerPasswordBytes, ownerValidationSalt, U);
         byte[] O = concatenate(hash, ownerValidationSalt, ownerKeySalt);
 
