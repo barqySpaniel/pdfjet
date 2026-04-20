@@ -1,7 +1,7 @@
 /**
  * Permissions.go
  *
- * Copyright (c) 2025 PDFjet Software
+ * Copyright (c) 2026 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
@@ -14,54 +14,36 @@ import (
 
 // UserAccess represents the user access permissions for an encrypted PDF document as defined in
 // ISO 32000-2 (PDF 2.0) Table 22. Permissions are stored as flags in a 32-bit integer.
-type UserAccess int
+
+type UserAccess uint32
 
 const (
-	// None - No permissions are granted. This is the default state.
-	// Reserved bits (0-2, 13-31) must be zero.
+	// None No permissions (default)
 	None UserAccess = 0
 
-	// Print - Permission to print the document (possibly not at the highest quality level,
-	// depending on whether PrintHighQuality is also set).
-	// (Bit position: 3)
-	Print UserAccess = 1 << 3 // Decimal: 8
+	// Print Bit position: 3
+	Print UserAccess = 1 << 3 // 8
 
-	// ModifyContents - Permission to modify the contents of the document by operations other than
-	// those controlled by ModifyAnnotations, FillFormFields, and AssembleDocument.
-	// (Bit position: 4)
-	ModifyContents UserAccess = 1 << 4 // Decimal: 16
+	// ModifyContents Bit position: 4
+	ModifyContents UserAccess = 1 << 4 // 16
 
-	// CopyContents - Permission to copy or otherwise extract text and graphics from the document,
-	// including for accessibility purposes.
-	// (Bit position: 5)
-	CopyContents UserAccess = 1 << 5 // Decimal: 32
+	// CopyContents Bit position: 5
+	CopyContents UserAccess = 1 << 5 // 32
 
-	// ModifyAnnotations - Permission to add, modify, or delete text annotations and interactive form fields.
-	// Note: This permission is not used in PDF 2.0 but is retained for legacy support.
-	// (Bit position: 6)
-	ModifyAnnotations UserAccess = 1 << 6 // Decimal: 64
+	// ModifyAnnotations Bit position: 6
+	ModifyAnnotations UserAccess = 1 << 6 // 64
 
-	// FillFormFields - Permission to fill existing interactive form fields (including signature fields),
-	// even if ModifyContents is not set.
-	// (Bit position: 9)
-	FillFormFields UserAccess = 1 << 9 // Decimal: 512
+	// FillFormFields Bit position: 9
+	FillFormFields UserAccess = 1 << 9 // 512
 
-	// ExtractContentsForAccessibility - Permission to extract text and graphics (in support of accessibility to
-	// users with disabilities or for other purposes).
-	// (Bit position: 10)
-	ExtractContentsForAccessibility UserAccess = 1 << 10 // Decimal: 1024
+	// ExtractContentsForAccessibility Bit position: 10
+	ExtractContentsForAccessibility UserAccess = 1 << 10 // 1024
 
-	// AssembleDocument - Permission to assemble the document: insert, rotate, or delete pages and
-	// create bookmarks or thumbnail images.
-	// (Bit position: 11)
-	AssembleDocument UserAccess = 1 << 11 // Decimal: 2048
+	// AssembleDocument Bit position: 11
+	AssembleDocument UserAccess = 1 << 11 // 2048
 
-	// PrintHighQuality - Permission to print the document to a representation from which a faithful
-	// digital copy of the PDF content could be generated. When this bit is clear
-	// (and Print is set), printing is limited to a low-level
-	// representation of the appearance, possibly of degraded quality.
-	// (Bit position: 12)
-	PrintHighQuality UserAccess = 1 << 12 // Decimal: 4096
+	// PrintHighQuality Bit position: 12
+	PrintHighQuality UserAccess = 1 << 12 // 4096
 )
 
 // String returns a string representation of the UserAccess flags

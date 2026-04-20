@@ -4,50 +4,39 @@ import (
 	"time"
 
 	pdfjet "github.com/edragoev1/pdfjet/src"
-	"github.com/edragoev1/pdfjet/src/a4"
+	"github.com/edragoev1/pdfjet/src/corefont"
+	"github.com/edragoev1/pdfjet/src/encryption"
+	"github.com/edragoev1/pdfjet/src/letter"
 )
 
 // Example46 -- TODO:
 func Example46() {
 	pdf := pdfjet.NewPDFFile("Example_46.pdf")
 
-	f1 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Bold.ttf.stream")
-	f2 := pdfjet.NewFontFromFile(pdf, "fonts/IBMPlexSans/IBMPlexSans-Regular.ttf.stream")
-	f3 := pdfjet.NewFontFromFile(pdf, "fonts/JetBrainsMono/JetBrainsMono-Bold.ttf.stream")
+	passwords := encryption.NewPasswords()
+	passwords.SetPasswords("hello", "world")
 
-	f1.SetSize(14.0)
-	f2.SetSize(14.0)
-	f2.SetSize(12.0)
+	permissions := encryption.NewPermissions()
+	permissions.SetPermissions(
+		encryption.Print| // Set both to allow the user to print
+			encryption.PrintHighQuality| // this document with high quality
+			// encryption.ModifyContents|
+			// encryption.CopyContents|
+			encryption.AssembleDocument, true)
 
-	page := pdfjet.NewPage(pdf, a4.Portrait)
+	pdf.SetEncryption(pdfjet.NewEncryption(pdf, passwords, permissions))
 
-	paragraphs := make([]*pdfjet.Paragraph, 0)
+	f1 := pdfjet.NewCoreFont(pdf, corefont.Helvetica())
+	// f1 := NewFont(pdf, IBMPlexSans.Regular)
+	// Test OTF with CFF outlines!
+	// f1 := NewFont(pdf, "data/SourceSansPro-Regular.otf")
+	f1.SetSize(36.0)
 
-	paragraph := pdfjet.NewParagraph()
-	paragraph.Add(pdfjet.NewTextLine(f1, "Όταν ο Βαρουφάκης δήλωνε κατηγορηματικά πως δεν θα ασχοληθεί ποτέ με την πολιτική (Video)"))
-	paragraphs = append(paragraphs, paragraph)
+	page := pdfjet.NewPage(pdf, letter.Portrait)
 
-	paragraph = pdfjet.NewParagraph()
-	paragraph.Add(pdfjet.NewTextLine(f2, "Τις τελευταίες μέρες αδιαμφισβήτητα ο Γιάνης Βαρουφάκης είναι  ο πιο πολυσυζητημένος πολιτικός στην Ευρώπη και όχι μόνο. Κι όμως, κάποτε ο νέος υπουργός Οικονομικών δήλωνε κατηγορηματικά πως δεν πρόκειται ποτέ να εμπλακεί σε αυτό το χώρο."))
-	paragraphs = append(paragraphs, paragraph)
-
-	paragraph = pdfjet.NewParagraph()
-	paragraph.Add(pdfjet.NewTextLine(f2, "Η συγκεκριμένη του δήλωση ήταν σε συνέντευξή που είχε παραχωρήσει στην εκπομπή «Ευθέως» και στον Κωνσταντίνο Μπογδάνο, όταν στις 13 Δεκεμβρίου του 2012 ο νυν υπουργός Οικονομικών δήλωνε ότι δεν υπάρχει περίπτωση να ασχοληθεί με την πολιτική, γιατί θα τον διέγραφε οποιοδήποτε κόμμα."))
-	paragraph.Add(pdfjet.NewTextLine(f2, "Συγκεκριμένα, μετά από το 43ο λεπτό του βίντεο, ο δημοσιογράφος τον ρώτησε αν θα ασχολιόταν ποτέ με την πολιτική, με την απάντηση του κ. Βαρουφάκη να είναι κατηγορηματική: «Όχι, ποτέ, ποτέ»."))
-	paragraphs = append(paragraphs, paragraph)
-
-	paragraph = pdfjet.NewParagraph()
-	paragraph.Add(pdfjet.NewTextLine(f2, "«Μα ποτέ δεν ασχολήθηκα με την πολιτική. Ασχολούμαι ως πολίτης και ως συμμετέχων στον δημόσιο διάλογο. Και είναι κάτι που θα κάνω πάντα. Καταρχήν, αν μπω σε ένα πολιτικό κόμμα μέσα σε μία εβδομάδα θα με έχει διαγράψει, όποιο κι αν είναι αυτό», εξηγούσε τότε, ενώ πρόσθετε ότι δεν μπορεί να ακολουθήσει κομματική γραμμή."))
-	paragraphs = append(paragraphs, paragraph)
-
-	paragraph = pdfjet.NewParagraph().Add(pdfjet.NewTextLine(f3, "Hello, World!"))
-	paragraphs = append(paragraphs, paragraph)
-
-	textArea := pdfjet.NewText(paragraphs)
-	textArea.SetLocation(70.0, 70.0)
-	textArea.SetWidth(500.0)
-	textArea.SetBorder(true)
-	textArea.DrawOn(page)
+	textLine := pdfjet.NewTextLine(f1, "Hello, World!")
+	textLine.SetLocation(100.0, 100.0)
+	textLine.DrawOn(page)
 
 	pdf.Complete()
 }

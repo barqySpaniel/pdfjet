@@ -1766,3 +1766,8 @@ func (pdf *PDF) appendByteArray(buf []byte) {
 	}
 	pdf.byteCount += len(buf)
 }
+
+// SetEncryption TODO:
+func (pdf *PDF) SetEncryption(encryption *Encryption, encryption2 error) {
+
+}

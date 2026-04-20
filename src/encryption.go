@@ -1,11 +1,11 @@
 /**
  * Encryption.go
  *
- * Copyright (c) 2025 PDFjet Software
+ * Copyright (c) 2026 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
-package encryption
+package pdfjet
 
 import (
 	"bytes"
@@ -13,6 +13,8 @@ import (
 	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/binary"
+
+	"github.com/edragoev1/pdfjet/src/encryption"
 )
 
 // User represents user password keys
@@ -35,7 +37,8 @@ type Encryption struct {
 }
 
 // NewEncryption creates a new encryption dictionary and adds it to the PDF
-func NewEncryption(pdf PDF, passwords *Passwords, permissions *Permissions) (*Encryption, error) {
+func NewEncryption(pdf *PDF,
+	passwords *encryption.Passwords, permissions *encryption.Permissions) (*Encryption, error) {
 	enc := &Encryption{}
 
 	// Generate a random 256-bit (32-byte) File Encryption Key
@@ -73,43 +76,43 @@ func NewEncryption(pdf PDF, passwords *Passwords, permissions *Permissions) (*En
 	clearBytes(ownerPasswordBytes)
 
 	// Encryption Dictionary
-	pdf.NewObj()
-	pdf.Append(TokenBeginDictionary)
-	pdf.Append("/Filter /Standard\n")
-	pdf.Append("/V 5\n") // Algorithm 2.A / 2.B
-	pdf.Append("/R 6\n") // Security revision 6
-	pdf.Append("/CF <<\n")
-	pdf.Append("/StdCF <<\n")
-	pdf.Append("/CFM /AESV3\n") // AESV3 = AES-256 in CBC
-	pdf.Append("/Length 32\n")  // 32 bytes = 256-bit file key
-	pdf.Append("/AuthEvent /DocOpen\n")
-	pdf.Append(">>\n")
-	pdf.Append(">>\n")
-	pdf.Append("/StmF /StdCF\n")
-	pdf.Append("/StrF /StdCF\n")
+	pdf.newobj()
+	pdf.appendString(TokenBeginDictionary)
+	pdf.appendString("/Filter /Standard\n")
+	pdf.appendString("/V 5\n") // Algorithm 2.A / 2.B
+	pdf.appendString("/R 6\n") // Security revision 6
+	pdf.appendString("/CF <<\n")
+	pdf.appendString("/StdCF <<\n")
+	pdf.appendString("/CFM /AESV3\n") // AESV3 = AES-256 in CBC
+	pdf.appendString("/Length 32\n")  // 32 bytes = 256-bit file key
+	pdf.appendString("/AuthEvent /DocOpen\n")
+	pdf.appendString(">>\n")
+	pdf.appendString(">>\n")
+	pdf.appendString("/StmF /StdCF\n")
+	pdf.appendString("/StrF /StdCF\n")
 
-	pdf.Append("/U <") // User Key (U)
-	pdf.Append(toHex(user.U))
-	pdf.Append(">\n")
+	pdf.appendString("/U <") // User Key (U)
+	pdf.appendString(byteArrayToHexString(user.U))
+	pdf.appendString(">\n")
 
-	pdf.Append("/O <") // Owner Key (O)
-	pdf.Append(toHex(owner.O))
-	pdf.Append(">\n")
+	pdf.appendString("/O <") // Owner Key (O)
+	pdf.appendString(byteArrayToHexString(owner.O))
+	pdf.appendString(">\n")
 
-	pdf.Append("/UE <") // User Encryption Key (UE)
-	pdf.Append(toHex(user.UE))
-	pdf.Append(">\n")
+	pdf.appendString("/UE <") // User Encryption Key (UE)
+	pdf.appendString(byteArrayToHexString(user.UE))
+	pdf.appendString(">\n")
 
-	pdf.Append("/OE <") // Owner Encryption Key (OE)
-	pdf.Append(toHex(owner.OE))
-	pdf.Append(">\n")
+	pdf.appendString("/OE <") // Owner Encryption Key (OE)
+	pdf.appendString(byteArrayToHexString(owner.OE))
+	pdf.appendString(">\n")
 
-	pdf.Append("/EncryptMetadata false\n")
+	pdf.appendString("/EncryptMetadata false\n")
 
 	// Permissions flags
-	pdf.Append("/P ")
-	pdf.Append(intToString(permissions.GetRawValue()))
-	pdf.Append("\n")
+	pdf.appendString("/P ")
+	pdf.appendString(intToString(permissions.GetRawValue()))
+	pdf.appendString("\n")
 
 	// Create the unencrypted block per Algorithm 10
 	perms := createUnencryptedPermsBlock(permissions.GetRawValue())
@@ -123,19 +126,19 @@ func NewEncryption(pdf PDF, passwords *Passwords, permissions *Permissions) (*En
 	perms[15] = '-'
 
 	// Encrypt permissions block
-	encryptedPermsBlock, err := EncryptECB(perms, enc.fileEncryptionKey)
+	encryptedPermsBlock, err := encryption.EncryptECB(perms, enc.fileEncryptionKey)
 	if err != nil {
 		return nil, err
 	}
 
-	pdf.Append("/Perms <")
-	pdf.Append(toHex(encryptedPermsBlock))
-	pdf.Append(">\n")
+	pdf.appendString("/Perms <")
+	pdf.appendString(byteArrayToHexString(encryptedPermsBlock))
+	pdf.appendString(">\n")
 
-	pdf.Append(TokenEndDictionary)
-	pdf.EndObj()
+	pdf.appendString(TokenEndDictionary)
+	pdf.endobj()
 
-	enc.objNumber = pdf.GetObjNumber()
+	enc.objNumber = pdf.getObjNumber()
 	return enc, nil
 }
 
@@ -173,7 +176,7 @@ func (enc *Encryption) computeHash(password, salt, U []byte) ([]byte, error) {
 		tempIV := make([]byte, 16)
 		copy(tempIV, currentK[16:32])
 
-		E, err := EncryptK1(K1, tempKey, tempIV)
+		E, err := encryption.EncryptK1(K1, tempKey, tempIV)
 		if err != nil {
 			return nil, err
 		}
@@ -233,7 +236,7 @@ func (enc *Encryption) nextHashAlgorithm(E []byte) int {
 }
 
 // toHex converts bytes to hexadecimal string
-func toHex(bytes []byte) string {
+func byteArrayToHexString(bytes []byte) string {
 	const hexChars = "0123456789abcdef"
 	hex := make([]byte, len(bytes)*2)
 	for i, b := range bytes {
@@ -265,7 +268,7 @@ func (enc *Encryption) computeUserKeys(userPasswordBytes []byte) (*User, error) 
 		return nil, err
 	}
 
-	UE, err := EncryptWithZeroIV(enc.fileEncryptionKey, hash)
+	UE, err := encryption.EncryptWithZeroIV(enc.fileEncryptionKey, hash)
 	if err != nil {
 		return nil, err
 	}
@@ -295,7 +298,7 @@ func (enc *Encryption) computeOwnerKeys(ownerPasswordBytes, U []byte) (*Owner, e
 		return nil, err
 	}
 
-	OE, err := EncryptWithZeroIV(enc.fileEncryptionKey, hash)
+	OE, err := encryption.EncryptWithZeroIV(enc.fileEncryptionKey, hash)
 	if err != nil {
 		return nil, err
 	}
@@ -353,11 +356,3 @@ const (
 	TokenBeginDictionary = "<<"
 	TokenEndDictionary   = ">>"
 )
-
-// PDF interface represents the PDF document operations
-type PDF interface {
-	NewObj()
-	Append(text string)
-	EndObj()
-	GetObjNumber() int
-}
