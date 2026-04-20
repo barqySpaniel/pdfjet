@@ -38,6 +38,7 @@ type PDF struct {
 	metadataObjNumber         int
 	outputIntentObjNumber     int
 	compliance                int
+	encryption                *Encryption
 	title                     string
 	author                    string
 	subject                   string
@@ -1768,6 +1769,8 @@ func (pdf *PDF) appendByteArray(buf []byte) {
 }
 
 // SetEncryption TODO:
-func (pdf *PDF) SetEncryption(encryption *Encryption, encryption2 error) {
-
+func (pdf *PDF) SetEncryption(encryption *Encryption, err error) {
+	if err == nil {
+		pdf.encryption = encryption
+	}
 }
