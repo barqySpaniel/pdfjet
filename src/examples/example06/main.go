@@ -8,7 +8,6 @@ import (
 	"github.com/edragoev1/pdfjet/src/letter"
 )
 
-// Example06
 func Example06() {
 	pdf := pdfjet.NewPDFFile("Example_06.pdf")
 	pdf.SetTitle("Hello")

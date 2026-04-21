@@ -3,7 +3,7 @@ package pdfjet
 /**
  * annotation.go
  *
- * Copyright (c) 2025 PDFjet Software
+ * Copyright (c) 2026 PDFjet Software
  * Licensed under the MIT License. See LICENSE file in the project root.
  */
 
@@ -11,10 +11,15 @@ package pdfjet
 type Annotation struct {
 	objNumber      int
 	annotationType string
+	x1, y1, x2, y2 float32
+	vertices       []float32
+	fillColor      []float32
+	transparency   float32
+	title          *string
+	contents       *string
 	uri            *string
 	key            *string
-	x1, y1, x2, y2 float32
-	language       string
+	language       *string
 	actualText     *string
 	altDescription *string
 	fileAttachment *FileAttachment
@@ -36,13 +41,18 @@ func NewAnnotation(
 	actualText string,
 	altDescription string) *Annotation {
 	annotation := new(Annotation)
-	annotation.uri = uri
-	annotation.key = key
 	annotation.x1 = x1
 	annotation.y1 = y1
 	annotation.x2 = x2
 	annotation.y2 = y2
-	annotation.language = language
+
+	annotation.title = uri
+	annotation.contents = key
+
+	annotation.uri = uri
+	annotation.key = key
+
+	annotation.language = &language
 	annotation.actualText = &actualText
 	annotation.altDescription = &altDescription
 

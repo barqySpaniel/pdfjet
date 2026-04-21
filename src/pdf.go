@@ -9,6 +9,7 @@ package pdfjet
 
 import (
 	"bufio"
+	"encoding/hex"
 	"log"
 	"os"
 	"sort"
@@ -20,6 +21,7 @@ import (
 	"github.com/edragoev1/pdfjet/src/compliance"
 	"github.com/edragoev1/pdfjet/src/compressor"
 	"github.com/edragoev1/pdfjet/src/djb"
+	"github.com/edragoev1/pdfjet/src/encryption"
 	"github.com/edragoev1/pdfjet/src/fastfloat"
 	"github.com/edragoev1/pdfjet/src/token"
 )
@@ -759,45 +761,157 @@ func (pdf *PDF) addAnnotationObject(annot *Annotation, index int) int {
 	pdf.appendString("]\n")
 	pdf.appendString("/Border [0 0 0]\n")
 
-	if annot.fileAttachment != nil {
-		pdf.appendString("/Subtype /FileAttachment\n")
-		pdf.appendString("/T (")
-		pdf.appendString(annot.fileAttachment.title)
-		pdf.appendString(")\n")
-		pdf.appendString("/Contents (")
-		pdf.appendString(annot.fileAttachment.contents)
-		pdf.appendString(")\n")
+	if annot.annotationType == "FileAttachment" {
 		pdf.appendString("/FS ")
-		pdf.appendInteger(annot.fileAttachment.embeddedFile.objNumber)
+		pdf.appendString(strconv.Itoa(annot.fileAttachment.embeddedFile.objNumber))
 		pdf.appendString(" 0 R\n")
 		pdf.appendString("/Name /")
-		pdf.appendString(annot.fileAttachment.icon)
+		pdf.appendString(*annot.fileAttachment.icon)
 		pdf.appendString("\n")
-	} else {
-		pdf.appendString("/Subtype /Link\n")
-	}
 
-	if annot.uri != nil {
-		pdf.appendString("/F 4\n")
-		pdf.appendString("/A <<\n")
-		pdf.appendString("/S /URI\n")
-		pdf.appendString("/URI (")
-		pdf.appendString(*annot.uri)
-		pdf.appendString(")\n")
-		pdf.appendString(">>\n")
-	} else if annot.key != nil {
-		destination := pdf.destinations[*annot.key]
-		if destination != nil {
-			pdf.appendString("/F 4\n") // No Zoom
-			pdf.appendString("/Dest [")
-			pdf.appendInteger(destination.pageObjNumber)
-			pdf.appendString(" 0 R /XYZ ")
-			pdf.appendFloat32(destination.xPosition)
+		if annot.fileAttachment.title != nil {
+			title := []byte(*annot.fileAttachment.title)
+			if pdf.encryption != nil {
+				title, _ = encryption.Encrypt(title, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/T <")
+			pdf.appendString(hex.EncodeToString(title))
+			pdf.appendString(">\n")
+		}
+
+		if annot.fileAttachment.contents != nil {
+			contents := []byte(*annot.fileAttachment.contents)
+			if pdf.encryption != nil {
+				contents, _ = encryption.Encrypt(contents, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/Contents <")
+			pdf.appendString(hex.EncodeToString(contents))
+			pdf.appendString(">\n")
+		}
+	} else if annot.annotationType == "Link" {
+		if annot.uri != nil {
+			pdf.appendString("/F 4\n")
+			pdf.appendString("/A <<\n")
+			pdf.appendString("/S /URI\n")
+			uri := []byte(*annot.uri)
+			if pdf.encryption != nil {
+				uri, _ = encryption.Encrypt(uri, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/URI <")
+			pdf.appendString(hex.EncodeToString(uri))
+			pdf.appendString(">\n")
+			pdf.appendString(">>\n")
+		} else if annot.key != nil {
+			destination := pdf.destinations[*annot.key]
+			if destination != nil {
+				pdf.appendString("/F 4\n")
+				pdf.appendString("/Dest [")
+				pdf.appendString(strconv.Itoa(destination.pageObjNumber))
+				pdf.appendString(" 0 R /XYZ ")
+				pdf.appendFloat32(destination.xPosition)
+				pdf.appendString(" ")
+				pdf.appendFloat32(destination.yPosition)
+				pdf.appendString(" 0]\n")
+			}
+		}
+	} else if annot.annotationType == "Polygon" {
+		pdf.appendString("/Vertices [ ")
+		for i := 0; i < len(annot.vertices); i += 2 {
+			pdf.appendFloat32(annot.x1 + annot.vertices[i])
 			pdf.appendString(" ")
-			pdf.appendFloat32(destination.yPosition)
-			pdf.appendString(" 0]\n")
+			pdf.appendFloat32(annot.y1 - annot.vertices[i+1])
+			pdf.appendString(" ")
+		}
+		pdf.appendString("]\n")
+
+		pdf.appendString("/IC [")
+		pdf.appendFloat32(annot.fillColor[0])
+		pdf.appendString(" ")
+		pdf.appendFloat32(annot.fillColor[1])
+		pdf.appendString(" ")
+		pdf.appendFloat32(annot.fillColor[2])
+		pdf.appendString("]\n")
+
+		pdf.appendString("/CA ")
+		pdf.appendFloat32(annot.transparency)
+		pdf.appendString("\n")
+
+		if annot.title != nil {
+			title := []byte(*annot.title)
+			if pdf.encryption != nil {
+				title, _ = encryption.Encrypt(title, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/T <")
+			pdf.appendString(hex.EncodeToString(title))
+			pdf.appendString(">\n")
+		}
+
+		if annot.contents != nil {
+			contents := []byte(*annot.contents)
+			if pdf.encryption != nil {
+				contents, _ = encryption.Encrypt(contents, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/Contents <")
+			pdf.appendString(hex.EncodeToString(contents))
+			pdf.appendString(">\n")
+		}
+	} else if annot.annotationType == "Square" ||
+		annot.annotationType == "Circle" {
+		pdf.appendString("/IC [")
+		pdf.appendFloat32(annot.fillColor[0])
+		pdf.appendString(" ")
+		pdf.appendFloat32(annot.fillColor[1])
+		pdf.appendString(" ")
+		pdf.appendFloat32(annot.fillColor[2])
+		pdf.appendString("]\n")
+
+		pdf.appendString("/CA ")
+		pdf.appendFloat32(annot.transparency)
+		pdf.appendString("\n")
+
+		if annot.title != nil {
+			title := []byte(*annot.title)
+			if pdf.encryption != nil {
+				title, _ = encryption.Encrypt(title, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/T <")
+			pdf.appendString(hex.EncodeToString(title))
+			pdf.appendString(">\n")
+		}
+
+		if annot.contents != nil {
+			contents := []byte(*annot.contents)
+			if pdf.encryption != nil {
+				contents, _ = encryption.Encrypt(contents, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/Contents <")
+			pdf.appendString(hex.EncodeToString(contents))
+			pdf.appendString(">\n")
+		}
+	} else if annot.annotationType == "Text" {
+		pdf.appendString("/Name /Comment\n")
+
+		if annot.title != nil {
+			title := []byte(*annot.title)
+			if pdf.encryption != nil {
+				title, _ = encryption.Encrypt(title, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/T <")
+			pdf.appendString(hex.EncodeToString(title))
+			pdf.appendString(">\n")
+		}
+
+		if annot.contents != nil {
+			contents := []byte(*annot.contents)
+			if pdf.encryption != nil {
+				contents, _ = encryption.Encrypt(contents, pdf.encryption.GetKey())
+			}
+			pdf.appendString("/Contents <")
+			pdf.appendString(hex.EncodeToString(contents))
+			pdf.appendString(">\n")
 		}
 	}
+
 	if index != 0 {
 		pdf.appendString("/StructParent ")
 		pdf.appendInteger(index)

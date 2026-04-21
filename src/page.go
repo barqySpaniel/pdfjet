@@ -1323,7 +1323,7 @@ func (page *Page) AddAnnotation(annotation *Annotation) {
 	if page.pdf.compliance == compliance.PDF_UA_1 {
 		element := NewStructElem()
 		element.structure = "Link"
-		element.language = annotation.language
+		element.language = *annotation.language
 		element.actualText = *annotation.actualText
 		element.altDescription = *annotation.altDescription
 		element.annotation = annotation
