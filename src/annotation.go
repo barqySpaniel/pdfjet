@@ -10,6 +10,7 @@ package pdfjet
 // Annotation is used to create PDF annotation objects.
 type Annotation struct {
 	objNumber      int
+	annotationType string
 	uri            *string
 	key            *string
 	x1, y1, x2, y2 float32

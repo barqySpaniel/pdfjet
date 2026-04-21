@@ -744,6 +744,21 @@ func (pdf *PDF) addAnnotationObject(annot *Annotation, index int) int {
 	annot.objNumber = pdf.getObjNumber()
 	pdf.appendString("<<\n")
 	pdf.appendString("/Type /Annot\n")
+	pdf.appendString("/Subtype /")
+	pdf.appendString(annot.annotationType)
+	pdf.appendString("\n")
+
+	pdf.appendString("/Rect [")
+	pdf.appendFloat32(annot.x1)
+	pdf.appendString(" ")
+	pdf.appendFloat32(annot.y1)
+	pdf.appendString(" ")
+	pdf.appendFloat32(annot.x2)
+	pdf.appendString(" ")
+	pdf.appendFloat32(annot.y2)
+	pdf.appendString("]\n")
+	pdf.appendString("/Border [0 0 0]\n")
+
 	if annot.fileAttachment != nil {
 		pdf.appendString("/Subtype /FileAttachment\n")
 		pdf.appendString("/T (")
@@ -761,16 +776,7 @@ func (pdf *PDF) addAnnotationObject(annot *Annotation, index int) int {
 	} else {
 		pdf.appendString("/Subtype /Link\n")
 	}
-	pdf.appendString("/Rect [")
-	pdf.appendFloat32(annot.x1)
-	pdf.appendString(" ")
-	pdf.appendFloat32(annot.y1)
-	pdf.appendString(" ")
-	pdf.appendFloat32(annot.x2)
-	pdf.appendString(" ")
-	pdf.appendFloat32(annot.y2)
-	pdf.appendString("]\n")
-	pdf.appendString("/Border [0 0 0]\n")
+
 	if annot.uri != nil {
 		pdf.appendString("/F 4\n")
 		pdf.appendString("/A <<\n")
