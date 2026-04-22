@@ -304,14 +304,24 @@ func (pdf *PDF) addOutputIntentObject() int {
 	pdf.appendByteArray(token.EndStream)
 	pdf.endobj()
 
+	identifierBytes := []byte("sRGB IEC61966-2.1")
+	if pdf.encryption != nil {
+		identifierBytes, _ = encryption.Encrypt(identifierBytes, pdf.encryption.GetKey())
+	}
 	// OutputIntent object
 	pdf.newobj()
 	pdf.appendByteArray(token.BeginDictionary)
 	pdf.appendString("/Type /OutputIntent\n")
 	pdf.appendString("/S /GTS_PDFA1\n")
-	pdf.appendString("/OutputCondition (sRGB IEC61966-2.1)\n")
-	pdf.appendString("/OutputConditionIdentifier (sRGB IEC61966-2.1)\n")
-	pdf.appendString("/Info (sRGB IEC61966-2.1)\n")
+	pdf.appendString("/OutputCondition <")
+	pdf.appendString(hex.EncodeToString(identifierBytes))
+	pdf.appendString(">\n")
+	pdf.appendString("/OutputConditionIdentifier <")
+	pdf.appendString(hex.EncodeToString(identifierBytes))
+	pdf.appendString(">\n")
+	pdf.appendString("/Info <")
+	pdf.appendString(hex.EncodeToString(identifierBytes))
+	pdf.appendString(">\n")
 	pdf.appendString("/DestOutputProfile ")
 	pdf.appendInteger(pdf.getObjNumber() - 1)
 	pdf.appendByteArray(token.ObjRef)

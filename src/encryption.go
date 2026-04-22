@@ -77,7 +77,7 @@ func NewEncryption(pdf *PDF,
 
 	// Encryption Dictionary
 	pdf.newobj()
-	pdf.appendString(TokenBeginDictionary)
+	pdf.appendString("<<\n") // Begin Dictionary
 	pdf.appendString("/Filter /Standard\n")
 	pdf.appendString("/V 5\n") // Algorithm 2.A / 2.B
 	pdf.appendString("/R 6\n") // Security revision 6
@@ -135,7 +135,7 @@ func NewEncryption(pdf *PDF,
 	pdf.appendString(byteArrayToHexString(encryptedPermsBlock))
 	pdf.appendString(">\n")
 
-	pdf.appendString(TokenEndDictionary)
+	pdf.appendString(">>\n")
 	pdf.endobj()
 
 	enc.objNumber = pdf.getObjNumber()
@@ -350,9 +350,3 @@ func intToString(n uint32) string {
 	}
 	return string(buf[i:])
 }
-
-// Constants for PDF tokens
-const (
-	TokenBeginDictionary = "<<"
-	TokenEndDictionary   = ">>"
-)
