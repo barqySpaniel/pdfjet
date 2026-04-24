@@ -296,14 +296,28 @@ final public class PDF {
         append(Token.END_STREAM);
         endobj();
 
+        byte[] identifierBytes = "sRGB IEC61966-2.1".getBytes(StandardCharsets.UTF_8);
+        if (encryption != null) {
+            identifierBytes = AES256.encrypt(identifierBytes, encryption.getKey());
+        }
         // OutputIntent object
         newobj();
         append(Token.BEGIN_DICTIONARY);
         append("/Type /OutputIntent\n");
         append("/S /GTS_PDFA1\n");
-        append("/OutputCondition (sRGB IEC61966-2.1)\n");
-        append("/OutputConditionIdentifier (sRGB IEC61966-2.1)\n");
-        append("/Info (sRGB IEC61966-2.1)\n");
+
+        append("/OutputCondition <");
+        append(Util.toHexString(identifierBytes));
+        append(">\n");
+
+        append("/OutputConditionIdentifier <");
+        append(Util.toHexString(identifierBytes));
+        append(">\n");
+
+        append("/Info <");
+        append(Util.toHexString(identifierBytes));
+        append(">\n");
+
         append("/DestOutputProfile ");
         append(getObjNumber() - 1);
         append(Token.OBJ_REF);

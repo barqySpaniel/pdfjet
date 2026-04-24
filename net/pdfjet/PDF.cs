@@ -287,15 +287,19 @@ public class PDF {
         Append(Token.BeginDictionary);
         Append("/Type /OutputIntent\n");
         Append("/S /GTS_PDFA1\n");
+
         Append("/OutputCondition <");
         Append(Util.ToHexString(identifierBytes));
         Append(">\n");
+
         Append("/OutputConditionIdentifier <");
         Append(Util.ToHexString(identifierBytes));
         Append(">\n");
+
         Append("/Info <");
         Append(Util.ToHexString(identifierBytes));
         Append(">\n");
+
         Append("/DestOutputProfile ");
         Append(GetObjNumber() - 1);
         Append(Token.ObjRef);
